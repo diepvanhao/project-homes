@@ -98,7 +98,7 @@ if ($step == 1) {
     }
     $customer = new HOMECustomer();
     //paging
-    $max = 25;
+    $max = 10;
     $totalItem = $customer->getTotalItem($filter);
 
     $totalPage = floor($totalItem / $max);
