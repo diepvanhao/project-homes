@@ -331,9 +331,9 @@ class HOMEUser {
         //setcookies
         if (isset($user_id) && isset($user_email) && isset($user_password)) {
             if ($user_id && $user_email && $user_password) {
-                setcookie('user_id', $user_id, time() + 3600);
-                setcookie('user_email', $user_email, time() + 3600);
-                setcookie('user_pass', $user_password, time() + 3600);
+                setcookie('user_id', $user_id, time() + 8 * 3600);
+                setcookie('user_email', $user_email, time() +8 * 3600);
+                setcookie('user_pass', $user_password, time() +8 * 3600);
             }
         }
 // Create new key if logging in, delete old key if logging out
