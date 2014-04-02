@@ -242,7 +242,7 @@ if ($action == "check_email") {
         $result = $ajax->getHouseByKey($search);
         if ($result) {
             for ($i = 0; $i < count($result); $i++) {
-                echo "<option value='{$result[$i]['id']}'>'{$result[$i]['house_name']}'</option>";
+                echo "<option value='{$result[$i]['id']}'>{$result[$i]['house_name']}</option>";
             }
         }
     }

@@ -114,6 +114,12 @@ if ($step == 1) {
 
     $customers = $customer->getCustomers($filter, $offset, $length);
 
+    //Introduce house
+    $house = new HOMEHouse();
+    $houses = $house->getHouses();
+    
+
+    $smarty->assign('houses', $houses);
     $smarty->assign('filter', $filter);
     $smarty->assign('page_number', $page_number);
     $smarty->assign('totalPage', $totalPage);
