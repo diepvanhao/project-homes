@@ -31,14 +31,30 @@
                 window.location.href = "create_order.php?step=1&broker_id=" + broker_id;
             });
             $('#client_info ul li').click(function() {
-                $('#client_info').find('ul').find('li').each(function() {
-                    if ($('li').attr('class') == 'select_menu') {alert('a');
-                        $('li').removeClass('select_menu');
-                        $('li').addClass('noselect_menu');
+                $('#client_info ul li').each(function() {
+                    if ($(this).attr('class') == 'select_menu') {
+                        $(this).removeClass('select_menu');
+                        $(this).addClass('noselect_menu');
                     }
                 });
                 $(this).removeClass('noselect_menu');
                 $(this).addClass('select_menu');
+                //active tag
+                var id=$(this).attr('title');
+                //
+                $('#client_detail').find('div').each(function(){
+                    if($(this).attr('class')=='active'){
+                        $(this).removeClass('active');
+                        $(this).addClass('inactive');
+                    }                   
+                });
+                $('#client_detail').find('div').each(function(){
+                     if($(this).attr('id')==id){
+                        $(this).removeClass('inactive');
+                        $(this).addClass('active');
+                    }
+                });
+                
             });
         });
     </script>
@@ -256,12 +272,12 @@
     <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">Customer Information</div>
     <div id="client_info">
         <ul>
-            <li class="select_menu">Basic Info</li>
-            <li class="noselect_menu">Detail</li>
-            <li class="noselect_menu">History</li>
-            <li class="noselect_menu">Aspirations</li>
-            <li class="noselect_menu">Introduce</li>
-            <li class="noselect_menu">Contract</li>
+            <li class="select_menu" title="basic">Basic Info</li>
+            <li class="noselect_menu" title="detail">Detail</li>
+            <li class="noselect_menu" title="history">History</li>
+            <li class="noselect_menu" title="aspirations">Aspirations</li>
+            <li class="noselect_menu" title="introduce">Introduce</li>
+            <li class="noselect_menu" title="contract">Contract</li>
         </ul>
     </div>
     <div id="client_detail">
@@ -286,6 +302,8 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="hidden" id="task" name="task" value="basic"/>
+                                <input type="hidden" id="step" name="step" value="registry"/> 
                             </div>                        
                         </td>
                     </tr>
@@ -336,7 +354,8 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
-
+                                <input type="hidden" id="task" name="task" value="detail"/>
+                                <input type="hidden" id="step" name="step" value="registry"/> 
                             </div>                        
                         </td>
                     </tr>
@@ -414,7 +433,8 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
-
+                                <input type="hidden" id="task" name="task" value="history"/>
+                                <input type="hidden" id="step" name="step" value="registry"/> 
                             </div>                        
                         </td>
                     </tr>
@@ -455,7 +475,8 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
-
+                                <input type="hidden" id="task" name="task" value="aspirations"/>
+                                <input type="hidden" id="step" name="step" value="registry"/> 
                             </div>                        
                         </td>
                     </tr>
@@ -494,9 +515,8 @@
                         <td class='form2'>
                             <div style="margin-top:10px">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
-
-                                <input type="hidden" id="step" name="step" value="dosave"/>      
-
+                                <input type="hidden" id="task" name="task" value="introduce"/>
+                                <input type="hidden" id="step" name="step" value="registry"/>      
                             </div>
                         </td>
                     </tr>
@@ -555,7 +575,8 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
-
+                                <input type="hidden" id="task" name="task" value="contract"/>
+                                <input type="hidden" id="step" name="step" value="registry"/> 
                             </div>                        
                         </td>
                     </tr>
