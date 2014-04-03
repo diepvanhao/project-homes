@@ -30,6 +30,16 @@
                 var broker_id = $('#broker_id').val();
                 window.location.href = "create_order.php?step=1&broker_id=" + broker_id;
             });
+            $('#client_info ul li').click(function() {
+                $('#client_info').find('ul').find('li').each(function() {
+                    if ($('li').attr('class') == 'select_menu') {alert('a');
+                        $('li').removeClass('select_menu');
+                        $('li').addClass('noselect_menu');
+                    }
+                });
+                $(this).removeClass('noselect_menu');
+                $(this).addClass('select_menu');
+            });
         });
     </script>
 {/literal}
@@ -246,294 +256,326 @@
     <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">Customer Information</div>
     <div id="client_info">
         <ul>
-            <li>Basic Info</li>
-            <li>Detail</li>
-            <li>History</li>
-            <li>Aspirations</li>
-            <li>Introduce</li>
-            <li>Contract</li>
+            <li class="select_menu">Basic Info</li>
+            <li class="noselect_menu">Detail</li>
+            <li class="noselect_menu">History</li>
+            <li class="noselect_menu">Aspirations</li>
+            <li class="noselect_menu">Introduce</li>
+            <li class="noselect_menu">Contract</li>
         </ul>
     </div>
-    <div id="basic" style="float: left;width: 100%;display: none;">
-        <form action="create_order.php" method="post">        
-            <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                <tr>
-                    <td class='form1'>Name:</td>
-                    <td class='form2'><input type="text" id="client_name" name="client_name" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Birthday:</td>
-                    <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Email:</td>
-                    <td class='form2'><input type="text" id="client_email" name="client_email" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Phone number:</td>
-                    <td class='form2'> <input type='text' id="client_birthday" name="client_phone" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>&nbsp;</td>
-                    <td class='form2' colspan="3">
-                        <div style="margin-top:10px;text-align: center;">
-                            <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                        </div>                        
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div id="detail" style="float: left;width: 100%;display: none;">
-        <form action="create_order.php" method="post">        
-            <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                <tr>
-                    <td class='form1'>Gender: </td>
-                    <td class='form2'>
-                        <select id="gender"name="gender" style="height:26px; width: 315px;">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </td>
-                    <td class='form1' nowrap>Address current:</td>
-                    <td class='form2'> <input type='text' id="client_address" name="client_address" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Occupation:</td>
-                    <td class='form2'><input type="text" id="client_occupation" name="client_occupation" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Company:</td>
-                    <td class='form2'> <input type='text' id="client_company" name="client_company" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Income:</td>
-                    <td class='form2'><input type="text" id="client_income" name="client_income" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Room type:</td>
-                    <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Rent current :</td>
-                    <td class='form2'><input type="text" id="client_rent" name="client_rent" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Reason change:</td>
-                    <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Date change :</td>
-                    <td class='form2'><input type="text" id="client_time_change" name="client_time_change" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap></td>
-                    <td class='form2'> </td>
-                </tr>
-                <tr>
-                    <td class='form1'>&nbsp;</td>
-                    <td class='form2' colspan="3">
-                        <div style="margin-top:10px;text-align: center;">
-                            <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+    <div id="client_detail">
+        
+        <div id="basic"class="active">
+            <form action="create_order.php" method="post">        
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                    <tr>
+                        <td class='form1'>Name:</td>
+                        <td class='form2'><input type="text" id="client_name" name="client_name" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Birthday:</td>
+                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Email:</td>
+                        <td class='form2'><input type="text" id="client_email" name="client_email" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Phone number:</td>
+                        <td class='form2'> <input type='text' id="client_birthday" name="client_phone" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2' colspan="3">
+                            <div style="margin-top:10px;text-align: center;">
+                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                            </div>                        
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="detail"class="inactive">
+            <form action="create_order.php" method="post">        
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                    <tr>
+                        <td class='form1'>Gender: </td>
+                        <td class='form2'>
+                            <select id="gender"name="gender" style="height:26px; width: 315px;">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </td>
+                        <td class='form1' nowrap>Address current:</td>
+                        <td class='form2'> <input type='text' id="client_address" name="client_address" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Occupation:</td>
+                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Company:</td>
+                        <td class='form2'> <input type='text' id="client_company" name="client_company" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Income:</td>
+                        <td class='form2'><input type="text" id="client_income" name="client_income" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Room type:</td>
+                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Rent current :</td>
+                        <td class='form2'><input type="text" id="client_rent" name="client_rent" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Reason change:</td>
+                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Date change :</td>
+                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'> </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2' colspan="3">
+                            <div style="margin-top:10px;text-align: center;">
+                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
 
-                        </div>                        
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div id="history" style="float: left;width: 100%;display: none">
-        <form action="create_order.php" method="post">        
-            <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                <tr>
-                    <td class='form1'>Time call: </td>
-                    <td class='form2'>
-                        <input type='text' id="log_time_call" name="log_time_call" style="height: 26px; width: 315px;"/>
-                    </td>
-                    <td class='form1' nowrap>Time arrive:</td>
-                    <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Time send email: </td>
-                    <td class='form2'>
-                        <input type='text' id="log_time_mail" name="log_time_mail" style="height: 26px; width: 315px;"/>
-                    </td>
-                    <td class='form1' nowrap>Comment:</td>
-                    <td class='form2'> <input type='text' id="log_comment" name="log_comment" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'nowrap>Date appointment:</td>
-                    <td class='form2'><input type="text" id="log_date_appointment" name="log_date_appointment" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Appointment status:</td>
-                    <td class='form2'>
-                        <input type='radio' id="log_status_appointment" name="log_status_appointment" value="1" />Yes &nbsp; &nbsp; 
-                        <input type='radio' id="log_status_appointment" name="log_status_appointment" value="0" />No
-                    </td>
-                </tr>
-                <tr>
-                    <td class='form1'>Contact by tel:</td>
-                    <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" style="height: 26px; width: 15px;"/></td>
-                    <td class='form1' nowrap>Tel status:</td>
-                    <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" style="height: 26px; width: 15px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Contact by mail:</td>
-                    <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" style="height: 26px; width: 15px;"/></td>
-                    <td class='form1' nowrap>Mail status:</td>
-                    <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status" style="height: 26px; width: 15px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Contact by head office :</td>
-                    <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" style="height: 26px; width: 15px;"/></td>
-                    <td class='form1' nowrap>Shop sign:</td>
-                    <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign" style="height: 26px; width: 15px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Local sign:</td>
-                    <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign" style="height: 26px; width: 15px;"/></td>
-                    <td class='form1' nowrap>Introduction:</td>
-                    <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" style="height: 26px; width: 15px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Flyer:</td>
-                    <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer" style="height: 26px; width: 15px;"/></td>
-                    <td class='form1' nowrap>Line:</td>
-                    <td class='form2'> <input type='checkbox' id="log_line" name="log_line" style="height: 26px; width: 15px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Revisit: </td>
-                    <td class='form2'>
-                        <input type='text' id="log_revisit" name="log_revisit" style="height: 26px; width: 315px;"/>
-                    </td>
-                    <td class='form1' nowrap></td>
-                    <td class='form2'></td>
-                </tr>
-                <tr>
-                    <td class='form1'>&nbsp;</td>
-                    <td class='form2' colspan="3">
-                        <div style="margin-top:10px;text-align: center;">
-                            <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                            </div>                        
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="history"class="inactive">
+            <form action="create_order.php" method="post">        
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                    <tr>
+                        <td class='form1'>Time call: </td>
+                        <td class='form2'>
+                            <input type='text' id="log_time_call" name="log_time_call" style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap>Time arrive:</td>
+                        <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Time send email: </td>
+                        <td class='form2'>
+                            <input type='text' id="log_time_mail" name="log_time_mail" style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap>Comment:</td>
+                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'nowrap>Date appointment:</td>
+                        <td class='form2'><input type="text" id="log_date_appointment" name="log_date_appointment" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Appointment status:</td>
+                        <td class='form2'>
+                            <input type='radio' id="log_status_appointment" name="log_status_appointment" value="1" />Yes &nbsp; &nbsp; 
+                            <input type='radio' id="log_status_appointment" name="log_status_appointment" value="0" />No
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Contact by tel:</td>
+                        <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" style="height: 26px; width: 15px;"/></td>
+                        <td class='form1' nowrap>Tel status:</td>
+                        <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" style="height: 26px; width: 15px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Contact by mail:</td>
+                        <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" style="height: 26px; width: 15px;"/></td>
+                        <td class='form1' nowrap>Mail status:</td>
+                        <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status" style="height: 26px; width: 15px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Contact by head office :</td>
+                        <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" style="height: 26px; width: 15px;"/></td>
+                        <td class='form1' nowrap>Shop sign:</td>
+                        <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign" style="height: 26px; width: 15px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Local sign:</td>
+                        <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign" style="height: 26px; width: 15px;"/></td>
+                        <td class='form1' nowrap>Introduction:</td>
+                        <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" style="height: 26px; width: 15px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Flyer:</td>
+                        <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer" style="height: 26px; width: 15px;"/></td>
+                        <td class='form1' nowrap>Line:</td>
+                        <td class='form2'> <input type='checkbox' id="log_line" name="log_line" style="height: 26px; width: 15px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Revisit: </td>
+                        <td class='form2'>
+                            <input type='text' id="log_revisit" name="log_revisit" style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2' colspan="3">
+                            <div style="margin-top:10px;text-align: center;">
+                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
 
-                        </div>                        
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div id="aspirations" style="float: left;width: 100%;display: none;">
-        <form action="create_order.php" method="post">        
-            <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                <tr>
-                    <td class='form1'>House type: </td>
-                    <td class='form2'>
-                        <input type='text' id="aspirations_type_house" name="aspirations_type_house" style="height: 26px; width: 315px;"/>
-                    </td>
-                    <td class='form1' nowrap>Room type:</td>
-                    <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Build time:</td>
-                    <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Area:</td>
-                    <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Size:</td>
-                    <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Price:</td>
-                    <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Comment:</td>
-                    <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap></td>
-                    <td class='form2'></td>
-                </tr>                
-                <tr>
-                    <td class='form1'>&nbsp;</td>
-                    <td class='form2' colspan="3">
-                        <div style="margin-top:10px;text-align: center;">
-                            <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                            </div>                        
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="aspirations" class="inactive">
+            <form action="create_order.php" method="post">        
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                    <tr>
+                        <td class='form1'>House type: </td>
+                        <td class='form2'>
+                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap>Room type:</td>
+                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Build time:</td>
+                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Area:</td>
+                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Size:</td>
+                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Price:</td>
+                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Comment:</td>
+                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'></td>
+                    </tr>                
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2' colspan="3">
+                            <div style="margin-top:10px;text-align: center;">
+                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
 
-                        </div>                        
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div id="introduce" style="float: left;width: 100%;display: none;">
-        <form action="create_order.php" method="post">            
-            <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
+                            </div>                        
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="introduce" class="inactive">
+            <form action="create_order.php" method="post">            
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
 
-                <tr>
-                    <td class="form1">Filter House</td>
-                    <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
-                    </td>
-                </tr>
-                <tr>            
-                    <td class='form1'>Select House: </td>
-                    <td class='form2'>
-                        <select id="house_id" name="house_id" style="height:26px; width: 351px;">
-                            <option value=""></option>
-                            {foreach from=$houses item=house}
-                                <option value="{$house.id}">{$house.house_name}</option>        
-                            {/foreach}
-                        </select><span id="error_house" class="error"></span>
-                    </td>
-                </tr>
-                <tr>            
-                    <td class='form1'>Description House: </td>
-                    <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
-                </tr>
-                <tr>            
-                    <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
-                </tr>
-                <tr>
-                    <td class='form1'>&nbsp;</td>
-                    <td class='form2'>
-                        <div style="margin-top:10px">
-                            <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
+                    <tr>
+                        <td class="form1">Filter House</td>
+                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
+                        </td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>Select House: </td>
+                        <td class='form2'>
+                            <select id="house_id" name="house_id" style="height:26px; width: 351px;">
+                                <option value=""></option>
+                                {foreach from=$houses item=house}
+                                    <option value="{$house.id}">{$house.house_name}</option>        
+                                {/foreach}
+                            </select><span id="error_house" class="error"></span>
+                        </td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>Description House: </td>
+                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                    </tr>
+                    <tr>            
+                        <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2'>
+                            <div style="margin-top:10px">
+                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
 
-                            <input type="hidden" id="step" name="step" value="dosave"/>      
+                                <input type="hidden" id="step" name="step" value="dosave"/>      
 
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div id="contract" style="float: left;width: 100%;display: none;">
-        <form action="create_order.php" method="post">        
-            <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                <tr>
-                    <td class='form1'>Name: </td>
-                    <td class='form2'>
-                        <input type='text' id="contract_name" name="contract_name" style="height: 26px; width: 315px;"/>
-                    </td>
-                    <td class='form1' nowrap>Cost:</td>
-                    <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Plus fee:</td>
-                    <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Condition:</td>
-                    <td class='form2'><textarea style="width: 340px;height: 129px;"  id="contract_condition"name="contract_condition"></textarea></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Size:</td>
-                    <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap>Price:</td>
-                    <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" style="height: 26px; width: 315px;"/></td>
-                </tr>
-                <tr>
-                    <td class='form1'>Comment:</td>
-                    <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" style="height: 26px; width: 315px;"/></td>
-                    <td class='form1' nowrap></td>
-                    <td class='form2'></td>
-                </tr>                
-                <tr>
-                    <td class='form1'>&nbsp;</td>
-                    <td class='form2' colspan="3">
-                        <div style="margin-top:10px;text-align: center;">
-                            <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="contract" class="inactive">
+            <form action="create_order.php" method="post">        
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                    <tr>
+                        <td class='form1'>Name: </td>
+                        <td class='form2'>
+                            <input type='text' id="contract_name" name="contract_name" style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap>Cost:</td>
+                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Plus fee:</td>
+                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1'>Key fee:</td>
+                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1' nowrap>Condition:</td>
+                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_condition"name="contract_condition"></textarea></td>
+                        <td class='form1' nowrap>Valuation:</td>
+                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_valuation"name="contract_valuation"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Signature day:</td>
+                        <td class='form2'><input type="text" id="contract_signature_date" name="contract_signature_date" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Handover day:</td>
+                        <td class='form2'><input type="text" id="contract_handover_date" name="contract_handover_date" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Period from:</td>
+                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Period to:</td>
+                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Deposit 1:</td>
+                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Deposit 2:</td>
+                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Total:</td>
+                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Cancel:</td>
+                        <td class='form2'><input type="text" id="contract_cancel" name="contract_cancel" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2' colspan="3">
+                            <div style="margin-top:10px;text-align: center;">
+                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
 
-                        </div>                        
-                    </td>
-                </tr>
-            </table>
-        </form>
+                            </div>                        
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
     {literal}
         <style type="text/css">
+
+            .active{
+                float: left;
+                width: 100%;
+                display: block;
+            }
+            .inactive{
+                float: left;
+                width: 100%;
+                display: none;
+            }
             .content{
                 width:100%;
                 margin: 0;
@@ -573,7 +615,25 @@
             #client_info{
                 width: 100%;
             }
-            #client_info ul li{
+
+            /*#client_info ul li{
+                float: left;
+                background: beige;
+                padding: 0px;
+                width: 16.65%;
+                cursor: pointer;
+                text-align: center;
+            }*/
+            #client_info ul li.select_menu{
+                background: url(include/images/bg-btn-forget.gif) repeat-x;
+                float: left;
+                //background: beige;
+                padding: 0px;
+                width: 16.65%;
+                cursor: pointer;
+                text-align: center;
+            }
+            #client_info ul li.noselect_menu{
                 float: left;
                 background: beige;
                 padding: 0px;
