@@ -117,6 +117,16 @@ if ($step == 1) {
     //Introduce house
     $house = new HOMEHouse();
     $houses = $house->getHouses();
+    //Store client's info
+    if(isset($_POST['save'])){
+        
+        
+        
+    }
+    
+    
+    
+    
     
 
     $smarty->assign('houses', $houses);
