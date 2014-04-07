@@ -37,6 +37,7 @@
                         <th>Resident Phone</th>
                         <th>Rent</th>
                         <th>Room Type</th>
+                        <th>Options</th>
                     </tr>
                 </thead>
                 <tbody>
