@@ -3,6 +3,9 @@ header('Content-Type: text/html; charset=utf-8');
 //require('include/config/config.php');
 //
 //$smarty=new smarty_class();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 define('HOME_DEBUG', FALSE);
 
 define('HOME_PAGE', TRUE);

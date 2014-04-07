@@ -260,6 +260,18 @@ if ($action == "check_email") {
         
     }
     
-}
+}elseif ($action == 'deleteClient') {
+
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+    } elseif (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    } else {
+        $id = "";
+    }
+    include 'class_client.php';
+    $client = new Client();
+    echo $client->delete($id);
+} 
 
 
