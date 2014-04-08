@@ -39,9 +39,9 @@
                             <div>
                                 <div>
                                     {if $user->user_info.user_path_photo eq ""}
-                                    <img width="100" height="100" src="./include/images/nouserphoto.gif">
+                                        <a target="_top" href="./user_profile.php"><img width="100" height="100" src="./include/images/nouserphoto.gif"></a>
                                     {else}
-                                    <img width="100" height="100" src="{$user->user_info.user_path_photo}{$user->user_info.user_path_thumb}"/>
+                                    <a target="_top" href="./user_profile.php"><img width="100" height="100" src="{$user->user_info.user_path_photo}{$user->user_info.user_path_thumb}"/></a>
                                     {/if}
                                 </div>
                                 <br>

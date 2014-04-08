@@ -230,7 +230,7 @@ class ajax {
 
     function getHouseContent($house_id){
         global $database;
-        $query="select house_description from home_house where id='{$house_id}'";
+        $query="select house_description, house_original_price from home_house where id='{$house_id}'";
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }

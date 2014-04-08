@@ -16,14 +16,18 @@
                 var house_id = $('#house_id').val();
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
-                    $('#house_description').html(result);
+                    var json = $.parseJSON(result);
+                    $('#house_description').html(json.house_description);
+                    $('#order_rent_cost').val(json.house_original_price);
                 });
             });
             $('#house_id').change(function() {
                 var house_id = $('#house_id').val();
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
-                    $('#house_description').html(result);
+                    var json = $.parseJSON(result);
+                    $('#house_description').html(json.house_description);
+                    $('#order_rent_cost').val(json.house_original_price);
                 });
             });
             $('#back').click(function() {
@@ -40,23 +44,35 @@
                 $(this).removeClass('noselect_menu');
                 $(this).addClass('select_menu');
                 //active tag
-                var id=$(this).attr('title');
+                var id = $(this).attr('title');
                 //
-                $('#client_detail').find('div').each(function(){
-                    if($(this).attr('class')=='active'){
+                $('#client_detail').find('div').each(function() {
+                    if ($(this).attr('class') == 'active') {
                         $(this).removeClass('active');
                         $(this).addClass('inactive');
-                    }                   
+                    }
                 });
-                $('#client_detail').find('div').each(function(){
-                     if($(this).attr('id')==id){
+                $('#client_detail').find('div').each(function() {
+                    if ($(this).attr('id') == id) {
                         $(this).removeClass('inactive');
                         $(this).addClass('active');
                     }
                 });
-                
+
+            });
+            /*$('#client_detail').find('#client_id').each(function() {
+             $(this).val(4);
+             });*/
+            $('#client_detail').find('#save').click(function(e) {
+                var cus_id = $('#cus_id').val();
+                if (cus_id == "") {
+                    alert('Please supply basic information first !!!');
+                    $('#client_info ul li').first().click();
+                    e.preventDefault();
+                }
             });
         });
+
     </script>
 {/literal}
 {if $error|@count gt 0}
@@ -138,6 +154,20 @@
             <tr>            
                 <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
             </tr>
+            <!--order part-->
+            <tr>            
+                <td class='form1'>Order name: </td>
+                <td class='form2'><input type='text' id="order_name" name="order_name" style="height: 26px; width: 351px;"/><span id="error_order_name" class="error"></span></td>
+            </tr>
+            <tr>            
+                <td class='form1'>Price: </td>
+                <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" style="height: 26px; width: 351px;"/></td>
+            </tr>
+            <tr>            
+                <td class='form1'>Comment: </td>
+                <td class='form2'><input type='text' id="order_comment" name="order_comment" style="height: 26px; width: 351px;"/></td>
+            </tr>
+            <!--end order-->
             <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
@@ -157,14 +187,20 @@
                 $('#submit').click(function(e) {
                     $('#error_staff').html("");
                     $('#error_house').html("");
+                    $('#error_order_name').html("");
                     var staff_id = $('#staff_id').val();
                     var house_id = $('#house_id').val();
+                    var order_name = $('#order_name').val();
                     if (staff_id == "") {
                         $('#error_staff').html('Please choose assign.');
                         e.preventDefault();
                         return false;
                     } else if (house_id == "") {
                         $('#error_house').html('Please choose house.');
+                        e.preventDefault();
+                        return false;
+                    } else if (order_name == "") {
+                        $('#error_order_name').html('Order name is required.');
                         e.preventDefault();
                         return false;
                     } else {
@@ -200,6 +236,18 @@
                 <td class='form2'>{$houses.house_description}</td>
             </tr>
             <tr>
+                <td class='form1'>Order name:</td>
+                <td class='form2'>{$order_name}</td>
+            </tr>
+            <tr>
+                <td class='form1'>Price:</td>
+                <td class='form2'>{$order_rent_cost}</td>
+            </tr>
+            <tr>
+                <td class='form1'>Comment:</td>
+                <td class='form2'>{$order_comment}</td>
+            </tr>
+            <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
@@ -209,6 +257,9 @@
                         <input type="hidden" id="create_id" name="create_id" value="{$staffs.id}"/>
                         <input type="hidden" id="house_id" name="house_id" value="{$houses.id}"/>    
                         <input type="hidden" id="broker_id" name="broker_id" value="{$brokers.id}"/>
+                        <input type="hidden" id="order_name" name="order_name" value="{$order_name}"/>
+                        <input type="hidden" id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"/>    
+                        <input type="hidden" id="order_comment" name="order_comment" value="{$order_comment}"/>
                         <input type="hidden" id="step" name="step" value="registry"/>
                     </div>
                 </td>
@@ -228,6 +279,11 @@
 {/if}
 
 {if $step eq "registry"}
+    {if $errorHouseExist ne ""}
+
+        <div class="error">Don't refesh browser if not neccessary !!!</div>
+
+    {/if}
     <form action="create_order.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
             <tr>
@@ -281,7 +337,7 @@
         </ul>
     </div>
     <div id="client_detail">
-        
+
         <div id="basic"class="active">
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
@@ -304,6 +360,8 @@
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="basic"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>                        
                         </td>
                     </tr>
@@ -356,6 +414,8 @@
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="detail"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>                        
                         </td>
                     </tr>
@@ -435,6 +495,8 @@
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="history"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>                        
                         </td>
                     </tr>
@@ -477,6 +539,8 @@
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="aspirations"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>                        
                         </td>
                     </tr>
@@ -516,7 +580,9 @@
                             <div style="margin-top:10px">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
                                 <input type="hidden" id="task" name="task" value="introduce"/>
-                                <input type="hidden" id="step" name="step" value="registry"/>      
+                                <input type="hidden" id="step" name="step" value="registry"/>  
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>
                         </td>
                     </tr>
@@ -577,12 +643,15 @@
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="contract"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>                        
                         </td>
                     </tr>
                 </table>
             </form>
         </div>
+        <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
     </div>
     {literal}
         <style type="text/css">

@@ -47,6 +47,8 @@ include 'include/class_house.php';
 include 'include/class_broker.php';
 
 include 'include/class_customer.php';
+
+include 'include/class_order.php';
 // INITIATE DATABASE CONNECTION
 
 $database = & HOMEDatabase::getInstance();
