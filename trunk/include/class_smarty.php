@@ -31,7 +31,7 @@ class HOMESmarty extends Smarty
   
   
   
-  function &getInstance()
+  static function &getInstance()
   {
     static $instance;
     
