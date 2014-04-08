@@ -2,7 +2,7 @@
 
 class HOMESession extends Session {
 
-    function &getInstance($base = null, $start = true) {
+    static function &getInstance($base = null, $start = true) {
         static $instance;
         if (null === $instance) {
             $instance = new HOMESession($base, $start);

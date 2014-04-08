@@ -113,7 +113,7 @@ function HOMEDatabase($database_host, $database_username, $database_password, $d
     //    instance of this class
     //
   
-function &getInstance() {
+static function &getInstance() {
         global $database, $database_host, $database_username, $database_password, $database_name;
         static $db;
 
