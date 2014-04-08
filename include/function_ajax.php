@@ -256,7 +256,7 @@ if ($action == "check_email") {
             $house_id = "";
         }
          $result = $ajax->getHouseContent($house_id);
-         echo $result['house_description'];
+         echo  json_encode($result);
         
     }
     
