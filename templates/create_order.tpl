@@ -3,6 +3,10 @@
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
+            birthday('client_birthday');
+            birthday('client_time_change');
+
+
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
@@ -65,14 +69,50 @@
              });*/
             $('#client_detail').find('#save').click(function(e) {
                 var cus_id = $('#cus_id').val();
-                if (cus_id == "") {
+                if (cus_id == "" && getDivClass('basic') == 0) {
                     alert('Please supply basic information first !!!');
                     $('#client_info ul li').first().click();
                     e.preventDefault();
                 }
-            });
-        });
+                //validate
+                $('#client_detail').find('div').each(function() {
+                    if ($(this).attr('class') == 'active' && $(this).attr('id') == 'basic') {
+                        var name=$('#client_name').val();
+                        var phone=$('#client_phone').val();
+                        if(name=="" || phone ==""){
+                            $('#error_validate').html(' Note: fill Name and Phone number fields !!!');
+                             e.preventDefault();
+             
+                        }
+                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'detail'){
+                        
+                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'history'){
+                        
+                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations'){
+                        
+                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce'){
+                        
+                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'contract'){
+                        
+                    }
+                });
 
+
+            });
+
+        });
+        function getDivClass(title) {
+            var flag = false;
+            $('#client_detail').find('div').each(function() {
+                if ($(this).attr('class') == 'active' && $(this).attr('id') == title) {
+                    flag = true;
+                }
+            });
+            if (flag)
+                return 1;
+            else
+                return 0;
+        }
     </script>
 {/literal}
 {if $error|@count gt 0}
@@ -133,7 +173,6 @@
             <tr>
                 <td class="form1">Filter House</td>
                 <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
-
                 </td>
             </tr>
             <tr>            
@@ -343,19 +382,20 @@
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Name:</td>
-                        <td class='form2'><input type="text" id="client_name" name="client_name" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Birthday:</td>
-                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Email:</td>
-                        <td class='form2'><input type="text" id="client_email" name="client_email" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Phone number:</td>
-                        <td class='form2'> <input type='text' id="client_birthday" name="client_phone" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
+                            <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="basic"/>
@@ -381,35 +421,36 @@
                             </select>
                         </td>
                         <td class='form1' nowrap>Address current:</td>
-                        <td class='form2'> <input type='text' id="client_address" name="client_address" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Occupation:</td>
-                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Company:</td>
-                        <td class='form2'> <input type='text' id="client_company" name="client_company" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Income:</td>
-                        <td class='form2'><input type="text" id="client_income" name="client_income" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Rent current :</td>
-                        <td class='form2'><input type="text" id="client_rent" name="client_rent" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Reason change:</td>
-                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Date change :</td>
-                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'> </td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
+                            <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="detail"/>
@@ -491,6 +532,7 @@
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
+                            <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="history"/>
@@ -536,6 +578,7 @@
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
+                                <div id="error_validate" class="error"></div>
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="aspirations"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
@@ -577,6 +620,7 @@
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
+                            <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
                                 <input type="hidden" id="task" name="task" value="introduce"/>
@@ -639,6 +683,7 @@
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
+                            <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="contract"/>

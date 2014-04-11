@@ -3,6 +3,7 @@
 include "header.php";
 $page = "create_order";
 $error = null;
+$exist = "";
 if (!$user->user_exists) {
 
     header('Location: ./user_login.php');
@@ -108,7 +109,7 @@ if ($step == 1) {
 } elseif ($step == 'registry') {
 
     $errorHouseExist = "";
-    $exist="";
+    
     if (isset($_POST['order_id'])) {
         $order_id = $_POST['order_id'];
     } elseif (isset($_GET['order_id'])) {
@@ -191,6 +192,7 @@ if ($step == 1) {
     } else {
         $page_number = 1;
     }
+
     if (isset($_POST['client_id'])) {
         $client_id = $_POST['client_id'];
     } elseif (isset($_GET['client_id'])) {
@@ -198,6 +200,102 @@ if ($step == 1) {
     } else {
         $client_id = "";
     }
+////////////////////////////////////////Basic/////////////////////////////////////////////////
+    if (isset($_POST['client_name'])) {
+        $client_name = $_POST['client_name'];
+    } elseif (isset($_GET['client_name'])) {
+        $client_name = $_GET['client_name'];
+    } else {
+        $client_name = "";
+    }
+    if (isset($_POST['client_birthday'])) {
+        $client_birthday = $_POST['client_birthday'];
+    } elseif (isset($_GET['client_birthday'])) {
+        $client_birthday = $_GET['client_birthday'];
+    } else {
+        $client_birthday = "";
+    }
+    if (isset($_POST['client_email'])) {
+        $client_email = $_POST['client_email'];
+    } elseif (isset($_GET['client_email'])) {
+        $client_email = $_GET['client_email'];
+    } else {
+        $client_email = "";
+    }
+    if (isset($_POST['client_phone'])) {
+        $client_phone = $_POST['client_phone'];
+    } elseif (isset($_GET['client_phone'])) {
+        $client_phone = $_GET['client_phone'];
+    } else {
+        $client_phone = "";
+    }
+///////////////////////////////////////End Basic////////////////////////////////////////////
+//////////////////////////////////////Begin Detail/////////////////////////////////////////
+    if (isset($_POST['gender'])) {
+        $gender = $_POST['gender'];
+    } elseif (isset($_GET['gender'])) {
+        $gender = $_GET['gender'];
+    } else {
+        $gender = "";
+    }
+    if (isset($_POST['client_address'])) {
+        $client_address = $_POST['client_address'];
+    } elseif (isset($_GET['client_address'])) {
+        $client_address = $_GET['client_address'];
+    } else {
+        $client_address = "";
+    }
+    if (isset($_POST['client_occupation'])) {
+        $client_occupation = $_POST['client_occupation'];
+    } elseif (isset($_GET['client_occupation'])) {
+        $client_occupation = $_GET['client_occupation'];
+    } else {
+        $client_occupation = "";
+    }
+    if (isset($_POST['client_company'])) {
+        $client_company = $_POST['client_company'];
+    } elseif (isset($_GET['client_company'])) {
+        $client_company = $_GET['client_company'];
+    } else {
+        $client_company = "";
+    }
+    if (isset($_POST['client_income'])) {
+        $client_income = $_POST['client_income'];
+    } elseif (isset($_GET['client_income'])) {
+        $client_income = $_GET['client_income'];
+    } else {
+        $client_income = "";
+    }
+    if (isset($_POST['client_room_type'])) {
+        $client_room_type = $_POST['client_room_type'];
+    } elseif (isset($_GET['client_room_type'])) {
+        $client_room_type = $_GET['client_room_type']; 
+    } else {
+        $client_room_type = "";
+    }
+    if (isset($_POST['client_rent'])) {
+        $client_rent = $_POST['client_rent'];
+    } elseif (isset($_GET['client_rent'])) {
+        $client_rent = $_GET['client_rent'];
+    } else {
+        $client_rent = "";
+    }
+    if (isset($_POST['client_reason_change'])) {
+        $client_reason_change = $_POST['client_reason_change'];
+    } elseif (isset($_GET['client_reason_change'])) {
+        $client_reason_change = $_GET['client_reason_change'];
+    } else {
+        $client_reason_change = "";
+    }
+    if (isset($_POST['client_time_change'])) {
+        $client_time_change = $_POST['client_time_change'];
+    } elseif (isset($_GET['client_time_change'])) {
+        $client_time_change = $_GET['client_time_change'];
+    } else {
+        $client_time_change = "";
+    }
+    
+//////////////////////////////////////End Detail///////////////////////////////////////////
 
     $customer = new HOMECustomer();
     //paging
@@ -230,42 +328,32 @@ if ($step == 1) {
         } else {
             $task = "";
         }
-        if ($task == 'basic') {
-
-            if (isset($_POST['client_name'])) {
-                $client_name = $_POST['client_name'];
-            } elseif (isset($_GET['client_name'])) {
-                $client_name = $_GET['client_name'];
-            } else {
-                $client_name = "";
+        if ($task == 'basic') {            
+            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $order_id, $client_id);
+            if ($result) {
+                $client_id = $result['id'];
+                $exits = $result['exist'];
+                $client_arr = $result['client_arr'];
+                if(!empty($client_arr)){
+                    $client_name=$client_arr['client_name'];
+                    $client_birthday=$client_arr['client_birthday'];
+                    $client_email=$client_arr['client_email'];
+                    $client_phone=$client_arr['client_phone'];
+                    $gender=$client_arr['client_gender'];
+                    $client_address=$client_arr['client_address'];
+                    $client_occupation=$client_arr['client_occupation'];
+                    $client_company=$client_arr['client_company'];
+                    $client_income=$client_arr['client_income'];
+                    $client_room_type=$client_arr['client_room_type'];
+                    $client_rent=$client_arr['client_rent'];
+                    $client_reason_change=$client_arr['client_reason_change'];
+                    $client_time_change=$client_arr['client_time_change'];
+                }
             }
-            if (isset($_POST['client_birthday'])) {
-                $client_birthday = $_POST['client_birthday'];
-            } elseif (isset($_GET['client_birthday'])) {
-                $client_birthday = $_GET['client_birthday'];
-            } else {
-                $client_birthday = "";
-            }
-            if (isset($_POST['client_email'])) {
-                $client_email = $_POST['client_email'];
-            } elseif (isset($_GET['client_email'])) {
-                $client_email = $_GET['client_email'];
-            } else {
-                $client_email = "";
-            }
-            if (isset($_POST['client_phone'])) {
-                $client_phone = $_POST['client_phone'];
-            } elseif (isset($_GET['client_phone'])) {
-                $client_phone = $_GET['client_phone'];
-            } else {
-                $client_phone = "";
-            }
-            $customer=new HOMECustomer();
-            $result=$customer->create_customer($client_name,$client_birthday,$client_email,$client_phone,$order_id,$client_id);
-            
-            
         } elseif ($task == 'detail') {
-            
+            $result=$customer->update_customer($gender,$client_address,$client_occupation,$client_company,$client_income,$client_room_type,$client_rent,$client_reason_change,$client_time_change,$client_id,$order_id);
+            if($result)
+                $errorHouseExist=" success !!!";
         } elseif ($task == 'history') {
             
         } elseif ($task == 'aspirations') {
@@ -276,8 +364,19 @@ if ($step == 1) {
             
         }
     }
-
-
+    $smarty->assign('gender', $gender);
+    $smarty->assign('client_address', $client_address);
+    $smarty->assign('client_occupation', $client_occupation);
+    $smarty->assign('client_company', $client_company);
+    $smarty->assign('client_income', $client_income);
+    $smarty->assign('client_room_type', $client_room_type);
+    $smarty->assign('client_rent', $client_rent);
+    $smarty->assign('client_reason_change', $client_reason_change);
+    $smarty->assign('client_time_change', $client_time_change);
+    $smarty->assign('client_name', $client_name);
+    $smarty->assign('client_birthday', $client_birthday);
+    $smarty->assign('client_email', $client_email);
+    $smarty->assign('client_phone', $client_phone);
     $smarty->assign('houses', $houses);
     $smarty->assign('filter', $filter);
     $smarty->assign('client_id', $client_id);
