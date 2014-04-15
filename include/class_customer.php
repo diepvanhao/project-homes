@@ -186,7 +186,7 @@ class HOMECustomer {
         }
     }
 
-    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_id, $order_id) {
+    function update_customer($gender,$client_address,$client_occupation,$client_company,$client_income,$client_room_type,$client_rent,$client_reason_change,$client_time_change,$client_resident_name,$client_resident_phone,$client_id,$order_id) {
         global $database;
         $query="update home_client set 
                 client_gender= '{$gender}',
@@ -197,8 +197,9 @@ class HOMECustomer {
                 client_room_type='{$client_room_type}',
                 client_rent='{$client_rent}',
                 client_reason_change= '{$client_reason_change}',
-                client_time_change   ='{$client_time_change}'     
-                    
+                client_time_change   ='{$client_time_change}',     
+                client_resident_name='{$client_resident_name}',
+                client_resident_phone='{$client_resident_phone}'    
                 where id={$client_id}
                 ";
           return $database->database_query($query);      

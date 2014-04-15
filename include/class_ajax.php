@@ -201,7 +201,7 @@ class ajax {
         $query = "select * from home_house";
         if (!empty($search))
             $query.=" where house_name like '%{$search}%'";
-        
+
         //echo $query;
         $result = $database->database_query($query);
         $house_arr = array();
@@ -228,13 +228,95 @@ class ajax {
         return $house_arr;
     }
 
-    function getHouseContent($house_id){
+    function getHouseContent($house_id) {
         global $database;
-        $query="select house_description, house_original_price from home_house where id='{$house_id}'";
+        $query = "select house_description, house_original_price from home_house where id='{$house_id}'";
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
-    
+
+    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
+        global $database;
+        $query = "update home_client set 
+                client_gender= '{$gender}',
+                client_address='{$client_address}',
+                client_occupation='{$client_occupation}',
+                client_company= '{$client_company}',
+                client_income= '{$client_income}',
+                client_room_type='{$client_room_type}',
+                client_rent='{$client_rent}',
+                client_reason_change= '{$client_reason_change}',
+                client_time_change   ='{$client_time_change}',     
+                client_resident_name='{$client_resident_name}',
+                client_resident_phone='{$client_resident_phone}'    
+                where id={$client_id}
+                ";
+        return $database->database_query($query);
+    }
+
+    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
+        global $database, $user;
+        //check order exist
+        if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
+            //update history exist
+            $query="update home_history_log("
+                    . "log_time_call,"
+                    . "log_time_arrive_company,"
+                    . "log_comment,"
+                    . "log_date_appointment,"
+                    . "log_status_appointment,"
+                    . "log_shop_sign,"
+                    . "log_local_sign,"
+                    . "log_introduction,"
+                    ."log_tel,"
+                    ."log_mail,"
+                    ."log_flyer,"
+                    ."log_line,"
+                    ."log_contact_head_office,"
+                    ."log_tel_status,"
+                    ."log_mail_status,"
+                    ."log_revisit,"
+                    ."log_time_mail"
+                    . ") values("
+                    . "{}"
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ""
+                    . ")";
+        } else {
+            
+        }
+    }
+
+}
+
+function checkExistHistory($user_id, $client_id, $order_id) {
+    global $database;
+    $query = "select * from home_history_log where user_id={$user_id} and client_id={$client_id} and order_id={$order_id}";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
 
 function checkUsernameExist($username) {

@@ -294,6 +294,20 @@ if ($step == 1) {
     } else {
         $client_time_change = "";
     }
+     if (isset($_POST['client_resident_name'])) {
+        $client_resident_name = $_POST['client_resident_name'];
+    } elseif (isset($_GET['client_resident_name'])) {
+        $client_resident_name = $_GET['client_resident_name'];
+    } else {
+        $client_resident_name = "";
+    }
+     if (isset($_POST['client_resident_phone'])) {
+        $client_resident_phone = $_POST['client_resident_phone'];
+    } elseif (isset($_GET['client_resident_phone'])) {
+        $client_resident_phone = $_GET['client_resident_phone'];
+    } else {
+        $client_resident_phone = "";
+    }
     
 //////////////////////////////////////End Detail///////////////////////////////////////////
 
@@ -348,10 +362,12 @@ if ($step == 1) {
                     $client_rent=$client_arr['client_rent'];
                     $client_reason_change=$client_arr['client_reason_change'];
                     $client_time_change=$client_arr['client_time_change'];
+                    $client_resident_name=$client_arr['client_resident_name'];
+                    $client_resident_phone=$client_arr['client_resident_phone'];
                 }
             }
         } elseif ($task == 'detail') {
-            $result=$customer->update_customer($gender,$client_address,$client_occupation,$client_company,$client_income,$client_room_type,$client_rent,$client_reason_change,$client_time_change,$client_id,$order_id);
+            $result=$customer->update_customer($gender,$client_address,$client_occupation,$client_company,$client_income,$client_room_type,$client_rent,$client_reason_change,$client_time_change,$client_resident_name,$client_resident_phone,$client_id,$order_id);
             if($result)
                 $errorHouseExist=" success !!!";
         } elseif ($task == 'history') {
@@ -373,6 +389,8 @@ if ($step == 1) {
     $smarty->assign('client_rent', $client_rent);
     $smarty->assign('client_reason_change', $client_reason_change);
     $smarty->assign('client_time_change', $client_time_change);
+    $smarty->assign('client_resident_name', $client_resident_name);
+    $smarty->assign('client_resident_phone', $client_resident_phone);
     $smarty->assign('client_name', $client_name);
     $smarty->assign('client_birthday', $client_birthday);
     $smarty->assign('client_email', $client_email);
