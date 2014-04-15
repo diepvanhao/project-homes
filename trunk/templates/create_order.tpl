@@ -184,11 +184,11 @@
                             log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line,log_revisit: log_revisit,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
-                            if (result == 'success') {
+                            var json = $.parseJSON(result);
+                            if(json.id !="")
                                 alert('Saved');
-                            } else if (result == 'fail') {
-                                alert("Save fail");
-                            }
+                            else if(json.id=="")
+                                alert("Updated");
                         });
 
 
