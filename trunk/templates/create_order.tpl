@@ -5,7 +5,10 @@
         $(document).ready(function() {
             birthday('client_birthday');
             birthday('client_time_change');
-
+            timepicker('log_time_call');
+            timepicker('log_time_arrive_company');
+            timepicker('log_time_mail');
+            birthday('log_date_appointment');
 
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
@@ -77,23 +80,124 @@
                 //validate
                 $('#client_detail').find('div').each(function() {
                     if ($(this).attr('class') == 'active' && $(this).attr('id') == 'basic') {
-                        var name=$('#client_name').val();
-                        var phone=$('#client_phone').val();
-                        if(name=="" || phone ==""){
+                        var name = $('#client_name').val();
+                        var phone = $('#client_phone').val();
+                        if (name == "" || phone == "") {
                             $('#error_validate').html(' Note: fill Name and Phone number fields !!!');
-                             e.preventDefault();
-             
+                            e.preventDefault();
+
                         }
-                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'detail'){
+                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'detail') {
+                        /*save information client detail*/
+                        var gender = $('#gender').val();
+                        var client_address = $('#client_address').val();
+                        var client_occupation = $('#client_occupation').val();
+                        var client_company = $('#client_company').val();
+                        var client_income = $('#client_income').val();
+                        var client_room_type = $('#client_room_type').val();
+                        var client_rent = $('#client_rent').val();
+                        var client_reason_change = $('#client_reason_change').val();
+                        var client_time_change = $('#client_time_change').val();
+                        var client_resident_name = $('#client_resident_name').val();
+                        var client_resident_phone = $('#client_resident_phone').val();
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+
+                        $.post("include/function_ajax.php", {gender: gender, client_address: client_address, client_occupation: client_occupation,
+                            client_company: client_company, client_income: client_income, client_room_type: client_room_type, client_rent: client_rent,
+                            client_reason_change: client_reason_change, client_time_change: client_time_change, client_resident_name: client_resident_name,
+                            client_resident_phone: client_resident_phone, client_id: client_id, order_id: order_id, action: 'customer', task: 'detail'},
+                        function(result) {
+                            if (result == 'success') {
+                                alert('Saved');
+                            } else if (result == 'fail') {
+                                alert("Save fail");
+                            }
+                        });
+                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'history') {
                         
-                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'history'){
+                        var log_status_appointment=$('input[name="log_status_appointment"]:checked').val();
+
+                        var log_time_call = $('#log_time_call').val();
+                        var log_time_arrive_company = $('#log_time_arrive_company').val();
+                        var log_time_mail = $('#log_time_mail').val();
+                        var log_comment = $('#log_comment').val();
+                        var log_date_appointment = $('#log_date_appointment').val();
+                        var log_revisit = $('#log_revisit').val();
+
+                        if ($('#log_tel').is(':checked'))
+                            var log_tel = 1;
+                        else
+                            var log_tel = 0;
                         
-                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations'){
+                         if ($('#log_tel_status').is(':checked'))
+                            var log_tel_status = 1;
+                        else
+                            var log_tel_status = 0;
                         
-                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce'){
+                         if ($('#log_mail').is(':checked'))
+                            var log_mail = 1;
+                        else
+                            var log_mail = 0;
                         
-                    }else if($(this).attr('class') == 'active' && $(this).attr('id') == 'contract'){
+                         if ($('#log_mail_status').is(':checked'))
+                            var log_mail_status = 1;
+                        else
+                            var log_mail_status = 0;
                         
+                         if ($('#log_contact_head_office').is(':checked'))
+                            var log_contact_head_office = 1;
+                        else
+                            var log_contact_head_office = 0;
+                        
+                         if ($('#log_shop_sign').is(':checked'))
+                            var log_shop_sign = 1;
+                        else
+                            var log_shop_sign = 0;
+                        
+                         if ($('#log_local_sign').is(':checked'))
+                            var log_local_sign = 1;
+                        else
+                            var log_local_sign = 0;
+                        
+                         if ($('#log_introduction').is(':checked'))
+                            var log_introduction = 1;
+                        else
+                            var log_introduction = 0;
+                        
+                         if ($('#log_flyer').is(':checked'))
+                            var log_flyer = 1;
+                        else
+                            var log_flyer = 0;
+                        
+                         if ($('#log_line').is(':checked'))
+                            var log_line = 1;
+                        else
+                            var log_line = 0;
+
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+                        
+                        $.post("include/function_ajax.php", {log_time_call:log_time_call,log_time_arrive_company:log_time_arrive_company,log_time_mail:log_time_mail,
+                            log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail,log_comment: log_comment,log_date_appointment: log_date_appointment,
+                            log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
+                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line,log_revisit: log_revisit,
+                            log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
+                        function(result) {
+                            if (result == 'success') {
+                                alert('Saved');
+                            } else if (result == 'fail') {
+                                alert("Save fail");
+                            }
+                        });
+
+
+                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
+
+                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce') {
+
+                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
+
                     }
                 });
 
@@ -415,9 +519,9 @@
                         <td class='form1'>Gender: </td>
                         <td class='form2'>
                             <select id="gender"name="gender" style="height:26px; width: 315px;">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                                <option value="male" {if $gender eq "male"}selected{/if}>Male</option>
+                                <option value="female"{if $gender eq "female"}selected{/if}>Female</option>
+                                <option value="other" {if $gender eq "other"}selected{/if}>Other</option>
                             </select>
                         </td>
                         <td class='form1' nowrap>Address current:</td>
@@ -444,6 +548,12 @@
                     <tr>
                         <td class='form1'>Date change :</td>
                         <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Client resident name</td>
+                        <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 315px;"/> </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Client resident phone :</td>
+                        <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'> </td>
                     </tr>
@@ -452,7 +562,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="detail"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -487,8 +597,8 @@
                         <td class='form2'><input type="text" id="log_date_appointment" name="log_date_appointment" style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Appointment status:</td>
                         <td class='form2'>
-                            <input type='radio' id="log_status_appointment" name="log_status_appointment" value="1" />Yes &nbsp; &nbsp; 
-                            <input type='radio' id="log_status_appointment" name="log_status_appointment" value="0" />No
+                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" /><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" /><label for="log_status_appointment_no">No</label>
                         </td>
                     </tr>
                     <tr>
@@ -534,7 +644,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="history"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
