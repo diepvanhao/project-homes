@@ -165,7 +165,7 @@ class HOMECustomer {
                 $row['log_mail'] = $row['log_mail'];
                 $row['log_flyer'] = $row['log_flyer'];
                 $row['log_line'] = $row['log_line'];
-                $row['log_contract_head_offcie'] = $row['log_contract_head_offcie'];
+                $row['log_contract_head_office'] = $row['log_contract_head_office'];
                 $row['log_tel_status'] = $row['log_tel_status'];
                 $row['log_mail_status'] = $row['log_mail_status'];
                 $row['log_revisit'] = $row['log_revisit'];

@@ -517,10 +517,7 @@ if ($action == "check_email") {
         }
 
         $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
-        if ($result)
-            echo "success";
-        else
-            echo "fail";
+        echo json_encode($result);
     }
 }
 

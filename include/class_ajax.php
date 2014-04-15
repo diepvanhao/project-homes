@@ -257,9 +257,36 @@ class ajax {
     function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
         //check order exist
+
         if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
             //update history exist
-            $query="update home_history_log("
+            $query = "update home_history_log set 
+                    log_time_call='{$log_time_call}',
+                    log_time_arrive_company='{$log_time_arrive_company}',
+                    log_comment='{$log_comment}',
+                    log_date_appointment='{$log_date_appointment}',
+                    log_status_appointment='{$log_status_appointment}',
+                    log_shop_sign='{$log_shop_sign}',
+                    log_local_sign='{$log_local_sign}',
+                    log_introduction='{$log_introduction}',
+                    log_tel='{$log_tel}',
+                    log_mail='{$log_mail}',
+                    log_flyer='{$log_flyer}',
+                    log_line='{$log_line}',
+                    log_contact_head_office='{$log_contact_head_office}',
+                    log_tel_status='{$log_tel_status}',
+                    log_mail_status='{$log_mail_status}',
+                    log_revisit='{$log_revisit}',
+                    log_time_mail='{$log_time_mail}'                    
+                     where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
+                    ";
+            
+            return array('id' => "", 'update' => $database->database_query($query));
+        } else {
+            $query = "insert into home_history_log("
+                    . "user_id,"
+                    . "client_id,"
+                    . "order_id,"
                     . "log_time_call,"
                     . "log_time_arrive_company,"
                     . "log_comment,"
@@ -268,40 +295,39 @@ class ajax {
                     . "log_shop_sign,"
                     . "log_local_sign,"
                     . "log_introduction,"
-                    ."log_tel,"
-                    ."log_mail,"
-                    ."log_flyer,"
-                    ."log_line,"
-                    ."log_contact_head_office,"
-                    ."log_tel_status,"
-                    ."log_mail_status,"
-                    ."log_revisit,"
-                    ."log_time_mail"
+                    . "log_tel,"
+                    . "log_mail,"
+                    . "log_flyer,"
+                    . "log_line,"
+                    . "log_contact_head_office,"
+                    . "log_tel_status,"
+                    . "log_mail_status,"
+                    . "log_revisit,"
+                    . "log_time_mail"
                     . ") values("
-                    . "{}"
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
-                    . ""
+                    . "'{$user->user_info['id']}',"
+                    . "'{$client_id}',"
+                    . "'{$order_id}',"
+                    . "'{$log_time_call}',"
+                    . "'{$log_time_arrive_company}',"
+                    . "'{$log_comment}',"
+                    . "'{$log_date_appointment}',"
+                    . "'{$log_status_appointment}',"
+                    . "'{$log_shop_sign}',"
+                    . "'{$log_local_sign}',"
+                    . "'{$log_introduction}',"
+                    . "'{$log_tel}',"
+                    . "'{$log_mail}',"
+                    . "'{$log_flyer}',"
+                    . "'{$log_line}',"
+                    . "'{$log_contact_head_office}',"
+                    . "'{$log_tel_status}',"
+                    . "'{$log_mail_status}',"
+                    . "'{$log_revisit}',"
+                    . "'{$log_time_mail}'"
                     . ")";
-        } else {
-            
+            $result = $database->database_query($query);
+            return array('id' => $database->database_insert_id());
         }
     }
 
@@ -310,6 +336,7 @@ class ajax {
 function checkExistHistory($user_id, $client_id, $order_id) {
     global $database;
     $query = "select * from home_history_log where user_id={$user_id} and client_id={$client_id} and order_id={$order_id}";
+
     $result = $database->database_query($query);
     $row = $database->database_num_rows($result);
     if ($row >= 1) {

@@ -17,3 +17,6 @@ ALTER TABLE `home_history_log`
 ALTER TABLE `home_history_log`   
   CHANGE `log_contract_head_offcie` `log_contact_head_offcie` TINYINT(1) NULL;
 
+ALTER TABLE `home_history_log`   
+  CHANGE `log_contact_head_offcie` `log_contact_head_office` TINYINT(1) NULL;
+
