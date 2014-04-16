@@ -7,8 +7,8 @@ function birthday(val) {
     j("#" + val).datepicker({
         changeYear: true,
         showButtonPanel: true,
-        yearRange: '-90:+0'
-     
+        yearRange: '-90:+0',
+        dateFormat:'mm/dd/yy'
     });
 }
 function timepicker(val){

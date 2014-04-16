@@ -519,6 +519,231 @@ if ($action == "check_email") {
         $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
+    if ($task == 'aspirations') {
+
+        if (isset($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
+        } elseif (isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+        } else {
+            $order_id = "";
+        }
+        if (isset($_POST['client_id'])) {
+            $client_id = $_POST['client_id'];
+        } elseif (isset($_GET['client_id'])) {
+            $client_id = $_GET['client_id'];
+        } else {
+            $client_id = "";
+        }
+
+
+        if (isset($_POST['aspirations_type_house'])) {
+            $aspirations_type_house = $_POST['aspirations_type_house'];
+        } elseif (isset($_GET['aspirations_type_house'])) {
+            $aspirations_type_house = $_GET['aspirations_type_house'];
+        } else {
+            $aspirations_type_house = "";
+        }
+        if (isset($_POST['aspirations_type_room'])) {
+            $aspirations_type_room = $_POST['aspirations_type_room'];
+        } elseif (isset($_GET['aspirations_type_room'])) {
+            $aspirations_type_room = $_GET['aspirations_type_room'];
+        } else {
+            $aspirations_type_room = "";
+        }
+        if (isset($_POST['aspirations_build_time'])) {
+            $aspirations_build_time = $_POST['aspirations_build_time'];
+        } elseif (isset($_GET['aspirations_build_time'])) {
+            $aspirations_build_time = $_GET['aspirations_build_time'];
+        } else {
+            $aspirations_build_time = "";
+        }
+        if (isset($_POST['aspirations_area'])) {
+            $aspirations_area = $_POST['aspirations_area'];
+        } elseif (isset($_GET['aspirations_area'])) {
+            $aspirations_area = $_GET['aspirations_area'];
+        } else {
+            $aspirations_area = "";
+        }
+        if (isset($_POST['aspirations_size'])) {
+            $aspirations_size = $_POST['aspirations_size'];
+        } elseif (isset($_GET['aspirations_size'])) {
+            $aspirations_size = $_GET['aspirations_size'];
+        } else {
+            $aspirations_size = "";
+        }
+        if (isset($_POST['aspirations_rent_cost'])) {
+            $aspirations_rent_cost = $_POST['aspirations_rent_cost'];
+        } elseif (isset($_GET['aspirations_rent_cost'])) {
+            $aspirations_rent_cost = $_GET['aspirations_rent_cost'];
+        } else {
+            $aspirations_rent_cost = "";
+        }
+        if (isset($_POST['aspirations_comment'])) {
+            $aspirations_comment = $_POST['aspirations_comment'];
+        } elseif (isset($_GET['aspirations_comment'])) {
+            $aspirations_comment = $_GET['aspirations_comment'];
+        } else {
+            $aspirations_comment = "";
+        }
+
+
+        $result = $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
+        echo json_encode($result);
+    }
+    if ($task == 'introduce') {
+
+        if (isset($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
+        } elseif (isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+        } else {
+            $order_id = "";
+        }
+        if (isset($_POST['client_id'])) {
+            $client_id = $_POST['client_id'];
+        } elseif (isset($_GET['client_id'])) {
+            $client_id = $_GET['client_id'];
+        } else {
+            $client_id = "";
+        }
+        if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+        if (isset($_POST['introduce_house_content'])) {
+            $introduce_house_content = $_POST['introduce_house_content'];
+        } elseif (isset($_GET['introduce_house_content'])) {
+            $introduce_house_content = $_GET['introduce_house_content'];
+        } else {
+            $introduce_house_content = "";
+        }
+        $result = $ajax->update_introduce($house_id, $introduce_house_content, $client_id, $order_id);
+        echo json_encode($result);
+    }
+    if ($task == 'contract') {
+        if (isset($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
+        } elseif (isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+        } else {
+            $order_id = "";
+        }
+        if (isset($_POST['client_id'])) {
+            $client_id = $_POST['client_id'];
+        } elseif (isset($_GET['client_id'])) {
+            $client_id = $_GET['client_id'];
+        } else {
+            $client_id = "";
+        }
+        if (isset($_POST['contract_name'])) {
+            $contract_name = $_POST['contract_name'];
+        } elseif (isset($_GET['contract_name'])) {
+            $contract_name = $_GET['contract_name'];
+        } else {
+            $contract_name = "";
+        }
+        if (isset($_POST['contract_cost'])) {
+            $contract_cost = $_POST['contract_cost'];
+        } elseif (isset($_GET['contract_cost'])) {
+            $contract_cost = $_GET['contract_cost'];
+        } else {
+            $contract_cost = "";
+        }
+        if (isset($_POST['contract_plus_money'])) {
+            $contract_plus_money = $_POST['contract_plus_money'];
+        } elseif (isset($_GET['contract_plus_money'])) {
+            $contract_plus_money = $_GET['contract_plus_money'];
+        } else {
+            $contract_plus_money = "";
+        }
+        if (isset($_POST['contract_key_money'])) {
+            $contract_key_money = $_POST['contract_key_money'];
+        } elseif (isset($_GET['contract_key_money'])) {
+            $contract_key_money = $_GET['contract_key_money'];
+        } else {
+            $contract_key_money = "";
+        }
+        if (isset($_POST['contract_condition'])) {
+            $contract_condition = $_POST['contract_condition'];
+        } elseif (isset($_GET['contract_condition'])) {
+            $contract_condition = $_GET['contract_condition'];
+        } else {
+            $contract_condition = "";
+        }
+        if (isset($_POST['contract_valuation'])) {
+            $contract_valuation = $_POST['contract_valuation'];
+        } elseif (isset($_GET['contract_valuation'])) {
+            $contract_valuation = $_GET['contract_valuation'];
+        } else {
+            $contract_valuation = "";
+        }
+        if (isset($_POST['contract_signature_date'])) {
+            $contract_signature_date = $_POST['contract_signature_date'];
+        } elseif (isset($_GET['contract_signature_date'])) {
+            $contract_signature_date = $_GET['contract_signature_date'];
+        } else {
+            $contract_signature_date = "";
+        }
+        if (isset($_POST['contract_handover_date'])) {
+            $contract_handover_date = $_POST['contract_handover_date'];
+        } elseif (isset($_GET['contract_handover_date'])) {
+            $contract_handover_date = $_GET['contract_handover_date'];
+        } else {
+            $contract_handover_date = "";
+        }
+        if (isset($_POST['contract_period_from'])) {
+            $contract_period_from = $_POST['contract_period_from'];
+        } elseif (isset($_GET['contract_period_from'])) {
+            $contract_period_from = $_GET['contract_period_from'];
+        } else {
+            $contract_period_from = "";
+        }
+        if (isset($_POST['contract_period_to'])) {
+            $contract_period_to = $_POST['contract_period_to'];
+        } elseif (isset($_GET['contract_period_to'])) {
+            $contract_period_to = $_GET['contract_period_to'];
+        } else {
+            $contract_period_to = "";
+        }
+        if (isset($_POST['contract_deposit_1'])) {
+            $contract_deposit_1 = $_POST['contract_deposit_1'];
+        } elseif (isset($_GET['contract_deposit_1'])) {
+            $contract_deposit_1 = $_GET['contract_deposit_1'];
+        } else {
+            $contract_deposit_1 = "";
+        }
+        if (isset($_POST['contract_deposit_2'])) {
+            $contract_deposit_2 = $_POST['contract_deposit_2'];
+        } elseif (isset($_GET['contract_deposit_2'])) {
+            $contract_deposit_2 = $_GET['contract_deposit_2'];
+        } else {
+            $contract_deposit_2 = "";
+        }
+        if (isset($_POST['contract_cancel'])) {
+            $contract_cancel = $_POST['contract_cancel'];
+        } elseif (isset($_GET['contract_cancel'])) {
+            $contract_cancel = $_GET['contract_cancel'];
+        } else {
+            $contract_cancel = "";
+        }
+        if (isset($_POST['contract_total'])) {
+            $contract_total = $_POST['contract_total'];
+        } elseif (isset($_GET['contract_total'])) {
+            $contract_total = $_GET['contract_total'];
+        } else {
+            $contract_total = "";
+        }
+
+
+
+
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_date, $contract_handover_date, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id);
+        echo json_encode($result);
+    }
 }
 
 
