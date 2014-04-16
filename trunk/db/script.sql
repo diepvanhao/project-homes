@@ -20,3 +20,11 @@ ALTER TABLE `home_history_log`
 ALTER TABLE `home_history_log`   
   CHANGE `log_contact_head_offcie` `log_contact_head_office` TINYINT(1) NULL;
 
+ALTER TABLE `home_history_aspirations`   
+  ADD COLUMN `user_id` INT(11) NULL AFTER `client_id`,
+  ADD COLUMN `order_id` INT(11) NULL AFTER `user_id`;
+
+/*Hao 16/4*/
+ALTER TABLE `home_order`   
+  ADD COLUMN `change` INT(2) NULL AFTER `broker_id`,
+  ADD COLUMN `change_house_array` VARCHAR(128) NULL AFTER `change`;

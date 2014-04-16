@@ -9,7 +9,11 @@
             timepicker('log_time_arrive_company');
             timepicker('log_time_mail');
             birthday('log_date_appointment');
-
+            birthday('aspirations_build_time');
+            birthday('contract_signature_date');
+            birthday('contract_handover_date');
+            birthday('contract_period_from');
+            birthday('contract_period_to');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
@@ -115,8 +119,8 @@
                             }
                         });
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'history') {
-                        
-                        var log_status_appointment=$('input[name="log_status_appointment"]:checked').val();
+
+                        var log_status_appointment = $('input[name="log_status_appointment"]:checked').val();
 
                         var log_time_call = $('#log_time_call').val();
                         var log_time_arrive_company = $('#log_time_arrive_company').val();
@@ -129,81 +133,148 @@
                             var log_tel = 1;
                         else
                             var log_tel = 0;
-                        
-                         if ($('#log_tel_status').is(':checked'))
+
+                        if ($('#log_tel_status').is(':checked'))
                             var log_tel_status = 1;
                         else
                             var log_tel_status = 0;
-                        
-                         if ($('#log_mail').is(':checked'))
+
+                        if ($('#log_mail').is(':checked'))
                             var log_mail = 1;
                         else
                             var log_mail = 0;
-                        
-                         if ($('#log_mail_status').is(':checked'))
+
+                        if ($('#log_mail_status').is(':checked'))
                             var log_mail_status = 1;
                         else
                             var log_mail_status = 0;
-                        
-                         if ($('#log_contact_head_office').is(':checked'))
+
+                        if ($('#log_contact_head_office').is(':checked'))
                             var log_contact_head_office = 1;
                         else
                             var log_contact_head_office = 0;
-                        
-                         if ($('#log_shop_sign').is(':checked'))
+
+                        if ($('#log_shop_sign').is(':checked'))
                             var log_shop_sign = 1;
                         else
                             var log_shop_sign = 0;
-                        
-                         if ($('#log_local_sign').is(':checked'))
+
+                        if ($('#log_local_sign').is(':checked'))
                             var log_local_sign = 1;
                         else
                             var log_local_sign = 0;
-                        
-                         if ($('#log_introduction').is(':checked'))
+
+                        if ($('#log_introduction').is(':checked'))
                             var log_introduction = 1;
                         else
                             var log_introduction = 0;
-                        
-                         if ($('#log_flyer').is(':checked'))
+
+                        if ($('#log_flyer').is(':checked'))
                             var log_flyer = 1;
                         else
                             var log_flyer = 0;
-                        
-                         if ($('#log_line').is(':checked'))
+
+                        if ($('#log_line').is(':checked'))
                             var log_line = 1;
                         else
                             var log_line = 0;
 
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-                        
-                        $.post("include/function_ajax.php", {log_time_call:log_time_call,log_time_arrive_company:log_time_arrive_company,log_time_mail:log_time_mail,
-                            log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail,log_comment: log_comment,log_date_appointment: log_date_appointment,
+
+                        $.post("include/function_ajax.php", {log_time_call: log_time_call, log_time_arrive_company: log_time_arrive_company, log_time_mail: log_time_mail,
+                            log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment: log_date_appointment,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
-                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line,log_revisit: log_revisit,
+                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
                             var json = $.parseJSON(result);
-                            if(json.id !="")
+                            if (json.id != "")
                                 alert('Saved');
-                            else if(json.id=="")
+                            else if (json.id == "")
                                 alert("Updated");
                         });
 
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
+                        var aspirations_type_house = $('#aspirations_type_house').val();
+                        var aspirations_type_room = $('#aspirations_type_room').val();
+                        var aspirations_build_time = $('#aspirations_build_time').val();
+                        var aspirations_area = $('#aspirations_area').val();
+                        var aspirations_size = $('#aspirations_size').val();
+                        var aspirations_rent_cost = $('#aspirations_rent_cost').val();
+                        var aspirations_comment = $('#aspirations_comment').val();
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room, aspirations_build_time: aspirations_build_time,
+                            aspirations_area: aspirations_area, aspirations_size: aspirations_size, aspirations_rent_cost: aspirations_rent_cost, aspirations_comment: aspirations_comment,
+                            client_id: client_id, order_id: order_id, action: 'customer', task: 'aspirations'},
+                        function(result) {
+                            var json = $.parseJSON(result);
+                            if (json.id != "")
+                                alert('Saved');
+                            else if (json.id == "")
+                                alert("Updated");
+                        });
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce') {
-
+                        var house_id = $('#house_id').val();
+                        var house_description = $('#house_description').val();
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+                        $('#error_house').html('');
+                        if (house_id == "")
+                            $('#error_house').html('Please choose house.');
+                        else {
+                            $.post("include/function_ajax.php", {house_id: house_id, introduce_house_content: house_description,
+                                client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
+                            function(result) {
+                                var json = $.parseJSON(result);
+                                if (json.id != "")
+                                    alert('Saved');
+                                else if (json.id == "")
+                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
+                            });
+                        }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
+                        var contract_name = $('#contract_name').val();
+                        var contract_cost = $('#contract_cost').val();
+                        var contract_plus_money = $('#contract_plus_money').val();
+                        var contract_key_money = $('#contract_key_money').val();
+                        var contract_condition = $('#contract_condition').val();
+                        var contract_valuation = $('#contract_valuation').val();
+                        var contract_signature_date = $('#contract_signature_date').val();
 
+                        var contract_handover_date = $('#contract_handover_date').val();
+                        var contract_period_from = $('#contract_period_from').val();
+                        var contract_period_to = $('#contract_period_to').val();
+                        var contract_deposit_1 = $('#contract_deposit_1').val();
+                        var contract_deposit_2 = $('#contract_deposit_2').val();
+
+                        if ($('#contract_cancel').is(':checked'))
+                            var contract_cancel = 1;
+                        else
+                            var contract_cancel = 0;
+
+                        var contract_total = $('#contract_total').val();
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+
+                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_plus_money: contract_plus_money, contract_key_money: contract_key_money,
+                            contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_date: contract_signature_date, contract_handover_date: contract_handover_date,
+                            contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
+                            contract_cancel: contract_cancel, contract_total: contract_total,
+                            client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
+                        function(result) {
+                            var json = $.parseJSON(result);
+                            if (json.id != "")
+                                alert('Saved');
+                            else if (json.id == "")
+                                $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
+                        });
                     }
                 });
-
-
             });
-
         });
         function getDivClass(title) {
             var flag = false;
@@ -579,62 +650,62 @@
                     <tr>
                         <td class='form1'>Time call: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_call" name="log_time_call" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 315px;"/>
                         </td>
                         <td class='form1' nowrap>Time arrive:</td>
-                        <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Time send email: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_mail" name="log_time_mail" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 315px;"/>
                         </td>
                         <td class='form1' nowrap>Comment:</td>
-                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'nowrap>Date appointment:</td>
-                        <td class='form2'><input type="text" id="log_date_appointment" name="log_date_appointment" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="log_date_appointment" name="log_date_appointment" value="{$log_date_appointment}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Appointment status:</td>
                         <td class='form2'>
-                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" /><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" /><label for="log_status_appointment_no">No</label>
+                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">No</label>
                         </td>
                     </tr>
                     <tr>
                         <td class='form1'>Contact by tel:</td>
-                        <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>Tel status:</td>
-                        <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Contact by mail:</td>
-                        <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>Mail status:</td>
-                        <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Contact by head office :</td>
-                        <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>Shop sign:</td>
-                        <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Local sign:</td>
-                        <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign"{if $log_local_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>Introduction:</td>
-                        <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" {if $log_introduction eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Flyer:</td>
-                        <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer"{if $log_flyer eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>Line:</td>
-                        <td class='form2'> <input type='checkbox' id="log_line" name="log_line" style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'> <input type='checkbox' id="log_line" name="log_line"{if $log_line eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Revisit: </td>
                         <td class='form2'>
-                            <input type='text' id="log_revisit" name="log_revisit" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_time_arrive_company}"style="height: 26px; width: 315px;"/>
                         </td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
@@ -661,26 +732,26 @@
                     <tr>
                         <td class='form1'>House type: </td>
                         <td class='form2'>
-                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 315px;"/>
                         </td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Build time:</td>
-                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Area:</td>
-                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Size:</td>
-                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Price:</td>
-                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Comment:</td>
-                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
                     </tr>                
@@ -689,7 +760,7 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <div id="error_validate" class="error"></div>
-                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="aspirations"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -715,14 +786,14 @@
                             <select id="house_id" name="house_id" style="height:26px; width: 351px;">
                                 <option value=""></option>
                                 {foreach from=$houses item=house}
-                                    <option value="{$house.id}">{$house.house_name}</option>        
+                                    <option value="{$house.id}" {if $house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
                             </select><span id="error_house" class="error"></span>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>Description House: </td>
-                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description" >{$introduce_house_content}</textarea></td>
                     </tr>
                     <tr>            
                         <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
@@ -732,7 +803,7 @@
                         <td class='form2'>
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px">
-                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
+                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
                                 <input type="hidden" id="task" name="task" value="introduce"/>
                                 <input type="hidden" id="step" name="step" value="registry"/>  
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -749,53 +820,53 @@
                     <tr>
                         <td class='form1'>Name: </td>
                         <td class='form2'>
-                            <input type='text' id="contract_name" name="contract_name" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="contract_name" name="contract_name" value="{$contract_name}"style="height: 26px; width: 315px;"/>
                         </td>
                         <td class='form1' nowrap>Cost:</td>
-                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Plus fee:</td>
-                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" value="{$contract_plus_money}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1'>Key fee:</td>
-                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>                    
                         <td class='form1' nowrap>Condition:</td>
-                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_condition"name="contract_condition"></textarea></td>
+                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
                         <td class='form1' nowrap>Valuation:</td>
-                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_valuation"name="contract_valuation"></textarea></td>
+                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
                     </tr>
                     <tr>
                         <td class='form1'>Signature day:</td>
-                        <td class='form2'><input type="text" id="contract_signature_date" name="contract_signature_date" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_signature_date" name="contract_signature_date" value="{$contract_signature_date}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Handover day:</td>
-                        <td class='form2'><input type="text" id="contract_handover_date" name="contract_handover_date" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_handover_date" name="contract_handover_date"value="{$contract_handover_date}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Period from:</td>
-                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Period to:</td>
-                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Deposit 1:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Deposit 2:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Total:</td>
-                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Cancel:</td>
-                        <td class='form2'><input type="text" id="contract_cancel" name="contract_cancel" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="contract"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
