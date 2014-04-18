@@ -549,19 +549,19 @@ if ($step == 1) {
     } else {
         $contract_valuation = "";
     }
-    if (isset($_POST['contract_signature_date'])) {
-        $contract_signature_date = $_POST['contract_signature_date'];
-    } elseif (isset($_GET['contract_signature_date'])) {
-        $contract_signature_date = $_GET['contract_signature_date'];
+    if (isset($_POST['contract_signature_day'])) {
+        $contract_signature_day = $_POST['contract_signature_day'];
+    } elseif (isset($_GET['contract_signature_day'])) {
+        $contract_signature_day = $_GET['contract_signature_day'];
     } else {
-        $contract_signature_date = "";
+        $contract_signature_day = "";
     }
-    if (isset($_POST['contract_handover_date'])) {
-        $contract_handover_date = $_POST['contract_handover_date'];
-    } elseif (isset($_GET['contract_handover_date'])) {
-        $contract_handover_date = $_GET['contract_handover_date'];
+    if (isset($_POST['contract_handover_day'])) {
+        $contract_handover_day = $_POST['contract_handover_day'];
+    } elseif (isset($_GET['contract_handover_day'])) {
+        $contract_handover_day = $_GET['contract_handover_day'];
     } else {
-        $contract_handover_date = "";
+        $contract_handover_day = "";
     }
     if (isset($_POST['contract_period_from'])) {
         $contract_period_from = $_POST['contract_period_from'];
@@ -646,6 +646,7 @@ if ($step == 1) {
                 $client_id = $result['id'];
                 $exits = $result['exist'];
                 $client_arr = $result['client_arr'];
+
                 if (!empty($client_arr)) {
                     $client_name = $client_arr['client_name'];
                     $client_birthday = $client_arr['client_birthday'];
@@ -662,6 +663,55 @@ if ($step == 1) {
                     $client_time_change = $client_arr['client_time_change'];
                     $client_resident_name = $client_arr['client_resident_name'];
                     $client_resident_phone = $client_arr['client_resident_phone'];
+                    if ($user->user_info['id'] == $client_arr['user_id']) {
+                        $result = $customer->getCustomersOrder($order_id, $client_id);
+                        if ($result) {
+                            $client_arr = $result['client_arr'];
+                            print_r($client_arr);
+                            if (!empty($client_arr)) {
+                                $log_time_call = $client_arr['log_time_call'];
+                                $log_time_arrive_company = $client_arr['log_time_arrive_company'];
+                                $log_time_mail = $client_arr['log_time_mail'];
+                                $log_comment = $client_arr['log_comment'];
+                                $log_date_appointment = $client_arr['log_date_appointment'];
+                                $log_status_appointment = $client_arr['log_status_appointment'];
+                                $log_tel = $client_arr['log_tel'];
+                                $log_tel_status = $client_arr['log_tel_status'];
+                                $log_mail = $client_arr['log_mail'];
+                                $log_mail_status = $client_arr['log_mail_status'];
+                                $log_contact_head_office = $client_arr['log_contact_head_office'];
+                                $log_shop_sign = $client_arr['log_shop_sign'];
+                                $log_local_sign = $client_arr['log_local_sign'];
+                                $log_introduction = $client_arr['log_introduction'];
+                                $log_flyer = $client_arr['log_flyer'];
+                                $log_line = $client_arr['log_line'];
+                                $log_revisit = $client_arr['log_revisit'];
+
+                                $aspirations_type_house = $client_arr['aspirations_type_house'];
+                                $aspirations_type_room = $client_arr['aspirations_type_room'];
+                                $aspirations_build_time = $client_arr['aspirations_build_time'];
+                                $aspirations_area = $client_arr['aspirations_area'];
+                                $aspirations_size = $client_arr['aspirations_size'];
+                                $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
+                                $aspirations_comment = $client_arr['aspirations_comment'];
+
+                                $contract_name = $client_arr['contract_name'];
+                                $contract_cost = $client_arr['contract_cost'];
+                                $contract_plus_money = $client_arr['contract_plus_money'];
+                                $contract_key_money = $client_arr['contract_key_money'];
+                                $contract_condition = $client_arr['contract_condition'];
+                                $contract_valuation = $client_arr['contract_valuation'];
+                                $contract_signature_day = $client_arr['contract_signature_day'];
+                                $contract_handover_day = $client_arr['contract_handover_day'];
+                                $contract_period_from = $client_arr['contract_period_from'];
+                                $contract_period_to = $client_arr['contract_period_to'];
+                                $contract_deposit_1 = $client_arr['contract_deposit_1'];
+                                $contract_deposit_2 = $client_arr['contract_deposit_2'];
+                                $contract_cancel = $client_arr['contract_cancel'];
+                                $contract_total = $client_arr['contract_total'];
+                            }
+                        }
+                    }
                 }
             }
         } elseif ($task == 'detail') {
@@ -684,8 +734,8 @@ if ($step == 1) {
     $smarty->assign('contract_key_money', $contract_key_money);
     $smarty->assign('contract_condition', $contract_condition);
     $smarty->assign('contract_valuation', $contract_valuation);
-    $smarty->assign('contract_signature_date', $contract_signature_date);
-    $smarty->assign('contract_handover_date', $contract_handover_date);
+    $smarty->assign('contract_signature_day', $contract_signature_day);
+    $smarty->assign('contract_handover_day', $contract_handover_day);
     $smarty->assign('contract_period_from', $contract_period_from);
     $smarty->assign('contract_period_to', $contract_period_to);
     $smarty->assign('contract_deposit_1', $contract_deposit_1);

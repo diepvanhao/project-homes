@@ -10,8 +10,8 @@
             timepicker('log_time_mail');
             birthday('log_date_appointment');
             birthday('aspirations_build_time');
-            birthday('contract_signature_date');
-            birthday('contract_handover_date');
+            birthday('contract_signature_day');
+            birthday('contract_handover_day');
             birthday('contract_period_from');
             birthday('contract_period_to');
             $('#search').keyup(function(e) {
@@ -40,6 +40,24 @@
                     $('#house_description').html(json.house_description);
                     $('#order_rent_cost').val(json.house_original_price);
                 });
+            });
+            $('#contract_cost').keyup(function(e) {
+                var contract_plus_money = parseFloat($('#contract_plus_money').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val());
+                var contract_cost = parseFloat($('#contract_cost').val());
+                $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
+            });
+            $('#contract_plus_money').keyup(function(e) {
+                var contract_plus_money = parseFloat($('#contract_plus_money').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val());
+                var contract_cost = parseFloat($('#contract_cost').val());
+                $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
+            });
+            $('#contract_key_money').keyup(function(e) {
+                var contract_plus_money = parseFloat($('#contract_plus_money').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val());
+                var contract_cost = parseFloat($('#contract_cost').val());                
+                $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
@@ -243,9 +261,9 @@
                         var contract_key_money = $('#contract_key_money').val();
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
-                        var contract_signature_date = $('#contract_signature_date').val();
+                        var contract_signature_day = $('#contract_signature_day').val();
 
-                        var contract_handover_date = $('#contract_handover_date').val();
+                        var contract_handover_day = $('#contract_handover_day').val();
                         var contract_period_from = $('#contract_period_from').val();
                         var contract_period_to = $('#contract_period_to').val();
                         var contract_deposit_1 = $('#contract_deposit_1').val();
@@ -257,11 +275,12 @@
                             var contract_cancel = 0;
 
                         var contract_total = $('#contract_total').val();
+
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
 
                         $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_plus_money: contract_plus_money, contract_key_money: contract_key_money,
-                            contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_date: contract_signature_date, contract_handover_date: contract_handover_date,
+                            contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
                             contract_cancel: contract_cancel, contract_total: contract_total,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
@@ -270,10 +289,14 @@
                             if (json.id != "")
                                 alert('Saved');
                             else if (json.id == "")
-                                $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
+                                alert("Updated");
                         });
                     }
                 });
+            });
+            $('#done').click(function(){
+                showloadgif();
+                window.location.href="create_order.php";                
             });
         });
         function getDivClass(title) {
@@ -287,6 +310,75 @@
                 return 1;
             else
                 return 0;
+        }
+        function selectCustomer(id) {
+            $.post("include/function_ajax.php", {id: id, action: 'customer', task: 'selectCustomer'},
+            function(result) {
+                if (result != "") {
+
+                    /*reset form*/
+                    $('#cus_id').val('');
+                    $('#log_time_call').val('');
+                    $('#log_time_arrive_company').val('');
+                    $('#log_time_mail').val('');
+                    $('#log_comment').val('');
+                    $('#log_date_appointment').val('');
+                    $('#log_status_appointment').attr('checked',"");
+                    $('#log_tel').attr('checked',"");
+                    $('#log_tel_status').attr('checked',"");
+                    $('#log_mail').attr('checked',"");
+                    $('#log_mail_status').attr('checked',"");
+                    $('#log_contact_head_office').attr('checked',"");
+                    $('#log_shop_sign').attr('checked',"");
+                    $('#log_local_sign').attr('checked',"");
+                    $('#log_introduction').attr('checked',"");
+                    $('#log_flyer').attr('checked',"");
+                    $('#log_line').attr('checked',"");
+                    $('#log_revisit').val('');
+
+                    $('#aspirations_type_house').val('');
+                    $('#aspirations_type_room').val('');
+                    $('#aspirations_build_time').val('');
+                    $('#aspirations_area').val('');
+                    $('#aspirations_size').val('');
+                    $('#aspirations_rent_cost').val('');
+                    $('#aspirations_comment').val('');
+
+                    $('#contract_name').val('');
+                    $('#contract_cost').val('');
+                    $('#contract_plus_money').val('');
+                    $('#contract_key_money').val('');
+                    $('#contract_condition').val('');
+                    $('#contract_valuation').val('');
+                    $('#contract_signature_day').val('');
+                    $('#contract_handover_day').val('');
+                    $('#contract_period_from').val('');
+                    $('#contract_period_to').val('');
+                    $('#contract_deposit_1').val('');
+                    $('#contract_deposit_2').val('');
+                    $('#contract_cancel').val('');
+                    $('#contract_total').val('');
+
+                    var json = $.parseJSON(result);
+                    $('#client_name').val(json.client_name);
+                    $('#client_birthday').val(json.client_birthday);
+                    $('#client_email').val(json.client_email);
+                    $('#client_phone').val(json.client_phone);
+                    $('#gender').val(json.gender);
+                    $('#client_address').val(json.client_address);
+                    $('#client_occupation').val(json.client_occupation);
+                    $('#client_company').val(json.client_company);
+                    $('#client_income').val(json.client_income);
+                    $('#client_room_type').val(json.client_room_type);
+                    $('#client_rent').val(json.client_rent);
+                    $('#client_reason_change').val(json.client_reason_change);
+                    $('#client_time_change').val(json.client_time_change);
+                    $('#client_resident_name').val(json.client_resident_name);
+                    $('#client_resident_phone').val(json.client_resident_phone);
+                    //get information order, history, aspirations and contract
+                    
+                }
+            });                       
         }
     </script>
 {/literal}
@@ -507,10 +599,11 @@
                         <input type='submit' class='btn-search' value='Submit' id="submit" name="submit"/>&nbsp;                     
                     </span>
                 </td>
-            <input type="hidden" id="step" name="step" value="registry"/>
+            <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="Done" id="done" name="done"class='btn-search'/></div>
             </tr>
         </table>
     </form>
+                    
     <div style="margin-bottom:10px;">
         <center>
             Page:
@@ -530,11 +623,11 @@
 
         {foreach from=$customers key=k item=item}
             <ul>
-                <li {if $item@iteration is div by 2}class="odd"{/if}>{$item.id}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if}>{$item.client_name}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if}>{$item.client_birthday}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if}>{$item.client_address}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if}>{$item.client_phone}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.id}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
             </ul>
         {/foreach}
 
@@ -705,7 +798,7 @@
                     <tr>
                         <td class='form1'>Revisit: </td>
                         <td class='form2'>
-                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_time_arrive_company}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 315px;"/>
                         </td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
@@ -839,9 +932,9 @@
                     </tr>
                     <tr>
                         <td class='form1'>Signature day:</td>
-                        <td class='form2'><input type="text" id="contract_signature_date" name="contract_signature_date" value="{$contract_signature_date}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Handover day:</td>
-                        <td class='form2'><input type="text" id="contract_handover_date" name="contract_handover_date"value="{$contract_handover_date}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Period from:</td>
