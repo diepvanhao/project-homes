@@ -681,19 +681,19 @@ if ($action == "check_email") {
         } else {
             $contract_valuation = "";
         }
-        if (isset($_POST['contract_signature_date'])) {
-            $contract_signature_date = $_POST['contract_signature_date'];
-        } elseif (isset($_GET['contract_signature_date'])) {
-            $contract_signature_date = $_GET['contract_signature_date'];
+        if (isset($_POST['contract_signature_day'])) {
+            $contract_signature_day = $_POST['contract_signature_day'];
+        } elseif (isset($_GET['contract_signature_day'])) {
+            $contract_signature_day = $_GET['contract_signature_day'];
         } else {
-            $contract_signature_date = "";
+            $contract_signature_day = "";
         }
-        if (isset($_POST['contract_handover_date'])) {
-            $contract_handover_date = $_POST['contract_handover_date'];
-        } elseif (isset($_GET['contract_handover_date'])) {
-            $contract_handover_date = $_GET['contract_handover_date'];
+        if (isset($_POST['contract_handover_day'])) {
+            $contract_handover_day = $_POST['contract_handover_day'];
+        } elseif (isset($_GET['contract_handover_day'])) {
+            $contract_handover_day = $_GET['contract_handover_day'];
         } else {
-            $contract_handover_date = "";
+            $contract_handover_day = "";
         }
         if (isset($_POST['contract_period_from'])) {
             $contract_period_from = $_POST['contract_period_from'];
@@ -738,10 +738,18 @@ if ($action == "check_email") {
             $contract_total = "";
         }
 
-
-
-
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_date, $contract_handover_date, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id);
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id);
+        echo json_encode($result);
+    }
+    if($task=='selectCustomer'){
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+        } elseif (isset($_GET['id'])) {
+            $id = $_GET['id'];
+        } else {
+            $id = "";
+        }
+        $result=$ajax->getCustomerSelected($id);
         echo json_encode($result);
     }
 }

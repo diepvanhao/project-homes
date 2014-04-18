@@ -405,52 +405,147 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_date, $contract_handover_date, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id) {
         global $database, $user;
         //check order exist
-
-        if (checkExistContract($user->user_info['id'], $order_id)) {
+        $contract_date_create = $contract_date_update = time();
+        $contract_id = checkExistContract($user->user_info['id'], $order_id);
+        if ($contract_id) {
             //update history exist
-            $query = "update home_history_log set 
-                    log_time_call='{$log_time_call}',
-                    log_time_arrive_company='{$log_time_arrive_company}',
-                    log_comment='{$log_comment}',
-                    log_date_appointment='{$log_date_appointment}',
-                    log_status_appointment='{$log_status_appointment}',
-                    log_shop_sign='{$log_shop_sign}',
-                    log_local_sign='{$log_local_sign}',
-                    log_introduction='{$log_introduction}',
-                    log_tel='{$log_tel}',
-                    log_mail='{$log_mail}',
-                    log_flyer='{$log_flyer}',
-                    log_line='{$log_line}',
-                    log_contact_head_office='{$log_contact_head_office}',
-                    log_tel_status='{$log_tel_status}',
-                    log_mail_status='{$log_mail_status}',
-                    log_revisit='{$log_revisit}',
-                    log_time_mail='{$log_time_mail}'                    
-                     where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
+            $query = "update home_contract_detail set 
+                    contract_plus_money={$contract_plus_money},
+                    contract_cost={$contract_cost},
+                    contract_total={$contract_total},
+                    contract_signature_day='{$contract_signature_day}',
+                    contract_handover_day='{$contract_handover_day}',
+                    contract_condition='{$contract_condition}',
+                    contract_valuation='{$contract_valuation}',
+                    contract_date_create='{$contract_date_create}',
+                    contract_date_update='{$contract_date_update}',
+                    contract_cancel='{$contract_cancel}',
+                    contract_period_from='{$contract_period_from}',
+                    contract_period_to='{$contract_period_to}',
+                    contract_deposit_1='{$contract_deposit_1}',
+                    contract_deposit_2='{$contract_deposit_2}',
+                    contract_key_money={$contract_key_money},
+                    contract_name='{$contract_name}'
+                                      
+                     where contract_id='{$contract_id}'    
                     ";
 
             return array('id' => "", 'update' => $database->database_query($query));
         } else {
-            $query = "insert into home_introduce_house("
+            $query = "insert into home_contract("
                     . "user_id,"
-                    . "client_id,"
-                    . "house_id,"
-                    . "introduce_house_content,"
-                    . "introduce_house_photo"
+                    . "order_id"
                     . ") values("
                     . "'{$user->user_info['id']}',"
-                    . "'{$client_id}',"
-                    . "'{$house_id}',"
-                    . "'{$introduce_house_content}',"
-                    . "''"
+                    . "'{$order_id}'"
                     . ")";
 
             $result = $database->database_query($query);
+            $contract_id = $database->database_insert_id();
+            if ($contract_id) {
+                //insert contract detail
+                $query = "insert into home_contract_detail("
+                        . "contract_id,"
+                        . "contract_plus_money,"
+                        . "contract_cost,"
+                        . "contract_total,"
+                        . "contract_signature_day,"
+                        . "contract_handover_day,"
+                        . "contract_condition,"
+                        . "contract_valuation,"
+                        . "contract_date_create,"
+                        . "contract_date_update,"
+                        . "contract_cancel,"
+                        . "contract_period_from,"
+                        . "contract_period_to,"
+                        . "contract_deposit_1,"
+                        . "contract_deposit_2,"
+                        . "contract_key_money,"
+                        . "contract_name"
+                        . ") values("
+                        . "'{$contract_id}',"
+                        . "'{$contract_plus_money}',"
+                        . "'{$contract_cost}',"
+                        . "'{$contract_total}',"
+                        . "'{$contract_signature_day}',"
+                        . "'{$contract_handover_day}',"
+                        . "'{$contract_condition}',"
+                        . "'{$contract_valuation}',"
+                        . "'{$contract_date_create}',"
+                        . "'{$contract_date_update}',"
+                        . "'{$contract_cancel}',"
+                        . "'{$contract_period_from}',"
+                        . "'{$contract_period_to}',"
+                        . "'{$contract_deposit_1}',"
+                        . "'{$contract_deposit_2}',"
+                        . "'{$contract_key_money}',"
+                        . "'{$contract_name}'"
+                        . ")";
+                $result = $database->database_query($query);
+            }
             return array('id' => $database->database_insert_id());
         }
+    }
+
+    function getCustomerSelected($id) {
+        global $database;
+        $client_arr=array();
+         //get information about client
+            $query = "SELECT hc.id AS client_id,
+                                hc.user_id AS user_id,
+                                hc.client_name AS client_name,
+                                hc.client_birthday AS client_birthday,
+                                hc.client_address AS client_address,
+                                hc.client_phone AS client_phone,
+                                hc.client_income AS client_income,
+                                hc.client_occupation AS client_occupation,
+                                hc.client_company AS client_company,
+                                hc.client_fax AS client_fax,
+                                hc.client_gender AS client_gender,
+                                hc.client_email AS client_email,
+                                hc.client_reason_change AS client_reason_change,
+                                hc.client_time_change AS client_time_change,
+                                hc.client_photo AS client_photo,
+                                hc.client_resident_name AS client_resident_name,
+                                hc.client_resident_phone AS client_resident_phone,
+                                hc.client_rent AS client_rent,
+                                hc.client_room_type AS client_room_type
+
+                                FROM home_client AS hc                                
+                                where hc.id={$id}                                                             
+                                LIMIT 1";
+
+
+            $result = $database->database_query($query);
+            $client_arr = array();
+
+            while ($row = $database->database_fetch_assoc($result)) {
+                $row['client_id'] = $row['client_id'];
+                $row['user_id'] = $row['user_id'];
+                $row['client_name'] = $row['client_name'];
+                $row['client_birthday'] = $row['client_birthday'];
+                $row['client_address'] = $row['client_address'];
+                $row['client_phone'] = $row['client_phone'];
+                $row['client_income'] = $row['client_income'];
+                $row['client_occupation'] = $row['client_occupation'];
+                $row['client_company'] = $row['client_company'];
+                $row['client_fax'] = $row['client_fax'];
+                $row['client_gender'] = $row['client_gender'];
+                $row['client_email'] = $row['client_email'];
+                $row['client_reason_change'] = $row['client_reason_change'];
+                $row['client_time_change'] = $row['client_time_change'];
+                $row['client_photo'] = $row['client_photo'];
+                $row['client_resident_name'] = $row['client_resident_name'];
+                $row['client_resident_phone'] = $row['client_resident_phone'];
+                $row['client_rent'] = $row['client_rent'];
+                $row['client_room_type'] = $row['client_room_type'];
+
+                $client_arr = $row;
+            }
+        return $client_arr;
     }
 
 }
@@ -460,11 +555,11 @@ function checkExistContract($user_id, $order_id) {
     $query = "select * from home_contract where user_id={$user_id} and order_id={$order_id}";
 
     $result = $database->database_query($query);
-    
+
     $row = $database->database_num_rows($result);
     if ($row >= 1) {
         //get contract id
-        $info=$database->database_fetch_assoc($result);
+        $info = $database->database_fetch_assoc($result);
         return $info['id'];
     } else {
         return FALSE;
