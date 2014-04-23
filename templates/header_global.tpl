@@ -48,7 +48,8 @@
                                     <li><a href="create_agent.php">Agent</a></li>
                                     <li><a href="create_house.php">House</a></li>
                                     <li><a href="create_broker_company.php">Broker Company</a></li>                                   
-                                    <li><a href="create_client.php">Customer</a></li>                                   
+                                    <li><a href="create_client.php">Customer</a></li>    
+                                    <li><a href="create_room.php">Room</a></li>    
                                 </ul>
                             </li>
                             <li><a href="#">Manage</a>

@@ -211,15 +211,11 @@ class ajax {
             $house['house_name'] = $row['house_name'];
             $house['house_address'] = $row['house_address'];
             $house['house_size'] = $row['house_size'];
-            $house['house_area'] = $row['house_area'];
-            $house['house_original_price'] = $row['house_original_price'];
-            $house['house_status'] = $row['house_status'];
+            $house['house_area'] = $row['house_area'];                        
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
-            $house['house_description'] = $row['house_description'];
-            $house['house_room_type'] = $row['house_room_type'];
-            $house['house_photo'] = $row['house_photo'];
-            $house['house_administrative_expense'] = $row['house_administrative_expense'];
+            $house['house_description'] = $row['house_description'];            
+            $house['house_photo'] = $row['house_photo'];           
             $house['house_discount'] = $row['house_discount'];
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
@@ -230,7 +226,7 @@ class ajax {
 
     function getHouseContent($house_id) {
         global $database;
-        $query = "select house_description, house_original_price from home_house where id='{$house_id}'";
+        $query = "select house_description from home_house where id='{$house_id}'";
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }

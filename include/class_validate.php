@@ -74,6 +74,24 @@ class HOMEValidate {
                     case('broker_company_email'):
                         $this->checkEmailBroker($val);
                         break;
+                    case("room_number"):
+                        $this->checkEmpty('Room Number', $val);
+                        break;
+                    case("room_type"):
+                        $this->checkEmpty('Room Type', $val);
+                        break;
+                    case("room_size"):
+                        $this->checkEmpty('Room Size', $val);
+                        break;
+                    case("room_rent"):
+                        $this->checkEmpty('Room Rent', $val);
+                        break;
+                     case("house_id"):
+                        $this->checkEmpty('Select House', $val);
+                        break;
+                     case("broker_id"):
+                        $this->checkEmpty('Broker Company', $val);
+                        break;
                     default :
                         break;
                 }

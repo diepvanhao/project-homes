@@ -29,6 +29,7 @@ if (isset($_POST['submit'])) {
     if ($photo) {
         $user->user_photo_upload('photo', false, $user->user_info['id']);
         $error = $user->is_error;
+        
         if (!$error) {
            // $user_path_photo = $user->user_info['user_path_photo'];
             //$user_photo = $user->user_info['user_photo'];
