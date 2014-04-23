@@ -561,7 +561,7 @@ input.smt_btn, input.button{background-color:#1882D9; border:1px solid #C8E6F9; 
 .error{
     color: red;
     font-family: arial,tahoma;
-    width: 365px;
+    width: 100%;
     background-color: #FFF3F3;
 }
 .user_exist{

@@ -526,7 +526,7 @@ class HOMEUser {
 
         $user_directory = $url->url_userdir($user_id);
 
-        if ($is_admin) { //DuyAnh -- Choi chieu ta dao... hic
+        if ($is_admin) { 
             $user_directory = "." . $user_directory;
         }
 
@@ -576,7 +576,7 @@ class HOMEUser {
 
         $thumb_dest = substr($file_dest, 0, strrpos($file_dest, ".")) . "_thumb" . substr($file_dest, strrpos($file_dest, "."));
 
-        if ($is_admin) { //DuyAnh -- Choi chieu ta dao... hic
+        if ($is_admin) { 
             $file_dest = "." . $file_dest;
             $thumb_dest = "." . $thumb_dest;
         }
