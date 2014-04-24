@@ -39,7 +39,6 @@ if ($step == 1) {
     $smarty->assign('brokers', $brokers);
 } elseif ($step == 2) {
 
-
     if (empty($broker_id)) {
         $error[] = "Please choose Source to continue !!!";
         $step = 1;
