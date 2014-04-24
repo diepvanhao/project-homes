@@ -258,6 +258,42 @@ if ($action == "check_email") {
         $result = $ajax->getHouseContent($house_id);
         echo json_encode($result);
     }
+    if($task=='getRoomContent'){
+        if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+       
+         $result = $ajax->getRoomContentByHouseId($house_id);
+        if ($result) {
+            echo "<option value''></option>";
+            for ($i = 0; $i < count($result); $i++) {
+                
+                echo "<option value='{$result[$i]['room_id']}'>{$result[$i]['room_id']}</option>";
+            }
+        }
+    }
+    if($task=='checkRoom'){
+         if (isset($_POST['room_id'])) {
+            $room_id = $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id = $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
+         if (isset($_POST['broker_id'])) {
+            $broker_id = $_POST['broker_id'];
+        } elseif (isset($_GET['broker_id'])) {
+            $broker_id = $_GET['broker_id'];
+        } else {
+            $broker_id= "";
+        }
+        $result = $ajax->checkRoom($room_id,$broker_id);
+        echo json_encode($result);
+    }
 } elseif ($action == 'deleteClient') {
 
     if (isset($_POST['id'])) {

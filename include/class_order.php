@@ -8,10 +8,10 @@
 
 class HOMEOrder {
 
-    function create_order($order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
+    function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         global $database;
         //check house empty
-        $checkExist=$this->checkHouseEmpty($house_id);
+        $checkExist = $this->checkHouseEmpty($house_id,$room_id);
         if ($checkExist)
             return array('error' => $checkExist);
         else {
@@ -20,6 +20,7 @@ class HOMEOrder {
                 order_name,
                 user_id,
                 house_id,
+                room_id,
                 client_id,
                 order_rent_cost,
                 order_day_create,
@@ -32,6 +33,7 @@ class HOMEOrder {
                 '{$order_name}',
                 '',
                 '{$house_id}',
+                '{$room_id}',    
                 '',
                 '{$order_rent_cost}',
                 '{$order_day_create}',
@@ -48,9 +50,9 @@ class HOMEOrder {
         }
     }
 
-    function checkHouseEmpty($house_id) {
+    function checkHouseEmpty($house_id,$room_id) {
         global $database;
-        $query = "select id from home_order where house_id='{$house_id}' and order_status=1 limit 1";
+        $query = "select id from home_order where house_id='{$house_id}' and room_id='{$room_id}' and order_status=1 limit 1";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         if ($row >= 1) {
@@ -59,6 +61,18 @@ class HOMEOrder {
         } else {
             return FALSE;
         }
+    }
+
+    function checkRoom($room_id, $broker_id) {
+        global $database;
+        $query = "select * from home_room hr left join home_room_detail hrd on hr.id=hrd.room_id where hr.id='{$room_id}' and hr.broker_id='{$broker_id}'";
+        $result = $database->database_query($query);
+
+        $row = $database->database_num_rows($result);
+        if ($row >= 1)
+            return true;
+        else
+            return FALSE;
     }
 
 }

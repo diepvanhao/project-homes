@@ -91,6 +91,13 @@ if ($step == 1) {
     } else {
         $order_comment = "";
     }
+    if (isset($_POST['room_id'])) {
+        $room_id = $_POST['room_id'];
+    } elseif (isset($_GET['room_id'])) {
+        $room_id = $_GET['room_id'];
+    } else {
+        $room_id = "";
+    }
 
     $broker = new HOMEBroker();
     $brokers = $broker->getBrokerById($broker_id);
@@ -105,6 +112,7 @@ if ($step == 1) {
     $smarty->assign('brokers', $brokers);
     $smarty->assign('houses', $houses);
     $smarty->assign('staffs', $staffs);
+    $smarty->assign('room_id', $room_id);
 } elseif ($step == 'registry') {
 
     $errorHouseExist = "";
@@ -119,6 +127,13 @@ if ($step == 1) {
     ///create order
     if (isset($_POST['registry'])) {
 
+        if (isset($_POST['room_id'])) {
+            $room_id = $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id = $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
         if (isset($_POST['order_name'])) {
             $order_name = $_POST['order_name'];
         } elseif (isset($_GET['order_name'])) {
@@ -167,7 +182,7 @@ if ($step == 1) {
         $order_day_create = time();
 
         $order = new HOMEOrder();
-        $result = $order->create_order($order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
+        $result = $order->create_order($room_id,$order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
         //print_r($result);die();
         if (isset($result['id'])) {
             $order_id = $result['id'];
