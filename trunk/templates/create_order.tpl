@@ -16,29 +16,60 @@
             birthday('contract_period_to');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
+                $('#error_house').html("");
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
                 function(result) {
-                    $('#house_id').empty();
-                    $('#house_id').html(result);
-                    $('#step').click();
+                    if (result) {
+                        $('#house_id').empty();
+                        $('#house_id').html(result);
+                        $('#step').click();
+                    } else {
+                        $('#house_id').empty();
+                        $('#room_id').empty();
+                        $('#house_description').html("");
+                        $('#error_house').html("No any house for your keyword");
+                    }
                 });
             });
             $('#step').click(function() {
                 var house_id = $('#house_id').val();
+                $('#submit').attr('disabled',false);
+                $("#submit").css('color','#fff');               
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    $('#order_rent_cost').val(json.house_original_price);
+                    get_room(house_id);
                 });
             });
             $('#house_id').change(function() {
+                $('#submit').attr('disabled',false);
+                $("#submit").css('color','#fff'); 
                 var house_id = $('#house_id').val();
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    $('#order_rent_cost').val(json.house_original_price);
+                    get_room(house_id);
+                });
+            });
+            $('#room_id').change(function() {
+                var room_id = $('#room_id').val();
+                var broker_id = $('#broker_id').val();
+                $('#error_room').html("");
+                $('#order_rent_cost').val("");
+                $.post('include/function_ajax.php', {room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    if (json.flag == 'false') {
+                        $('#error_room').html("This room isn't belong to broker company that you selected.");
+                        $('#submit').attr('disabled',true);
+                        $("#submit").css('color','grey');
+                    } else {
+                        $('#order_rent_cost').val(json.room_rent);
+                        $('#submit').attr('disabled',false);
+                         $("#submit").css('color','#fff'); 
+                    }
                 });
             });
             $('#contract_cost').keyup(function(e) {
@@ -56,7 +87,7 @@
             $('#contract_key_money').keyup(function(e) {
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());                
+                var contract_cost = parseFloat($('#contract_cost').val());
                 $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
             });
             $('#back').click(function() {
@@ -251,7 +282,7 @@
                                 if (json.id != "")
                                     alert('Saved');
                                 else if (json.id == "")
-                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
+                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');                                    
                             });
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
@@ -294,9 +325,9 @@
                     }
                 });
             });
-            $('#done').click(function(){
+            $('#done').click(function() {
                 showloadgif();
-                window.location.href="create_order.php";                
+                window.location.href = "create_order.php";
             });
         });
         function getDivClass(title) {
@@ -323,17 +354,17 @@
                     $('#log_time_mail').val('');
                     $('#log_comment').val('');
                     $('#log_date_appointment').val('');
-                    $('#log_status_appointment').attr('checked',"");
-                    $('#log_tel').attr('checked',"");
-                    $('#log_tel_status').attr('checked',"");
-                    $('#log_mail').attr('checked',"");
-                    $('#log_mail_status').attr('checked',"");
-                    $('#log_contact_head_office').attr('checked',"");
-                    $('#log_shop_sign').attr('checked',"");
-                    $('#log_local_sign').attr('checked',"");
-                    $('#log_introduction').attr('checked',"");
-                    $('#log_flyer').attr('checked',"");
-                    $('#log_line').attr('checked',"");
+                    $('#log_status_appointment').attr('checked', "");
+                    $('#log_tel').attr('checked', "");
+                    $('#log_tel_status').attr('checked', "");
+                    $('#log_mail').attr('checked', "");
+                    $('#log_mail_status').attr('checked', "");
+                    $('#log_contact_head_office').attr('checked', "");
+                    $('#log_shop_sign').attr('checked', "");
+                    $('#log_local_sign').attr('checked', "");
+                    $('#log_introduction').attr('checked', "");
+                    $('#log_flyer').attr('checked', "");
+                    $('#log_line').attr('checked', "");
                     $('#log_revisit').val('');
 
                     $('#aspirations_type_house').val('');
@@ -376,9 +407,23 @@
                     $('#client_resident_name').val(json.client_resident_name);
                     $('#client_resident_phone').val(json.client_resident_phone);
                     //get information order, history, aspirations and contract
-                    
+
                 }
-            });                       
+            });
+        }
+        function get_room(house_id) {
+            $('#error_room').html("");
+            $.post("include/function_ajax.php", {house_id: house_id, action: 'create_order', task: 'getRoomContent'},
+            function(result) {
+                if (result) {
+                    $('#room_id').empty();
+                    $('#room_id').html(result);
+                } else {
+                    $('#room_id').empty();
+                    $('#house_description').html("");
+                    $('#error_room').html("This house haven't been room yet");
+                }
+            });
         }
     </script>
 {/literal}
@@ -433,7 +478,7 @@
                         {foreach from=$users item=user}
                             <option value="{$user.id}">{$user.user_fname} {$user.user_lname}</option>        
                         {/foreach}
-                    </select><span id="error_staff" class="error"></span>
+                    </select><div id="error_staff" class="error"></div>
 
                 </td>
             </tr>
@@ -450,7 +495,7 @@
                         {foreach from=$houses item=house}
                             <option value="{$house.id}">{$house.house_name}</option>        
                         {/foreach}
-                    </select><span id="error_house" class="error"></span>
+                    </select><div id="error_house" class="error"></div>
                 </td>
             </tr>
             <tr>            
@@ -460,10 +505,18 @@
             <tr>            
                 <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
             </tr>
+            <tr>            
+                <td class='form1'>Select Room: </td>
+                <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
+                        <option value=""></option>
+
+                    </select><div id="error_room" class="error"></div>
+                </td>
+            </tr>
             <!--order part-->
             <tr>            
                 <td class='form1'>Order name: </td>
-                <td class='form2'><input type='text' id="order_name" name="order_name" style="height: 26px; width: 351px;"/><span id="error_order_name" class="error"></span></td>
+                <td class='form2'><input type='text' id="order_name" name="order_name" style="height: 26px; width: 351px;"/><div id="error_order_name" class="error"></div></td>
             </tr>
             <tr>            
                 <td class='form1'>Price: </td>
@@ -494,23 +547,29 @@
                     $('#error_staff').html("");
                     $('#error_house').html("");
                     $('#error_order_name').html("");
+                    $('#error_room').html("");
                     var staff_id = $('#staff_id').val();
-                    var house_id = $('#house_id').val();
+                    var house_id = $('#house_id').val();                    
                     var order_name = $('#order_name').val();
-                    if (staff_id == "") {
+                    var room_id = $('#room_id').val();
+                    if (staff_id == "" || staff_id == null) {
                         $('#error_staff').html('Please choose assign.');
                         e.preventDefault();
                         return false;
-                    } else if (house_id == "") {
+                    } else if (house_id == "" || house_id == null) {
                         $('#error_house').html('Please choose house.');
                         e.preventDefault();
                         return false;
-                    } else if (order_name == "") {
+                    } else if (room_id == "" || room_id == null) {
+                        $('#error_room').html('Please choose room.');
+                        e.preventDefault();
+                        return false;
+                    } else if (order_name == "" || order_name == null) {
                         $('#error_order_name').html('Order name is required.');
                         e.preventDefault();
                         return false;
                     } else {
-                        showloadgif()
+                        showloadgif();
                         $('#submit').submit();
                     }
 
@@ -538,6 +597,10 @@
                 <td class='form2'>{$houses.house_name}</td>
             </tr>
             <tr>
+                <td class='form1' nowrap>Room Number:</td>
+                <td class='form2'>{$room_id}</td>
+            </tr>
+            <tr>
                 <td class='form1'>Desctiption:</td>
                 <td class='form2'>{$houses.house_description}</td>
             </tr>
@@ -561,7 +624,8 @@
                         <input type="button" class='btn-signup' value="Later" id="later" name="later"style="width: 100px;margin: 0px 10px 0px 10px;"/>
                         <input type="button" class='btn-signup' value="Cancel" id="cancel" name="cancel"style="width: 100px;"/>
                         <input type="hidden" id="create_id" name="create_id" value="{$staffs.id}"/>
-                        <input type="hidden" id="house_id" name="house_id" value="{$houses.id}"/>    
+                        <input type="hidden" id="house_id" name="house_id" value="{$houses.id}"/>
+                         <input type="hidden" id="house_id" name="room_id" value="{$room_id}"/> 
                         <input type="hidden" id="broker_id" name="broker_id" value="{$brokers.id}"/>
                         <input type="hidden" id="order_name" name="order_name" value="{$order_name}"/>
                         <input type="hidden" id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"/>    
@@ -603,7 +667,7 @@
             </tr>
         </table>
     </form>
-                    
+
     <div style="margin-bottom:10px;">
         <center>
             Page:

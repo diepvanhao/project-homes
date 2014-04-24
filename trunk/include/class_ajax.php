@@ -230,7 +230,43 @@ class ajax {
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
-
+    function getRoomContentByHouseId($house_id){
+        global $database;
+        $query="select hrd.* from home_room as hr left join home_room_detail as hrd on hr.id=hrd.room_id where hr.house_id='{$house_id}' group by hrd.room_id";       
+        $result = $database->database_query($query);
+       
+        $room_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $room['id'] = $row['id'];
+            $room['room_number'] = $row['room_number'];
+            $room['room_type'] = $row['room_type'];
+            $room['room_size'] = $row['room_size'];
+            $room['room_status'] = $row['room_status'];
+            $room['room_rent'] = $row['room_rent'];                        
+            $room['room_key_money'] = $row['room_key_money'];
+            $room['room_administrative_expense'] = $row['room_administrative_expense'];
+            $room['room_deposit'] = $row['room_deposit'];            
+            $room['room_photo'] = $row['room_photo'];   
+            $room['room_id'] = $row['room_id'];
+            $room_arr[] = $room;
+        }       
+       
+        return array_unique($room_arr,SORT_REGULAR);
+        
+    }
+    
+    function checkRoom($room_id,$broker_id){
+        global $database;
+        $query="select * from home_room hr left join home_room_detail hrd on hr.id=hrd.room_id where hr.id='{$room_id}' and hr.broker_id='{$broker_id}'";
+        $result=$database->database_query($query);   
+        $value=$database->database_fetch_assoc($result);       
+        $row=$database->database_num_rows($result);
+        if($row>=1)
+            return array('room_rent'=>$value['room_rent'],'flag'=>'true');
+        else 
+            return array('room_rent'=>$value['room_rent'],'flag'=>'false');
+    }
+    
     function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
         global $database;
         $query = "update home_client set 

@@ -83,3 +83,10 @@ ALTER TABLE `home_history_log`
   ADD COLUMN `log_payment_date_appointment_to` VARCHAR(128) NULL AFTER `log_payment_date_appointment_from`,
   ADD COLUMN `log_payment_appointment_status` TINYINT(1) NULL AFTER `log_payment_date_appointment_to`,
   ADD COLUMN `log_payment_appointment_report` TINYINT(1) NULL AFTER `log_payment_appointment_status`;
+
+/*Hao 24/4*/
+
+ALTER TABLE home_room DROP PRIMARY KEY, ADD PRIMARY KEY(id, broker_id);
+
+ALTER TABLE `home_room_detail`   
+  CHANGE `room_administative_expense` `room_administrative_expense` FLOAT NULL;
