@@ -243,6 +243,13 @@ if ($step == 1) {
     } else {
         $client_phone = "";
     }
+    if (isset($_POST['client_fax'])) {
+        $client_fax = $_POST['client_fax'];
+    } elseif (isset($_GET['client_fax'])) {
+        $client_fax = $_GET['client_fax'];
+    } else {
+        $client_fax= "";
+    }
 ///////////////////////////////////////End Basic////////////////////////////////////////////
 //////////////////////////////////////Begin Detail/////////////////////////////////////////
     if (isset($_POST['gender'])) {
@@ -353,12 +360,47 @@ if ($step == 1) {
     } else {
         $log_comment = "";
     }
-    if (isset($_POST['log_date_appointment'])) {
-        $log_date_appointment = $_POST['log_date_appointment'];
-    } elseif (isset($_GET['log_date_appointment'])) {
-        $log_date_appointment = $_GET['log_date_appointment'];
+    if (isset($_POST['log_date_appointment_from'])) {
+        $log_date_appointment_from = $_POST['log_date_appointment_from'];
+    } elseif (isset($_GET['log_date_appointment_from'])) {
+        $log_date_appointment_from = $_GET['log_date_appointment_from'];
     } else {
-        $log_date_appointment = "";
+        $log_date_appointment_from = "";
+    }
+    if (isset($_POST['log_date_appointment_to'])) {
+        $log_date_appointment_to = $_POST['log_date_appointment_to'];
+    } elseif (isset($_GET['log_date_appointment_to'])) {
+        $log_date_appointment_to = $_GET['log_date_appointment_to'];
+    } else {
+        $log_date_appointment_to = "";
+    }
+    if (isset($_POST['log_payment_date_appointment_from'])) {
+        $log_payment_date_appointment_from = $_POST['log_payment_date_appointment_from'];
+    } elseif (isset($_GET['log_payment_date_appointment_from'])) {
+        $log_payment_date_appointment_from = $_GET['log_payment_date_appointment_from'];
+    } else {
+        $log_payment_date_appointment_from = "";
+    }
+    if (isset($_POST['log_payment_date_appointment_to'])) {
+        $log_payment_date_appointment_to = $_POST['log_payment_date_appointment_to'];
+    } elseif (isset($_GET['log_payment_date_appointment_to'])) {
+        $log_payment_date_appointment_to = $_GET['log_payment_date_appointment_to'];
+    } else {
+        $log_payment_date_appointment_to = "";
+    }
+    if (isset($_POST['log_payment_appointment_status'])) {
+        $log_payment_appointment_status = $_POST['log_payment_appointment_status'];
+    } elseif (isset($_GET['log_payment_appointment_status'])) {
+        $log_payment_appointment_status = $_GET['log_payment_appointment_status'];
+    } else {
+        $log_payment_appointment_status = "";
+    }
+    if (isset($_POST['log_payment_appointment_report'])) {
+        $log_payment_appointment_report = $_POST['log_payment_appointment_report'];
+    } elseif (isset($_GET['log_payment_appointment_report'])) {
+        $log_payment_appointment_report = $_GET['log_payment_appointment_report'];
+    } else {
+        $log_payment_appointment_report = "";
     }
     if (isset($_POST['log_status_appointment'])) {
         $log_status_appointment = $_POST['log_status_appointment'];
@@ -655,17 +697,22 @@ if ($step == 1) {
             $task = "";
         }
         if ($task == 'basic') {
-            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $order_id, $client_id);
+            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone,$client_fax, $order_id, $client_id);
             if ($result) {
                 $client_id = $result['id'];
-                $exits = $result['exist'];
+                $exist = $result['exist'];
+                if($exist)
+                    $error[]="This client existed and the system auto fill in information :)";
+                else 
+                    $error[]="";
                 $client_arr = $result['client_arr'];
-
+                
                 if (!empty($client_arr)) {
                     $client_name = $client_arr['client_name'];
                     $client_birthday = $client_arr['client_birthday'];
                     $client_email = $client_arr['client_email'];
                     $client_phone = $client_arr['client_phone'];
+                    $client_fax = $client_arr['client_fax'];
                     $gender = $client_arr['client_gender'];
                     $client_address = $client_arr['client_address'];
                     $client_occupation = $client_arr['client_occupation'];
@@ -680,14 +727,18 @@ if ($step == 1) {
                     if ($user->user_info['id'] == $client_arr['user_id']) {
                         $result = $customer->getCustomersOrder($order_id, $client_id);
                         if ($result) {
-                            $client_arr = $result['client_arr'];
-                            print_r($client_arr);
+                            $client_arr = $result['client_arr'];                            
                             if (!empty($client_arr)) {
                                 $log_time_call = $client_arr['log_time_call'];
                                 $log_time_arrive_company = $client_arr['log_time_arrive_company'];
                                 $log_time_mail = $client_arr['log_time_mail'];
                                 $log_comment = $client_arr['log_comment'];
-                                $log_date_appointment = $client_arr['log_date_appointment'];
+                                $log_date_appointment_from = $client_arr['log_date_appointment_from'];
+                                $log_date_appointment_to = $client_arr['log_date_appointment_to'];
+                                $log_payment_date_appointment_from = $client_arr['log_payment_date_appointment_from'];
+                                $log_payment_date_appointment_to = $client_arr['log_payment_date_appointment_to'];
+                                $log_payment_appointment_status = $client_arr['log_payment_appointment_status'];
+                                $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];                                
                                 $log_status_appointment = $client_arr['log_status_appointment'];
                                 $log_tel = $client_arr['log_tel'];
                                 $log_tel_status = $client_arr['log_tel_status'];
@@ -770,7 +821,12 @@ if ($step == 1) {
     $smarty->assign('log_time_arrive_company', $log_time_arrive_company);
     $smarty->assign('log_time_mail', $log_time_mail);
     $smarty->assign('log_comment', $log_comment);
-    $smarty->assign('log_date_appointment', $log_date_appointment);
+    $smarty->assign('log_date_appointment_from', $log_date_appointment_from);
+    $smarty->assign('log_date_appointment_to', $log_date_appointment_to);
+    $smarty->assign('log_payment_date_appointment_from', $log_payment_date_appointment_from);
+    $smarty->assign('log_payment_date_appointment_to', $log_payment_date_appointment_to);
+    $smarty->assign('log_payment_appointment_status', $log_payment_appointment_status);
+    $smarty->assign('log_payment_appointment_report', $log_payment_appointment_report);
     $smarty->assign('log_status_appointment', $log_status_appointment);
     $smarty->assign('log_tel', $log_tel);
     $smarty->assign('log_tel_status', $log_tel_status);
@@ -798,6 +854,7 @@ if ($step == 1) {
     $smarty->assign('client_birthday', $client_birthday);
     $smarty->assign('client_email', $client_email);
     $smarty->assign('client_phone', $client_phone);
+    $smarty->assign('client_fax', $client_fax);
     $smarty->assign('houses', $houses);
     $smarty->assign('filter', $filter);
     $smarty->assign('client_id', $client_id);
@@ -807,7 +864,6 @@ if ($step == 1) {
     $smarty->assign('customers', $customers);
     $smarty->assign('errorHouseExist', $errorHouseExist);
 }
-
 
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('step', $step);

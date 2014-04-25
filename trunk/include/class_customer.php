@@ -23,6 +23,7 @@ class HOMECustomer {
             $client['client_birthday'] = $row['client_birthday'];
             $client['client_address'] = $row['client_address'];
             $client['client_phone'] = $row['client_phone'];
+            $client['client_fax'] = $row['client_fax'];
             $client_arr[] = $client;
         }
         return $client_arr;
@@ -39,13 +40,13 @@ class HOMECustomer {
         return $row;
     }
 
-    function create_customer($client_name, $client_birthday, $client_email, $client_phone, $order_id, $client_id) {
+    function create_customer($client_name, $client_birthday, $client_email, $client_phone,$client_fax, $order_id, $client_id) {
         global $database, $user;
 
         $exits = FALSE;
         if ($client_id) {
             $exits = true;
-        } elseif ($this->checkExistClient($client_phone)) {
+        } elseif ($this->checkExistClient($client_name,$client_phone)) {
             $exits = true;
         }
         if (!$exits) {
@@ -54,13 +55,15 @@ class HOMECustomer {
                         client_name,
                         client_birthday,
                         client_email,
-                        client_phone                                                                                  
+                        client_phone,
+                        client_fax
                      )values(
             {$user->user_info['id']},
                      '{$client_name}',
                      '{$client_birthday}',
                      '{$client_email}',
-                     '{$client_phone}'
+                     '{$client_phone}',
+                     '{$client_fax}'    
                     )";
 
             $result = $database->database_query($query);
@@ -76,7 +79,10 @@ class HOMECustomer {
 //                $database->database_query($query);
 //                return array('exist' => $exits, 'id' => $client_id, 'client_arr' => "");
 //            } else {
-            $query = "select id from home_client where   client_phone='{$client_phone}' ";
+            $client_name=trim($client_name);
+            $client_phone=  trim($client_phone);
+            
+            $query = "select id from home_client where   client_phone='{$client_phone}' and client_name='{$client_name}'";
 
             $result = $database->database_query($query);
             $row = $database->database_fetch_assoc($result);
@@ -152,7 +158,7 @@ class HOMECustomer {
                                 hhl.log_time_call AS log_time_call,
                                 hhl.log_time_arrive_company AS log_time_arrive_company,
                                 hhl.log_comment AS log_comment,
-                                hhl.log_date_appointment AS log_date_appointment,
+                                hhl.log_date_appointment_from AS log_date_appointment_from,
                                 hhl.log_status_appointment AS log_status_appointment,
                                 hhl.log_shop_sign AS log_shop_sign,
                                 hhl.log_local_sign AS log_local_sign,
@@ -166,6 +172,11 @@ class HOMECustomer {
                                 hhl.log_mail_status AS log_mail_status,
                                 hhl.log_revisit AS log_revisit,
                                 hhl.log_time_mail,
+                                hhl.log_date_appointment_to AS log_date_appointment_to,
+                                hhl.log_payment_date_appointment_from,
+                                hhl.log_payment_date_appointment_to,
+                                hhl.log_payment_appointment_status,
+                                hhl.log_payment_appointment_report,
 
                                 hha.id AS aspirations_id,
                                 hha.aspirations_type_house AS aspirations_type_house,
@@ -179,6 +190,7 @@ class HOMECustomer {
                                 ,ho.id AS order_id,
                                 ho.order_name AS order_name,
                                 ho.house_id AS house_id,
+                                ho.room_id AS room_id,
                                 ho.order_rent_cost AS order_rent_cost,
                                 ho.order_day_create AS order_day_create,
                                 ho.order_status AS order_status,
@@ -207,7 +219,7 @@ class HOMECustomer {
         $row['log_time_call'] = $row1['log_time_call'];
         $row['log_time_arrive_company'] = $row1['log_time_arrive_company'];
         $row['log_comment'] = $row1['log_comment'];
-        $row['log_date_appointment'] = $row1['log_date_appointment'];
+        $row['log_date_appointment_from'] = $row1['log_date_appointment_from'];
         $row['log_status_appointment'] = $row1['log_status_appointment'];
         $row['log_shop_sign'] = $row1['log_shop_sign'];
         $row['log_local_sign'] = $row1['log_local_sign'];
@@ -221,6 +233,11 @@ class HOMECustomer {
         $row['log_mail_status'] = $row1['log_mail_status'];
         $row['log_revisit'] = $row1['log_revisit'];
         $row['log_time_mail'] = $row1['log_time_mail'];
+        $row['log_date_appointment_to'] = $row1['log_date_appointment_to'];
+        $row['log_payment_date_appointment_from'] = $row1['log_payment_date_appointment_from'];
+        $row['log_payment_date_appointment_to'] = $row1['log_payment_date_appointment_to'];
+        $row['log_payment_appointment_status'] = $row1['log_payment_appointment_status'];
+        $row['log_payment_appointment_report'] = $row1['log_payment_appointment_report'];
 
         $row['aspirations_id'] = $row1['aspirations_id'];
         $row['aspirations_type_house'] = $row1['aspirations_type_house'];
@@ -322,9 +339,12 @@ class HOMECustomer {
         return $database->database_query($query);
     }
 
-    function checkExistClient($client_phone) {
+    function checkExistClient($client_name,$client_phone) {
         global $database;
-        $query = "select * from home_client where client_phone='{$client_phone}' ";
+        $client_name=trim($client_name);
+        $client_phone=trim($client_phone);
+        
+        $query = "select * from home_client where client_phone='{$client_phone}' and  client_name='{$client_name}'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         if ($row >= 1)

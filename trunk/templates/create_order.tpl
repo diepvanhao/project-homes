@@ -3,12 +3,23 @@
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
+            var txt = $("input#client_phone");
+            var func = function(e) {
+                if (e.keyCode === 32) {
+                    txt.val(txt.val().replace(/\s/g, ''));
+                }
+            }
+            txt.keyup(func).blur(func);
+
             birthday('client_birthday');
             birthday('client_time_change');
             timepicker('log_time_call');
             timepicker('log_time_arrive_company');
             timepicker('log_time_mail');
-            birthday('log_date_appointment');
+            birthday('log_date_appointment_from');
+            birthday('log_date_appointment_to');
+            birthday('log_payment_date_appointment_from');
+            birthday('log_payment_date_appointment_to');
             birthday('aspirations_build_time');
             birthday('contract_signature_day');
             birthday('contract_handover_day');
@@ -33,8 +44,8 @@
             });
             $('#step').click(function() {
                 var house_id = $('#house_id').val();
-                $('#submit').attr('disabled',false);
-                $("#submit").css('color','#fff');               
+                $('#submit').attr('disabled', false);
+                $("#submit").css('color', '#fff');
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
@@ -43,8 +54,8 @@
                 });
             });
             $('#house_id').change(function() {
-                $('#submit').attr('disabled',false);
-                $("#submit").css('color','#fff'); 
+                $('#submit').attr('disabled', false);
+                $("#submit").css('color', '#fff');
                 var house_id = $('#house_id').val();
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
@@ -61,14 +72,20 @@
                 $.post('include/function_ajax.php', {room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
                 function(result) {
                     var json = $.parseJSON(result);
-                    if (json.flag == 'false') {
-                        $('#error_room').html("This room isn't belong to broker company that you selected.");
-                        $('#submit').attr('disabled',true);
-                        $("#submit").css('color','grey');
+                    if (json.status==1) {
+                        $('#error_room').html("This room had person rent. Please choose other room");
+                        $('#submit').attr('disabled', true);
+                        $("#submit").css('color', 'grey');
                     } else {
-                        $('#order_rent_cost').val(json.room_rent);
-                        $('#submit').attr('disabled',false);
-                         $("#submit").css('color','#fff'); 
+                        if (json.flag == 'false') {
+                            $('#error_room').html("This room isn't belong to broker company that you selected.");
+                            $('#submit').attr('disabled', true);
+                            $("#submit").css('color', 'grey');
+                        } else {
+                            $('#order_rent_cost').val(json.room_rent);
+                            $('#submit').attr('disabled', false);
+                            $("#submit").css('color', '#fff');
+                        }
                     }
                 });
             });
@@ -170,12 +187,17 @@
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'history') {
 
                         var log_status_appointment = $('input[name="log_status_appointment"]:checked').val();
+                        var log_payment_appointment_status = $('input[name="log_payment_appointment_status"]:checked').val();
+                        var log_payment_appointment_report = $('input[name="log_payment_appointment_report"]:checked').val();
 
                         var log_time_call = $('#log_time_call').val();
                         var log_time_arrive_company = $('#log_time_arrive_company').val();
                         var log_time_mail = $('#log_time_mail').val();
                         var log_comment = $('#log_comment').val();
-                        var log_date_appointment = $('#log_date_appointment').val();
+                        var log_date_appointment_from = $('#log_date_appointment_from').val();
+                        var log_date_appointment_to = $('#log_date_appointment_to').val();
+                        var log_payment_date_appointment_from = $('#log_payment_date_appointment_from').val();
+                        var log_payment_date_appointment_to = $('#log_payment_date_appointment_to').val();
                         var log_revisit = $('#log_revisit').val();
 
                         if ($('#log_tel').is(':checked'))
@@ -232,7 +254,9 @@
                         var order_id = $('#order_id').val();
 
                         $.post("include/function_ajax.php", {log_time_call: log_time_call, log_time_arrive_company: log_time_arrive_company, log_time_mail: log_time_mail,
-                            log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment: log_date_appointment,
+                            log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
+                            log_date_appointment_to: log_date_appointment_to, log_payment_date_appointment_from: log_payment_date_appointment_from, log_payment_date_appointment_to: log_payment_date_appointment_to,
+                            log_payment_appointment_status: log_payment_appointment_status, log_payment_appointment_report: log_payment_appointment_report,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
                             log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
@@ -282,7 +306,7 @@
                                 if (json.id != "")
                                     alert('Saved');
                                 else if (json.id == "")
-                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');                                    
+                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
                             });
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
@@ -353,8 +377,14 @@
                     $('#log_time_arrive_company').val('');
                     $('#log_time_mail').val('');
                     $('#log_comment').val('');
-                    $('#log_date_appointment').val('');
-                    $('#log_status_appointment').attr('checked', "");
+                    $('#log_date_appointment_from').val('');
+                    $('#log_date_appointment_to').val('');
+                    $('#log_payment_date_appointment_from').val('');
+                    $('#log_payment_date_appointment_to').val('');
+                    $('input[name="log_status_appointment"]').attr('checked', "");
+                    $('input[name="log_payment_appointment_status"]').attr('checked', "");
+                    $('input[name="log_payment_appointment_report"]').attr('checked', "");
+
                     $('#log_tel').attr('checked', "");
                     $('#log_tel_status').attr('checked', "");
                     $('#log_mail').attr('checked', "");
@@ -549,7 +579,7 @@
                     $('#error_order_name').html("");
                     $('#error_room').html("");
                     var staff_id = $('#staff_id').val();
-                    var house_id = $('#house_id').val();                    
+                    var house_id = $('#house_id').val();
                     var order_name = $('#order_name').val();
                     var room_id = $('#room_id').val();
                     if (staff_id == "" || staff_id == null) {
@@ -625,7 +655,7 @@
                         <input type="button" class='btn-signup' value="Cancel" id="cancel" name="cancel"style="width: 100px;"/>
                         <input type="hidden" id="create_id" name="create_id" value="{$staffs.id}"/>
                         <input type="hidden" id="house_id" name="house_id" value="{$houses.id}"/>
-                         <input type="hidden" id="house_id" name="room_id" value="{$room_id}"/> 
+                        <input type="hidden" id="house_id" name="room_id" value="{$room_id}"/> 
                         <input type="hidden" id="broker_id" name="broker_id" value="{$brokers.id}"/>
                         <input type="hidden" id="order_name" name="order_name" value="{$order_name}"/>
                         <input type="hidden" id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"/>    
@@ -726,6 +756,12 @@
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
+                        <td class='form2'></td>
+                        <td class='form1' nowrap>Fax:</td>
+                        <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
@@ -821,12 +857,40 @@
                         <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 315px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'nowrap>Date appointment:</td>
-                        <td class='form2'><input type="text" id="log_date_appointment" name="log_date_appointment" value="{$log_date_appointment}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form1'nowrap>Date appointment from:</td>
+                        <td class='form2'><input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 315px;"/></td>
                         <td class='form1' nowrap>Appointment status:</td>
                         <td class='form2'>
                             <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
                             <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">No</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Date appointment to: </td>
+                        <td class='form2'>
+                            <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'></td>
+                    </tr>
+                    <tr>
+                        <td class='form1' nowrap>Payment date appointment from:</td>
+                        <td class='form2'> <input type='text' id="log_payment_date_appointment_from" name="log_payment_date_appointment_from" value="{$log_payment_date_appointment_from}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Payment appointment status:</td>
+                        <td class='form2'>
+                            <input type='radio' id="log_payment_appointment_status_yes" name="log_payment_appointment_status" value="1" {if $log_payment_appointment_status eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_status_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_payment_appointment_status_no" name="log_payment_appointment_status" value="0" {if $log_payment_appointment_status eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_status_no">No</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Payment date appointment to: </td>
+                        <td class='form2'>
+                            <input type='text' id="log_payment_date_appointment_to" name="log_payment_date_appointment_to" value="{$log_payment_date_appointment_to}"style="height: 26px; width: 315px;"/>
+                        </td>
+                        <td class='form1' nowrap>Payment appointment report:</td>
+                        <td class='form2'>
+                            <input type='radio' id="log_payment_appointment_report_yes" name="log_payment_appointment_report" value="1" {if $log_payment_appointment_report eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_report_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_payment_appointment_report_no" name="log_payment_appointment_report" value="0" {if $log_payment_appointment_report eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_report_no">No</label>
                         </td>
                     </tr>
                     <tr>
