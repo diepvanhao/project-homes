@@ -10,25 +10,28 @@ class HOMEOrder {
 
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         global $database;
+        $change_house_array = serialize($room_id);
         //check house empty
-        $checkExist = $this->checkHouseEmpty($house_id,$room_id);
+        $checkExist = $this->checkHouseEmpty($house_id, $room_id);
         if ($checkExist)
             return array('error' => $checkExist);
         else {
 
             $query = "insert into home_order(
-                order_name,
-                user_id,
-                house_id,
-                room_id,
-                client_id,
-                order_rent_cost,
-                order_day_create,
-                order_status,
-                order_comment,
-                order_day_update,
-                create_id,
-                broker_id)
+                `order_name`,
+                `user_id`,
+                `house_id`,
+                `room_id`,
+                `client_id`,
+                `order_rent_cost`,
+                `order_day_create`,
+                `order_status`,
+                `order_comment`,
+                `order_day_update`,
+               `create_id`,
+                `broker_id`,
+                `change`,
+                `change_house_array`)
                 values(
                 '{$order_name}',
                 '',
@@ -41,7 +44,9 @@ class HOMEOrder {
                 '{$order_comment}',
                 '{$order_day_create}',
                 '{$create_id}',
-                '{$broker_id}'
+                '{$broker_id}',
+                    0,
+                '{$change_house_array}'
                 )";
 
             $result = $database->database_query($query);
@@ -50,7 +55,7 @@ class HOMEOrder {
         }
     }
 
-    function checkHouseEmpty($house_id,$room_id) {
+    function checkHouseEmpty($house_id, $room_id) {
         global $database;
         $query = "select id from home_order where house_id='{$house_id}' and room_id='{$room_id}' and order_status=1 limit 1";
         $result = $database->database_query($query);

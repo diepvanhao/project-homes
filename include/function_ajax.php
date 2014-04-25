@@ -481,13 +481,49 @@ if ($action == "check_email") {
         } else {
             $log_comment = "";
         }
-        if (isset($_POST['log_date_appointment'])) {
-            $log_date_appointment = $_POST['log_date_appointment'];
-        } elseif (isset($_GET['log_date_appointment'])) {
-            $log_date_appointment = $_GET['log_date_appointment'];
+        if (isset($_POST['log_date_appointment_from'])) {
+            $log_date_appointment_from = $_POST['log_date_appointment_from'];
+        } elseif (isset($_GET['log_date_appointment_from'])) {
+            $log_date_appointment_from = $_GET['log_date_appointment_from'];
         } else {
-            $log_date_appointment = "";
+            $log_date_appointment_from = "";
         }
+         if (isset($_POST['log_date_appointment_to'])) {
+            $log_date_appointment_to = $_POST['log_date_appointment_to'];
+        } elseif (isset($_GET['log_date_appointment_to'])) {
+            $log_date_appointment_to = $_GET['log_date_appointment_to'];
+        } else {
+            $log_date_appointment_to = "";
+        }
+         if (isset($_POST['log_payment_date_appointment_from'])) {
+            $log_payment_date_appointment_from = $_POST['log_payment_date_appointment_from'];
+        } elseif (isset($_GET['log_payment_date_appointment_from'])) {
+            $log_payment_date_appointment_from = $_GET['log_payment_date_appointment_from'];
+        } else {
+            $log_payment_date_appointment_from = "";
+        }
+         if (isset($_POST['log_payment_date_appointment_to'])) {
+            $log_payment_date_appointment_to = $_POST['log_payment_date_appointment_to'];
+        } elseif (isset($_GET['log_payment_date_appointment_to'])) {
+            $log_payment_date_appointment_to = $_GET['log_payment_date_appointment_to'];
+        } else {
+            $log_payment_date_appointment_to = "";
+        }
+         if (isset($_POST['log_payment_appointment_status'])) {
+            $log_payment_appointment_status = $_POST['log_payment_appointment_status'];
+        } elseif (isset($_GET['log_payment_appointment_status'])) {
+            $log_payment_appointment_status = $_GET['log_payment_appointment_status'];
+        } else {
+            $log_payment_appointment_status = "";
+        }
+         if (isset($_POST['log_payment_appointment_report'])) {
+            $log_payment_appointment_report = $_POST['log_payment_appointment_report'];
+        } elseif (isset($_GET['log_payment_appointment_report'])) {
+            $log_payment_appointment_report = $_GET['log_payment_appointment_report'];
+        } else {
+            $log_payment_appointment_report = "";
+        }
+        
         if (isset($_POST['log_mail_status'])) {
             $log_mail_status = $_POST['log_mail_status'];
         } elseif (isset($_GET['log_mail_status'])) {
@@ -552,7 +588,7 @@ if ($action == "check_email") {
             $log_status_appointment = "";
         }
 
-        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
+        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from,$log_date_appointment_to,$log_payment_date_appointment_from,$log_payment_date_appointment_to,$log_payment_appointment_status,$log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'aspirations') {

@@ -261,10 +261,11 @@ class ajax {
         $result=$database->database_query($query);   
         $value=$database->database_fetch_assoc($result);       
         $row=$database->database_num_rows($result);
+        
         if($row>=1)
-            return array('room_rent'=>$value['room_rent'],'flag'=>'true');
+            return array('room_rent'=>$value['room_rent'],'flag'=>'true','status'=>$value['room_status']);
         else 
-            return array('room_rent'=>$value['room_rent'],'flag'=>'false');
+            return array('room_rent'=>$value['room_rent'],'flag'=>'false','status'=>$value['room_status']);
     }
     
     function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
@@ -286,7 +287,7 @@ class ajax {
         return $database->database_query($query);
     }
 
-    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
+    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from,$log_date_appointment_to,$log_payment_date_appointment_from,$log_payment_date_appointment_to,$log_payment_appointment_status,$log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
@@ -296,7 +297,7 @@ class ajax {
                     log_time_call='{$log_time_call}',
                     log_time_arrive_company='{$log_time_arrive_company}',
                     log_comment='{$log_comment}',
-                    log_date_appointment='{$log_date_appointment}',
+                    log_date_appointment_from='{$log_date_appointment_from}',
                     log_status_appointment='{$log_status_appointment}',
                     log_shop_sign='{$log_shop_sign}',
                     log_local_sign='{$log_local_sign}',
@@ -309,7 +310,12 @@ class ajax {
                     log_tel_status='{$log_tel_status}',
                     log_mail_status='{$log_mail_status}',
                     log_revisit='{$log_revisit}',
-                    log_time_mail='{$log_time_mail}'                    
+                    log_time_mail='{$log_time_mail}',
+                    log_date_appointment_to='{$log_date_appointment_to}',
+                    log_payment_date_appointment_from='{$log_payment_date_appointment_from}',
+                    log_payment_date_appointment_to='{$log_payment_date_appointment_to}',
+                    log_payment_appointment_status='{$log_payment_appointment_status}',
+                    log_payment_appointment_report='{$log_payment_appointment_report}'
                      where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
                     ";
 
@@ -322,7 +328,7 @@ class ajax {
                     . "log_time_call,"
                     . "log_time_arrive_company,"
                     . "log_comment,"
-                    . "log_date_appointment,"
+                    . "log_date_appointment_from,"
                     . "log_status_appointment,"
                     . "log_shop_sign,"
                     . "log_local_sign,"
@@ -335,7 +341,12 @@ class ajax {
                     . "log_tel_status,"
                     . "log_mail_status,"
                     . "log_revisit,"
-                    . "log_time_mail"
+                    . "log_time_mail,"
+                    . "log_date_appointment_to,"
+                    . "log_payment_date_appointment_from,"
+                    . "log_payment_date_appointment_to,"
+                    . "log_payment_appointment_status,"
+                    . "log_payment_appointment_report"
                     . ") values("
                     . "'{$user->user_info['id']}',"
                     . "'{$client_id}',"
@@ -343,7 +354,7 @@ class ajax {
                     . "'{$log_time_call}',"
                     . "'{$log_time_arrive_company}',"
                     . "'{$log_comment}',"
-                    . "'{$log_date_appointment}',"
+                    . "'{$log_date_appointment_from}',"
                     . "'{$log_status_appointment}',"
                     . "'{$log_shop_sign}',"
                     . "'{$log_local_sign}',"
@@ -356,7 +367,12 @@ class ajax {
                     . "'{$log_tel_status}',"
                     . "'{$log_mail_status}',"
                     . "'{$log_revisit}',"
-                    . "'{$log_time_mail}'"
+                    . "'{$log_time_mail}',"
+                    . "'{$log_date_appointment_to}',"
+                    . "'{$log_payment_date_appointment_from}',"
+                    . "'{$log_payment_date_appointment_to}',"
+                    . "'{$log_payment_appointment_status}',"
+                    . "'{$log_payment_appointment_report}'"
                     . ")";
             $result = $database->database_query($query);
             return array('id' => $database->database_insert_id());
