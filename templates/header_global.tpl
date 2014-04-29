@@ -54,7 +54,7 @@
                             </li>
                             <li><a href="#">Manage</a>
                                 <ul> 
-                                    <li><a href="#">Order</a> </li>
+                                    <li><a href="manage_order.php">Order</a> </li>
                                     <li><a href="manage_client.php">Customer</a></li>
                                     <li><a href="manage_account.php">Account</a></li>                                    
                                     <li><a href="manage_agent.php">Agent</a></li>
