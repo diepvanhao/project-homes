@@ -1,9 +1,9 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage House</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Order</div>
 <center>
     <div style="width: 100%;">
         <div>
-            <form action="manage_house.php" method="post">
+            <form action="manage_order.php" method="post">
                 <table style="width:32%">
                     <tr>
                         <td style='font-size: 1.4em;font-weight: bold;'>Search</td>
@@ -20,35 +20,33 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>No</th>
                         <th>Name</th>
-                        <th>Address</th>
-                        <th>Size</th>
-                        <th>Area</th>                        
-                        <th>Build Time</th>
-                        <th>House Type</th>                        
-                        <th>Structure</th>
-                        <th>Description</th>                        
-                        <th>Discount</th>                        
+                        <th>House</th>
+                        <th>Room</th>
+                        <th>Price</th>                                                
+                        <th>Status</th>                       
+                        <th>Date Create</th>
+                        <th>Customer</th>
+                        <th>Assign</th>                                                                      
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {foreach from=$houses key=k item=house}
-                        {assign var="link" value="edit&{$house.id}"}
-                        {assign var="add" value="assign&{$house.id}"}
+                    {foreach from=$orders key=k item=order}
+                        {assign var="link" value="edit&{$order.id}"}
+                        {assign var="add" value="assign&{$order.id}"}
                         <tr>
-                            <td>{$house.id}</td>
-                            <td>{$house.house_name}</td>
-                            <td>{$house.house_address}</td>
-                            <td>{$house.house_size}</td>
-                            <td>{$house.house_area}</td>                           
-                            <td>{$house.house_build_time}</td>
-                            <td>{$house.house_type}</td>                           
-                            <td>{$house.house_structure}</td>
-                            <td>{$house.house_description}</td>                           
-                            <td>{$house.house_discount}</td>                           
-                            <td style="width:9%"><a href="edit_house.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$house.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
+                            <td>{$k+1}</td>
+                            <td>{$order.order_name}</td>
+                            <td>{$order.house_name}</td>
+                            <td>{$order.room_id}</td>
+                            <td>{$order.order_rent_cost}</td>                            
+                            <td>{if $order.order_status eq 1}Processing{else} Canceled{/if}</td>
+                            <td>{$order.order_day_create}</td>                           
+                            <td>{$order.client_name}</td>
+                            <td>{if $order.user_id ne ""}assigned {else} not yet{/if}</td>                                                                            
+                            <td style="width:9%"><a href="edit_house.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$order.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
                         </tr>
                     {/foreach}
                 </tbody>

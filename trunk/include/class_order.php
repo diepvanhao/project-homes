@@ -51,6 +51,11 @@ class HOMEOrder {
 
             $result = $database->database_query($query);
             $id = $database->database_insert_id();
+            if ($id) {
+                //update room status
+                $query = "update home_room_detail set room_status=1 where room_id='{$room_id}'";
+                $database->database_query($query);
+            }
             return array('id' => $id);
         }
     }
@@ -78,6 +83,54 @@ class HOMEOrder {
             return true;
         else
             return FALSE;
+    }
+
+    function getTotalItem($search) {
+        global $database;
+
+        $query = "select * from home_order";
+        if (!empty($search))
+            $query.=" where order_name like '%{$search}%'";
+        $result = $database->database_query($query);
+        $row = $database->database_num_rows($result);
+        return $row;
+    }
+
+    function getOrder($search = "", $offset = 0, $length = 50) {
+        global $database;
+
+        $query = "select ho.*,hh.house_name,hc.client_name from home_order as ho
+               left join home_house as hh on ho.house_id=hh.id   
+               left join home_client as hc on ho.client_id=hc.id
+                ";
+        if (!empty($search))
+            $query.=" where order_name like '%{$search}%'";
+
+        $query.=" limit $offset,$length";
+        //echo $query;
+        $result = $database->database_query($query);
+        $order_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $order['id'] = $row['id'];
+            $order['order_name'] = $row['order_name'];
+            $order['user_id'] = $row['user_id'];
+            $order['house_id'] = $row['house_id'];
+            $order['house_name']=$row['house_name'];
+            $order['room_id'] = $row['room_id'];
+            $order['client_id'] = $row['client_id'];
+            $order['client_name'] = $row['client_name'];
+            $order['order_rent_cost'] = $row['order_rent_cost'];
+            $order['order_day_create'] = $row['order_day_create'];
+            $order['order_status'] = $row['order_status'];
+            $order['order_comment'] = $row['order_comment'];
+            $order['order_day_update'] = $row['order_day_update'];
+            $order['create_id'] = $row['create_id'];
+            $order['broker_id'] = $row['broker_id'];
+            $order['change'] = $row['change'];
+            $order['change_house_array'] = $row['change_house_array'];
+            $order_arr[] = $order;
+        }
+        return $order_arr;
     }
 
 }

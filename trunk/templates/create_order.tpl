@@ -72,7 +72,7 @@
                 $.post('include/function_ajax.php', {room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
                 function(result) {
                     var json = $.parseJSON(result);
-                    if (json.status==1) {
+                    if (json.status == 1) {
                         $('#error_room').html("This room had person rent. Please choose other room");
                         $('#submit').attr('disabled', true);
                         $("#submit").css('color', 'grey');
@@ -1046,11 +1046,19 @@
                         <td class='form1' nowrap>Cost:</td>
                         <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
                     </tr>
-                    <tr>
+                    <tr id="plus">                    
                         <td class='form1'>Plus fee:</td>
-                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" value="{$contract_plus_money}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" value="{$contract_plus_money}"style="height: 26px; width: 315px;"/>
+                            <input type="button" id="add" name="add" value="add" /> 
+                        </td>       
+                        <td class='form1'></td>
+                        <td class='form2'></td>   
+                    </tr>
+                    <tr>                    
                         <td class='form1'>Key fee:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form1'></td>
+                        <td class='form2'></td>                                           
                     </tr>
                     <tr>                    
                         <td class='form1' nowrap>Condition:</td>
@@ -1188,14 +1196,17 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
-
+                $('#add').click(function() {
+                    var label = prompt('which type plus do you want to add ?', '');
+                    if (label != null && label!="") {
+                        
+                    }
+                });
             });
         </script>
     {/literal}
-
 {/if}
 <div id="loadgif">Loading...</div>
-
 
 
 {include file='footer.tpl'}
