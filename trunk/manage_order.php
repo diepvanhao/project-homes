@@ -61,7 +61,7 @@ $length = $max;
 $orders = $orderClass->getOrder($search, $offset, $length);
 //get user
 //$user=new HOMEUser();
-$users=$user->getAllUsers();
+//$users=$user->getAllUsers();
 //get id user current
 $user_id=$user->user_info['id'];
 
@@ -69,6 +69,6 @@ $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('orders', $orders);
-$smarty->assign('users',$users);   
+//$smarty->assign('users',$users);   
 $smarty->assign('user_id',$user_id);
 include "footer.php";

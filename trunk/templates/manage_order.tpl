@@ -7,7 +7,7 @@
                 <table style="width:32%">
                     <tr>
                         <td style='font-size: 1.4em;font-weight: bold;'>Search</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter house name to search" style="height:26px; width: 190px;"/>
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter house name to search" style="height:26px; "/>
                             <span>
                                 <input type='submit' class='btn-search' value='Submit' id="submit" name="submit"/>&nbsp;                     
                             </span>
@@ -46,14 +46,11 @@
                             <td>{$order.order_day_create}</td>                           
                             <td>{$order.client_name}</td>
                             <td>{if $order.user_id ne 0}assigned {else} 
-                                <select id="staff_id" name="staff_id" >
-                                    <option value=""></option>
-                                    {foreach from=$users item=staff}
-                                        <option value="{$staff.id}">{$staff.user_fname} {$staff.user_lname}</option>        
-                                    {/foreach}
+                                <select id="staff_id" name="staff_id" >                                                                       
+                                        <option value="{$user->user_info.id}">{$user->user_info.user_fname} {$user->user_info.user_lname}</option>                                           
                                 </select>
                                 {/if}</td>                                                                     
-                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_house.php?url={$link|base64_encode}" style="margin-right: 10px;">Registry</a>{/if}     {if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_house.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">Delete</a>{/if}<a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
+                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_house.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">Registry</a>{/if}{if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_house.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">Delete</a>{/if}<a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
                             </tr>
                             {/foreach}
                             </tbody> 
@@ -80,7 +77,10 @@
                                             });
                                         }
                                     }
-
+                                    $('#registry').click(function(){
+                                    var assign=$('#sta')
+                                    return false;
+                                    });
                         </script>
 
                     {/literal}
