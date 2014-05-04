@@ -93,19 +93,20 @@
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
-                $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
+                
+                $('#contract_total').val((contract_plus_money>0?contract_plus_money:0) + (contract_key_money>0?contract_key_money:0) + (contract_cost>0?contract_cost:0));
             });
             $('#contract_plus_money').keyup(function(e) {
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
-                $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
+                $('#contract_total').val((contract_plus_money>0?contract_plus_money:0) + (contract_key_money>0?contract_key_money:0) + (contract_cost>0?contract_cost:0));
             });
             $('#contract_key_money').keyup(function(e) {
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
-                $('#contract_total').val(contract_plus_money + contract_key_money + contract_cost);
+                $('#contract_total').val((contract_plus_money>0?contract_plus_money:0) + (contract_key_money>0?contract_key_money:0) + (contract_cost>0?contract_cost:0));
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();

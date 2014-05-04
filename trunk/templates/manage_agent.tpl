@@ -7,7 +7,7 @@
                 <table style="width:32%">
                     <tr>
                         <td style='font-size: 1.4em;font-weight: bold;'>Search</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter agent name to search" style="height:26px; width: 351px;"/>
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter agent name to search" style="height:26px; width: 190px;"/>
                             <span>
                                 <input type='submit' class='btn-search' value='Submit' id="submit" name="submit"/>&nbsp;                     
                             </span>
