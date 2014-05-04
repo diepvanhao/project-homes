@@ -45,37 +45,44 @@
                             <td>{if $order.order_status eq 1}Processing{else} Canceled{/if}</td>
                             <td>{$order.order_day_create}</td>                           
                             <td>{$order.client_name}</td>
-                            <td>{if $order.user_id ne ""}assigned {else} not yet{/if}</td>                                                                            
-                            <td style="width:9%"><a href="edit_house.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$order.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
-                        </tr>
-                    {/foreach}
-                </tbody>
-            </table>
-        </div>
-        <center>
-            Page:
-            {for $i=1 to $totalPage }
+                            <td>{if $order.user_id ne 0}assigned {else} 
+                                <select id="staff_id" name="staff_id" >
+                                    <option value=""></option>
+                                    {foreach from=$users item=staff}
+                                        <option value="{$staff.id}">{$staff.user_fname} {$staff.user_lname}</option>        
+                                    {/foreach}
+                                </select>
+                                {/if}</td>                                                                     
+                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_house.php?url={$link|base64_encode}" style="margin-right: 10px;">Registry</a>{/if}     {if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_house.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">Delete</a>{/if}<a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
+                            </tr>
+                            {/foreach}
+                            </tbody> 
+                        </table>
+                    </div>
+                    <center>
+                        Page:
+                        {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_house.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
-            {/for}
+                {/for}
         </center>
     </div>
 </center>
-{literal}
-    <script type="text/javascript">
-        function deleteItem(id) {
-            if (confirm("Are you sure?")) {
-                 $.post("include/function_ajax.php", {house_id:id, action: 'deleteHouse'},
-                    function(result) {
-                        if(result)
-                            window.location.reload(true);
-                        else
-                            alert('Delete fail :(');
-                    });
-            }
-        }
+                    {literal}
+                        <script type="text/javascript">
+                                    function deleteItem(id) {
+                                        if (confirm("Are you sure?")) {
+                                            $.post("include/function_ajax.php", {house_id: id, action: 'deleteHouse'},
+                                            function(result) {
+                                                if (result)
+                                                    window.location.reload(true);
+                                                else
+                                                    alert('Delete fail :(');
+                                            });
+                                        }
+                                    }
 
-    </script>
+                        </script>
 
-{/literal}
+                    {/literal}
 
-{include file="footer.tpl"}
+                    {include file="footer.tpl"}

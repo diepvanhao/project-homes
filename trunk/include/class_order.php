@@ -34,18 +34,18 @@ class HOMEOrder {
                 `change_house_array`)
                 values(
                 '{$order_name}',
-                '',
+                0,
                 '{$house_id}',
                 '{$room_id}',    
-                '',
+                0,
                 '{$order_rent_cost}',
                 '{$order_day_create}',
-                '1',
+                1,
                 '{$order_comment}',
                 '{$order_day_create}',
                 '{$create_id}',
                 '{$broker_id}',
-                    0,
+                 0,
                 '{$change_house_array}'
                 )";
 
@@ -120,10 +120,10 @@ class HOMEOrder {
             $order['client_id'] = $row['client_id'];
             $order['client_name'] = $row['client_name'];
             $order['order_rent_cost'] = $row['order_rent_cost'];
-            $order['order_day_create'] = date('m-d-Y',$row['order_day_create']);
+            $order['order_day_create'] = $row['order_day_create'];
             $order['order_status'] = $row['order_status'];
             $order['order_comment'] = $row['order_comment'];
-            $order['order_day_update'] = date('m-d-Y',$row['order_day_update']);
+            $order['order_day_update'] = $row['order_day_update'];
             $order['create_id'] = $row['create_id'];
             $order['broker_id'] = $row['broker_id'];
             $order['change'] = $row['change'];

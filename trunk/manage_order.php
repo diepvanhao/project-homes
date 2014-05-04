@@ -17,10 +17,10 @@ if (!$user->user_exists) {
     exit();
 }
 //var_dump($user);die();
-if ($user->user_info['user_authorities'] > 2) {
-    header('Location: ./restrict.php');
-    exit();
-}
+//if ($user->user_info['user_authorities'] > 2) {
+//    header('Location: ./restrict.php');
+//    exit();
+//}
 
 if($user->user_info['user_locked']){
     header('Location: ./locked.php');
@@ -59,9 +59,16 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $orders = $orderClass->getOrder($search, $offset, $length);
+//get user
+//$user=new HOMEUser();
+$users=$user->getAllUsers();
+//get id user current
+$user_id=$user->user_info['id'];
 
 $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('orders', $orders);
+$smarty->assign('users',$users);   
+$smarty->assign('user_id',$user_id);
 include "footer.php";
