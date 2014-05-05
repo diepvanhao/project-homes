@@ -4,7 +4,7 @@
     <div style="width: 100%;">
         <div>
             <form action="manage_order.php" method="post">
-                <table style="width:32%">
+                <table style="width:22%">
                     <tr>
                         <td style='font-size: 1.4em;font-weight: bold;'>Search</td>
                         <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter house name to search" style="height:26px; "/>
@@ -47,10 +47,10 @@
                             <td>{$order.client_name}</td>
                             <td>{if $order.user_id ne 0}assigned {else} 
                                 <select id="staff_id" name="staff_id" >                                                                       
-                                        <option value="{$user->user_info.id}">{$user->user_info.user_fname} {$user->user_info.user_lname}</option>                                           
+                                    <option value="{$user->user_info.id}">{$user->user_info.user_fname} {$user->user_info.user_lname}</option>                                           
                                 </select>
                                 {/if}</td>                                                                     
-                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_house.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">Registry</a>{/if}{if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_house.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">Delete</a>{/if}<a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
+                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">Registry</a>{/if}{if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">Delete</a>{/if}<a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
                             </tr>
                             {/foreach}
                             </tbody> 
@@ -59,30 +59,34 @@
                     <center>
                         Page:
                         {for $i=1 to $totalPage }
-                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_house.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
-                {/for}
-        </center>
-    </div>
-</center>
-                    {literal}
-                        <script type="text/javascript">
-                                    function deleteItem(id) {
-                                        if (confirm("Are you sure?")) {
-                                            $.post("include/function_ajax.php", {house_id: id, action: 'deleteHouse'},
-                                            function(result) {
-                                                if (result)
-                                                    window.location.reload(true);
-                                                else
-                                                    alert('Delete fail :(');
-                                            });
-                                        }
-                                    }
-                                    $('#registry').click(function(){
-                                    var assign=$('#sta')
-                                    return false;
-                                    });
-                        </script>
+                            {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_house.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
+                        {/for}
+                    </center>
+                </div>
+            </center>
+            {literal}
+                <script type="text/javascript">
+                    function deleteItem(id) {
+                        if (confirm("Are you sure?")) {
+                            $.post("include/function_ajax.php", {house_id: id, action: 'deleteHouse'},
+                            function(result) {
+                                if (result)
+                                    window.location.reload(true);
+                                else
+                                    alert('Delete fail :(');
+                            });
+                        }
+                    }
+                    $('#registry').click(function() {
+                        if (confirm("Are you sure resgistry this order ?")) {
+                            return true;
+                        }else{
+                            return false;
+                        }
 
-                    {/literal}
+                    });
+                </script>
 
-                    {include file="footer.tpl"}
+            {/literal}
+
+            {include file="footer.tpl"}
