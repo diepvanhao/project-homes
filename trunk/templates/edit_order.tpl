@@ -110,7 +110,7 @@
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
-                window.location.href = "create_order.php?step=1&broker_id=" + broker_id;
+                window.location.href = "edit_order.php?step=1&broker_id=" + broker_id;
             });
             $('#client_info ul li').click(function() {
                 $('#client_info ul li').each(function() {
@@ -352,7 +352,7 @@
             });
             $('#done').click(function() {
                 showloadgif();
-                window.location.href = "create_order.php";
+                window.location.href = "edit_order.php";
             });
         });
         function getDivClass(title) {
@@ -473,7 +473,7 @@
         <div class="error">Don't refesh browser if not neccessary !!!</div>
 
     {/if}
-    <form action="create_order.php" method="post">
+    <form action="edit_order.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
             <tr>
                 <td>Filter customer</td>
@@ -491,7 +491,7 @@
         <center>
             Page:
             {for $i=1 to $totalPage }
-                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="create_order.php?step='registry'&filter={$filter}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
+                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="edit_order.php?step='registry'&filter={$filter}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}
         </center>
     </div>
@@ -529,7 +529,7 @@
     <div id="client_detail">
 
         <div id="basic"class="active">
-            <form action="create_order.php" method="post">        
+            <form action="edit_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Name:</td>
@@ -566,7 +566,7 @@
             </form>
         </div>
         <div id="detail"class="inactive">
-            <form action="create_order.php" method="post">        
+            <form action="edit_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Gender: </td>
@@ -627,7 +627,7 @@
             </form>
         </div>
         <div id="history"class="inactive">
-            <form action="create_order.php" method="post">        
+            <form action="edit_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Time call: </td>
@@ -737,7 +737,7 @@
             </form>
         </div>
         <div id="aspirations" class="inactive">
-            <form action="create_order.php" method="post">        
+            <form action="edit_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>House type: </td>
@@ -782,7 +782,7 @@
             </form>
         </div>
         <div id="introduce" class="inactive">
-            <form action="create_order.php" method="post">            
+            <form action="edit_order.php" method="post">            
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
 
                     <tr>
@@ -825,7 +825,7 @@
             </form>
         </div>
         <div id="contract" class="inactive">
-            <form action="create_order.php" method="post">        
+            <form action="edit_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Name: </td>
