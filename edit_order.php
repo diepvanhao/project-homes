@@ -47,8 +47,17 @@ $content = explode('&', $content);
 if (isset($content[1])) {
     $order_id = $content[1];
 } else {
-    $order_id = "";
+    if (isset($_POST['order_id'])) {
+        $order_id = $_POST['order_id'];
+    } elseif (isset($_GET['order_id'])) {
+        $order_id = $_GET['order_id'];
+    } else {
+        $order_id = "";
+    }
 }
+
+
+
 
 if (isset($_POST['filter'])) {
     $filter = $_POST['filter'];
@@ -544,77 +553,6 @@ $customers = $customer->getCustomers($filter, $offset, $length);
 //Introduce house
 $house = new HOMEHouse();
 $houses = $house->getHouses();
-
-//get information for order 
-if ($content[0] == 'edit') {
-    //get client info, history and contact
-    $order = new HOMEOrder();
-    $client_arr = $order->getClientByOrderId($order_id);
-    if (!empty($client_arr)) {
-        $client_name = $client_arr['client_name'];
-        $client_birthday = $client_arr['client_birthday'];
-        $client_email = $client_arr['client_email'];
-        $client_phone = $client_arr['client_phone'];
-        $client_fax = $client_arr['client_fax'];
-        $gender = $client_arr['client_gender'];
-        $client_address = $client_arr['client_address'];
-        $client_occupation = $client_arr['client_occupation'];
-        $client_company = $client_arr['client_company'];
-        $client_income = $client_arr['client_income'];
-        $client_room_type = $client_arr['client_room_type'];
-        $client_rent = $client_arr['client_rent'];
-        $client_reason_change = $client_arr['client_reason_change'];
-        $client_time_change = $client_arr['client_time_change'];
-        $client_resident_name = $client_arr['client_resident_name'];
-        $client_resident_phone = $client_arr['client_resident_phone'];
-
-        $log_time_call = $client_arr['log_time_call'];
-        $log_time_arrive_company = $client_arr['log_time_arrive_company'];
-        $log_time_mail = $client_arr['log_time_mail'];
-        $log_comment = $client_arr['log_comment'];
-        $log_date_appointment_from = $client_arr['log_date_appointment_from'];
-        $log_date_appointment_to = $client_arr['log_date_appointment_to'];
-        $log_payment_date_appointment_from = $client_arr['log_payment_date_appointment_from'];
-        $log_payment_date_appointment_to = $client_arr['log_payment_date_appointment_to'];
-        $log_payment_appointment_status = $client_arr['log_payment_appointment_status'];
-        $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];
-        $log_status_appointment = $client_arr['log_status_appointment'];
-        $log_tel = $client_arr['log_tel'];
-        $log_tel_status = $client_arr['log_tel_status'];
-        $log_mail = $client_arr['log_mail'];
-        $log_mail_status = $client_arr['log_mail_status'];
-        $log_contact_head_office = $client_arr['log_contact_head_office'];
-        $log_shop_sign = $client_arr['log_shop_sign'];
-        $log_local_sign = $client_arr['log_local_sign'];
-        $log_introduction = $client_arr['log_introduction'];
-        $log_flyer = $client_arr['log_flyer'];
-        $log_line = $client_arr['log_line'];
-        $log_revisit = $client_arr['log_revisit'];
-
-        $aspirations_type_house = $client_arr['aspirations_type_house'];
-        $aspirations_type_room = $client_arr['aspirations_type_room'];
-        $aspirations_build_time = $client_arr['aspirations_build_time'];
-        $aspirations_area = $client_arr['aspirations_area'];
-        $aspirations_size = $client_arr['aspirations_size'];
-        $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
-        $aspirations_comment = $client_arr['aspirations_comment'];
-
-        $contract_name = $client_arr['contract_name'];
-        $contract_cost = $client_arr['contract_cost'];
-        $contract_plus_money = $client_arr['contract_plus_money'];
-        $contract_key_money = $client_arr['contract_key_money'];
-        $contract_condition = $client_arr['contract_condition'];
-        $contract_valuation = $client_arr['contract_valuation'];
-        $contract_signature_day = $client_arr['contract_signature_day'];
-        $contract_handover_day = $client_arr['contract_handover_day'];
-        $contract_period_from = $client_arr['contract_period_from'];
-        $contract_period_to = $client_arr['contract_period_to'];
-        $contract_deposit_1 = $client_arr['contract_deposit_1'];
-        $contract_deposit_2 = $client_arr['contract_deposit_2'];
-        $contract_cancel = $client_arr['contract_cancel'];
-        $contract_total = $client_arr['contract_total'];
-    }
-}
 //Store client's info
 if (isset($_POST['save'])) {
 
@@ -721,7 +659,79 @@ if (isset($_POST['save'])) {
     } elseif ($task == 'contract') {
         
     }
+} elseif ($content[0] == 'edit') {
+//get information for order 
+//get client info, history and contact
+    $order = new HOMEOrder();
+    $client_arr = $order->getClientByOrderId($order_id);
+    if (!empty($client_arr)) {
+        if ($client_arr['client_id'])
+            $client_id = $client_arr['client_id'];
+        $client_name = $client_arr['client_name'];
+        $client_birthday = $client_arr['client_birthday'];
+        $client_email = $client_arr['client_email'];
+        $client_phone = $client_arr['client_phone'];
+        $client_fax = $client_arr['client_fax'];
+        $gender = $client_arr['client_gender'];
+        $client_address = $client_arr['client_address'];
+        $client_occupation = $client_arr['client_occupation'];
+        $client_company = $client_arr['client_company'];
+        $client_income = $client_arr['client_income'];
+        $client_room_type = $client_arr['client_room_type'];
+        $client_rent = $client_arr['client_rent'];
+        $client_reason_change = $client_arr['client_reason_change'];
+        $client_time_change = $client_arr['client_time_change'];
+        $client_resident_name = $client_arr['client_resident_name'];
+        $client_resident_phone = $client_arr['client_resident_phone'];
+
+        $log_time_call = $client_arr['log_time_call'];
+        $log_time_arrive_company = $client_arr['log_time_arrive_company'];
+        $log_time_mail = $client_arr['log_time_mail'];
+        $log_comment = $client_arr['log_comment'];
+        $log_date_appointment_from = $client_arr['log_date_appointment_from'];
+        $log_date_appointment_to = $client_arr['log_date_appointment_to'];
+        $log_payment_date_appointment_from = $client_arr['log_payment_date_appointment_from'];
+        $log_payment_date_appointment_to = $client_arr['log_payment_date_appointment_to'];
+        $log_payment_appointment_status = $client_arr['log_payment_appointment_status'];
+        $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];
+        $log_status_appointment = $client_arr['log_status_appointment'];
+        $log_tel = $client_arr['log_tel'];
+        $log_tel_status = $client_arr['log_tel_status'];
+        $log_mail = $client_arr['log_mail'];
+        $log_mail_status = $client_arr['log_mail_status'];
+        $log_contact_head_office = $client_arr['log_contact_head_office'];
+        $log_shop_sign = $client_arr['log_shop_sign'];
+        $log_local_sign = $client_arr['log_local_sign'];
+        $log_introduction = $client_arr['log_introduction'];
+        $log_flyer = $client_arr['log_flyer'];
+        $log_line = $client_arr['log_line'];
+        $log_revisit = $client_arr['log_revisit'];
+
+        $aspirations_type_house = $client_arr['aspirations_type_house'];
+        $aspirations_type_room = $client_arr['aspirations_type_room'];
+        $aspirations_build_time = $client_arr['aspirations_build_time'];
+        $aspirations_area = $client_arr['aspirations_area'];
+        $aspirations_size = $client_arr['aspirations_size'];
+        $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
+        $aspirations_comment = $client_arr['aspirations_comment'];
+
+        $contract_name = $client_arr['contract_name'];
+        $contract_cost = $client_arr['contract_cost'];
+        $contract_plus_money = $client_arr['contract_plus_money'];
+        $contract_key_money = $client_arr['contract_key_money'];
+        $contract_condition = $client_arr['contract_condition'];
+        $contract_valuation = $client_arr['contract_valuation'];
+        $contract_signature_day = $client_arr['contract_signature_day'];
+        $contract_handover_day = $client_arr['contract_handover_day'];
+        $contract_period_from = $client_arr['contract_period_from'];
+        $contract_period_to = $client_arr['contract_period_to'];
+        $contract_deposit_1 = $client_arr['contract_deposit_1'];
+        $contract_deposit_2 = $client_arr['contract_deposit_2'];
+        $contract_cancel = $client_arr['contract_cancel'];
+        $contract_total = $client_arr['contract_total'];
+    }
 }
+
 $smarty->assign('contract_name', $contract_name);
 $smarty->assign('contract_cost', $contract_cost);
 $smarty->assign('contract_plus_money', $contract_plus_money);

@@ -71,6 +71,14 @@ class HOMECustomer {
             //update order
             $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
             $database->database_query($query);
+            //update history
+            
+            //update aspirations
+            
+            //update contract
+            
+            //update introduce house
+            
             return array('exist' => $exits, 'id' => $id, 'client_arr' => "");
         } else {
 //            if ($client_id) {
@@ -151,6 +159,7 @@ class HOMECustomer {
     }
 
     function getCustomersOrder($order_id, $client_id) {
+                
         global $database;
         $client_arr = array();
         $query = "SELECT
@@ -210,7 +219,7 @@ class HOMECustomer {
                                 where ho.id={$order_id} and ho.client_id={$client_id}                                                                    
                                 
                                 LIMIT 1";
-
+//echo $query;die();
         $result = $database->database_query($query);
 
         $row1 = $database->database_fetch_assoc($result);
@@ -315,8 +324,7 @@ class HOMECustomer {
         $row['contract_key_money'] = $row1['contract_key_money'];
         $row['contract_name'] = $row1['contract_name'];
         
-        $client_arr = $row;
-        
+        $client_arr = $row;        
         return array('client_arr' => $client_arr);
     }
 
