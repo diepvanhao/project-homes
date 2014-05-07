@@ -175,7 +175,7 @@ class HOMEHouse {
     function getHouseById($id = null) {
         if ($id) {
             global $database;
-            $query = "select home_house.*from home_house  where home_house.id={$id}";
+            $query = "select home_house.* from home_house  where home_house.id={$id}";
             $result = $database->database_query($query);
             return $database->database_fetch_assoc($result);
         } else {
