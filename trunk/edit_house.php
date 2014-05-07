@@ -62,13 +62,6 @@ if (isset($_POST['house_area'])) {
     $house_area = "";
 }
 
-if (isset($_POST['house_original_price'])) {
-    $house_original_price = $_POST['house_original_price'];
-} elseif (isset($_GET['house_original_price'])) {
-    $house_original_price = $_GET['house_original_price'];
-} else {
-    $house_original_price = "";
-}
 
 if (isset($_POST['house_build_time'])) {
     $house_build_time = $_POST['house_build_time'];
@@ -92,22 +85,6 @@ if (isset($_POST['house_description'])) {
     $house_description = $_GET['house_description'];
 } else {
     $house_description = "";
-}
-
-if (isset($_POST['house_room_type'])) {
-    $house_room_type = $_POST['house_room_type'];
-} elseif (isset($_GET['house_room_type'])) {
-    $house_room_type = $_GET['house_room_type'];
-} else {
-    $house_room_type = "";
-}
-
-if (isset($_POST['house_administrative_expense'])) {
-    $house_administrative_expense = $_POST['house_administrative_expense'];
-} elseif (isset($_GET['house_administrative_expense'])) {
-    $house_administrative_expense = $_GET['house_administrative_expense'];
-} else {
-    $house_administrative_expense = "";
 }
 
 if (isset($_POST['house_discount'])) {
@@ -197,7 +174,7 @@ $validate = array(
     'house_address' => $house_address,
     'house_size' => $house_size,
     'house_area' => $house_area,
-    'house_original_price' => $house_original_price,
+    
     'house_owner_name'=>$house_owner_name    
 );
 
@@ -210,13 +187,10 @@ if (isset($_POST['submit'])) {
                 $house_name, 
                 $house_address,
                 $house_size, 
-                $house_area,
-                $house_original_price,
+                $house_area,               
                 $house_build_time,
                 $house_type,
-                $house_description,
-                $house_room_type,
-                $house_administrative_expense,
+                $house_description,                               
                 $house_discount,
                 $house_structure,
                 $house_owner_name,
@@ -240,13 +214,10 @@ if (isset($_POST['submit'])) {
         $house_name = $result['house_name'];
         $house_address = $result['house_address'];
         $house_size = $result['house_size'];
-        $house_area = $result['house_area'];
-        $house_original_price = $result['house_original_price'];
+        $house_area = $result['house_area'];        
         $house_build_time = $result['house_build_time'];
         $house_type = $result['house_type'];
-        $house_description = $result['house_description'];
-        $house_room_type = $result['house_room_type'];
-        $house_administrative_expense = $result['house_administrative_expense'];
+        $house_description = $result['house_description'];                
         $house_discount = $result['house_discount'];
         $house_structure = $result['house_structure'];
         $house_owner_name = $result['house_owner_name'];
@@ -264,12 +235,11 @@ $smarty->assign('house_name', $house_name);
 $smarty->assign('house_address', $house_address);
 $smarty->assign('house_size', $house_size);
 $smarty->assign('house_area', $house_area);
-$smarty->assign('house_original_price', $house_original_price);
+
 $smarty->assign('house_build_time', $house_build_time);
 $smarty->assign('house_type', $house_type);
 $smarty->assign('house_description', $house_description);
-$smarty->assign('house_room_type', $house_room_type);
-$smarty->assign('house_administrative_expense', $house_administrative_expense);
+
 $smarty->assign('house_discount', $house_discount);
 $smarty->assign('house_structure', $house_structure);
 $smarty->assign('house_owner_name', $house_owner_name);
