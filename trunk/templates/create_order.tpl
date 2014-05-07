@@ -93,20 +93,20 @@
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
-                
-                $('#contract_total').val((contract_plus_money>0?contract_plus_money:0) + (contract_key_money>0?contract_key_money:0) + (contract_cost>0?contract_cost:0));
+
+                $('#contract_total').val((contract_plus_money > 0 ? contract_plus_money : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
             });
             $('#contract_plus_money').keyup(function(e) {
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
-                $('#contract_total').val((contract_plus_money>0?contract_plus_money:0) + (contract_key_money>0?contract_key_money:0) + (contract_cost>0?contract_cost:0));
+                $('#contract_total').val((contract_plus_money > 0 ? contract_plus_money : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
             });
             $('#contract_key_money').keyup(function(e) {
                 var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
-                $('#contract_total').val((contract_plus_money>0?contract_plus_money:0) + (contract_key_money>0?contract_key_money:0) + (contract_cost>0?contract_cost:0));
+                $('#contract_total').val((contract_plus_money > 0 ? contract_plus_money : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
@@ -299,7 +299,9 @@
                         $('#error_house').html('');
                         if (house_id == "")
                             $('#error_house').html('Please choose house.');
-                        else {
+                        else if (room_id == "") {
+                            $('#error_room_introduce').html('Please choose room.');
+                        } else {
                             $.post("include/function_ajax.php", {house_id: house_id, introduce_house_content: house_description,
                                 client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
                             function(result) {
@@ -691,7 +693,7 @@
                 <td>Filter customer</td>
                 <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 315px;" placeholder="Type name of customer"/>
                     <span>
-                        <input type='submit' class='btn-search' value='Submit' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-search' value='Submit' id="search" name="submit"/>&nbsp;                     
                     </span>
                 </td>
             <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="Done" id="done" name="done"class='btn-search'/></div>
@@ -1020,6 +1022,14 @@
                     <tr>            
                         <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
                     </tr>
+                    <tr>            
+                        <td class='form1'>Select Room: </td>
+                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
+                                <option value=""></option>
+
+                            </select><div id="error_room_introduce" class="error"></div>
+                        </td>
+                    </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
@@ -1199,8 +1209,8 @@
                 $('#sidebar_container').css('display', 'none');
                 $('#add').click(function() {
                     var label = prompt('which type plus do you want to add ?', '');
-                    if (label != null && label!="") {
-                        
+                    if (label != null && label != "") {
+
                     }
                 });
             });

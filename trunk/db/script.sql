@@ -90,3 +90,7 @@ ALTER TABLE home_room DROP PRIMARY KEY, ADD PRIMARY KEY(id, broker_id);
 
 ALTER TABLE `home_room_detail`   
   CHANGE `room_administative_expense` `room_administrative_expense` FLOAT NULL;
+
+/*Hao 7/5*/
+ALTER TABLE `home_introduce_house`   
+  ADD COLUMN `order_id` INT(11) NULL AFTER `room_id`;

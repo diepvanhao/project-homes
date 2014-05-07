@@ -293,21 +293,25 @@
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce') {
                         var house_id = $('#house_id').val();
+                        var room_id = $('#room_id').val();
                         var house_description = $('#house_description').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
                         $('#error_house').html('');
+                        $('#error_room_introduce').html('');
                         if (house_id == "")
                             $('#error_house').html('Please choose house.');
-                        else {
-                            $.post("include/function_ajax.php", {house_id: house_id, introduce_house_content: house_description,
+                        else if (room_id == "") {
+                            $('#error_room_introduce').html('Please choose room.');
+                        } else {
+                            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, introduce_house_content: house_description,
                                 client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
                             function(result) {
                                 var json = $.parseJSON(result);
                                 if (json.id != "")
                                     alert('Saved');
                                 else if (json.id == "")
-                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
+                                    $('#error_house').html('This room of house is introduced. Please choose other room to introduce !!!');
                             });
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
@@ -467,8 +471,8 @@
     {if $notify ne ""}
         {$notify}
     {/if}
-    
-     {if $errorHouseExist ne ""}
+
+    {if $errorHouseExist ne ""}
 
         <div class="error">Don't refesh browser if not neccessary !!!</div>
 
@@ -479,7 +483,7 @@
                 <td>Filter customer</td>
                 <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 315px;" placeholder="Type name of customer"/>
                     <span>
-                        <input type='submit' class='btn-search' value='Submit' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-search' value='Submit' id="search" name="submit"/>&nbsp;                     
                     </span>
                 </td>
             <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="Done" id="done" name="done"class='btn-search'/></div>
@@ -798,7 +802,7 @@
                                 {foreach from=$houses item=house}
                                     <option value="{$house.id}" {if $house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
-                            </select><span id="error_house" class="error"></span>
+                            </select><div id="error_house" class="error"></div>
                         </td>
                     </tr>
                     <tr>            
@@ -807,6 +811,14 @@
                     </tr>
                     <tr>            
                         <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>Select Room: </td>
+                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
+                                <option value=""></option>
+
+                            </select><div id="error_room_introduce" class="error"></div>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
@@ -987,8 +999,8 @@
                 $('#sidebar_container').css('display', 'none');
                 $('#add').click(function() {
                     var label = prompt('which type plus do you want to add ?', '');
-                    if (label != null && label!="") {
-                        
+                    if (label != null && label != "") {
+
                     }
                 });
             });
@@ -997,7 +1009,7 @@
 {/nocache}
 {literal}
     <script type="text/javascript">
-        $(document).ready(function() {            
+        $(document).ready(function() {
             $('#back').click(function() {
                 window.location.href = "manage_house.php";
             });
