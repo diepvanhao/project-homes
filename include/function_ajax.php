@@ -686,6 +686,13 @@ if ($action == "check_email") {
         } else {
             $house_id = "";
         }
+         if (isset($_POST['room_id'])) {
+            $room_id = $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id = $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
         if (isset($_POST['introduce_house_content'])) {
             $introduce_house_content = $_POST['introduce_house_content'];
         } elseif (isset($_GET['introduce_house_content'])) {
@@ -693,7 +700,7 @@ if ($action == "check_email") {
         } else {
             $introduce_house_content = "";
         }
-        $result = $ajax->update_introduce($house_id, $introduce_house_content, $client_id, $order_id);
+        $result = $ajax->update_introduce($house_id, $room_id,$introduce_house_content, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'contract') {

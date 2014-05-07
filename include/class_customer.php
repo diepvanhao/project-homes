@@ -72,12 +72,16 @@ class HOMECustomer {
             $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
             $database->database_query($query);
             //update history
-            
+            $query = "update home_history_log set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
             //update aspirations
-            
+            $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
             //update contract
             
             //update introduce house
+            $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
             
             return array('exist' => $exits, 'id' => $id, 'client_arr' => "");
         } else {
@@ -99,7 +103,17 @@ class HOMECustomer {
             //update order
             $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
             $database->database_query($query);
-
+            //update history
+            $query = "update home_history_log set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
+            //update aspirations
+            $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
+            //update contract
+            
+            //update introduce house
+            $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
 
             //get information about client
             $query = "SELECT hc.id AS client_id,

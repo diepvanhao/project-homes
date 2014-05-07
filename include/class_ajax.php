@@ -211,11 +211,11 @@ class ajax {
             $house['house_name'] = $row['house_name'];
             $house['house_address'] = $row['house_address'];
             $house['house_size'] = $row['house_size'];
-            $house['house_area'] = $row['house_area'];                        
+            $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
-            $house['house_description'] = $row['house_description'];            
-            $house['house_photo'] = $row['house_photo'];           
+            $house['house_description'] = $row['house_description'];
+            $house['house_photo'] = $row['house_photo'];
             $house['house_discount'] = $row['house_discount'];
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
@@ -230,11 +230,12 @@ class ajax {
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
-    function getRoomContentByHouseId($house_id){
+
+    function getRoomContentByHouseId($house_id) {
         global $database;
-        $query="select hrd.* from home_room as hr left join home_room_detail as hrd on hr.id=hrd.room_id where hr.house_id='{$house_id}' group by hrd.room_id";       
+        $query = "select hrd.* from home_room as hr left join home_room_detail as hrd on hr.id=hrd.room_id where hr.house_id='{$house_id}' group by hrd.room_id";
         $result = $database->database_query($query);
-       
+
         $room_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
             $room['id'] = $row['id'];
@@ -242,32 +243,31 @@ class ajax {
             $room['room_type'] = $row['room_type'];
             $room['room_size'] = $row['room_size'];
             $room['room_status'] = $row['room_status'];
-            $room['room_rent'] = $row['room_rent'];                        
+            $room['room_rent'] = $row['room_rent'];
             $room['room_key_money'] = $row['room_key_money'];
             $room['room_administrative_expense'] = $row['room_administrative_expense'];
-            $room['room_deposit'] = $row['room_deposit'];            
-            $room['room_photo'] = $row['room_photo'];   
+            $room['room_deposit'] = $row['room_deposit'];
+            $room['room_photo'] = $row['room_photo'];
             $room['room_id'] = $row['room_id'];
             $room_arr[] = $room;
-        }       
-       
-        return array_unique($room_arr,SORT_REGULAR);
-        
+        }
+
+        return array_unique($room_arr, SORT_REGULAR);
     }
-    
-    function checkRoom($room_id,$broker_id){
+
+    function checkRoom($room_id, $broker_id) {
         global $database;
-        $query="select * from home_room hr left join home_room_detail hrd on hr.id=hrd.room_id where hr.id='{$room_id}' and hr.broker_id='{$broker_id}'";
-        $result=$database->database_query($query);   
-        $value=$database->database_fetch_assoc($result);       
-        $row=$database->database_num_rows($result);
-        
-        if($row>=1)
-            return array('room_rent'=>$value['room_rent'],'flag'=>'true','status'=>$value['room_status']);
-        else 
-            return array('room_rent'=>$value['room_rent'],'flag'=>'false','status'=>$value['room_status']);
+        $query = "select * from home_room hr left join home_room_detail hrd on hr.id=hrd.room_id where hr.id='{$room_id}' and hr.broker_id='{$broker_id}'";
+        $result = $database->database_query($query);
+        $value = $database->database_fetch_assoc($result);
+        $row = $database->database_num_rows($result);
+
+        if ($row >= 1)
+            return array('room_rent' => $value['room_rent'], 'flag' => 'true', 'status' => $value['room_status']);
+        else
+            return array('room_rent' => $value['room_rent'], 'flag' => 'false', 'status' => $value['room_status']);
     }
-    
+
     function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
         global $database;
         $query = "update home_client set 
@@ -287,7 +287,7 @@ class ajax {
         return $database->database_query($query);
     }
 
-    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from,$log_date_appointment_to,$log_payment_date_appointment_from,$log_payment_date_appointment_to,$log_payment_appointment_status,$log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
+    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
@@ -426,11 +426,11 @@ class ajax {
         }
     }
 
-    function update_introduce($house_id, $introduce_house_content, $client_id, $order_id) {
+    function update_introduce($house_id,$room_id, $introduce_house_content, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
-        if (checkExistIntroduce($client_id, $house_id)) {
+        if (checkExistIntroduce($client_id, $house_id, $room_id)) {
 
             return array('id' => "");
         } else {
@@ -438,12 +438,16 @@ class ajax {
                     . "user_id,"
                     . "client_id,"
                     . "house_id,"
+                    . "room_id,"
+                    . "order_id,"
                     . "introduce_house_content,"
                     . "introduce_house_photo"
                     . ") values("
                     . "'{$user->user_info['id']}',"
                     . "'{$client_id}',"
                     . "'{$house_id}',"
+                    . "'{$room_id}',"
+                    . "'{$order_id}',"
                     . "'{$introduce_house_content}',"
                     . "''"
                     . ")";
@@ -540,9 +544,9 @@ class ajax {
 
     function getCustomerSelected($id) {
         global $database;
-        $client_arr=array();
-         //get information about client
-            $query = "SELECT hc.id AS client_id,
+        $client_arr = array();
+        //get information about client
+        $query = "SELECT hc.id AS client_id,
                                 hc.user_id AS user_id,
                                 hc.client_name AS client_name,
                                 hc.client_birthday AS client_birthday,
@@ -567,32 +571,32 @@ class ajax {
                                 LIMIT 1";
 
 
-            $result = $database->database_query($query);
-            $client_arr = array();
+        $result = $database->database_query($query);
+        $client_arr = array();
 
-            while ($row = $database->database_fetch_assoc($result)) {
-                $row['client_id'] = $row['client_id'];
-                $row['user_id'] = $row['user_id'];
-                $row['client_name'] = $row['client_name'];
-                $row['client_birthday'] = $row['client_birthday'];
-                $row['client_address'] = $row['client_address'];
-                $row['client_phone'] = $row['client_phone'];
-                $row['client_income'] = $row['client_income'];
-                $row['client_occupation'] = $row['client_occupation'];
-                $row['client_company'] = $row['client_company'];
-                $row['client_fax'] = $row['client_fax'];
-                $row['client_gender'] = $row['client_gender'];
-                $row['client_email'] = $row['client_email'];
-                $row['client_reason_change'] = $row['client_reason_change'];
-                $row['client_time_change'] = $row['client_time_change'];
-                $row['client_photo'] = $row['client_photo'];
-                $row['client_resident_name'] = $row['client_resident_name'];
-                $row['client_resident_phone'] = $row['client_resident_phone'];
-                $row['client_rent'] = $row['client_rent'];
-                $row['client_room_type'] = $row['client_room_type'];
+        while ($row = $database->database_fetch_assoc($result)) {
+            $row['client_id'] = $row['client_id'];
+            $row['user_id'] = $row['user_id'];
+            $row['client_name'] = $row['client_name'];
+            $row['client_birthday'] = $row['client_birthday'];
+            $row['client_address'] = $row['client_address'];
+            $row['client_phone'] = $row['client_phone'];
+            $row['client_income'] = $row['client_income'];
+            $row['client_occupation'] = $row['client_occupation'];
+            $row['client_company'] = $row['client_company'];
+            $row['client_fax'] = $row['client_fax'];
+            $row['client_gender'] = $row['client_gender'];
+            $row['client_email'] = $row['client_email'];
+            $row['client_reason_change'] = $row['client_reason_change'];
+            $row['client_time_change'] = $row['client_time_change'];
+            $row['client_photo'] = $row['client_photo'];
+            $row['client_resident_name'] = $row['client_resident_name'];
+            $row['client_resident_phone'] = $row['client_resident_phone'];
+            $row['client_rent'] = $row['client_rent'];
+            $row['client_room_type'] = $row['client_room_type'];
 
-                $client_arr = $row;
-            }
+            $client_arr = $row;
+        }
         return $client_arr;
     }
 
@@ -614,9 +618,9 @@ function checkExistContract($user_id, $order_id) {
     }
 }
 
-function checkExistIntroduce($client_id, $house_id) {
+function checkExistIntroduce($client_id, $house_id,$room_id) {
     global $database;
-    $query = "select * from home_introduce_house where client_id={$client_id} and house_id={$house_id}";
+    $query = "select * from home_introduce_house where client_id={$client_id} and house_id={$house_id} and room_id={$room_id}";
 
     $result = $database->database_query($query);
     $row = $database->database_num_rows($result);
