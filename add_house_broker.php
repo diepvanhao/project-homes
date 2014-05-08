@@ -87,6 +87,14 @@ if (isset($_POST['house_id'])) {
     $house_id = "";
 }
 
+if (isset($_POST['room_id'])) {
+    $room_id = $_POST['room_id'];
+} elseif (isset($_GET['room_id'])) {
+    $room_id = $_GET['room_id'];
+} else {
+    $room_id = "";
+}
+
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -102,9 +110,9 @@ $content = explode('&', $content);
 if (isset($_POST['submit'])) {
 
     $broker = new HOMEBroker();
-    $result = $broker->assign($broker_id, $house_id);
+    $result = $broker->assign($broker_id, $house_id,$room_id);
     if ($result) {
-        $notify = "Assign success !!!";
+        $notify = "Add success !!!";
     }
 } elseif ($content[0] == 'assign') {
     $broker = new HOMEBroker();
@@ -125,7 +133,7 @@ $houseClass = new HOMEHouse();
 $houses = $houseClass->getHouses();
 
 if(empty($houses))
-    $error="All house are added. If you want to re_add, please go to edit house!!!";
+    $error="All house are added. If you want to re_add, please go to edit room!!!";
 
 
 $smarty->assign('houses', $houses);

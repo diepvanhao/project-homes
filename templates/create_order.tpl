@@ -67,9 +67,10 @@
             $('#room_id').change(function() {
                 var room_id = $('#room_id').val();
                 var broker_id = $('#broker_id').val();
+                var house_id = $('#house_id').val();
                 $('#error_room').html("");
                 $('#order_rent_cost').val("");
-                $.post('include/function_ajax.php', {room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
+                $.post('include/function_ajax.php', {house_id: house_id, room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {

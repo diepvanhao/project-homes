@@ -43,7 +43,7 @@
                             <td>{$broker.broker_company_email}</td>
                             <td>{$broker.broker_company_fax}</td>
                             <td>{$broker.broker_company_undertake}</td>
-                            <td><a href="edit_broker.php?url={$link|base64_encode}">Edit</a><a href="#" onclick="deleteItem({$broker.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="add_house_broker.php?url={$add|base64_encode}">Add House</a></td>
+                            <td><a href="edit_broker.php?url={$link|base64_encode}">Edit</a><a href="#" onclick="deleteItem({$broker.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="add_house_broker.php?url={$add|base64_encode}">Add Room</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
