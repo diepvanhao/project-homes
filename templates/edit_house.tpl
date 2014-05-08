@@ -1,12 +1,15 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Create House</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Edit House</div>
 {nocache}
     {if $error|@count gt 0}
         {foreach from=$error item=val}
             <div class="error">{$val}</div>
         {/foreach}
     {/if}
-    <form action="create_house.php" method="post">
+      {if $notify ne ""}
+        {$notify}
+    {/if}
+    <form action="edit_house.php" method="post">
         <div><label class="title">House Infomation</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
@@ -83,8 +86,11 @@
             <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
-                    <div style="margin-left: 30px;">
-                        <input type='submit' class='btn-signup' value='Create' id="submit" name="submit"/>&nbsp;                     
+                    <div style="margin-top:10px">
+                        <input type='submit' class='btn-search' value='Change' id="submit" name="submit"/>&nbsp;  &nbsp; 
+                        <input type='button' class='btn-search' value='Back' id="back" name="back" onclick="back();"/>&nbsp;  
+                        <input type='hidden'  value='{$house_id}' id="house_id" name="house_id"/>
+                        <input type='hidden'  value='{$owner_id}' id="owner_id" name="owner_id"/>
                     </div>
                 </td>
             </tr>
@@ -106,6 +112,9 @@
                     $('#owner_info').css('display', 'none');
                 }
             });
+            $('#back').click(function(){
+            window.location.href="manage_house.php";
+        });
         });
     </script>
 {/literal}

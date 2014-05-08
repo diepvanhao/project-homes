@@ -158,6 +158,14 @@ if (isset($_POST['owner_id'])) {
     $owner_id = "";
 }
 
+if (isset($_POST['owner'])) {
+    $owner = 1;
+} elseif (isset($_GET['owner'])) {
+    $owner = 1;
+} else {
+    $owner = "";
+}
+
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -173,17 +181,18 @@ $validate = array(
     'house_name' => $house_name,
     'house_address' => $house_address,
     'house_size' => $house_size,
-    'house_area' => $house_area,
-    
-    'house_owner_name'=>$house_owner_name    
+    'house_area' => $house_area    
 );
+
+if($owner)
+    $validate['house_owner_name']=$house_owner_name;
 
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
         $house = new HOMEHouse();
-        $result = $house->update(
+        $result = $house->update_house(
                 $house_name, 
                 $house_address,
                 $house_size, 
@@ -226,9 +235,10 @@ if (isset($_POST['submit'])) {
         $house_owner_fax = $result['house_owner_fax'];
         $house_owner_email = $result['house_owner_email'];
         $house_id = $result['id'];
-        $owner_id=$result['owner_id'];
+        $owner_id=$result['house_owner_id'];
     }
 }
+
 $smarty->assign('house_id', $house_id);
 $smarty->assign('owner_id', $owner_id);
 $smarty->assign('house_name', $house_name);
@@ -249,5 +259,6 @@ $smarty->assign('house_owner_fax', $house_owner_fax);
 $smarty->assign('house_owner_email', $house_owner_email);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
+$smarty->assign('owner', $owner);
 
 include "footer.php";
