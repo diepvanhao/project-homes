@@ -97,7 +97,7 @@ class HOMEBroker {
         global $database;
 
         $query = "select * from home_broker_company order by broker_company_name ASC";
- 
+
         $result = $database->database_query($query);
         $broker_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
@@ -113,7 +113,7 @@ class HOMEBroker {
         }
         return $broker_arr;
     }
-    
+
     function getBrokerById($id = null) {
         if ($id) {
             global $database;
@@ -134,12 +134,12 @@ class HOMEBroker {
 
         return $database->database_query($query);
     }
-    
-    function assign($broker_id = "", $house_id = "") {
+
+    function assign($broker_id = "", $house_id = "", $room_id = "") {
         global $database;
-        if($broker_id && $house_id){
-            $query="update home_house set broker_id={$broker_id} where id={$house_id}";
-            $result=$database->database_query($query);
+        if ($broker_id && $house_id && $room_id) {
+            $query = "insert into  home_room values('{$room_id}','{$broker_id}','{$house_id}')";
+            $result = $database->database_query($query);
             return $result;
         }
     }

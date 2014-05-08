@@ -216,7 +216,7 @@ class HOMEHouse {
         ";
 
             return $database->database_query($query);
-        } else {
+        } elseif($house_owner_name) {
             $query = "insert into home_house_owner(                            
                         `house_owner_name`,
                         `house_owner_address`,
@@ -242,6 +242,7 @@ class HOMEHouse {
                 return $database->database_query($query);
             }
         }
+        return true;
     }
 
     function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_photo, $house_id, $broker_id) {

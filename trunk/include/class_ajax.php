@@ -255,9 +255,9 @@ class ajax {
         return array_unique($room_arr, SORT_REGULAR);
     }
 
-    function checkRoom($room_id, $broker_id) {
+    function checkRoom($house_id, $room_id, $broker_id) {
         global $database;
-        $query = "select * from home_room hr left join home_room_detail hrd on hr.id=hrd.room_id where hr.id='{$room_id}' and hr.broker_id='{$broker_id}'";
+        $query = "select * from home_room hr left join home_room_detail hrd on hr.id=hrd.room_id where hr.id='{$room_id}' and hr.broker_id='{$broker_id}' and hr.house_id='{$house_id}'";
         $result = $database->database_query($query);
         $value = $database->database_fetch_assoc($result);
         $row = $database->database_num_rows($result);
@@ -266,6 +266,19 @@ class ajax {
             return array('room_rent' => $value['room_rent'], 'flag' => 'true', 'status' => $value['room_status']);
         else
             return array('room_rent' => $value['room_rent'], 'flag' => 'false', 'status' => $value['room_status']);
+    }
+
+    function checkRoomExist($house_id, $room_id, $broker_id) {
+        global $database;
+        $query = "select * from home_room as hr where hr.id='{$room_id}' and hr.broker_id='{$broker_id}' and hr.house_id='{$house_id}'";
+        $result = $database->database_query($query);
+        $value = $database->database_fetch_assoc($result);
+        $row = $database->database_num_rows($result);
+
+        if ($row >= 1)
+            return array('flag' => 'true');
+        else
+            return array('flag' => 'false');
     }
 
     function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
@@ -426,7 +439,7 @@ class ajax {
         }
     }
 
-    function update_introduce($house_id,$room_id, $introduce_house_content, $client_id, $order_id) {
+    function update_introduce($house_id, $room_id, $introduce_house_content, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
@@ -618,7 +631,7 @@ function checkExistContract($user_id, $order_id) {
     }
 }
 
-function checkExistIntroduce($client_id, $house_id,$room_id) {
+function checkExistIntroduce($client_id, $house_id, $room_id) {
     global $database;
     $query = "select * from home_introduce_house where client_id={$client_id} and house_id={$house_id} and room_id={$room_id}";
 

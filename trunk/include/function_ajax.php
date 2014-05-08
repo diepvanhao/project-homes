@@ -258,7 +258,7 @@ if ($action == "check_email") {
         $result = $ajax->getHouseContent($house_id);
         echo json_encode($result);
     }
-    if($task=='getRoomContent'){
+    if ($task == 'getRoomContent') {
         if (isset($_POST['house_id'])) {
             $house_id = $_POST['house_id'];
         } elseif (isset($_GET['house_id'])) {
@@ -266,32 +266,39 @@ if ($action == "check_email") {
         } else {
             $house_id = "";
         }
-       
-         $result = $ajax->getRoomContentByHouseId($house_id);
+
+        $result = $ajax->getRoomContentByHouseId($house_id);
         if ($result) {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {
-                
+
                 echo "<option value='{$result[$i]['room_id']}'>{$result[$i]['room_id']}</option>";
             }
         }
     }
-    if($task=='checkRoom'){
-         if (isset($_POST['room_id'])) {
+    if ($task == 'checkRoom') {
+        if (isset($_POST['room_id'])) {
             $room_id = $_POST['room_id'];
         } elseif (isset($_GET['room_id'])) {
             $room_id = $_GET['room_id'];
         } else {
             $room_id = "";
         }
-         if (isset($_POST['broker_id'])) {
+        if (isset($_POST['broker_id'])) {
             $broker_id = $_POST['broker_id'];
         } elseif (isset($_GET['broker_id'])) {
             $broker_id = $_GET['broker_id'];
         } else {
-            $broker_id= "";
+            $broker_id = "";
         }
-        $result = $ajax->checkRoom($room_id,$broker_id);
+        if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+        $result = $ajax->checkRoom($house_id, $room_id, $broker_id);
         echo json_encode($result);
     }
 } elseif ($action == 'deleteClient') {
@@ -488,42 +495,42 @@ if ($action == "check_email") {
         } else {
             $log_date_appointment_from = "";
         }
-         if (isset($_POST['log_date_appointment_to'])) {
+        if (isset($_POST['log_date_appointment_to'])) {
             $log_date_appointment_to = $_POST['log_date_appointment_to'];
         } elseif (isset($_GET['log_date_appointment_to'])) {
             $log_date_appointment_to = $_GET['log_date_appointment_to'];
         } else {
             $log_date_appointment_to = "";
         }
-         if (isset($_POST['log_payment_date_appointment_from'])) {
+        if (isset($_POST['log_payment_date_appointment_from'])) {
             $log_payment_date_appointment_from = $_POST['log_payment_date_appointment_from'];
         } elseif (isset($_GET['log_payment_date_appointment_from'])) {
             $log_payment_date_appointment_from = $_GET['log_payment_date_appointment_from'];
         } else {
             $log_payment_date_appointment_from = "";
         }
-         if (isset($_POST['log_payment_date_appointment_to'])) {
+        if (isset($_POST['log_payment_date_appointment_to'])) {
             $log_payment_date_appointment_to = $_POST['log_payment_date_appointment_to'];
         } elseif (isset($_GET['log_payment_date_appointment_to'])) {
             $log_payment_date_appointment_to = $_GET['log_payment_date_appointment_to'];
         } else {
             $log_payment_date_appointment_to = "";
         }
-         if (isset($_POST['log_payment_appointment_status'])) {
+        if (isset($_POST['log_payment_appointment_status'])) {
             $log_payment_appointment_status = $_POST['log_payment_appointment_status'];
         } elseif (isset($_GET['log_payment_appointment_status'])) {
             $log_payment_appointment_status = $_GET['log_payment_appointment_status'];
         } else {
             $log_payment_appointment_status = "";
         }
-         if (isset($_POST['log_payment_appointment_report'])) {
+        if (isset($_POST['log_payment_appointment_report'])) {
             $log_payment_appointment_report = $_POST['log_payment_appointment_report'];
         } elseif (isset($_GET['log_payment_appointment_report'])) {
             $log_payment_appointment_report = $_GET['log_payment_appointment_report'];
         } else {
             $log_payment_appointment_report = "";
         }
-        
+
         if (isset($_POST['log_mail_status'])) {
             $log_mail_status = $_POST['log_mail_status'];
         } elseif (isset($_GET['log_mail_status'])) {
@@ -588,7 +595,7 @@ if ($action == "check_email") {
             $log_status_appointment = "";
         }
 
-        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from,$log_date_appointment_to,$log_payment_date_appointment_from,$log_payment_date_appointment_to,$log_payment_appointment_status,$log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
+        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'aspirations') {
@@ -686,7 +693,7 @@ if ($action == "check_email") {
         } else {
             $house_id = "";
         }
-         if (isset($_POST['room_id'])) {
+        if (isset($_POST['room_id'])) {
             $room_id = $_POST['room_id'];
         } elseif (isset($_GET['room_id'])) {
             $room_id = $_GET['room_id'];
@@ -700,7 +707,7 @@ if ($action == "check_email") {
         } else {
             $introduce_house_content = "";
         }
-        $result = $ajax->update_introduce($house_id, $room_id,$introduce_house_content, $client_id, $order_id);
+        $result = $ajax->update_introduce($house_id, $room_id, $introduce_house_content, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'contract') {
@@ -820,7 +827,7 @@ if ($action == "check_email") {
         $result = $ajax->update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id);
         echo json_encode($result);
     }
-    if($task=='selectCustomer'){
+    if ($task == 'selectCustomer') {
         if (isset($_POST['id'])) {
             $id = $_POST['id'];
         } elseif (isset($_GET['id'])) {
@@ -828,7 +835,40 @@ if ($action == "check_email") {
         } else {
             $id = "";
         }
-        $result=$ajax->getCustomerSelected($id);
+        $result = $ajax->getCustomerSelected($id);
+        echo json_encode($result);
+    }
+} elseif ($action == 'add_room') {
+    if (isset($_POST['task'])) {
+        $task = $_POST['task'];
+    } elseif (isset($_GET['task'])) {
+        $task = $_GET['task'];
+    } else {
+        $task = "";
+    }
+    if ($task == 'checkRoomExist') {
+        if (isset($_POST['room_id'])) {
+            $room_id = $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id = $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
+        if (isset($_POST['broker_id'])) {
+            $broker_id = $_POST['broker_id'];
+        } elseif (isset($_GET['broker_id'])) {
+            $broker_id = $_GET['broker_id'];
+        } else {
+            $broker_id = "";
+        }
+        if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+        $result = $ajax->checkRoomExist($house_id, $room_id, $broker_id);
         echo json_encode($result);
     }
 }
