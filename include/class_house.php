@@ -87,6 +87,17 @@ class HOMEHouse {
         return $row;
     }
 
+    function getTotalRoomItem($search) {
+        global $database;
+
+        $query = "select * from home_room";
+        if (!empty($search))
+            $query.=" where id like '%{$search}%'";
+        $result = $database->database_query($query);
+        $row = $database->database_num_rows($result);
+        return $row;
+    }
+
     function getHouse($search = "", $offset = 0, $length = 50) {
         global $database;
 
@@ -116,6 +127,42 @@ class HOMEHouse {
             $house_arr[] = $house;
         }
         return $house_arr;
+    }
+
+    function getRoom($search = "", $offset = 0, $length = 50) {
+        global $database;
+
+        $query = "select hr.broker_id,hr.house_id,hrd.*,hbc.broker_company_name,hh.house_name from home_room as hr 
+                left join home_room_detail as hrd on hr.id=hrd.room_id
+                left join home_house as hh on hr.house_id=hh.id
+                left join home_broker_company as hbc on hr.broker_id=hbc.id
+                ";
+        if (!empty($search))
+            $query.=" where hr.id like '%{$search}%'";
+        $query.=" ORDER BY hh.house_name ASC ";
+        $query.=" limit $offset,$length";
+        //echo $query;
+        $result = $database->database_query($query);
+        $room_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $room['id'] = $row['id'];
+            $room['room_number'] = $row['room_number'];
+            $room['room_type'] = $row['room_type'];
+            $room['room_size'] = $row['room_size'];
+            $room['room_status'] = $row['room_status'];
+            $room['room_rent'] = $row['room_rent'];
+            $room['room_key_money'] = $row['room_key_money'];
+            $room['room_administrative_expense'] = $row['room_administrative_expense'];
+            $room['room_deposit'] = $row['room_deposit'];
+            $room['room_photo'] = $row['room_photo'];
+            $room['room_id'] = $row['room_id'];
+            $room['broker_company_name'] = $row['broker_company_name'];
+            $room['house_name'] = $row['house_name'];
+            $room['broker_id']=$row['broker_id'];
+            $room['house_id']=$row['house_id'];
+            $room_arr[] = $room;
+        }
+        return $room_arr;
     }
 
     function getHouses() {
@@ -216,7 +263,7 @@ class HOMEHouse {
         ";
 
             return $database->database_query($query);
-        } elseif($house_owner_name) {
+        } elseif ($house_owner_name) {
             $query = "insert into home_house_owner(                            
                         `house_owner_name`,
                         `house_owner_address`,

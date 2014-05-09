@@ -126,7 +126,6 @@ class HOMEBroker {
     }
 
     function update($broker_id, $broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake) {
-
         global $database;
         $query = "update home_broker_company set broker_company_name='{$broker_company_name}',broker_company_address='{$broker_company_address}',broker_company_phone='{$broker_company_phone}',broker_company_email='{$broker_company_email}',broker_company_fax='{$broker_company_fax}',broker_company_undertake='{$broker_company_undertake}'
          where id={$broker_id}
