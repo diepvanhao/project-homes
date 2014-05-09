@@ -59,11 +59,11 @@
                                     <li><a href="manage_account.php">Account</a></li>                                    
                                     <li><a href="manage_agent.php">Agent</a></li>
                                     <li><a href="manage_house.php">House</a></li>
+                                    <li><a href="manage_room.php">Room</a></li>
                                     <li><a href="manage_broker.php">Broker Company</a></li>                                    
                                 </ul>
                             </li>
-                            <li><a href="#">Report</a></li>
-                            
+                            <li><a href="#">Report</a></li>                            
                             <li><a href="#">Contact Us</a></li>
                         </ul>
                     </div>
