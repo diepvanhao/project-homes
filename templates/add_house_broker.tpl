@@ -4,14 +4,7 @@
     {if $error|@count gt 0}
         {foreach from=$error item=val}
             <div class="error">{$val}</div>
-        {/foreach}
-        {literal}
-            <style type="text/css">
-                #submit{
-                    visibility: hidden;
-                }
-            </style>
-        {/literal}
+        {/foreach}        
     {/if}
     {if $notify ne ""}
         {$notify}
@@ -53,14 +46,14 @@
                     <select id="house_id" name="house_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$houses item=house}
-                            <option value="{$house.id}">{$house.house_name}</option>        
+                            <option value="{$house.id}" {if $house.id eq $house_id}selected{/if}>{$house.house_name}</option>        
                         {/foreach}
                     </select><div id="error_house" class="error"></div>
                 </td>
             </tr>
             <tr>            
                 <td class='form1'>Description House: </td>
-                <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                <td class='form2'><textarea style="width: 340px;height: 129px;"  id="house_description" name="house_description">{$house_description}</textarea></td>
             </tr>
             <tr>            
                 <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
@@ -70,7 +63,7 @@
                 <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
                         <option value=""></option>
 
-                    </select><div id="error_room" class="error"></div>
+                    </select><div id="error_room_assign" class="error"></div>
                 </td>
             </tr>
             <tr>
@@ -102,7 +95,7 @@
             
              $('#submit').click(function(e) {                    
                     $('#error_house').html("");                    
-                    $('#error_room').html("");                    
+                    $('#error_room_assign').html("");                    
                     var house_id = $('#house_id').val();                  
                     var room_id = $('#room_id').val();
                     
@@ -111,7 +104,7 @@
                         e.preventDefault();
                         return false;
                     } else if (room_id == "" || room_id == null) {
-                        $('#error_room').html('Please choose room.');
+                        $('#error_room_assign').html('Please choose room.');
                         e.preventDefault();
                         return false;
                     } else {                       
@@ -163,23 +156,23 @@
                 var room_id = $('#room_id').val();
                 var broker_id = $('#broker_id').val();
                 var house_id = $('#house_id').val();
-                $('#error_room').html("");
+                $('#error_room_assign').html("");
                 $.post('include/function_ajax.php', {house_id: house_id, room_id: room_id, broker_id: broker_id, action: 'add_room', task: 'checkRoomExist'},
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.flag == 'true') {
-                        $('#error_room').html("This room had added. Please choose other room");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+                        //$('#error_room_assign').html("This room had added. Please choose other room");
+                        //$('#submit').attr('disabled', true);
+                        //$("#submit").css('color', 'grey');
                     } else if (json.flag == 'false') {
-                        $('#submit').attr('disabled', false);
-                        $("#submit").css('color', '#fff');
+                       // $('#submit').attr('disabled', false);
+                       // $("#submit").css('color', '#fff');
                     }
                 });
             });
         });
         function get_room(house_id) {
-            $('#error_room').html("");
+            $('#error_room_assign').html("");
             $.post("include/function_ajax.php", {house_id: house_id, action: 'create_order', task: 'getRoomContent'},
             function(result) {
                 if (result) {
@@ -188,7 +181,7 @@
                 } else {
                     $('#room_id').empty();
                     $('#house_description').html("");
-                    $('#error_room').html("This house haven't been room yet");
+                    $('#error_room_assign').html("This house haven't been room yet");
                 }
             });
         }

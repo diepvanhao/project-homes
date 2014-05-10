@@ -70,7 +70,6 @@ class HOMEBroker {
     function getBroker($search = "", $offset = 0, $length = 50) {
         global $database;
 
-
         $query = "select * from home_broker_company";
         if (!empty($search))
             $query.=" where broker_company_name like '%{$search}%'";
@@ -137,7 +136,19 @@ class HOMEBroker {
     function assign($broker_id = "", $house_id = "", $room_id = "") {
         global $database;
         if ($broker_id && $house_id && $room_id) {
-            $query = "insert into  home_room values('{$room_id}','{$broker_id}','{$house_id}')";
+            //check room is added
+            $houseClass = new HOMEHouse();
+            if (checkRoomExist($room_id, $broker_id, $house_id)) {
+                return false;
+            }
+            //check room_detail exist
+            $room_detail_id = getRoomDetailId($room_id, $house_id);
+            $query = "insert into  home_room(
+                    `id`,
+                    `broker_id`,
+                    `house_id`,
+                    `room_detail_id`)
+                values('{$room_id}','{$broker_id}','{$house_id}','{$room_detail_id}')";
             $result = $database->database_query($query);
             return $result;
         }

@@ -95,6 +95,15 @@ if (isset($_POST['room_id'])) {
     $room_id = "";
 }
 
+if (isset($_POST['house_description'])) {
+    $house_description = $_POST['house_description'];
+} elseif (isset($_GET['house_description'])) {
+    $house_description = $_GET['house_description'];
+} else {
+    $house_description = "";
+}
+
+
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -113,6 +122,8 @@ if (isset($_POST['submit'])) {
     $result = $broker->assign($broker_id, $house_id,$room_id);
     if ($result) {
         $notify = "Add success !!!";
+    }else{
+        $error[]="This ".$room_id." room is added into ".$broker_company_name;
     }
 } elseif ($content[0] == 'assign') {
     $broker = new HOMEBroker();
@@ -135,8 +146,10 @@ $houses = $houseClass->getHouses();
 if(empty($houses))
     $error="All house are added. If you want to re_add, please go to edit room!!!";
 
-
 $smarty->assign('houses', $houses);
+$smarty->assign('house_id', $house_id);
+$smarty->assign('room_id', $room_id);
+$smarty->assign('house_description',$house_description);
 $smarty->assign('broker_company_name', $broker_company_name);
 $smarty->assign('broker_company_address', $broker_company_address);
 $smarty->assign('broker_company_phone', $broker_company_phone);

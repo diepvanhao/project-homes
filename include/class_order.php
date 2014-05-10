@@ -52,8 +52,10 @@ class HOMEOrder {
             $result = $database->database_query($query);
             $id = $database->database_insert_id();
             if ($id) {
+                $houseClass=new HOMEHouse();
+                $room_detail_id = getRoomDetailId($room_id, $house_id); 
                 //update room status
-                $query = "update home_room_detail set room_status=1 where room_id='{$room_id}'";
+                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
                 $database->database_query($query);
             }
             return array('id' => $id);
