@@ -94,3 +94,14 @@ ALTER TABLE `home_room_detail`
 /*Hao 7/5*/
 ALTER TABLE `home_introduce_house`   
   ADD COLUMN `order_id` INT(11) NULL AFTER `room_id`;
+
+
+/*Hao 10/5*/
+ALTER TABLE `home_room`   
+  CHANGE `house_id` `house_id` INT(11) NOT NULL,
+  ADD COLUMN `room_detail_id` INT(11) NULL AFTER `house_id`, 
+  DROP PRIMARY KEY,
+  ADD PRIMARY KEY (`id`, `broker_id`, `house_id`);
+
+ALTER TABLE `home_room_detail`   
+  DROP COLUMN `room_id`;

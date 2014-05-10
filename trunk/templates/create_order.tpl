@@ -297,13 +297,15 @@
                         var house_description = $('#house_description').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
+                        var room_id = $('#room_id').val();
                         $('#error_house').html('');
+                         $('#error_room_introduce').html('');
                         if (house_id == "")
                             $('#error_house').html('Please choose house.');
                         else if (room_id == "") {
                             $('#error_room_introduce').html('Please choose room.');
                         } else {
-                            $.post("include/function_ajax.php", {house_id: house_id, introduce_house_content: house_description,
+                            $.post("include/function_ajax.php", {house_id: house_id,room_id: room_id, introduce_house_content: house_description,
                                 client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
                             function(result) {
                                 var json = $.parseJSON(result);
@@ -1013,7 +1015,7 @@
                                 {foreach from=$houses item=house}
                                     <option value="{$house.id}" {if $house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
-                            </select><span id="error_house" class="error"></span>
+                            </select><div id="error_house" class="error"></div>
                         </td>
                     </tr>
                     <tr>            

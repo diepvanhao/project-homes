@@ -272,7 +272,7 @@ if ($action == "check_email") {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {
 
-                echo "<option value='{$result[$i]['room_id']}'>{$result[$i]['room_id']}</option>";
+                echo "<option value='{$result[$i]['id']}'>{$result[$i]['id']}</option>";
             }
         }
     }
