@@ -59,7 +59,6 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $rooms = $houseClass->getRoom($search, $offset, $length);
-
 $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);

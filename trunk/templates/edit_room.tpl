@@ -6,6 +6,9 @@
             <div class="error">{$val}</div>
         {/foreach}
     {/if}
+      {if $notify ne ""}
+        {$notify}
+    {/if}
     <form action="edit_room.php" method="post" enctype="multipart/form-data">
         <div><label class="title">Room Infomation</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
@@ -104,7 +107,9 @@
                     <div style="margin:0px 0px 0px 13%;">
                         <input type='submit' class='btn-search' value='Change' id="submit" name="submit"/>&nbsp;  &nbsp; 
                         <input type='button' class='btn-search' value='Back' id="back" name="back" onclick="back();"/>&nbsp;  
-                        <input type="hidden" id="room_id" name="room_id" value="{$room_id}"/>
+                        <input type="hidden" id="room_detail_id" name="room_detail_id" value="{$room_detail_id}"/>
+                        <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id_bk}"/>
+                        <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id_bk}"/>
                     </div>
                 </td>
             </tr>
