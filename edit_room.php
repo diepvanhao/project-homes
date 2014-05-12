@@ -10,6 +10,7 @@ include "header.php";
 $page = "edit_room";
 $error = null;
 $result = FALSE;
+$notify="";
 
 if (!$user->user_exists) {
 
@@ -111,7 +112,40 @@ if (isset($_POST['broker_id'])) {
 } else {
     $broker_id = "";
 }
+////////////////////////////////////////////////////////////////////////Room
+if (isset($_POST['room_detail_id'])) {
+    $room_detail_id = $_POST['room_detail_id'];
+} elseif (isset($_GET['room_detail_id'])) {
+    $room_detail_id = $_GET['room_detail_id'];
+} else {
+    $room_detail_id = "";
+}
+//////////////////////////////////////////////////////////////////////Backup
+if (isset($_POST['house_id_bk'])) {
+    $house_id_bk = $_POST['house_id_bk'];
+} elseif (isset($_GET['house_id_bk'])) {
+    $house_id_bk = $_GET['house_id_bk'];
+} else {
+    $house_id_bk = "";
+}
+if (isset($_POST['broker_id_bk'])) {
+    $broker_id_bk = $_POST['broker_id_bk'];
+} elseif (isset($_GET['broker_id_bk'])) {
+    $broker_id_bk = $_GET['broker_id_bk'];
+} else {
+    $broker_id_bk = "";
+}
 
+if (isset($_POST['url'])) {
+    $content = $_POST['url'];
+} elseif (isset($_GET['url'])) {
+    $content = $_GET['url'];
+} else {
+    $content = "";
+}
+
+$content = base64_decode($content);
+$content = explode('&', $content);
 
 $validate = array(
     'room_number' => $room_number,
@@ -127,16 +161,38 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $house = new HOMEHouse();
-        $result = $house->create_room(
-                $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money,$room_administrative_expense,$room_deposit,$room_photo,$house_id,$broker_id
+        $result = $house->update_room(
+                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk
         );
         if ($result['flag']) {
-            header("Location: notify.php?content=Create Room Success!!!&url_return=create_room.php");
-        }elseif($result['error']){
-            $error[]=$result['error'];            
-        }else{
-            $error[]="Create fail. Please try again!!!";
+            $notify = "Update success !!!";
+            $house_id_bk = $house_id;
+            $broker_id_bk = $broker_id;
+        } elseif ($result['error']) {
+            $error[] = $result['error'];
+        } else {
+            $error[] = "Update fail. Please try again!!!";
         }
+    }
+} elseif ($content[0] == 'edit') {
+    $room_detail_id = $content[1];
+
+    $broker_id_bk = $broker_id = $content[2];
+    $house_id_bk = $house_id = $content[3];
+
+    $houseClass = new HOMEHouse();
+    $room = $houseClass->getRoomById($room_detail_id, $broker_id, $house_id);
+
+    if ($room) {
+        $room_number = $room['room_number'];
+        $room_type = $room['room_type'];
+        $room_size = $room['room_size'];
+        $room_status = $room['room_status'];
+        $room_rent = $room['room_rent'];
+        $room_key_money = $room['room_key_money'];
+        $room_administrative_expense = $room['room_administrative_expense'];
+        $room_deposit = $room['room_deposit'];
+        $room_photo = $room['room_photo'];
     }
 }
 //get houses
@@ -157,10 +213,15 @@ $smarty->assign('room_deposit', $room_deposit);
 $smarty->assign('room_photo', $room_photo);
 $smarty->assign('house_id', $house_id);
 $smarty->assign('broker_id', $broker_id);
+$smarty->assign('room_detail_id', $room_detail_id);
+$smarty->assign('house_id_bk', $house_id_bk);
+$smarty->assign('broker_id_bk', $broker_id_bk);
+
 $smarty->assign('houses', $houses);
 $smarty->assign('brokers', $brokers);
 
 
 $smarty->assign('error', $error);
+$smarty->assign('notify', $notify);
 
 include 'footer.php';

@@ -165,6 +165,34 @@ class HOMEHouse {
         return $room_arr;
     }
 
+    function getRoomById($room_detail_id, $broker_id, $house_id) {
+        global $database;
+
+        $query = "select hrd.* from home_room_detail as hrd 
+                left join home_room as hr on hr.room_detail_id=hrd.id                                
+                ";
+
+        $query.=" where hr.broker_id ='{$broker_id}' and hr.house_id='{$house_id}' and room_detail_id='{$room_detail_id}'";
+
+        $result = $database->database_query($query);
+        $room_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $room['id'] = $row['id'];
+            $room['room_number'] = $row['room_number'];
+            $room['room_type'] = $row['room_type'];
+            $room['room_size'] = $row['room_size'];
+            $room['room_status'] = $row['room_status'];
+            $room['room_rent'] = $row['room_rent'];
+            $room['room_key_money'] = $row['room_key_money'];
+            $room['room_administrative_expense'] = $row['room_administrative_expense'];
+            $room['room_deposit'] = $row['room_deposit'];
+            $room['room_photo'] = $row['room_photo'];
+
+            $room_arr = $room;
+        }
+        return $room_arr;
+    }
+
     function getHouses() {
         global $database;
 
@@ -299,7 +327,7 @@ class HOMEHouse {
             return array('error' => 'This room is existed', 'flag' => false);
         } else {
             //check room_detail exist
-            $room_detail_id = getRoomDetailId($room_number, $house_id);   
+            $room_detail_id = getRoomDetailId($room_number, $house_id);
             //insert new 
             $room_number = trim($room_number);
             $query = "insert into home_room(            
@@ -313,7 +341,7 @@ class HOMEHouse {
                     )";
 
             $result = $database->database_query($query);
-            if ($result) {                                           
+            if ($result) {
                 if ($room_detail_id) {
                     //update room_detail_id for home_room
                     $query = "update home_room set room_detail_id='{$room_detail_id}' where id='{$room_number}' and broker_id='{$broker_id}' and house_id='{$house_id}'";
@@ -339,13 +367,12 @@ class HOMEHouse {
                         '{$room_administrative_expense}',
                         '{$room_deposit}',
                         '{$room_photo}'                       
-                    )";                        
+                    )";
                     $result = $database->database_query($query);
                     $id = $database->database_insert_id();
                     //update room_detail_id for home_room
                     $query = "update home_room set room_detail_id='{$id}' where id='{$room_number}' and broker_id='{$broker_id}' and house_id='{$house_id}'";
                     return array('error' => '', 'flag' => $database->database_query($query));
-                   
                 }
                 //return $database->database_query($query);
             } else {
@@ -354,20 +381,51 @@ class HOMEHouse {
         }
     }
 
+    function update_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk) {
+        global $database;
+        if (checkRoomExist($room_number, $broker_id, $house_id)) {
+            return array('error' => 'This room is existed', 'flag' => false);
+        } else {
+            $query = "update home_room_detail set 
+                room_number='{$room_number}',
+                room_type='{$room_type}',
+                room_size='{$room_size}',
+                room_status='{$room_status}',              
+                room_rent='{$room_rent}',
+                room_key_money='{$room_key_money}',
+                room_administrative_expense='{$room_administrative_expense}',                             
+                room_deposit='{$room_deposit}',
+                room_photo='{$room_photo}'
+                
+         where id={$room_detail_id}
+        ";
+            $database->database_query($query);
+            //update home_room
+            $query = "update home_room set
+                    id='{$room_number}',
+                    broker_id='{$broker_id}',
+                    house_id='{$house_id}'
+                     
+                    where broker_id='{$broker_id_bk}' and house_id='{$house_id_bk}' and room_detail_id='{$room_detail_id}'
+         ";                    
+            return array('error' => '', 'flag' => $database->database_query($query));
+        }
+    }
+
 }
 
 function getRoomDetailId($room_number, $house_id) {
     global $database;
     $query = "select room_detail_id from home_room where id='{$room_number}' and house_id='{$house_id}' limit 1";
-    
+
     $result = $database->database_query($query);
-    $row = $database->database_fetch_assoc($result);   
+    $row = $database->database_fetch_assoc($result);
     return $row['room_detail_id'];
 }
 
 function checkRoomExist($room_number, $broker_id, $house_id) {
     global $database;
-    $query = "select * from home_room where id='{$room_number}' and broker_id='{$broker_id}' and house_id='{$house_id}'";    
+    $query = "select * from home_room where id='{$room_number}' and broker_id='{$broker_id}' and house_id='{$house_id}'";
     $result = $database->database_query($query);
     $row = $database->database_num_rows($result);
     if ($row >= 1)
