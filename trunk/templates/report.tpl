@@ -573,7 +573,56 @@
         </table>
     </div>
     <div class="agent-content">
-       
+        <div class="last-year-title">
+            <h3>Detail from WEBS</h3>
+        </div>
+        <table>
+            <tr>
+                <th></th>
+                <th>Company</th>
+                <th>Total</th>
+                <th>Feedback</th>
+                <th>Track record</th>
+                <th>Signboard</th>
+                <th>Revisit</th>
+                <th>Application</th>
+                <th>Cancel</th>
+                <th>自社</th>
+                <th>Ledger</th>
+            </tr>
+            <tbody>
+                {foreach from=$report->getAllCompany() key=k item=company}
+                    {$com_info = $report->getCompanyInfo($company.id)}
+                    <tr>
+                        <td rowspan="2">{$k + 1}</td>
+                        <td rowspan="2">{$company.broker_company_name}</td>
+                        <td>Today</td>
+                        <td>{(int)$com_info.today_tel + $com_info.today_mail}</td>
+                        <td>{(int)($com_info.today_tel_status + $com_info.today_mail_status)}</td>
+                        <td>{(int)$com_info.today_shop_sign + $com_info.today_local_sign}</td>
+                        <td>{(int) $com_info.today_revisit}</td>
+                        <td>{(int) $com_info.today_application}</td>
+                        <td>{$com_info.today_cancel}</td>
+                        <td>{$com_info.today_change}</td>
+                        <td>{$com_info.today_agreement}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{(int) $com_info.month_mail + $com_info.month_tel}</td>
+                        <td>{(int)($com_info.month_tel_status + $com_info.month_mail_status)}</td>
+                        <td>{(int)$com_info.month_shop_sign + $com_info.month_local_sign}</td>
+                        <td>{(int) $com_info.month_revisit}</td>
+                        <td>{(int) $com_info.month_application}</td>
+                        <td>{$com_info.month_cancel}</td>
+                        <td>{$com_info.month_change}</td>
+                        <td>{$com_info.month_agreement}</td>
+                    </tr>
+                {/foreach}
+            </tbody>
+        </table>
+    </div>
+    <div class="agent-content">
+
         {literal}
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -581,10 +630,10 @@
             google.setOnLoadCallback(drawChart);
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
-                    ['name','Target','Actually'],
+                    ['name','Actually','Target'],
                     {/literal}
                         {foreach from=$agents key=k item=agent}
-                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$agent.target}{literal},{/literal}100000{literal}],{/literal}
+                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$report->getAgentCostOfMonth($agent.id)}{literal},{/literal}{$agent.target}{literal}],{/literal}
                         {/foreach}
                     {literal}
                 ]);

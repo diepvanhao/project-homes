@@ -226,8 +226,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -236,7 +236,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -245,7 +245,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -256,7 +256,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -266,7 +266,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -283,7 +283,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -304,7 +304,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_agreement'] = (int) $row[0];
-        
+
         /**
          * Phone report
          */
@@ -330,8 +330,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -340,7 +340,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayphone_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -349,7 +349,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -360,7 +360,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayphone_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -370,7 +370,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -387,7 +387,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -423,7 +423,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yeardiscount_shop_sign, SUM(log_local_sign) AS yeardiscount_local_sign, SUM(log_introduction) AS yeardiscount_introduction, SUM(log_tel) AS yeardiscount_tel, 
             SUM(log_mail) AS yeardiscount_mail, SUM(log_flyer) AS yeardiscount_flyer, SUM(log_line) AS yeardiscount_line, SUM(log_contact_head_office) AS yeardiscount_contact_head_office,
             SUM(log_tel_status) AS yeardiscount_tel_status,SUM(log_mail_status) AS yeardiscount_mail_status, SUM(log_revisit) AS yeardiscount_revisit
@@ -436,8 +436,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -447,7 +447,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -457,7 +457,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -469,7 +469,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -480,7 +480,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -499,7 +499,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -536,7 +536,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearlocalsign_shop_sign, SUM(log_local_sign) AS yearlocalsign_local_sign, SUM(log_introduction) AS yearlocalsign_introduction, SUM(log_tel) AS yearlocalsign_tel, 
             SUM(log_mail) AS yearlocalsign_mail, SUM(log_flyer) AS yearlocalsign_flyer, SUM(log_line) AS yearlocalsign_line, SUM(log_contact_head_office) AS yearlocalsign_contact_head_office,
             SUM(log_tel_status) AS yearlocalsign_tel_status,SUM(log_mail_status) AS yearlocalsign_mail_status, SUM(log_revisit) AS yearlocalsign_revisit
@@ -548,8 +548,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -558,7 +558,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaylocalsign_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -567,7 +567,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -578,7 +578,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaylocalsign_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -588,7 +588,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -605,7 +605,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -626,7 +626,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_agreement'] = (int) $row[0];
-        
+
         /*
          * Introduction
          */
@@ -641,7 +641,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearintroduction_shop_sign, SUM(log_local_sign) AS yearintroduction_local_sign, SUM(log_introduction) AS yearintroduction_introduction, SUM(log_tel) AS yearintroduction_tel, 
             SUM(log_mail) AS yearintroduction_mail, SUM(log_flyer) AS yearintroduction_flyer, SUM(log_line) AS yearintroduction_line, SUM(log_contact_head_office) AS yearintroduction_contact_head_office,
             SUM(log_tel_status) AS yearintroduction_tel_status,SUM(log_mail_status) AS yearintroduction_mail_status, SUM(log_revisit) AS yearintroduction_revisit
@@ -653,8 +653,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -663,7 +663,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayintroduction_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -672,7 +672,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -683,7 +683,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayintroduction_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -693,7 +693,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -710,7 +710,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -745,7 +745,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearshopsign_shop_sign, SUM(log_local_sign) AS yearshopsign_local_sign, SUM(log_introduction) AS yearshopsign_introduction, SUM(log_tel) AS yearshopsign_tel, 
             SUM(log_mail) AS yearshopsign_mail, SUM(log_flyer) AS yearshopsign_flyer, SUM(log_line) AS yearshopsign_line, SUM(log_contact_head_office) AS yearshopsign_contact_head_office,
             SUM(log_tel_status) AS yearshopsign_tel_status,SUM(log_mail_status) AS yearshopsign_mail_status, SUM(log_revisit) AS yearshopsign_revisit
@@ -757,8 +757,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -767,7 +767,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayshopsign_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -776,7 +776,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -787,7 +787,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayshopsign_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -797,7 +797,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -814,7 +814,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -849,7 +849,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearflyer_shop_sign, SUM(log_local_sign) AS yearflyer_local_sign, SUM(log_introduction) AS yearflyer_introduction, SUM(log_tel) AS yearflyer_tel, 
             SUM(log_mail) AS yearflyer_mail, SUM(log_flyer) AS yearflyer_flyer, SUM(log_line) AS yearflyer_line, SUM(log_contact_head_office) AS yearflyer_contact_head_office,
             SUM(log_tel_status) AS yearflyer_tel_status,SUM(log_mail_status) AS yearflyer_mail_status, SUM(log_revisit) AS yearflyer_revisit
@@ -861,8 +861,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -871,7 +871,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayflyer_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -880,7 +880,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -891,7 +891,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayflyer_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -901,7 +901,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -918,7 +918,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -939,10 +939,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_agreement'] = (int) $row[0];
-        
-       /*
-        * Line
-        */
+
+        /*
+         * Line
+         */
         $select = "SELECT SUM(log_shop_sign) AS todayline_shop_sign, SUM(log_local_sign) AS todayline_local_sign, SUM(log_introduction) AS todayline_introduction, SUM(log_tel) AS todayline_tel, 
             SUM(log_mail) AS todayline_mail, SUM(log_flyer) AS todayline_flyer, SUM(log_line) AS todayline_line, SUM(log_contact_head_office) AS todayline_contact_head_office,
             SUM(log_tel_status) AS todayline_tel_status,SUM(log_mail_status) AS todayline_mail_status, SUM(log_revisit) AS todayline_revisit
@@ -954,7 +954,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearline_shop_sign, SUM(log_local_sign) AS yearline_local_sign, SUM(log_introduction) AS yearline_introduction, SUM(log_tel) AS yearline_tel, 
             SUM(log_mail) AS yearline_mail, SUM(log_flyer) AS yearline_flyer, SUM(log_line) AS yearline_line, SUM(log_contact_head_office) AS yearline_contact_head_office,
             SUM(log_tel_status) AS yearline_tel_status,SUM(log_mail_status) AS yearline_mail_status, SUM(log_revisit) AS yearline_revisit
@@ -966,8 +966,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         //Application
+
+        //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -976,7 +976,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayline_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -985,7 +985,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_application'] = (int) $row[0];
-        
+
         //Cancel
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -996,7 +996,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayline_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -1006,7 +1006,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_cancel'] = (int) $row[0];
-       
+
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1023,7 +1023,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_change'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1044,10 +1044,31 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_agreement'] = (int) $row[0];
-        
-        
+
+
         return $return;
-        
+    }
+
+    /**
+     * 
+     * @param type $agent_id
+     * @return int
+     */
+    public function getAgentCostOfMonth($agent_id = 0) {
+        if (empty($agent_id)) {
+            return 0;
+        }
+        global $database; 
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        ////cost of month
+        $select = "SELECT SUM(order_rent_cost) FROM home_order o
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE u.agent_id = {$agent_id} AND o.order_status = 1 AND  {$month}";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+
+        return (float) $row[0];
     }
 
     /**
@@ -1063,4 +1084,136 @@ class Report {
         return $database->database_fetch_assoc($result);
     }
 
+    /**
+     * 
+     * @global type $database
+     * @return type
+     */
+    public function getAllCompany() {
+        global $database;
+        $select = "SELECT c.* FROM home_broker_company c 
+                  ORDER BY c.id ASC";
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
+
+    /**
+     * 
+     * @global type $database
+     * @param type $company_id
+     * @return type
+     */
+    public function getCompanyInfo($company_id = 0){
+        global $database;
+        if (empty($company_id)) {
+            return array();
+        }
+        $return = array();
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        
+        //more info on today
+        $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
+            SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
+            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status, SUM(log_revisit) AS today_revisit
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND  {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+
+        //more info on this month 
+        $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
+            SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
+            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status, SUM(log_revisit) AS month_revisit
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND  {$month}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
+        //Application
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+           INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id}  AND {$today} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_application'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id}  AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_application'] = (int) $row[0];
+
+        //Cancel
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 AND {$today} ";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_cancel'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_cancel'] = (int) $row[0];
+        //change
+        $select = "SELECT SUM(o.change) FROM home_order o
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND {$today} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_change'] = (int) $row[0];
+
+        $select = "SELECT SUM(o.change) FROM home_order o
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_change'] = (int) $row[0];
+
+        //agreement
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$today} ";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_agreement'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_agreement'] = (int) $row[0];
+
+        return $return;
+    }
 }
