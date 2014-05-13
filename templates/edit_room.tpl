@@ -50,8 +50,8 @@
                 <td class='form1'>Room Status: </td>
                 <td class='form2'>
                     <select id="room_status" name="room_status" style="height:26px; width: 351px;">
-                        <option value="0">Empty</option>
-                        <option value="1">For rent</option>        
+                        <option value="0"{if $room_status eq 0}selected{/if}>Empty</option>
+                        <option value="1"{if $room_status eq 1}selected{/if}>For rent</option>        
                     </select>
                 </td>
             </tr>
