@@ -78,7 +78,13 @@ class ajax {
         $query = "delete from home_house where id={$house_id}";
         return $database->database_query($query);
     }
-
+    
+    function deleteRoom($id,$broker_id,$house_id){
+        global $database;
+        $query="delete from home_room where broker_id='{$broker_id}' and house_id='{$house_id}' and room_detail_id='{$id}'";
+        return $database->database_query($query);
+    }
+    
     function deleteBroker($broker_id) {
         global $database;
         $query = "delete from home_broker_company where id={$broker_id}";

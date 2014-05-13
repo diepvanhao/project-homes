@@ -871,6 +871,30 @@ if ($action == "check_email") {
         $result = $ajax->checkRoomExist($house_id, $room_id, $broker_id);
         echo json_encode($result);
     }
+}elseif($action=='deleteRoom'){
+     if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+         if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+        } elseif (isset($_GET['id'])) {
+            $id = $_GET['id'];
+        } else {
+            $id = "";
+        }
+         if (isset($_POST['broker_id'])) {
+            $broker_id = $_POST['broker_id'];
+        } elseif (isset($_GET['broker_id'])) {
+            $broker_id = $_GET['broker_id'];
+        } else {
+            $broker_id = "";
+        }        
+        $result=$ajax->deleteRoom($id,$broker_id,$house_id);
+        echo $result;
 }
 
 
