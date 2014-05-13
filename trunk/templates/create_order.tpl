@@ -1060,14 +1060,16 @@
                         <td class='form1' nowrap>Cost:</td>
                         <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
                     </tr>
-                    <tr id="plus">                    
-                        <td class='form1'>Plus fee:</td>
-                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" value="{$contract_plus_money}"style="height: 26px; width: 315px;"/>
-                            <input type="button" id="add" name="add" value="add" /> 
+                    
+                    <tr>                    
+                        <td class='form1'></td>
+                        <td class='form2'>
+                            <input type="button" id="add" class='btn-signup' name="add" value="Add plus fee" style="width: 140px;"/> 
                         </td>       
                         <td class='form1'></td>
                         <td class='form2'></td>   
                     </tr>
+                   
                     <tr>                    
                         <td class='form1'>Key fee:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
@@ -1210,10 +1212,12 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
+                var fieldCount=1;
                 $('#add').click(function() {
-                    var label = prompt('which type plus do you want to add ?', '');
+                    var label = prompt('which  plus do you want to add ?', '');                    
                     if (label != null && label != "") {
-
+                        fieldCount++;
+                        $(this).append("<tr><td class='form1'>"+label+" :</td><td class='form2'><input type='text' id='contract_plus_money' name='contract_plus_money' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' value='remove' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
             });

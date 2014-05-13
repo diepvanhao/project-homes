@@ -46,7 +46,7 @@
                             <td>{$room.room_rent}</td>                           
                             <td>{$room.room_size}</td>
                             <td>{$room.room_deposit}</td>                           
-                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$house.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="room_detail.php?url={$add|base64_encode}">Detail</a></td>
+                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$room.id},{$room.broker_id},{$room.house_id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="room_detail.php?url={$add|base64_encode}">Detail</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -62,9 +62,9 @@
 </center>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id) {
+        function deleteItem(id, broker_id, house_id) {
             if (confirm("Are you sure?")) {
-                $.post("include/function_ajax.php", {house_id: id, action: 'deleteHouse'},
+                $.post("include/function_ajax.php", {id: id, broker_id: broker_id, house_id: house_id, action: 'deleteRoom'},
                 function(result) {
                     if (result)
                         window.location.reload(true);
