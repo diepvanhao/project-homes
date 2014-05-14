@@ -105,3 +105,11 @@ ALTER TABLE `home_room`
 
 ALTER TABLE `home_room_detail`   
   DROP COLUMN `room_id`;
+
+/*Hao 14/5*/
+ALTER TABLE `home_house`   
+  DROP COLUMN `house_size`, 
+  DROP COLUMN `house_discount`;
+
+ALTER TABLE `home_room_detail`   
+  ADD COLUMN `room_discount` VARCHAR(128) NULL AFTER `room_deposit`;
