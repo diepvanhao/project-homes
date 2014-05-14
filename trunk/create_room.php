@@ -46,6 +46,14 @@ if (isset($_POST['room_size'])) {
     $room_size = "";
 }
 
+if (isset($_POST['room_discount'])) {
+    $room_discount = $_POST['room_discount'];
+} elseif (isset($_GET['room_discount'])) {
+    $room_discount = $_GET['room_discount'];
+} else {
+    $room_discount = "";
+}
+
 if (isset($_POST['room_status'])) {
     $room_status = $_POST['room_status'];
 } elseif (isset($_GET['room_status'])) {
@@ -128,7 +136,7 @@ if (isset($_POST['submit'])) {
     if (empty($error)) {
         $house = new HOMEHouse();
         $result = $house->create_room(
-                $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money,$room_administrative_expense,$room_deposit,$room_photo,$house_id,$broker_id
+                $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money,$room_administrative_expense,$room_deposit,$room_discount,$room_photo,$house_id,$broker_id
         );
         if ($result['flag']) {
             header("Location: notify.php?content=Create Room Success!!!&url_return=create_room.php");
@@ -149,6 +157,7 @@ $brokers = $brokerClass->getAllBroker();
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
 $smarty->assign('room_size', $room_size);
+$smarty->assign('room_discount', $room_discount);
 $smarty->assign('room_status', $room_status);
 $smarty->assign('room_rent', $room_rent);
 $smarty->assign('room_key_money', $room_key_money);
