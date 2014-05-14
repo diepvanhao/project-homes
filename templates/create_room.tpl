@@ -7,6 +7,50 @@
         {/foreach}
     {/if}
     <form action="create_room.php" method="post" enctype="multipart/form-data">
+        <div style="margin-bottom: 20px;"><label >House Infomation</label></div>        
+        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+            <tr>
+                <td class="form1">Filter House</td>
+                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
+                </td>
+            </tr>
+            <tr>            
+                <td class='form1'>Select House: </td>
+                <td class='form2'>
+                    <select id="house_id" name="house_id" style="height:26px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$houses item=house}
+                            <option value="{$house.id}" {if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
+                        {/foreach}
+                    </select><span id="error_house" class="error"></span>
+                </td>
+            </tr>
+            <tr>            
+                <td class='form1'>Description House: </td>
+                <td class='form2'><textarea style="width: 351px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+            </tr>
+            <tr>            
+                <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+            </tr>            
+        </table>
+        <div style="margin-bottom: 20px;"><label >Broker Company Infomation</label></div>      
+        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
+            <tr>            
+                <td class='form1'>Select Broker Company: </td>
+                <td class='form2'>
+                    <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$brokers item=broker}
+                            <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
+                        {/foreach}
+                    </select><span id="error_broker" class="error"></span>
+                </td>
+            </tr>   
+            <tr> 
+                {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
+                <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
+            </tr>
+        </table>
         <div><label class="title">Room Infomation</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
@@ -55,51 +99,7 @@
                     </select>
                 </td>
             </tr>
-        </table>
-        <div style="margin-bottom: 20px;"><label >House Infomation</label></div>        
-        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-            <tr>
-                <td class="form1">Filter House</td>
-                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
-                </td>
-            </tr>
-            <tr>            
-                <td class='form1'>Select House: </td>
-                <td class='form2'>
-                    <select id="house_id" name="house_id" style="height:26px; width: 351px;">
-                        <option value=""></option>
-                        {foreach from=$houses item=house}
-                            <option value="{$house.id}" {if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
-                        {/foreach}
-                    </select><span id="error_house" class="error"></span>
-                </td>
-            </tr>
-            <tr>            
-                <td class='form1'>Description House: </td>
-                <td class='form2'><textarea style="width: 351px;height: 129px;" disabled="1" id="house_description"></textarea></td>
-            </tr>
-            <tr>            
-                <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
-            </tr>            
-        </table>
-        <div style="margin-bottom: 20px;"><label >Broker Company Infomation</label></div>      
-        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
-            <tr>            
-                <td class='form1'>Select Broker Company: </td>
-                <td class='form2'>
-                    <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
-                        <option value=""></option>
-                        {foreach from=$brokers item=broker}
-                            <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
-                        {/foreach}
-                    </select><span id="error_broker" class="error"></span>
-                </td>
-            </tr>   
-            <tr> 
-                {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
-                <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
-            </tr>
-        </table>
+        </table>       
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
             <tr>
                 <td class='form1'>&nbsp;</td>

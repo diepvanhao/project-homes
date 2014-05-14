@@ -180,6 +180,7 @@ class HOMEHouse {
             $room['room_key_money'] = $row['room_key_money'];
             $room['room_administrative_expense'] = $row['room_administrative_expense'];
             $room['room_deposit'] = $row['room_deposit'];
+            $room['room_discount'] = $row['room_discount'];
             $room['room_photo'] = $row['room_photo'];
 
             $room_arr = $room;
@@ -200,13 +201,11 @@ class HOMEHouse {
             $house['user_id'] = $row['user_id'];
             $house['house_name'] = $row['house_name'];
             $house['house_address'] = $row['house_address'];
-            $house['house_size'] = $row['house_size'];
             $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
             $house['house_description'] = $row['house_description'];
             $house['house_photo'] = $row['house_photo'];
-            $house['house_discount'] = $row['house_discount'];
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $house;
@@ -227,13 +226,11 @@ class HOMEHouse {
             $house['user_id'] = $row['user_id'];
             $house['house_name'] = $row['house_name'];
             $house['house_address'] = $row['house_address'];
-            $house['house_size'] = $row['house_size'];
             $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
             $house['house_description'] = $row['house_description'];
             $house['house_photo'] = $row['house_photo'];
-            $house['house_discount'] = $row['house_discount'];
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $house;
@@ -312,7 +309,7 @@ class HOMEHouse {
         return true;
     }
 
-    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_photo, $house_id, $broker_id) {
+    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id) {
         global $database;
         //check exist room
         if (checkRoomExist($room_number, $broker_id, $house_id)) {
@@ -348,6 +345,7 @@ class HOMEHouse {
                         `room_key_money`,
                         `room_administrative_expense`,
                         `room_deposit`,
+                        `room_discount`,
                         `room_photo`                       
                     )values(
                         '{$room_number}',
@@ -358,6 +356,7 @@ class HOMEHouse {
                         '{$room_key_money}',
                         '{$room_administrative_expense}',
                         '{$room_deposit}',
+                        '{$room_discount}',
                         '{$room_photo}'                       
                     )";
                     $result = $database->database_query($query);
@@ -373,7 +372,7 @@ class HOMEHouse {
         }
     }
 
-    function update_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk) {
+    function update_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk) {
         global $database;
         if (checkRoomExist($room_number, $broker_id, $house_id)) {
             return array('error' => 'This room is existed', 'flag' => false);
@@ -381,12 +380,13 @@ class HOMEHouse {
             $query = "update home_room_detail set 
                 room_number='{$room_number}',
                 room_type='{$room_type}',
-                room_size='{$room_size}',
+                room_size='{$room_size}',                   
                 room_status='{$room_status}',              
                 room_rent='{$room_rent}',
                 room_key_money='{$room_key_money}',
                 room_administrative_expense='{$room_administrative_expense}',                             
                 room_deposit='{$room_deposit}',
+                room_discount='{$room_discount}',    
                 room_photo='{$room_photo}'
                 
          where id={$room_detail_id}
