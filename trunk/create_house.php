@@ -130,7 +130,7 @@ if (isset($_POST['owner'])) {
 
 $validate = array(
     'house_name' => $house_name,
-    'house_address' => $house_address,       
+    'house_address' => $house_address
 );
 
 if($owner)

@@ -46,13 +46,6 @@ if (isset($_POST['house_address'])) {
     $house_address = "";
 }
 
-if (isset($_POST['house_size'])) {
-    $house_size = $_POST['house_size'];
-} elseif (isset($_GET['house_size'])) {
-    $house_size = $_GET['house_size'];
-} else {
-    $house_size = "";
-}
 
 if (isset($_POST['house_area'])) {
     $house_area = $_POST['house_area'];
@@ -85,14 +78,6 @@ if (isset($_POST['house_description'])) {
     $house_description = $_GET['house_description'];
 } else {
     $house_description = "";
-}
-
-if (isset($_POST['house_discount'])) {
-    $house_discount = $_POST['house_discount'];
-} elseif (isset($_GET['house_discount'])) {
-    $house_discount = $_GET['house_discount'];
-} else {
-    $house_discount = "";
 }
 
 if (isset($_POST['house_structure'])) {
@@ -179,9 +164,7 @@ $content = explode('&', $content);
 
 $validate = array(
     'house_name' => $house_name,
-    'house_address' => $house_address,
-    'house_size' => $house_size,
-    'house_area' => $house_area    
+    'house_address' => $house_address
 );
 
 if($owner)
@@ -194,13 +177,11 @@ if (isset($_POST['submit'])) {
         $house = new HOMEHouse();
         $result = $house->update_house(
                 $house_name, 
-                $house_address,
-                $house_size, 
+                $house_address,             
                 $house_area,               
                 $house_build_time,
                 $house_type,
-                $house_description,                               
-                $house_discount,
+                $house_description,                                             
                 $house_structure,
                 $house_owner_name,
                 $house_owner_address,
@@ -221,13 +202,11 @@ if (isset($_POST['submit'])) {
     $result = $house->getHouseById($content[1]);
     if (!empty($result)) {        
         $house_name = $result['house_name'];
-        $house_address = $result['house_address'];
-        $house_size = $result['house_size'];
+        $house_address = $result['house_address'];        
         $house_area = $result['house_area'];        
         $house_build_time = $result['house_build_time'];
         $house_type = $result['house_type'];
-        $house_description = $result['house_description'];                
-        $house_discount = $result['house_discount'];
+        $house_description = $result['house_description'];                        
         $house_structure = $result['house_structure'];
         $house_owner_name = $result['house_owner_name'];
         $house_owner_address = $result['house_owner_address'];
@@ -243,14 +222,12 @@ $smarty->assign('house_id', $house_id);
 $smarty->assign('owner_id', $owner_id);
 $smarty->assign('house_name', $house_name);
 $smarty->assign('house_address', $house_address);
-$smarty->assign('house_size', $house_size);
 $smarty->assign('house_area', $house_area);
 
 $smarty->assign('house_build_time', $house_build_time);
 $smarty->assign('house_type', $house_type);
 $smarty->assign('house_description', $house_description);
 
-$smarty->assign('house_discount', $house_discount);
 $smarty->assign('house_structure', $house_structure);
 $smarty->assign('house_owner_name', $house_owner_name);
 $smarty->assign('house_owner_address', $house_owner_address);

@@ -110,12 +110,12 @@ class HOMEHouse {
             $house['id'] = $row['id'];
             $house['user_id'] = $row['user_id'];
             $house['house_name'] = $row['house_name'];
-            $house['house_address'] = $row['house_address'];           
+            $house['house_address'] = $row['house_address'];
             $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
             $house['house_description'] = $row['house_description'];
-            $house['house_photo'] = $row['house_photo'];            
+            $house['house_photo'] = $row['house_photo'];
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $house;
@@ -254,18 +254,16 @@ class HOMEHouse {
         }
     }
 
-    function update_house($house_name, $house_address, $house_size, $house_area, $house_build_time, $house_type, $house_description, $house_discount, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id) {
+    function update_house($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id) {
 
         global $database;
         $query = "update home_house set 
                 house_name='{$house_name}',
-                house_address='{$house_address}',
-                house_size='{$house_size}',
+                house_address='{$house_address}',                
                 house_area='{$house_area}',              
                 house_build_time='{$house_build_time}',
                 house_type='{$house_type}',
-                house_description='{$house_description}',                             
-                house_discount='{$house_discount}',
+                house_description='{$house_description}',                                             
                 house_structure='{$house_structure}'
                 
          where id={$house_id}
@@ -401,7 +399,7 @@ class HOMEHouse {
                     house_id='{$house_id}'
                      
                     where broker_id='{$broker_id_bk}' and house_id='{$house_id_bk}' and room_detail_id='{$room_detail_id}'
-         ";                    
+         ";
             return array('error' => '', 'flag' => $database->database_query($query));
         }
     }
