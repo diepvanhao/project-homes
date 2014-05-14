@@ -16,20 +16,12 @@
             <tr>
                 <td class='form1'>Address:  <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='house_address' id='house_address' value="{$house_address}"  style="height:26px; width: 351px;"><div id="house_address_error"class="error"></div></td>
-            </tr>
+            </tr>            
             <tr>
-                <td class='form1'>Size: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='house_size' id='house_size' value="{$house_size}" style="height:26px; width: 351px;"><div id="house_size_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Area: <span class="required">*</span></td>
+                <td class='form1'>Area: </td>
                 <td class='form2'><input type='text' class='text' name='house_area' id='house_area' value="{$house_area}" style="height:26px; width: 351px;"><div id="house_area_error"class="error"></div></td>
             </tr>
-
-            <tr>
-                <td class='form1'>Discount: </td>
-                <td class='form2'><input type='text' class='text' name='house_discount' id='house_discount' value="{$house_discount}"  style="height:26px; width: 351px;"><div id="house_discount_error"class="error"></div></td>
-            </tr>
+           
             <tr>
                 <td class='form1'>Build Time: </td>
                 <td class='form2'><input type='text' class='text' name='house_build_time' id='house_build_time' value="{$house_build_time}"  style="height:26px; width: 351px;"><div id="house_build_time_error"class="error"></div></td>

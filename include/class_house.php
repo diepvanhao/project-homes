@@ -8,34 +8,30 @@
 
 class HOMEHouse {
 
-    function create($house_name, $house_address, $house_size, $house_area, $house_build_time, $house_type, $house_description, $house_discount, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email) {
+    function create($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email) {
 
         global $user, $database;
 
         $query = "insert into home_house(
             `user_id`,
             `house_name`,
-            `house_address`,
-            `house_size`,
+            `house_address`,           
             `house_area`,            
             `house_build_time`,
             `house_type`,
             `house_description`,           
-            `house_photo`,            
-            `house_discount`,
+            `house_photo`,                       
             `house_structure`,
             `house_owner_id`
             ) values(
                 '{$user->user_info['id']}',
                 '{$house_name}',
-                '{$house_address}',
-                '{$house_size}',
+                '{$house_address}',              
                 '{$house_area}',               
                 '{$house_build_time}',
                 '{$house_type}',
                 '{$house_description}',     
-                    '',
-                '{$house_discount}',
+                    '',                
                 '{$house_structure}',
                     ''                
                 )";
@@ -114,14 +110,12 @@ class HOMEHouse {
             $house['id'] = $row['id'];
             $house['user_id'] = $row['user_id'];
             $house['house_name'] = $row['house_name'];
-            $house['house_address'] = $row['house_address'];
-            $house['house_size'] = $row['house_size'];
+            $house['house_address'] = $row['house_address'];           
             $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
             $house['house_description'] = $row['house_description'];
-            $house['house_photo'] = $row['house_photo'];
-            $house['house_discount'] = $row['house_discount'];
+            $house['house_photo'] = $row['house_photo'];            
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $house;

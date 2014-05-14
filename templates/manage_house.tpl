@@ -22,14 +22,12 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Address</th>
-                        <th>Size</th>
+                        <th>Address</th>                       
                         <th>Area</th>                        
                         <th>Build Time</th>
                         <th>House Type</th>                        
                         <th>Structure</th>
-                        <th>Description</th>                        
-                        <th>Discount</th>                        
+                        <th>Description</th>                                                                  
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -40,14 +38,12 @@
                         <tr>
                             <td>{$house.id}</td>
                             <td>{$house.house_name}</td>
-                            <td>{$house.house_address}</td>
-                            <td>{$house.house_size}</td>
+                            <td>{$house.house_address}</td>                            
                             <td>{$house.house_area}</td>                           
                             <td>{$house.house_build_time}</td>
                             <td>{$house.house_type}</td>                           
                             <td>{$house.house_structure}</td>
-                            <td>{$house.house_description}</td>                           
-                            <td>{$house.house_discount}</td>                           
+                            <td>{$house.house_description}</td>                                                                             
                             <td style="width:9%"><a href="edit_house.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$house.id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="house_detail.php?url={$add|base64_encode}">Detail</a></td>
                         </tr>
                     {/foreach}
