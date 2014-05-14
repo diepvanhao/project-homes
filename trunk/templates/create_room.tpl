@@ -38,7 +38,10 @@
                 <td class='form1'>Deposit: </td>
                 <td class='form2'><input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 351px;"><div id="room_deposit_error"class="error"></div></td>
             </tr>
-
+            <tr>
+                <td class='form1'>Discount: </td>
+                <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 351px;"><div id="room_discount_error"class="error"></div></td>
+            </tr>
             <tr>
                 <td class='form1'>Photo: </td>
                 <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 351px;"><div id="room_photo_error"class="error"></div></td>

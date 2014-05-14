@@ -1217,7 +1217,7 @@
                     var label = prompt('which  plus do you want to add ?', '');                    
                     if (label != null && label != "") {
                         fieldCount++;
-                        $(this).append("<tr><td class='form1'>"+label+" :</td><td class='form2'><input type='text' id='contract_plus_money' name='contract_plus_money' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' value='remove' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $(this).parent().parent().parent().append("<tr><td class='form1'>"+label+" :</td><td class='form2'><input type='text' id='contract_plus_money' name='contract_plus_money' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' value='remove' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
             });

@@ -38,14 +38,6 @@ if (isset($_POST['house_address'])) {
     $house_address = "";
 }
 
-if (isset($_POST['house_size'])) {
-    $house_size = $_POST['house_size'];
-} elseif (isset($_GET['house_size'])) {
-    $house_size = $_GET['house_size'];
-} else {
-    $house_size = "";
-}
-
 if (isset($_POST['house_area'])) {
     $house_area = $_POST['house_area'];
 } elseif (isset($_GET['house_area'])) {
@@ -79,14 +71,6 @@ if (isset($_POST['house_description'])) {
     $house_description = "";
 }
 
-
-if (isset($_POST['house_discount'])) {
-    $house_discount = $_POST['house_discount'];
-} elseif (isset($_GET['house_discount'])) {
-    $house_discount = $_GET['house_discount'];
-} else {
-    $house_discount = "";
-}
 
 if (isset($_POST['house_structure'])) {
     $house_structure = $_POST['house_structure'];
@@ -146,9 +130,7 @@ if (isset($_POST['owner'])) {
 
 $validate = array(
     'house_name' => $house_name,
-    'house_address' => $house_address,
-    'house_size' => $house_size,
-    'house_area' => $house_area    
+    'house_address' => $house_address,       
 );
 
 if($owner)
@@ -161,13 +143,11 @@ if (isset($_POST['submit'])) {
         $house = new HOMEHouse();
         $result = $house->create(
                 $house_name, 
-                $house_address,
-                $house_size, 
+                $house_address,             
                 $house_area,               
                 $house_build_time,
                 $house_type,
-                $house_description,
-                $house_discount,
+                $house_description,                
                 $house_structure,
                 $house_owner_name,
                 $house_owner_address,
@@ -185,12 +165,10 @@ if (isset($_POST['submit'])) {
 
 $smarty->assign('house_name', $house_name);
 $smarty->assign('house_address', $house_address);
-$smarty->assign('house_size', $house_size);
 $smarty->assign('house_area', $house_area);
 $smarty->assign('house_build_time', $house_build_time);
 $smarty->assign('house_type', $house_type);
 $smarty->assign('house_description', $house_description);
-$smarty->assign('house_discount', $house_discount);
 $smarty->assign('house_structure', $house_structure);
 $smarty->assign('house_owner_name', $house_owner_name);
 $smarty->assign('house_owner_address', $house_owner_address);
