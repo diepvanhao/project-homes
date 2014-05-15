@@ -113,3 +113,60 @@ ALTER TABLE `home_house`
 
 ALTER TABLE `home_room_detail`   
   ADD COLUMN `room_discount` VARCHAR(128) NULL AFTER `room_deposit`;
+
+/*Hao 15/5*/
+CREATE TABLE `house_city`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `city_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `house_district`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `district_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `house_ward`(  
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `ward_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `house_street`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `street_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `house_type`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `type_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `house_structure`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `structure_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+CREATE TABLE `house_room_type`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `room_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `home_history_log`   
+  ADD COLUMN `source_id` INT(11) NULL AFTER `order_id`;
+
+CREATE TABLE `home_source`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `source_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `contract_application` TINYINT(1) NULL AFTER `contract_name`,
+  ADD COLUMN `contract_application_status` TINYINT(1) NULL AFTER `contract_application`;
+
+ALTER TABLE `home_contract_detail`   
+  CHANGE `contract_application_status` `contract_application_date` VARCHAR(128) NULL;
