@@ -111,7 +111,14 @@
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
-                window.location.href = "create_order.php?step=1&broker_id=" + broker_id;
+                var staff_id = $('#staff_id').val();
+                var house_id = $('#house_id').val();
+                var room_id = $('#room_id').val();
+                var order_name = $('#order_name').val();
+                var order_rent_cost = $('#order_rent_cost').val();
+                var order_comment = $('#order_comment').val();
+
+                window.location.href = "create_order.php?step=2&broker_id=" + broker_id + '&house_id=' + house_id + "&room_id=" + room_id + "&staff_id=" + staff_id + "&order_name=" + order_name + "&order_rent_cost=" + order_rent_cost + "&order_comment=" + order_comment;
             });
             $('#client_info ul li').click(function() {
                 $('#client_info ul li').each(function() {
@@ -299,13 +306,13 @@
                         var order_id = $('#order_id').val();
                         var room_id = $('#room_id').val();
                         $('#error_house').html('');
-                         $('#error_room_introduce').html('');
+                        $('#error_room_introduce').html('');
                         if (house_id == "")
                             $('#error_house').html('Please choose house.');
                         else if (room_id == "") {
                             $('#error_room_introduce').html('Please choose room.');
                         } else {
-                            $.post("include/function_ajax.php", {house_id: house_id,room_id: room_id, introduce_house_content: house_description,
+                            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, introduce_house_content: house_description,
                                 client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
                             function(result) {
                                 var json = $.parseJSON(result);
@@ -447,9 +454,9 @@
                 }
             });
         }
-        function get_room(house_id) {
+        function get_room(house_id,room_id="") {
             $('#error_room').html("");
-            $.post("include/function_ajax.php", {house_id: house_id, action: 'create_order', task: 'getRoomContent'},
+            $.post("include/function_ajax.php", {house_id: house_id,room_id: room_id, action: 'create_order', task: 'getRoomContent'},
             function(result) {
                 if (result) {
                     $('#room_id').empty();
@@ -468,6 +475,7 @@
         <div class="error">{$val}</div>
     {/foreach}
 {/if}
+<!--
 {*step1   *}
 {if $step eq 1}
     <form action="create_order.php" method="post">
@@ -479,30 +487,46 @@
                 <td class="form2">
                     <select id="broker_id" name="broker_id" style="height:26px; width: 251px;">
                         <option value=""></option>
-                        {foreach from=$brokers key=k item=val}
-                            <option value="{$val.id}"{if $val.id eq $broker_id}selected{/if} >{$val.broker_company_name}</option>                  
-                        {/foreach}                                                   
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class='form1'>&nbsp;</td>
-                <td class='form2'>
-                    <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='Next' id="submit" name="submit" style="width: 100px;"onclick="showloadgif()"/>&nbsp;  
-                        <input type="hidden" id="step" name="step" value="2"/>                        
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </form>
+    {foreach from=$brokers key=k item=val}
+        <option value="{$val.id}"{if $val.id eq $broker_id}selected{/if} >{$val.broker_company_name}</option>                  
+    {/foreach}                                                   
+</select>
+</td>
+</tr>
+<tr>
+<td class='form1'>&nbsp;</td>
+<td class='form2'>
+<div style="margin-top:10px">
+    <input type='submit' class='btn-signup' value='Next' id="submit" name="submit" style="width: 100px;"onclick="showloadgif()"/>&nbsp;  
+    <input type="hidden" id="step" name="step" value="2"/>                        
+</div>
+</td>
+</tr>
+</table>
+</form>
 {/if}
+-->
 {*step2*}                       
 {if $step eq 2}    
 
     <form action="create_order.php" method="post">
         <div class="title"><label >Input house information</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
+            <tr>       
+                <td class='form1'>Select Broker Company: </td>
+                <td class='form2'>
+                    <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$brokers item=broker}
+                            <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
+                        {/foreach}
+                    </select><div id="error_broker" class="error"></div>
+                </td>
+            </tr> 
+            <tr> 
+                {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
+                <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
+            </tr>            
             <tr>
                 <td class="form1">
                     Assign
@@ -512,7 +536,7 @@
                     <select id="staff_id" name="staff_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$users item=user}
-                            <option value="{$user.id}">{$user.user_fname} {$user.user_lname}</option>        
+                            <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
                         {/foreach}
                     </select><div id="error_staff" class="error"></div>
 
@@ -529,7 +553,7 @@
                     <select id="house_id" name="house_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$houses item=house}
-                            <option value="{$house.id}">{$house.house_name}</option>        
+                            <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
                         {/foreach}
                     </select><div id="error_house" class="error"></div>
                 </td>
@@ -541,6 +565,7 @@
             <tr>            
                 <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
             </tr>
+
             <tr>            
                 <td class='form1'>Select Room: </td>
                 <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
@@ -552,25 +577,24 @@
             <!--order part-->
             <tr>            
                 <td class='form1'>Order name: </td>
-                <td class='form2'><input type='text' id="order_name" name="order_name" style="height: 26px; width: 351px;"/><div id="error_order_name" class="error"></div></td>
+                <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 351px;"/><div id="error_order_name" class="error"></div></td>
             </tr>
             <tr>            
                 <td class='form1'>Price: </td>
-                <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" style="height: 26px; width: 351px;"/></td>
+                <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 351px;"/></td>
             </tr>
             <tr>            
                 <td class='form1'>Comment: </td>
-                <td class='form2'><input type='text' id="order_comment" name="order_comment" style="height: 26px; width: 351px;"/></td>
+                <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 351px;"/></td>
             </tr>
+
             <!--end order-->
             <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='Next' id="submit" name="submit" style="width: 100px;"/>&nbsp;  
-                        <input type='button' class='btn-signup' value='Back' id="back" name="back" style="width: 100px;"/>&nbsp; 
-                        <input type="hidden" id="step" name="step" value="verify"/>      
-                        <input type="hidden" id="broker_id" name="broker_id" value="{$broker_id}"/>   
+                        <input type='submit' class='btn-signup' value='Next' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
+                        <input type="hidden" id="step" name="step" value="verify"/>                              
                     </div>
                 </td>
             </tr>
@@ -580,15 +604,22 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#submit').click(function(e) {
+                    $('#error_broker').html("");
                     $('#error_staff').html("");
                     $('#error_house').html("");
                     $('#error_order_name').html("");
                     $('#error_room').html("");
                     var staff_id = $('#staff_id').val();
+                    var broker_id = $('#broker_id').val();
                     var house_id = $('#house_id').val();
                     var order_name = $('#order_name').val();
                     var room_id = $('#room_id').val();
-                    if (staff_id == "" || staff_id == null) {
+
+                    if (broker_id == "" || broker_id == null) {
+                        $('#error_broker').html('Please choose broker company.');
+                        e.preventDefault();
+                        return false;
+                    } else if (staff_id == "" || staff_id == null) {
                         $('#error_staff').html('Please choose assign.');
                         e.preventDefault();
                         return false;
@@ -610,7 +641,36 @@
                     }
 
                 });
+                $('#broker_id').change(function() {
+                    //active form
+                    $('#error_broker').html("");
+                    var broker_id = $('#broker_id').val();
+                    if (broker_id) {
+                        $('table').find('tr').css('display', '');
+                    } else {
+                        $('table').find('tr').css('display', 'none');
+                        $('table').find('tr:first-child').css('display', '');
+                        $('table').find('tr:last-child').css('display', '');
+                    }
+                });
+                var broker_id = $('#broker_id').val();
+                if (broker_id) {
+                    $('table').find('tr').css('display', '');
+                } else {
+                    $('table').find('tr').css('display', 'none');
+                    $('table').find('tr:first-child').css('display', '');
+                    $('table').find('tr:last-child').css('display', '');
+                }
+                var house_id = $('#house_id').val();
+                var room_id={/literal}{$room_id}{literal}
+                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    $('#house_description').html(json.house_description);
+                    get_room(house_id,room_id);
+                });
             });
+
         </script>
     {/literal}
 {/if}
@@ -659,9 +719,11 @@
                         <input type="submit" class='btn-signup' value="Registry" id="registry" name="registry" style="width: 100px;"/>&nbsp; 
                         <input type="button" class='btn-signup' value="Later" id="later" name="later"style="width: 100px;margin: 0px 10px 0px 10px;"/>
                         <input type="button" class='btn-signup' value="Cancel" id="cancel" name="cancel"style="width: 100px;"/>
+                        <input type='button' class='btn-signup' value='Back' id="back" name="back" style="width: 100px;float: right;margin-right: 1%;"/>&nbsp; 
                         <input type="hidden" id="create_id" name="create_id" value="{$staffs.id}"/>
+                        <input type="hidden" id="staff_id" name="staff_id" value="{$staffs.id}"/>
                         <input type="hidden" id="house_id" name="house_id" value="{$houses.id}"/>
-                        <input type="hidden" id="house_id" name="room_id" value="{$room_id}"/> 
+                        <input type="hidden" id="room_id" name="room_id" value="{$room_id}"/> 
                         <input type="hidden" id="broker_id" name="broker_id" value="{$brokers.id}"/>
                         <input type="hidden" id="order_name" name="order_name" value="{$order_name}"/>
                         <input type="hidden" id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"/>    
@@ -899,6 +961,18 @@
                             <input type='radio' id="log_payment_appointment_report_no" name="log_payment_appointment_report" value="0" {if $log_payment_appointment_report eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_report_no">No</label>
                         </td>
                     </tr>
+                     <tr>
+                        <td class='form1'>Select Source:</td>
+                        <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 315px;">
+                                <option value=""></option>
+                                {foreach from=$sources item=source}
+                                    <option value="{$source.id}" {if $source_id eq $source.id} selected="selected"{/if}>{$source.source_name}</option>        
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td class='form1' nowrap><span id="error_source"></span></td>
+                        <td class='form2'></td>
+                    </tr>
                     <tr>
                         <td class='form1'>Contact by tel:</td>
                         <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
@@ -934,7 +1008,7 @@
                         <td class='form2'>
                             <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 315px;"/>
                         </td>
-                        <td class='form1' nowrap></td>
+                        <td class='form1' nowrap><span id="error_revisit"></span></td>
                         <td class='form2'></td>
                     </tr>
                     <tr>
@@ -1060,7 +1134,7 @@
                         <td class='form1' nowrap>Cost:</td>
                         <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
                     </tr>
-                    
+
                     <tr>                    
                         <td class='form1'></td>
                         <td class='form2'>
@@ -1069,7 +1143,7 @@
                         <td class='form1'></td>
                         <td class='form2'></td>   
                     </tr>
-                   
+
                     <tr>                    
                         <td class='form1'>Key fee:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
@@ -1212,12 +1286,12 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
-                var fieldCount=1;
+                var fieldCount = 1;
                 $('#add').click(function() {
-                    var label = prompt('which  plus do you want to add ?', '');                    
+                    var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "") {
                         fieldCount++;
-                        $(this).parent().parent().parent().append("<tr><td class='form1'>"+label+" :</td><td class='form2'><input type='text' id='contract_plus_money' name='contract_plus_money' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' value='remove' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $(this).parent().parent().parent().append("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='text' id='contract_plus_money' name='contract_plus_money' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' value='remove' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
             });

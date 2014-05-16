@@ -266,13 +266,19 @@ if ($action == "check_email") {
         } else {
             $house_id = "";
         }
-
-        $result = $ajax->getRoomContentByHouseId($house_id);
+        if (isset($_POST['room_id'])) {
+            $room_id= $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id= $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
+        $result = $ajax->getRoomContentByHouseId($house_id,$room_id);
         if ($result) {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {
 
-                echo "<option value='{$result[$i]['id']}'>{$result[$i]['id']}</option>";
+                echo "<option value='{$result[$i]['id']}'";if ($result[$i]['id'] == $room_id) echo "selected='selected'";echo ">";echo "{$result[$i]['id']}</option>";
             }
         }
     }
