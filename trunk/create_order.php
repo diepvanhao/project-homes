@@ -22,7 +22,7 @@ if (isset($_POST['step'])) {
 } elseif (isset($_GET['step'])) {
     $step = $_GET['step'];
 } else {
-    $step = 1;
+    $step = 2;
 }
 
 if (isset($_POST['broker_id'])) {
@@ -39,17 +39,73 @@ if ($step == 1) {
     $smarty->assign('brokers', $brokers);
 } elseif ($step == 2) {
 
-    if (empty($broker_id)) {
-        $error[] = "Please choose Source to continue !!!";
-        $step = 1;
-        $broker = new HOMEBroker();
-        $brokers = $broker->getAllBroker();
-        $smarty->assign('brokers', $brokers);
+//    if (empty($broker_id)) {
+//        $error[] = "Please choose Source to continue !!!";
+//        $step = 1;
+//        $broker = new HOMEBroker();
+//        $brokers = $broker->getAllBroker();
+//        $smarty->assign('brokers', $brokers);
+//    }
+    // valude for to back
+    if (isset($_POST['staff_id'])) {
+        $staff_id = $_POST['staff_id'];
+    } elseif (isset($_GET['staff_id'])) {
+        $staff_id = $_GET['staff_id'];
+    } else {
+        $staff_id = "";
     }
+
+    if (isset($_POST['house_id'])) {
+        $house_id = $_POST['house_id'];
+    } elseif (isset($_GET['house_id'])) {
+        $house_id = $_GET['house_id'];
+    } else {
+        $house_id = "";
+    }
+    //order part
+    if (isset($_POST['order_name'])) {
+        $order_name = $_POST['order_name'];
+    } elseif (isset($_GET['order_name'])) {
+        $order_name = $_GET['order_name'];
+    } else {
+        $order_name = "";
+    }
+    if (isset($_POST['order_rent_cost'])) {
+        $order_rent_cost = $_POST['order_rent_cost'];
+    } elseif (isset($_GET['order_rent_cost'])) {
+        $order_rent_cost = $_GET['order_rent_cost'];
+    } else {
+        $order_rent_cost = "";
+    }
+    if (isset($_POST['order_comment'])) {
+        $order_comment = $_POST['order_comment'];
+    } elseif (isset($_GET['order_comment'])) {
+        $order_comment = $_GET['order_comment'];
+    } else {
+        $order_comment = "";
+    }
+    if (isset($_POST['room_id'])) {
+        $room_id = $_POST['room_id'];
+    } elseif (isset($_GET['room_id'])) {
+        $room_id = $_GET['room_id'];
+    } else {
+        $room_id = "";
+    }
+    $smarty->assign('order_name', $order_name);
+    $smarty->assign('order_rent_cost', $order_rent_cost);
+    $smarty->assign('order_comment', $order_comment);
+    $smarty->assign('staff_id', $staff_id);
+    $smarty->assign('room_id', $room_id);
+    $smarty->assign('house_id', $house_id);
+    $smarty->assign('broker_id', $broker_id);
+    //end
+
     $house = new HOMEHouse();
     $houses = $house->getHouses();
     $users = $user->getAllUsers();
-
+    $broker = new HOMEBroker();
+    $brokers = $broker->getAllBroker();
+    $smarty->assign('brokers', $brokers);
     $smarty->assign('houses', $houses);
     $smarty->assign('users', $users);
 } elseif ($step == 'verify') {
@@ -182,7 +238,7 @@ if ($step == 1) {
         $order_day_create = time();
 
         $order = new HOMEOrder();
-        $result = $order->create_order($room_id,$order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
+        $result = $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
         //print_r($result);die();
         if (isset($result['id'])) {
             $order_id = $result['id'];
@@ -248,7 +304,7 @@ if ($step == 1) {
     } elseif (isset($_GET['client_fax'])) {
         $client_fax = $_GET['client_fax'];
     } else {
-        $client_fax= "";
+        $client_fax = "";
     }
 ///////////////////////////////////////End Basic////////////////////////////////////////////
 //////////////////////////////////////Begin Detail/////////////////////////////////////////
@@ -697,16 +753,16 @@ if ($step == 1) {
             $task = "";
         }
         if ($task == 'basic') {
-            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone,$client_fax, $order_id, $client_id);
+            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id);
             if ($result) {
                 $client_id = $result['id'];
                 $exist = $result['exist'];
-                if($exist)
-                    $error[]="This client existed and the system auto fill in information :)";
-                else 
-                    $error[]="";
+                if ($exist)
+                    $error[] = "This client existed and the system auto fill in information :)";
+                else
+                    $error[] = "";
                 $client_arr = $result['client_arr'];
-                
+
                 if (!empty($client_arr)) {
                     $client_name = $client_arr['client_name'];
                     $client_birthday = $client_arr['client_birthday'];
@@ -727,7 +783,7 @@ if ($step == 1) {
                     if ($user->user_info['id'] == $client_arr['user_id']) {
                         $result = $customer->getCustomersOrder($order_id, $client_id);
                         if ($result) {
-                            $client_arr = $result['client_arr'];                            
+                            $client_arr = $result['client_arr'];
                             if (!empty($client_arr)) {
                                 $log_time_call = $client_arr['log_time_call'];
                                 $log_time_arrive_company = $client_arr['log_time_arrive_company'];
@@ -738,7 +794,7 @@ if ($step == 1) {
                                 $log_payment_date_appointment_from = $client_arr['log_payment_date_appointment_from'];
                                 $log_payment_date_appointment_to = $client_arr['log_payment_date_appointment_to'];
                                 $log_payment_appointment_status = $client_arr['log_payment_appointment_status'];
-                                $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];                                
+                                $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];
                                 $log_status_appointment = $client_arr['log_status_appointment'];
                                 $log_tel = $client_arr['log_tel'];
                                 $log_tel_status = $client_arr['log_tel_status'];
