@@ -849,6 +849,10 @@ if ($step == 1) {
             
         }
     }
+    //get source
+    
+    
+    
     $smarty->assign('contract_name', $contract_name);
     $smarty->assign('contract_cost', $contract_cost);
     $smarty->assign('contract_plus_money', $contract_plus_money);

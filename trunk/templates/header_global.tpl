@@ -47,6 +47,7 @@
                                     <li><a href="create_order.php">Order</a></li>
                                     <li><a href="create_agent.php">Agent</a></li>
                                     <li><a href="create_house.php">House</a></li>
+                                    <li><a href="create_source.php">Source</a></li>
                                     <li><a href="create_broker_company.php">Broker Company</a></li>                                   
                                     <li><a href="create_client.php">Customer</a></li>    
                                     <li><a href="create_room.php">Room</a></li>    
@@ -59,6 +60,7 @@
                                     <li><a href="manage_account.php">Account</a></li>                                    
                                     <li><a href="manage_agent.php">Agent</a></li>
                                     <li><a href="manage_house.php">House</a></li>
+                                    <li><a href="manage_source.php">Source</a></li>
                                     <li><a href="manage_room.php">Room</a></li>
                                     <li><a href="manage_broker.php">Broker Company</a></li>                                    
                                 </ul>

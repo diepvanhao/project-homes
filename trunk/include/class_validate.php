@@ -92,6 +92,9 @@ class HOMEValidate {
                      case("broker_id"):
                         $this->checkEmpty('Broker Company', $val);
                         break;
+                    case("source_name"):
+                        $this->checkEmpty('Source Name', $val);
+                        break;
                     default :
                         break;
                 }
