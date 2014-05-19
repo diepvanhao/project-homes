@@ -443,7 +443,13 @@ if ($action == "check_email") {
         } else {
             $client_id = "";
         }
-
+         if (isset($_POST['source_id'])) {
+            $source_id = $_POST['source_id'];
+        } elseif (isset($_GET['source_id'])) {
+            $source_id = $_GET['source_id'];
+        } else {
+            $source_id = "";
+        }
 
         if (isset($_POST['log_time_call'])) {
             $log_time_call = $_POST['log_time_call'];
@@ -601,7 +607,7 @@ if ($action == "check_email") {
             $log_status_appointment = "";
         }
 
-        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id);
+        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit,$source_id, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'aspirations') {

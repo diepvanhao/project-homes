@@ -208,6 +208,7 @@
                         var log_payment_date_appointment_from = $('#log_payment_date_appointment_from').val();
                         var log_payment_date_appointment_to = $('#log_payment_date_appointment_to').val();
                         var log_revisit = $('#log_revisit').val();
+                        var source_id = $('#source_id').val();
 
                         if ($('#log_tel').is(':checked'))
                             var log_tel = 1;
@@ -267,7 +268,7 @@
                             log_date_appointment_to: log_date_appointment_to, log_payment_date_appointment_from: log_payment_date_appointment_from, log_payment_date_appointment_to: log_payment_date_appointment_to,
                             log_payment_appointment_status: log_payment_appointment_status, log_payment_appointment_report: log_payment_appointment_report,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
-                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit,
+                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -410,6 +411,10 @@
                     $('#log_line').attr('checked', "");
                     $('#log_revisit').val('');
 
+                    $('#source_id').each(function(e) {
+                        $('option').removeAttr('selected');
+                    });
+
                     $('#aspirations_type_house').val('');
                     $('#aspirations_type_room').val('');
                     $('#aspirations_build_time').val('');
@@ -454,9 +459,9 @@
                 }
             });
         }
-        function get_room(house_id,room_id="") {
+        function get_room(house_id, room_id = "") {
             $('#error_room').html("");
-            $.post("include/function_ajax.php", {house_id: house_id,room_id: room_id, action: 'create_order', task: 'getRoomContent'},
+            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
             function(result) {
                 if (result) {
                     $('#room_id').empty();
@@ -662,12 +667,12 @@
                     $('table').find('tr:last-child').css('display', '');
                 }
                 var house_id = $('#house_id').val();
-                var room_id={/literal}{$room_id}{literal}
+                var room_id ={/literal}{$room_id}{literal}
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id,room_id);
+                    get_room(house_id, room_id);
                 });
             });
 
@@ -961,7 +966,7 @@
                             <input type='radio' id="log_payment_appointment_report_no" name="log_payment_appointment_report" value="0" {if $log_payment_appointment_report eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_report_no">No</label>
                         </td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class='form1'>Select Source:</td>
                         <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 315px;">
                                 <option value=""></option>
