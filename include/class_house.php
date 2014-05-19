@@ -404,6 +404,87 @@ class HOMEHouse {
         }
     }
 
+    function create_source($source_name) {
+        global $database;
+        $source_name = trim($source_name);
+        if (checkExistSource($source_name)) {
+            return array('error' => "Source existed. Please enter other source !!!", 'flag' => '');
+        }
+        $query = "insert into home_source(`source_name`) values('{$source_name}')";
+        echo $query;
+        $result = $database->database_query($query);
+        if ($result)
+            return array('error' => "", 'flag' => TRUE);
+        else
+            return array('error' => "", 'flag' => FALSE);
+    }
+
+    function getSource($search = "", $offset = 0, $length = 50) {
+        global $database;
+        $query = "select * from home_source";
+        if (!empty($search))
+            $query.=" where source_name like '%{$search}%'";
+        $query.=" ORDER BY source_name ASC ";
+        $query.=" limit $offset,$length";
+
+        $result = $database->database_query($query);
+        $source_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $source['id'] = $row['id'];
+            $source['source_name'] = $row['source_name'];
+            $source_arr[] = $source;
+        }
+        return $source_arr;
+    }
+
+    function getTotalSourceItem($search) {
+        global $database;
+
+        $query = "select * from home_source";
+        if (!empty($search))
+            $query.=" where source_name like '%{$search}%'";
+        $result = $database->database_query($query);
+        $row = $database->database_num_rows($result);
+        return $row;
+    }
+
+    function getSourceById($source_id) {
+        global $database;
+        $query = "select * from home_source where id='{$source_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
+        $source['id'] = $row['id'];
+        $source['source_name'] = $row['source_name'];
+        return $source;
+    }
+
+    function update_source($source_id, $source_name) {
+        global $database;
+        $source_name = trim($source_name);
+        if (checkExistSource($source_name)) {
+            return array('error' => 'This source is existed', 'flag' => false);
+        } else {
+            $query = "update home_source set 
+                source_name='{$source_name}'
+               
+         where id={$source_id}
+        ";           
+            return array('error' => '', 'flag' => $database->database_query($query));
+        }
+    }
+
+}
+
+function checkExistSource($source_name) {
+    global $database;
+
+    $query = "select * from home_source where source_name='{$source_name}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
 }
 
 function getRoomDetailId($room_number, $house_id) {

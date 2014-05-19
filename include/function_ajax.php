@@ -901,6 +901,17 @@ if ($action == "check_email") {
         }        
         $result=$ajax->deleteRoom($id,$broker_id,$house_id);
         echo $result;
+}elseif($action=='deleteSource'){
+    if (isset($_POST['source_id'])) {
+        $source_id = $_POST['source_id'];
+    } elseif (isset($_GET['source_id'])) {
+        $source_id = $_GET['source_id'];
+    } else {
+        $source_id = "";
+    }
+
+    $result = $ajax->deleteSource($source_id);
+    echo $result;
 }
 
 

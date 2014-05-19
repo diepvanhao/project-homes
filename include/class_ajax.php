@@ -115,6 +115,11 @@ class ajax {
         return $result;
     }
 
+    function deleteSource($source_id){
+         global $database;
+        $query="delete from home_source where id='{$source_id}'";
+        return $database->database_query($query);
+    }
     function editName($fname, $lname, $password) {
         //check $password match
         global $user, $database;
