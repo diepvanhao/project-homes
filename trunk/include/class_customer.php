@@ -194,6 +194,7 @@ class HOMECustomer {
                                 hhl.log_tel_status AS log_tel_status,
                                 hhl.log_mail_status AS log_mail_status,
                                 hhl.log_revisit AS log_revisit,
+                                hhl.source_id AS source_id,
                                 hhl.log_time_mail,
                                 hhl.log_date_appointment_to AS log_date_appointment_to,
                                 hhl.log_payment_date_appointment_from,
@@ -255,6 +256,7 @@ class HOMECustomer {
         $row['log_tel_status'] = $row1['log_tel_status'];
         $row['log_mail_status'] = $row1['log_mail_status'];
         $row['log_revisit'] = $row1['log_revisit'];
+        $row['source_id'] = $row1['source_id'];
         $row['log_time_mail'] = $row1['log_time_mail'];
         $row['log_date_appointment_to'] = $row1['log_date_appointment_to'];
         $row['log_payment_date_appointment_from'] = $row1['log_payment_date_appointment_from'];

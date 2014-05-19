@@ -78,13 +78,13 @@ class ajax {
         $query = "delete from home_house where id={$house_id}";
         return $database->database_query($query);
     }
-    
-    function deleteRoom($id,$broker_id,$house_id){
+
+    function deleteRoom($id, $broker_id, $house_id) {
         global $database;
-        $query="delete from home_room where broker_id='{$broker_id}' and house_id='{$house_id}' and room_detail_id='{$id}'";
+        $query = "delete from home_room where broker_id='{$broker_id}' and house_id='{$house_id}' and room_detail_id='{$id}'";
         return $database->database_query($query);
     }
-    
+
     function deleteBroker($broker_id) {
         global $database;
         $query = "delete from home_broker_company where id={$broker_id}";
@@ -115,11 +115,12 @@ class ajax {
         return $result;
     }
 
-    function deleteSource($source_id){
-         global $database;
-        $query="delete from home_source where id='{$source_id}'";
+    function deleteSource($source_id) {
+        global $database;
+        $query = "delete from home_source where id='{$source_id}'";
         return $database->database_query($query);
     }
+
     function editName($fname, $lname, $password) {
         //check $password match
         global $user, $database;
@@ -249,9 +250,9 @@ class ajax {
 
         $room_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
-            $room['id'] = $row['id'];            
+            $room['id'] = $row['id'];
             $room['house_id'] = $row['house_id'];
-            $room['room_detail_id'] = $row['room_detail_id'];           
+            $room['room_detail_id'] = $row['room_detail_id'];
             $room_arr[] = $room;
         }
 
@@ -303,13 +304,14 @@ class ajax {
         return $database->database_query($query);
     }
 
-    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_status_appointment, $client_id, $order_id) {
+    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
         if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
             //update history exist
             $query = "update home_history_log set 
+                    source_id='{$source_id}',
                     log_time_call='{$log_time_call}',
                     log_time_arrive_company='{$log_time_arrive_company}',
                     log_comment='{$log_comment}',
@@ -341,6 +343,7 @@ class ajax {
                     . "user_id,"
                     . "client_id,"
                     . "order_id,"
+                    ."source_id,"
                     . "log_time_call,"
                     . "log_time_arrive_company,"
                     . "log_comment,"
@@ -367,6 +370,7 @@ class ajax {
                     . "'{$user->user_info['id']}',"
                     . "'{$client_id}',"
                     . "'{$order_id}',"
+                    ."'{$source_id}',"
                     . "'{$log_time_call}',"
                     . "'{$log_time_arrive_company}',"
                     . "'{$log_comment}',"

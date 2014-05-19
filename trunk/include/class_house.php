@@ -437,6 +437,22 @@ class HOMEHouse {
         return $source_arr;
     }
 
+    function getAllSource() {
+        global $database;
+
+        $query = "select * from home_source";
+
+        //echo $query;
+        $result = $database->database_query($query);
+        $source_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $source['id'] = $row['id'];
+            $source['source_name'] = $row['source_name'];
+            $source_arr[] = $source;
+        }
+        return $source_arr;
+    }
+
     function getTotalSourceItem($search) {
         global $database;
 
@@ -468,7 +484,7 @@ class HOMEHouse {
                 source_name='{$source_name}'
                
          where id={$source_id}
-        ";           
+        ";
             return array('error' => '', 'flag' => $database->database_query($query));
         }
     }

@@ -542,6 +542,13 @@ if ($step == 1) {
     } else {
         $log_revisit = "";
     }
+    if (isset($_POST['source_id'])) {
+        $source_id = $_POST['source_id'];
+    } elseif (isset($_GET['source_id'])) {
+        $source_id = $_GET['source_id'];
+    } else {
+        $source_id = "";
+    }
 ////////////////////////////////////End History//////////////////////////////////////////    
 ///////////////////////////////////Begin Aspirations//////////////////////////////////
     if (isset($_POST['aspirations_type_house'])) {
@@ -807,6 +814,7 @@ if ($step == 1) {
                                 $log_flyer = $client_arr['log_flyer'];
                                 $log_line = $client_arr['log_line'];
                                 $log_revisit = $client_arr['log_revisit'];
+                                $source_id = $client_arr['source_id'];
 
                                 $aspirations_type_house = $client_arr['aspirations_type_house'];
                                 $aspirations_type_room = $client_arr['aspirations_type_room'];
@@ -850,9 +858,10 @@ if ($step == 1) {
         }
     }
     //get source
-    
-    
-    
+    $house = new HOMEHouse();
+    $sources = $house->getAllSource();
+
+
     $smarty->assign('contract_name', $contract_name);
     $smarty->assign('contract_cost', $contract_cost);
     $smarty->assign('contract_plus_money', $contract_plus_money);
@@ -899,6 +908,7 @@ if ($step == 1) {
     $smarty->assign('log_flyer', $log_flyer);
     $smarty->assign('log_line', $log_line);
     $smarty->assign('log_revisit', $log_revisit);
+    $smarty->assign('source_id', $source_id);
     $smarty->assign('gender', $gender);
     $smarty->assign('client_address', $client_address);
     $smarty->assign('client_occupation', $client_occupation);
@@ -922,6 +932,7 @@ if ($step == 1) {
     $smarty->assign('page_number', $page_number);
     $smarty->assign('totalPage', $totalPage);
     $smarty->assign('customers', $customers);
+    $smarty->assign('sources', $sources);
     $smarty->assign('errorHouseExist', $errorHouseExist);
 }
 
