@@ -524,7 +524,7 @@ ul#nav li a:hover,ul#nav li a:focus {
 }
 
 td.form1 {
-    padding: 12px 0px 5px 10px;
+    padding: 16px 0px 5px 10px;
     font-weight: bold;
     text-align: right;
     vertical-align: top;
@@ -548,6 +548,20 @@ input.smt_btn, input.button{background-color:#1882D9; border:1px solid #C8E6F9; 
     cursor:pointer;
     font-size: 1.4em;
 }
+.btn-remove{
+    border: 1px ;
+    background: red ;
+    height:28px;
+    width:85px;
+    color:#fff;
+  //  font-weight:bold;
+    border:0;
+    cursor:pointer;
+    font-size: 1.2em;
+     margin: 0px 0px 0px 5px;
+     padding-top: -2px;
+     position: absolute;
+}
 .btn-search{
     background: url(../images/bg-btn-forget.gif) repeat-x;
     height:36px;
@@ -556,7 +570,7 @@ input.smt_btn, input.button{background-color:#1882D9; border:1px solid #C8E6F9; 
     font-weight:bold;
     border:0;
     cursor:pointer;
-    font-size: 1.4em;
+    font-size: 1.4em;   
 }
 .error{
     color: red;
