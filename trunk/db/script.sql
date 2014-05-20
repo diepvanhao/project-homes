@@ -170,3 +170,15 @@ ALTER TABLE `home_contract_detail`
 
 ALTER TABLE `home_contract_detail`   
   CHANGE `contract_application_status` `contract_application_date` VARCHAR(128) NULL;
+
+
+-- Mai 20-05
+ALTER TABLE  `home_room_detail` CHANGE  `room_number`  `room_number` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
+CHANGE  `room_rent`  `room_rent` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ,
+CHANGE  `room_key_money`  `room_key_money` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ,
+CHANGE  `room_administrative_expense`  `room_administrative_expense` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ,
+CHANGE  `room_deposit`  `room_deposit` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+
+
+ALTER TABLE  `home_room` CHANGE  `id`  `id` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
+
