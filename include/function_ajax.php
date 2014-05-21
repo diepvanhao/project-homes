@@ -6,7 +6,17 @@
  * and open the template in the editor.
  */
 include "class_ajax.php";
+if (!$user->user_exists) {
 
+    header('Location: ./user_login.php');
+
+    exit();
+}
+
+if ($user->user_info['user_locked']) {
+    header('Location: ./locked.php');
+    exit();
+}
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
 } elseif (isset($_GET['email'])) {
