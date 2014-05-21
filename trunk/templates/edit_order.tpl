@@ -655,22 +655,22 @@
                     <tr>
                         <td class='form1'>Time call: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 215px;"/>
                         </td>
                         <td class='form1' nowrap>Time arrive:</td>
-                        <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Time send email: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 215px;"/>
                         </td>
                         <td class='form1' nowrap>Comment:</td>
-                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'nowrap>Date appointment from:</td>
-                        <td class='form2'><input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap>Appointment status:</td>
                         <td class='form2'>
                             <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
@@ -680,14 +680,14 @@
                     <tr>
                         <td class='form1'>Date appointment to: </td>
                         <td class='form2'>
-                            <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 215px;"/>
                         </td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
                     </tr>
                     <tr>
                         <td class='form1' nowrap>Payment date appointment from:</td>
-                        <td class='form2'> <input type='text' id="log_payment_date_appointment_from" name="log_payment_date_appointment_from" value="{$log_payment_date_appointment_from}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="log_payment_date_appointment_from" name="log_payment_date_appointment_from" value="{$log_payment_date_appointment_from}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap>Payment appointment status:</td>
                         <td class='form2'>
                             <input type='radio' id="log_payment_appointment_status_yes" name="log_payment_appointment_status" value="1" {if $log_payment_appointment_status eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_status_yes">Yes</label> &nbsp; &nbsp; 
@@ -697,7 +697,7 @@
                     <tr>
                         <td class='form1'>Payment date appointment to: </td>
                         <td class='form2'>
-                            <input type='text' id="log_payment_date_appointment_to" name="log_payment_date_appointment_to" value="{$log_payment_date_appointment_to}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_payment_date_appointment_to" name="log_payment_date_appointment_to" value="{$log_payment_date_appointment_to}"style="height: 26px; width: 215px;"/>
                         </td>
                         <td class='form1' nowrap>Payment appointment report:</td>
                         <td class='form2'>
@@ -750,7 +750,7 @@
                     <tr>
                         <td class='form1'>Revisit: </td>
                         <td class='form2'>
-                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
                         </td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
