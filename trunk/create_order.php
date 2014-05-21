@@ -724,7 +724,28 @@ if ($step == 1) {
     } else {
         $contract_total = "";
     }
-
+    
+     if (isset($_POST['contract_application'])) {
+        $contract_application = $_POST['contract_application'];
+    } elseif (isset($_GET['contract_application'])) {
+        $contract_application = $_GET['contract_application'];
+    } else {
+        $contract_application = "";
+    }
+     if (isset($_POST['contract_application_date'])) {
+        $contract_application_date = $_POST['contract_application_date'];
+    } elseif (isset($_GET['contract_application_date'])) {
+        $contract_application_date = $_GET['contract_application_date'];
+    } else {
+        $contract_application_date = "";
+    }
+    if (isset($_POST['plus_money'])) {
+        $plus_money = $_POST['plus_money'];
+    } elseif (isset($_GET['plus_money'])) {
+        $plus_money = $_GET['plus_money'];
+    } else {
+        $plus_money = "";
+    }
 
 /////////////////////////////////End Contract//////////////////////////////////////
 
@@ -825,8 +846,7 @@ if ($step == 1) {
                                 $aspirations_comment = $client_arr['aspirations_comment'];
 
                                 $contract_name = $client_arr['contract_name'];
-                                $contract_cost = $client_arr['contract_cost'];
-                                $contract_plus_money = $client_arr['contract_plus_money'];
+                                $contract_cost = $client_arr['contract_cost'];                                
                                 $contract_key_money = $client_arr['contract_key_money'];
                                 $contract_condition = $client_arr['contract_condition'];
                                 $contract_valuation = $client_arr['contract_valuation'];
@@ -838,6 +858,10 @@ if ($step == 1) {
                                 $contract_deposit_2 = $client_arr['contract_deposit_2'];
                                 $contract_cancel = $client_arr['contract_cancel'];
                                 $contract_total = $client_arr['contract_total'];
+                                $contract_application = $client_arr['contract_application'];
+                                $contract_application_date = $client_arr['contract_application_date'];
+                                
+                                $plus_money=$order->getPlusMoney($client_arr['contract_detail_id']);      
                             }
                         }
                     }
@@ -861,10 +885,9 @@ if ($step == 1) {
     $house = new HOMEHouse();
     $sources = $house->getAllSource();
 
-
+    $smarty->assign('plus_money', $plus_money);
     $smarty->assign('contract_name', $contract_name);
-    $smarty->assign('contract_cost', $contract_cost);
-    $smarty->assign('contract_plus_money', $contract_plus_money);
+    $smarty->assign('contract_cost', $contract_cost);    
     $smarty->assign('contract_key_money', $contract_key_money);
     $smarty->assign('contract_condition', $contract_condition);
     $smarty->assign('contract_valuation', $contract_valuation);
@@ -876,6 +899,8 @@ if ($step == 1) {
     $smarty->assign('contract_deposit_2', $contract_deposit_2);
     $smarty->assign('contract_cancel', $contract_cancel);
     $smarty->assign('contract_total', $contract_total);
+    $smarty->assign('contract_application', $contract_application);
+     $smarty->assign('contract_application_date', $contract_application_date);
     $smarty->assign('house_id', $house_id);
     $smarty->assign('introduce_house_content', $introduce_house_content);
     $smarty->assign('introduce_house_photo', $introduce_house_photo);

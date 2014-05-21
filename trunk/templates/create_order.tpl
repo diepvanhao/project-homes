@@ -25,6 +25,7 @@
             birthday('contract_handover_day');
             birthday('contract_period_from');
             birthday('contract_period_to');
+            birthday('contract_application_date');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $('#error_house').html("");
@@ -325,8 +326,7 @@
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
                         var contract_name = $('#contract_name').val();
-                        var contract_cost = $('#contract_cost').val();
-                        var contract_plus_money = $('#contract_plus_money').val();
+                        var contract_cost = $('#contract_cost').val();                       
                         var contract_key_money = $('#contract_key_money').val();
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
@@ -337,21 +337,36 @@
                         var contract_period_to = $('#contract_period_to').val();
                         var contract_deposit_1 = $('#contract_deposit_1').val();
                         var contract_deposit_2 = $('#contract_deposit_2').val();
+                        var contract_application_date = $('#contract_application_date').val();
 
                         if ($('#contract_cancel').is(':checked'))
                             var contract_cancel = 1;
                         else
                             var contract_cancel = 0;
 
+                        if ($('#contract_application').is(':checked'))
+                            var contract_application = 1;
+                        else
+                            var contract_application = 0;
+
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
+                        var label = new Array();
+                        var plus_money = new Array();
+                        $("input[name^='contract_lable_money']").each(function() {
+                            label.push($(this).val());
+                        });
 
-                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_plus_money: contract_plus_money, contract_key_money: contract_key_money,
+                        $("input[name^='contract_plus_money']").each(function() {
+                            plus_money.push($(this).val());
+                        });
+
+                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost,  contract_key_money: contract_key_money,
                             contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
-                            contract_cancel: contract_cancel, contract_total: contract_total,
+                            contract_cancel: contract_cancel, contract_total: contract_total, contract_application: contract_application, contract_application_date: contract_application_date, label: label, plus_money: plus_money,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -381,92 +396,92 @@
                 return 0;
         }
         function selectCustomer(id) {
-        $.post("include/function_ajax.php", {id: id, action: 'customer', task: 'selectCustomer'},
-                function(result) {
+            $.post("include/function_ajax.php", {id: id, action: 'customer', task: 'selectCustomer'},
+            function(result) {
                 if (result != "") {
 
-                /*reset form*/
-                $('#cus_id').val('');
-                        $('#log_time_call').val('');
-                        $('#log_time_arrive_company').val('');
-                        $('#log_time_mail').val('');
-                        $('#log_comment').val('');
-                        $('#log_date_appointment_from').val('');
-                        $('#log_date_appointment_to').val('');
-                        $('#log_payment_date_appointment_from').val('');
-                        $('#log_payment_date_appointment_to').val('');
-                        $('input[name="log_status_appointment"]').attr('checked', "");
-                        $('input[name="log_payment_appointment_status"]').attr('checked', "");
-                        $('input[name="log_payment_appointment_report"]').attr('checked', "");
-                        $('#log_tel').attr('checked', "");
-                        $('#log_tel_status').attr('checked', "");
-                        $('#log_mail').attr('checked', "");
-                        $('#log_mail_status').attr('checked', "");
-                        $('#log_contact_head_office').attr('checked', "");
-                        $('#log_shop_sign').attr('checked', "");
-                        $('#log_local_sign').attr('checked', "");
-                        $('#log_introduction').attr('checked', "");
-                        $('#log_flyer').attr('checked', "");
-                        $('#log_line').attr('checked', "");
-                        $('#log_revisit').val('');
-                        $('#source_id').each(function(e) {
-                $('option').removeAttr('selected');
-                });
-                        $('#aspirations_type_house').val('');
-                        $('#aspirations_type_room').val('');
-                        $('#aspirations_build_time').val('');
-                        $('#aspirations_area').val('');
-                        $('#aspirations_size').val('');
-                        $('#aspirations_rent_cost').val('');
-                        $('#aspirations_comment').val('');
-                        $('#contract_name').val('');
-                        $('#contract_cost').val('');
-                        $('#contract_plus_money').val('');
-                        $('#contract_key_money').val('');
-                        $('#contract_condition').val('');
-                        $('#contract_valuation').val('');
-                        $('#contract_signature_day').val('');
-                        $('#contract_handover_day').val('');
-                        $('#contract_period_from').val('');
-                        $('#contract_period_to').val('');
-                        $('#contract_deposit_1').val('');
-                        $('#contract_deposit_2').val('');
-                        $('#contract_cancel').val('');
-                        $('#contract_total').val('');
-                        var json = $.parseJSON(result);
-                        $('#client_name').val(json.client_name);
-                        $('#client_birthday').val(json.client_birthday);
-                        $('#client_email').val(json.client_email);
-                        $('#client_phone').val(json.client_phone);
-                        $('#gender').val(json.gender);
-                        $('#client_address').val(json.client_address);
-                        $('#client_occupation').val(json.client_occupation);
-                        $('#client_company').val(json.client_company);
-                        $('#client_income').val(json.client_income);
-                        $('#client_room_type').val(json.client_room_type);
-                        $('#client_rent').val(json.client_rent);
-                        $('#client_reason_change').val(json.client_reason_change);
-                        $('#client_time_change').val(json.client_time_change);
-                        $('#client_resident_name').val(json.client_resident_name);
-                        $('#client_resident_phone').val(json.client_resident_phone);
-                        //get information order, history, aspirations and contract
+                    /*reset form*/
+                    $('#cus_id').val('');
+                    $('#log_time_call').val('');
+                    $('#log_time_arrive_company').val('');
+                    $('#log_time_mail').val('');
+                    $('#log_comment').val('');
+                    $('#log_date_appointment_from').val('');
+                    $('#log_date_appointment_to').val('');
+                    $('#log_payment_date_appointment_from').val('');
+                    $('#log_payment_date_appointment_to').val('');
+                    $('input[name="log_status_appointment"]').attr('checked', "");
+                    $('input[name="log_payment_appointment_status"]').attr('checked', "");
+                    $('input[name="log_payment_appointment_report"]').attr('checked', "");
+                    $('#log_tel').attr('checked', "");
+                    $('#log_tel_status').attr('checked', "");
+                    $('#log_mail').attr('checked', "");
+                    $('#log_mail_status').attr('checked', "");
+                    $('#log_contact_head_office').attr('checked', "");
+                    $('#log_shop_sign').attr('checked', "");
+                    $('#log_local_sign').attr('checked', "");
+                    $('#log_introduction').attr('checked', "");
+                    $('#log_flyer').attr('checked', "");
+                    $('#log_line').attr('checked', "");
+                    $('#log_revisit').val('');
+                    $('#source_id').each(function(e) {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#aspirations_type_house').val('');
+                    $('#aspirations_type_room').val('');
+                    $('#aspirations_build_time').val('');
+                    $('#aspirations_area').val('');
+                    $('#aspirations_size').val('');
+                    $('#aspirations_rent_cost').val('');
+                    $('#aspirations_comment').val('');
+                    $('#contract_name').val('');
+                    $('#contract_cost').val('');
+                    $('#contract_plus_money').val('');
+                    $('#contract_key_money').val('');
+                    $('#contract_condition').val('');
+                    $('#contract_valuation').val('');
+                    $('#contract_signature_day').val('');
+                    $('#contract_handover_day').val('');
+                    $('#contract_period_from').val('');
+                    $('#contract_period_to').val('');
+                    $('#contract_deposit_1').val('');
+                    $('#contract_deposit_2').val('');
+                    $('#contract_cancel').val('');
+                    $('#contract_total').val('');
+                    var json = $.parseJSON(result);
+                    $('#client_name').val(json.client_name);
+                    $('#client_birthday').val(json.client_birthday);
+                    $('#client_email').val(json.client_email);
+                    $('#client_phone').val(json.client_phone);
+                    $('#gender').val(json.gender);
+                    $('#client_address').val(json.client_address);
+                    $('#client_occupation').val(json.client_occupation);
+                    $('#client_company').val(json.client_company);
+                    $('#client_income').val(json.client_income);
+                    $('#client_room_type').val(json.client_room_type);
+                    $('#client_rent').val(json.client_rent);
+                    $('#client_reason_change').val(json.client_reason_change);
+                    $('#client_time_change').val(json.client_time_change);
+                    $('#client_resident_name').val(json.client_resident_name);
+                    $('#client_resident_phone').val(json.client_resident_phone);
+                    //get information order, history, aspirations and contract
 
                 }
-                });
+            });
         }
         function get_room(house_id, room_id = "") {
-        $('#error_room').html("");
-                $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
-                        function(result) {
-                        if (result) {
-                        $('#room_id').empty();
-                                $('#room_id').html(result);
-                        } else {
-                        $('#room_id').empty();
-                                $('#house_description').html("");
-                                $('#error_room').html("This house haven't been room yet");
-                        }
-                        });
+            $('#error_room').html("");
+            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
+            function(result) {
+                if (result) {
+                    $('#room_id').empty();
+                    $('#room_id').html(result);
+                } else {
+                    $('#room_id').empty();
+                    $('#house_description').html("");
+                    $('#error_room').html("This house haven't been room yet");
+                }
+            });
         }
     </script>
 {/literal}
@@ -603,8 +618,8 @@
     {literal}
         <script type="text/javascript">
             $(document).ready(function() {
-            $('#submit').click(function(e) {
-            $('#error_broker').html("");
+                $('#submit').click(function(e) {
+                    $('#error_broker').html("");
                     $('#error_staff').html("");
                     $('#error_house').html("");
                     $('#error_order_name').html("");
@@ -615,59 +630,59 @@
                     var order_name = $('#order_name').val();
                     var room_id = $('#room_id').val();
                     if (broker_id == "" || broker_id == null) {
-            $('#error_broker').html('Please choose broker company.');
-                    e.preventDefault();
-                    return false;
-            } else if (staff_id == "" || staff_id == null) {
-            $('#error_staff').html('Please choose assign.');
-                    e.preventDefault();
-                    return false;
-            } else if (house_id == "" || house_id == null) {
-            $('#error_house').html('Please choose house.');
-                    e.preventDefault();
-                    return false;
-            } else if (room_id == "" || room_id == null) {
-            $('#error_room').html('Please choose room.');
-                    e.preventDefault();
-                    return false;
-            } else if (order_name == "" || order_name == null) {
-            $('#error_order_name').html('Order name is required.');
-                    e.preventDefault();
-                    return false;
-            } else {
-            showloadgif();
-                    $('#submit').submit();
-            }
+                        $('#error_broker').html('Please choose broker company.');
+                        e.preventDefault();
+                        return false;
+                    } else if (staff_id == "" || staff_id == null) {
+                        $('#error_staff').html('Please choose assign.');
+                        e.preventDefault();
+                        return false;
+                    } else if (house_id == "" || house_id == null) {
+                        $('#error_house').html('Please choose house.');
+                        e.preventDefault();
+                        return false;
+                    } else if (room_id == "" || room_id == null) {
+                        $('#error_room').html('Please choose room.');
+                        e.preventDefault();
+                        return false;
+                    } else if (order_name == "" || order_name == null) {
+                        $('#error_order_name').html('Order name is required.');
+                        e.preventDefault();
+                        return false;
+                    } else {
+                        showloadgif();
+                        $('#submit').submit();
+                    }
 
-            });
-                    $('#broker_id').change(function() {
-            //active form
-            $('#error_broker').html("");
+                });
+                $('#broker_id').change(function() {
+                    //active form
+                    $('#error_broker').html("");
                     var broker_id = $('#broker_id').val();
                     if (broker_id) {
-            $('table').find('tr').css('display', '');
-            } else {
-            $('table').find('tr').css('display', 'none');
+                        $('table').find('tr').css('display', '');
+                    } else {
+                        $('table').find('tr').css('display', 'none');
+                        $('table').find('tr:first-child').css('display', '');
+                        $('table').find('tr:last-child').css('display', '');
+                    }
+                });
+                var broker_id = $('#broker_id').val();
+                if (broker_id) {
+                    $('table').find('tr').css('display', '');
+                } else {
+                    $('table').find('tr').css('display', 'none');
                     $('table').find('tr:first-child').css('display', '');
                     $('table').find('tr:last-child').css('display', '');
-            }
-            });
-                    var broker_id = $('#broker_id').val();
-                    if (broker_id) {
-            $('table').find('tr').css('display', '');
-            } else {
-            $('table').find('tr').css('display', 'none');
-                    $('table').find('tr:first-child').css('display', '');
-                    $('table').find('tr:last-child').css('display', '');
-            }
-            var house_id = $('#house_id').val();
-                    var room_id ={/literal}{$room_id}{literal}
-            $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
-                    function(result) {
+                }
+                var house_id = $('#house_id').val();
+                var room_id ={/literal}{$room_id}{literal}
+                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                function(result) {
                     var json = $.parseJSON(result);
-                            $('#house_description').html(json.house_description);
-                            get_room(house_id, room_id);
-                    });
+                    $('#house_description').html(json.house_description);
+                    get_room(house_id, room_id);
+                });
             });</script>
         {/literal}
     {/if}
@@ -733,11 +748,11 @@
     </form>
     {literal}
         <script type="text/javascript">
-                    $(document).ready(function() {
-            $('#sidebar_container').css('display', 'none');
-                    $('#later').click(function() {
-            window.location.href = "create_order.php";
-            });
+            $(document).ready(function() {
+                $('#sidebar_container').css('display', 'none');
+                $('#later').click(function() {
+                    window.location.href = "create_order.php";
+                });
             });</script>
         {/literal}
     {/if}
@@ -1167,6 +1182,12 @@
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
+                    <tr>
+                        <td class='form1'>Application:</td>
+                        <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1' nowrap>Application Date:</td>
+                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 315px;"/></td>
+                    </tr>
                     <tr>                    
                         <td class='form1'></td>
                         <td class='form2'>
@@ -1175,6 +1196,18 @@
                         <td class='form1'></td>
                         <td class='form2'></td>   
                     </tr>
+                    {foreach from=$plus_money key=k item=money}
+                        <tr>
+                            <td class='form1'>{$k} :</td>
+                            <td class='form2'>
+                                <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
+                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 315px;'/>
+                                <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
+                            </td> 
+                            <td class='form1'></td>
+                            <td class='form2'></td> 
+                        </tr>
+                    {/foreach}
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
@@ -1280,19 +1313,19 @@
         </style>
         <script type="text/javascript">
             $(document).ready(function() {
-            $('#sidebar_container').css('display', 'none');
-            var fieldCount = 1;
-            $('#add').click(function() {
-                var label = prompt('which  plus do you want to add ?', '');
+                $('#sidebar_container').css('display', 'none');
+                var fieldCount = 1;
+                $('#add').click(function() {
+                    var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "") {
-                         fieldCount++;
-                         $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money["+label+"]'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        fieldCount++;
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
+                });
+
             });
-        
-            });
-            function removePlus(childElem){
-                 var row = $(childElem).closest("tr"); // find <tr> parent
+            function removePlus(childElem) {
+                var row = $(childElem).closest("tr"); // find <tr> parent
                 row.remove();
             }
         </script>

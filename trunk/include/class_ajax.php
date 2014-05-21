@@ -343,7 +343,7 @@ class ajax {
                     . "user_id,"
                     . "client_id,"
                     . "order_id,"
-                    ."source_id,"
+                    . "source_id,"
                     . "log_time_call,"
                     . "log_time_arrive_company,"
                     . "log_comment,"
@@ -370,7 +370,7 @@ class ajax {
                     . "'{$user->user_info['id']}',"
                     . "'{$client_id}',"
                     . "'{$order_id}',"
-                    ."'{$source_id}',"
+                    . "'{$source_id}',"
                     . "'{$log_time_call}',"
                     . "'{$log_time_arrive_company}',"
                     . "'{$log_comment}',"
@@ -477,7 +477,7 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money, $client_id, $order_id) {
         global $database, $user;
         //check order exist
         $contract_date_create = $contract_date_update = time();
@@ -485,7 +485,7 @@ class ajax {
         if ($contract_id) {
             //update history exist
             $query = "update home_contract_detail set 
-                    contract_plus_money={$contract_plus_money},
+                  
                     contract_cost={$contract_cost},
                     contract_total={$contract_total},
                     contract_signature_day='{$contract_signature_day}',
@@ -500,12 +500,41 @@ class ajax {
                     contract_deposit_1='{$contract_deposit_1}',
                     contract_deposit_2='{$contract_deposit_2}',
                     contract_key_money={$contract_key_money},
-                    contract_name='{$contract_name}'
-                                      
+                    contract_name='{$contract_name}',
+                    contract_application='{$contract_application}',
+                    contract_application_date='{$contract_application_date}'   
                      where contract_id='{$contract_id}'    
                     ";
+          
+            $update = $database->database_query($query);
+            //update plus money
+            //1. Delete first
+            //1.1 get contract_detail_id
+            $query = "select id from home_contract_detail where  contract_id='{$contract_id}' ";
 
-            return array('id' => "", 'update' => $database->database_query($query));
+            $result = $database->database_query($query);
+            $row = $database->database_fetch_assoc($result);
+            $contract_detail_id = $row['id'];
+
+            if (!empty($label) && !empty($plus_money)) {
+                //1.2 delete
+                $query = "delete from home_plus_money where contract_detail_id={$contract_detail_id}";
+
+                $database->database_query($query);
+
+                //2. Insert new 
+                for ($i = 0; $i < count($label); $i++) {
+                    $query = "insert into home_plus_money(contract_detail_id,label,price)values(
+                                '{$contract_detail_id}',
+                                '{$label[$i]}',
+                                '{$plus_money[$i]}'
+                                )";
+
+                    $database->database_query($query);
+                }
+            }
+            //end update plus money
+            return array('id' => "", 'update' => $update);
         } else {
             $query = "insert into home_contract("
                     . "user_id,"
@@ -521,7 +550,6 @@ class ajax {
                 //insert contract detail
                 $query = "insert into home_contract_detail("
                         . "contract_id,"
-                        . "contract_plus_money,"
                         . "contract_cost,"
                         . "contract_total,"
                         . "contract_signature_day,"
@@ -536,10 +564,11 @@ class ajax {
                         . "contract_deposit_1,"
                         . "contract_deposit_2,"
                         . "contract_key_money,"
-                        . "contract_name"
+                        . "contract_name,"
+                        . "contract_application,"
+                        . "contract_application_date"
                         . ") values("
                         . "'{$contract_id}',"
-                        . "'{$contract_plus_money}',"
                         . "'{$contract_cost}',"
                         . "'{$contract_total}',"
                         . "'{$contract_signature_day}',"
@@ -554,11 +583,32 @@ class ajax {
                         . "'{$contract_deposit_1}',"
                         . "'{$contract_deposit_2}',"
                         . "'{$contract_key_money}',"
-                        . "'{$contract_name}'"
+                        . "'{$contract_name}',"
+                        . "'{$contract_application}',"
+                        . "'{$contract_application_date}'"
                         . ")";
+                //   echo $query;die();
                 $result = $database->database_query($query);
+
+                $contract_detail_id = $database->database_insert_id();
+                //insert plus money
+
+                if (!empty($label) && !empty($plus_money)) {
+                    //parse string to array
+//                    $label = explode(",", $label);
+//                    $plus_money = explode(",", $plus_money);
+                    for ($i = 0; $i < count($label); $i++) {
+                        $query = "insert into home_plus_money(contract_detail_id,label,price)values(
+                                '{$contract_detail_id}',
+                                '{$label[$i]}',
+                                '{$plus_money[$i]}'
+                                )";
+
+                        $database->database_query($query);
+                    }
+                }
             }
-            return array('id' => $database->database_insert_id());
+            return array('id' => $contract_detail_id);
         }
     }
 

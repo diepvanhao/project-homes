@@ -182,3 +182,7 @@ CHANGE  `room_deposit`  `room_deposit` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE
 
 ALTER TABLE  `home_room` CHANGE  `id`  `id` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;
 
+/*21/5 Hao*/
+
+ALTER TABLE `home_contract`   
+  ADD COLUMN `client_id` INT(11) NULL AFTER `user_id`;

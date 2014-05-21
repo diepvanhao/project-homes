@@ -159,6 +159,7 @@ class HOMEOrder {
                                 hc.client_room_type AS client_room_type,
                                 
                                 hhl.id AS history_log_id, 
+                                hhl.source_id,
                                 hhl.log_time_call AS log_time_call,
                                 hhl.log_time_arrive_company AS log_time_arrive_company,
                                 hhl.log_comment AS log_comment,
@@ -175,6 +176,7 @@ class HOMEOrder {
                                 hhl.log_tel_status AS log_tel_status,
                                 hhl.log_mail_status AS log_mail_status,
                                 hhl.log_revisit AS log_revisit,
+                               
                                 hhl.log_time_mail,
                                 hhl.log_date_appointment_to AS log_date_appointment_to,
                                 hhl.log_payment_date_appointment_from,
@@ -243,6 +245,7 @@ class HOMEOrder {
         $client['log_tel_status'] = $row['log_tel_status'];
         $client['log_mail_status'] = $row['log_mail_status'];
         $client['log_revisit'] = $row['log_revisit'];
+        $client['source_id'] = $row['source_id'];
         $client['log_time_mail'] = $row['log_time_mail'];
         $client['log_date_appointment_to'] = $row['log_date_appointment_to'];
         $client['log_payment_date_appointment_from'] = $row['log_payment_date_appointment_from'];
@@ -261,10 +264,8 @@ class HOMEOrder {
         // }
         //get contact 
         $query = "SELECT                               
-                                hcon.id AS contract_id,
-                                
-                                hcd.id AS contract_detail_id,
-                                hcd.contract_plus_money AS contract_plus_money,
+                                hcon.id AS contract_id,                                
+                                hcd.id AS contract_detail_id,                               
                                 hcd.contract_cost AS contract_cost,
                                 hcd.contract_total AS contract_total,
                                 hcd.contract_signature_day,
@@ -279,7 +280,9 @@ class HOMEOrder {
                                 hcd.contract_deposit_1,
                                 hcd.contract_deposit_2,
                                 hcd.contract_key_money,
-                                hcd.contract_name
+                                hcd.contract_name,
+                                hcd.contract_application,
+                                hcd.contract_application_date
                                 
                                 FROM home_order AS ho                                                                                                                               
                                 
@@ -289,16 +292,15 @@ class HOMEOrder {
                                 
                                 LEFT JOIN home_contract_detail AS hcd ON hct.id=hcd.contract_id
                                 
-                                where ho.id={$order_id}                                                                
+                                where hcon.order_id={$order_id}                                                                
                                 
-                                LIMIT 1";
+                                LIMIT 1";                               
         $result = $database->database_query($query);
 
         $row = $database->database_fetch_assoc($result);
 
         $client['contract_id'] = $row['contract_id'];
-        $client['contract_detail_id'] = $row['contract_detail_id'];
-        $client['contract_plus_money'] = $row['contract_plus_money'];
+        $client['contract_detail_id'] = $row['contract_detail_id'];        
         $client['contract_cost'] = $row['contract_cost'];
         $client['contract_total'] = $row['contract_total'];
         $client['contract_signature_day'] = $row['contract_signature_day'];
@@ -314,9 +316,22 @@ class HOMEOrder {
         $client['contract_deposit_2'] = $row['contract_deposit_2'];
         $client['contract_key_money'] = $row['contract_key_money'];
         $client['contract_name'] = $row['contract_name'];
+        $client['contract_application'] = $row['contract_application'];
+        $client['contract_application_date'] = $row['contract_application_date'];
         // }
         $client_arr = $client;
         return $client_arr;
     }
 
+    function getPlusMoney($contract_detail_id){
+        global $database;
+        $query="select * from home_plus_money where contract_detail_id={$contract_detail_id}";
+        $result=$database->database_query($query);
+        $plus_money=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $plus_money[$row['label']]=$row['price'];
+           // $plus_money[]=$money;
+        }
+        return $plus_money;
+    }
 }

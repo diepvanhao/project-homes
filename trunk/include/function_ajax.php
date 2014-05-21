@@ -751,13 +751,7 @@ if ($action == "check_email") {
         } else {
             $contract_cost = "";
         }
-        if (isset($_POST['contract_plus_money'])) {
-            $contract_plus_money = $_POST['contract_plus_money'];
-        } elseif (isset($_GET['contract_plus_money'])) {
-            $contract_plus_money = $_GET['contract_plus_money'];
-        } else {
-            $contract_plus_money = "";
-        }
+       
         if (isset($_POST['contract_key_money'])) {
             $contract_key_money = $_POST['contract_key_money'];
         } elseif (isset($_GET['contract_key_money'])) {
@@ -835,8 +829,36 @@ if ($action == "check_email") {
         } else {
             $contract_total = "";
         }
-
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_plus_money, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $client_id, $order_id);
+        if (isset($_POST['contract_application'])) {
+            $contract_application = $_POST['contract_application'];
+        } elseif (isset($_GET['contract_application'])) {
+            $contract_application = $_GET['contract_application'];
+        } else {
+            $contract_application = "";
+        }
+        if (isset($_POST['contract_application_date'])) {
+            $contract_application_date = $_POST['contract_application_date'];
+        } elseif (isset($_GET['contract_application_date'])) {
+            $contract_application_date = $_GET['contract_application_date'];
+        } else {
+            $contract_application_date = "";
+        }
+        if (isset($_POST['label'])) {
+            $label = $_POST['label'];
+        } elseif (isset($_GET['label'])) {
+            $label = $_GET['label'];
+        } else {
+            $label = "";
+        }
+        if (isset($_POST['plus_money'])) {
+            $plus_money = $_POST['plus_money'];
+        } elseif (isset($_GET['plus_money'])) {
+            $plus_money = $_GET['plus_money'];
+        } else {
+            $plus_money = "";
+        }
+        
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total,$contract_application,$contract_application_date,$label,$plus_money, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {
