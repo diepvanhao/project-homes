@@ -201,6 +201,7 @@
                         var log_payment_date_appointment_from = $('#log_payment_date_appointment_from').val();
                         var log_payment_date_appointment_to = $('#log_payment_date_appointment_to').val();
                         var log_revisit = $('#log_revisit').val();
+                        var source_id = $('#source_id').val();
 
                         if ($('#log_tel').is(':checked'))
                             var log_tel = 1;
@@ -260,7 +261,7 @@
                             log_date_appointment_to: log_date_appointment_to, log_payment_date_appointment_from: log_payment_date_appointment_from, log_payment_date_appointment_to: log_payment_date_appointment_to,
                             log_payment_appointment_status: log_payment_appointment_status, log_payment_appointment_report: log_payment_appointment_report,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
-                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit,
+                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -329,21 +330,38 @@
                         var contract_period_to = $('#contract_period_to').val();
                         var contract_deposit_1 = $('#contract_deposit_1').val();
                         var contract_deposit_2 = $('#contract_deposit_2').val();
+                        var contract_application_date = $('#contract_application_date').val();
 
                         if ($('#contract_cancel').is(':checked'))
                             var contract_cancel = 1;
                         else
                             var contract_cancel = 0;
 
+                        if ($('#contract_application').is(':checked'))
+                            var contract_application = 1;
+                        else
+                            var contract_application = 0;
+
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
 
+                        var label = new Array();
+                        var plus_money = new Array();
+                        
+                        $("input[name^='contract_lable_money']").each(function() {
+                            label.push($(this).val());
+                        });
+
+                        $("input[name^='contract_plus_money']").each(function() {
+                            plus_money.push($(this).val());
+                        });
+
                         $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_plus_money: contract_plus_money, contract_key_money: contract_key_money,
                             contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
-                            contract_cancel: contract_cancel, contract_total: contract_total,
+                            contract_cancel: contract_cancel, contract_total: contract_total, contract_application: contract_application, contract_application_date: contract_application_date, label: label, plus_money: plus_money,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -688,6 +706,18 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class='form1'>Select Source:</td>
+                        <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 215px;">
+                                <option value=""></option>
+                                {foreach from=$sources item=source}
+                                    <option value="{$source.id}" {if $source_id eq $source.id} selected="selected"{/if}>{$source.source_name}</option>        
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td class='form1' nowrap><span id="error_source"></span></td>
+                        <td class='form2'></td>
+                    </tr>
+                    <tr>
                         <td class='form1'>Contact by tel:</td>
                         <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>Tel status:</td>
@@ -848,14 +878,7 @@
                         <td class='form1' nowrap>Cost:</td>
                         <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
                     </tr>
-                    <tr id="plus">                    
-                        <td class='form1'>Plus fee:</td>
-                        <td class='form2'><input type="text" id="contract_plus_money" name="contract_plus_money" value="{$contract_plus_money}"style="height: 26px; width: 315px;"/>
-                            <input type="button" id="add" name="add" value="add" /> 
-                        </td>       
-                        <td class='form1'></td>
-                        <td class='form2'></td>   
-                    </tr>
+
                     <tr>                    
                         <td class='form1'>Key fee:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
@@ -892,6 +915,32 @@
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
+                    <tr>
+                        <td class='form1'>Application:</td>
+                        <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1' nowrap>Application Date:</td>
+                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 315px;"/></td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1'></td>
+                        <td class='form2'>
+                            <input type="button" id="add" class='btn-signup' name="add" value="Add plus fee" style="width: 140px;"/> 
+                        </td>       
+                        <td class='form1'></td>
+                        <td class='form2'></td>   
+                    </tr>
+                    {foreach from=$plus_money key=k item=money}
+                        <tr>
+                            <td class='form1'>{$k} :</td>
+                            <td class='form2'>
+                                <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
+                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 315px;'/>
+                                <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
+                            </td> 
+                            <td class='form1'></td>
+                            <td class='form2'></td> 
+                        </tr>
+                    {/foreach}
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
@@ -998,13 +1047,20 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
+                var fieldCount = 1;
                 $('#add').click(function() {
-                    var label = prompt('which type plus do you want to add ?', '');
+                    var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "") {
-
+                        fieldCount++;
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
+
             });
+            function removePlus(childElem) {
+                var row = $(childElem).closest("tr"); // find <tr> parent
+                row.remove();
+            }
         </script>
     {/literal}
 {/nocache}
@@ -1012,7 +1068,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#back').click(function() {
-                window.location.href = "manage_house.php";
+                window.location.href = "manage_order.php";
             });
         });
     </script>

@@ -78,7 +78,8 @@ class HOMECustomer {
             $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
             $database->database_query($query);
             //update contract
-            
+            $query = "update home_contract set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
             //update introduce house
             $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
             $database->database_query($query);
@@ -110,7 +111,9 @@ class HOMECustomer {
             $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
             $database->database_query($query);
             //update contract
-            
+            //update contract
+            $query = "update home_contract set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+            $database->database_query($query);
             //update introduce house
             $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
             $database->database_query($query);
@@ -290,9 +293,11 @@ class HOMECustomer {
                                 hcon.id AS contract_id,
                                 
                                 hcd.id AS contract_detail_id,
-                                hcd.contract_plus_money AS contract_plus_money,
+                               
                                 hcd.contract_cost AS contract_cost,
                                 hcd.contract_total AS contract_total,
+                                hcd.contract_application,
+                                hcd.contract_application_date,
                                 hcd.contract_signature_day,
                                 hcd.contract_handover_day,
                                 hcd.contract_condition,
@@ -306,6 +311,7 @@ class HOMECustomer {
                                 hcd.contract_deposit_2,
                                 hcd.contract_key_money,
                                 hcd.contract_name
+                               
                                 FROM home_order AS ho                                                                                                                               
                                 
                                 LEFT JOIN home_contract AS hcon ON ho.id=hcon.order_id,
@@ -314,18 +320,20 @@ class HOMECustomer {
                                 
                                 LEFT JOIN home_contract_detail AS hcd ON hct.id=hcd.contract_id
                                 
-                                where ho.id={$order_id} and ho.client_id={$client_id}                                                                    
+                                where hcon.order_id={$order_id} and hcon.client_id={$client_id}                                                                    
                                 
                                 LIMIT 1";
+                               
         $result = $database->database_query($query);
 
         $row1 = $database->database_fetch_assoc($result);
 
         $row['contract_id'] = $row1['contract_id'];
-        $row['contract_detail_id'] = $row1['contract_detail_id'];
-        $row['contract_plus_money'] = $row1['contract_plus_money'];
+        $row['contract_detail_id'] = $row1['contract_detail_id'];        
         $row['contract_cost'] = $row1['contract_cost'];
         $row['contract_total'] = $row1['contract_total'];
+        $row['contract_application'] = $row1['contract_application'];
+        $row['contract_application_date'] = $row1['contract_application_date'];
         $row['contract_signature_day'] = $row1['contract_signature_day'];
         $row['contract_handover_day'] = $row1['contract_handover_day'];
         $row['contract_condition'] = $row1['contract_condition'];
@@ -338,7 +346,7 @@ class HOMECustomer {
         $row['contract_deposit_1'] = $row1['contract_deposit_1'];
         $row['contract_deposit_2'] = $row1['contract_deposit_2'];
         $row['contract_key_money'] = $row1['contract_key_money'];
-        $row['contract_name'] = $row1['contract_name'];
+        $row['contract_name'] = $row1['contract_name'];       
         
         $client_arr = $row;        
         return array('client_arr' => $client_arr);

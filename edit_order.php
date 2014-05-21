@@ -353,6 +353,13 @@ if (isset($_POST['log_revisit'])) {
 } else {
     $log_revisit = "";
 }
+ if (isset($_POST['source_id'])) {
+        $source_id = $_POST['source_id'];
+    } elseif (isset($_GET['source_id'])) {
+        $source_id = $_GET['source_id'];
+    } else {
+        $source_id = "";
+  }
 ////////////////////////////////////End History//////////////////////////////////////////    
 ///////////////////////////////////Begin Aspirations//////////////////////////////////
 if (isset($_POST['aspirations_type_house'])) {
@@ -528,8 +535,27 @@ if (isset($_POST['contract_total'])) {
 } else {
     $contract_total = "";
 }
-
-
+ if (isset($_POST['contract_application'])) {
+        $contract_application = $_POST['contract_application'];
+    } elseif (isset($_GET['contract_application'])) {
+        $contract_application = $_GET['contract_application'];
+    } else {
+        $contract_application = "";
+    }
+     if (isset($_POST['contract_application_date'])) {
+        $contract_application_date = $_POST['contract_application_date'];
+    } elseif (isset($_GET['contract_application_date'])) {
+        $contract_application_date = $_GET['contract_application_date'];
+    } else {
+        $contract_application_date = "";
+    }
+    if (isset($_POST['plus_money'])) {
+        $plus_money = $_POST['plus_money'];
+    } elseif (isset($_GET['plus_money'])) {
+        $plus_money = $_GET['plus_money'];
+    } else {
+        $plus_money = "";
+    }
 /////////////////////////////////End Contract//////////////////////////////////////
 
 $customer = new HOMECustomer();
@@ -554,6 +580,7 @@ $customers = $customer->getCustomers($filter, $offset, $length);
 $house = new HOMEHouse();
 $houses = $house->getHouses();
 //Store client's info
+ $order = new HOMEOrder();
 if (isset($_POST['save'])) {
 
     if (isset($_POST['task'])) {
@@ -618,6 +645,7 @@ if (isset($_POST['save'])) {
                             $log_flyer = $client_arr['log_flyer'];
                             $log_line = $client_arr['log_line'];
                             $log_revisit = $client_arr['log_revisit'];
+                            $source_id = $client_arr['source_id'];
 
                             $aspirations_type_house = $client_arr['aspirations_type_house'];
                             $aspirations_type_room = $client_arr['aspirations_type_room'];
@@ -641,6 +669,9 @@ if (isset($_POST['save'])) {
                             $contract_deposit_2 = $client_arr['contract_deposit_2'];
                             $contract_cancel = $client_arr['contract_cancel'];
                             $contract_total = $client_arr['contract_total'];
+                            $contract_application = $client_arr['contract_application'];
+                            $contract_application_date = $client_arr['contract_application_date'];
+                            $plus_money=$order->getPlusMoney($client_arr['contract_detail_id']);   
                         }
                     }
                 }
@@ -662,11 +693,11 @@ if (isset($_POST['save'])) {
 } elseif ($content[0] == 'edit') {
 //get information for order 
 //get client info, history and contact
-    $order = new HOMEOrder();
-    $client_arr = $order->getClientByOrderId($order_id);
+   
+    $client_arr = $order->getClientByOrderId($order_id);        
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
-            $client_id = $client_arr['client_id'];
+        $client_id = $client_arr['client_id'];
         $client_name = $client_arr['client_name'];
         $client_birthday = $client_arr['client_birthday'];
         $client_email = $client_arr['client_email'];
@@ -706,6 +737,7 @@ if (isset($_POST['save'])) {
         $log_flyer = $client_arr['log_flyer'];
         $log_line = $client_arr['log_line'];
         $log_revisit = $client_arr['log_revisit'];
+        $source_id = $client_arr['source_id'];
 
         $aspirations_type_house = $client_arr['aspirations_type_house'];
         $aspirations_type_room = $client_arr['aspirations_type_room'];
@@ -716,8 +748,7 @@ if (isset($_POST['save'])) {
         $aspirations_comment = $client_arr['aspirations_comment'];
 
         $contract_name = $client_arr['contract_name'];
-        $contract_cost = $client_arr['contract_cost'];
-        $contract_plus_money = $client_arr['contract_plus_money'];
+        $contract_cost = $client_arr['contract_cost'];        
         $contract_key_money = $client_arr['contract_key_money'];
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
@@ -729,12 +760,21 @@ if (isset($_POST['save'])) {
         $contract_deposit_2 = $client_arr['contract_deposit_2'];
         $contract_cancel = $client_arr['contract_cancel'];
         $contract_total = $client_arr['contract_total'];
+        $contract_application = $client_arr['contract_application'];
+        $contract_application_date = $client_arr['contract_application_date'];
+        //get plus money
+        $plus_money=$order->getPlusMoney($client_arr['contract_detail_id']);       
+        
+        
     }
 }
-
+//get source
+    $house = new HOMEHouse();
+    $sources = $house->getAllSource();
+    
+$smarty->assign('plus_money', $plus_money);    
 $smarty->assign('contract_name', $contract_name);
 $smarty->assign('contract_cost', $contract_cost);
-$smarty->assign('contract_plus_money', $contract_plus_money);
 $smarty->assign('contract_key_money', $contract_key_money);
 $smarty->assign('contract_condition', $contract_condition);
 $smarty->assign('contract_valuation', $contract_valuation);
@@ -746,6 +786,8 @@ $smarty->assign('contract_deposit_1', $contract_deposit_1);
 $smarty->assign('contract_deposit_2', $contract_deposit_2);
 $smarty->assign('contract_cancel', $contract_cancel);
 $smarty->assign('contract_total', $contract_total);
+$smarty->assign('contract_application', $contract_application);
+$smarty->assign('contract_application_date', $contract_application_date);
 $smarty->assign('house_id', $house_id);
 $smarty->assign('introduce_house_content', $introduce_house_content);
 $smarty->assign('introduce_house_photo', $introduce_house_photo);
@@ -778,6 +820,7 @@ $smarty->assign('log_introduction', $log_introduction);
 $smarty->assign('log_flyer', $log_flyer);
 $smarty->assign('log_line', $log_line);
 $smarty->assign('log_revisit', $log_revisit);
+$smarty->assign('source_id', $source_id);
 $smarty->assign('gender', $gender);
 $smarty->assign('client_address', $client_address);
 $smarty->assign('client_occupation', $client_occupation);
@@ -801,6 +844,7 @@ $smarty->assign('order_id', $order_id);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('customers', $customers);
+$smarty->assign('sources', $sources);
 $smarty->assign('errorHouseExist', $errorHouseExist);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
