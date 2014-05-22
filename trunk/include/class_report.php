@@ -77,7 +77,9 @@ class Report {
         $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
         $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         //cost today
-        $select = "SELECT SUM(order_rent_cost) FROM home_order o
+        $select = "SELECT SUM(d.contract_total) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today}";
 
         $result = $database->database_query($select);
@@ -85,7 +87,9 @@ class Report {
         $return['cost_today'] = (int) $row[0];
 
         ////cost of month
-        $select = "SELECT SUM(order_rent_cost) FROM home_order o
+        $select = "SELECT SUM(d.contract_total) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month}";
 
         $result = $database->database_query($select);
@@ -94,7 +98,9 @@ class Report {
 
 
         //previous month
-        $select = "SELECT SUM(order_rent_cost) FROM home_order o
+        $select = "SELECT SUM(d.contract_total) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date("Y-m", strtotime("-1 months")) . "'";
 
         $result = $database->database_query($select);
@@ -128,14 +134,16 @@ class Report {
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON o.id = d.contract_id
+            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_application'] = (int) $row[0];
 
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND {$month} ";
+            INNER JOIN home_contract_detail d ON o.id = d.contract_id
+            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_application'] = (int) $row[0];
@@ -232,7 +240,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_application'] = (int) $row[0];
@@ -241,7 +250,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_application'] = (int) $row[0];
@@ -336,7 +346,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayphone_application'] = (int) $row[0];
@@ -417,8 +428,9 @@ class Report {
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
-			INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today}
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
@@ -430,8 +442,9 @@ class Report {
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year}
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
@@ -442,8 +455,10 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_application'] = (int) $row[0];
@@ -452,8 +467,10 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_application'] = (int) $row[0];
@@ -464,8 +481,9 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_cancel'] = (int) $row[0];
@@ -475,8 +493,9 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_cancel'] = (int) $row[0];
@@ -485,8 +504,9 @@ class Report {
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_change'] = (int) $row[0];
@@ -494,8 +514,9 @@ class Report {
         $select = "SELECT SUM(o.change) FROM home_order o
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_change'] = (int) $row[0];
@@ -506,8 +527,9 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$today} ";
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_agreement'] = (int) $row[0];
@@ -554,7 +576,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaylocalsign_application'] = (int) $row[0];
@@ -563,7 +586,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_application'] = (int) $row[0];
@@ -659,7 +683,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayintroduction_application'] = (int) $row[0];
@@ -668,7 +693,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_application'] = (int) $row[0];
@@ -763,7 +789,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayshopsign_application'] = (int) $row[0];
@@ -772,7 +799,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_application'] = (int) $row[0];
@@ -867,7 +895,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayflyer_application'] = (int) $row[0];
@@ -876,7 +905,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_application'] = (int) $row[0];
@@ -972,7 +1002,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayline_application'] = (int) $row[0];
@@ -981,7 +1012,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_application'] = (int) $row[0];
@@ -1061,8 +1093,8 @@ class Report {
         global $database; 
         $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         ////cost of month
-        $select = "SELECT SUM(order_rent_cost) FROM home_order o
-            INNER JOIN home_user u  ON o.user_id = u.id
+        $select = "SELECT SUM(d.contract_total) FROM home_contract_detail d
+            INNER JOIN home_user u  ON d.user_id = u.id
             WHERE u.agent_id = {$agent_id} AND o.order_status = 1 AND  {$month}";
 
         $result = $database->database_query($select);
@@ -1093,6 +1125,22 @@ class Report {
         global $database;
         $select = "SELECT c.* FROM home_broker_company c 
                   ORDER BY c.id ASC";
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
+    /**
+     * 
+     * @global type $database
+     * @return type
+     */
+    public function getAllSource() {
+        global $database;
+        $select = "SELECT s.* FROM home_source s 
+                  ORDER BY s.id ASC";
         $result = $database->database_query($select);
         $arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
@@ -1210,6 +1258,117 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_broker_company c  ON o.user_id = c.user_id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_agreement'] = (int) $row[0];
+
+        return $return;
+    }
+    /**
+     * 
+     * @global type $database
+     * @param type $company_id
+     * @return type
+     */
+    public function getSourceInfo($source_id = 0){
+        global $database;
+        if (empty($source_id)) {
+            return array();
+        }
+        $return = array();
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        
+        //more info on today
+        $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
+            SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
+            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status, SUM(log_revisit) AS today_revisit
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND  {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+
+        //more info on this month 
+        $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
+            SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
+            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status, SUM(log_revisit) AS month_revisit
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND  {$month}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
+        //Application
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id}  AND d.contract_application = 1 AND {$today} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_application'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id}  AND d.contract_application = 1  AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_application'] = (int) $row[0];
+
+        //Cancel
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 1 AND {$today} ";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_cancel'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 1 AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_cancel'] = (int) $row[0];
+        //change
+        $select = "SELECT SUM(o.change) FROM home_order o
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND o.change = 1 AND h.source_id = {$source_id}  AND {$today} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_change'] = (int) $row[0];
+
+        $select = "SELECT SUM(o.change) FROM home_order o
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND o.change = 1  AND h.source_id = {$source_id} AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_change'] = (int) $row[0];
+
+        //agreement
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$today} ";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_agreement'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_agreement'] = (int) $row[0];
