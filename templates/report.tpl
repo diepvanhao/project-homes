@@ -591,11 +591,11 @@
                 <th>Ledger</th>
             </tr>
             <tbody>
-                {foreach from=$report->getAllCompany() key=k item=company}
-                    {$com_info = $report->getCompanyInfo($company.id)}
+                {foreach from=$report->getAllSource() key=k item=company}
+                    {$com_info = $report->getSourceInfo($company.id)}
                     <tr>
                         <td rowspan="2">{$k + 1}</td>
-                        <td rowspan="2">{$company.broker_company_name}</td>
+                        <td rowspan="2">{$company.source_name}</td>
                         <td>Today</td>
                         <td>{(int)$com_info.today_tel + $com_info.today_mail}</td>
                         <td>{(int)($com_info.today_tel_status + $com_info.today_mail_status)}</td>
