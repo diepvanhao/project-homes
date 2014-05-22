@@ -489,6 +489,42 @@ class HOMEHouse {
         }
     }
 
+    function getHouseType(){
+        global $database;
+        $query="select * from house_type order by type_name ASC";
+        $result=$database->database_query($query);
+        $houseTypes=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $house_type['id']=$row['id'];
+            $house_type['type_name']=$row['type_name'];
+            $houseTypes[]=$house_type;
+        }
+        return $houseTypes;
+    }
+    function getHouseStructures(){
+        global $database;
+        $query="select * from house_structure order by structure_name ASC";
+        $result=$database->database_query($query);
+        $houseStructures=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $house_structure['id']=$row['id'];
+            $house_structure['structure_name']=$row['structure_name'];
+            $houseStructures[]=$house_structure;
+        }
+        return $houseStructures;
+    }
+    function getRoomType(){
+        global $database;
+        $query="select * from house_room_type order by room_name ASC";
+        $result=$database->database_query($query);
+        $roomTypes=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $room_type['id']=$row['id'];
+            $room_type['room_name']=$row['room_name'];
+            $roomTypes[]=$room_type;
+        }
+        return $roomTypes;
+    }
 }
 
 function checkExistSource($source_name) {

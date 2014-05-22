@@ -136,11 +136,13 @@ $validate = array(
 if($owner)
     $validate['house_owner_name']=$house_owner_name;
 
+$house = new HOMEHouse();
+
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
-        $house = new HOMEHouse();
+        
         $result = $house->create(
                 $house_name, 
                 $house_address,             
@@ -161,7 +163,11 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+//get house type
 
+$houseTypes=$house->getHouseType();
+//get house structure
+$houseStructures=$house->getHouseStructures();
 
 $smarty->assign('house_name', $house_name);
 $smarty->assign('house_address', $house_address);
@@ -176,6 +182,8 @@ $smarty->assign('house_owner_phone', $house_owner_phone);
 $smarty->assign('house_owner_fax', $house_owner_fax);
 $smarty->assign('house_owner_email', $house_owner_email);
 $smarty->assign('owner', $owner);
+$smarty->assign('houseTypes', $houseTypes);
+$smarty->assign('houseStructures', $houseStructures);
 
 $smarty->assign('error', $error);
 

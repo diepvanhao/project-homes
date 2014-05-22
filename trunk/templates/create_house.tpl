@@ -29,12 +29,26 @@
 
             <tr>
                 <td class='form1'>House Type: </td>
-                <td class='form2'><input type='text' class='text' name='house_type' id='house_type' value="{$house_type}"  style="height:26px; width: 351px;"><div id="house_type_error"class="error"></div></td>
+                <td class='form2'>
+                    <select id="house_type" name="house_type" style="height:26px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$houseTypes item=houseType}
+                            <option value="{$houseType.id}" {if $houseType.id eq $house_type}selected="selected"{/if}>{$houseType.type_name}</option>        
+                        {/foreach}
+                    </select><div id="error_house_type" class="error"></div>
+                </td>
             </tr>
 
             <tr>
                 <td class='form1'>Structure: </td>
-                <td class='form2'><input type='text' class='text' name='house_structure' id='house_structure' value="{$house_structure}"  style="height:26px; width: 351px;"><div id="house_structure_error"class="error"></div></td>
+                <td class='form2'>
+                    <select id="house_structure" name="house_structure" style="height:26px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$houseStructures item=houseStructure}
+                            <option value="{$houseStructure.id}" {if $houseStructure.id eq $house_structure}selected="selected"{/if}>{$houseStructure.structure_name}</option>        
+                        {/foreach}
+                    </select><div id="error_house_structure" class="error"></div>
+                </td>
             </tr>
             <tr>
                 <td class='form1'>Description: </td>
@@ -63,11 +77,11 @@
                 </tr>
                 <tr>
                     <td class='form1'>Phone Number: </td>
-                    <td class='form2'><input type='text' class='text' name='house_owner_phone' id='house_owner_phone' value="{$house_owner_phone}"  style="height:26px; width: 351px;"><div id="house_owner_phone_error"class="error"></div></td>
+                    <td class='form2'><input type='number' class='text' name='house_owner_phone' id='house_owner_phone' value="{$house_owner_phone}"  style="height:26px; width: 351px;"><div id="house_owner_phone_error"class="error"></div></td>
                 </tr>
                 <tr>
                     <td class='form1'>Fax: </td>
-                    <td class='form2'><input type='text' class='text' name='house_owner_fax' id='house_owner_fax' value="{$house_owner_fax}"  style="height:26px; width: 351px;"><div id="house_owner_fax_error"class="error"></div></td>
+                    <td class='form2'><input type='number' class='text' name='house_owner_fax' id='house_owner_fax' value="{$house_owner_fax}"  style="height:26px; width: 351px;"><div id="house_owner_fax_error"class="error"></div></td>
                 </tr>            
             </table>
         </div>

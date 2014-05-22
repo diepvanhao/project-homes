@@ -129,12 +129,12 @@ $validate = array(
     'house_id' => $house_id,
     'broker_id' => $broker_id
 );
+$house = new HOMEHouse();
 
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
-    if (empty($error)) {
-        $house = new HOMEHouse();
+    if (empty($error)) {        
         $result = $house->create_room(
                 $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money,$room_administrative_expense,$room_deposit,$room_discount,$room_photo,$house_id,$broker_id
         );
@@ -148,11 +148,12 @@ if (isset($_POST['submit'])) {
     }
 }
 //get houses
-$houseClass = new HOMEHouse();
-$houses = $houseClass->getAllHouses();
+$houses = $house->getAllHouses();
 //get brokers
 $brokerClass = new HOMEBroker();
 $brokers = $brokerClass->getAllBroker();
+//get room type
+$roomTypes=$house->getRoomType();
 
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
@@ -168,7 +169,7 @@ $smarty->assign('house_id', $house_id);
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('houses', $houses);
 $smarty->assign('brokers', $brokers);
-
+$smarty->assign('roomTypes', $roomTypes);
 
 $smarty->assign('error', $error);
 
