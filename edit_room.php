@@ -164,11 +164,13 @@ $validate = array(
     'broker_id' => $broker_id
 );
 
+$house = new HOMEHouse();
+
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
-        $house = new HOMEHouse();
+        
         $result = $house->update_room(
                 $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk
         );
@@ -188,8 +190,8 @@ if (isset($_POST['submit'])) {
     $broker_id_bk = $broker_id = $content[2];
     $house_id_bk = $house_id = $content[3];
 
-    $houseClass = new HOMEHouse();
-    $room = $houseClass->getRoomById($room_detail_id, $broker_id, $house_id);
+    
+    $room = $house->getRoomById($room_detail_id, $broker_id, $house_id);
 
     if ($room) {
         $room_number = $room['room_number'];
@@ -205,11 +207,13 @@ if (isset($_POST['submit'])) {
     }
 }
 //get houses
-$houseClass = new HOMEHouse();
-$houses = $houseClass->getAllHouses();
+
+$houses = $house->getAllHouses();
 //get brokers
 $brokerClass = new HOMEBroker();
 $brokers = $brokerClass->getAllBroker();
+//get room type
+$roomTypes=$house->getRoomType();
 
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
@@ -226,6 +230,7 @@ $smarty->assign('broker_id', $broker_id);
 $smarty->assign('room_detail_id', $room_detail_id);
 $smarty->assign('house_id_bk', $house_id_bk);
 $smarty->assign('broker_id_bk', $broker_id_bk);
+$smarty->assign('roomTypes', $roomTypes);
 
 $smarty->assign('houses', $houses);
 $smarty->assign('brokers', $brokers);

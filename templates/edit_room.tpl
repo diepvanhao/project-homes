@@ -10,54 +10,6 @@
         {$notify}
     {/if}
     <form action="edit_room.php" method="post" enctype="multipart/form-data">
-        <div><label class="title">Room Infomation</label></div>
-        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-            <tr>
-                <td class='form1'>Room Number: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_number' id='room_number' value="{$room_number}"  style="height:26px; width: 351px;"><div id="room_number_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Type:  <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_type' id='room_type' value="{$room_type}"  style="height:26px; width: 351px;"><div id="room_type_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Size: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 351px;"><div id="room_size_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Price: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 351px;"><div id="room_rent_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Key Money: </td>
-                <td class='form2'><input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 351px;"><div id="room_key_money_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Administrative Expense: </td>
-                <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 351px;"><div id="room_administrative_expense_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Deposit: </td>
-                <td class='form2'><input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 351px;"><div id="room_deposit_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Discount: </td>
-                <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 351px;"><div id="room_discount_error"class="error"></div></td>
-            </tr>
-            <tr>
-                <td class='form1'>Photo: </td>
-                <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 351px;"><div id="room_photo_error"class="error"></div></td>
-            </tr>                                
-            <tr>            
-                <td class='form1'>Room Status: </td>
-                <td class='form2'>
-                    <select id="room_status" name="room_status" style="height:26px; width: 351px;">
-                        <option value="0"{if $room_status eq 0}selected{/if}>Empty</option>
-                        <option value="1"{if $room_status eq 1}selected{/if}>For rent</option>        
-                    </select>
-                </td>
-            </tr>
-        </table>
         <div style="margin-bottom: 20px;"><label >House Infomation</label></div>        
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
@@ -102,6 +54,61 @@
                 <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
             </tr>
         </table>
+        <div><label class="title">Room Infomation</label></div>
+        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+            <tr>
+                <td class='form1'>Room Number: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='room_number' id='room_number' value="{$room_number}"  style="height:26px; width: 351px;"><div id="room_number_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Type:  <span class="required">*</span></td>
+                <td class='form2'><select id="room_type" name="room_type" style="height:26px; width: 300px;">
+                        <option value=""></option>
+                        {foreach from=$roomTypes item=roomType}
+                            <option value="{$roomType.id}" {if $roomType.id eq $room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
+                        {/foreach}
+                    </select><div id="error_room_type" class="error"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class='form1'>Size: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 351px;"><div id="room_size_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Price: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 351px;"><div id="room_rent_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Key Money: </td>
+                <td class='form2'><input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 351px;"><div id="room_key_money_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Administrative Expense: </td>
+                <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 351px;"><div id="room_administrative_expense_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Deposit: </td>
+                <td class='form2'><input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 351px;"><div id="room_deposit_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Discount: </td>
+                <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 351px;"><div id="room_discount_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Photo: </td>
+                <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 351px;"><div id="room_photo_error"class="error"></div></td>
+            </tr>                                
+            <tr>            
+                <td class='form1'>Room Status: </td>
+                <td class='form2'>
+                    <select id="room_status" name="room_status" style="height:26px; width: 351px;">
+                        <option value="0"{if $room_status eq 0}selected{/if}>Empty</option>
+                        <option value="1"{if $room_status eq 1}selected{/if}>For rent</option>        
+                    </select>
+                </td>
+            </tr>
+        </table>
+
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
             <tr>
                 <td class='form1'>&nbsp;</td>

@@ -170,11 +170,13 @@ $validate = array(
 if($owner)
     $validate['house_owner_name']=$house_owner_name;
 
+ $house = new HOMEHouse();
+ 
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
-        $house = new HOMEHouse();
+       
         $result = $house->update_house(
                 $house_name, 
                 $house_address,             
@@ -197,7 +199,7 @@ if (isset($_POST['submit'])) {
         }
     }
 } elseif ($content[0] == 'edit') {
-    $house = new HOMEHouse();
+   
 
     $result = $house->getHouseById($content[1]);
     if (!empty($result)) {        
@@ -217,6 +219,12 @@ if (isset($_POST['submit'])) {
         $owner_id=$result['house_owner_id'];
     }
 }
+//get house type
+
+$houseTypes=$house->getHouseType();
+//get house structure
+$houseStructures=$house->getHouseStructures();
+
 
 $smarty->assign('house_id', $house_id);
 $smarty->assign('owner_id', $owner_id);
@@ -234,6 +242,8 @@ $smarty->assign('house_owner_address', $house_owner_address);
 $smarty->assign('house_owner_phone', $house_owner_phone);
 $smarty->assign('house_owner_fax', $house_owner_fax);
 $smarty->assign('house_owner_email', $house_owner_email);
+$smarty->assign('houseTypes', $houseTypes);
+$smarty->assign('houseStructures', $houseStructures);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
 $smarty->assign('owner', $owner);
