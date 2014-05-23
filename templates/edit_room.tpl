@@ -14,13 +14,13 @@
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
                 <td class="form1">Filter House</td>
-                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
+                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
                 </td>
             </tr>
             <tr>            
                 <td class='form1'>Select House: </td>
                 <td class='form2'>
-                    <select id="house_id" name="house_id" style="height:26px; width: 351px;">
+                    <select id="house_id" name="house_id" style="height:26px; width: 300px;">
                         <option value=""></option>
                         {foreach from=$houses item=house}
                             <option value="{$house.id}" {if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
@@ -30,7 +30,7 @@
             </tr>
             <tr>            
                 <td class='form1'>Description House: </td>
-                <td class='form2'><textarea style="width: 351px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description"></textarea></td>
             </tr>
             <tr>            
                 <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
@@ -41,7 +41,7 @@
             <tr>            
                 <td class='form1'>Select Broker Company: </td>
                 <td class='form2'>
-                    <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
+                    <select id="broker_id" name="broker_id" style="height:26px; width: 300px;">
                         <option value=""></option>
                         {foreach from=$brokers item=broker}
                             <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
@@ -58,7 +58,7 @@
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
                 <td class='form1'>Room Number: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_number' id='room_number' value="{$room_number}"  style="height:26px; width: 351px;"><div id="room_number_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_number' id='room_number' value="{$room_number}"  style="height:26px; width: 300px;"><div id="room_number_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Type:  <span class="required">*</span></td>
@@ -72,36 +72,36 @@
             </tr>
             <tr>
                 <td class='form1'>Size: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 351px;"><div id="room_size_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 300px;"><div id="room_size_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Price: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 351px;"><div id="room_rent_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 300px;"><div id="room_rent_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Key Money: </td>
-                <td class='form2'><input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 351px;"><div id="room_key_money_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 300px;"><div id="room_key_money_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Administrative Expense: </td>
-                <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 351px;"><div id="room_administrative_expense_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 300px;"><div id="room_administrative_expense_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Deposit: </td>
-                <td class='form2'><input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 351px;"><div id="room_deposit_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 300px;"><div id="room_deposit_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Discount: </td>
-                <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 351px;"><div id="room_discount_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 300px;"><div id="room_discount_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Photo: </td>
-                <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 351px;"><div id="room_photo_error"class="error"></div></td>
+                <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 300px;"><div id="room_photo_error"class="error"></div></td>
             </tr>                                
             <tr>            
                 <td class='form1'>Room Status: </td>
                 <td class='form2'>
-                    <select id="room_status" name="room_status" style="height:26px; width: 351px;">
+                    <select id="room_status" name="room_status" style="height:26px; width: 300px;">
                         <option value="0"{if $room_status eq 0}selected{/if}>Empty</option>
                         <option value="1"{if $room_status eq 1}selected{/if}>For rent</option>        
                     </select>
@@ -119,6 +119,7 @@
                         <input type="hidden" id="room_detail_id" name="room_detail_id" value="{$room_detail_id}"/>
                         <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id_bk}"/>
                         <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id_bk}"/>
+                        <input type="hidden" id="room_number_bk" name="room_number_bk" value="{$room_number_bk}"/>
                     </div>
                 </td>
             </tr>

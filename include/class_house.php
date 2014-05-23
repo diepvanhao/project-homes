@@ -372,11 +372,9 @@ class HOMEHouse {
         }
     }
 
-    function update_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk) {
+    function update_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk) {
         global $database;
-        if (checkRoomExist($room_number, $broker_id, $house_id)) {
-            return array('error' => 'This room is existed', 'flag' => false);
-        } else {
+        if (($room_number == $room_number_bk) && ($broker_id == $broker_id_bk) && ($house_id == $house_id_bk)) {
             $query = "update home_room_detail set 
                 room_number='{$room_number}',
                 room_type='{$room_type}',
@@ -401,6 +399,35 @@ class HOMEHouse {
                     where broker_id='{$broker_id_bk}' and house_id='{$house_id_bk}' and room_detail_id='{$room_detail_id}'
          ";
             return array('error' => '', 'flag' => $database->database_query($query));
+        } else {
+            if (checkRoomExist($room_number, $broker_id, $house_id)) {
+                return array('error' => 'Update fail!. This room is existed. Pls check room number, broker company and house.', 'flag' => false);
+            } else {
+                $query = "update home_room_detail set 
+                room_number='{$room_number}',
+                room_type='{$room_type}',
+                room_size='{$room_size}',                   
+                room_status='{$room_status}',              
+                room_rent='{$room_rent}',
+                room_key_money='{$room_key_money}',
+                room_administrative_expense='{$room_administrative_expense}',                             
+                room_deposit='{$room_deposit}',
+                room_discount='{$room_discount}',    
+                room_photo='{$room_photo}'
+                
+         where id={$room_detail_id}
+        ";
+                $database->database_query($query);
+                //update home_room
+                $query = "update home_room set
+                    id='{$room_number}',
+                    broker_id='{$broker_id}',
+                    house_id='{$house_id}'
+                     
+                    where broker_id='{$broker_id_bk}' and house_id='{$house_id_bk}' and room_detail_id='{$room_detail_id}'
+         ";
+                return array('error' => '', 'flag' => $database->database_query($query));
+            }
         }
     }
 
@@ -489,42 +516,45 @@ class HOMEHouse {
         }
     }
 
-    function getHouseType(){
+    function getHouseType() {
         global $database;
-        $query="select * from house_type order by type_name ASC";
-        $result=$database->database_query($query);
-        $houseTypes=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $house_type['id']=$row['id'];
-            $house_type['type_name']=$row['type_name'];
-            $houseTypes[]=$house_type;
+        $query = "select * from house_type order by type_name ASC";
+        $result = $database->database_query($query);
+        $houseTypes = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $house_type['id'] = $row['id'];
+            $house_type['type_name'] = $row['type_name'];
+            $houseTypes[] = $house_type;
         }
         return $houseTypes;
     }
-    function getHouseStructures(){
+
+    function getHouseStructures() {
         global $database;
-        $query="select * from house_structure order by structure_name ASC";
-        $result=$database->database_query($query);
-        $houseStructures=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $house_structure['id']=$row['id'];
-            $house_structure['structure_name']=$row['structure_name'];
-            $houseStructures[]=$house_structure;
+        $query = "select * from house_structure order by structure_name ASC";
+        $result = $database->database_query($query);
+        $houseStructures = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $house_structure['id'] = $row['id'];
+            $house_structure['structure_name'] = $row['structure_name'];
+            $houseStructures[] = $house_structure;
         }
         return $houseStructures;
     }
-    function getRoomType(){
+
+    function getRoomType() {
         global $database;
-        $query="select * from house_room_type order by room_name ASC";
-        $result=$database->database_query($query);
-        $roomTypes=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $room_type['id']=$row['id'];
-            $room_type['room_name']=$row['room_name'];
-            $roomTypes[]=$room_type;
+        $query = "select * from house_room_type order by room_name ASC";
+        $result = $database->database_query($query);
+        $roomTypes = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $room_type['id'] = $row['id'];
+            $room_type['room_name'] = $row['room_name'];
+            $roomTypes[] = $room_type;
         }
         return $roomTypes;
     }
+
 }
 
 function checkExistSource($source_name) {

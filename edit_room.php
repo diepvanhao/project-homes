@@ -144,6 +144,14 @@ if (isset($_POST['broker_id_bk'])) {
     $broker_id_bk = "";
 }
 
+if (isset($_POST['room_number_bk'])) {
+    $room_number_bk = $_POST['room_number_bk'];
+} elseif (isset($_GET['room_number_bk'])) {
+    $room_number_bk = $_GET['room_number_bk'];
+} else {
+    $room_number_bk = "";
+}
+
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -172,12 +180,13 @@ if (isset($_POST['submit'])) {
     if (empty($error)) {
         
         $result = $house->update_room(
-                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk
+                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk,$room_number_bk
         );
         if ($result['flag']) {
             $notify = "Update success !!!";
             $house_id_bk = $house_id;
             $broker_id_bk = $broker_id;
+            $room_number_bk=$room_number;
         } elseif ($result['error']) {
             $error[] = $result['error'];
         } else {
@@ -194,7 +203,7 @@ if (isset($_POST['submit'])) {
     $room = $house->getRoomById($room_detail_id, $broker_id, $house_id);
 
     if ($room) {
-        $room_number = $room['room_number'];
+        $room_number_bk=$room_number = $room['room_number'];
         $room_type = $room['room_type'];
         $room_size = $room['room_size'];      
         $room_status = $room['room_status'];
@@ -230,6 +239,7 @@ $smarty->assign('broker_id', $broker_id);
 $smarty->assign('room_detail_id', $room_detail_id);
 $smarty->assign('house_id_bk', $house_id_bk);
 $smarty->assign('broker_id_bk', $broker_id_bk);
+$smarty->assign('room_number_bk', $room_number_bk);
 $smarty->assign('roomTypes', $roomTypes);
 
 $smarty->assign('houses', $houses);
