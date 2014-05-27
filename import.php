@@ -26,7 +26,6 @@ if (!empty($_POST) && $_POST['submit'] && $_FILES['csv']['error'] == 0) {
                 $num = count($data);
                 foreach ($data as $key => $value) {
                     $value = mb_convert_encoding($value, "UTF-8", "Shift-JIS");
-                     var_dump($value);
                     if (strpos($value, "\r") !== false) {
                         $arr = explode("\r", $value);
                         if (ctype_digit($arr[1])) {
@@ -70,7 +69,7 @@ if (!empty($_POST) && $_POST['submit'] && $_FILES['csv']['error'] == 0) {
                        
                         $csv[$row][] = $value; // mb_convert_encoding($value, "UTF-8", "Shift-JIS");
                     }
-                }die();
+                }
             }
             fclose($handle);
         }
