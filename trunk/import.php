@@ -4,7 +4,16 @@ include 'header.php';
 $page = 'import';
 
 include 'include/class_import.php';
+if (!$user->user_exists) {
 
+    header('Location: ./user_login.php');
+
+    exit();
+}
+if($user->user_info['user_locked']){
+    header('Location: ./locked.php');
+    exit();
+}
 $csv = array();
 // check there are no errors
 if (!empty($_POST) && $_POST['submit'] && $_FILES['csv']['error'] == 0) {
