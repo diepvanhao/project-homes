@@ -30,7 +30,7 @@ if (!empty($_POST) && $_POST['submit'] && $_FILES['csv']['error'] == 0) {
 
             $row = 0;
 
-            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+            while (($data = fgetcsv($handle, 0, ',')) !== FALSE) {
                 // number of fields in the csv
                 $num = count($data);
                 foreach ($data as $key => $value) {
