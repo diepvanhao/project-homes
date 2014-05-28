@@ -438,7 +438,7 @@ class HOMEHouse {
             return array('error' => "Source existed. Please enter other source !!!", 'flag' => '');
         }
         $query = "insert into home_source(`source_name`) values('{$source_name}')";
-        echo $query;
+
         $result = $database->database_query($query);
         if ($result)
             return array('error' => "", 'flag' => TRUE);
@@ -555,6 +555,161 @@ class HOMEHouse {
         return $roomTypes;
     }
 
+//Address
+    function create_city($city_name) {
+        global $database;
+        $city_name = trim($city_name);
+        if (checkExistCity($city_name)) {
+            return array('error' => "City existed. Please enter other city !!!", 'flag' => '');
+        }
+        $query = "insert into house_city(`city_name`) values('{$city_name}')";
+
+        $result = $database->database_query($query);
+        if ($result)
+            return array('error' => "", 'flag' => TRUE);
+        else
+            return array('error' => "", 'flag' => FALSE);
+    }
+
+    function getAllCity() {
+        global $database;
+
+        $query = "select * from house_city";
+
+        //echo $query;
+        $result = $database->database_query($query);
+        $city_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $city['id'] = $row['id'];
+            $city['city_name'] = $row['city_name'];
+            $city_arr[] = $city;
+        }
+        return $city_arr;
+    }
+
+    function create_district($city_id, $district_name) {
+        global $database;
+        $district_name = trim($district_name);
+        if (checkExistDistrict($city_id, $district_name)) {
+            return array('error' => "District existed. Please enter other district !!!", 'flag' => '');
+        }
+        $query = "insert into house_district(`district_name`,`city_id`) values('{$district_name}','{$city_id}')";
+
+        $result = $database->database_query($query);
+        if ($result)
+            return array('error' => "", 'flag' => TRUE);
+        else
+            return array('error' => "", 'flag' => FALSE);
+    }
+
+    function getAllDistrict() {
+        global $database;
+
+        $query = "select * from house_district";
+
+        //echo $query;
+        $result = $database->database_query($query);
+        $district_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $district['id'] = $row['id'];
+            $district['district_name'] = $row['district_name'];
+            $district_arr[] = $district;
+        }
+        return $district_arr;
+    }
+
+    function create_street($district_id, $street_name) {
+        global $database;
+        $street_name = trim($street_name);
+        if (checkExistStreet($district_id, $street_name)) {
+            return array('error' => "Street existed. Please enter other street !!!", 'flag' => '');
+        }
+        $query = "insert into house_street(`street_name`,`district_id`) values('{$street_name}','{$district_id}')";
+
+        $result = $database->database_query($query);
+        if ($result)
+            return array('error' => "", 'flag' => TRUE);
+        else
+            return array('error' => "", 'flag' => FALSE);
+    }
+    function getAllStreet() {
+        global $database;
+
+        $query = "select * from house_street";
+
+        //echo $query;
+        $result = $database->database_query($query);
+        $street_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $street['id'] = $row['id'];
+            $street['street_name'] = $row['street_name'];
+            $street_arr[] = $street;
+        }
+        return $street_arr;
+    }
+    function create_ward($street_id, $ward_name) {
+        global $database;
+        $ward_name = trim($ward_name);
+        if (checkExistWard($street_id, $ward_name)) {
+            return array('error' => "Ward existed. Please enter other ward !!!", 'flag' => '');
+        }
+        $query = "insert into house_ward(`ward_name`,`street_id`) values('{$ward_name}','{$street_id}')";
+
+        $result = $database->database_query($query);
+        if ($result)
+            return array('error' => "", 'flag' => TRUE);
+        else
+            return array('error' => "", 'flag' => FALSE);
+    }
+
+}
+
+function checkExistWard($street_id, $ward_name) {
+    global $database;
+
+    $query = "select * from house_ward where ward_name='{$ward_name}' and street_id='{$street_id}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
+}
+
+function checkExistStreet($district_id, $street_name) {
+    global $database;
+
+    $query = "select * from house_street where street_name='{$street_name}' and district_id='{$district_id}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
+}
+
+function checkExistDistrict($city_id, $district_name) {
+    global $database;
+
+    $query = "select * from house_district where district_name='{$district_name}' and city_id='{$city_id}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
+}
+
+function checkExistCity($city_name) {
+    global $database;
+
+    $query = "select * from house_city where city_name='{$city_name}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
 }
 
 function checkExistSource($source_name) {

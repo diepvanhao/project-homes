@@ -95,6 +95,27 @@ class HOMEValidate {
                     case("source_name"):
                         $this->checkEmpty('Source Name', $val);
                         break;
+                    case("city_name"):
+                        $this->checkEmpty('City Name', $val);
+                        break;
+                    case("district_name"):
+                        $this->checkEmpty('District Name', $val);
+                        break;
+                    case("city_id"):
+                        $this->checkEmpty('City', $val);
+                        break;
+                    case("street_name"):
+                        $this->checkEmpty('Street Name', $val);
+                        break;
+                    case("district_id"):
+                        $this->checkEmpty('District', $val);
+                        break;
+                    case("ward_name"):
+                        $this->checkEmpty('Ward Name', $val);
+                        break;
+                    case("street_id"):
+                        $this->checkEmpty('Street', $val);
+                        break;
                     default :
                         break;
                 }
