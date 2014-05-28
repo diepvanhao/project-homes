@@ -186,3 +186,14 @@ ALTER TABLE  `home_room` CHANGE  `id`  `id` VARCHAR( 128 ) CHARACTER SET utf8 CO
 
 ALTER TABLE `home_contract`   
   ADD COLUMN `client_id` INT(11) NULL AFTER `user_id`;
+
+/*28/5 Hao*/
+
+ALTER TABLE `house_district`   
+  ADD COLUMN `city_id` INT(11) NULL AFTER `district_name`;
+
+ALTER TABLE `house_street`   
+  ADD COLUMN `district_id` INT(11) NULL AFTER `street_name`;
+
+ALTER TABLE `house_ward`   
+  ADD COLUMN `street_id` INT(11) NULL AFTER `ward_name`;

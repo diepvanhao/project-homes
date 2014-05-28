@@ -68,6 +68,14 @@
                             <li><a href="report.php">Report</a></li>
                             <li><a href="import.php">Import CSV</a></li>
                             <li><a href="#">Contact Us</a></li> 
+                            <li><a href="#">Address</a>
+                                <ul>
+                                    <li><a href="create_city.php">City</a></li>
+                                    <li><a href="create_district.php">District</a></li>
+                                    <li><a href="create_street.php">Street</a></li>
+                                    <li><a href="create_ward.php">Ward</a></li>                                    
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </nav>
