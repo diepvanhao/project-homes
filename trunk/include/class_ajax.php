@@ -669,7 +669,43 @@ class ajax {
         }
         return $client_arr;
     }
-
+    function getDistrictListByCityID($city_id){
+        global $database;
+        $query="select * from house_district where city_id='{$city_id}'";
+        $result=$database->database_query($query);
+        $district_arr=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $district['id']=$row['id'];
+            $district['district_name']=$row['district_name'];
+            $district_arr[]=$district;
+        }
+        return $district_arr;
+    }
+    function getStreetListByDistrictID($district_id){
+        global $database;
+        $query="select * from house_street where district_id='{$district_id}'";
+        $result=$database->database_query($query);
+        $street_arr=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $street['id']=$row['id'];
+            $street['street_name']=$row['street_name'];
+            $street_arr[]=$street;
+        }
+        return $street_arr;
+    }
+    
+    function getWardListByStreetID($street_id){
+        global $database;
+        $query="select * from house_ward where street_id='{$street_id}'";
+        $result=$database->database_query($query);
+        $ward_arr=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $ward['id']=$row['id'];
+            $ward['ward_name']=$row['ward_name'];
+            $ward_arr[]=$ward;
+        }
+        return $ward_arr;
+    }
 }
 
 function checkExistContract($user_id, $order_id) {

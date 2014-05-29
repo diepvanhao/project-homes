@@ -17,7 +17,7 @@ if (!$user->user_exists) {
 
     exit();
 }
-if($user->user_info['user_locked']){
+if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
@@ -79,6 +79,42 @@ if (isset($_POST['house_structure'])) {
 } else {
     $house_structure = "";
 }
+if (isset($_POST['city_id'])) {
+    $city_id = $_POST['city_id'];
+} elseif (isset($_GET['city_id'])) {
+    $city_id = $_GET['city_id'];
+} else {
+    $city_id = "";
+}
+if (isset($_POST['district_id'])) {
+    $district_id = $_POST['district_id'];
+} elseif (isset($_GET['district_id'])) {
+    $district_id = $_GET['district_id'];
+} else {
+    $district_id = "0";
+}
+if (isset($_POST['street_id'])) {
+    $street_id = $_POST['street_id'];
+} elseif (isset($_GET['street_id'])) {
+    $street_id = $_GET['street_id'];
+} else {
+    $street_id = "0";
+}
+if (isset($_POST['ward_id'])) {
+    $ward_id = $_POST['ward_id'];
+} elseif (isset($_GET['ward_id'])) {
+    $ward_id = $_GET['ward_id'];
+} else {
+    $ward_id = "0";
+}
+$house_address_serialize['city_id'] = $city_id;
+$house_address_serialize['district_id'] = $district_id;
+$house_address_serialize['street_id'] = $street_id;
+$house_address_serialize['ward_id'] = $ward_id;
+$house_address_serialize['house_address'] = $house_address;
+
+$house_address_serialize = serialize($house_address_serialize);
+
 /////////////////////////////////////////////////////////////////////// Owner
 if (isset($_POST['house_owner_name'])) {
     $house_owner_name = $_POST['house_owner_name'];
@@ -127,14 +163,55 @@ if (isset($_POST['owner'])) {
 } else {
     $owner = "";
 }
+if (isset($_POST['city_id_owner'])) {
+    $city_id_owner = $_POST['city_id_owner'];
+} elseif (isset($_GET['city_id_owner'])) {
+    $city_id_owner = $_GET['city_id_owner'];
+} else {
+    $city_id_owner = "";
+}
+if (isset($_POST['district_id_owner'])) {
+    $district_id_owner = $_POST['district_id_owner'];
+} elseif (isset($_GET['district_id_owner'])) {
+    $district_id_owner = $_GET['district_id_owner'];
+} else {
+    $district_id_owner = "0";
+}
+if (isset($_POST['street_id_owner'])) {
+    $street_id_owner = $_POST['street_id_owner'];
+} elseif (isset($_GET['street_id_owner'])) {
+    $street_id_owner = $_GET['street_id_owner'];
+} else {
+    $street_id_owner = "0";
+}
+if (isset($_POST['ward_id_owner'])) {
+    $ward_id_owner = $_POST['ward_id_owner'];
+} elseif (isset($_GET['ward_id_owner'])) {
+    $ward_id_owner = $_GET['ward_id_owner'];
+} else {
+    $ward_id_owner = "0";
+}
+
+$house_owner_address_serialize['city_id_owner'] = $city_id_owner;
+$house_owner_address_serialize['district_id_owner'] = $district_id_owner;
+$house_owner_address_serialize['street_id_owner'] = $street_id_owner;
+$house_owner_address_serialize['ward_id_owner'] = $ward_id_owner;
+$house_owner_address_serialize['house_owner_address'] = $house_owner_address;
+
+$house_owner_address_serialize = serialize($house_owner_address_serialize);
+
 
 $validate = array(
     'house_name' => $house_name,
-    'house_address' => $house_address
+    'house_address' => $house_address,
+    'city_id'=>$city_id,
+    'district_id'=>$district_id,
+    'street_id'=>$street_id,
+    'ward_name'=>$ward_id
 );
 
-if($owner)
-    $validate['house_owner_name']=$house_owner_name;
+if ($owner)
+    $validate['house_owner_name'] = $house_owner_name;
 
 $house = new HOMEHouse();
 
@@ -142,22 +219,10 @@ if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
-        
+
         $result = $house->create(
-                $house_name, 
-                $house_address,             
-                $house_area,               
-                $house_build_time,
-                $house_type,
-                $house_description,                
-                $house_structure,
-                $house_owner_name,
-                $house_owner_address,
-                $house_owner_phone,
-                $house_owner_fax,
-                $house_owner_email
-                
-                );
+                $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email
+        );
         if ($result) {
             header("Location: notify.php?content=Create House Success!!!&url_return=create_house.php");
         }
@@ -165,9 +230,23 @@ if (isset($_POST['submit'])) {
 }
 //get house type
 
-$houseTypes=$house->getHouseType();
+$houseTypes = $house->getHouseType();
 //get house structure
-$houseStructures=$house->getHouseStructures();
+$houseStructures = $house->getHouseStructures();
+
+$cities = $house->getAllCity();
+
+$smarty->assign('cities', $cities);
+
+$smarty->assign('city_id', $city_id);
+$smarty->assign('district_id', $district_id);
+$smarty->assign('street_id', $street_id);
+$smarty->assign('ward_id', $ward_id);
+
+$smarty->assign('city_id_owner', $city_id_owner);
+$smarty->assign('district_id_owner', $district_id_owner);
+$smarty->assign('street_id_owner', $street_id_owner);
+$smarty->assign('ward_id_owner', $ward_id_owner);
 
 $smarty->assign('house_name', $house_name);
 $smarty->assign('house_address', $house_address);

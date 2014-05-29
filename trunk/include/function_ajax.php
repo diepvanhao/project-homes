@@ -277,18 +277,21 @@ if ($action == "check_email") {
             $house_id = "";
         }
         if (isset($_POST['room_id'])) {
-            $room_id= $_POST['room_id'];
+            $room_id = $_POST['room_id'];
         } elseif (isset($_GET['room_id'])) {
-            $room_id= $_GET['room_id'];
+            $room_id = $_GET['room_id'];
         } else {
             $room_id = "";
         }
-        $result = $ajax->getRoomContentByHouseId($house_id,$room_id);
+        $result = $ajax->getRoomContentByHouseId($house_id, $room_id);
         if ($result) {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {
 
-                echo "<option value='{$result[$i]['id']}'";if ($result[$i]['id'] == $room_id) echo "selected='selected'";echo ">";echo "{$result[$i]['id']}</option>";
+                echo "<option value='{$result[$i]['id']}'";
+                if ($result[$i]['id'] == $room_id)
+                    echo "selected='selected'";echo ">";
+                echo "{$result[$i]['id']}</option>";
             }
         }
     }
@@ -453,7 +456,7 @@ if ($action == "check_email") {
         } else {
             $client_id = "";
         }
-         if (isset($_POST['source_id'])) {
+        if (isset($_POST['source_id'])) {
             $source_id = $_POST['source_id'];
         } elseif (isset($_GET['source_id'])) {
             $source_id = $_GET['source_id'];
@@ -617,7 +620,7 @@ if ($action == "check_email") {
             $log_status_appointment = "";
         }
 
-        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit,$source_id, $log_status_appointment, $client_id, $order_id);
+        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'aspirations') {
@@ -761,7 +764,7 @@ if ($action == "check_email") {
         } else {
             $contract_cost = "";
         }
-       
+
         if (isset($_POST['contract_key_money'])) {
             $contract_key_money = $_POST['contract_key_money'];
         } elseif (isset($_GET['contract_key_money'])) {
@@ -867,8 +870,8 @@ if ($action == "check_email") {
         } else {
             $plus_money = "";
         }
-        
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total,$contract_application,$contract_application_date,$label,$plus_money, $client_id, $order_id);
+
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {
@@ -915,31 +918,31 @@ if ($action == "check_email") {
         $result = $ajax->checkRoomExist($house_id, $room_id, $broker_id);
         echo json_encode($result);
     }
-}elseif($action=='deleteRoom'){
-     if (isset($_POST['house_id'])) {
-            $house_id = $_POST['house_id'];
-        } elseif (isset($_GET['house_id'])) {
-            $house_id = $_GET['house_id'];
-        } else {
-            $house_id = "";
-        }
-         if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-        } elseif (isset($_GET['id'])) {
-            $id = $_GET['id'];
-        } else {
-            $id = "";
-        }
-         if (isset($_POST['broker_id'])) {
-            $broker_id = $_POST['broker_id'];
-        } elseif (isset($_GET['broker_id'])) {
-            $broker_id = $_GET['broker_id'];
-        } else {
-            $broker_id = "";
-        }        
-        $result=$ajax->deleteRoom($id,$broker_id,$house_id);
-        echo $result;
-}elseif($action=='deleteSource'){
+} elseif ($action == 'deleteRoom') {
+    if (isset($_POST['house_id'])) {
+        $house_id = $_POST['house_id'];
+    } elseif (isset($_GET['house_id'])) {
+        $house_id = $_GET['house_id'];
+    } else {
+        $house_id = "";
+    }
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+    } elseif (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    } else {
+        $id = "";
+    }
+    if (isset($_POST['broker_id'])) {
+        $broker_id = $_POST['broker_id'];
+    } elseif (isset($_GET['broker_id'])) {
+        $broker_id = $_GET['broker_id'];
+    } else {
+        $broker_id = "";
+    }
+    $result = $ajax->deleteRoom($id, $broker_id, $house_id);
+    echo $result;
+} elseif ($action == 'deleteSource') {
     if (isset($_POST['source_id'])) {
         $source_id = $_POST['source_id'];
     } elseif (isset($_GET['source_id'])) {
@@ -950,6 +953,101 @@ if ($action == "check_email") {
 
     $result = $ajax->deleteSource($source_id);
     echo $result;
+} elseif ($action == 'create_house') {
+    if (isset($_POST['task'])) {
+        $task = $_POST['task'];
+    } elseif (isset($_GET['task'])) {
+        $task = $_GET['task'];
+    } else {
+        $task = "";
+    }
+    if ($task == 'getDistrictList') {
+        if (isset($_POST['city_id'])) {
+            $city_id = $_POST['city_id'];
+        } elseif (isset($_GET['city_id'])) {
+            $city_id = $_GET['city_id'];
+        } else {
+            $city_id = "";
+        }
+        if (isset($_POST['district_id'])) {
+            $district_id = $_POST['district_id'];
+        } elseif (isset($_GET['district_id'])) {
+            $district_id = $_GET['district_id'];
+        } else {
+            $district_id = "";
+        }
+        $result = $ajax->getDistrictListByCityID($city_id);
+        
+        if ($result) {
+            echo "<option value''></option>";
+            for ($i = 0; $i < count($result); $i++) {
+
+                echo "<option value='{$result[$i]['id']}'";
+                if ($result[$i]['id'] == $district_id)
+                    echo "selected='selected'";
+                echo ">";
+                echo "{$result[$i]['district_name']}</option>";
+            }
+        }
+    }
+    if ($task == 'getStreetList') {
+        if (isset($_POST['district_id'])) {
+            $district_id = $_POST['district_id'];
+        } elseif (isset($_GET['district_id'])) {
+            $district_id = $_GET['district_id'];
+        } else {
+            $district_id = "";
+        }
+        if (isset($_POST['street_id'])) {
+            $street_id = $_POST['street_id'];
+        } elseif (isset($_GET['street_id'])) {
+            $street_id = $_GET['street_id'];
+        } else {
+            $street_id = "";
+        }
+        $result = $ajax->getStreetListByDistrictID($district_id);
+        
+        if ($result) {
+            echo "<option value''></option>";
+            for ($i = 0; $i < count($result); $i++) {
+
+                echo "<option value='{$result[$i]['id']}'";
+                if ($result[$i]['id'] == $street_id)
+                    echo "selected='selected'";
+                echo ">";
+                echo "{$result[$i]['street_name']}</option>";
+            }
+        }
+    }
+    if ($task == 'getWardList') {
+        if (isset($_POST['street_id'])) {
+            $street_id = $_POST['street_id'];
+        } elseif (isset($_GET['street_id'])) {
+            $street_id = $_GET['street_id'];
+        } else {
+            $street_id = "";
+        }
+        if (isset($_POST['ward_id'])) {
+            $ward_id = $_POST['ward_id'];
+        } elseif (isset($_GET['ward_id'])) {
+            $ward_id = $_GET['ward_id'];
+        } else {
+            $ward_id = "";
+        }
+        $result = $ajax->getWardListByStreetID($street_id);
+        
+        if ($result) {
+            echo "<option value''></option>";
+            for ($i = 0; $i < count($result); $i++) {
+
+                echo "<option value='{$result[$i]['id']}'";
+                if ($result[$i]['id'] == $ward_id)
+                    echo "selected='selected'";
+                echo ">";
+                echo "{$result[$i]['ward_name']}</option>";
+            }
+        }
+    }
 }
 
 
