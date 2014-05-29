@@ -66,10 +66,10 @@ class HOMEValidate {
                         $this->checkEmpty('Broker company name', $val);
                         break;
                     case('broker_company_address'):
-                        $this->checkEmpty('Broker company address', $val);
+                        $this->checkEmpty('House Number', $val);
                         break;
                     case('broker_company_phone'):
-                        $this->checkEmpty('Broker company phone', $val);
+                        $this->checkEmpty('Phone Number', $val);
                         break;
                     case('broker_company_email'):
                         $this->checkEmailBroker($val);
