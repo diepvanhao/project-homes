@@ -632,6 +632,7 @@ class HOMEHouse {
         else
             return array('error' => "", 'flag' => FALSE);
     }
+
     function getAllStreet() {
         global $database;
 
@@ -647,6 +648,7 @@ class HOMEHouse {
         }
         return $street_arr;
     }
+
     function create_ward($street_id, $ward_name) {
         global $database;
         $ward_name = trim($ward_name);
@@ -660,6 +662,20 @@ class HOMEHouse {
             return array('error' => "", 'flag' => TRUE);
         else
             return array('error' => "", 'flag' => FALSE);
+    }
+
+//check serialize
+    function isSerialized($s) {
+        if (
+                stristr($s, '{') != false &&
+                stristr($s, '}') != false &&
+                stristr($s, ';') != false &&
+                stristr($s, ':') != false
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
