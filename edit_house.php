@@ -278,9 +278,11 @@ if (isset($_POST['submit'])) {
         $house_type = $result['house_type'];
         $house_description = $result['house_description'];
         $house_structure = $result['house_structure'];
+        if ($result['house_owner_name'])
+            $owner = 1;
         $house_owner_name = $result['house_owner_name'];
-        
-         if ($house->isSerialized($result['house_owner_address'])) {
+
+        if ($house->isSerialized($result['house_owner_address'])) {
             $house_owner_address_serialize = unserialize($result['house_owner_address']);
             $city_id_owner = $house_owner_address_serialize['city_id_owner'];
             $district_id_owner = $house_owner_address_serialize['district_id_owner'];
@@ -288,10 +290,10 @@ if (isset($_POST['submit'])) {
             $ward_id_owner = $house_owner_address_serialize['ward_id_owner'];
             $house_owner_address = $house_owner_address_serialize['house_owner_address'];
         } else {
-           $house_owner_address = $result['house_owner_address'];
+            $house_owner_address = $result['house_owner_address'];
         }
-        
-        
+
+
         $house_owner_phone = $result['house_owner_phone'];
         $house_owner_fax = $result['house_owner_fax'];
         $house_owner_email = $result['house_owner_email'];
