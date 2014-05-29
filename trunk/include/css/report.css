@@ -1,27 +1,49 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : Apr 11, 2014, 10:11:15 AM
-    Author     : mainv
-*/
-
- .report-content .agent-content {
+.report-content .agent-content {
     overflow-x: scroll;
- }
- .report-content .report-title > h3{
-     font-weight: bold;
-     font-size: 20pt;
- }
- .report-lable div span{
-     font-weight: bold;
-     font-size: 15px;
- }
-  .report-lable div span + span{
-     color: #2BB1D3;
-     font-size: 16px;
-     text-decoration: underline;
-     
- }
+}
+.report-content .report-title > h3{
+    font-weight: bold;
+    font-size: 20pt;
+}
+.report-lable div span{
+    font-weight: bold;
+    font-size: 15px;
+}
+.report-lable div span + span{
+    color: #2BB1D3;
+    font-size: 16px;
+    text-decoration: underline;
+}
+.house-title{
+    display: block;
+    width: 100%;
+    height: 35px;
+    background: none repeat scroll 0 0 #F2F2F2;
+    border-top: 2px solid #C0272D;
+    margin-bottom: 10px; 
+}
+.house-title > span{
+    font-size: 18px;
+    color: #333333;
+    text-transform: uppercase;
+    width: 305px;
+    height: 35px;
+    line-height: 35px;
+    display: inline-block;
+    padding-left: 25px;
+}
+ul.house-info > li {
+    padding-top: 5px;
+    border-bottom: 1px dashed #f1f1f1;
+    display: block;
+    min-height: 25px;
+    padding-left: 25px;
+    color: #404142;
+}
+ul.house-info > li > strong{
+    font-weight: bold;
+    width: 200px;
+    display: inline-block;
+}
+ul.house-info > li > span{
+}
