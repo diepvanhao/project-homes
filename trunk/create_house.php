@@ -91,21 +91,21 @@ if (isset($_POST['district_id'])) {
 } elseif (isset($_GET['district_id'])) {
     $district_id = $_GET['district_id'];
 } else {
-    $district_id = "0";
+    $district_id = 0;
 }
 if (isset($_POST['street_id'])) {
     $street_id = $_POST['street_id'];
 } elseif (isset($_GET['street_id'])) {
     $street_id = $_GET['street_id'];
 } else {
-    $street_id = "0";
+    $street_id = 0;
 }
 if (isset($_POST['ward_id'])) {
     $ward_id = $_POST['ward_id'];
 } elseif (isset($_GET['ward_id'])) {
     $ward_id = $_GET['ward_id'];
 } else {
-    $ward_id = "0";
+    $ward_id = 0;
 }
 $house_address_serialize['city_id'] = $city_id;
 $house_address_serialize['district_id'] = $district_id;
@@ -175,21 +175,21 @@ if (isset($_POST['district_id_owner'])) {
 } elseif (isset($_GET['district_id_owner'])) {
     $district_id_owner = $_GET['district_id_owner'];
 } else {
-    $district_id_owner = "0";
+    $district_id_owner = 0;
 }
 if (isset($_POST['street_id_owner'])) {
     $street_id_owner = $_POST['street_id_owner'];
 } elseif (isset($_GET['street_id_owner'])) {
     $street_id_owner = $_GET['street_id_owner'];
 } else {
-    $street_id_owner = "0";
+    $street_id_owner = 0;
 }
 if (isset($_POST['ward_id_owner'])) {
     $ward_id_owner = $_POST['ward_id_owner'];
 } elseif (isset($_GET['ward_id_owner'])) {
     $ward_id_owner = $_GET['ward_id_owner'];
 } else {
-    $ward_id_owner = "0";
+    $ward_id_owner = 0;
 }
 
 $house_owner_address_serialize['city_id_owner'] = $city_id_owner;

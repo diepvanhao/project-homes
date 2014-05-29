@@ -183,7 +183,8 @@
              //city
             $('#city_id').change(function(e) {
                 var city_id = $('#city_id').val();
-                var district_id ={/literal}{$district_id}{';'}{literal}
+                var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+                
                 if (city_id == "") {
                     $('#district_id').empty();
                     $('#street_id').empty();
@@ -206,7 +207,7 @@
             //district
             $('#district_id').change(function(e) {
                 var district_id = $('#district_id').val();
-                var street_id ={/literal}{$street_id}{';'}{literal}
+                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
 
                 if (district_id == "") {
                     $('#street_id').empty();
@@ -228,7 +229,7 @@
             //street
             $('#street_id').change(function(e) {
                 var street_id = $('#street_id').val();
-                var ward_id ={/literal}{$ward_id}{';'}{literal}
+                var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
 
                 if (street_id == "") {
                     $('#ward_id').empty();
@@ -249,7 +250,7 @@
             //city
             $('#city_id_owner').change(function(e) {
                 var city_id = $('#city_id_owner').val();
-                var district_id ={/literal}{$district_id_owner}{';'}{literal}
+                var district_id ={/literal}{if $district_id_owner ne ""}{$district_id_owner}{else}0{/if}{';'}{literal}
                 if (city_id == "") {
                     $('#district_id_owner').empty();
                     $('#street_id_owner').empty();
@@ -272,7 +273,7 @@
             //district
             $('#district_id_owner').change(function(e) {
                 var district_id = $('#district_id_owner').val();
-                var street_id ={/literal}{$street_id_owner}{';'}{literal}
+                var street_id ={/literal}{if $street_id_owner ne ""}{$street_id_owner}{else}0{/if}{';'}{literal}
 
                 if (district_id == "") {
                     $('#street_id_owner').empty();
@@ -294,7 +295,7 @@
             //street
             $('#street_id_owner').change(function(e) {
                 var street_id = $('#street_id_owner').val();
-                var ward_id ={/literal}{$ward_id_owner}{';'}{literal}
+                var ward_id ={/literal}{if $ward_id_owner ne ""}{$ward_id_owner}{else}0{/if}{';'}{literal}
 
                 if (street_id == "") {
                     $('#ward_id_owner').empty();
