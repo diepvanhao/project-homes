@@ -48,7 +48,7 @@ class HOMEValidate {
                         $this->checkEmpty('House name', $val);
                         break;
                     case('house_address'):
-                        $this->checkEmpty('House address', $val);
+                        $this->checkEmpty('House Number', $val);
                         break;
                     case('house_size'):
                         $this->checkEmpty('House size', $val);
