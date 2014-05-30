@@ -74,10 +74,10 @@ class HOMEHouse {
 
     function getTotalItem($search) {
         global $database;
-
+        $search=trim($search);
         $query = "select * from home_house";
         if (!empty($search))
-            $query.=" where house_name like '%{$search}%'";
+             $query.=" where house_name like '%{$search}%' or house_address like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -101,11 +101,11 @@ class HOMEHouse {
 
     function getHouse($search = "", $offset = 0, $length = 50) {
         global $database;
-
+        $search=  trim($search);
 
         $query = "select * from home_house";
         if (!empty($search))
-            $query.=" where house_name like '%{$search}%'";
+            $query.=" where house_name like '%{$search}%' or house_address like '%{$search}%'";
 
         $query.=" limit $offset,$length";
         //echo $query;
