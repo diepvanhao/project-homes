@@ -58,10 +58,10 @@ class HOMEBroker {
 
     function getTotalItem($search) {
         global $database;
-
+        $search=trim($search);
         $query = "select * from home_broker_company";
         if (!empty($search))
-            $query.=" where broker_company_name like '%{$search}%'";
+            $query.=" where broker_company_name like '%{$search}%' or broker_company_phone like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -69,10 +69,10 @@ class HOMEBroker {
 
     function getBroker($search = "", $offset = 0, $length = 50) {
         global $database;
-
+        $search=trim($search);
         $query = "select * from home_broker_company";
         if (!empty($search))
-            $query.=" where broker_company_name like '%{$search}%'";
+            $query.=" where broker_company_name like '%{$search}%' or broker_company_phone like '%{$search}%'";
 
         $query.=" limit $offset,$length";
         //echo $query;
