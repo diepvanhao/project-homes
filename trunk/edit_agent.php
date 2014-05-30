@@ -70,6 +70,42 @@ if (isset($_POST['agent_id'])) {
 } else {
     $agent_id = "";
 }
+if (isset($_POST['city_id'])) {
+    $city_id = $_POST['city_id'];
+} elseif (isset($_GET['city_id'])) {
+    $city_id = $_GET['city_id'];
+} else {
+    $city_id = "";
+}
+if (isset($_POST['district_id'])) {
+    $district_id = $_POST['district_id'];
+} elseif (isset($_GET['district_id'])) {
+    $district_id = $_GET['district_id'];
+} else {
+    $district_id = 0;
+}
+if (isset($_POST['street_id'])) {
+    $street_id = $_POST['street_id'];
+} elseif (isset($_GET['street_id'])) {
+    $street_id = $_GET['street_id'];
+} else {
+    $street_id = 0;
+}
+if (isset($_POST['ward_id'])) {
+    $ward_id = $_POST['ward_id'];
+} elseif (isset($_GET['ward_id'])) {
+    $ward_id = $_GET['ward_id'];
+} else {
+    $ward_id = 0;
+}
+$house_address_serialize['city_id'] = $city_id;
+$house_address_serialize['district_id'] = $district_id;
+$house_address_serialize['street_id'] = $street_id;
+$house_address_serialize['ward_id'] = $ward_id;
+
+$house_address_serialize['agent_address'] = $agent_address;
+
+$house_address_serialize = serialize($house_address_serialize);
 
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
@@ -88,13 +124,13 @@ $validate = array(
     'agent_phone' => $agent_phone,
     'agent_email' => array('agent_email'=>$agent_email,'agent_id'=>$agent_id)
 );
-
+$house = new HOMEHouse();
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
         $agent = new HOMEAgent();
-        $result = $agent->update($agent_id, $agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax);        
+        $result = $agent->update($agent_id, $agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax);        
         if ($result) {
             $notify="Update success !!!";
         }
@@ -106,12 +142,31 @@ if (isset($_POST['submit'])) {
     if (!empty($result)) {
         $agent_name = $result['agent_name'];
         $agent_email = $result['agent_email'];
-        $agent_address = $result['agent_address'];
+         if ($house->isSerialized($result['agent_address'])) {
+            $house_address_serialize = unserialize($result['agent_address']);
+            $city_id = $house_address_serialize['city_id'];
+            $district_id = $house_address_serialize['district_id'];
+            $street_id = $house_address_serialize['street_id'];
+            $ward_id = $house_address_serialize['ward_id'];
+            $agent_address = $house_address_serialize['agent_address'];
+        } else {
+            $agent_address = $result['agent_address'];
+        }
+        //$agent_address = $result['agent_address'];
         $agent_phone = $result['agent_phone'];
         $agent_fax = $result['agent_fax'];
         $agent_id = $result['id'];
     }
 }
+$house = new HOMEHouse();
+$cities = $house->getAllCity();
+
+$smarty->assign('cities', $cities);
+$smarty->assign('city_id', $city_id);
+$smarty->assign('district_id', $district_id);
+$smarty->assign('street_id', $street_id);
+$smarty->assign('ward_id', $ward_id);
+
 $smarty->assign('agent_name', $agent_name);
 $smarty->assign('agent_email', $agent_email);
 $smarty->assign('agent_address', $agent_address);

@@ -78,7 +78,9 @@ h6 {
 a, a:hover { 
     outline: none;
     text-decoration: none;
-    color: #F5388C;
+    //  color: #F5388C;
+  //  font-weight: 600;
+    color: #E60025;
 }
 
 a:hover { 
@@ -274,7 +276,8 @@ footer {
     background: #1D1D1D;
     color: #FFF;
     margin-bottom: -20px;
-    border-top: 6px solid #F5388C;
+    // border-top: 6px solid #F5388C;
+    border-top: 6px solid #E60025;
 
 }
 
@@ -506,7 +509,7 @@ ul#nav {
 }
 
 ul#nav ul { 
-  //  background: black;
+    //  background: black;
     background: #777777;
     margin-top: 5px;
     padding-bottom: 15px;
@@ -524,8 +527,8 @@ ul#nav li a {
 ul#nav li a:hover,ul#nav li a:focus { 
     color: #FFF;
     background-color: #ADADAD;
-   // text-decoration: underline;
-     -webkit-border-radius: 10px;
+    // text-decoration: underline;
+    -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 15px;
 }
