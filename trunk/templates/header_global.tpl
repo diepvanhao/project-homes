@@ -3,7 +3,7 @@
 <html>
 
     <head>
-        <title>AMBITION</title>
+        <title>ARP</title>
         <meta name="description" content="website description" />
         <meta name="keywords" content="website keywords, website keywords" />
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -33,7 +33,7 @@
                 <div id="logo">
                     <div id="logo_text">
                         <!-- class="logo_colour", allows you to change the colour of the text -->
-                        <h1><a href="{$url->url_base}"><span class="logo_colour">AMBITION</span></a></h1>
+                        <h1><a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="133px;"/></span></a></h1>
                         {*<h2>Simple. Contemporary. Website Template.</h2>*}
                     </div>
                 </div>
