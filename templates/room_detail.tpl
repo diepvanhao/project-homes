@@ -108,7 +108,7 @@
             <div class="house-title">
                 <span>Brokers of Room</span>
             </div>
-            <ul class="house-info">
+            <ul class="house-info detail-list-items">
                 {foreach from=$brokers key=k item=broker}
                 <li>
                     <ul>

@@ -67,15 +67,23 @@ class Report {
      * @param int $user_id
      * @return array
      */
-    public function getUserInfo($user_id = 0) {
+    public function getUserInfo($user_id = 0, $date = null) {
+        
         global $database;
         if (empty($user_id)) {
             return array();
         }
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        
         //cost today
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -200,14 +208,25 @@ class Report {
         return $return;
     }
 
-    public function getLastyearInfo($agent_id = 0) {
+    public function getLastyearInfo($agent_id = 0, $date = null) {
         global $database;
         if (empty($agent_id)) {
             return array();
         }
         $return = array();
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
-        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y') . "'";
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        $return = array();
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
+        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        
+//        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
+//        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y') . "'";
         /**
          * Mail report
          */
@@ -1086,12 +1105,24 @@ class Report {
      * @param type $agent_id
      * @return int
      */
-    public function getAgentCostOfMonth($agent_id = 0) {
+    public function getAgentCostOfMonth($agent_id = 0, $date = null) {
         if (empty($agent_id)) {
             return 0;
         }
         global $database; 
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        $return = array();
+        
+//        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        
+//        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         ////cost of month
         $select = "SELECT SUM(d.contract_total) FROM home_contract_detail d
             INNER JOIN home_user u  ON d.user_id = u.id
@@ -1109,7 +1140,10 @@ class Report {
      * @param int $id
      * @return array
      */
-    public function getAgentInfo($id) {
+    public function getAgentInfo($id = null) {
+        if(empty($id)){
+            return null;
+        }
         global $database;
         $select = "SELECT * FROM home_agent WHERE id = '{$id}' LIMIT 1";
         $result = $database->database_query($select);
@@ -1155,15 +1189,27 @@ class Report {
      * @param type $company_id
      * @return type
      */
-    public function getCompanyInfo($company_id = 0){
+    public function getCompanyInfo($company_id = 0, $date = null){
         global $database;
         if (empty($company_id)) {
             return array();
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        $return = array();
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        
+//        
+//        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
+//        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
@@ -1270,15 +1316,26 @@ class Report {
      * @param type $company_id
      * @return type
      */
-    public function getSourceInfo($source_id = 0){
+    public function getSourceInfo($source_id = 0, $date = null){
         global $database;
         if (empty($source_id)) {
             return array();
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+//        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
+//        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        $return = array();
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        
         
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 

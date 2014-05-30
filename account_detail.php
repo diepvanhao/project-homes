@@ -8,6 +8,7 @@
 include "header.php";
 include "include/class_detail.php";
 $page = "account_detail";
+date_default_timezone_set("Asia/Bangkok"); 
 
 //check user login
 if (!$user->user_exists) {

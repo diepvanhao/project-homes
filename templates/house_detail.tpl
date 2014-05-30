@@ -69,7 +69,7 @@
             <div class="house-title">
                 <span>Rooms of House</span>
             </div>
-            <ul class="house-info">
+            <ul class="house-info detail-list-items">
                 {foreach from=$rooms key=k item=room}
                 <li>
                     <ul>

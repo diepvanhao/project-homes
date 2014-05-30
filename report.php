@@ -3,7 +3,7 @@
 include 'header.php';
 $page = 'report';
 
-
+date_default_timezone_set("Asia/Bangkok"); 
 include 'include/class_report.php';
 $report = new Report();
 
@@ -16,8 +16,13 @@ if(!empty($agent_id)){
     $agent = $report->getAgentInfo($agent_id);
     $agent_name = $agent['agent_name'];
 }else{
+    $agent_id = null;
     $agent_name = '';
 }
+if(empty($date)){
+    $date = null;
+}
+$smarty->assign('date', $date);
 $smarty->assign('users', $report->getUsersByAgent($agent_id));
 $smarty->assign('agents', $report->getAllAgents());
 $smarty->assign('agent', $report->getAgentInfo($agent_id));
