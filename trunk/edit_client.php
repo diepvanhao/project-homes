@@ -5,7 +5,7 @@ include "header.php";
 $page = "edit_client";
 $error = null;
 $result = FALSE;
-
+$notify="";
 if (!$user->user_exists) {
     header('Location: ./user_login.php');
 
@@ -15,6 +15,36 @@ if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
+//Hao customize
+if (isset($_POST['city_id'])) {
+    $city_id = $_POST['city_id'];
+} elseif (isset($_GET['city_id'])) {
+    $city_id = $_GET['city_id'];
+} else {
+    $city_id = "";
+}
+if (isset($_POST['district_id'])) {
+    $district_id = $_POST['district_id'];
+} elseif (isset($_GET['district_id'])) {
+    $district_id = $_GET['district_id'];
+} else {
+    $district_id = 0;
+}
+if (isset($_POST['street_id'])) {
+    $street_id = $_POST['street_id'];
+} elseif (isset($_GET['street_id'])) {
+    $street_id = $_GET['street_id'];
+} else {
+    $street_id = 0;
+}
+if (isset($_POST['ward_id'])) {
+    $ward_id = $_POST['ward_id'];
+} elseif (isset($_GET['ward_id'])) {
+    $ward_id = $_GET['ward_id'];
+} else {
+    $ward_id = 0;
+}
+//End customize
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -35,6 +65,7 @@ $item = $client->getClientId($id);
 if(empty($item)){
     $error[] = 'Client Not found';
 }
+$house = new HOMEHouse();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // do with post
 
@@ -47,6 +78,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($client_address)) {
         $error[] = 'Address is required';
     }
+    //Hao customize
+    if (empty($city_id)) {
+        $error[] = 'City is required';
+    }
+    if (empty($district_id)) {
+        $error[] = 'District is required';
+    }
+    if (empty($street_id)) {
+        $error[] = 'Street is required';
+    }
+    if (empty($ward_id)) {
+        $error[] = 'Ward is required';
+    }
+
+    //end customize
     if (empty($client_phone)) {
         $error[] = 'Phone is required';
     }
@@ -60,17 +106,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error[] = 'Email is invalid';
     }
     if (empty($error)) {
+        //Hao customize
+        $house_address_serialize['city_id'] = $city_id;
+        $house_address_serialize['district_id'] = $district_id;
+        $house_address_serialize['street_id'] = $street_id;
+        $house_address_serialize['ward_id'] = $ward_id;
 
+        $house_address_serialize['client_address'] = $data['client_address'];
+
+        $house_address_serialize = serialize($house_address_serialize);
+        
+        $data['client_address']=$house_address_serialize;
+        //End customize
         $result = $client->update($id,$data);
         if ($result) {
             $notify="Update success !!!";
+            $house_address_serialize = unserialize($data['client_address']);
+            $data['client_address']= $house_address_serialize['client_address'];
         }
     }
     @$smarty->assign('data', $data);
 } else {
+    if ($house->isSerialized($item['client_address'])) {
+            $house_address_serialize = unserialize($item['client_address']);
+            $city_id = $house_address_serialize['city_id'];
+            $district_id = $house_address_serialize['district_id'];
+            $street_id = $house_address_serialize['street_id'];
+            $ward_id = $house_address_serialize['ward_id'];
+            $item['client_address'] = $house_address_serialize['client_address'];
+        } else {
+           // $client_address = $item['client_address'];
+        }
     //do with Edit
     @$smarty->assign('data', $item);
 }
+//Hao customize
+$house = new HOMEHouse();
+$cities = $house->getAllCity();
+//get room type
+$roomTypes=$house->getRoomType();
+
+$smarty->assign('roomTypes', $roomTypes);
+$smarty->assign('cities', $cities);
+$smarty->assign('city_id', $city_id);
+$smarty->assign('district_id', $district_id);
+$smarty->assign('street_id', $street_id);
+$smarty->assign('ward_id', $ward_id);
+//End customize
+
 $smarty->assign('notify', $notify);
 $smarty->assign('error', $error);
 include 'footer.php';
