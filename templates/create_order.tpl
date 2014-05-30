@@ -527,7 +527,12 @@
     <form action="create_order.php" method="post">
         <div class="title"><label >Input house information</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
-            <tr>       
+            <tr>
+                <td class="form1">Filter Broker</td>
+                <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="Enter broker name to filter for selection broker" style="height:26px; width: 351px;"/>
+                </td>
+            </tr>
+            <tr id="broker_select">       
                 <td class='form1'>Select Broker Company: </td>
                 <td class='form2'>
                     <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
@@ -538,7 +543,7 @@
                     </select><div id="error_broker" class="error"></div>
                 </td>
             </tr> 
-            <tr> 
+            <tr id="broker_display"> 
                 {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
                 <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
             </tr>            
@@ -664,6 +669,8 @@
                     } else {
                         $('table').find('tr').css('display', 'none');
                         $('table').find('tr:first-child').css('display', '');
+                        $('#broker_display').css('display','');
+                        $('#broker_select').css('display','');
                         $('table').find('tr:last-child').css('display', '');
                     }
                 });
@@ -672,7 +679,9 @@
                     $('table').find('tr').css('display', '');
                 } else {
                     $('table').find('tr').css('display', 'none');
-                    $('table').find('tr:first-child').css('display', '');
+                    $('table').find('tr:first-child').css('display', '');       
+                    $('#broker_display').css('display','');
+                    $('#broker_select').css('display','');
                     $('table').find('tr:last-child').css('display', '');
                 }
                 var house_id = $('#house_id').val();
