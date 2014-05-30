@@ -21,10 +21,10 @@ class HOMEValidate {
                         $this->checkEmpty('Username', $val);
                         break;
                     case('firstname'):
-                        $this->checkEmpty('First Name', $val);
+                        $this->checkEmpty('First name', $val);
                         break;
                     case('lastname'):
-                        $this->checkEmpty('Last Name', $val);
+                        $this->checkEmpty('Last name', $val);
                         break;
                     case('address'):
                         $this->checkEmpty('Address', $val);
@@ -36,7 +36,7 @@ class HOMEValidate {
                         $this->checkEmpty('Agent name', $val);
                         break;
                     case('agent_address'):
-                        $this->checkEmpty('Agent address', $val);
+                        $this->checkEmpty('Number address', $val);
                         break;
                     case('agent_phone'):
                         $this->checkEmpty('Agent phone number', $val);
@@ -48,7 +48,7 @@ class HOMEValidate {
                         $this->checkEmpty('House name', $val);
                         break;
                     case('house_address'):
-                        $this->checkEmpty('House Number', $val);
+                        $this->checkEmpty('House number', $val);
                         break;
                     case('house_size'):
                         $this->checkEmpty('House size', $val);
@@ -66,52 +66,52 @@ class HOMEValidate {
                         $this->checkEmpty('Broker company name', $val);
                         break;
                     case('broker_company_address'):
-                        $this->checkEmpty('House Number', $val);
+                        $this->checkEmpty('House number', $val);
                         break;
                     case('broker_company_phone'):
-                        $this->checkEmpty('Phone Number', $val);
+                        $this->checkEmpty('Phone number', $val);
                         break;
                     case('broker_company_email'):
                         $this->checkEmailBroker($val);
                         break;
                     case("room_number"):
-                        $this->checkEmpty('Room Number', $val);
+                        $this->checkEmpty('Room number', $val);
                         break;
                     case("room_type"):
-                        $this->checkEmpty('Room Type', $val);
+                        $this->checkEmpty('Room type', $val);
                         break;
                     case("room_size"):
-                        $this->checkEmpty('Room Size', $val);
+                        $this->checkEmpty('Room size', $val);
                         break;
                     case("room_rent"):
-                        $this->checkEmpty('Room Rent', $val);
+                        $this->checkEmpty('Room rent', $val);
                         break;
                      case("house_id"):
-                        $this->checkEmpty('Select House', $val);
+                        $this->checkEmpty('Select house', $val);
                         break;
                      case("broker_id"):
-                        $this->checkEmpty('Broker Company', $val);
+                        $this->checkEmpty('Broker company', $val);
                         break;
                     case("source_name"):
-                        $this->checkEmpty('Source Name', $val);
+                        $this->checkEmpty('Source name', $val);
                         break;
                     case("city_name"):
-                        $this->checkEmpty('City Name', $val);
+                        $this->checkEmpty('City name', $val);
                         break;
                     case("district_name"):
-                        $this->checkEmpty('District Name', $val);
+                        $this->checkEmpty('District name', $val);
                         break;
                     case("city_id"):
                         $this->checkEmpty('City', $val);
                         break;
                     case("street_name"):
-                        $this->checkEmpty('Street Name', $val);
+                        $this->checkEmpty('Street name', $val);
                         break;
                     case("district_id"):
                         $this->checkEmpty('District', $val);
                         break;
                     case("ward_name"):
-                        $this->checkEmpty('Ward Name', $val);
+                        $this->checkEmpty('Ward name', $val);
                         break;
                     case("street_id"):
                         $this->checkEmpty('Street', $val);
