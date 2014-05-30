@@ -85,10 +85,15 @@ class HOMEHouse {
 
     function getTotalRoomItem($search) {
         global $database;
-
-        $query = "select * from home_room";
+        $search = trim($search);
+        $query = "select hr.broker_id,hr.house_id,hr.room_detail_id,hrd.*,hbc.broker_company_name,hh.house_name 
+            from home_room as hr 
+                left join home_room_detail as hrd on hr.room_detail_id=hrd.id
+                left join home_house as hh on hr.house_id=hh.id
+                left join home_broker_company as hbc on hr.broker_id=hbc.id
+                ";
         if (!empty($search))
-            $query.=" where id like '%{$search}%'";
+            $query.=" where hr.id like '%{$search}%' or hbc.broker_company_name like '%{$search}%' or hh.house_name like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -125,14 +130,15 @@ class HOMEHouse {
 
     function getRoom($search = "", $offset = 0, $length = 50) {
         global $database;
-
-        $query = "select hr.broker_id,hr.house_id,hr.room_detail_id,hrd.*,hbc.broker_company_name,hh.house_name from home_room as hr 
+        $search = trim($search);
+        $query = "select hr.broker_id,hr.house_id,hr.room_detail_id,hrd.*,hbc.broker_company_name,hh.house_name 
+            from home_room as hr 
                 left join home_room_detail as hrd on hr.room_detail_id=hrd.id
                 left join home_house as hh on hr.house_id=hh.id
                 left join home_broker_company as hbc on hr.broker_id=hbc.id
                 ";
         if (!empty($search))
-            $query.=" where hr.id like '%{$search}%'";
+            $query.=" where hr.id like '%{$search}%' or hbc.broker_company_name like '%{$search}%' or hh.house_name like '%{$search}%'";
         $query.=" ORDER BY hh.house_name ASC ";
         $query.=" limit $offset,$length";
         //echo $query;die();
