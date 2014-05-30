@@ -45,5 +45,25 @@ ul.house-info > li > strong{
     width: 200px;
     display: inline-block;
 }
-ul.house-info > li > span{
+
+ul.house-info > li > ul{
+    margin: 5px;
+}
+ul.house-info > li > ul > li {
+    padding-top: 5px;
+    display: block;
+    min-height: 25px;
+    color: #404142;
+}
+ul.house-info > li > ul > li > span:first-child{
+    font-weight: bold;
+    width: 200px;
+    display: inline-block;
+}
+ul.detail-list-items > li{
+    float: left;
+    width: 460px;
+    border-left: 1px dashed #f1f1f1;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
 }

@@ -23,6 +23,10 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class='form1'>Date: </td>
+                        <td class='form2'><input type='text' name='date' id='birthday'  value="{$date}"  style="height:26px; width: 250px;"></td>
+                    </tr>
+                    <tr>
                         <td class="form1">&nbsp;</td>
                         <td class="form2">
                             <div style="margin-top:10px">
@@ -82,7 +86,7 @@
                 <th>Company Registeration</th>
             </tr>
             {foreach $users as $key => $user}
-            {$info = $report ->getUserInfo($user.id)}
+            {$info = $report ->getUserInfo($user.id,$date)}
             <tr>
                 <td rowspan="2">{$key + 1}</td>
                 <td rowspan="2">{$user.user_fname} {$user.user_lname}</td>
@@ -343,7 +347,7 @@
                 <th>自社</th>
                 <th>Ledger</th>
             </tr>
-            {$yearReport = $report ->getLastyearInfo($agent.id)}
+            {$yearReport = $report ->getLastyearInfo($agent.id,$date)}
             <tbody>
                 <tr>
                     <td rowspan="2">
@@ -592,31 +596,31 @@
             </tr>
             <tbody>
                 {foreach from=$report->getAllSource() key=k item=company}
-                    {$com_info = $report->getSourceInfo($company.id)}
-                    <tr>
-                        <td rowspan="2">{$k + 1}</td>
-                        <td rowspan="2">{$company.source_name}</td>
-                        <td>Today</td>
-                        <td>{(int)$com_info.today_tel + $com_info.today_mail}</td>
-                        <td>{(int)($com_info.today_tel_status + $com_info.today_mail_status)}</td>
-                        <td>{(int)$com_info.today_shop_sign + $com_info.today_local_sign}</td>
-                        <td>{(int) $com_info.today_revisit}</td>
-                        <td>{(int) $com_info.today_application}</td>
-                        <td>{$com_info.today_cancel}</td>
-                        <td>{$com_info.today_change}</td>
-                        <td>{$com_info.today_agreement}</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>{(int) $com_info.month_mail + $com_info.month_tel}</td>
-                        <td>{(int)($com_info.month_tel_status + $com_info.month_mail_status)}</td>
-                        <td>{(int)$com_info.month_shop_sign + $com_info.month_local_sign}</td>
-                        <td>{(int) $com_info.month_revisit}</td>
-                        <td>{(int) $com_info.month_application}</td>
-                        <td>{$com_info.month_cancel}</td>
-                        <td>{$com_info.month_change}</td>
-                        <td>{$com_info.month_agreement}</td>
-                    </tr>
+                {$com_info = $report->getSourceInfo($company.id,$date)}
+                <tr>
+                    <td rowspan="2">{$k + 1}</td>
+                    <td rowspan="2">{$company.source_name}</td>
+                    <td>Today</td>
+                    <td>{(int)$com_info.today_tel + $com_info.today_mail}</td>
+                    <td>{(int)($com_info.today_tel_status + $com_info.today_mail_status)}</td>
+                    <td>{(int)$com_info.today_shop_sign + $com_info.today_local_sign}</td>
+                    <td>{(int) $com_info.today_revisit}</td>
+                    <td>{(int) $com_info.today_application}</td>
+                    <td>{$com_info.today_cancel}</td>
+                    <td>{$com_info.today_change}</td>
+                    <td>{$com_info.today_agreement}</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>{(int) $com_info.month_mail + $com_info.month_tel}</td>
+                    <td>{(int)($com_info.month_tel_status + $com_info.month_mail_status)}</td>
+                    <td>{(int)$com_info.month_shop_sign + $com_info.month_local_sign}</td>
+                    <td>{(int) $com_info.month_revisit}</td>
+                    <td>{(int) $com_info.month_application}</td>
+                    <td>{$com_info.month_cancel}</td>
+                    <td>{$com_info.month_change}</td>
+                    <td>{$com_info.month_agreement}</td>
+                </tr>
                 {/foreach}
             </tbody>
         </table>
@@ -631,21 +635,21 @@
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                     ['name','Actually','Target'],
-                    {/literal}
+                {/literal}
                         {foreach from=$agents key=k item=agent}
-                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$report->getAgentCostOfMonth($agent.id)}{literal},{/literal}{$agent.target}{literal}],{/literal}
-                        {/foreach}
+                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$report->getAgentCostOfMonth($agent.id,$date)}{literal},{/literal}{$agent.target}{literal}],{/literal}
+                    {/foreach}
                     {literal}
-                ]);
+                    ]);
 
-                var options = {
-                    title: 'Agent Performance',
-                    vAxis: {title: 'month', titleTextStyle: {color: 'red'}}
-                };
+                            var options = {
+                                title: 'Agent Performance',
+                                vAxis: {title: 'month', titleTextStyle: {color: 'red'}}
+                            };
 
-                var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-                chart.draw(data, options);
-            }
+                    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                }
         </script>
         {/literal}
         <div id="chart_div" style="width: 900px; height: 500px;"></div>
@@ -657,5 +661,15 @@
 
 </div>
 
+{literal}
+    <script type="text/javascript">
+            $(document).ready(function() {
+                birthday('birthday');
+                $('#back').click(function() {
+                    window.location.href = "manage_account.php";
+                });
+            });
+    </script>
+{/literal}
 
 {include file="footer.tpl"}
