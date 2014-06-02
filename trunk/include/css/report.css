@@ -67,3 +67,9 @@ ul.detail-list-items > li{
     margin-bottom: 20px;
     padding-bottom: 10px;
 }
+#main .report-content .no-wrap {
+    overflow-x: hidden;
+}
+#main .report-content table {
+    width: 100%;
+}
