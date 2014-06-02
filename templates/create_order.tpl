@@ -29,17 +29,20 @@
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $('#error_house').html("");
+                 showloadgif();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
                 function(result) {
                     if (result) {
                         $('#house_id').empty();
                         $('#house_id').html(result);
                         $('#step').click();
+                        hideloadgif();
                     } else {
                         $('#house_id').empty();
                         $('#room_id').empty();
                         $('#house_description').html("");
                         $('#error_house').html("No any house for your keyword");
+                        hideloadgif();
                     }
                 });
             });
@@ -51,7 +54,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id);
+                    get_room(house_id,0);
                 });
             });
             $('#house_id').change(function() {
@@ -62,7 +65,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id);
+                    get_room(house_id,0);
                 });
             });
             $('#room_id').change(function() {
@@ -326,7 +329,7 @@
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
                         var contract_name = $('#contract_name').val();
-                        var contract_cost = $('#contract_cost').val();                       
+                        var contract_cost = $('#contract_cost').val();
                         var contract_key_money = $('#contract_key_money').val();
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
@@ -363,7 +366,7 @@
                             plus_money.push($(this).val());
                         });
 
-                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost,  contract_key_money: contract_key_money,
+                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_key_money: contract_key_money,
                             contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
                             contract_cancel: contract_cancel, contract_total: contract_total, contract_application: contract_application, contract_application_date: contract_application_date, label: label, plus_money: plus_money,
@@ -469,7 +472,7 @@
                 }
             });
         }
-        function get_room(house_id, room_id = "") {
+        function get_room(house_id, room_id ) {
             $('#error_room').html("");
             $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
             function(result) {
@@ -479,7 +482,8 @@
                 } else {
                     $('#room_id').empty();
                     $('#house_description').html("");
-                    $('#error_room').html("This house haven't been room yet");
+                    if(house_id)
+                        $('#error_room').html("This house haven't been room yet");
                 }
             });
         }
@@ -532,7 +536,7 @@
                 <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="Enter broker name to filter for selection broker" style="height:26px; width: 351px;"/>
                 </td>
             </tr>
-            <tr id="broker_select">       
+            <tr>       
                 <td class='form1'>Select Broker Company: </td>
                 <td class='form2'>
                     <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
@@ -540,10 +544,11 @@
                         {foreach from=$brokers item=broker}
                             <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
                         {/foreach}
-                    </select><div id="error_broker" class="error"></div>
+                    </select>
+                    <div id="error_broker" class="error"></div>
                 </td>
             </tr> 
-            <tr id="broker_display"> 
+            <tr> 
                 {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
                 <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
             </tr>            
@@ -614,7 +619,9 @@
                 <td class='form2'>
                     <div style="margin-top:10px">
                         <input type='submit' class='btn-signup' value='Next' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
-                        <input type="hidden" id="step" name="step" value="verify"/>                              
+                        <input type="hidden" id="step" name="step" value="verify"/>     
+                        <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
+                        <input type="hidden" id="room_bk" name="room_bk" value="{$room_id}"/>
                     </div>
                 </td>
             </tr>
@@ -623,6 +630,54 @@
     {literal}
         <script type="text/javascript">
             $(document).ready(function() {
+                $('#filter_broker').keyup(function(e) {
+                    var filter = $('#filter_broker').val();
+                    $('#error_broker').html("");
+                    showloadgif();
+                    $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
+                    function(result) {
+                        if (result) {
+                            hideloadgif();
+                            $('#broker_id').empty();
+                            $('#broker_id').html(result);
+                            $('table').find('tr').css('display', '');
+                            $('#yoke_muscle').click();
+                        } else {
+                            hideloadgif();
+                            $('#broker_id').empty();
+                            $('#broker_id').empty();
+                            //$('#house_description').html("");
+                            $('table').find('tr').css('display', 'none');
+                            $('table').find('tr:first-child').css('display', '');
+                            $('table').find('tr:nth-child(2)').css('display', '');
+                            $('table').find('tr:nth-child(3)').css('display', '');
+                            $('table').find('tr:last-child').css('display', '');
+                            $('#error_broker').html("No any broker company for your keyword");
+                        }
+                    });
+                });
+                $('#yoke_muscle').click(function() {
+                    var broker_id = $('#broker_id').val();
+                    //$('#submit').attr('disabled', false);
+                    // $("#submit").css('color', '#fff');
+                    $('#room_id').html('');
+                    $('#search').val('');
+                    $('error_house').html('');
+                    $('error_room').html('');
+                    $.post('include/function_ajax.php', {broker_id: broker_id, action: 'create_order', task: 'getHouseList'},
+                    function(result) {
+                        if (result) {
+                            $('#house_id').empty();
+                            $('#house_id').html(result);
+                        } else {
+                            $('#house_id').empty();
+                            $('#error_house').html('No any house for your keyword');
+                        }
+
+                    });
+                });
+
+
                 $('#submit').click(function(e) {
                     $('#error_broker').html("");
                     $('#error_staff').html("");
@@ -663,14 +718,16 @@
                 $('#broker_id').change(function() {
                     //active form
                     $('#error_broker').html("");
+                    $('#error_house').html("");                   
                     var broker_id = $('#broker_id').val();
                     if (broker_id) {
                         $('table').find('tr').css('display', '');
+                        $('#yoke_muscle').click();
                     } else {
                         $('table').find('tr').css('display', 'none');
                         $('table').find('tr:first-child').css('display', '');
-                        $('#broker_display').css('display','');
-                        $('#broker_select').css('display','');
+                        $('table').find('tr:nth-child(2)').css('display', '');
+                        $('table').find('tr:nth-child(3)').css('display', '');
                         $('table').find('tr:last-child').css('display', '');
                     }
                 });
@@ -679,22 +736,26 @@
                     $('table').find('tr').css('display', '');
                 } else {
                     $('table').find('tr').css('display', 'none');
-                    $('table').find('tr:first-child').css('display', '');       
-                    $('#broker_display').css('display','');
-                    $('#broker_select').css('display','');
+                    $('table').find('tr:first-child').css('display', '');
+                    $('table').find('tr:nth-child(2)').css('display', '');
+                    $('table').find('tr:nth-child(3)').css('display', '');
                     $('table').find('tr:last-child').css('display', '');
                 }
                 var house_id = $('#house_id').val();
-                var room_id ={/literal}{$room_id}{literal}
+               
+               // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
+               var room_id=$('#room_bk').val();
+                
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
                     get_room(house_id, room_id);
                 });
-            });</script>
-        {/literal}
-    {/if}
+            });
+        </script>
+    {/literal}
+{/if}
 
 {*step verify*}
 {if $step eq "verify"}
