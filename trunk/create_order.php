@@ -152,7 +152,7 @@ if ($step == 1) {
     } elseif (isset($_GET['room_id'])) {
         $room_id = $_GET['room_id'];
     } else {
-        $room_id = "";
+        $room_id = 0;
     }
 
     $broker = new HOMEBroker();
@@ -172,7 +172,7 @@ if ($step == 1) {
 } elseif ($step == 'registry') {
 
     $errorHouseExist = "";
-
+     $order = new HOMEOrder();
     if (isset($_POST['order_id'])) {
         $order_id = $_POST['order_id'];
     } elseif (isset($_GET['order_id'])) {
@@ -237,7 +237,7 @@ if ($step == 1) {
         //get create day
         $order_day_create = time();
 
-        $order = new HOMEOrder();
+       
         $result = $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
         //print_r($result);die();
         if (isset($result['id'])) {

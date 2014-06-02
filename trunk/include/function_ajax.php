@@ -256,6 +256,37 @@ if ($action == "check_email") {
             }
         }
     }
+     if ($task == "getBrokerFilter") {
+        if (isset($_POST['filter'])) {
+            $filter = $_POST['filter'];
+        } elseif (isset($_GET['filter'])) {
+            $filter = $_GET['filter'];
+        } else {
+            $filter = "";
+        }
+        $result = $ajax->getBrokerByKey($filter);
+        if ($result) {
+            for ($i = 0; $i < count($result); $i++) {
+                echo "<option value='{$result[$i]['id']}'>{$result[$i]['broker_company_name']}</option>";
+            }
+        }
+    }
+    if($task=='getHouseList'){
+         if (isset($_POST['broker_id'])) {
+            $broker_id = $_POST['broker_id'];
+        } elseif (isset($_GET['broker_id'])) {
+            $broker_id = $_GET['broker_id'];
+        } else {
+            $broker_id = "";
+        }
+        $result = $ajax->getHouseListByBrokerId($broker_id);
+        if ($result) {
+            echo "<option value=''></option>";
+            for ($i = 0; $i < count($result); $i++) {                
+                echo "<option value='{$result[$i]['id']}'>{$result[$i]['house_name']}</option>";
+            }
+        }
+    }
     if ($task == 'getContentHouse') {
 
         if (isset($_POST['house_id'])) {

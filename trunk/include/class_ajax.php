@@ -236,6 +236,61 @@ class ajax {
         return $house_arr;
     }
 
+    function getBrokerByKey($search) {
+        global $database;
+        $search = trim($search);
+        $query = "select * from home_broker_company";
+        if (!empty($search))
+            $query.=" where broker_company_name like '%{$search}%'";
+
+        //echo $query;
+        $result = $database->database_query($query);
+        $broker_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $broker['id'] = $row['id'];
+            $broker['user_id'] = $row['user_id'];
+            $broker['broker_company_name'] = $row['broker_company_name'];
+            $broker['broker_company_address'] = $row['broker_company_address'];
+            $broker['broker_company_phone'] = $row['broker_company_phone'];
+            $broker['broker_company_email'] = $row['broker_company_email'];
+            $broker['broker_company_fax'] = $row['broker_company_fax'];
+            $broker['broker_company_undertake'] = $row['broker_company_undertake'];
+            $broker['house_description'] = $row['house_description'];
+            $broker_arr[] = $broker;
+        }
+        return $broker_arr;
+    }
+
+    function getHouseListByBrokerId($broker_id) {
+        global $database;
+        $broker_id = trim($broker_id);
+        $query = "SELECT hh.* FROM home_room AS hr
+
+                        LEFT JOIN home_house AS hh ON hr.house_id=hh.id";                      
+        
+        if (!empty($broker_id))
+            $query.=" where hr.broker_id='{$broker_id}'";
+        $query.=" GROUP BY hr.house_id";
+        //echo $query;
+        $result = $database->database_query($query);
+        $house_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $house['id'] = $row['id'];
+            $house['user_id'] = $row['user_id'];
+            $house['house_name'] = $row['house_name'];
+            $house['house_address'] = $row['house_address'];
+            $house['house_area'] = $row['house_area'];
+            $house['house_build_time'] = $row['house_build_time'];
+            $house['house_type'] = $row['house_type'];
+            $house['house_description'] = $row['house_description'];
+            $house['house_photo'] = $row['house_photo'];
+            $house['house_structure'] = $row['house_structure'];
+            $house['house_owner_id'] = $row['house_owner_id'];
+            $house_arr[] = $house;
+        }
+        return $house_arr;
+    }
+
     function getHouseContent($house_id) {
         global $database;
         $query = "select house_description from home_house where id='{$house_id}'";
@@ -505,7 +560,7 @@ class ajax {
                     contract_application_date='{$contract_application_date}'   
                      where contract_id='{$contract_id}'    
                     ";
-          
+
             $update = $database->database_query($query);
             //update plus money
             //1. Delete first
@@ -669,43 +724,46 @@ class ajax {
         }
         return $client_arr;
     }
-    function getDistrictListByCityID($city_id){
+
+    function getDistrictListByCityID($city_id) {
         global $database;
-        $query="select * from house_district where city_id='{$city_id}'";
-        $result=$database->database_query($query);
-        $district_arr=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $district['id']=$row['id'];
-            $district['district_name']=$row['district_name'];
-            $district_arr[]=$district;
+        $query = "select * from house_district where city_id='{$city_id}'";
+        $result = $database->database_query($query);
+        $district_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $district['id'] = $row['id'];
+            $district['district_name'] = $row['district_name'];
+            $district_arr[] = $district;
         }
         return $district_arr;
     }
-    function getStreetListByDistrictID($district_id){
+
+    function getStreetListByDistrictID($district_id) {
         global $database;
-        $query="select * from house_street where district_id='{$district_id}'";
-        $result=$database->database_query($query);
-        $street_arr=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $street['id']=$row['id'];
-            $street['street_name']=$row['street_name'];
-            $street_arr[]=$street;
+        $query = "select * from house_street where district_id='{$district_id}'";
+        $result = $database->database_query($query);
+        $street_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $street['id'] = $row['id'];
+            $street['street_name'] = $row['street_name'];
+            $street_arr[] = $street;
         }
         return $street_arr;
     }
-    
-    function getWardListByStreetID($street_id){
+
+    function getWardListByStreetID($street_id) {
         global $database;
-        $query="select * from house_ward where street_id='{$street_id}'";
-        $result=$database->database_query($query);
-        $ward_arr=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $ward['id']=$row['id'];
-            $ward['ward_name']=$row['ward_name'];
-            $ward_arr[]=$ward;
+        $query = "select * from house_ward where street_id='{$street_id}'";
+        $result = $database->database_query($query);
+        $ward_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $ward['id'] = $row['id'];
+            $ward['ward_name'] = $row['ward_name'];
+            $ward_arr[] = $ward;
         }
         return $ward_arr;
     }
+
 }
 
 function checkExistContract($user_id, $order_id) {
