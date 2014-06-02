@@ -625,7 +625,7 @@
             </tbody>
         </table>
     </div>
-    <div class="agent-content">
+    <div class="agent-content no-wrap">
 
         {literal}
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
