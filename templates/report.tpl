@@ -47,7 +47,7 @@
             </div>
             <div class="agent-date">
                 <span>DATE: </span>
-                <span> {date("d/m/Y")}</span>
+                <span> {$date}</span>
             </div>
             <div class="agent-rate">
                 <span>Achievement rate: </span>
@@ -329,7 +329,7 @@
             </tr>
         </table>
     </div>
-    <div class="agent-content">
+    <div class="agent-content no-wrap">
         <div class="last-year-title">
             <h3>Last Year Performance</h3>
         </div>
@@ -576,7 +576,7 @@
             </tbody>
         </table>
     </div>
-    <div class="agent-content">
+    <div class="agent-content no-wrap">
         <div class="last-year-title">
             <h3>Detail from WEBS</h3>
         </div>
