@@ -221,14 +221,12 @@ class ajax {
             $house['id'] = $row['id'];
             $house['user_id'] = $row['user_id'];
             $house['house_name'] = $row['house_name'];
-            $house['house_address'] = $row['house_address'];
-            $house['house_size'] = $row['house_size'];
+            $house['house_address'] = $row['house_address'];            
             $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
             $house['house_description'] = $row['house_description'];
-            $house['house_photo'] = $row['house_photo'];
-            $house['house_discount'] = $row['house_discount'];
+            $house['house_photo'] = $row['house_photo'];           
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $house;
@@ -243,7 +241,7 @@ class ajax {
         if (!empty($search))
             $query.=" where broker_company_name like '%{$search}%'";
 
-        //echo $query;
+        echo $query;
         $result = $database->database_query($query);
         $broker_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
@@ -255,7 +253,7 @@ class ajax {
             $broker['broker_company_email'] = $row['broker_company_email'];
             $broker['broker_company_fax'] = $row['broker_company_fax'];
             $broker['broker_company_undertake'] = $row['broker_company_undertake'];
-            $broker['house_description'] = $row['house_description'];
+            
             $broker_arr[] = $broker;
         }
         return $broker_arr;
