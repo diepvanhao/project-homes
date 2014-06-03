@@ -142,7 +142,7 @@ class Report {
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-            INNER JOIN home_contract_detail d ON o.id = d.contract_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -1240,8 +1240,9 @@ class Report {
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-           INNER JOIN home_broker_company c  ON o.user_id = c.user_id
-            WHERE o.order_status = 1 AND c.id = {$company_id}  AND {$today} ";
+            INNER JOIN home_broker_company b  ON o.user_id = b.user_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND o.order_status = 1 AND b.id = {$company_id}  AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_application'] = (int) $row[0];
