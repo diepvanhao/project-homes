@@ -150,7 +150,7 @@ class Report {
 
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-            INNER JOIN home_contract_detail d ON o.id = d.contract_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -375,7 +375,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_application'] = (int) $row[0];
