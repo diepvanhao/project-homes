@@ -656,8 +656,7 @@ if (isset($_POST['save'])) {
                             $aspirations_comment = $client_arr['aspirations_comment'];
 
                             $contract_name = $client_arr['contract_name'];
-                            $contract_cost = $client_arr['contract_cost'];
-                            $contract_plus_money = $client_arr['contract_plus_money'];
+                            $contract_cost = $client_arr['contract_cost'];                          
                             $contract_key_money = $client_arr['contract_key_money'];
                             $contract_condition = $client_arr['contract_condition'];
                             $contract_valuation = $client_arr['contract_valuation'];
@@ -671,6 +670,7 @@ if (isset($_POST['save'])) {
                             $contract_total = $client_arr['contract_total'];
                             $contract_application = $client_arr['contract_application'];
                             $contract_application_date = $client_arr['contract_application_date'];
+                            
                             $plus_money=$order->getPlusMoney($client_arr['contract_detail_id']);   
                         }
                     }

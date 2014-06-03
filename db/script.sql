@@ -197,3 +197,7 @@ ALTER TABLE `house_street`
 
 ALTER TABLE `house_ward`   
   ADD COLUMN `street_id` INT(11) NULL AFTER `ward_name`;
+
+/*3/6 Hao*/
+ALTER TABLE `home_order`   
+  CHANGE `room_id` `room_id` VARCHAR(128) NULL;

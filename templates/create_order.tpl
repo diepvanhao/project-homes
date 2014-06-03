@@ -29,20 +29,20 @@
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $('#error_house').html("");
-                 showloadgif();
+                //    showloadgif();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
                 function(result) {
                     if (result) {
                         $('#house_id').empty();
                         $('#house_id').html(result);
                         $('#step').click();
-                        hideloadgif();
+                        //   hideloadgif();
                     } else {
                         $('#house_id').empty();
                         $('#room_id').empty();
                         $('#house_description').html("");
                         $('#error_house').html("No any house for your keyword");
-                        hideloadgif();
+                        //     hideloadgif();
                     }
                 });
             });
@@ -54,7 +54,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id,0);
+                    get_room(house_id, 0);
                 });
             });
             $('#house_id').change(function() {
@@ -65,7 +65,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id,0);
+                    get_room(house_id, 0);
                 });
             });
             $('#room_id').change(function() {
@@ -79,6 +79,10 @@
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
                         $('#error_room').html("This room had person rent. Please choose other room");
+                        $('#submit').attr('disabled', true);
+                        $("#submit").css('color', 'grey');
+                    } else if (json.status == 2) {
+                        $('#error_room').html("This room is contructing. Please choose other room");
                         $('#submit').attr('disabled', true);
                         $("#submit").css('color', 'grey');
                     } else {
@@ -472,7 +476,7 @@
                 }
             });
         }
-        function get_room(house_id, room_id ) {
+        function get_room(house_id, room_id) {
             $('#error_room').html("");
             $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
             function(result) {
@@ -482,7 +486,7 @@
                 } else {
                     $('#room_id').empty();
                     $('#house_description').html("");
-                    if(house_id)
+                    if (house_id)
                         $('#error_room').html("This house haven't been room yet");
                 }
             });
@@ -533,13 +537,13 @@
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
             <tr>
                 <td class="form1">Filter Broker</td>
-                <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="Enter broker name to filter for selection broker" style="height:26px; width: 351px;"/>
+                <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="Enter broker name to filter for selection broker" style="height:26px; width: 300px;"/>
                 </td>
             </tr>
             <tr>       
                 <td class='form1'>Select Broker Company: </td>
                 <td class='form2'>
-                    <select id="broker_id" name="broker_id" style="height:26px; width: 351px;">
+                    <select id="broker_id" name="broker_id" style="height:26px; width: 300px;">
                         <option value=""></option>
                         {foreach from=$brokers item=broker}
                             <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
@@ -558,7 +562,7 @@
                 </td>
 
                 <td class='form2'>
-                    <select id="staff_id" name="staff_id" style="height:26px; width: 351px;">
+                    <select id="staff_id" name="staff_id" style="height:26px; width: 300px;">
                         <option value=""></option>
                         {foreach from=$users item=user}
                             <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
@@ -569,13 +573,13 @@
             </tr>
             <tr>
                 <td class="form1">Filter House</td>
-                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
+                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
                 </td>
             </tr>
             <tr>            
                 <td class='form1'>Select House: </td>
                 <td class='form2'>
-                    <select id="house_id" name="house_id" style="height:26px; width: 351px;">
+                    <select id="house_id" name="house_id" style="height:26px; width: 300px;">
                         <option value=""></option>
                         {foreach from=$houses item=house}
                             <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
@@ -593,7 +597,7 @@
 
             <tr>            
                 <td class='form1'>Select Room: </td>
-                <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
+                <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 300px;">
                         <option value=""></option>
 
                     </select><div id="error_room" class="error"></div>
@@ -602,15 +606,15 @@
             <!--order part-->
             <tr>            
                 <td class='form1'>Order name: </td>
-                <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 351px;"/><div id="error_order_name" class="error"></div></td>
+                <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 300px;"/><div id="error_order_name" class="error"></div></td>
             </tr>
             <tr>            
                 <td class='form1'>Price: </td>
-                <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 351px;"/></td>
+                <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 300px;"/></td>
             </tr>
             <tr>            
                 <td class='form1'>Comment: </td>
-                <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 351px;"/></td>
+                <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 300px;"/></td>
             </tr>
 
             <!--end order-->
@@ -633,17 +637,17 @@
                 $('#filter_broker').keyup(function(e) {
                     var filter = $('#filter_broker').val();
                     $('#error_broker').html("");
-                    showloadgif();
+                    //showloadgif();
                     $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
                     function(result) {
                         if (result) {
-                            hideloadgif();
+                            //  hideloadgif();
                             $('#broker_id').empty();
                             $('#broker_id').html(result);
                             $('table').find('tr').css('display', '');
                             $('#yoke_muscle').click();
                         } else {
-                            hideloadgif();
+                            // hideloadgif();
                             $('#broker_id').empty();
                             $('#broker_id').empty();
                             //$('#house_description').html("");
@@ -718,7 +722,7 @@
                 $('#broker_id').change(function() {
                     //active form
                     $('#error_broker').html("");
-                    $('#error_house').html("");                   
+                    $('#error_house').html("");
                     var broker_id = $('#broker_id').val();
                     if (broker_id) {
                         $('table').find('tr').css('display', '');
@@ -742,10 +746,10 @@
                     $('table').find('tr:last-child').css('display', '');
                 }
                 var house_id = $('#house_id').val();
-               
-               // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
-               var room_id=$('#room_bk').val();
-                
+
+                // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
+                var room_id = $('#room_bk').val();
+
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
@@ -837,7 +841,7 @@
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
             <tr>
                 <td>Filter customer</td>
-                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 315px;" placeholder="Type name of customer"/>
+                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 300px;" placeholder="Type name of customer"/>
                     <span>
                         <input type='submit' class='btn-search' value='Submit' id="search" name="submit"/>&nbsp;                     
                     </span>
@@ -893,21 +897,21 @@
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Name:</td>
-                        <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Birthday:</td>
-                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Email:</td>
-                        <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 315px;"/></td>
-                        <td class='form1' nowrap>Phone number:</td>
-                        <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 300px;"/></td>
+                        <td class='form1'>Phone number:</td>
+                        <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'></td>
                         <td class='form1' nowrap>Fax:</td>
-                        <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
@@ -931,42 +935,71 @@
                     <tr>
                         <td class='form1'>Gender: </td>
                         <td class='form2'>
-                            <select id="gender"name="gender" style="height:26px; width: 315px;">
+                            <select id="gender"name="gender" style="height:26px; width: 300px;">
                                 <option value="male" {if $gender eq "male"}selected{/if}>Male</option>
                                 <option value="female"{if $gender eq "female"}selected{/if}>Female</option>
                                 <option value="other" {if $gender eq "other"}selected{/if}>Other</option>
                             </select>
                         </td>
-                        <td class='form1' nowrap>Address current:</td>
-                        <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Numer Address: <span class="required">*</span></td>
+                        <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
+                        <td class='form1'>City:  <span class="required">*</span></td>
+                        <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$cities item=city}
+                                    <option value="{$city.id}" {if $city.id eq $city_id}selected="selected"{/if}>{$city.city_name}</option>        
+                                {/foreach}
+                            </select><div id="error_city_id" class="error"></div>
+                        </td>
+                         <td class='form1'>District:  <span class="required">*</span></td>
+                        <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 300px;">                       
+
+                            </select><div id="error_district_id" class="error"></div>
+                        </td>
+                    </tr>      
+                  
+                    <tr>
+                        <td class='form1'>Street:  <span class="required">*</span></td>
+                        <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 300px;">
+
+                            </select><div id="error_street_id" class="error"></div>
+                        </td>
+                        <td class='form1'>Ward:  <span class="required">*</span></td>
+                        <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 300px;">
+
+                            </select><div id="error_ward_id" class="error"></div>
+                        </td>
+                    </tr>
+                  
+                    <tr>
                         <td class='form1'>Occupation:</td>
-                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Company:</td>
-                        <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Income:</td>
-                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Rent current :</td>
-                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Reason change:</td>
-                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Date change :</td>
-                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Client resident name</td>
-                        <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 315px;"/> </td>
+                        <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 300px;"/> </td>
                     </tr>
                     <tr>
                         <td class='form1'>Client resident phone :</td>
-                        <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'> </td>
                     </tr>
@@ -1114,26 +1147,26 @@
                     <tr>
                         <td class='form1'>House type: </td>
                         <td class='form2'>
-                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 300px;"/>
                         </td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Build time:</td>
-                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Area:</td>
-                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Size:</td>
-                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Price:</td>
-                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Comment:</td>
-                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
                     </tr>                
@@ -1159,13 +1192,13 @@
 
                     <tr>
                         <td class="form1">Filter House</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
+                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>Select House: </td>
                         <td class='form2'>
-                            <select id="house_id" name="house_id" style="height:26px; width: 351px;">
+                            <select id="house_id" name="house_id" style="height:26px; width: 300px;">
                                 <option value=""></option>
                                 {foreach from=$houses item=house}
                                     <option value="{$house.id}" {if $house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
@@ -1182,7 +1215,7 @@
                     </tr>
                     <tr>            
                         <td class='form1'>Select Room: </td>
-                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
+                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 300px;">
                                 <option value=""></option>
 
                             </select><div id="error_room_introduce" class="error"></div>
@@ -1210,45 +1243,45 @@
                     <tr>
                         <td class='form1'>Name: </td>
                         <td class='form2'>
-                            <input type='text' id="contract_name" name="contract_name" value="{$contract_name}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="contract_name" name="contract_name" value="{$contract_name}"style="height: 26px; width: 300px;"/>
                         </td>
                         <td class='form1' nowrap>Cost:</td>
-                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 300px;"/></td>
                     </tr>                    
 
                     <tr>                    
                         <td class='form1'>Key fee:</td>
-                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1'></td>
                         <td class='form2'></td>                                           
                     </tr>
                     <tr>                    
                         <td class='form1' nowrap>Condition:</td>
-                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
                         <td class='form1' nowrap>Valuation:</td>
-                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
                     </tr>
                     <tr>
                         <td class='form1'>Signature day:</td>
-                        <td class='form2'><input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Handover day:</td>
-                        <td class='form2'><input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Period from:</td>
-                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Period to:</td>
-                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Deposit 1:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Deposit 2:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Total:</td>
-                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
@@ -1256,7 +1289,7 @@
                         <td class='form1'>Application:</td>
                         <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
                         <td class='form1' nowrap>Application Date:</td>
-                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>
@@ -1271,7 +1304,7 @@
                             <td class='form1'>{$k} :</td>
                             <td class='form2'>
                                 <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
-                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 315px;'/>
+                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 300px;'/>
                                 <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
                             </td> 
                             <td class='form1'></td>
@@ -1296,6 +1329,7 @@
         </div>
         <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
     </div>
+    
     {literal}
         <style type="text/css">
 
@@ -1389,10 +1423,75 @@
                     var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "") {
                         fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 300px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
+                //Address
+                   //city
+            $('#city_id').change(function(e) {
+                var city_id = $('#city_id').val();
+                var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+                
+                if (city_id == "") {
+                    $('#district_id').empty();
+                    $('#street_id').empty();
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                    function(result) {
+                        if (result) {
+                            $('#district_id').empty();
+                            $('#district_id').html(result);
+                            $('#district_id').change();
+                        } else {
+                            $('#district_id').empty();
+                            $('#street_id').empty();
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            //district
+            $('#district_id').change(function(e) {
+                var district_id = $('#district_id').val();
+                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
 
+                if (district_id == "") {
+                    $('#street_id').empty();
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                    function(result) {
+                        if (result) {
+                            $('#street_id').empty();
+                            $('#street_id').html(result);
+                            $('#street_id').change();
+                        } else {
+                            $('#street_id').empty();
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            //street
+            $('#street_id').change(function(e) {
+                var street_id = $('#street_id').val();
+                var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
+
+                if (street_id == "") {
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                    function(result) {
+                        if (result) {
+                            $('#ward_id').empty();
+                            $('#ward_id').html(result);
+                        } else {
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
             });
             function removePlus(childElem) {
                 var row = $(childElem).closest("tr"); // find <tr> parent
@@ -1400,6 +1499,15 @@
             }
         </script>
     {/literal}
+    {if $city_id ne ""}
+    {literal}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#city_id').change();
+            });
+        </script>
+    {/literal}
+{/if}
 {/if}
 <div id="loadgif">Loading...</div>
 
