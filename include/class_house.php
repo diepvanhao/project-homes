@@ -683,7 +683,36 @@ class HOMEHouse {
             return false;
         }
     }
-
+    //parse address 
+    function getNameCity($city_id){
+        global $database;
+        $query="select city_name from house_city where id='{$city_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['city_name'];
+    }
+    function getNameDistrict($district_id){
+        global $database;
+        $query="select district_name from house_district where id='{$district_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['district_name'];
+    }
+    function getNameStreet($street_id){
+        global $database;
+        $query="select street_name from house_street where id='{$street_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['street_name'];
+    }
+    function getNameWard($ward_id){
+        global $database;
+        $query="select ward_name from house_ward where id='{$ward_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['ward_name'];
+    }
+    
 }
 
 function checkExistWard($street_id, $ward_name) {

@@ -796,6 +796,19 @@ if ($step == 1) {
 
     $customers = $customer->getCustomers($filter, $offset, $length);
 
+    for ($i = 0; $i < count($customers); $i++) {
+        if ($house->isSerialized($customers[$i]['client_address'])) {
+            $house_address_serialize = unserialize($customers[$i]['client_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $client_address = $house_address_serialize['client_address'];
+            $customers[$i]['client_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $client_address;
+        } else {
+            $customers[$i]['client_address'] = $customers[$i]['client_address'];
+        }
+    }
     //Introduce house
     //  $house = new HOMEHouse();
     $houses = $house->getHouses();

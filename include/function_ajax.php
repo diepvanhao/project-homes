@@ -256,7 +256,7 @@ if ($action == "check_email") {
             }
         }
     }
-     if ($task == "getBrokerFilter") {
+    if ($task == "getBrokerFilter") {
         if (isset($_POST['filter'])) {
             $filter = $_POST['filter'];
         } elseif (isset($_GET['filter'])) {
@@ -271,8 +271,8 @@ if ($action == "check_email") {
             }
         }
     }
-    if($task=='getHouseList'){
-         if (isset($_POST['broker_id'])) {
+    if ($task == 'getHouseList') {
+        if (isset($_POST['broker_id'])) {
             $broker_id = $_POST['broker_id'];
         } elseif (isset($_GET['broker_id'])) {
             $broker_id = $_GET['broker_id'];
@@ -282,7 +282,7 @@ if ($action == "check_email") {
         $result = $ajax->getHouseListByBrokerId($broker_id);
         if ($result) {
             echo "<option value=''></option>";
-            for ($i = 0; $i < count($result); $i++) {                
+            for ($i = 0; $i < count($result); $i++) {
                 echo "<option value='{$result[$i]['id']}'>{$result[$i]['house_name']}</option>";
             }
         }
@@ -401,6 +401,43 @@ if ($action == "check_email") {
         } else {
             $client_address = "";
         }
+        if (isset($_POST['city_id'])) {
+            $city_id = $_POST['city_id'];
+        } elseif (isset($_GET['city_id'])) {
+            $city_id = $_GET['city_id'];
+        } else {
+            $city_id = "";
+        }
+        if (isset($_POST['district_id'])) {
+            $district_id = $_POST['district_id'];
+        } elseif (isset($_GET['district_id'])) {
+            $district_id = $_GET['district_id'];
+        } else {
+            $district_id = 0;
+        }
+        if (isset($_POST['street_id'])) {
+            $street_id = $_POST['street_id'];
+        } elseif (isset($_GET['street_id'])) {
+            $street_id = $_GET['street_id'];
+        } else {
+            $street_id = 0;
+        }
+        if (isset($_POST['ward_id'])) {
+            $ward_id = $_POST['ward_id'];
+        } elseif (isset($_GET['ward_id'])) {
+            $ward_id = $_GET['ward_id'];
+        } else {
+            $ward_id = 0;
+        }
+        $house_address_serialize['city_id'] = $city_id;
+        $house_address_serialize['district_id'] = $district_id;
+        $house_address_serialize['street_id'] = $street_id;
+        $house_address_serialize['ward_id'] = $ward_id;
+
+        $house_address_serialize['client_address'] = $client_address;
+
+        $house_address_serialize = serialize($house_address_serialize);
+        
         if (isset($_POST['client_occupation'])) {
             $client_occupation = $_POST['client_occupation'];
         } elseif (isset($_GET['client_occupation'])) {
@@ -465,7 +502,7 @@ if ($action == "check_email") {
             $client_resident_phone = "";
         }
 
-        $result = $ajax->update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
+        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
         if ($result)
             echo "success";
         else
@@ -1008,7 +1045,7 @@ if ($action == "check_email") {
             $district_id = "";
         }
         $result = $ajax->getDistrictListByCityID($city_id);
-        
+
         if ($result) {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {
@@ -1037,7 +1074,7 @@ if ($action == "check_email") {
             $street_id = "";
         }
         $result = $ajax->getStreetListByDistrictID($district_id);
-        
+
         if ($result) {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {
@@ -1066,7 +1103,7 @@ if ($action == "check_email") {
             $ward_id = "";
         }
         $result = $ajax->getWardListByStreetID($street_id);
-        
+
         if ($result) {
             echo "<option value''></option>";
             for ($i = 0; $i < count($result); $i++) {

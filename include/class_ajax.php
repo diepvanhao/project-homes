@@ -221,12 +221,12 @@ class ajax {
             $house['id'] = $row['id'];
             $house['user_id'] = $row['user_id'];
             $house['house_name'] = $row['house_name'];
-            $house['house_address'] = $row['house_address'];            
+            $house['house_address'] = $row['house_address'];
             $house['house_area'] = $row['house_area'];
             $house['house_build_time'] = $row['house_build_time'];
             $house['house_type'] = $row['house_type'];
             $house['house_description'] = $row['house_description'];
-            $house['house_photo'] = $row['house_photo'];           
+            $house['house_photo'] = $row['house_photo'];
             $house['house_structure'] = $row['house_structure'];
             $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $house;
@@ -241,7 +241,7 @@ class ajax {
         if (!empty($search))
             $query.=" where broker_company_name like '%{$search}%'";
 
-        echo $query;
+        //echo $query;
         $result = $database->database_query($query);
         $broker_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
@@ -253,7 +253,7 @@ class ajax {
             $broker['broker_company_email'] = $row['broker_company_email'];
             $broker['broker_company_fax'] = $row['broker_company_fax'];
             $broker['broker_company_undertake'] = $row['broker_company_undertake'];
-            
+
             $broker_arr[] = $broker;
         }
         return $broker_arr;
@@ -264,8 +264,8 @@ class ajax {
         $broker_id = trim($broker_id);
         $query = "SELECT hh.* FROM home_room AS hr
 
-                        LEFT JOIN home_house AS hh ON hr.house_id=hh.id";                      
-        
+                        LEFT JOIN home_house AS hh ON hr.house_id=hh.id";
+
         if (!empty($broker_id))
             $query.=" where hr.broker_id='{$broker_id}'";
         $query.=" GROUP BY hr.house_id";
@@ -667,6 +667,7 @@ class ajax {
 
     function getCustomerSelected($id) {
         global $database;
+        $house = new HOMEHouse();
         $client_arr = array();
         //get information about client
         $query = "SELECT hc.id AS client_id,
@@ -698,11 +699,27 @@ class ajax {
         $client_arr = array();
 
         while ($row = $database->database_fetch_assoc($result)) {
+            $city_id = $district_id = $street_id = $ward_id = 0;
             $row['client_id'] = $row['client_id'];
             $row['user_id'] = $row['user_id'];
             $row['client_name'] = $row['client_name'];
             $row['client_birthday'] = $row['client_birthday'];
-            $row['client_address'] = $row['client_address'];
+            if ($house->isSerialized($row['client_address'])) {
+                $house_address_serialize = unserialize($row['client_address']);
+                $city_id = $house_address_serialize['city_id'];
+                $district_id = $house_address_serialize['district_id'];
+                $street_id = $house_address_serialize['street_id'];
+                $ward_id = $house_address_serialize['ward_id'];
+                $row['client_address'] = $house_address_serialize['client_address'];
+            } else {
+                $row['client_address'] = $row['client_address'];
+            }
+            //$row['client_address'] = $row['client_address'];
+            $row['city_id']=$city_id;
+            $row['district_id']=$district_id;
+            $row['street_id']=$street_id;
+            $row['ward_id']=$ward_id;
+            
             $row['client_phone'] = $row['client_phone'];
             $row['client_income'] = $row['client_income'];
             $row['client_occupation'] = $row['client_occupation'];
@@ -717,7 +734,7 @@ class ajax {
             $row['client_resident_phone'] = $row['client_resident_phone'];
             $row['client_rent'] = $row['client_rent'];
             $row['client_room_type'] = $row['client_room_type'];
-
+           
             $client_arr = $row;
         }
         return $client_arr;
