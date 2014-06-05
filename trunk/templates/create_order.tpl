@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">Create Order</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Create Order</div>
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -193,20 +193,20 @@
                         var client_resident_phone = $('#client_resident_phone').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-                        
-                        
-                        
-                        
-                        if(city_id=="" || city_id ==null){
+
+
+
+
+                        if (city_id == "" || city_id == null) {
                             $('#error_city_id').html('City is required');
                             return false;
-                        }else if(district_id =="" || district_id == null){
+                        } else if (district_id == "" || district_id == null) {
                             $('#error_district_id').html('District is required');
                             return false;
-                        }else if(street_id =="" || street_id == null){
+                        } else if (street_id == "" || street_id == null) {
                             $('#error_street_id').html('Street is required');
                             return false;
-                        }else if(ward_id =="" || ward_id == null){
+                        } else if (ward_id == "" || ward_id == null) {
                             $('#error_ward_id').html('Ward is required');
                             return false;
                         }
@@ -215,7 +215,7 @@
                         $('#error_district_id').html('');
                         $('#error_street_id').html('');
                         $('#error_ward_id').html('');
-                          
+
                         $.post("include/function_ajax.php", {gender: gender, client_address: client_address, city_id: city_id, district_id: district_id, street_id: street_id, ward_id: ward_id, client_occupation: client_occupation,
                             client_company: client_company, client_income: client_income, client_room_type: client_room_type, client_rent: client_rent,
                             client_reason_change: client_reason_change, client_time_change: client_time_change, client_resident_name: client_resident_name,
@@ -487,17 +487,17 @@
                     $('#client_phone').val(json.client_phone);
                     $('#gender').val(json.gender);
                     $('#client_address').val(json.client_address);
-                    
+
                     $('#city_cus').val(json.city_id);
                     $('#district_cus').val(json.district_id);
                     $('#street_cus').val(json.street_id);
-                    $('#ward_cus').val(json.ward_id);                                      
-                    $('#city_id').find('option').each(function(){
-                        if($(this).val()==json.city_id){
-                            $(this).attr('selected','selected');
+                    $('#ward_cus').val(json.ward_id);
+                    $('#city_id').find('option').each(function() {
+                        if ($(this).val() == json.city_id) {
+                            $(this).attr('selected', 'selected');
                         }
                     });
-                    
+
                     $('#client_occupation').val(json.client_occupation);
                     $('#client_company').val(json.client_company);
                     $('#client_income').val(json.client_income);
@@ -508,12 +508,12 @@
                     $('#client_resident_name').val(json.client_resident_name);
                     $('#client_resident_phone').val(json.client_resident_phone);
                     //get information order, history, aspirations and contract
-                  // if(selectClient())
-                     $('#city_cus').change();
+                    // if(selectClient())
+                    $('#city_cus').change();
                 }
             });
         }
-        
+
         function get_room(house_id, room_id) {
             $('#error_room').html("");
             $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
@@ -1293,7 +1293,12 @@
 
                     <tr>                    
                         <td class='form1'>Key fee:</td>
-                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 300px;"/>
+                            <select id="contract_key_money_unit" style="width: 2%;height:3%;position: absolute;">
+                                <option value="円">円</option>
+                                <option value="月">月</option>
+                            </select>
+                        </td>
                         <td class='form1'></td>
                         <td class='form2'></td>                                           
                     </tr>
@@ -1488,11 +1493,11 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
-                var fieldCount = 1;
+                //var fieldCount = 1;
                 $('#add').click(function() {
                     var label = prompt('which  plus do you want to add ?', '');
-                    if (label != null && label != "") {
-                        fieldCount++;
+                    if (label != null && label != "" && label != 0) {
+                        // fieldCount++;
                         $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 300px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
@@ -1562,58 +1567,58 @@
                                                             });
                                                         }
                                                     });
-                                                
-                   //clone 
-                   //city
-                $('#city_cus').change(function(e) {
-                    var city_id = $('#city_cus').val();
-                    var district_id =$('#district_cus').val();
 
-                                if (city_id == "") {
-                                    $('#district_id').empty();
-                                    $('#street_id').empty();
-                                    $('#ward_id').empty();
-                                } else {
-                                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                    function(result) {
-                                        if (result) {
-                                            $('#district_id').empty();
-                                            $('#district_id').html(result);
-                                            $('#district_cus').change();
-                                        } else {
-                                            $('#district_id').empty();
-                                            $('#street_id').empty();
-                                            $('#ward_id').empty();
-                                        }
-                                    });
-                                }
-                            });
-                            //district
-                            $('#district_cus').change(function(e) {
-                                var district_id = $('#district_id').val();
-                                var street_id =$('#street_cus').val();
+                                                    //clone 
+                                                    //city
+                                                    $('#city_cus').change(function(e) {
+                                                        var city_id = $('#city_cus').val();
+                                                        var district_id = $('#district_cus').val();
 
-                                            if (district_id == "") {
-                                                $('#street_id').empty();
-                                                $('#ward_id').empty();
-                                            } else {
-                                                $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                function(result) {
-                                                    if (result) {
-                                                        $('#street_id').empty();
-                                                        $('#street_id').html(result);
-                                                        $('#street_cus').change();
-                                                    } else {
-                                                        $('#street_id').empty();
-                                                        $('#ward_id').empty();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                        //street
-                                        $('#street_cus').change(function(e) {
-                                            var street_id = $('#street_id').val();
-                                            var ward_id =$('#ward_cus').val();
+                                                        if (city_id == "") {
+                                                            $('#district_id').empty();
+                                                            $('#street_id').empty();
+                                                            $('#ward_id').empty();
+                                                        } else {
+                                                            $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                                            function(result) {
+                                                                if (result) {
+                                                                    $('#district_id').empty();
+                                                                    $('#district_id').html(result);
+                                                                    $('#district_cus').change();
+                                                                } else {
+                                                                    $('#district_id').empty();
+                                                                    $('#street_id').empty();
+                                                                    $('#ward_id').empty();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    //district
+                                                    $('#district_cus').change(function(e) {
+                                                        var district_id = $('#district_id').val();
+                                                        var street_id = $('#street_cus').val();
+
+                                                        if (district_id == "") {
+                                                            $('#street_id').empty();
+                                                            $('#ward_id').empty();
+                                                        } else {
+                                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                                            function(result) {
+                                                                if (result) {
+                                                                    $('#street_id').empty();
+                                                                    $('#street_id').html(result);
+                                                                    $('#street_cus').change();
+                                                                } else {
+                                                                    $('#street_id').empty();
+                                                                    $('#ward_id').empty();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    //street
+                                                    $('#street_cus').change(function(e) {
+                                                        var street_id = $('#street_id').val();
+                                                        var ward_id = $('#ward_cus').val();
 
                                                         if (street_id == "") {
                                                             $('#ward_id').empty();
@@ -1630,11 +1635,11 @@
                                                         }
                                                     });
                                                 });
-                 function removePlus(childElem) {
-                         var row = $(childElem).closest("tr"); // find <tr> parent
-                         row.remove();
-                }
-    </script>
+                                                function removePlus(childElem) {
+                                                    var row = $(childElem).closest("tr"); // find <tr> parent
+                                                    row.remove();
+                                                }
+        </script>
     {/literal}
     {if $city_id ne ""}
         {literal}

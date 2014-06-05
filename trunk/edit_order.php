@@ -43,7 +43,7 @@ if (isset($_POST['url'])) {
 
 $content = base64_decode($content);
 $content = explode('&', $content);
-
+$house = new HOMEHouse();
 if (isset($content[1])) {
     $order_id = $content[1];
 } else {
@@ -133,6 +133,36 @@ if (isset($_POST['client_address'])) {
 } else {
     $client_address = "";
 }
+
+if (isset($_POST['city_id'])) {
+    $city_id = $_POST['city_id'];
+} elseif (isset($_GET['city_id'])) {
+    $city_id = $_GET['city_id'];
+} else {
+    $city_id = "";
+}
+if (isset($_POST['district_id'])) {
+    $district_id = $_POST['district_id'];
+} elseif (isset($_GET['district_id'])) {
+    $district_id = $_GET['district_id'];
+} else {
+    $district_id = 0;
+}
+if (isset($_POST['street_id'])) {
+    $street_id = $_POST['street_id'];
+} elseif (isset($_GET['street_id'])) {
+    $street_id = $_GET['street_id'];
+} else {
+    $street_id = 0;
+}
+if (isset($_POST['ward_id'])) {
+    $ward_id = $_POST['ward_id'];
+} elseif (isset($_GET['ward_id'])) {
+    $ward_id = $_GET['ward_id'];
+} else {
+    $ward_id = 0;
+}
+
 if (isset($_POST['client_occupation'])) {
     $client_occupation = $_POST['client_occupation'];
 } elseif (isset($_GET['client_occupation'])) {
@@ -353,13 +383,13 @@ if (isset($_POST['log_revisit'])) {
 } else {
     $log_revisit = "";
 }
- if (isset($_POST['source_id'])) {
-        $source_id = $_POST['source_id'];
-    } elseif (isset($_GET['source_id'])) {
-        $source_id = $_GET['source_id'];
-    } else {
-        $source_id = "";
-  }
+if (isset($_POST['source_id'])) {
+    $source_id = $_POST['source_id'];
+} elseif (isset($_GET['source_id'])) {
+    $source_id = $_GET['source_id'];
+} else {
+    $source_id = "";
+}
 ////////////////////////////////////End History//////////////////////////////////////////    
 ///////////////////////////////////Begin Aspirations//////////////////////////////////
 if (isset($_POST['aspirations_type_house'])) {
@@ -535,27 +565,27 @@ if (isset($_POST['contract_total'])) {
 } else {
     $contract_total = "";
 }
- if (isset($_POST['contract_application'])) {
-        $contract_application = $_POST['contract_application'];
-    } elseif (isset($_GET['contract_application'])) {
-        $contract_application = $_GET['contract_application'];
-    } else {
-        $contract_application = "";
-    }
-     if (isset($_POST['contract_application_date'])) {
-        $contract_application_date = $_POST['contract_application_date'];
-    } elseif (isset($_GET['contract_application_date'])) {
-        $contract_application_date = $_GET['contract_application_date'];
-    } else {
-        $contract_application_date = "";
-    }
-    if (isset($_POST['plus_money'])) {
-        $plus_money = $_POST['plus_money'];
-    } elseif (isset($_GET['plus_money'])) {
-        $plus_money = $_GET['plus_money'];
-    } else {
-        $plus_money = "";
-    }
+if (isset($_POST['contract_application'])) {
+    $contract_application = $_POST['contract_application'];
+} elseif (isset($_GET['contract_application'])) {
+    $contract_application = $_GET['contract_application'];
+} else {
+    $contract_application = "";
+}
+if (isset($_POST['contract_application_date'])) {
+    $contract_application_date = $_POST['contract_application_date'];
+} elseif (isset($_GET['contract_application_date'])) {
+    $contract_application_date = $_GET['contract_application_date'];
+} else {
+    $contract_application_date = "";
+}
+if (isset($_POST['plus_money'])) {
+    $plus_money = $_POST['plus_money'];
+} elseif (isset($_GET['plus_money'])) {
+    $plus_money = $_GET['plus_money'];
+} else {
+    $plus_money = "";
+}
 /////////////////////////////////End Contract//////////////////////////////////////
 
 $customer = new HOMECustomer();
@@ -575,12 +605,24 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $customers = $customer->getCustomers($filter, $offset, $length);
-
+for ($i = 0; $i < count($customers); $i++) {
+    if ($house->isSerialized($customers[$i]['client_address'])) {
+        $house_address_serialize = unserialize($customers[$i]['client_address']);
+        $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+        $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+        $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+        $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+        $client_address = $house_address_serialize['client_address'];
+        $customers[$i]['client_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $client_address;
+    } else {
+        $customers[$i]['client_address'] = $customers[$i]['client_address'];
+    }
+}
 //Introduce house
-$house = new HOMEHouse();
+
 $houses = $house->getHouses();
 //Store client's info
- $order = new HOMEOrder();
+$order = new HOMEOrder();
 if (isset($_POST['save'])) {
 
     if (isset($_POST['task'])) {
@@ -608,7 +650,17 @@ if (isset($_POST['save'])) {
                 $client_phone = $client_arr['client_phone'];
                 $client_fax = $client_arr['client_fax'];
                 $gender = $client_arr['client_gender'];
-                $client_address = $client_arr['client_address'];
+                if ($house->isSerialized($client_arr['client_address'])) {
+                    $house_address_serialize = unserialize($client_arr['client_address']);
+                    $city_id = $house_address_serialize['city_id'];
+                    $district_id = $house_address_serialize['district_id'];
+                    $street_id = $house_address_serialize['street_id'];
+                    $ward_id = $house_address_serialize['ward_id'];
+                    $client_address = $house_address_serialize['client_address'];
+                } else {
+                    $client_address = $client_arr['client_address'];
+                }
+                // $client_address = $client_arr['client_address'];
                 $client_occupation = $client_arr['client_occupation'];
                 $client_company = $client_arr['client_company'];
                 $client_income = $client_arr['client_income'];
@@ -656,7 +708,7 @@ if (isset($_POST['save'])) {
                             $aspirations_comment = $client_arr['aspirations_comment'];
 
                             $contract_name = $client_arr['contract_name'];
-                            $contract_cost = $client_arr['contract_cost'];                          
+                            $contract_cost = $client_arr['contract_cost'];
                             $contract_key_money = $client_arr['contract_key_money'];
                             $contract_condition = $client_arr['contract_condition'];
                             $contract_valuation = $client_arr['contract_valuation'];
@@ -670,8 +722,8 @@ if (isset($_POST['save'])) {
                             $contract_total = $client_arr['contract_total'];
                             $contract_application = $client_arr['contract_application'];
                             $contract_application_date = $client_arr['contract_application_date'];
-                            
-                            $plus_money=$order->getPlusMoney($client_arr['contract_detail_id']);   
+
+                            $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
                         }
                     }
                 }
@@ -693,18 +745,28 @@ if (isset($_POST['save'])) {
 } elseif ($content[0] == 'edit') {
 //get information for order 
 //get client info, history and contact
-   
-    $client_arr = $order->getClientByOrderId($order_id);        
+
+    $client_arr = $order->getClientByOrderId($order_id);
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
-        $client_id = $client_arr['client_id'];
+            $client_id = $client_arr['client_id'];
         $client_name = $client_arr['client_name'];
         $client_birthday = $client_arr['client_birthday'];
         $client_email = $client_arr['client_email'];
         $client_phone = $client_arr['client_phone'];
         $client_fax = $client_arr['client_fax'];
         $gender = $client_arr['client_gender'];
-        $client_address = $client_arr['client_address'];
+        if ($house->isSerialized($client_arr['client_address'])) {
+                    $house_address_serialize = unserialize($client_arr['client_address']);
+                    $city_id = $house_address_serialize['city_id'];
+                    $district_id = $house_address_serialize['district_id'];
+                    $street_id = $house_address_serialize['street_id'];
+                    $ward_id = $house_address_serialize['ward_id'];
+                    $client_address = $house_address_serialize['client_address'];
+                } else {
+                    $client_address = $client_arr['client_address'];
+                }
+       // $client_address = $client_arr['client_address'];
         $client_occupation = $client_arr['client_occupation'];
         $client_company = $client_arr['client_company'];
         $client_income = $client_arr['client_income'];
@@ -748,7 +810,7 @@ if (isset($_POST['save'])) {
         $aspirations_comment = $client_arr['aspirations_comment'];
 
         $contract_name = $client_arr['contract_name'];
-        $contract_cost = $client_arr['contract_cost'];        
+        $contract_cost = $client_arr['contract_cost'];
         $contract_key_money = $client_arr['contract_key_money'];
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
@@ -763,16 +825,16 @@ if (isset($_POST['save'])) {
         $contract_application = $client_arr['contract_application'];
         $contract_application_date = $client_arr['contract_application_date'];
         //get plus money
-        $plus_money=$order->getPlusMoney($client_arr['contract_detail_id']);       
-        
-        
+        $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
     }
 }
 //get source
-    $house = new HOMEHouse();
-    $sources = $house->getAllSource();
-    
-$smarty->assign('plus_money', $plus_money);    
+
+$sources = $house->getAllSource();
+$cities = $house->getAllCity();
+
+$smarty->assign('cities', $cities);
+$smarty->assign('plus_money', $plus_money);
 $smarty->assign('contract_name', $contract_name);
 $smarty->assign('contract_cost', $contract_cost);
 $smarty->assign('contract_key_money', $contract_key_money);
@@ -823,6 +885,10 @@ $smarty->assign('log_revisit', $log_revisit);
 $smarty->assign('source_id', $source_id);
 $smarty->assign('gender', $gender);
 $smarty->assign('client_address', $client_address);
+$smarty->assign('city_id', $city_id);
+$smarty->assign('district_id', $district_id);
+$smarty->assign('street_id', $street_id);
+$smarty->assign('ward_id', $ward_id);
 $smarty->assign('client_occupation', $client_occupation);
 $smarty->assign('client_company', $client_company);
 $smarty->assign('client_income', $client_income);

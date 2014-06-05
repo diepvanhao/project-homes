@@ -292,9 +292,9 @@ class HOMEOrder {
                                 
                                 LEFT JOIN home_contract_detail AS hcd ON hct.id=hcd.contract_id
                                 
-                                where hcon.order_id={$order_id}                                                                
+                                where hct.order_id={$order_id}                                                                
                                 
-                                LIMIT 1";                               
+                                LIMIT 1";
         $result = $database->database_query($query);
 
         $row = $database->database_fetch_assoc($result);
