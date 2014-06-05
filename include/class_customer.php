@@ -320,7 +320,7 @@ class HOMECustomer {
                                 
                                 LEFT JOIN home_contract_detail AS hcd ON hct.id=hcd.contract_id
                                 
-                                where hcon.order_id={$order_id} and hcon.client_id={$client_id}                                                                    
+                                where hct.order_id={$order_id} and hct.client_id={$client_id}                                                                    
                                 
                                 LIMIT 1";
                                

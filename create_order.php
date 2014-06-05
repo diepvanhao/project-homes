@@ -669,13 +669,13 @@ if ($step == 1) {
     } else {
         $contract_cost = "";
     }
-    if (isset($_POST['contract_plus_money'])) {
-        $contract_plus_money = $_POST['contract_plus_money'];
-    } elseif (isset($_GET['contract_plus_money'])) {
-        $contract_plus_money = $_GET['contract_plus_money'];
-    } else {
-        $contract_plus_money = "";
-    }
+//    if (isset($_POST['contract_plus_money'])) {
+//        $contract_plus_money = $_POST['contract_plus_money'];
+//    } elseif (isset($_GET['contract_plus_money'])) {
+//        $contract_plus_money = $_GET['contract_plus_money'];
+//    } else {
+//        $contract_plus_money = "";
+//    }
     if (isset($_POST['contract_key_money'])) {
         $contract_key_money = $_POST['contract_key_money'];
     } elseif (isset($_GET['contract_key_money'])) {
@@ -768,14 +768,14 @@ if ($step == 1) {
     } else {
         $contract_application_date = "";
     }
-    if (isset($_POST['plus_money'])) {
-        $plus_money = $_POST['plus_money'];
-    } elseif (isset($_GET['plus_money'])) {
-        $plus_money = $_GET['plus_money'];
-    } else {
-        $plus_money = "";
-    }
-
+//    if (isset($_POST['plus_money'])) {
+//        $plus_money = $_POST['plus_money'];
+//    } elseif (isset($_GET['plus_money'])) {
+//        $plus_money = $_GET['plus_money'];
+//    } else {
+//        $plus_money = "";
+//    }
+    $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
 
     $customer = new HOMECustomer();

@@ -25,20 +25,24 @@
             birthday('contract_handover_day');
             birthday('contract_period_from');
             birthday('contract_period_to');
+            birthday('contract_application_date');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $('#error_house').html("");
+                //    showloadgif();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
                 function(result) {
                     if (result) {
                         $('#house_id').empty();
                         $('#house_id').html(result);
                         $('#step').click();
+                        //   hideloadgif();
                     } else {
                         $('#house_id').empty();
                         $('#room_id').empty();
                         $('#house_description').html("");
                         $('#error_house').html("No any house for your keyword");
+                        //     hideloadgif();
                     }
                 });
             });
@@ -50,7 +54,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id);
+                    get_room(house_id, 0);
                 });
             });
             $('#house_id').change(function() {
@@ -61,7 +65,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
-                    get_room(house_id);
+                    get_room(house_id, 0);
                 });
             });
             $('#room_id').change(function() {
@@ -75,6 +79,10 @@
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
                         $('#error_room').html("This room had person rent. Please choose other room");
+                        $('#submit').attr('disabled', true);
+                        $("#submit").css('color', 'grey');
+                    } else if (json.status == 2) {
+                        $('#error_room').html("This room is contructing. Please choose other room");
                         $('#submit').attr('disabled', true);
                         $("#submit").css('color', 'grey');
                     } else {
@@ -111,7 +119,14 @@
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
-                window.location.href = "edit_order.php?step=1&broker_id=" + broker_id;
+                var staff_id = $('#staff_id').val();
+                var house_id = $('#house_id').val();
+                var room_id = $('#room_id').val();
+                var order_name = $('#order_name').val();
+                var order_rent_cost = $('#order_rent_cost').val();
+                var order_comment = $('#order_comment').val();
+
+                window.location.href = "create_order.php?step=2&broker_id=" + broker_id + '&house_id=' + house_id + "&room_id=" + room_id + "&staff_id=" + staff_id + "&order_name=" + order_name + "&order_rent_cost=" + order_rent_cost + "&order_comment=" + order_comment;
             });
             $('#client_info ul li').click(function() {
                 $('#client_info ul li').each(function() {
@@ -163,6 +178,10 @@
                         /*save information client detail*/
                         var gender = $('#gender').val();
                         var client_address = $('#client_address').val();
+                        var city_id = $('#city_id').val();
+                        var district_id = $('#district_id').val();
+                        var street_id = $('#street_id').val();
+                        var ward_id = $('#ward_id').val();
                         var client_occupation = $('#client_occupation').val();
                         var client_company = $('#client_company').val();
                         var client_income = $('#client_income').val();
@@ -175,7 +194,29 @@
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
 
-                        $.post("include/function_ajax.php", {gender: gender, client_address: client_address, client_occupation: client_occupation,
+
+
+
+                        if (city_id == "" || city_id == null) {
+                            $('#error_city_id').html('City is required');
+                            return false;
+                        } else if (district_id == "" || district_id == null) {
+                            $('#error_district_id').html('District is required');
+                            return false;
+                        } else if (street_id == "" || street_id == null) {
+                            $('#error_street_id').html('Street is required');
+                            return false;
+                        } else if (ward_id == "" || ward_id == null) {
+                            $('#error_ward_id').html('Ward is required');
+                            return false;
+                        }
+                        //clear notify error
+                        $('#error_city_id').html('');
+                        $('#error_district_id').html('');
+                        $('#error_street_id').html('');
+                        $('#error_ward_id').html('');
+
+                        $.post("include/function_ajax.php", {gender: gender, client_address: client_address, city_id: city_id, district_id: district_id, street_id: street_id, ward_id: ward_id, client_occupation: client_occupation,
                             client_company: client_company, client_income: client_income, client_room_type: client_room_type, client_rent: client_rent,
                             client_reason_change: client_reason_change, client_time_change: client_time_change, client_resident_name: client_resident_name,
                             client_resident_phone: client_resident_phone, client_id: client_id, order_id: order_id, action: 'customer', task: 'detail'},
@@ -319,7 +360,7 @@
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
                         var contract_name = $('#contract_name').val();
                         var contract_cost = $('#contract_cost').val();
-                        var contract_plus_money = $('#contract_plus_money').val();
+                        //var contract_plus_money = $('#contract_plus_money').val();
                         var contract_key_money = $('#contract_key_money').val();
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
@@ -349,7 +390,7 @@
 
                         var label = new Array();
                         var plus_money = new Array();
-                        
+
                         $("input[name^='contract_lable_money']").each(function() {
                             label.push($(this).val());
                         });
@@ -358,7 +399,7 @@
                             plus_money.push($(this).val());
                         });
 
-                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_plus_money: contract_plus_money, contract_key_money: contract_key_money,
+                        $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_key_money: contract_key_money,
                             contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
                             contract_cancel: contract_cancel, contract_total: contract_total, contract_application: contract_application, contract_application_date: contract_application_date, label: label, plus_money: plus_money,
@@ -375,7 +416,7 @@
             });
             $('#done').click(function() {
                 showloadgif();
-                window.location.href = "edit_order.php";
+                window.location.href = "manage_order.php";
             });
         });
         function getDivClass(title) {
@@ -420,7 +461,9 @@
                     $('#log_flyer').attr('checked', "");
                     $('#log_line').attr('checked', "");
                     $('#log_revisit').val('');
-
+                    $('#source_id').each(function(e) {
+                        $('option').removeAttr('selected');
+                    });
                     $('#aspirations_type_house').val('');
                     $('#aspirations_type_room').val('');
                     $('#aspirations_build_time').val('');
@@ -451,6 +494,17 @@
                     $('#client_phone').val(json.client_phone);
                     $('#gender').val(json.gender);
                     $('#client_address').val(json.client_address);
+
+                    $('#city_cus').val(json.city_id);
+                    $('#district_cus').val(json.district_id);
+                    $('#street_cus').val(json.street_id);
+                    $('#ward_cus').val(json.ward_id);
+                    $('#city_id').find('option').each(function() {
+                        if ($(this).val() == json.city_id) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
+
                     $('#client_occupation').val(json.client_occupation);
                     $('#client_company').val(json.client_company);
                     $('#client_income').val(json.client_income);
@@ -461,13 +515,15 @@
                     $('#client_resident_name').val(json.client_resident_name);
                     $('#client_resident_phone').val(json.client_resident_phone);
                     //get information order, history, aspirations and contract
-
+                    // if(selectClient())
+                    $('#city_cus').change();
                 }
             });
         }
-        function get_room(house_id) {
+
+        function get_room(house_id, room_id) {
             $('#error_room').html("");
-            $.post("include/function_ajax.php", {house_id: house_id, action: 'create_order', task: 'getRoomContent'},
+            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
             function(result) {
                 if (result) {
                     $('#room_id').empty();
@@ -475,7 +531,8 @@
                 } else {
                     $('#room_id').empty();
                     $('#house_description').html("");
-                    $('#error_room').html("This house haven't been room yet");
+                    if (house_id)
+                        $('#error_room').html("This house haven't been room yet");
                 }
             });
         }
@@ -500,7 +557,7 @@
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
             <tr>
                 <td>Filter customer</td>
-                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 315px;" placeholder="Type name of customer"/>
+                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 300px;" placeholder="Type name of customer"/>
                     <span>
                         <input type='submit' class='btn-search' value='Submit' id="search" name="submit"/>&nbsp;                     
                     </span>
@@ -520,7 +577,7 @@
     </div>
     <div id="customer">
         <ul>
-            <li class="even">Id</li>
+            <li class="even">No</li>
             <li class="even">Name</li>
             <li class="even">Birthday</li>
             <li class="even">Address</li>
@@ -529,10 +586,10 @@
 
         {foreach from=$customers key=k item=item}
             <ul>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.id}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
                 <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
                 <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address}</li>
+                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
                 <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
             </ul>
         {/foreach}
@@ -556,21 +613,21 @@
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
                         <td class='form1'>Name:</td>
-                        <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Birthday:</td>
-                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Email:</td>
-                        <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 315px;"/></td>
-                        <td class='form1' nowrap>Phone number:</td>
-                        <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 300px;"/></td>
+                        <td class='form1'>Phone number:</td>
+                        <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'></td>
                         <td class='form1' nowrap>Fax:</td>
-                        <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
@@ -594,42 +651,71 @@
                     <tr>
                         <td class='form1'>Gender: </td>
                         <td class='form2'>
-                            <select id="gender"name="gender" style="height:26px; width: 315px;">
+                            <select id="gender"name="gender" style="height:26px; width: 300px;">
                                 <option value="male" {if $gender eq "male"}selected{/if}>Male</option>
                                 <option value="female"{if $gender eq "female"}selected{/if}>Female</option>
                                 <option value="other" {if $gender eq "other"}selected{/if}>Other</option>
                             </select>
                         </td>
-                        <td class='form1' nowrap>Address current:</td>
-                        <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form1' nowrap>Numer Address: <span class="required">*</span></td>
+                        <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
+                        <td class='form1'>City:  <span class="required">*</span></td>
+                        <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$cities item=city}
+                                    <option value="{$city.id}" {if $city.id eq $city_id}selected="selected"{/if}>{$city.city_name}</option>        
+                                {/foreach}
+                            </select><div id="error_city_id" class="error"></div>
+                        </td>
+                        <td class='form1'>District:  <span class="required">*</span></td>
+                        <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 300px;">                       
+
+                            </select><div id="error_district_id" class="error"></div>
+                        </td>
+                    </tr>      
+
+                    <tr>
+                        <td class='form1'>Street:  <span class="required">*</span></td>
+                        <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 300px;">
+
+                            </select><div id="error_street_id" class="error"></div>
+                        </td>
+                        <td class='form1'>Ward:  <span class="required">*</span></td>
+                        <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 300px;">
+
+                            </select><div id="error_ward_id" class="error"></div>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td class='form1'>Occupation:</td>
-                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Company:</td>
-                        <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Income:</td>
-                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Rent current :</td>
-                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Reason change:</td>
-                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Date change :</td>
-                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Client resident name</td>
-                        <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 315px;"/> </td>
+                        <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 300px;"/> </td>
                     </tr>
                     <tr>
                         <td class='form1'>Client resident phone :</td>
-                        <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'> </td>
                     </tr>
@@ -641,6 +727,10 @@
                                 <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="detail"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="city_cus" name="city_cus" value=""/> 
+                                <input type="hidden" id="district_cus" name="district_cus" value=""/> 
+                                <input type="hidden" id="street_cus" name="street_cus" value=""/> 
+                                <input type="hidden" id="ward_cus" name="ward_cus" value=""/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                 <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                             </div>                        
@@ -752,7 +842,7 @@
                         <td class='form2'>
                             <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
                         </td>
-                        <td class='form1' nowrap></td>
+                        <td class='form1' nowrap><span id="error_revisit"></span></td>
                         <td class='form2'></td>
                     </tr>
                     <tr>
@@ -777,26 +867,26 @@
                     <tr>
                         <td class='form1'>House type: </td>
                         <td class='form2'>
-                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 315px;"/>
+                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 300px;"/>
                         </td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Build time:</td>
-                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Area:</td>
-                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Size:</td>
-                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Price:</td>
-                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Comment:</td>
-                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
                     </tr>                
@@ -822,13 +912,13 @@
 
                     <tr>
                         <td class="form1">Filter House</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
+                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>Select House: </td>
                         <td class='form2'>
-                            <select id="house_id" name="house_id" style="height:26px; width: 351px;">
+                            <select id="house_id" name="house_id" style="height:26px; width: 300px;">
                                 <option value=""></option>
                                 {foreach from=$houses item=house}
                                     <option value="{$house.id}" {if $house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
@@ -845,7 +935,7 @@
                     </tr>
                     <tr>            
                         <td class='form1'>Select Room: </td>
-                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
+                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 300px;">
                                 <option value=""></option>
 
                             </select><div id="error_room_introduce" class="error"></div>
@@ -873,45 +963,45 @@
                     <tr>
                         <td class='form1'>Name: </td>
                         <td class='form2'>
-                            <input type='text' id="contract_name" name="contract_name" value="{$contract_name}"style="height: 26px; width: 315px;"/>
+                            <input type='text' id="contract_name" name="contract_name" value="{$contract_name}"style="height: 26px; width: 300px;"/>
                         </td>
                         <td class='form1' nowrap>Cost:</td>
-                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 300px;"/></td>
                     </tr>
 
                     <tr>                    
                         <td class='form1'>Key fee:</td>
-                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1'></td>
                         <td class='form2'></td>                                           
                     </tr>
                     <tr>                    
                         <td class='form1' nowrap>Condition:</td>
-                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
                         <td class='form1' nowrap>Valuation:</td>
-                        <td class='form2'><textarea style="width: 315px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
                     </tr>
                     <tr>
                         <td class='form1'>Signature day:</td>
-                        <td class='form2'><input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Handover day:</td>
-                        <td class='form2'><input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Period from:</td>
-                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Period to:</td>
-                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Deposit 1:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Deposit 2:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Total:</td>
-                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
@@ -919,7 +1009,7 @@
                         <td class='form1'>Application:</td>
                         <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
                         <td class='form1' nowrap>Application Date:</td>
-                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 315px;"/></td>
+                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 300px;"/></td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>
@@ -934,7 +1024,7 @@
                             <td class='form1'>{$k} :</td>
                             <td class='form2'>
                                 <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
-                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 315px;'/>
+                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 300px;'/>
                                 <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
                             </td> 
                             <td class='form1'></td>
@@ -984,11 +1074,39 @@
 
             }
 
-            #customer ul li{
+            #customer ul li:nth-child(1){
+                float: left;
+                background: transparent;
+                padding: 0px;
+                width: 10%;
+                cursor: pointer;
+            }
+            #customer ul li:nth-child(2){
                 float: left;
                 background: transparent;
                 padding: 0px;
                 width: 20%;
+                cursor: pointer;
+            }
+            #customer ul li:nth-child(3){
+                float: left;
+                background: transparent;
+                padding: 0px;
+                width: 20%;
+                cursor: pointer;
+            }
+            #customer ul li:nth-child(4){
+                float: left;
+                background: transparent;
+                padding: 0px;
+                width: 35%;
+                cursor: pointer;
+            }
+            #customer ul li:nth-child(5){
+                float: left;
+                background: transparent;
+                padding: 0px;
+                width: 15%;
                 cursor: pointer;
             }
             #customer ul li.odd{
@@ -1052,15 +1170,147 @@
                     var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "") {
                         fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 315px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 300px;'/><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                     }
                 });
+                //Address
+                //city
+                $('#city_id').change(function(e) {
+                    var city_id = $('#city_id').val();
+                    var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
 
-            });
-            function removePlus(childElem) {
-                var row = $(childElem).closest("tr"); // find <tr> parent
-                row.remove();
-            }
+                                if (city_id == "") {
+                                    $('#district_id').empty();
+                                    $('#street_id').empty();
+                                    $('#ward_id').empty();
+                                } else {
+                                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                    function(result) {
+                                        if (result) {
+                                            $('#district_id').empty();
+                                            $('#district_id').html(result);
+                                            $('#district_id').change();
+                                        } else {
+                                            $('#district_id').empty();
+                                            $('#street_id').empty();
+                                            $('#ward_id').empty();
+                                        }
+                                    });
+                                }
+                            });
+                            //district
+                            $('#district_id').change(function(e) {
+                                var district_id = $('#district_id').val();
+                                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
+
+                                            if (district_id == "") {
+                                                $('#street_id').empty();
+                                                $('#ward_id').empty();
+                                            } else {
+                                                $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                                function(result) {
+                                                    if (result) {
+                                                        $('#street_id').empty();
+                                                        $('#street_id').html(result);
+                                                        $('#street_id').change();
+                                                    } else {
+                                                        $('#street_id').empty();
+                                                        $('#ward_id').empty();
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        //street
+                                        $('#street_id').change(function(e) {
+                                            var street_id = $('#street_id').val();
+                                            var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
+
+                                                        if (street_id == "") {
+                                                            $('#ward_id').empty();
+                                                        } else {
+                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                            function(result) {
+                                                                if (result) {
+                                                                    $('#ward_id').empty();
+                                                                    $('#ward_id').html(result);
+                                                                } else {
+                                                                    $('#ward_id').empty();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+
+                                                    //clone 
+                                                    //city
+                                                    $('#city_cus').change(function(e) {
+                                                        var city_id = $('#city_cus').val();
+                                                        var district_id = $('#district_cus').val();
+
+                                                        if (city_id == "") {
+                                                            $('#district_id').empty();
+                                                            $('#street_id').empty();
+                                                            $('#ward_id').empty();
+                                                        } else {
+                                                            $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                                            function(result) {
+                                                                if (result) {
+                                                                    $('#district_id').empty();
+                                                                    $('#district_id').html(result);
+                                                                    $('#district_cus').change();
+                                                                } else {
+                                                                    $('#district_id').empty();
+                                                                    $('#street_id').empty();
+                                                                    $('#ward_id').empty();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    //district
+                                                    $('#district_cus').change(function(e) {
+                                                        var district_id = $('#district_id').val();
+                                                        var street_id = $('#street_cus').val();
+
+                                                        if (district_id == "") {
+                                                            $('#street_id').empty();
+                                                            $('#ward_id').empty();
+                                                        } else {
+                                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                                            function(result) {
+                                                                if (result) {
+                                                                    $('#street_id').empty();
+                                                                    $('#street_id').html(result);
+                                                                    $('#street_cus').change();
+                                                                } else {
+                                                                    $('#street_id').empty();
+                                                                    $('#ward_id').empty();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    //street
+                                                    $('#street_cus').change(function(e) {
+                                                        var street_id = $('#street_id').val();
+                                                        var ward_id = $('#ward_cus').val();
+
+                                                        if (street_id == "") {
+                                                            $('#ward_id').empty();
+                                                        } else {
+                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                            function(result) {
+                                                                if (result) {
+                                                                    $('#ward_id').empty();
+                                                                    $('#ward_id').html(result);
+                                                                } else {
+                                                                    $('#ward_id').empty();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                });
+                                                function removePlus(childElem) {
+                                                    var row = $(childElem).closest("tr"); // find <tr> parent
+                                                    row.remove();
+                                                }
         </script>
     {/literal}
 {/nocache}
@@ -1073,4 +1323,14 @@
         });
     </script>
 {/literal}
+{if $city_id ne ""}
+    {literal}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#city_id').change();
+            });
+        </script>
+    {/literal}
+{/if}
+<div id="loadgif">Loading...</div>
 {include file='footer.tpl'}
