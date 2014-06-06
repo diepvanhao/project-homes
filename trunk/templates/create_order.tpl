@@ -520,13 +520,13 @@
                 $("input[name^='contract_plus_money_unit']").each(function() {
                     plus_money_unit.push($(this).val());
                 });
-                alert(plus_money_unit.length);
+                alert(plus_money_unit);
                 for(var i=0;i<plus_money_unit.length;i++){
                     if(plus_money_unit[i]=='ヶ月')
                         plus_money[i]=plus_money[i]*contract_cost;
                     total_plus+=plus_money[i];
                 }
-                alert(total_plus);
+                
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0)+(contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
             });
         }
