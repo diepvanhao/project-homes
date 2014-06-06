@@ -11,5 +11,15 @@
             <file>file:/D:/xamp/htdocs/Homes/create_order.php</file>
             <file>file:/D:/xamp/htdocs/Homes/templates/create_order.tpl</file>
         </group>
+        <group name="Ambition">
+            <file>file:/D:/wamp/www/project-1/import.php</file>
+            <file>file:/D:/wamp/www/project-1/templates/import.tpl</file>
+            <file>file:/D:/wamp/www/project-1/report.php</file>
+        </group>
+        <group name="yitbnetwork">
+            <file>file:/D:/wamp/www/project-1/report.php</file>
+            <file>file:/D:/wamp/www/project-1/include/PHPExcel.php</file>
+            <file>file:/D:/wamp/www/project-1/templates/report.tpl</file>
+        </group>
     </open-files>
 </project-private>

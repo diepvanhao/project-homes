@@ -31,6 +31,7 @@
                         <td class="form2">
                             <div style="margin-top:10px">
                                 <input type="submit" class="btn-signup" value="View" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="Export" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;  
                             </div>
                         </td>
                     </tr>
@@ -47,7 +48,13 @@
             </div>
             <div class="agent-date">
                 <span>DATE: </span>
-                <span> {$date}</span>
+                <span> 
+                    {if $date}
+                       {$date}
+                    {else}
+                        {date("m/d/Y")}
+                    {/if}
+                </span>
             </div>
             <div class="agent-rate">
                 <span>Achievement rate: </span>
