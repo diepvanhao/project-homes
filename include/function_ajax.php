@@ -938,8 +938,37 @@ if ($action == "check_email") {
         } else {
             $plus_money = "";
         }
-
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money, $client_id, $order_id);
+        
+        if (isset($_POST['plus_money_unit'])) {
+            $plus_money_unit = $_POST['plus_money_unit'];
+        } elseif (isset($_GET['plus_money_unit'])) {
+            $plus_money_unit = $_GET['plus_money_unit'];
+        } else {
+            $plus_money_unit = "";
+        }
+        if (isset($_POST['contract_key_money_unit'])) {
+            $contract_key_money_unit = $_POST['contract_key_money_unit'];
+        } elseif (isset($_GET['contract_key_money_unit'])) {
+            $contract_key_money_unit = $_GET['contract_key_money_unit'];
+        } else {
+            $contract_key_money_unit = "";
+        }
+        if (isset($_POST['contract_deposit1_money_unit'])) {
+            $contract_deposit1_money_unit = $_POST['contract_deposit1_money_unit'];
+        } elseif (isset($_GET['contract_deposit1_money_unit'])) {
+            $contract_deposit1_money_unit = $_GET['contract_deposit1_money_unit'];
+        } else {
+            $contract_deposit1_money_unit = "";
+        }
+        if (isset($_POST['contract_deposit2_money_unit'])) {
+            $contract_deposit2_money_unit = $_POST['contract_deposit2_money_unit'];
+        } elseif (isset($_GET['contract_deposit2_money_unit'])) {
+            $contract_deposit2_money_unit = $_GET['contract_deposit2_money_unit'];
+        } else {
+            $contract_deposit2_money_unit = "";
+        }
+        
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money,$plus_money_unit,$contract_key_money_unit,$contract_deposit1_money_unit,$contract_deposit2_money_unit, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {

@@ -530,7 +530,7 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money,$plus_money_unit,$contract_key_money_unit,$contract_deposit1_money_unit,$contract_deposit2_money_unit, $client_id, $order_id) {
         global $database, $user;
         //check order exist
         $contract_date_create = $contract_date_update = time();
@@ -539,8 +539,8 @@ class ajax {
             //update history exist
             $query = "update home_contract_detail set 
                   
-                    contract_cost={$contract_cost},
-                    contract_total={$contract_total},
+                    contract_cost={$contract_cost}円,
+                    contract_total={$contract_total}円,
                     contract_signature_day='{$contract_signature_day}',
                     contract_handover_day='{$contract_handover_day}',
                     contract_condition='{$contract_condition}',
@@ -550,9 +550,9 @@ class ajax {
                     contract_cancel='{$contract_cancel}',
                     contract_period_from='{$contract_period_from}',
                     contract_period_to='{$contract_period_to}',
-                    contract_deposit_1='{$contract_deposit_1}',
-                    contract_deposit_2='{$contract_deposit_2}',
-                    contract_key_money={$contract_key_money},
+                    contract_deposit_1='{$contract_deposit_1}{$contract_deposit1_money_unit}',
+                    contract_deposit_2='{$contract_deposit_2}{$contract_deposit2_money_unit}',
+                    contract_key_money={$contract_key_money}{$contract_key_money_unit},
                     contract_name='{$contract_name}',
                     contract_application='{$contract_application}',
                     contract_application_date='{$contract_application_date}'   
@@ -580,7 +580,7 @@ class ajax {
                     $query = "insert into home_plus_money(contract_detail_id,label,price)values(
                                 '{$contract_detail_id}',
                                 '{$label[$i]}',
-                                '{$plus_money[$i]}'
+                                '{$plus_money[$i]}{$contract_plus_money_unit[$i]}'
                                 )";
 
                     $database->database_query($query);
