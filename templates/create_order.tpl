@@ -15,7 +15,10 @@
             birthday('client_time_change');
             timepicker('log_time_call');
             timepicker('log_time_arrive_company');
+            birthday('log_time_call_date');
+            birthday('log_time_arrive_company_date');
             timepicker('log_time_mail');
+            birthday('log_time_mail_date');
             birthday('log_date_appointment_from');
             birthday('log_date_appointment_to');
             birthday('log_payment_date_appointment_from');
@@ -1257,15 +1260,20 @@
                     <tr>
                         <td class='form1'>Time call: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 215px;"/>
+                            <input type='text' id="log_time_call_date" name="log_time_call_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 100px;"/>
                         </td>
                         <td class='form1' nowrap>Time arrive:</td>
-                        <td class='form2'> <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 215px;"/></td>
+                        <td class='form2'>
+                            <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 100px;"/>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>Time send email: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 215px;"/>
+                            <input type='text' id="log_time_mail_date" name="log_time_mail_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 100px;"/>
                         </td>
                         <td class='form1' nowrap>Comment:</td>
                         <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
