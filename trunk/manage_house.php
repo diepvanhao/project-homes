@@ -22,7 +22,7 @@ if ($user->user_info['user_authorities'] > 2) {
     exit();
 }
 
-if($user->user_info['user_locked']){
+if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
@@ -59,6 +59,26 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $houses = $houseClass->getHouse($search, $offset, $length);
+
+for ($i = 0; $i < count($houses); $i++) {
+    if ($houseClass->isSerialized($houses[$i]['house_address'])) {
+        $house_address_serialize = unserialize($houses[$i]['house_address']);
+        $city_id_filter = $houseClass->getNameCity($house_address_serialize['city_id']);
+        $district_id_filter = $houseClass->getNameDistrict($house_address_serialize['district_id']);
+        $street_id_filter = $houseClass->getNameStreet($house_address_serialize['street_id']);
+        $ward_id_filter = $houseClass->getNameWard($house_address_serialize['ward_id']);
+        $house_address = $house_address_serialize['house_address'];
+        $houses[$i]['house_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $house_address;
+    } else {
+        $houses[$i]['house_address'] = $houses[$i]['house_address'];
+    }
+}
+for ($i = 0; $i < count($houses); $i++) {
+    if($houses[$i]['house_type']){
+        $houses[$i]['house_type']=$houseClass->getHouseTypeById($houses[$i]['house_type']);
+    }
+}
+
 
 $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);

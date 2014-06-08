@@ -45,6 +45,7 @@ if (isset($_POST['search'])) {
 
 include 'include/class_client.php';
 $client = new Client();
+$house=new HOMEHouse();
 //calculator paging
 $max = 25;
 $totalItem = $client->getTotalItem($search);
@@ -63,6 +64,24 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $clients = $client->getClients($search, $offset, $length);
+for ($i = 0; $i < count($clients); $i++) {
+        if ($house->isSerialized($clients[$i]['client_address'])) {
+            $house_address_serialize = unserialize($clients[$i]['client_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $client_address = $house_address_serialize['client_address'];
+            $clients[$i]['client_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $client_address;
+        } else {
+            $clients[$i]['client_address'] = $clients[$i]['client_address'];
+        }
+    }
+for ($i = 0; $i < count($clients); $i++) {
+    if($clients[$i]['client_room_type']){
+        $clients[$i]['client_room_type']=$house->getHouseTypeById($clients[$i]['client_room_type']);
+    }
+}
 $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
