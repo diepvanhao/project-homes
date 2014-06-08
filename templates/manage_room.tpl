@@ -42,7 +42,7 @@
                             <td>{$room.house_name}</td>
                             <td>{$room.broker_company_name}</td>
                             <td>{$room.room_type}</td>
-                            <td>{if $room.room_status eq 1}For Rent {else} Empty {/if}</td>                           
+                            <td>{if $room.room_status eq 1}For Rent {elseif $room.room_status eq 2}Constructing{else} Empty {/if}</td>                           
                             <td>{$room.room_rent}</td>                           
                             <td>{$room.room_size}</td>
                             <td>{$room.room_deposit}</td>                           

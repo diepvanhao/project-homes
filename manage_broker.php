@@ -43,6 +43,7 @@ if (isset($_POST['search'])) {
 }
 
 $brokerClass = new HOMEBroker();
+$house=new HOMEHouse();
 //calculator paging
 $max = 25;
 $totalItem = $brokerClass->getTotalItem($search);
@@ -60,6 +61,20 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $brokers = $brokerClass->getBroker($search, $offset, $length);
+
+for ($i = 0; $i < count($brokers); $i++) {
+    if ($house->isSerialized($brokers[$i]['broker_company_address'])) {
+        $house_address_serialize = unserialize($brokers[$i]['broker_company_address']);
+        $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+        $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+        $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+        $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+        $broker_company_address = $house_address_serialize['broker_company_address'];
+        $brokers[$i]['broker_company_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $broker_company_address;
+    } else {
+        $brokers[$i]['broker_company_address'] = $brokers[$i]['broker_company_address'];
+    }
+}
 
 $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);

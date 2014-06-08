@@ -534,7 +534,13 @@ class HOMEHouse {
         }
         return $houseTypes;
     }
-
+    function getHouseTypeById($house_type_id){
+        global $database;
+        $query="select type_name from house_type where id='{$house_type_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['type_name'];
+    }
     function getHouseStructures() {
         global $database;
         $query = "select * from house_structure order by structure_name ASC";
@@ -560,7 +566,13 @@ class HOMEHouse {
         }
         return $roomTypes;
     }
-
+    function getRoomTypeById($room_type_id){
+        global $database;
+        $query="select room_name from house_room_type where id='{$room_type_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['room_name'];
+    }
 //Address
     function create_city($city_name) {
         global $database;

@@ -43,6 +43,7 @@ if (isset($_POST['search'])) {
 }
 
 $agentClass = new HOMEAgent();
+$house=new HOMEHouse();
 //calculator paging
 $max = 25;
 $totalItem = $agentClass->getTotalItem($search);
@@ -63,6 +64,19 @@ $length = $max;
 
 //$agentClass = new HOMEAgent();
 $agents = $agentClass->getAgent($search, $offset, $length);
+for ($i = 0; $i < count($agents); $i++) {
+    if ($house->isSerialized($agents[$i]['agent_address'])) {
+        $house_address_serialize = unserialize($agents[$i]['agent_address']);
+        $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+        $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+        $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+        $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+        $agent_address = $house_address_serialize['agent_address'];
+        $agents[$i]['agent_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $agent_address;
+    } else {
+        $agents[$i]['agent_address'] = $agents[$i]['agent_address'];
+    }
+}
 
 $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
