@@ -553,7 +553,13 @@ class HOMEHouse {
         }
         return $houseStructures;
     }
-
+    function getHouseStructureById($house_structure_id){
+        global $database;
+        $query="select structure_name from house_structure where id='{$house_structure_id}'";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['structure_name'];
+    }
     function getRoomType() {
         global $database;
         $query = "select * from house_room_type order by room_name ASC";
