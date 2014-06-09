@@ -78,6 +78,11 @@ for ($i = 0; $i < count($houses); $i++) {
         $houses[$i]['house_type']=$houseClass->getHouseTypeById($houses[$i]['house_type']);
     }
 }
+for ($i = 0; $i < count($houses); $i++) {
+    if($houses[$i]['house_structure']){
+        $houses[$i]['house_structure']=$houseClass->getHouseStructureById($houses[$i]['house_structure']);
+    }
+}
 
 
 $smarty->assign('search', $search);
