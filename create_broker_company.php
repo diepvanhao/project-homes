@@ -110,7 +110,7 @@ $house_address_serialize = serialize($house_address_serialize);
 
 $validate = array(
     'broker_company_name' => $broker_company_name,
-    'broker_company_address' => $broker_company_address,
+   // 'broker_company_address' => $broker_company_address,
     'city_id' => $city_id,
     'district_id' => $district_id,
     'street_id' => $street_id,
