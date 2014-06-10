@@ -118,15 +118,16 @@
 
                 $("input[name^='contract_plus_money']").each(function() {
                     plus_money.push($(this).val());
-                });
+            });
 
-                $("input[name^='contract_plus_money_unit']").each(function() {
+                $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
                 });
+
                 for (var i = 0; i < plus_money_unit.length; i++) {
                     if (plus_money_unit[i] == 'ヶ月')
-                        plus_money[i] = plus_money[i] * contract_cost;
-                    total_plus += plus_money[i];
+                        plus_money[i] = parseFloat(plus_money[i] * contract_cost);
+                    total_plus += parseFloat(plus_money[i]);
                 }
 
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
@@ -151,19 +152,19 @@
                     plus_money.push($(this).val());
             });
 
-                $("input[name^='contract_plus_money_unit']").each(function() {
+                $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
                 });
+
                 for (var i = 0; i < plus_money_unit.length; i++) {
                     if (plus_money_unit[i] == 'ヶ月')
-                        plus_money[i] = plus_money[i] * contract_cost;
-                    total_plus += plus_money[i];
+                        plus_money[i] = parseFloat(plus_money[i] * contract_cost);
+                    total_plus += parseFloat(plus_money[i]);
                 }
 
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
             });
             $('#contract_plus_money').keyup(function(e) {
-                
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -176,22 +177,24 @@
                 var total_plus = 0;
                 $("input[name^='contract_lable_money']").each(function() {
                     label.push($(this).val());
-            });
+                });
 
                 $("input[name^='contract_plus_money']").each(function() {
                     plus_money.push($(this).val());
-                });
+            });
 
-                $("input[name^='contract_plus_money_unit']").each(function() {
+                $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
                 });
+
                 for (var i = 0; i < plus_money_unit.length; i++) {
                     if (plus_money_unit[i] == 'ヶ月')
-                        plus_money[i] = plus_money[i] * contract_cost;
-                    total_plus += plus_money[i];
+                        plus_money[i] = parseFloat(plus_money[i] * contract_cost);
+                    total_plus += parseFloat(plus_money[i]);
                 }
 
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
+                
             });
             $('#calculator').click(function(e) {
 
@@ -211,7 +214,7 @@
                         label.push($(this).val());
                     });
 
-                    $("input[name^='contract_plus_money']").each(function() {
+                    $('#contract table tr td').find('#contract_plus_money').each(function() {
                         plus_money.push($(this).val());
                     });
 
@@ -219,7 +222,7 @@
                         plus_money_unit.push($(this).val());
                     });
 
-                    for (var i = 0; i < plus_money_unit.length; i++) {alert(plus_money_unit[i]);
+                    for (var i = 0; i < plus_money_unit.length; i++) {
                         if (plus_money_unit[i] == 'ヶ月')
                             plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                         total_plus += parseFloat(plus_money[i]);
@@ -229,7 +232,6 @@
                 });
             });
             $('#contract_key_money').keyup(function(e) {
-                var contract_plus_money = parseFloat($('#contract_plus_money').val());
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -248,13 +250,14 @@
                     plus_money.push($(this).val());
                 });
 
-                $("input[name^='contract_plus_money_unit']").each(function() {
+                $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
                 });
+
                 for (var i = 0; i < plus_money_unit.length; i++) {
                     if (plus_money_unit[i] == 'ヶ月')
-                        plus_money[i] = plus_money[i] * contract_cost;
-                    total_plus += plus_money[i];
+                        plus_money[i] = parseFloat(plus_money[i] * contract_cost);
+                    total_plus += parseFloat(plus_money[i]);
                 }
 
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
@@ -454,7 +457,6 @@
                                 alert("Updated");
                         });
 
-
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
                         var aspirations_type_house = $('#aspirations_type_house').val();
                         var aspirations_type_room = $('#aspirations_type_room').val();
@@ -502,7 +504,6 @@
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
                         var contract_name = $('#contract_name').val();
                         var contract_cost = $('#contract_cost').val();
-                        //var contract_plus_money = $('#contract_plus_money').val();
                         var contract_key_money = $('#contract_key_money').val();
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
@@ -579,7 +580,6 @@
             });
         });
         function CalculatorPlus() {
-            $('#contract_plus_money').keyup(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -594,22 +594,21 @@
                     label.push($(this).val());
                 });
 
-                $("input[name^='contract_plus_money']").each(function() {
+            $('#contract table tr td').find('#contract_plus_money').each(function() {
                     plus_money.push($(this).val());
                 });
-
-                $("input[name^='contract_plus_money_unit']").each(function() {
+//alert(plus_money);
+            $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
                 });
 
                 for (var i = 0; i < plus_money_unit.length; i++) {
                     if (plus_money_unit[i] == 'ヶ月')
-                        plus_money[i] = plus_money[i] * contract_cost;
-                    total_plus += plus_money[i];
+                    plus_money[i] = parseFloat(plus_money[i] * contract_cost);
+                total_plus += parseFloat(plus_money[i]);
                 }
 
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
-            });
         }
         function getDivClass(title) {
             var flag = false;
@@ -641,7 +640,6 @@
                     $('input[name="log_status_appointment"]').attr('checked', "");
                     $('input[name="log_payment_appointment_status"]').attr('checked', "");
                     $('input[name="log_payment_appointment_report"]').attr('checked', "");
-
                     $('#log_tel').attr('checked', "");
                     $('#log_tel_status').attr('checked', "");
                     $('#log_mail').attr('checked', "");
@@ -663,7 +661,6 @@
                     $('#aspirations_size').val('');
                     $('#aspirations_rent_cost').val('');
                     $('#aspirations_comment').val('');
-
                     $('#contract_name').val('');
                     $('#contract_cost').val('');
                     $('#contract_plus_money').val('');
@@ -1386,10 +1383,10 @@
                     var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "" && label != 0) {
                         // fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'><option value='円'>円</option><option value='ヶ月'>ヶ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
-                       // if (fieldCount == 1)
-                            $('#calculator').click();
-                      //  fieldCount++;
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヶ月'>ヶ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        if (fieldCount == 1)
+                            CalculatorPlus();
+                        fieldCount++;
                     }
                 });
                 //Address
@@ -1528,7 +1525,10 @@
                                                 });
                                                 function removePlus(childElem) {
                                                     var row = $(childElem).closest("tr"); // find <tr> parent
+                                                    if (row) {
                                                     row.remove();
+                                                        CalculatorPlus();
+                                                }
                                                 }
         </script>
     {/literal}

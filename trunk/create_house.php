@@ -203,7 +203,7 @@ $house_owner_address_serialize = serialize($house_owner_address_serialize);
 
 $validate = array(
     'house_name' => $house_name,
-    'house_address' => $house_address,
+    //'house_address' => $house_address,
     'city_id'=>$city_id,
     'district_id'=>$district_id,
     'street_id'=>$street_id,
