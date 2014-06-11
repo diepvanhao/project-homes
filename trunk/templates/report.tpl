@@ -364,7 +364,7 @@
                         Internet(e-mail)
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todaymail_mail}</td>
+                    <td>{(int) ($yearReport.todaymail_mail + $yearReport.todaymail_tel)}</td>
                     <td>{(int)($yearReport.todaymail_tel_status + $yearReport.todaymail_mail_status)}</td>
                     <td>{(int)$yearReport.todaymail_shop_sign + $yearReport.todaymail_local_sign}</td>
                     <td>{(int) $yearReport.todaymail_revisit}</td>
@@ -375,7 +375,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearmail_mail}</td>
+                    <td>{(int) ($yearReport.yearmail_mail + $yearReport.yearmail_tel)}</td>
                     <td>{(int)($yearReport.yearmail_tel_status + $yearReport.yearmail_mail_status)}</td>
                     <td>{(int)$yearReport.yearmail_shop_sign + $yearReport.yearmail_local_sign}</td>
                     <td>{(int) $yearReport.yearmail_revisit}</td>
@@ -392,7 +392,7 @@
                         Internet (phone)
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todayphone_mail}</td>
+                    <td>{(int) ($yearReport.todayphone_mail + $yearReport.todayphone_tel)}</td>
                     <td>{(int)($yearReport.todayphone_tel_status + $yearReport.todayphone_mail_status)}</td>
                     <td>{(int)$yearReport.todayphone_shop_sign + $yearReport.todayphone_local_sign}</td>
                     <td>{(int) $yearReport.todayphone_revisit}</td>
@@ -403,7 +403,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearphone_mail}</td>
+                    <td>{(int) ($yearReport.yearphone_mail + $yearReport.yearphone_tel)}</td>
                     <td>{(int)($yearReport.yearphone_tel_status + $yearReport.yearphone_mail_status)}</td>
                     <td>{(int)$yearReport.yearphone_shop_sign + $yearReport.yearphone_local_sign}</td>
                     <td>{(int) $yearReport.yearphone_revisit}</td>
@@ -420,7 +420,7 @@
                         (TEL, email) term building lease
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todaydiscount_mail}</td>
+                    <td>{(int)($yearReport.todaydiscount_mail + $yearReport.todaydiscount_tel)}</td>
                     <td>{(int)($yearReport.todaydiscount_tel_status + $yearReport.todaydiscount_mail_status)}</td>
                     <td>{(int)$yearReport.todaydiscount_shop_sign + $yearReport.todaydiscount_local_sign}</td>
                     <td>{(int) $yearReport.todaydiscount_revisit}</td>
@@ -431,7 +431,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yeardiscount_mail}</td>
+                    <td>{(int) ($yearReport.yeardiscount_mail + $yearReport.yeardiscount_tel)}</td>
                     <td>{(int)($yearReport.yeardiscount_tel_status + $yearReport.yeardiscount_mail_status)}</td>
                     <td>{(int)$yearReport.yeardiscount_shop_sign + $yearReport.yeardiscount_local_sign}</td>
                     <td>{(int) $yearReport.yeardiscount_revisit}</td>
@@ -448,7 +448,7 @@
                         Local sign
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todaylocalsign_mail}</td>
+                    <td>{(int) ($yearReport.todaylocalsign_mail + $yearReport.todaylocalsign_tel)}</td>
                     <td>{(int)($yearReport.todaylocalsign_tel_status + $yearReport.todaylocalsign_mail_status)}</td>
                     <td>{(int)$yearReport.todaylocalsign_shop_sign + $yearReport.todaylocalsign_local_sign}</td>
                     <td>{(int) $yearReport.todaylocalsign_revisit}</td>
@@ -459,7 +459,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearlocalsign_mail}</td>
+                    <td>{(int) ($yearReport.yearlocalsign_mail + $yearReport.yearlocalsign_tel) }</td>
                     <td>{(int)($yearReport.yearlocalsign_tel_status + $yearReport.yearlocalsign_mail_status)}</td>
                     <td>{(int)$yearReport.yearlocalsign_shop_sign + $yearReport.yearlocalsign_local_sign}</td>
                     <td>{(int) $yearReport.yearlocalsign_revisit}</td>
@@ -476,7 +476,7 @@
                         Introduction
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todayintroduction_mail}</td>
+                    <td>{(int) ($yearReport.todayintroduction_mail + $yearReport.todayintroduction_tel)}</td>
                     <td>{(int)($yearReport.todayintroduction_tel_status + $yearReport.todayintroduction_mail_status)}</td>
                     <td>{(int)$yearReport.todayintroduction_shop_sign + $yearReport.todayintroduction_local_sign}</td>
                     <td>{(int) $yearReport.todayintroduction_revisit}</td>
@@ -487,7 +487,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearintroduction_mail}</td>
+                    <td>{(int) ($yearReport.yearintroduction_mail + $yearReport.yearintroduction_tel)}</td>
                     <td>{(int)($yearReport.yearintroduction_tel_status + $yearReport.yearintroduction_mail_status)}</td>
                     <td>{(int)$yearReport.yearintroduction_shop_sign + $yearReport.yearphone_local_sign}</td>
                     <td>{(int) $yearReport.yearintroduction_revisit}</td>
@@ -504,7 +504,7 @@
                         Shop sign
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todayshopsign_mail}</td>
+                    <td>{(int) ($yearReport.todayshopsign_mail + $yearReport.todayshopsign_tel)}</td>
                     <td>{(int)($yearReport.todayshopsign_tel_status + $yearReport.todayshopsign_mail_status)}</td>
                     <td>{(int)$yearReport.todayshopsign_shop_sign + $yearReport.todayshopsign_local_sign}</td>
                     <td>{(int) $yearReport.todayshopsign_revisit}</td>
@@ -515,7 +515,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearshopsign_mail}</td>
+                    <td>{(int) ($yearReport.yearshopsign_mail + $yearReport.yearshopsign_tel)}</td>
                     <td>{(int)($yearReport.yearshopsign_tel_status + $yearReport.yearshopsign_mail_status)}</td>
                     <td>{(int)$yearReport.yearshopsign_shop_sign + $yearReport.yearshopsign_local_sign}</td>
                     <td>{(int) $yearReport.yearshopsign_revisit}</td>
@@ -532,7 +532,7 @@
                         Local Flyers
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todayflyer_mail}</td>
+                    <td>{(int)($yearReport.todayflyer_mail + $yearReport.todayflyer_tel)}</td>
                     <td>{(int)($yearReport.todayflyer_tel_status + $yearReport.todayflyer_mail_status)}</td>
                     <td>{(int)$yearReport.todayflyer_shop_sign + $yearReport.todayflyer_local_sign}</td>
                     <td>{(int) $yearReport.todayflyer_revisit}</td>
@@ -543,7 +543,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearflyer_mail}</td>
+                    <td>{(int) ($yearReport.yearflyer_mail + $yearReport.yearflyer_tel)}</td>
                     <td>{(int)($yearReport.yearflyer_tel_status + $yearReport.yearflyer_mail_status)}</td>
                     <td>{(int)$yearReport.yearflyer_shop_sign + $yearReport.yearflyer_local_sign}</td>
                     <td>{(int) $yearReport.yearflyer_revisit}</td>
@@ -560,7 +560,7 @@
                         Line
                     </td>
                     <td>Today</td>
-                    <td>{(int)$yearReport.todayline_mail}</td>
+                    <td>{(int) ($yearReport.todayline_mail + $yearReport.todayline_tel)}</td>
                     <td>{(int)($yearReport.todayline_tel_status + $yearReport.todayline_mail_status)}</td>
                     <td>{(int)$yearReport.todayline_shop_sign + $yearReport.todayline_local_sign}</td>
                     <td>{(int) $yearReport.todayline_revisit}</td>
@@ -571,7 +571,7 @@
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>{(int) $yearReport.yearline_mail}</td>
+                    <td>{(int) ($yearReport.yearline_mail + $yearReport.yearline_tel)}</td>
                     <td>{(int)($yearReport.yearline_tel_status + $yearReport.yearline_mail_status)}</td>
                     <td>{(int)$yearReport.yearline_shop_sign + $yearReport.yearline_local_sign}</td>
                     <td>{(int) $yearReport.yearline_revisit}</td>
