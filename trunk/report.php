@@ -329,6 +329,7 @@ if (!empty($post['export'])) {
 
 
     $index = $index + 2;
+    $index_tmp = $index;
     $objPHPExcel->getActiveSheet()
             ->mergeCells("B{$index}:E{$index}")
     ;
@@ -360,7 +361,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todaymail_mail'] + $yearReport['todaymail_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todaymail_tel_status'] + $yearReport['todaymail_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todaymail_shop_sign'] + $yearReport['todaymail_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todaymail_shop_sign'] + $yearReport['todaymail_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todaymail_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todaymail_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todaymail_cancel'])
@@ -389,7 +390,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todayphone_mail'] + $yearReport['todayphone_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todayphone_tel_status'] + $yearReport['todayphone_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todayphone_shop_sign'] + $yearReport['todayphone_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todayphone_shop_sign'] + $yearReport['todayphone_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todayphone_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todayphone_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todayphone_cancel'])
@@ -418,7 +419,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todaydiscount_mail'] + $yearReport['todaydiscount_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todaydiscount_tel_status'] + $yearReport['todaydiscount_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todaydiscount_shop_sign'] + $yearReport['todaydiscount_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todaydiscount_shop_sign'] + $yearReport['todaydiscount_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todaydiscount_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todaydiscount_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todaydiscount_cancel'])
@@ -448,7 +449,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todaylocalsign_mail'] + $yearReport['todaylocalsign_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todaylocalsign_tel_status'] + $yearReport['todaylocalsign_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todaylocalsign_shop_sign'] + $yearReport['todaylocalsign_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todaylocalsign_shop_sign'] + $yearReport['todaylocalsign_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todaylocalsign_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todaylocalsign_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todaylocalsign_cancel'])
@@ -477,7 +478,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todayintroduction_mail'] + $yearReport['todayintroduction_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todayintroduction_tel_status'] + $yearReport['todayintroduction_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todayintroduction_shop_sign'] + $yearReport['todayintroduction_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todayintroduction_shop_sign'] + $yearReport['todayintroduction_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todayintroduction_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todayintroduction_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todayintroduction_cancel'])
@@ -507,7 +508,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todayshopsign_mail'] + $yearReport['todayshopsign_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todayshopsign_tel_status'] + $yearReport['todayshopsign_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todayshopsign_shop_sign'] + $yearReport['todayshopsign_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todayshopsign_shop_sign'] + $yearReport['todayshopsign_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todayshopsign_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todayshopsign_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todayshopsign_cancel'])
@@ -536,7 +537,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todayflyer_mail'] + $yearReport['todayflyer_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todayflyer_tel_status'] + $yearReport['todayflyer_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todayflyer_shop_sign'] + $yearReport['todayflyer_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todayflyer_shop_sign'] + $yearReport['todayflyer_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todayflyer_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todayflyer_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todayflyer_cancel'])
@@ -565,7 +566,7 @@ if (!empty($post['export'])) {
             ->setCellValue("F{$plus}", "Total")
             ->setCellValue("G{$index}", (int) ($yearReport['todayline_mail'] + $yearReport['todayline_tel']))
             ->setCellValue("H{$index}", (int) ($yearReport['todayline_tel_status'] + $yearReport['todayline_mail_status']))
-            ->setCellValue("I{$index}", (int) ($yearReport['todayline_shop_sign'] + $yearReport['todayline_shop_sign']))
+            ->setCellValue("I{$index}", (int) ($yearReport['todayline_shop_sign'] + $yearReport['todayline_local_sign']))
             ->setCellValue("J{$index}", (int) $yearReport['todayline_revisit'])
             ->setCellValue("K{$index}", (int) $yearReport['todayline_application'])
             ->setCellValue("L{$index}", (int) $yearReport['todayline_cancel'])
@@ -580,6 +581,264 @@ if (!empty($post['export'])) {
             ->setCellValue("M{$plus}", (int) $yearReport['yearline_change'])
             ->setCellValue("N{$plus}", (int) $yearReport['yearline_agreement'])
     ;
+             
+    $index = $index + 2;
+    $plus = $index + 1;
+    $objPHPExcel->getActiveSheet()
+            ->mergeCells("A{$index}:E{$plus}")
+    ;
+    $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue("A{$index}", "Total")
+            ->setCellValue("F{$index}", "Today")
+            ->setCellValue("F{$plus}", "Total")
+            ->setCellValue("G{$index}", (int) (
+                    $yearReport['todaymail_mail'] + $yearReport['todaymail_tel'] +
+                    $yearReport['todayphone_mail'] + $yearReport['todayphone_tel'] + 
+                    $yearReport['todaydiscount_mail'] + $yearReport['todaydiscount_tel'] +
+                    $yearReport['todaylocalsign_mail'] + $yearReport['todaylocalsign_tel'] +
+                    $yearReport['todayintroduction_mail'] + $yearReport['todayintroduction_tel'] +
+                    $yearReport['todayshopsign_mail'] + $yearReport['todayshopsign_tel'] +
+                    $yearReport['todayflyer_mail'] + $yearReport['todayflyer_tel'] +
+                    $yearReport['todayline_mail'] + $yearReport['todayline_tel'] 
+                    ))
+            ->setCellValue("H{$index}", (int) (
+                    $yearReport['todaymail_mail_status'] + $yearReport['todaymail_tel_status'] +
+                    $yearReport['todayphone_mail_status'] + $yearReport['todayphone_tel_status'] + 
+                    $yearReport['todaydiscount_mail_status'] + $yearReport['todaydiscount_tel_status'] +
+                    $yearReport['todaylocalsign_mail_status'] + $yearReport['todaylocalsign_tel_status'] +
+                    $yearReport['todayintroduction_mail_status'] + $yearReport['todayintroduction_tel_status'] +
+                    $yearReport['todayshopsign_mail_status'] + $yearReport['todayshopsign_tel_status'] +
+                    $yearReport['todayflyer_mail_status'] + $yearReport['todayflyer_tel_status'] +
+                    $yearReport['todayline_tel_status'] + $yearReport['todayline_mail_status']
+                    ))
+            ->setCellValue("I{$index}", (int) (
+                    $yearReport['todaymail_shop_sign'] + $yearReport['todaymail_local_sign'] +
+                    $yearReport['todayphone_shop_sign'] + $yearReport['todayphone_local_sign'] + 
+                    $yearReport['todaydiscount_shop_sign'] + $yearReport['todaydiscount_local_sign'] +
+                    $yearReport['todaylocalsign_shop_sign'] + $yearReport['todaylocalsign_local_sign'] +
+                    $yearReport['todayintroduction_shop_sign'] + $yearReport['todayintroduction_local_sign'] +
+                    $yearReport['todayshopsign_shop_sign'] + $yearReport['todayshopsign_local_sign'] +
+                    $yearReport['todayflyer_shop_sign'] + $yearReport['todayflyer_local_sign'] +
+                    $yearReport['todayline_shop_sign'] + $yearReport['todayline_local_sign']
+                    ))
+            ->setCellValue("J{$index}", (int) (
+                    $yearReport['todaymail_revisit'] +
+                    $yearReport['todayphone_revisit'] + 
+                    $yearReport['todaydiscount_revisit'] +
+                    $yearReport['todaylocalsign_revisit'] +
+                    $yearReport['todayintroduction_revisit'] +
+                    $yearReport['todayshopsign_revisit'] +
+                    $yearReport['todayflyer_revisit'] +
+                    $yearReport['todayline_revisit']
+                    ))
+            ->setCellValue("K{$index}", (int) (
+                    $yearReport['todaymail_application'] +
+                    $yearReport['todayphone_application'] + 
+                    $yearReport['todaydiscount_application'] +
+                    $yearReport['todaylocalsign_application'] +
+                    $yearReport['todayintroduction_application'] +
+                    $yearReport['todayshopsign_application'] +
+                    $yearReport['todayflyer_application'] +
+                    $yearReport['todayline_application']
+                    ))
+            ->setCellValue("L{$index}", (int) (
+                    $yearReport['todaymail_cancel'] +
+                    $yearReport['todayphone_cancel'] + 
+                    $yearReport['todaydiscount_cancel'] +
+                    $yearReport['todaylocalsign_cancel'] +
+                    $yearReport['todayintroduction_cancel'] +
+                    $yearReport['todayshopsign_cancel'] +
+                    $yearReport['todayflyer_cancel'] +
+                    $yearReport['todayline_cancel']
+                    ))
+            ->setCellValue("M{$index}", (int) (
+                    $yearReport['todaymail_change'] +
+                    $yearReport['todayphone_change'] + 
+                    $yearReport['todaydiscount_change'] +
+                    $yearReport['todaylocalsign_change'] +
+                    $yearReport['todayintroduction_change'] +
+                    $yearReport['todayshopsign_change'] +
+                    $yearReport['todayflyer_change'] +
+                    $yearReport['todayline_change']
+                    ))
+            ->setCellValue("N{$index}", (int) (
+                    $yearReport['todaymail_agreement'] +
+                    $yearReport['todayphone_agreement'] + 
+                    $yearReport['todaydiscount_agreement'] +
+                    $yearReport['todaylocalsign_agreement'] +
+                    $yearReport['todayintroduction_agreement'] +
+                    $yearReport['todayshopsign_agreement'] +
+                    $yearReport['todayflyer_agreement'] +
+                    $yearReport['todayline_agreement']
+                    ))
+            ->setCellValue("G{$plus}", (int) (
+                    $yearReport['yearmail_mail'] + $yearReport['yearmail_tel'] +
+                    $yearReport['yearphone_mail'] + $yearReport['yearphone_tel'] + 
+                    $yearReport['yeardiscount_mail'] + $yearReport['yeardiscount_tel'] +
+                    $yearReport['yearlocalsign_mail'] + $yearReport['yearlocalsign_tel'] +
+                    $yearReport['yearintroduction_mail'] + $yearReport['yearintroduction_tel'] +
+                    $yearReport['yearshopsign_mail'] + $yearReport['yearshopsign_tel'] +
+                    $yearReport['yearflyer_mail'] + $yearReport['yearflyer_tel'] +
+                    $yearReport['yearline_mail'] + $yearReport['yearline_tel']
+                    ))
+            ->setCellValue("H{$plus}", (int) (
+                    $yearReport['yearmail_mail_status'] + $yearReport['yearmail_tel_status'] +
+                    $yearReport['yearphone_mail_status'] + $yearReport['yearphone_tel_status'] + 
+                    $yearReport['yeardiscount_mail_status'] + $yearReport['yeardiscount_tel_status'] +
+                    $yearReport['yearlocalsign_mail_status'] + $yearReport['yearlocalsign_tel_status'] +
+                    $yearReport['yearintroduction_mail_status'] + $yearReport['yearintroduction_tel_status'] +
+                    $yearReport['yearshopsign_mail_status'] + $yearReport['yearshopsign_tel_status'] +
+                    $yearReport['yearflyer_mail_status'] + $yearReport['yearflyer_tel_status'] +
+                    $yearReport['yearline_tel_status'] + $yearReport['yearline_mail_status']
+                    ))
+            ->setCellValue("I{$plus}", (int) (
+                    $yearReport['yearmail_shop_sign'] + $yearReport['yearmail_local_sign'] +
+                    $yearReport['yearphone_shop_sign'] + $yearReport['yearphone_local_sign'] + 
+                    $yearReport['yeardiscount_shop_sign'] + $yearReport['yeardiscount_local_sign'] +
+                    $yearReport['yearlocalsign_shop_sign'] + $yearReport['yearlocalsign_local_sign'] +
+                    $yearReport['yearintroduction_shop_sign'] + $yearReport['yearintroduction_local_sign'] +
+                    $yearReport['yearshopsign_shop_sign'] + $yearReport['yearshopsign_local_sign'] +
+                    $yearReport['yearflyer_shop_sign'] + $yearReport['yearflyer_local_sign'] +
+                    $yearReport['yearline_shop_sign'] + $yearReport['yearline_shop_sign']
+                    ))
+            ->setCellValue("J{$plus}", (int) (
+                    $yearReport['yearmail_revisit'] +
+                    $yearReport['yearphone_revisit'] + 
+                    $yearReport['yeardiscount_revisit'] +
+                    $yearReport['yearlocalsign_revisit'] +
+                    $yearReport['yearintroduction_revisit'] +
+                    $yearReport['yearshopsign_revisit'] +
+                    $yearReport['yearflyer_revisit'] +
+                    $yearReport['yearline_revisit']
+                    ))
+            ->setCellValue("K{$plus}", (int) (
+                    $yearReport['yearmail_application'] +
+                    $yearReport['yearphone_application'] + 
+                    $yearReport['yeardiscount_application'] +
+                    $yearReport['yearlocalsign_application'] +
+                    $yearReport['yearintroduction_application'] +
+                    $yearReport['yearshopsign_application'] +
+                    $yearReport['yearflyer_application'] +
+                    $yearReport['yearline_application']
+                    ))
+            ->setCellValue("L{$plus}", (int) (
+                    $yearReport['yearmail_cancel'] +
+                    $yearReport['yearphone_cancel'] + 
+                    $yearReport['yeardiscount_cancel'] +
+                    $yearReport['yearlocalsign_cancel'] +
+                    $yearReport['yearintroduction_cancel'] +
+                    $yearReport['yearshopsign_cancel'] +
+                    $yearReport['yearflyer_cancel'] +
+                    $yearReport['yearline_cancel']
+                    ))
+            ->setCellValue("M{$plus}", (int) (
+                    $yearReport['yearmail_change'] +
+                    $yearReport['yearphone_change'] + 
+                    $yearReport['yeardiscount_change'] +
+                    $yearReport['yearlocalsign_change'] +
+                    $yearReport['yearintroduction_change'] +
+                    $yearReport['yearshopsign_change'] +
+                    $yearReport['yearflyer_change'] +
+                    $yearReport['yearline_change']
+                    ))
+            ->setCellValue("N{$plus}", (int) (
+                    $yearReport['yearmail_agreement'] +
+                    $yearReport['yearphone_agreement'] + 
+                    $yearReport['yeardiscount_agreement'] +
+                    $yearReport['yearlocalsign_agreement'] +
+                    $yearReport['yearintroduction_agreement'] +
+                    $yearReport['yearshopsign_agreement'] +
+                    $yearReport['yearflyer_agreement'] +
+                    $yearReport['yearline_agreement']
+                    ))
+    ;
+
+    // Detail of Web
+    $objPHPExcel->getActiveSheet()
+            ->mergeCells("V{$index_tmp}:AA{$index_tmp}")
+    ;
+    $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue("V{$index_tmp}", "Details From WEBS")
+            ->setCellValue("AB{$index_tmp}", "Total")
+            ->setCellValue("AC{$index_tmp}", "Feedback")
+            ->setCellValue("AD{$index_tmp}", "Track record")
+            ->setCellValue("AE{$index_tmp}", "Signboard")
+            ->setCellValue("AF{$index_tmp}", "Re-visit")
+            ->setCellValue("AG{$index_tmp}", "Application")
+            ->setCellValue("AH{$index_tmp}", "Cancel")
+            ->setCellValue("AI{$index_tmp}", "Thuộc công ty quản lý")
+            ->setCellValue("AJ{$index_tmp}", "Ledger")
+    ;
+    $webs = $report->getAllSource();
+    $index_tmp = $index_tmp - 1;
+    
+    $today_feedback = 0.00;
+    $today_track_record = 0.00;
+    $today_signboard = 0.00;
+    $today_signboard = 0.00;
+    $today_introduction = 0.00;
+    $today_tel_status = 0.00;
+    $today_mail_status = 0.00;
+    $today_track_record = 0.00;
+    $today_tel = 0.00;
+    $today_mail = 0.00;
+    $today_revisit = 0.00;
+    $today_application = 0.00;
+    $today_cancel = 0.00;
+    $today_change = 0.00;
+    $today_agreement = 0.00;
+    $today_done = 0.00;
+
+    $month_cost = 0.00;
+    $month_cost_previous = 0.00;
+    $month_signboard = 0.00;
+    $month_introduction = 0.00;
+    $month_tel_status = 0.00;
+    $month_mail_status = 0.00;
+    $month_track_record = 0.00;
+    $month_tel = 0.00;
+    $month_mail = 0.00;
+    $month_revisit = 0.00;
+    $month_application = 0.00;
+    $month_cancel = 0.00;
+    $month_change = 0.00;
+    $month_agreement = 0.00;
+    $month_done = 0.00;
+    
+    if (count($webs)) {
+        foreach ($webs as $key => $web) {
+            $com_info = $report->getSourceInfo($web['id'], $date);
+            $index_tmp = $index_tmp + 2;
+            $plus = $index_tmp + 1;
+            $objPHPExcel->getActiveSheet()
+                    ->mergeCells("U{$index_tmp}:U{$plus}")
+                    ->mergeCells("V{$index_tmp}:AA{$plus}")
+            ;
+            $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue("U{$index_tmp}", $key + 1)
+                    ->setCellValue("V{$index_tmp}", $web['source_name'])
+                    ->setCellValue("AB{$index_tmp}", "Today")
+                    ->setCellValue("AB{$plus}", "Total")
+                    ->setCellValue("AC{$index_tmp}", (int) ($com_info['today_tel'] + $com_info['today_mail']))
+                    ->setCellValue("AD{$index_tmp}", (int) ($com_info['today_tel_status'] + $com_info['today_mail_status']))
+                    ->setCellValue("AE{$index_tmp}", (int) ($com_info['today_shop_sign'] + $com_info['today_shop_sign']))
+                    ->setCellValue("AF{$index_tmp}", (int) $com_info['today_revisit'])
+                    ->setCellValue("AG{$index_tmp}", (int) $com_info['today_application'])
+                    ->setCellValue("AH{$index_tmp}", (int) $com_info['today_cancel'])
+                    ->setCellValue("AI{$index_tmp}", (int) $com_info['today_change'])
+                    ->setCellValue("AJ{$index_tmp}", (int) $com_info['today_agreement'])
+                    ->setCellValue("AC{$plus}", (int) ($com_info['month_mail'] + $com_info['month_tel']))
+                    ->setCellValue("AD{$plus}", (int) ($com_info['month_tel_status'] + $com_info['month_mail_status']))
+                    ->setCellValue("AE{$plus}", (int) ($com_info['month_shop_sign'] + $com_info['month_shop_sign']))
+                    ->setCellValue("AF{$plus}", (int) $com_info['month_revisit'])
+                    ->setCellValue("AG{$plus}", (int) $com_info['month_application'])
+                    ->setCellValue("AH{$plus}", (int) $com_info['month_cancel'])
+                    ->setCellValue("AI{$plus}", (int) $com_info['month_change'])
+                    ->setCellValue("AJ{$plus}", (int) $com_info['month_agreement'])
+            ;
+        }
+    }
+
 // Rename worksheet
 //    $objPHPExcel->getActiveSheet()->setTitle('Simple');
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
