@@ -76,39 +76,60 @@
             </tr>
             <tr>
                 <td class='form1'>Price: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 300px;"><div id="room_rent_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 232px;">
+                    <label style="padding: 1% 5.5% 1% 5.5%;background-color: white;">円</label><div id="room_rent_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Key Money: </td>
-                <td class='form2'><input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 300px;"><div id="room_key_money_error"class="error"></div></td>
+                <td class='form2'>
+                    <input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 232px;">
+                    <select id="room_key_money_unit" name="room_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                        <option value="円"{if $room_key_money_unit eq "円"}selected{/if} >円</option>
+                        <option value="ヶ月"{if $room_key_money_unit eq "ヶ月"}selected{/if} >ヶ月</option>
+                    </select>
+                    <div id="room_key_money_error"class="error"></div>
+                </td>
             </tr>
             <tr>
                 <td class='form1'>Administrative Expense: </td>
-                <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 300px;"><div id="room_administrative_expense_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 232px;">
+                    <select id="room_administrative_expense_unit" name="room_administrative_expense_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                        <option value="円"{if $room_administrative_expense_unit eq "円"}selected{/if}>円</option>
+                        <option value="ヶ月"{if $room_administrative_expense_unit eq "ヶ月"}selected{/if}>ヶ月</option>
+                    </select>
+                    <div id="room_administrative_expense_error"class="error"></div></td>
             </tr>
+
             <tr>
                 <td class='form1'>Deposit: </td>
-                <td class='form2'><input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 300px;"><div id="room_deposit_error"class="error"></div></td>
+                <td class='form2'>
+                    <input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 232px;">
+                    <select id="room_deposit_unit" name="room_deposit_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                        <option value="円"{if $room_deposit_unit eq "円"}selected{/if}>円</option>
+                        <option value="ヶ月"{if $room_deposit_unit eq "ヶ月"}selected{/if}>ヶ月</option>
+                    </select>
+                    <div id="room_deposit_error"class="error"></div>
+                </td>
             </tr>
             <tr>
                 <td class='form1'>Discount: </td>
                 <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 300px;"><div id="room_discount_error"class="error"></div></td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td class='form1'>Photo: </td>
                 <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 300px;"><div id="room_photo_error"class="error"></div></td>
-            </tr>                                
+            </tr>-->                                
             <tr>            
                 <td class='form1'>Room Status: </td>
                 <td class='form2'>
                     <select id="room_status" name="room_status" style="height:26px; width: 300px;">
-                        <option value="0"{if $room_status eq 0}selected{/if}>Empty</option>
-                        <option value="1"{if $room_status eq 1}selected{/if}>For rent</option>        
+                        <option value="0">Empty</option>
+                        <option value="1">For rent</option>
+                        <option value="2">Constructing</option>
                     </select>
                 </td>
             </tr>
         </table>
-
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
             <tr>
                 <td class='form1'>&nbsp;</td>

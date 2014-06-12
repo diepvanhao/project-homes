@@ -78,6 +78,15 @@ if (isset($_POST['room_key_money'])) {
 } else {
     $room_key_money = "";
 }
+if (isset($_POST['room_key_money_unit'])) {
+    $room_key_money_unit = $_POST['room_key_money_unit'];
+} elseif (isset($_GET['room_key_money_unit'])) {
+    $room_key_money_unit = $_GET['room_key_money_unit'];
+} else {
+    $room_key_money_unit = "";
+}
+
+//$room_key_money=$room_key_money.$room_key_money_unit;
 
 if (isset($_POST['room_administrative_expense'])) {
     $room_administrative_expense = $_POST['room_administrative_expense'];
@@ -86,7 +95,13 @@ if (isset($_POST['room_administrative_expense'])) {
 } else {
     $room_administrative_expense = "";
 }
-
+if (isset($_POST['room_administrative_expense_unit'])) {
+    $room_administrative_expense_unit = $_POST['room_administrative_expense_unit'];
+} elseif (isset($_GET['room_administrative_expense_unit'])) {
+    $room_administrative_expense_unit = $_GET['room_administrative_expense_unit'];
+} else {
+    $room_administrative_expense_unit = "";
+}
 
 if (isset($_POST['room_deposit'])) {
     $room_deposit = $_POST['room_deposit'];
@@ -95,6 +110,14 @@ if (isset($_POST['room_deposit'])) {
 } else {
     $room_deposit = "";
 }
+if (isset($_POST['room_deposit_unit'])) {
+    $room_deposit_unit = $_POST['room_deposit_unit'];
+} elseif (isset($_GET['room_deposit_unit'])) {
+    $room_deposit_unit = $_GET['room_deposit_unit'];
+} else {
+    $room_deposit_unit = "";
+}
+//$room_deposit=$room_deposit.$room_deposit_unit;
 
 if (isset($_FILES['room_photo']['name'])) {
     $room_photo = $_FILES['room_photo']['name'];
@@ -136,7 +159,7 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {        
         $result = $house->create_room(
-                $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money,$room_administrative_expense,$room_deposit,$room_discount,$room_photo,$house_id,$broker_id
+                $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money.$room_key_money_unit,$room_administrative_expense.$room_administrative_expense_unit,$room_deposit.$room_deposit_unit,$room_discount,$room_photo,$house_id,$broker_id
         );
         if ($result['flag']) {
             header("Location: notify.php?content=Create Room Success!!!&url_return=create_room.php");
@@ -162,8 +185,11 @@ $smarty->assign('room_discount', $room_discount);
 $smarty->assign('room_status', $room_status);
 $smarty->assign('room_rent', $room_rent);
 $smarty->assign('room_key_money', $room_key_money);
+$smarty->assign('room_key_money_unit', $room_key_money_unit);
 $smarty->assign('room_administrative_expense', $room_administrative_expense);
+$smarty->assign('room_administrative_expense_unit', $room_administrative_expense_unit);
 $smarty->assign('room_deposit', $room_deposit);
+$smarty->assign('room_deposit_unit', $room_deposit_unit);
 $smarty->assign('room_photo', $room_photo);
 $smarty->assign('house_id', $house_id);
 $smarty->assign('broker_id', $broker_id);

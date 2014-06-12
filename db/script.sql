@@ -201,3 +201,17 @@ ALTER TABLE `house_ward`
 /*3/6 Hao*/
 ALTER TABLE `home_order`   
   CHANGE `room_id` `room_id` VARCHAR(128) NULL;
+
+/*12/6 Hao*/
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `contract_broker_fee` VARCHAR(128) NULL AFTER `contract_application_date`,
+  ADD COLUMN `contract_ads_fee` VARCHAR(128) NULL AFTER `contract_broker_fee`,
+  ADD COLUMN `contract_ads_payment` TINYINT(1) NULL AFTER `contract_ads_fee`;
+
+CREATE TABLE `home_contract_partner`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `contract_detail_id` INT(11),
+  `partner_id` INT(11),
+  `partner_percent` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);
