@@ -105,7 +105,7 @@
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
-                if (contract_key_money_unit == 'ヶ月') {
+                if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
                 var label = new Array();
@@ -125,7 +125,7 @@
                 });
 
                 for (var i = 0; i < plus_money_unit.length; i++) {
-                    if (plus_money_unit[i] == 'ヶ月')
+                    if (plus_money_unit[i] == 'ヵ月')
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
@@ -137,7 +137,7 @@
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
-                if (contract_key_money_unit == 'ヶ月') {
+                if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
                 var label = new Array();
@@ -157,7 +157,7 @@
                 });
 
                 for (var i = 0; i < plus_money_unit.length; i++) {
-                    if (plus_money_unit[i] == 'ヶ月')
+                    if (plus_money_unit[i] == 'ヵ月')
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
@@ -168,7 +168,7 @@
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
-                if (contract_key_money_unit == 'ヶ月') {
+                if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
                 var label = new Array();
@@ -188,7 +188,7 @@
                 });
 
                 for (var i = 0; i < plus_money_unit.length; i++) {
-                    if (plus_money_unit[i] == 'ヶ月')
+                    if (plus_money_unit[i] == 'ヵ月')
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
@@ -202,7 +202,7 @@
                     var contract_key_money = parseFloat($('#contract_key_money').val());
                     var contract_cost = parseFloat($('#contract_cost').val());
                     var contract_key_money_unit = $('#contract_key_money_unit').val();
-                    if (contract_key_money_unit == 'ヶ月') {
+                    if (contract_key_money_unit == 'ヵ月') {
                         contract_key_money = contract_key_money * contract_cost;
                     }
                     var label = new Array();
@@ -222,7 +222,7 @@
                     });
 
                     for (var i = 0; i < plus_money_unit.length; i++) {
-                        if (plus_money_unit[i] == 'ヶ月')
+                        if (plus_money_unit[i] == 'ヵ月')
                             plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                         total_plus += parseFloat(plus_money[i]);
                     }
@@ -234,7 +234,7 @@
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
-                if (contract_key_money_unit == 'ヶ月') {
+                if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
                 var label = new Array();
@@ -254,7 +254,7 @@
                 });
 
                 for (var i = 0; i < plus_money_unit.length; i++) {
-                    if (plus_money_unit[i] == 'ヶ月')
+                    if (plus_money_unit[i] == 'ヵ月')
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
@@ -582,7 +582,7 @@
             var contract_key_money = parseFloat($('#contract_key_money').val());
             var contract_cost = parseFloat($('#contract_cost').val());
             var contract_key_money_unit = $('#contract_key_money_unit').val();
-            if (contract_key_money_unit == 'ヶ月') {
+            if (contract_key_money_unit == 'ヵ月') {
                 contract_key_money = contract_key_money * contract_cost;
             }
             var label = new Array();
@@ -602,7 +602,7 @@
             });
 
             for (var i = 0; i < plus_money_unit.length; i++) {
-                if (plus_money_unit[i] == 'ヶ月')
+                if (plus_money_unit[i] == 'ヵ月')
                     plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                 total_plus += parseFloat(plus_money[i]);
             }
@@ -1497,7 +1497,7 @@
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 245px;"/>
                             <select id="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
-                                <option value="ヶ月">ヶ月</option>
+                                <option value="ヵ月">ヵ月</option>
                             </select>
                         </td>
                         <td class='form1'></td>
@@ -1526,13 +1526,13 @@
                         <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 245px;"/>
                             <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
-                                <option value="ヶ月">ヶ月</option>
+                                <option value="ヵ月">ヵ月</option>
                             </select></td>
                         <td class='form1' nowrap>Deposit 2:</td>
                         <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 245px;"/>
                             <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
-                                <option value="ヶ月">ヶ月</option>
+                                <option value="ヵ月">ヵ月</option>
                             </select>
                         </td>
                     </tr>
@@ -1711,7 +1711,7 @@
                     var label = prompt('which  plus do you want to add ?', '');
                     if (label != null && label != "" && label != 0) {
                         // fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヶ月'>ヶ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                         if (fieldCount == 1)
                             CalculatorPlus();
                         fieldCount++;

@@ -85,7 +85,7 @@
                     <input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 232px;">
                     <select id="room_key_money_unit" name="room_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                         <option value="円"{if $room_key_money_unit eq "円"}selected{/if} >円</option>
-                        <option value="ヶ月"{if $room_key_money_unit eq "ヶ月"}selected{/if} >ヶ月</option>
+                        <option value="ヵ月"{if $room_key_money_unit eq "ヵ月"}selected{/if} >ヵ月</option>
                     </select>
                     <div id="room_key_money_error"class="error"></div>
                 </td>
@@ -95,7 +95,7 @@
                 <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 232px;">
                     <select id="room_administrative_expense_unit" name="room_administrative_expense_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                         <option value="円"{if $room_administrative_expense_unit eq "円"}selected{/if}>円</option>
-                        <option value="ヶ月"{if $room_administrative_expense_unit eq "ヶ月"}selected{/if}>ヶ月</option>
+                        <option value="ヵ月"{if $room_administrative_expense_unit eq "ヵ月"}selected{/if}>ヵ月</option>
                     </select>
                     <div id="room_administrative_expense_error"class="error"></div></td>
             </tr>
@@ -106,7 +106,7 @@
                     <input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 232px;">
                     <select id="room_deposit_unit" name="room_deposit_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                         <option value="円"{if $room_deposit_unit eq "円"}selected{/if}>円</option>
-                        <option value="ヶ月"{if $room_deposit_unit eq "ヶ月"}selected{/if}>ヶ月</option>
+                        <option value="ヵ月"{if $room_deposit_unit eq "ヵ月"}selected{/if}>ヵ月</option>
                     </select>
                     <div id="room_deposit_error"class="error"></div>
                 </td>
