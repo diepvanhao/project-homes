@@ -230,7 +230,7 @@ if (isset($_POST['submit'])) {
         $room_size = $room['room_size'];
         $room_status = $room['room_status'];
         $room_rent = $room['room_rent'];
-        $room_key_money = $room['room_key_money'];
+        $room_key_money = trim($room['room_key_money']);
        
         if (strpos($room_key_money, '円') == true) {
             $room_key_money_unit = explode('円', $room_key_money);            
@@ -239,15 +239,15 @@ if (isset($_POST['submit'])) {
                 $room_key_money_unit = "円";
             }
         }
-        if (strpos($room_key_money, 'ヶ月') == true) {
-            $room_key_money_unit = explode('ヶ月', $room_key_money);            
+        if (strpos($room_key_money, 'ヵ月') == true) {
+            $room_key_money_unit = explode('ヵ月', $room_key_money);            
             if (isset($room_key_money_unit[0])) {
                 $room_key_money = $room_key_money_unit[0];
-                $room_key_money_unit = "ヶ月";
+                $room_key_money_unit = "ヵ月";
             }
         }
 
-        $room_administrative_expense = $room['room_administrative_expense'];
+        $room_administrative_expense = trim($room['room_administrative_expense']);
         if (strpos($room_administrative_expense, '円') == true) {
             $room_administrative_expense_unit = explode('円', $room_administrative_expense);            
             if (isset($room_administrative_expense_unit[0])) {
@@ -255,15 +255,16 @@ if (isset($_POST['submit'])) {
                 $room_administrative_expense_unit = '円';
             }
         }
-        if (strpos($room_administrative_expense, 'ヶ月') == true) {
-            $room_administrative_expense_unit = explode('ヶ月', $room_administrative_expense);            
+        if (strpos($room_administrative_expense, 'ヵ月') == true) {
+            $room_administrative_expense_unit = explode('ヵ月', $room_administrative_expense);            
             if (isset($room_administrative_expense_unit[0])) {
                 $room_administrative_expense = $room_administrative_expense_unit[0];
-                $room_administrative_expense_unit = 'ヶ月';
+                $room_administrative_expense_unit = 'ヵ月';
             }
         }
                 
-        $room_deposit = $room['room_deposit'];        
+        $room_deposit = trim($room['room_deposit']);      
+        //die();
         if (strpos($room_deposit, '円') == true) {
             $room_deposit_unit = explode('円', $room_deposit);            
             if (isset($room_deposit_unit[0])) {
@@ -271,11 +272,11 @@ if (isset($_POST['submit'])) {
                 $room_deposit_unit = '円';
             }
         }
-        if (strpos($room_deposit, 'ヶ月') == true) {
-            $room_deposit_unit = explode('ヶ月', $room_deposit);            
+        if (strpos($room_deposit, 'ヵ月') == true) {echo $room_deposit;echo 'alajk;l';
+            $room_deposit_unit = explode('ヵ月', $room_deposit);            
             if (isset($room_deposit_unit[0])) {
                 $room_deposit = $room_deposit_unit[0];
-                $room_deposit_unit = 'ヶ月';
+                $room_deposit_unit = 'ヵ月';
             }
         }
         $room_discount = $room['room_discount'];
