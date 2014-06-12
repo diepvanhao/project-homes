@@ -79,6 +79,14 @@ if (isset($_POST['room_key_money'])) {
 } else {
     $room_key_money = "";
 }
+if (isset($_POST['room_key_money_unit'])) {
+    $room_key_money_unit = $_POST['room_key_money_unit'];
+} elseif (isset($_GET['room_key_money_unit'])) {
+    $room_key_money_unit = $_GET['room_key_money_unit'];
+} else {
+    $room_key_money_unit = "";
+}
+//echo $room_key_money_unit;die();
 
 if (isset($_POST['room_administrative_expense'])) {
     $room_administrative_expense = $_POST['room_administrative_expense'];
@@ -87,7 +95,13 @@ if (isset($_POST['room_administrative_expense'])) {
 } else {
     $room_administrative_expense = "";
 }
-
+if (isset($_POST['room_administrative_expense_unit'])) {
+    $room_administrative_expense_unit = $_POST['room_administrative_expense_unit'];
+} elseif (isset($_GET['room_administrative_expense_unit'])) {
+    $room_administrative_expense_unit = $_GET['room_administrative_expense_unit'];
+} else {
+    $room_administrative_expense_unit = "";
+}
 
 if (isset($_POST['room_deposit'])) {
     $room_deposit = $_POST['room_deposit'];
@@ -96,6 +110,14 @@ if (isset($_POST['room_deposit'])) {
 } else {
     $room_deposit = "";
 }
+if (isset($_POST['room_deposit_unit'])) {
+    $room_deposit_unit = $_POST['room_deposit_unit'];
+} elseif (isset($_GET['room_deposit_unit'])) {
+    $room_deposit_unit = $_GET['room_deposit_unit'];
+} else {
+    $room_deposit_unit = "";
+}
+//$room_deposit = $room_deposit . $room_deposit_unit;
 
 if (isset($_FILES['room_photo']['name'])) {
     $room_photo = $_FILES['room_photo']['name'];
@@ -178,15 +200,15 @@ if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
-        
+
         $result = $house->update_room(
-                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk,$room_number_bk
+                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense.$room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk
         );
         if ($result['flag']) {
             $notify = "Update success !!!";
             $house_id_bk = $house_id;
             $broker_id_bk = $broker_id;
-            $room_number_bk=$room_number;
+            $room_number_bk = $room_number;
         } elseif ($result['error']) {
             $error[] = $result['error'];
         } else {
@@ -199,18 +221,63 @@ if (isset($_POST['submit'])) {
     $broker_id_bk = $broker_id = $content[2];
     $house_id_bk = $house_id = $content[3];
 
-    
+
     $room = $house->getRoomById($room_detail_id, $broker_id, $house_id);
 
     if ($room) {
-        $room_number_bk=$room_number = $room['room_number'];
+        $room_number_bk = $room_number = $room['room_number'];
         $room_type = $room['room_type'];
-        $room_size = $room['room_size'];      
+        $room_size = $room['room_size'];
         $room_status = $room['room_status'];
         $room_rent = $room['room_rent'];
         $room_key_money = $room['room_key_money'];
+       
+        if (strpos($room_key_money, '円') == true) {
+            $room_key_money_unit = explode('円', $room_key_money);            
+            if (isset($room_key_money_unit[0])) {
+                $room_key_money = $room_key_money_unit[0];
+                $room_key_money_unit = "円";
+            }
+        }
+        if (strpos($room_key_money, 'ヶ月') == true) {
+            $room_key_money_unit = explode('ヶ月', $room_key_money);            
+            if (isset($room_key_money_unit[0])) {
+                $room_key_money = $room_key_money_unit[0];
+                $room_key_money_unit = "ヶ月";
+            }
+        }
+
         $room_administrative_expense = $room['room_administrative_expense'];
-        $room_deposit = $room['room_deposit'];
+        if (strpos($room_administrative_expense, '円') == true) {
+            $room_administrative_expense_unit = explode('円', $room_administrative_expense);            
+            if (isset($room_administrative_expense_unit[0])) {
+                $room_administrative_expense = $room_administrative_expense_unit[0];
+                $room_administrative_expense_unit = '円';
+            }
+        }
+        if (strpos($room_administrative_expense, 'ヶ月') == true) {
+            $room_administrative_expense_unit = explode('ヶ月', $room_administrative_expense);            
+            if (isset($room_administrative_expense_unit[0])) {
+                $room_administrative_expense = $room_administrative_expense_unit[0];
+                $room_administrative_expense_unit = 'ヶ月';
+            }
+        }
+                
+        $room_deposit = $room['room_deposit'];        
+        if (strpos($room_deposit, '円') == true) {
+            $room_deposit_unit = explode('円', $room_deposit);            
+            if (isset($room_deposit_unit[0])) {
+                $room_deposit = $room_deposit_unit[0];
+                $room_deposit_unit = '円';
+            }
+        }
+        if (strpos($room_deposit, 'ヶ月') == true) {
+            $room_deposit_unit = explode('ヶ月', $room_deposit);            
+            if (isset($room_deposit_unit[0])) {
+                $room_deposit = $room_deposit_unit[0];
+                $room_deposit_unit = 'ヶ月';
+            }
+        }
         $room_discount = $room['room_discount'];
         $room_photo = $room['room_photo'];
     }
@@ -222,7 +289,7 @@ $houses = $house->getAllHouses();
 $brokerClass = new HOMEBroker();
 $brokers = $brokerClass->getAllBroker();
 //get room type
-$roomTypes=$house->getRoomType();
+$roomTypes = $house->getRoomType();
 
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
@@ -231,8 +298,11 @@ $smarty->assign('room_discount', $room_discount);
 $smarty->assign('room_status', $room_status);
 $smarty->assign('room_rent', $room_rent);
 $smarty->assign('room_key_money', $room_key_money);
+$smarty->assign('room_key_money_unit', $room_key_money_unit);
 $smarty->assign('room_administrative_expense', $room_administrative_expense);
+$smarty->assign('room_administrative_expense_unit', $room_administrative_expense_unit);
 $smarty->assign('room_deposit', $room_deposit);
+$smarty->assign('room_deposit_unit', $room_deposit_unit);
 $smarty->assign('room_photo', $room_photo);
 $smarty->assign('house_id', $house_id);
 $smarty->assign('broker_id', $broker_id);

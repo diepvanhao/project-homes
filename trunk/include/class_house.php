@@ -562,7 +562,7 @@ class HOMEHouse {
     }
     function getRoomType() {
         global $database;
-        $query = "select * from house_room_type order by room_name ASC";
+        $query = "select * from house_room_type ";
         $result = $database->database_query($query);
         $roomTypes = array();
         while ($row = $database->database_fetch_assoc($result)) {
