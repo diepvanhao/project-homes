@@ -91,10 +91,7 @@
                 <td class='form1'>Birthday:</td>
                 <td class='form2'><input type='text' name='client_birthday' id='client_birthday'  value="{$data.client_birthday}"  style="height:26px; width: 351px;"></td>
             </tr>
-            <tr>
-                <td class='form1'>Address: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='client_address' id='client_address' value="{$data.client_address}" style="height:26px; width: 351px;"><div id="client_address_error"class="error"></div></td>
-            </tr>
+            
             <tr>
                 <td class='form1'>City:  <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
@@ -125,6 +122,10 @@
 
                     </select><div id="error_ward_id" class="error"></div>
                 </td>
+            </tr>
+            <tr>
+                <td class='form1'>House Number:</td>
+                <td class='form2'><input type='text' class='text' name='client_address' id='client_address' value="{$data.client_address}" style="height:26px; width: 351px;"><div id="client_address_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>Phone: <span class="required">*</span></td>

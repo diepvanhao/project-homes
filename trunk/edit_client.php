@@ -75,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($client_name)) {
         $error[] = 'Name is required';
     }
-    if (empty($client_address)) {
-        $error[] = 'Address is required';
-    }
+//    if (empty($client_address)) {
+//        $error[] = 'Address is required';
+//    }
     //Hao customize
     if (empty($city_id)) {
         $error[] = 'City is required';
