@@ -103,7 +103,7 @@ $house_address_serialize = serialize($house_address_serialize);
 
 $validate = array(
     'agent_name' => $agent_name,
-    'agent_address' => $agent_address,
+    //'agent_address' => $agent_address,
     'agent_phone' => $agent_phone,
     'city_id' => $city_id,
     'district_id' => $district_id,

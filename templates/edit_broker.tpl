@@ -3,72 +3,72 @@
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
-             //city
+            //city
             $('#city_id').change(function(e) {
                 var city_id = $('#city_id').val();
                 var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
-                
-                if (city_id == "") {
-                    $('#district_id').empty();
-                    $('#street_id').empty();
-                    $('#ward_id').empty();
-                } else {
-                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                    function(result) {
-                        if (result) {
-                            $('#district_id').empty();
-                            $('#district_id').html(result);
-                            $('#district_id').change();
-                        } else {
-                            $('#district_id').empty();
-                            $('#street_id').empty();
-                            $('#ward_id').empty();
-                        }
-                    });
-                }
-            });
-            //district
-            $('#district_id').change(function(e) {
-                var district_id = $('#district_id').val();
-                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
 
-                if (district_id == "") {
-                    $('#street_id').empty();
-                    $('#ward_id').empty();
-                } else {
-                    $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                    function(result) {
-                        if (result) {
-                            $('#street_id').empty();
-                            $('#street_id').html(result);
-                            $('#street_id').change();
-                        } else {
-                            $('#street_id').empty();
-                            $('#ward_id').empty();
-                        }
-                    });
-                }
-            });
-            //street
-            $('#street_id').change(function(e) {
-                var street_id = $('#street_id').val();
-                var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
+                            if (city_id == "") {
+                                $('#district_id').empty();
+                                $('#street_id').empty();
+                                $('#ward_id').empty();
+                            } else {
+                                $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                function(result) {
+                                    if (result) {
+                                        $('#district_id').empty();
+                                        $('#district_id').html(result);
+                                        $('#district_id').change();
+                                    } else {
+                                        $('#district_id').empty();
+                                        $('#street_id').empty();
+                                        $('#ward_id').empty();
+                                    }
+                                });
+                            }
+                        });
+                        //district
+                        $('#district_id').change(function(e) {
+                            var district_id = $('#district_id').val();
+                            var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
 
-                if (street_id == "") {
-                    $('#ward_id').empty();
-                } else {
-                    $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                    function(result) {
-                        if (result) {
-                            $('#ward_id').empty();
-                            $('#ward_id').html(result);
-                        } else {
-                            $('#ward_id').empty();
-                        }
-                    });
-                }
-            });
-        });
+                                        if (district_id == "") {
+                                            $('#street_id').empty();
+                                            $('#ward_id').empty();
+                                        } else {
+                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                            function(result) {
+                                                if (result) {
+                                                    $('#street_id').empty();
+                                                    $('#street_id').html(result);
+                                                    $('#street_id').change();
+                                                } else {
+                                                    $('#street_id').empty();
+                                                    $('#ward_id').empty();
+                                                }
+                                            });
+                                        }
+                                    });
+                                    //street
+                                    $('#street_id').change(function(e) {
+                                        var street_id = $('#street_id').val();
+                                        var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
+
+                                                    if (street_id == "") {
+                                                        $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#ward_id').empty();
+                                                                $('#ward_id').html(result);
+                                                            } else {
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            });
     </script>
 {/literal}
 {nocache}
@@ -81,15 +81,11 @@
         {$notify}
     {/if}
     <form action="edit_broker.php" method="post">
-    <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-        <tr>
-            <td class='form1'>Name: <span class="required">*</span></td>
-            <td class='form2'><input type='text' class='text' name='broker_company_name' id='broker_company_name' value="{$broker_company_name}"  style="height:26px; width: 351px;"><div id="broker_company_name_error"class="error"></div></td>
-        </tr>
-        <tr>
-                <td class='form1'>House Number: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='broker_company_address' id='broker_company_address' value="{$broker_company_address}"  style="height:26px; width: 351px;"><div id="broker_company_address_error"class="error"></div></td>
-            </tr>
+        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+            <tr>
+                <td class='form1'>Name: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='broker_company_name' id='broker_company_name' value="{$broker_company_name}"  style="height:26px; width: 351px;"><div id="broker_company_name_error"class="error"></div></td>
+            </tr>        
             <tr>
                 <td class='form1'>City:  <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
@@ -121,23 +117,27 @@
                     </select><div id="error_ward_id" class="error"></div>
                 </td>
             </tr>
-        <tr>
-            <td class='form1'>Phone Number: <span class="required">*</span></td>
-            <td class='form2'><input type='text' class='text' name='broker_company_phone' id='broker_company_phone' value="{$broker_company_phone}" style="height:26px; width: 351px;"><div id="broker_company_phone_error"class="error"></div></td>
-        </tr>
-        <tr>
-            <td class='form1'>Email: <span class="required">*</span></td>
-            <td class='form2'><input type='text' class='text' name='broker_company_email' id='broker_company_email' value="{$broker_company_email}"  style="height:26px; width: 351px;"><div id="broker_company_email_error"class="error"></div></td>
-        </tr>
-        <tr>
-            <td class='form1'>Fax: </td>
-            <td class='form2'><input type='text' class='text' name='broker_company_fax' id='broker_company_fax' value="{$broker_company_fax}"  style="height:26px; width: 351px;"><div id="broker_company_fax_error"class="error"></div></td>
-        </tr>
-        <tr>
-            <td class='form1'>Person In Charge: </td>
-            <td class='form2'><input type='text' class='text' name='broker_company_undertake' id='broker_company_undertake' value="{$broker_company_undertake}"  style="height:26px; width: 351px;"><div id="broker_company_undertake_error"class="error"></div></td>
-        </tr>
-        <tr>
+            <tr>
+                <td class='form1'>House Number:</td>
+                <td class='form2'><input type='text' class='text' name='broker_company_address' id='broker_company_address' value="{$broker_company_address}"  style="height:26px; width: 351px;"><div id="broker_company_address_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Phone Number: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='broker_company_phone' id='broker_company_phone' value="{$broker_company_phone}" style="height:26px; width: 351px;"><div id="broker_company_phone_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Email: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='broker_company_email' id='broker_company_email' value="{$broker_company_email}"  style="height:26px; width: 351px;"><div id="broker_company_email_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Fax: </td>
+                <td class='form2'><input type='text' class='text' name='broker_company_fax' id='broker_company_fax' value="{$broker_company_fax}"  style="height:26px; width: 351px;"><div id="broker_company_fax_error"class="error"></div></td>
+            </tr>
+            <tr>
+                <td class='form1'>Person In Charge: </td>
+                <td class='form2'><input type='text' class='text' name='broker_company_undertake' id='broker_company_undertake' value="{$broker_company_undertake}"  style="height:26px; width: 351px;"><div id="broker_company_undertake_error"class="error"></div></td>
+            </tr>
+            <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
@@ -147,16 +147,16 @@
                     </div>
                 </td>
             </tr>
-    </table>
-</form>
+        </table>
+    </form>
 {/nocache}
 {literal}
     <script type="text/javascript">
-    $(document).ready(function(){
-        $('#back').click(function(){
-            window.location.href="manage_broker.php";
+        $(document).ready(function() {
+            $('#back').click(function() {
+                window.location.href = "manage_broker.php";
+            });
         });
-    });
     </script>
 {/literal}
 {if $city_id ne ""}
