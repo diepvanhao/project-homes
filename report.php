@@ -6,6 +6,14 @@ $page = 'report';
 date_default_timezone_set("Asia/Bangkok");
 include 'include/class_report.php';
 $report = new Report();
+if (!$user->user_exists) {
+    header('Location: ./user_login.php');
+    exit();
+}
+if($user->user_info['user_locked']){
+    header('Location: ./locked.php');
+    exit();
+}
 
 $post = $_POST;
 extract($post);
@@ -22,7 +30,32 @@ if (!empty($agent_id)) {
 if (empty($date)) {
     $date = null;
 }
+if (empty($fromdate)) {
+    $fromdate = null;
+}
+$error = array();
+if(!empty($post)){
+    if(empty($date) || empty($fromdate)){
+        $error[] = "From Date and To Date can not be empty"; 
+    }else{
+        $arr = explode('/',$date);
+        $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        $arr = explode('/',$fromdate);
+        $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        if($fromtime > $time){
+            $error[] = "From Date can not great than To Date"; 
+        }
+        if($fromdate > time() || $time > time()){
+            $error[] = "From Date and To Date can not in future"; 
+        }
+    }
+    if($user->user_info['user_authorities'] > 2 && $agent_id != $user->user_info['agent_id']){
+        $error[] = "You can not view other agent info"; 
+    }
+}
 $smarty->assign('date', $date);
+$smarty->assign('fromdate', $fromdate);
+$smarty->assign('error', $error);
 $smarty->assign('users', $users = $report->getUsersByAgent($agent_id));
 $smarty->assign('agents', $agents = $report->getAllAgents());
 $smarty->assign('agent', $agent = $report->getAgentInfo($agent_id));
@@ -66,7 +99,7 @@ $smarty->assign('month', $month = array(
     'agreement' => 0,
     'done' => 0,
 ));
-if (!empty($post['export'])) {
+if (!empty($post['export']) && empty($error)) {
     require_once 'include/PHPExcel.php';
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
@@ -158,7 +191,7 @@ if (!empty($post['export'])) {
 
     foreach ($users as $key => $item) {
         $plus = $index + 1;
-        $info = $report->getUserInfo($item['id'], $date);
+        $info = $report->getUserInfo($item['id'], $date,$fromdate);
 
         $month_target = $month_target + $item['user_target'];
         $today_signboard = $today_signboard + (int) ($info['today_shop_sign'] + $info['today_local_sign']);
@@ -346,7 +379,7 @@ if (!empty($post['export'])) {
             ->setCellValue("N{$index}", "Ledger")
     ;
 
-    $yearReport = $report->getLastyearInfo($agent_id, $date);
+    $yearReport = $report->getLastyearInfo($agent_id, $date,$fromdate);
 
     $index = $index + 1;
     $plus = $index + 1;
@@ -807,7 +840,7 @@ if (!empty($post['export'])) {
     
     if (count($webs)) {
         foreach ($webs as $key => $web) {
-            $com_info = $report->getSourceInfo($web['id'], $date);
+            $com_info = $report->getSourceInfo($web['id'], $date,$fromdate);
             $index_tmp = $index_tmp + 2;
             $plus = $index_tmp + 1;
             $objPHPExcel->getActiveSheet()
