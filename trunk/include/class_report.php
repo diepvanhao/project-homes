@@ -67,7 +67,7 @@ class Report {
      * @param int $user_id
      * @return array
      */
-    public function getUserInfo($user_id = 0, $date = null) {
+    public function getUserInfo($user_id = 0, $date = null, $fromdate = null) {
         
         global $database;
         if (empty($user_id)) {
@@ -79,11 +79,16 @@ class Report {
             $arr = explode('/',$date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
+        if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
         $return = array();
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
-        
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
         //cost today
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -109,8 +114,7 @@ class Report {
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date("Y-m", strtotime("-1 months")) . "'";
-
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m',$time). " -1 months")) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['cost_previous_month'] = (int) $row[0];
@@ -208,7 +212,7 @@ class Report {
         return $return;
     }
 
-    public function getLastyearInfo($agent_id = 0, $date = null) {
+    public function getLastyearInfo($agent_id = 0, $date = null, $fromdate = null) {
         global $database;
         if (empty($agent_id)) {
             return array();
@@ -220,10 +224,16 @@ class Report {
             $arr = explode('/',$date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
+         if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
         $return = array();
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
         
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
 //        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y') . "'";
@@ -1106,7 +1116,7 @@ class Report {
      * @param type $agent_id
      * @return int
      */
-    public function getAgentCostOfMonth($agent_id = 0, $date = null) {
+    public function getAgentCostOfMonth($agent_id = 0, $date = null, $fromdate = null) {
         if (empty($agent_id)) {
             return 0;
         }
@@ -1118,10 +1128,16 @@ class Report {
             $arr = explode('/',$date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
+        if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
         $return = array();
         
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
         
 //        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         ////cost of month
@@ -1190,7 +1206,7 @@ class Report {
      * @param type $company_id
      * @return type
      */
-    public function getCompanyInfo($company_id = 0, $date = null){
+    public function getCompanyInfo($company_id = 0, $date = null, $fromdate = null){
         global $database;
         if (empty($company_id)) {
             return array();
@@ -1203,10 +1219,17 @@ class Report {
             $arr = explode('/',$date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
+        
+        if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
         $return = array();
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time). "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
         
 //        
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
@@ -1318,11 +1341,12 @@ class Report {
      * @param type $company_id
      * @return type
      */
-    public function getSourceInfo($source_id = 0, $date = null){
+    public function getSourceInfo($source_id = 0, $date = null, $fromdate = null){
         global $database;
         if (empty($source_id)) {
             return array();
         }
+        
         $return = array();
 
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
@@ -1333,10 +1357,15 @@ class Report {
             $arr = explode('/',$date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        $return = array();
+        if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
         
         
         //more info on today

@@ -4,6 +4,11 @@
     <div class="report-title">
         <h3>Daily Report</h3>
     </div>
+    {if count($error)}
+        {foreach from=$error item=val}
+            <div class="error">{$val}</div>
+        {/foreach}
+    {/if}
     {if count($agents) gt 0}
     <div class="report-filter">
         <form method="POST">
@@ -23,8 +28,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Date: </td>
-                        <td class='form2'><input type='text' name='date' id='birthday'  value="{$date}"  style="height:26px; width: 250px;"></td>
+                        <td class='form1'>From Date: </td>
+                        <td class='form2'><input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>To Date: </td>
+                        <td class='form2'><input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
                         <td class="form1">&nbsp;</td>
@@ -39,7 +48,7 @@
             </table>
         </form>
     </div>
-    {if isset($params.agent_id) && count($users)}
+    {if isset($params.agent_id) && count($users) && !count($error)}
     <div class="agent-content">
         <div class="report-lable">
             <div class="agent-name">
@@ -93,7 +102,7 @@
                 <th>Company Registeration</th>
             </tr>
             {foreach $users as $key => $user}
-            {$info = $report ->getUserInfo($user.id,$date)}
+            {$info = $report ->getUserInfo($user.id,$date,$fromdate)}
             <tr>
                 <td rowspan="2">{$key + 1}</td>
                 <td rowspan="2">{$user.user_fname} {$user.user_lname}</td>
@@ -354,7 +363,7 @@
                 <th>自社</th>
                 <th>Ledger</th>
             </tr>
-            {$yearReport = $report ->getLastyearInfo($agent.id,$date)}
+            {$yearReport = $report ->getLastyearInfo($agent.id,$date,$fromdate)}
             <tbody>
                 <tr>
                     <td rowspan="2">
@@ -603,7 +612,7 @@
             </tr>
             <tbody>
                 {foreach from=$report->getAllSource() key=k item=company}
-                {$com_info = $report->getSourceInfo($company.id,$date)}
+                {$com_info = $report->getSourceInfo($company.id,$date,$fromdate)}
                 <tr>
                     <td rowspan="2">{$k + 1}</td>
                     <td rowspan="2">{$company.source_name}</td>
@@ -644,7 +653,7 @@
                     ['name','Actually','Target'],
                 {/literal}
                         {foreach from=$agents key=k item=agent}
-                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$report->getAgentCostOfMonth($agent.id,$date)}{literal},{/literal}{$agent.target}{literal}],{/literal}
+                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$report->getAgentCostOfMonth($agent.id,$date,$fromdate)}{literal},{/literal}{$agent.target}{literal}],{/literal}
                     {/foreach}
                     {literal}
                     ]);
@@ -671,7 +680,8 @@
 {literal}
     <script type="text/javascript">
             $(document).ready(function() {
-                birthday('birthday');
+                birthday('fromdate');
+                birthday('todate');
                 $('#back').click(function() {
                     window.location.href = "manage_account.php";
                 });
