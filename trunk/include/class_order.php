@@ -336,9 +336,9 @@ class HOMEOrder {
     }
     function generate_order_name(){
         global $database;
-        $query="select id from home_order order by id DESC limit 1 ";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query="select id from home_order order by id DESC limit 1";
+        $result=$database->database_query($query);        
+        $row=$database->database_fetch_assoc($result);        
         return $row['id']+1;
     }
 }

@@ -73,9 +73,7 @@ if ($step == 1) {
     //Set order name auto
     $order = new HOMEOrder();
     $order_name=$order->generate_order_name();
-    
-    
-    
+
     if (isset($_POST['order_rent_cost'])) {
         $order_rent_cost = $_POST['order_rent_cost'];
     } elseif (isset($_GET['order_rent_cost'])) {

@@ -733,7 +733,7 @@ class ajax {
             $row['client_resident_name'] = $row['client_resident_name'];
             $row['client_resident_phone'] = $row['client_resident_phone'];
             $row['client_rent'] = $row['client_rent'];
-            $row['client_room_type'] = $row['client_room_type'];
+            $row['client_room_type'] = $house->getRoomTypeById($row['client_room_type']);
            
             $client_arr = $row;
         }

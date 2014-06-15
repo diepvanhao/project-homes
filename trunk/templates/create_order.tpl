@@ -1293,30 +1293,6 @@
                         <td class='form2'>
                             <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 215px;"/>
                         </td>
-                        <td class='form1' nowrap></td>
-                        <td class='form2'></td>
-                    </tr>
-                    <tr>
-                        <td class='form1' nowrap>Payment date appointment from:</td>
-                        <td class='form2'> <input type='text' id="log_payment_date_appointment_from" name="log_payment_date_appointment_from" value="{$log_payment_date_appointment_from}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Payment appointment status:</td>
-                        <td class='form2'>
-                            <input type='radio' id="log_payment_appointment_status_yes" name="log_payment_appointment_status" value="1" {if $log_payment_appointment_status eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_status_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_payment_appointment_status_no" name="log_payment_appointment_status" value="0" {if $log_payment_appointment_status eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_status_no">No</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>Payment date appointment to: </td>
-                        <td class='form2'>
-                            <input type='text' id="log_payment_date_appointment_to" name="log_payment_date_appointment_to" value="{$log_payment_date_appointment_to}"style="height: 26px; width: 215px;"/>
-                        </td>
-                        <td class='form1' nowrap>Payment appointment report:</td>
-                        <td class='form2'>
-                            <input type='radio' id="log_payment_appointment_report_yes" name="log_payment_appointment_report" value="1" {if $log_payment_appointment_report eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_report_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_payment_appointment_report_no" name="log_payment_appointment_report" value="0" {if $log_payment_appointment_report eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_report_no">No</label>
-                        </td>
-                    </tr>
-                    <tr>
                         <td class='form1'>Select Source:</td>
                         <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
@@ -1325,9 +1301,8 @@
                                 {/foreach}
                             </select>
                         </td>
-                        <td class='form1' nowrap><span id="error_source"></span></td>
-                        <td class='form2'></td>
                     </tr>
+                                        
                     <tr>
                         <td class='form1'>Contact by tel:</td>
                         <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
@@ -1520,6 +1495,26 @@
                         <td class='form2'><input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Period to:</td>
                         <td class='form2'><input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 300px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1' nowrap>Payment date from:</td>
+                        <td class='form2'> <input type='text' id="log_payment_date_appointment_from" name="log_payment_date_appointment_from" value="{$log_payment_date_appointment_from}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form1' nowrap>Payment status:</td>
+                        <td class='form2'>
+                            <input type='radio' id="log_payment_appointment_status_yes" name="log_payment_appointment_status" value="1" {if $log_payment_appointment_status eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_status_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_payment_appointment_status_no" name="log_payment_appointment_status" value="0" {if $log_payment_appointment_status eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_status_no">No</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Payment date to: </td>
+                        <td class='form2'>
+                            <input type='text' id="log_payment_date_appointment_to" name="log_payment_date_appointment_to" value="{$log_payment_date_appointment_to}"style="height: 26px; width: 300px;"/>
+                        </td>
+                        <td class='form1' nowrap>Payment report:</td>
+                        <td class='form2'>
+                            <input type='radio' id="log_payment_appointment_report_yes" name="log_payment_appointment_report" value="1" {if $log_payment_appointment_report eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_report_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_payment_appointment_report_no" name="log_payment_appointment_report" value="0" {if $log_payment_appointment_report eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_report_no">No</label>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>Deposit 1:</td>
