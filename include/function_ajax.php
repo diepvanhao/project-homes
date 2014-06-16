@@ -437,7 +437,7 @@ if ($action == "check_email") {
         $house_address_serialize['client_address'] = $client_address;
 
         $house_address_serialize = serialize($house_address_serialize);
-        
+
         if (isset($_POST['client_occupation'])) {
             $client_occupation = $_POST['client_occupation'];
         } elseif (isset($_GET['client_occupation'])) {
@@ -595,34 +595,7 @@ if ($action == "check_email") {
         } else {
             $log_date_appointment_to = "";
         }
-        if (isset($_POST['log_payment_date_appointment_from'])) {
-            $log_payment_date_appointment_from = $_POST['log_payment_date_appointment_from'];
-        } elseif (isset($_GET['log_payment_date_appointment_from'])) {
-            $log_payment_date_appointment_from = $_GET['log_payment_date_appointment_from'];
-        } else {
-            $log_payment_date_appointment_from = "";
-        }
-        if (isset($_POST['log_payment_date_appointment_to'])) {
-            $log_payment_date_appointment_to = $_POST['log_payment_date_appointment_to'];
-        } elseif (isset($_GET['log_payment_date_appointment_to'])) {
-            $log_payment_date_appointment_to = $_GET['log_payment_date_appointment_to'];
-        } else {
-            $log_payment_date_appointment_to = "";
-        }
-        if (isset($_POST['log_payment_appointment_status'])) {
-            $log_payment_appointment_status = $_POST['log_payment_appointment_status'];
-        } elseif (isset($_GET['log_payment_appointment_status'])) {
-            $log_payment_appointment_status = $_GET['log_payment_appointment_status'];
-        } else {
-            $log_payment_appointment_status = "";
-        }
-        if (isset($_POST['log_payment_appointment_report'])) {
-            $log_payment_appointment_report = $_POST['log_payment_appointment_report'];
-        } elseif (isset($_GET['log_payment_appointment_report'])) {
-            $log_payment_appointment_report = $_GET['log_payment_appointment_report'];
-        } else {
-            $log_payment_appointment_report = "";
-        }
+
 
         if (isset($_POST['log_mail_status'])) {
             $log_mail_status = $_POST['log_mail_status'];
@@ -688,7 +661,7 @@ if ($action == "check_email") {
             $log_status_appointment = "";
         }
 
-        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
+        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'aspirations') {
@@ -924,6 +897,69 @@ if ($action == "check_email") {
         } else {
             $contract_application_date = "";
         }
+        if (isset($_POST['contract_payment_date_from'])) {
+            $contract_payment_date_from = $_POST['contract_payment_date_from'];
+        } elseif (isset($_GET['contract_payment_date_from'])) {
+            $contract_payment_date_from = $_GET['contract_payment_date_from'];
+        } else {
+            $contract_payment_date_from = "";
+        }
+        if (isset($_POST['contract_payment_date_to'])) {
+            $contract_payment_date_to = $_POST['contract_payment_date_to'];
+        } elseif (isset($_GET['contract_payment_date_to'])) {
+            $contract_payment_date_to = $_GET['contract_payment_date_to'];
+        } else {
+            $contract_payment_date_to = "";
+        }
+        if (isset($_POST['contract_payment_status'])) {
+            $contract_payment_status = $_POST['contract_payment_status'];
+        } elseif (isset($_GET['contract_payment_status'])) {
+            $contract_payment_status = $_GET['contract_payment_status'];
+        } else {
+            $contract_payment_status = "";
+        }
+        if (isset($_POST['contract_payment_report'])) {
+            $contract_payment_report = $_POST['contract_payment_report'];
+        } elseif (isset($_GET['contract_payment_report'])) {
+            $contract_payment_report = $_GET['contract_payment_report'];
+        } else {
+            $contract_payment_report = "";
+        }
+        if (isset($_POST['contract_broker_fee'])) {
+            $contract_broker_fee = $_POST['contract_broker_fee'];
+        } elseif (isset($_GET['contract_broker_fee'])) {
+            $contract_broker_fee = $_GET['contract_broker_fee'];
+        } else {
+            $contract_broker_fee = "";
+        }
+        if (isset($_POST['contract_broker_fee_unit'])) {
+            $contract_broker_fee_unit = $_POST['contract_broker_fee_unit'];
+        } elseif (isset($_GET['contract_broker_fee_unit'])) {
+            $contract_broker_fee_unit = $_GET['contract_broker_fee_unit'];
+        } else {
+            $contract_broker_fee_unit = "";
+        }
+        if (isset($_POST['contract_ads_fee'])) {
+            $contract_ads_fee = $_POST['contract_ads_fee'];
+        } elseif (isset($_GET['contract_ads_fee'])) {
+            $contract_ads_fee = $_GET['contract_ads_fee'];
+        } else {
+            $contract_ads_fee = "";
+        }
+        if (isset($_POST['contract_ads_fee_unit'])) {
+            $contract_ads_fee_unit = $_POST['contract_ads_fee_unit'];
+        } elseif (isset($_GET['contract_ads_fee_unit'])) {
+            $contract_ads_fee_unit = $_GET['contract_ads_fee_unit'];
+        } else {
+            $contract_ads_fee_unit = "";
+        }
+        if (isset($_POST['contract_transaction_finish'])) {
+            $contract_transaction_finish = $_POST['contract_transaction_finish'];
+        } elseif (isset($_GET['contract_transaction_finish'])) {
+            $contract_transaction_finish = $_GET['contract_transaction_finish'];
+        } else {
+            $contract_transaction_finish = "";
+        }
         if (isset($_POST['label'])) {
             $label = $_POST['label'];
         } elseif (isset($_GET['label'])) {
@@ -938,7 +974,7 @@ if ($action == "check_email") {
         } else {
             $plus_money = "";
         }
-        
+
         if (isset($_POST['plus_money_unit'])) {
             $plus_money_unit = $_POST['plus_money_unit'];
         } elseif (isset($_GET['plus_money_unit'])) {
@@ -967,8 +1003,8 @@ if ($action == "check_email") {
         } else {
             $contract_deposit2_money_unit = "";
         }
-        
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money,$plus_money_unit,$contract_key_money_unit,$contract_deposit1_money_unit,$contract_deposit2_money_unit, $client_id, $order_id);
+
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {
