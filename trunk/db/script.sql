@@ -215,3 +215,18 @@ CREATE TABLE `home_contract_partner`(
   `partner_percent` VARCHAR(128),
   PRIMARY KEY (`id`)
 );
+/*16/6 Hao*/
+ALTER TABLE `home_history_log`   
+  DROP COLUMN `log_payment_date_appointment_from`, 
+  DROP COLUMN `log_payment_date_appointment_to`, 
+  DROP COLUMN `log_payment_appointment_status`, 
+  DROP COLUMN `log_payment_appointment_report`;
+
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `contract_payment_date_from` VARCHAR(128) NULL AFTER `contract_ads_payment`,
+  ADD COLUMN `contract_payment_date_to` VARCHAR(128) NULL AFTER `contract_payment_date_from`,
+  ADD COLUMN `contract_payment_status` TINYINT(1) NULL AFTER `contract_payment_date_to`,
+  ADD COLUMN `contract_payment_report` TINYINT(1) NULL AFTER `contract_payment_status`;
+
+ALTER TABLE `home_contract_detail`   
+  CHANGE `contract_ads_payment` `contract_transaction_finish` TINYINT(1) NULL;

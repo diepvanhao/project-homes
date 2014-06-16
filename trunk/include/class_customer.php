@@ -199,11 +199,7 @@ class HOMECustomer {
                                 hhl.log_revisit AS log_revisit,
                                 hhl.source_id AS source_id,
                                 hhl.log_time_mail,
-                                hhl.log_date_appointment_to AS log_date_appointment_to,
-                                hhl.log_payment_date_appointment_from,
-                                hhl.log_payment_date_appointment_to,
-                                hhl.log_payment_appointment_status,
-                                hhl.log_payment_appointment_report,
+                                hhl.log_date_appointment_to AS log_date_appointment_to,                                
 
                                 hha.id AS aspirations_id,
                                 hha.aspirations_type_house AS aspirations_type_house,
@@ -261,11 +257,7 @@ class HOMECustomer {
         $row['log_revisit'] = $row1['log_revisit'];
         $row['source_id'] = $row1['source_id'];
         $row['log_time_mail'] = $row1['log_time_mail'];
-        $row['log_date_appointment_to'] = $row1['log_date_appointment_to'];
-        $row['log_payment_date_appointment_from'] = $row1['log_payment_date_appointment_from'];
-        $row['log_payment_date_appointment_to'] = $row1['log_payment_date_appointment_to'];
-        $row['log_payment_appointment_status'] = $row1['log_payment_appointment_status'];
-        $row['log_payment_appointment_report'] = $row1['log_payment_appointment_report'];
+        $row['log_date_appointment_to'] = $row1['log_date_appointment_to'];        
 
         $row['aspirations_id'] = $row1['aspirations_id'];
         $row['aspirations_type_house'] = $row1['aspirations_type_house'];
@@ -310,7 +302,14 @@ class HOMECustomer {
                                 hcd.contract_deposit_1,
                                 hcd.contract_deposit_2,
                                 hcd.contract_key_money,
-                                hcd.contract_name
+                                hcd.contract_name,
+                                hcd.contract_broker_fee,
+                                hcd.contract_ads_fee,
+                                hcd.contract_transaction_finish,
+                                hcd.contract_payment_date_from,
+                                hcd.contract_payment_date_to,
+                                hcd.contract_payment_status,
+                                hcd.contract_payment_report
                                
                                 FROM home_order AS ho                                                                                                                               
                                 
@@ -347,6 +346,13 @@ class HOMECustomer {
         $row['contract_deposit_2'] = $row1['contract_deposit_2'];
         $row['contract_key_money'] = $row1['contract_key_money'];
         $row['contract_name'] = $row1['contract_name'];       
+        $row['contract_payment_date_from'] = $row1['contract_payment_date_from'];  
+        $row['contract_payment_date_to'] = $row1['contract_payment_date_to'];  
+        $row['contract_payment_status'] = $row1['contract_payment_status'];  
+        $row['contract_payment_report'] = $row1['contract_payment_report'];  
+        $row['contract_broker_fee'] = $row1['contract_broker_fee'];  
+        $row['contract_ads_fee'] = $row1['contract_ads_fee'];  
+        $row['contract_transaction_finish'] = $row1['contract_transaction_finish'];  
         
         $client_arr = $row;        
         return array('client_arr' => $client_arr);

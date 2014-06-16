@@ -21,8 +21,8 @@
             birthday('log_time_mail_date');
             birthday('log_date_appointment_from');
             birthday('log_date_appointment_to');
-            birthday('log_payment_date_appointment_from');
-            birthday('log_payment_date_appointment_to');
+            birthday('contract_payment_date_from');
+            birthday('contract_payment_date_to');
             birthday('aspirations_build_time');
             birthday('contract_signature_day');
             birthday('contract_handover_day');
@@ -318,7 +318,7 @@
                             e.preventDefault();
 
                         }
-                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'detail') {
+                    } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'detail') { 
                         /*save information client detail*/
                         var gender = $('#gender').val();
                         var client_address = $('#client_address').val();
@@ -337,9 +337,6 @@
                         var client_resident_phone = $('#client_resident_phone').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-
-
-
 
                         if (city_id == "" || city_id == null) {
                             $('#error_city_id').html('City is required');
@@ -373,18 +370,14 @@
                         });
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'history') {
 
-                        var log_status_appointment = $('input[name="log_status_appointment"]:checked').val();
-                        var log_payment_appointment_status = $('input[name="log_payment_appointment_status"]:checked').val();
-                        var log_payment_appointment_report = $('input[name="log_payment_appointment_report"]:checked').val();
-
+                        var log_status_appointment = $('input[name="log_status_appointment"]:checked').val();                        
                         var log_time_call = $('#log_time_call').val();
                         var log_time_arrive_company = $('#log_time_arrive_company').val();
                         var log_time_mail = $('#log_time_mail').val();
                         var log_comment = $('#log_comment').val();
                         var log_date_appointment_from = $('#log_date_appointment_from').val();
                         var log_date_appointment_to = $('#log_date_appointment_to').val();
-                        var log_payment_date_appointment_from = $('#log_payment_date_appointment_from').val();
-                        var log_payment_date_appointment_to = $('#log_payment_date_appointment_to').val();
+                        
                         var log_revisit = $('#log_revisit').val();
                         var source_id = $('#source_id').val();
 
@@ -443,9 +436,7 @@
 
                         $.post("include/function_ajax.php", {log_time_call: log_time_call, log_time_arrive_company: log_time_arrive_company, log_time_mail: log_time_mail,
                             log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
-                            log_date_appointment_to: log_date_appointment_to, log_payment_date_appointment_from: log_payment_date_appointment_from, log_payment_date_appointment_to: log_payment_date_appointment_to,
-                            log_payment_appointment_status: log_payment_appointment_status, log_payment_appointment_report: log_payment_appointment_report,
-                            log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
+                            log_date_appointment_to: log_date_appointment_to, log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
                             log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
@@ -514,6 +505,11 @@
                         var contract_deposit_1 = $('#contract_deposit_1').val();
                         var contract_deposit_2 = $('#contract_deposit_2').val();
                         var contract_application_date = $('#contract_application_date').val();
+                        var contract_payment_status = $('input[name="contract_payment_status"]:checked').val();
+                        var contract_payment_report = $('input[name="contract_payment_report"]:checked').val();
+                        var contract_payment_date_from = $('#contract_payment_date_from').val();
+                        var contract_payment_date_to = $('#contract_payment_date_to').val();
+                        
                         /*
                          var plus_money_unit = new Array();
                          $("input[name^='contract_plus_money']").each(function() {
@@ -534,7 +530,12 @@
                             var contract_application = 1;
                         else
                             var contract_application = 0;
-
+                        
+                        if ($('#contract_transaction_finish').is(':checked'))
+                            var contract_transaction_finish = 1;
+                        else
+                            var contract_transaction_finish = 0;
+                        
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
@@ -542,6 +543,11 @@
                         var contract_deposit1_money_unit = $('#contract_plus_money_unit').val();
                         var contract_key_money_unit = $('#contract_key_money_unit').val();
                         var contract_deposit2_money_unit = $('#contract_plus_money_unit').val();
+                        var contract_broker_fee =$('#contract_broker_fee').val();
+                        var contract_broker_fee_unit=$('#contract_broker_fee_unit').val();
+                        var contract_ads_fee=$('#contract_ads_fee').val();
+                        var contract_ads_fee_unit=$('#contract_ads_fee_unit').val();
+                        
                         var label = new Array();
                         var plus_money = new Array();
                         var plus_money_unit = new Array();
@@ -562,6 +568,9 @@
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
                             contract_cancel: contract_cancel, contract_total: contract_total, contract_application: contract_application, contract_application_date: contract_application_date, label: label, plus_money: plus_money,
                             plus_money_unit: plus_money_unit, contract_key_money_unit: contract_key_money_unit, contract_deposit1_money_unit: contract_deposit1_money_unit, contract_deposit2_money_unit: contract_deposit2_money_unit,
+                            contract_broker_fee: contract_broker_fee,contract_broker_fee_unit: contract_broker_fee_unit,contract_ads_fee: contract_ads_fee,contract_ads_fee_unit:contract_ads_fee_unit,
+                            contract_transaction_finish: contract_transaction_finish,contract_payment_date_from: contract_payment_date_from,contract_payment_date_to: contract_payment_date_to,
+                            contract_payment_status: contract_payment_status,contract_payment_report: contract_payment_report,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -1466,7 +1475,6 @@
                             <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                         </td>
                     </tr>                    
-
                     <tr>                    
                         <td class='form1'>Key fee:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 245px;"/>
@@ -1477,6 +1485,22 @@
                         </td>
                         <td class='form1'></td>
                         <td class='form2'></td>                                           
+                    </tr>
+                    <tr>                    
+                        <td class='form1'>Brokerage fee:</td>
+                        <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 245px;"/>
+                            <select id="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円">円</option>
+                                <option value="ヵ月">ヵ月</option>
+                            </select>
+                        </td>
+                        <td class='form1'>Advertising fee:</td>
+                        <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 245px;"/>
+                            <select id="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円">円</option>
+                                <option value="ヵ月">ヵ月</option>
+                            </select>
+                        </td>                                           
                     </tr>
                     <tr>                    
                         <td class='form1' nowrap>Condition:</td>
@@ -1498,22 +1522,22 @@
                     </tr>
                     <tr>
                         <td class='form1' nowrap>Payment date from:</td>
-                        <td class='form2'> <input type='text' id="log_payment_date_appointment_from" name="log_payment_date_appointment_from" value="{$log_payment_date_appointment_from}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Payment status:</td>
                         <td class='form2'>
-                            <input type='radio' id="log_payment_appointment_status_yes" name="log_payment_appointment_status" value="1" {if $log_payment_appointment_status eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_status_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_payment_appointment_status_no" name="log_payment_appointment_status" value="0" {if $log_payment_appointment_status eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_status_no">No</label>
+                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">No</label>
                         </td>
                     </tr>
                     <tr>
                         <td class='form1'>Payment date to: </td>
                         <td class='form2'>
-                            <input type='text' id="log_payment_date_appointment_to" name="log_payment_date_appointment_to" value="{$log_payment_date_appointment_to}"style="height: 26px; width: 300px;"/>
+                            <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 300px;"/>
                         </td>
                         <td class='form1' nowrap>Payment report:</td>
                         <td class='form2'>
-                            <input type='radio' id="log_payment_appointment_report_yes" name="log_payment_appointment_report" value="1" {if $log_payment_appointment_report eq '1'}checked="checked" {/if}/><label for="log_payment_appointment_report_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_payment_appointment_report_no" name="log_payment_appointment_report" value="0" {if $log_payment_appointment_report eq '0'}checked="checked" {/if}/><label for="log_payment_appointment_report_no">No</label>
+                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">Yes</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">No</label>
                         </td>
                     </tr>
                     <tr>
@@ -1536,14 +1560,20 @@
                         <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 245px;"/>
                             <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                         </td>
-                        <td class='form1' nowrap>Cancel:</td>
-                        <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'></td>
                     </tr>
                     <tr>
                         <td class='form1'>Application:</td>
                         <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
                         <td class='form1' nowrap>Application Date:</td>
                         <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 300px;"/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Transaction finish:</td>
+                        <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1' nowrap>Cancel:</td>
+                        <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>

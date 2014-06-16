@@ -357,7 +357,7 @@ class ajax {
         return $database->database_query($query);
     }
 
-    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_payment_date_appointment_from, $log_payment_date_appointment_to, $log_payment_appointment_status, $log_payment_appointment_report, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id) {
+    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
@@ -382,11 +382,8 @@ class ajax {
                     log_mail_status='{$log_mail_status}',
                     log_revisit='{$log_revisit}',
                     log_time_mail='{$log_time_mail}',
-                    log_date_appointment_to='{$log_date_appointment_to}',
-                    log_payment_date_appointment_from='{$log_payment_date_appointment_from}',
-                    log_payment_date_appointment_to='{$log_payment_date_appointment_to}',
-                    log_payment_appointment_status='{$log_payment_appointment_status}',
-                    log_payment_appointment_report='{$log_payment_appointment_report}'
+                    log_date_appointment_to='{$log_date_appointment_to}'
+                    
                      where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
                     ";
 
@@ -414,11 +411,7 @@ class ajax {
                     . "log_mail_status,"
                     . "log_revisit,"
                     . "log_time_mail,"
-                    . "log_date_appointment_to,"
-                    . "log_payment_date_appointment_from,"
-                    . "log_payment_date_appointment_to,"
-                    . "log_payment_appointment_status,"
-                    . "log_payment_appointment_report"
+                    . "log_date_appointment_to"                    
                     . ") values("
                     . "'{$user->user_info['id']}',"
                     . "'{$client_id}',"
@@ -441,11 +434,7 @@ class ajax {
                     . "'{$log_mail_status}',"
                     . "'{$log_revisit}',"
                     . "'{$log_time_mail}',"
-                    . "'{$log_date_appointment_to}',"
-                    . "'{$log_payment_date_appointment_from}',"
-                    . "'{$log_payment_date_appointment_to}',"
-                    . "'{$log_payment_appointment_status}',"
-                    . "'{$log_payment_appointment_report}'"
+                    . "'{$log_date_appointment_to}'"                    
                     . ")";
             $result = $database->database_query($query);
             return array('id' => $database->database_insert_id());
@@ -530,8 +519,29 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $label, $plus_money,$plus_money_unit,$contract_key_money_unit,$contract_deposit1_money_unit,$contract_deposit2_money_unit, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $client_id, $order_id) {
         global $database, $user;
+        //calculator fee
+        $total=0;
+        
+        if($contract_key_money_unit=='ヵ月')
+            $contract_key_money=(float)$contract_key_money*$contract_cost;
+        if($contract_ads_fee_unit=='ヵ月')
+            $contract_ads_fee=(float)$contract_ads_fee*$contract_cost;
+        if($contract_broker_fee_unit=='ヵ月')
+            $contract_broker_fee=(float)$contract_broker_fee*$contract_cost;
+        if($contract_deposit1_money_unit=='ヵ月')
+            $contract_deposit_1=(float)$contract_deposit_1*$contract_cost;
+        if($contract_deposit2_money_unit=='ヵ月')
+            $contract_deposit_2=(float)$contract_deposit_2*$contract_cost;
+        
+        for($i=0;$i<count($plus_money);$i++){
+            if($contract_plus_money_unit[$i]=='ヵ月')
+                $total=(float)($total+$plus_money[$i]*$contract_cost);
+            else
+                $total=(float)($total+$plus_money[$i]);
+        }
+        $contract_total=(float)($contract_cost+$contract_key_money+$contract_ads_fee+$contract_broker_fee+$total);
         //check order exist
         $contract_date_create = $contract_date_update = time();
         $contract_id = checkExistContract($user->user_info['id'], $order_id);
@@ -539,8 +549,8 @@ class ajax {
             //update history exist
             $query = "update home_contract_detail set 
                   
-                    contract_cost={$contract_cost}円,
-                    contract_total={$contract_total}円,
+                    contract_cost={$contract_cost},
+                    contract_total={$contract_total},
                     contract_signature_day='{$contract_signature_day}',
                     contract_handover_day='{$contract_handover_day}',
                     contract_condition='{$contract_condition}',
@@ -550,12 +560,19 @@ class ajax {
                     contract_cancel='{$contract_cancel}',
                     contract_period_from='{$contract_period_from}',
                     contract_period_to='{$contract_period_to}',
-                    contract_deposit_1='{$contract_deposit_1}{$contract_deposit1_money_unit}',
-                    contract_deposit_2='{$contract_deposit_2}{$contract_deposit2_money_unit}',
-                    contract_key_money={$contract_key_money}{$contract_key_money_unit},
+                    contract_deposit_1='{$contract_deposit_1}',
+                    contract_deposit_2='{$contract_deposit_2}',
+                    contract_key_money='{$contract_key_money}',
                     contract_name='{$contract_name}',
                     contract_application='{$contract_application}',
-                    contract_application_date='{$contract_application_date}'   
+                    contract_application_date='{$contract_application_date}',
+                    contract_broker_fee='{$contract_broker_fee}',    
+                    contract_ads_fee='{$contract_ads_fee}',    
+                    contract_transaction_finish='{$contract_transaction_finish}',
+                    contract_payment_date_from='{$contract_payment_date_from}',
+                    contract_payment_date_to='{$contract_payment_date_to}',
+                    contract_payment_status='{$contract_payment_status}',
+                    contract_payment_report='{$contract_payment_report}'
                      where contract_id='{$contract_id}'    
                     ";
 
@@ -619,7 +636,14 @@ class ajax {
                         . "contract_key_money,"
                         . "contract_name,"
                         . "contract_application,"
-                        . "contract_application_date"
+                        . "contract_application_date,"
+                        ."contract_broker_fee,"
+                        ."contract_ads_fee,"
+                        ."contract_transaction_finish,"
+                        ."contract_payment_date_from,"
+                        ."contract_payment_date_to,"
+                        ."contract_payment_status,"
+                        ."contract_payment_report"
                         . ") values("
                         . "'{$contract_id}',"
                         . "'{$contract_cost}',"
@@ -638,7 +662,14 @@ class ajax {
                         . "'{$contract_key_money}',"
                         . "'{$contract_name}',"
                         . "'{$contract_application}',"
-                        . "'{$contract_application_date}'"
+                        . "'{$contract_application_date}',"
+                        ."'{$contract_broker_fee}',"
+                        ."'{$contract_ads_fee}',"
+                        ."'{$contract_transaction_finish}',"
+                        ."'{$contract_payment_date_from}',"
+                        ."'{$contract_payment_date_to}',"
+                        ."'{$contract_payment_status}',"
+                        ."'{$contract_payment_report}'"                        
                         . ")";
                 //   echo $query;die();
                 $result = $database->database_query($query);
