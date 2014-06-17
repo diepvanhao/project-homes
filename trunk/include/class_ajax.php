@@ -533,15 +533,15 @@ class ajax {
         if($contract_deposit1_money_unit=='ヵ月')
             $contract_deposit_1=(float)$contract_deposit_1*$contract_cost;
         if($contract_deposit2_money_unit=='ヵ月')
-            $contract_deposit_2=(float)$contract_deposit_2*$contract_cost;
-        
+            $contract_deposit_2=(float)$contract_deposit_2*$contract_cost;       
+       
         for($i=0;$i<count($plus_money);$i++){
-            if($contract_plus_money_unit[$i]=='ヵ月')
+            if($plus_money_unit[$i]=='ヵ月')
                 $total=(float)($total+$plus_money[$i]*$contract_cost);
             else
                 $total=(float)($total+$plus_money[$i]);
-        }
-        $contract_total=(float)($contract_cost+$contract_key_money+$contract_ads_fee+$contract_broker_fee+$total);
+        }       
+        $contract_total=(float)($contract_cost+$contract_key_money+$contract_ads_fee+$contract_broker_fee+$total);        
         //check order exist
         $contract_date_create = $contract_date_update = time();
         $contract_id = checkExistContract($user->user_info['id'], $order_id);
@@ -597,7 +597,7 @@ class ajax {
                     $query = "insert into home_plus_money(contract_detail_id,label,price)values(
                                 '{$contract_detail_id}',
                                 '{$label[$i]}',
-                                '{$plus_money[$i]}{$contract_plus_money_unit[$i]}'
+                                '{$plus_money[$i]}{$plus_money_unit[$i]}'
                                 )";
 
                     $database->database_query($query);

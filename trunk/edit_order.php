@@ -271,34 +271,7 @@ if (isset($_POST['log_date_appointment_to'])) {
 } else {
     $log_date_appointment_to = "";
 }
-if (isset($_POST['log_payment_date_appointment_from'])) {
-    $log_payment_date_appointment_from = $_POST['log_payment_date_appointment_from'];
-} elseif (isset($_GET['log_payment_date_appointment_from'])) {
-    $log_payment_date_appointment_from = $_GET['log_payment_date_appointment_from'];
-} else {
-    $log_payment_date_appointment_from = "";
-}
-if (isset($_POST['log_payment_date_appointment_to'])) {
-    $log_payment_date_appointment_to = $_POST['log_payment_date_appointment_to'];
-} elseif (isset($_GET['log_payment_date_appointment_to'])) {
-    $log_payment_date_appointment_to = $_GET['log_payment_date_appointment_to'];
-} else {
-    $log_payment_date_appointment_to = "";
-}
-if (isset($_POST['log_payment_appointment_status'])) {
-    $log_payment_appointment_status = $_POST['log_payment_appointment_status'];
-} elseif (isset($_GET['log_payment_appointment_status'])) {
-    $log_payment_appointment_status = $_GET['log_payment_appointment_status'];
-} else {
-    $log_payment_appointment_status = "";
-}
-if (isset($_POST['log_payment_appointment_report'])) {
-    $log_payment_appointment_report = $_POST['log_payment_appointment_report'];
-} elseif (isset($_GET['log_payment_appointment_report'])) {
-    $log_payment_appointment_report = $_GET['log_payment_appointment_report'];
-} else {
-    $log_payment_appointment_report = "";
-}
+    
 if (isset($_POST['log_status_appointment'])) {
     $log_status_appointment = $_POST['log_status_appointment'];
 } elseif (isset($_GET['log_status_appointment'])) {
@@ -481,13 +454,13 @@ if (isset($_POST['contract_cost'])) {
 } else {
     $contract_cost = "";
 }
-if (isset($_POST['contract_plus_money'])) {
-    $contract_plus_money = $_POST['contract_plus_money'];
-} elseif (isset($_GET['contract_plus_money'])) {
-    $contract_plus_money = $_GET['contract_plus_money'];
-} else {
-    $contract_plus_money = "";
-}
+//    if (isset($_POST['contract_plus_money'])) {
+//        $contract_plus_money = $_POST['contract_plus_money'];
+//    } elseif (isset($_GET['contract_plus_money'])) {
+//        $contract_plus_money = $_GET['contract_plus_money'];
+//    } else {
+//        $contract_plus_money = "";
+//    }
 if (isset($_POST['contract_key_money'])) {
     $contract_key_money = $_POST['contract_key_money'];
 } elseif (isset($_GET['contract_key_money'])) {
@@ -565,6 +538,7 @@ if (isset($_POST['contract_total'])) {
 } else {
     $contract_total = "";
 }
+
 if (isset($_POST['contract_application'])) {
     $contract_application = $_POST['contract_application'];
 } elseif (isset($_GET['contract_application'])) {
@@ -579,13 +553,63 @@ if (isset($_POST['contract_application_date'])) {
 } else {
     $contract_application_date = "";
 }
-if (isset($_POST['plus_money'])) {
-    $plus_money = $_POST['plus_money'];
-} elseif (isset($_GET['plus_money'])) {
-    $plus_money = $_GET['plus_money'];
+    if (isset($_POST['contract_payment_date_from'])) {
+        $contract_payment_date_from = $_POST['contract_payment_date_from'];
+    } elseif (isset($_GET['contract_payment_date_from'])) {
+        $contract_payment_date_from = $_GET['contract_payment_date_from'];
 } else {
-    $plus_money = "";
+        $contract_payment_date_from = "";
 }
+    if (isset($_POST['contract_payment_date_to'])) {
+        $contract_payment_date_to = $_POST['contract_payment_date_to'];
+    } elseif (isset($_GET['contract_payment_date_to'])) {
+        $contract_payment_date_to = $_GET['contract_payment_date_to'];
+    } else {
+        $contract_payment_date_to = "";
+    }
+    if (isset($_POST['contract_payment_status'])) {
+        $contract_payment_status = $_POST['contract_payment_status'];
+    } elseif (isset($_GET['contract_payment_status'])) {
+        $contract_payment_status = $_GET['contract_payment_status'];
+    } else {
+        $contract_payment_status = "";
+    }
+    if (isset($_POST['contract_payment_report'])) {
+        $contract_payment_report = $_POST['contract_payment_report'];
+    } elseif (isset($_GET['contract_payment_report'])) {
+        $contract_payment_report = $_GET['contract_payment_report'];
+    } else {
+        $contract_payment_report = "";
+    }
+    if (isset($_POST['contract_broker_fee'])) {
+        $contract_broker_fee = $_POST['contract_broker_fee'];
+    } elseif (isset($_GET['contract_broker_fee'])) {
+        $contract_broker_fee = $_GET['contract_broker_fee'];
+    } else {
+        $contract_broker_fee = "";
+    }
+    if (isset($_POST['contract_ads_fee'])) {
+        $contract_ads_fee = $_POST['contract_ads_fee'];
+    } elseif (isset($_GET['contract_ads_fee'])) {
+        $contract_ads_fee = $_GET['contract_ads_fee'];
+    } else {
+        $contract_ads_fee = "";
+    }
+    if (isset($_POST['contract_transaction_finish'])) {
+        $contract_transaction_finish = $_POST['contract_transaction_finish'];
+    } elseif (isset($_GET['contract_transaction_finish'])) {
+        $contract_transaction_finish = $_GET['contract_transaction_finish'];
+    } else {
+        $contract_transaction_finish = "";
+    }
+//    if (isset($_POST['plus_money'])) {
+//        $plus_money = $_POST['plus_money'];
+//    } elseif (isset($_GET['plus_money'])) {
+//        $plus_money = $_GET['plus_money'];
+//    } else {
+//        $plus_money = "";
+//    }
+    $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
 
 $customer = new HOMECustomer();
@@ -605,6 +629,7 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $customers = $customer->getCustomers($filter, $offset, $length);
+
 for ($i = 0; $i < count($customers); $i++) {
     if ($house->isSerialized($customers[$i]['client_address'])) {
         $house_address_serialize = unserialize($customers[$i]['client_address']);
@@ -670,6 +695,7 @@ if (isset($_POST['save'])) {
                 $client_time_change = $client_arr['client_time_change'];
                 $client_resident_name = $client_arr['client_resident_name'];
                 $client_resident_phone = $client_arr['client_resident_phone'];
+                    
                 if ($user->user_info['id'] == $client_arr['user_id']) {
                     $result = $customer->getCustomersOrder($order_id, $client_id);
                     if ($result) {
@@ -681,10 +707,6 @@ if (isset($_POST['save'])) {
                             $log_comment = $client_arr['log_comment'];
                             $log_date_appointment_from = $client_arr['log_date_appointment_from'];
                             $log_date_appointment_to = $client_arr['log_date_appointment_to'];
-                            $log_payment_date_appointment_from = $client_arr['log_payment_date_appointment_from'];
-                            $log_payment_date_appointment_to = $client_arr['log_payment_date_appointment_to'];
-                            $log_payment_appointment_status = $client_arr['log_payment_appointment_status'];
-                            $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];
                             $log_status_appointment = $client_arr['log_status_appointment'];
                             $log_tel = $client_arr['log_tel'];
                             $log_tel_status = $client_arr['log_tel_status'];
@@ -722,6 +744,13 @@ if (isset($_POST['save'])) {
                             $contract_total = $client_arr['contract_total'];
                             $contract_application = $client_arr['contract_application'];
                             $contract_application_date = $client_arr['contract_application_date'];
+                                $contract_payment_date_from = $client_arr['contract_payment_date_from'];
+                                $contract_payment_date_to = $client_arr['contract_payment_date_to'];
+                                $contract_payment_status = $client_arr['contract_payment_status'];
+                                $contract_payment_report = $client_arr['contract_payment_report'];
+                                $contract_broker_fee = $client_arr['contract_broker_fee'];
+                                $contract_ads_fee = $client_arr['contract_ads_fee'];
+                                $contract_transaction_finish = $client_arr['contract_transaction_finish'];
 
                             $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
                         }
@@ -850,6 +879,15 @@ $smarty->assign('contract_cancel', $contract_cancel);
 $smarty->assign('contract_total', $contract_total);
 $smarty->assign('contract_application', $contract_application);
 $smarty->assign('contract_application_date', $contract_application_date);
+    
+    $smarty->assign('contract_payment_date_from', $contract_payment_date_from);
+    $smarty->assign('contract_payment_date_to', $contract_payment_date_to);
+    $smarty->assign('contract_payment_status', $contract_payment_status);
+    $smarty->assign('contract_payment_report', $contract_payment_report);
+    $smarty->assign('contract_broker_fee', $contract_broker_fee);
+    $smarty->assign('contract_ads_fee', $contract_ads_fee);
+    $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
+    
 $smarty->assign('house_id', $house_id);
 $smarty->assign('introduce_house_content', $introduce_house_content);
 $smarty->assign('introduce_house_photo', $introduce_house_photo);
@@ -866,10 +904,10 @@ $smarty->assign('log_time_mail', $log_time_mail);
 $smarty->assign('log_comment', $log_comment);
 $smarty->assign('log_date_appointment_from', $log_date_appointment_from);
 $smarty->assign('log_date_appointment_to', $log_date_appointment_to);
-$smarty->assign('log_payment_date_appointment_from', $log_payment_date_appointment_from);
-$smarty->assign('log_payment_date_appointment_to', $log_payment_date_appointment_to);
-$smarty->assign('log_payment_appointment_status', $log_payment_appointment_status);
-$smarty->assign('log_payment_appointment_report', $log_payment_appointment_report);
+//    $smarty->assign('log_payment_date_appointment_from', $log_payment_date_appointment_from);
+//    $smarty->assign('log_payment_date_appointment_to', $log_payment_date_appointment_to);
+//    $smarty->assign('log_payment_appointment_status', $log_payment_appointment_status);
+//    $smarty->assign('log_payment_appointment_report', $log_payment_appointment_report);
 $smarty->assign('log_status_appointment', $log_status_appointment);
 $smarty->assign('log_tel', $log_tel);
 $smarty->assign('log_tel_status', $log_tel_status);

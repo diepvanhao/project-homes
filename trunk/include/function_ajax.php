@@ -972,7 +972,7 @@ if ($action == "check_email") {
         } elseif (isset($_GET['plus_money'])) {
             $plus_money = $_GET['plus_money'];
         } else {
-            $plus_money = "";
+            $plus_money = NULL;
         }
 
         if (isset($_POST['plus_money_unit'])) {
@@ -980,7 +980,7 @@ if ($action == "check_email") {
         } elseif (isset($_GET['plus_money_unit'])) {
             $plus_money_unit = $_GET['plus_money_unit'];
         } else {
-            $plus_money_unit = "";
+            $plus_money_unit = NULL;
         }
         if (isset($_POST['contract_key_money_unit'])) {
             $contract_key_money_unit = $_POST['contract_key_money_unit'];
