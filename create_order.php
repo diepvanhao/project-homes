@@ -890,10 +890,11 @@ if ($step == 1) {
                     $client_time_change = $client_arr['client_time_change'];
                     $client_resident_name = $client_arr['client_resident_name'];
                     $client_resident_phone = $client_arr['client_resident_phone'];
+                    
                     if ($user->user_info['id'] == $client_arr['user_id']) {
                         $result = $customer->getCustomersOrder($order_id, $client_id);
                         if ($result) {
-                            $client_arr = $result['client_arr'];
+                            $client_arr = $result['client_arr'];                            
                             if (!empty($client_arr)) {
                                 $log_time_call = $client_arr['log_time_call'];
                                 $log_time_arrive_company = $client_arr['log_time_arrive_company'];
