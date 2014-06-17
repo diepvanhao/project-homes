@@ -45,13 +45,13 @@ if(!empty($post)){
         if($fromtime > $time){
             $error[] = "From Date can not great than To Date"; 
         }
-        if($fromdate > time() || $time > time()){
-            $error[] = "From Date and To Date can not in future"; 
-        }
+//        if($fromdate > time() || $time > time()){
+//            $error[] = "From Date and To Date can not in future"; 
+//        }
     }
-    if($user->user_info['user_authorities'] > 2 && $agent_id != $user->user_info['agent_id']){
-        $error[] = "You can not view other agent info"; 
-    }
+//    if($user->user_info['user_authorities'] > 2 && $agent_id != $user->user_info['agent_id']){
+//        $error[] = "You can not view other agent info"; 
+//    }
 }
 $smarty->assign('date', $date);
 $smarty->assign('fromdate', $fromdate);
@@ -78,6 +78,8 @@ $smarty->assign('today', $today = array(
     'change' => 0,
     'agreement' => 0,
     'done' => 0,
+    'chart_cost' => 0,
+    'chart_target' => 0,
 ));
 $smarty->assign('month', $month = array(
     'target' => 0,

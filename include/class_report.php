@@ -1463,4 +1463,141 @@ class Report {
 
         return $return;
     }
+    
+    public function userCommission($user_id= null, $date = null, $fromdate = null){
+        global $database;
+        if (empty($user_id)) {
+            return array();
+        }
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
+        
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
+        $return = array(
+            'today_already_recorded' => 0.00,
+            'today_unsigned' => 0.00,
+            'month_already_recorded' => 0.00,
+            'month_unsigned' => 0.00,
+        );
+        //fee today
+        $select = "SELECT o.id AS order_id, 
+                    o.user_id AS user_id, 
+                    d.id AS detail_id
+                    d.contract_broker_fee AS broker_fee, 
+                    d.contract_ads_fee AS ads_fee,  
+                    d.contract_application AS application, 
+                    d.contract_signature_day AS signature_date,
+                    d.contract_transaction_finish AS transaction
+            FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today}";
+            
+        $result = $database->database_query($select);
+        
+        while ($row = $database->database_fetch_assoc($result)) {
+            if(empty($row['application'])){
+                continue;
+            }
+            $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS p
+                WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
+            $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
+            if(!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0){
+                $row['broker_fee'] = $row['broker_fee'] *  $tmp['partner_percent'] / 100;
+                $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
+            }
+            
+            if(!empty($row['transaction'])){
+                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
+            }elseif(!empty($row['signature_date'])){
+                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] ;
+                $return['today_unsigned'] = $return['today_unsigned'] + $row['ads_fee'];
+            }else{
+                $return['today_unsigned'] = $return['today_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
+            }
+        }
+        
+        //fee of month
+        $select = "SELECT o.id AS order_id, 
+                    o.user_id AS user_id, 
+                    d.id AS detail_id
+                    d.contract_broker_fee AS broker_fee, 
+                    d.contract_ads_fee AS ads_fee,  
+                    d.contract_application AS application, 
+                    d.contract_signature_day AS signature_date,
+                    d.contract_transaction_finish AS transaction
+            FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month}";
+            
+        $result = $database->database_query($select);
+        
+        while ($row = $database->database_fetch_assoc($result)) {
+            if(empty($row['application'])){
+                continue;
+            }
+            $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS p
+                WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
+            $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
+            if(!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0){
+                $row['broker_fee'] = $row['broker_fee'] *  $tmp['partner_percent'] / 100;
+                $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
+            }
+            
+            if(!empty($row['transaction'])){
+                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
+            }elseif(!empty($row['signature_date'])){
+                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] ;
+                $return['month_unsigned'] = $return['month_unsigned'] + $row['ads_fee'];
+            }else{
+                $return['month_unsigned'] = $return['month_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
+            }
+        }
+        return $return;
+    }
+    public function getChartInfo($agent_id = 0, $date = null, $fromdate = null) {
+        if (empty($agent_id)) {
+            return 0;
+        }
+        global $database; 
+        
+        if(empty($date)){
+            $time = time();
+        }else{
+            $arr = explode('/',$date);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        if(empty($fromdate)){
+            $fromtime = time();
+        }else{
+            $arr = explode('/',$fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
+        $return = array();
+        
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
+        
+        ////cost of month
+        $select = "SELECT SUM(d.contract_total) FROM home_contract_detail d
+            INNER JOIN home_user u  ON d.user_id = u.id
+            WHERE u.agent_id = {$agent_id} AND o.order_status = 1 AND  {$month}";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+
+        return (float) $row[0];
+    }
 }
