@@ -12,7 +12,7 @@
 .report-lable div span + span{
     color: #2BB1D3;
     font-size: 16px;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 .house-title{
     display: block;

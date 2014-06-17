@@ -55,20 +55,21 @@
                 <span>Shop Name/ Agent Name:</span>
                 <span>{$agent_name}</span>
             </div>
+            <br>
             <div class="agent-date">
                 <span>DATE: </span>
                 <span> 
                     {if $date}
-                       {$date}
+                       From {$fromdate} to {$date}
                     {else}
                         {date("m/d/Y")}
                     {/if}
                 </span>
             </div>
-            <div class="agent-rate">
+<!--            <div class="agent-rate">
                 <span>Achievement rate: </span>
                 <span></span>
-            </div>
+            </div>-->
         </div>
         <table>
             <tr>
@@ -112,8 +113,12 @@
                     {$month.target = $month.target + $user.user_target}
                 </td>
                 <td>Today</td>
-                <td>{$info.cost_today}{$today.cost = $today.cost + $info.cost_today}</td>
-                <td></td>
+                <!--<td>{$info.cost_today}</td>-->
+                {$commission = $report ->userCommission($user.id,$date,$fromdate)}
+                {$today.cost = $today.cost + $commission.today_already_recorded}
+                {$today.unsigned = $today.unsigned + $commission.today_unsigned}
+                <td>{$commission.today_already_recorded}</td> <!--Already Recorded-->
+                <td>{$commission.today_unsigned}</td> <!--Unsigned-->
                 <td></td>
                 <td></td>
                 <td>
@@ -180,11 +185,10 @@
             </tr>
             <tr>
                 <td>Total</td>
-                <td>
-                    {$info.cost_month}
-                    {$month.cost = $month.cost + $info.cost_month}
-                </td>
-                <td></td>
+                    {$month.cost = $month.cost + $commission.today_already_recorded}
+                    {$month.unsigned = $month.unsigned + $commission.month_unsigned}
+                <td>{$commission.today_already_recorded}</td> <!--Already Recorded-->
+                <td>{$commission.today_unsigned}</td> <!--Unsigned-->
                 <td></td>
                 <td>
                     {$info.cost_previous_month - $user.user_target}
@@ -261,7 +265,7 @@
                 </td>
                 <td>Today</td>
                 <td>{$today.cost}</td>
-                <td></td>
+                <td>{$today.unsigned}</td>
                 <td></td>
                 <td></td>
                 <td>
@@ -316,7 +320,7 @@
             <tr>
                 <td>Total</td>
                 <td>{$month.cost}</td>
-                <td></td>
+                <td>{$month.unsigned}</td>
                 <td></td>
                 <td>{$month.cost_previous}</td>
                 <td>{(int)($month.signboard)}</td>
@@ -652,9 +656,13 @@
                 var data = google.visualization.arrayToDataTable([
                     ['name','Actually','Target'],
                 {/literal}
-                        {foreach from=$agents key=k item=agent}
-                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$report->getAgentCostOfMonth($agent.id,$date,$fromdate)}{literal},{/literal}{$agent.target}{literal}],{/literal}
+                        {foreach $users as $key => $user}
+                            {$commission = $report ->userCommission($user.id,$date,$fromdate)}
+                            {$today.chart_cost = $today.chart_cost + $commission.today_already_recorded}
+                            {$today.chart_target = $today.chart_target + $user.user_target}
+                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.today_already_recorded}{literal},{/literal}{$user.user_target}{literal}],{/literal}
                     {/foreach}
+                    {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
                     {literal}
                     ]);
 
