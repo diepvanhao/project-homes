@@ -648,9 +648,11 @@ class ajax {
         } else {
             $query = "insert into home_contract("
                     . "user_id,"
+                    ."client_id,"
                     . "order_id"
                     . ") values("
                     . "'{$user->user_info['id']}',"
+                    . "'{$client_id}',"
                     . "'{$order_id}'"
                     . ")";
 

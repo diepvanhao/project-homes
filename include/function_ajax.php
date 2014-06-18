@@ -571,6 +571,29 @@ if ($action == "check_email") {
         } else {
             $log_time_mail = "";
         }
+        
+        if (isset($_POST['log_time_call_date'])) {
+            $log_time_call_date = $_POST['log_time_call_date'];
+        } elseif (isset($_GET['log_time_call_date'])) {
+            $log_time_call_date = $_GET['log_time_call_date'];
+        } else {
+            $log_time_call_date = "";
+        }
+        if (isset($_POST['log_time_arrive_company_date'])) {
+            $log_time_arrive_company_date = $_POST['log_time_arrive_company_date'];
+        } elseif (isset($_GET['log_time_arrive_company_date'])) {
+            $log_time_arrive_company_date = $_GET['log_time_arrive_company_date'];
+        } else {
+            $log_time_arrive_company_date = "";
+        }
+        if (isset($_POST['log_time_mail_date'])) {
+            $log_time_mail_date = $_POST['log_time_mail_date'];
+        } elseif (isset($_GET['log_time_mail_date'])) {
+            $log_time_mail_date = $_GET['log_time_mail_date'];
+        } else {
+            $log_time_mail_date = "";
+        }
+        
         if (isset($_POST['log_tel'])) {
             $log_tel = $_POST['log_tel'];
         } elseif (isset($_GET['log_tel'])) {
@@ -679,6 +702,11 @@ if ($action == "check_email") {
             $log_status_appointment = "";
         }
 
+        //update time
+        $log_time_call=$log_time_call_date." ".$log_time_call;
+        $log_time_arrive_company=$log_time_arrive_company_date." ".$log_time_arrive_company;
+        $log_time_mail=$log_time_mail_date." ".$log_time_mail;
+        
         $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }

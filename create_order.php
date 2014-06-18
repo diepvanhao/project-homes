@@ -446,6 +446,29 @@ if ($step == 1) {
     } else {
         $log_time_mail = "";
     }
+
+    if (isset($_POST['log_time_call_date'])) {
+        $log_time_call_date = $_POST['log_time_call_date'];
+    } elseif (isset($_GET['log_time_call_date'])) {
+        $log_time_call_date = $_GET['log_time_call_date'];
+    } else {
+        $log_time_call_date = "";
+    }
+    if (isset($_POST['log_time_arrive_company_date'])) {
+        $log_time_arrive_company_date = $_POST['log_time_arrive_company_date'];
+    } elseif (isset($_GET['log_time_arrive_company_date'])) {
+        $log_time_arrive_company_date = $_GET['log_time_arrive_company_date'];
+    } else {
+        $log_time_arrive_company_date = "";
+    }
+    if (isset($_POST['log_time_mail_date'])) {
+        $log_time_mail_date = $_POST['log_time_mail_date'];
+    } elseif (isset($_GET['log_time_mail_date'])) {
+        $log_time_mail_date = $_GET['log_time_mail_date'];
+    } else {
+        $log_time_mail_date = "";
+    }
+
     if (isset($_POST['log_comment'])) {
         $log_comment = $_POST['log_comment'];
     } elseif (isset($_GET['log_comment'])) {
@@ -812,7 +835,7 @@ if ($step == 1) {
     } else {
         $partner_percent = "";
     }
-    
+
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
 
@@ -905,8 +928,25 @@ if ($step == 1) {
                             $client_arr = $result['client_arr'];
                             if (!empty($client_arr)) {
                                 $log_time_call = $client_arr['log_time_call'];
+                                $log_time_call_date = explode(" ", $log_time_call);
+
+                                if (isset($log_time_call_date[1])) {
+                                    $log_time_call = $log_time_call_date[1];
+                                    $log_time_call_date = $log_time_call_date[0];
+                                }
                                 $log_time_arrive_company = $client_arr['log_time_arrive_company'];
+                                $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
+                                if (isset($log_time_arrive_company_date[1])) {
+                                    $log_time_arrive_company = $log_time_arrive_company_date[1];
+                                    $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+                                }
                                 $log_time_mail = $client_arr['log_time_mail'];
+                                $log_time_mail_date = explode(" ", $log_time_mail);
+                                if (isset($log_time_mail_date[1])) {
+                                    $log_time_mail = $log_time_mail_date[1];
+                                    $log_time_mail_date = $log_time_mail_date[0];
+                                }
+
                                 $log_comment = $client_arr['log_comment'];
                                 $log_date_appointment_from = $client_arr['log_date_appointment_from'];
                                 $log_date_appointment_to = $client_arr['log_date_appointment_to'];
@@ -956,6 +996,12 @@ if ($step == 1) {
                                 $contract_transaction_finish = $client_arr['contract_transaction_finish'];
 
                                 $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
+                                //get partner
+                                $partner = $order->getPartnerId($client_arr['contract_detail_id']);
+                                if (!empty($partner)) {
+                                    $partner_id = $partner[0]['partner_id'];
+                                    $partner_percent = $partner[0]['partner_percent'];
+                                }
                             }
                         }
                     }
@@ -1024,6 +1070,11 @@ if ($step == 1) {
     $smarty->assign('log_time_call', $log_time_call);
     $smarty->assign('log_time_arrive_company', $log_time_arrive_company);
     $smarty->assign('log_time_mail', $log_time_mail);
+
+    $smarty->assign('log_time_call_date', $log_time_call_date);
+    $smarty->assign('log_time_arrive_company_date', $log_time_arrive_company_date);
+    $smarty->assign('log_time_mail_date', $log_time_mail_date);
+
     $smarty->assign('log_comment', $log_comment);
     $smarty->assign('log_date_appointment_from', $log_date_appointment_from);
     $smarty->assign('log_date_appointment_to', $log_date_appointment_to);

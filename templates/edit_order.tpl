@@ -49,6 +49,19 @@
                     }
                 });
             });
+            $("#agent_id").change(function(e) {
+                var agent_id = $('#agent_id').val();
+                $.post("include/function_ajax.php", {agent_id: agent_id, action: 'create_order', task: 'getPartner'},
+                function(result) {
+                    if (result) {
+                        $('#partner_id').empty();
+                        $('#partner_id').html(result);
+                    } else {
+                        $('#partner_id').empty();
+                    }
+                });
+            });
+
             $('#step').click(function() {
                 var house_id = $('#house_id').val();
                 $('#submit').attr('disabled', false);
@@ -296,7 +309,7 @@
 
                 $("input[name^='contract_plus_money']").each(function() {
                     plus_money.push($(this).val());
-            });
+                });
 
                 $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
@@ -308,7 +321,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0));
+                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
             });
             $('#contract_cost').keyup(function(e) {
 
@@ -339,7 +352,7 @@
 
                 $("input[name^='contract_plus_money']").each(function() {
                     plus_money.push($(this).val());
-            });
+                });
 
                 $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
@@ -381,7 +394,7 @@
 
                 $("input[name^='contract_plus_money']").each(function() {
                     plus_money.push($(this).val());
-            });
+                });
 
                 $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                     plus_money_unit.push($(this).val());
@@ -464,7 +477,7 @@
                 var total_plus = 0;
                 $("input[name^='contract_lable_money']").each(function() {
                     label.push($(this).val());
-            });
+                });
 
                 $("input[name^='contract_plus_money']").each(function() {
                     plus_money.push($(this).val());
@@ -595,6 +608,11 @@
                         var log_time_call = $('#log_time_call').val();
                         var log_time_arrive_company = $('#log_time_arrive_company').val();
                         var log_time_mail = $('#log_time_mail').val();
+
+                        var log_time_call_date = $('#log_time_call_date').val();
+                        var log_time_arrive_company_date = $('#log_time_arrive_company_date').val();
+                        var log_time_mail_date = $('#log_time_mail_date').val();
+
                         var log_comment = $('#log_comment').val();
                         var log_date_appointment_from = $('#log_date_appointment_from').val();
                         var log_date_appointment_to = $('#log_date_appointment_to').val();
@@ -656,6 +674,7 @@
                         var order_id = $('#order_id').val();
 
                         $.post("include/function_ajax.php", {log_time_call: log_time_call, log_time_arrive_company: log_time_arrive_company, log_time_mail: log_time_mail,
+                            log_time_call_date: log_time_call_date, log_time_arrive_company_date: log_time_arrive_company_date, log_time_mail_date: log_time_mail_date,
                             log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
                             log_date_appointment_to: log_date_appointment_to, log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
                             log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
@@ -730,7 +749,8 @@
                         var contract_payment_report = $('input[name="contract_payment_report"]:checked').val();
                         var contract_payment_date_from = $('#contract_payment_date_from').val();
                         var contract_payment_date_to = $('#contract_payment_date_to').val();
-
+                        var partner_id = $('#partner_id').val();
+                        var partner_percent = $('#partner_percent').val();
                         /*
                          var plus_money_unit = new Array();
                          $("input[name^='contract_plus_money']").each(function() {
@@ -786,7 +806,14 @@
                         $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                             plus_money_unit.push($(this).val());
                         });
-
+                        //validate                        
+                        if (partner_id.length > 0) {
+                            if (partner_percent=="") {
+                                $('#error_partner_id').html('How many pertcent for this partner ?');
+                                return false;
+                            }
+                        }
+                        $('#error_partner_id').html("");
                         $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_key_money: contract_key_money,
                             contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
@@ -794,7 +821,7 @@
                             plus_money_unit: plus_money_unit, contract_key_money_unit: contract_key_money_unit, contract_deposit1_money_unit: contract_deposit1_money_unit, contract_deposit2_money_unit: contract_deposit2_money_unit,
                             contract_broker_fee: contract_broker_fee, contract_broker_fee_unit: contract_broker_fee_unit, contract_ads_fee: contract_ads_fee, contract_ads_fee_unit: contract_ads_fee_unit,
                             contract_transaction_finish: contract_transaction_finish, contract_payment_date_from: contract_payment_date_from, contract_payment_date_to: contract_payment_date_to,
-                            contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report,
+                            contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report, partner_id: partner_id, partner_percent: partner_percent,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -812,12 +839,12 @@
             });
         });
         function CalculatorPlus() {
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
-                var contract_key_money_unit = $('#contract_key_money_unit').val();
-                if (contract_key_money_unit == 'ヵ月') {
-                    contract_key_money = contract_key_money * contract_cost;
-                }
+            var contract_key_money = parseFloat($('#contract_key_money').val());
+            var contract_cost = parseFloat($('#contract_cost').val());
+            var contract_key_money_unit = $('#contract_key_money_unit').val();
+            if (contract_key_money_unit == 'ヵ月') {
+                contract_key_money = contract_key_money * contract_cost;
+            }
             var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
             var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
             if (contract_broker_fee_unit == 'ヵ月') {
@@ -829,27 +856,27 @@
                 contract_ads_fee = contract_ads_fee * contract_cost;
             }
 
-                var label = new Array();
-                var plus_money = new Array();
-                var plus_money_unit = new Array();
-                var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
-                    label.push($(this).val());
-                });
+            var label = new Array();
+            var plus_money = new Array();
+            var plus_money_unit = new Array();
+            var total_plus = 0;
+            $("input[name^='contract_lable_money']").each(function() {
+                label.push($(this).val());
+            });
 
             $("input[name^='contract_plus_money']").each(function() {
-                    plus_money.push($(this).val());
-                });
+                plus_money.push($(this).val());
+            });
 
             $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
-                    plus_money_unit.push($(this).val());
-                });
+                plus_money_unit.push($(this).val());
+            });
 
-                for (var i = 0; i < plus_money_unit.length; i++) {
-                    if (plus_money_unit[i] == 'ヵ月')
+            for (var i = 0; i < plus_money_unit.length; i++) {
+                if (plus_money_unit[i] == 'ヵ月')
                     plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                 total_plus += parseFloat(plus_money[i]);
-                }
+            }
 
             $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
         }
@@ -1176,19 +1203,19 @@
                     <tr>
                         <td class='form1'>Time call: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_call_date" name="log_time_call_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 100px;"/>
                         </td>
                         <td class='form1' nowrap>Time arrive:</td>
                         <td class='form2'>
-                            <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 100px;"/>
                         </td>
                     </tr>
                     <tr>
                         <td class='form1'>Time send email: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_mail_date" name="log_time_mail_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 100px;"/>
                         </td>
                         <td class='form1' nowrap>Comment:</td>
@@ -1472,6 +1499,28 @@
                         <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1'>Agent:</td>
+                        <td class='form2'>
+                            <select id="agent_id"name="agent_id"style="height: 26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$agents item=agent}
+                                    <option value="{$agent.id}">{$agent.agent_name}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td class='form1' nowrap>Partner:</td>
+                        <td class='form2'>
+                            <select id="partner_id"name="partner_id" style="height:26px; width: 220px;">
+                                <option value=""></option>
+                                {foreach from=$partners item=partner}
+                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
+                                {/foreach}
+                            </select>
+                            <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                            <div id="error_partner_id" class="error"></div>
+                        </td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>
@@ -1778,9 +1827,9 @@
                                                 function removePlus(childElem) {
                                                     var row = $(childElem).closest("tr"); // find <tr> parent
                                                     if (row) {
-                                                    row.remove();
+                                                        row.remove();
                                                         CalculatorPlus();
-                                                }
+                                                    }
                                                 }
         </script>
     {/literal}
