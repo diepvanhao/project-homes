@@ -70,13 +70,29 @@ class HOMEAgent {
 
     function getAgent($search = "", $offset = 0, $length = 50) {
         global $database;
-
-
         $query = "select * from home_agent";
         if (!empty($search))
             $query.=" where agent_name like '%{$search}%'";
 
         $query.=" limit $offset,$length";
+        //echo $query;
+        $result = $database->database_query($query);
+        $agent_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $agent['id'] = $row['id'];
+            $agent['agent_name'] = $row['agent_name'];
+            $agent['agent_email'] = $row['agent_email'];
+            $agent['agent_address'] = $row['agent_address'];
+            $agent['agent_phone'] = $row['agent_phone'];
+            $agent['agent_fax'] = $row['agent_fax'];
+            $agent_arr[] = $agent;
+        }
+        return $agent_arr;
+    }
+
+    function getAllAgent() {
+        global $database;
+        $query = "select * from home_agent";       
         //echo $query;
         $result = $database->database_query($query);
         $agent_arr = array();
@@ -105,9 +121,9 @@ class HOMEAgent {
 
     function assign($agent_id = "", $staff_id = "") {
         global $database;
-        if($agent_id && $staff_id){
-            $query="update home_user set agent_id={$agent_id} where id={$staff_id}";
-            $result=$database->database_query($query);
+        if ($agent_id && $staff_id) {
+            $query = "update home_user set agent_id={$agent_id} where id={$staff_id}";
+            $result = $database->database_query($query);
             return $result;
         }
     }
