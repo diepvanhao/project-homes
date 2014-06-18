@@ -11,7 +11,6 @@ class HOMEUser {
     var $user_info;   // CONTAINS USER'S INFORMATION FROM HOME_USERS TABLE
     var $user_salt;   // CONTAINS THE SALT USED TO ENCRYPT USER'S PASSWORD
     var $session_info; // CONTAINS THE PRIVACY LEVEL THAT IS ALLOWED TO MODERATE FOR THIS USER
-
 //
     // THIS METHOD SETS INITIAL VARS SUCH AS USER INFO AND LEVEL INFO
 //
@@ -332,8 +331,8 @@ class HOMEUser {
         if (isset($user_id) && isset($user_email) && isset($user_password)) {
             if ($user_id && $user_email && $user_password) {
                 setcookie('user_id', $user_id, time() + 8 * 3600);
-                setcookie('user_email', $user_email, time() +8 * 3600);
-                setcookie('user_pass', $user_password, time() +8 * 3600);
+                setcookie('user_email', $user_email, time() + 8 * 3600);
+                setcookie('user_pass', $user_password, time() + 8 * 3600);
             }
         }
 // Create new key if logging in, delete old key if logging out
@@ -526,7 +525,7 @@ class HOMEUser {
 
         $user_directory = $url->url_userdir($user_id);
 
-        if ($is_admin) { 
+        if ($is_admin) {
             $user_directory = "." . $user_directory;
         }
 
@@ -576,7 +575,7 @@ class HOMEUser {
 
         $thumb_dest = substr($file_dest, 0, strrpos($file_dest, ".")) . "_thumb" . substr($file_dest, strrpos($file_dest, "."));
 
-        if ($is_admin) { 
+        if ($is_admin) {
             $file_dest = "." . $file_dest;
             $thumb_dest = "." . $thumb_dest;
         }
@@ -640,9 +639,9 @@ class HOMEUser {
         $query = "select user_path_photo, user_path_thumb from home_user where id={$user_id} ";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
-        
+
         $namePhoto = explode("_", $row['user_path_thumb']);
-        $namePhoto = $namePhoto[0] . "_" . $namePhoto[1].'.jpg';
+        $namePhoto = $namePhoto[0] . "_" . $namePhoto[1] . '.jpg';
 
         if ($row) {
 
@@ -840,7 +839,7 @@ class HOMEUser {
     function update($user_username, $user_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $agent_id, $user_id) {
         global $database, $url;
         $crypt_password = $this->user_password_crypt($user_password);
-        
+
         $signup_code = $user_salt = $this->user_salt;
         $query = "update home_user set
                 `agent_id`='{$agent_id}',
@@ -860,7 +859,7 @@ class HOMEUser {
                
                 ";
         if ($user_photo)
-            $query.=",". "`user_photo`='{$user_photo}'";
+            $query.="," . "`user_photo`='{$user_photo}'";
         $query.=" where id={$user_id}";
 //        echo $query;
 //        die();
@@ -884,9 +883,12 @@ class HOMEUser {
         return $users;
     }
 
-    function getAllUsers() {
+    function getAllUsers($admin = false) {
         global $database;
-        $query = "select * from home_user order by user_fname ASC";
+        if ($admin)
+            $query = "select * from home_user where user_authorities>1 and user_locked=0 order by user_fname ASC";
+        else
+            $query = "select * from home_user where user_locked=0 order by user_fname ASC";
         $result = $database->database_query($query);
         $users = array();
         while ($row = $database->database_fetch_assoc($result)) {
@@ -897,7 +899,7 @@ class HOMEUser {
         }
         return $users;
     }
-    
+
     function getTotalItem($search) {
         global $database;
 

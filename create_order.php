@@ -72,7 +72,7 @@ if ($step == 1) {
     }
     //Set order name auto
     $order = new HOMEOrder();
-    $order_name=$order->generate_order_name();
+    $order_name = $order->generate_order_name();
 
     if (isset($_POST['order_rent_cost'])) {
         $order_rent_cost = $_POST['order_rent_cost'];
@@ -138,8 +138,8 @@ if ($step == 1) {
     }
     //Set order name auto
     $order = new HOMEOrder();
-    $order_name=$order->generate_order_name();
-    
+    $order_name = $order->generate_order_name();
+
     if (isset($_POST['order_rent_cost'])) {
         $order_rent_cost = $_POST['order_rent_cost'];
     } elseif (isset($_GET['order_rent_cost'])) {
@@ -467,7 +467,7 @@ if ($step == 1) {
     } else {
         $log_date_appointment_to = "";
     }
-    
+
     if (isset($_POST['log_status_appointment'])) {
         $log_status_appointment = $_POST['log_status_appointment'];
     } elseif (isset($_GET['log_status_appointment'])) {
@@ -798,13 +798,21 @@ if ($step == 1) {
     } else {
         $contract_transaction_finish = "";
     }
-//    if (isset($_POST['plus_money'])) {
-//        $plus_money = $_POST['plus_money'];
-//    } elseif (isset($_GET['plus_money'])) {
-//        $plus_money = $_GET['plus_money'];
-//    } else {
-//        $plus_money = "";
-//    }
+    if (isset($_POST['partner_id'])) {
+        $partner_id = $_POST['partner_id'];
+    } elseif (isset($_GET['partner_id'])) {
+        $partner_id = $_GET['partner_id'];
+    } else {
+        $partner_id = "";
+    }
+    if (isset($_POST['partner_percent'])) {
+        $partner_percent = $_POST['partner_percent'];
+    } elseif (isset($_GET['partner_percent'])) {
+        $partner_percent = $_GET['partner_percent'];
+    } else {
+        $partner_percent = "";
+    }
+    
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
 
@@ -890,18 +898,18 @@ if ($step == 1) {
                     $client_time_change = $client_arr['client_time_change'];
                     $client_resident_name = $client_arr['client_resident_name'];
                     $client_resident_phone = $client_arr['client_resident_phone'];
-                    
+
                     if ($user->user_info['id'] == $client_arr['user_id']) {
                         $result = $customer->getCustomersOrder($order_id, $client_id);
                         if ($result) {
-                            $client_arr = $result['client_arr'];                            
+                            $client_arr = $result['client_arr'];
                             if (!empty($client_arr)) {
                                 $log_time_call = $client_arr['log_time_call'];
                                 $log_time_arrive_company = $client_arr['log_time_arrive_company'];
                                 $log_time_mail = $client_arr['log_time_mail'];
                                 $log_comment = $client_arr['log_comment'];
                                 $log_date_appointment_from = $client_arr['log_date_appointment_from'];
-                                $log_date_appointment_to = $client_arr['log_date_appointment_to'];                                
+                                $log_date_appointment_to = $client_arr['log_date_appointment_to'];
                                 $log_status_appointment = $client_arr['log_status_appointment'];
                                 $log_tel = $client_arr['log_tel'];
                                 $log_tel_status = $client_arr['log_tel_status'];
@@ -946,7 +954,7 @@ if ($step == 1) {
                                 $contract_broker_fee = $client_arr['contract_broker_fee'];
                                 $contract_ads_fee = $client_arr['contract_ads_fee'];
                                 $contract_transaction_finish = $client_arr['contract_transaction_finish'];
-                                
+
                                 $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
                             }
                         }
@@ -970,7 +978,14 @@ if ($step == 1) {
     //get source
     // $house = new HOMEHouse();
     $sources = $house->getAllSource();
+    $agent = new HOMEAgent();
+    $agents = $agent->getAllAgent();
+    $partners = $user->getAllUsers(true);
 
+    $smarty->assign('agents', $agents);
+    $smarty->assign('partners', $partners);
+    $smarty->assign('partner_id', $partner_id);
+    $smarty->assign('partner_percent', $partner_percent);
     $smarty->assign('plus_money', $plus_money);
     $smarty->assign('contract_name', $contract_name);
     $smarty->assign('contract_cost', $contract_cost);
@@ -987,7 +1002,7 @@ if ($step == 1) {
     $smarty->assign('contract_total', $contract_total);
     $smarty->assign('contract_application', $contract_application);
     $smarty->assign('contract_application_date', $contract_application_date);
-    
+
     $smarty->assign('contract_payment_date_from', $contract_payment_date_from);
     $smarty->assign('contract_payment_date_to', $contract_payment_date_to);
     $smarty->assign('contract_payment_status', $contract_payment_status);
@@ -995,7 +1010,7 @@ if ($step == 1) {
     $smarty->assign('contract_broker_fee', $contract_broker_fee);
     $smarty->assign('contract_ads_fee', $contract_ads_fee);
     $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
-    
+
     $smarty->assign('house_id', $house_id);
     $smarty->assign('introduce_house_content', $introduce_house_content);
     $smarty->assign('introduce_house_photo', $introduce_house_photo);

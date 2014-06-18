@@ -351,6 +351,24 @@ if ($action == "check_email") {
         $result = $ajax->checkRoom($house_id, $room_id, $broker_id);
         echo json_encode($result);
     }
+    if ($task == 'getPartner') {
+        
+        if (isset($_POST['agent_id'])) {
+            $agent_id = $_POST['agent_id'];
+        } elseif (isset($_GET['agent_id'])) {
+            $agent_id = $_GET['agent_id'];
+        } else {
+            $agent_id = "";
+        }
+        
+        $result = $ajax->getPartnerByKey($agent_id);
+        if ($result) {
+            echo "<option value=''></option>";
+            for ($i = 0; $i < count($result); $i++) {
+                echo "<option value='{$result[$i]['id']}'>{$result[$i]['user_fname']} {$result[$i]['user_lname']}</option>";
+            }
+        }
+    }
 } elseif ($action == 'deleteClient') {
 
     if (isset($_POST['id'])) {
@@ -960,6 +978,20 @@ if ($action == "check_email") {
         } else {
             $contract_transaction_finish = "";
         }
+        if (isset($_POST['partner_id'])) {
+            $partner_id = $_POST['partner_id'];
+        } elseif (isset($_GET['partner_id'])) {
+            $partner_id = $_GET['partner_id'];
+        } else {
+            $partner_id = "";
+        }
+        if (isset($_POST['partner_percent'])) {
+            $partner_percent = $_POST['partner_percent'];
+        } elseif (isset($_GET['partner_percent'])) {
+            $partner_percent = $_GET['partner_percent'];
+        } else {
+            $partner_percent = "";
+        }
         if (isset($_POST['label'])) {
             $label = $_POST['label'];
         } elseif (isset($_GET['label'])) {
@@ -1004,7 +1036,7 @@ if ($action == "check_email") {
             $contract_deposit2_money_unit = "";
         }
 
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $client_id, $order_id);
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit,$partner_id,$partner_percent, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {

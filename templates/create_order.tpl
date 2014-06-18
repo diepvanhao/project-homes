@@ -49,6 +49,19 @@
                     }
                 });
             });
+            $("#agent_id").change(function(e){
+                var agent_id=$('#agent_id').val();
+                $.post("include/function_ajax.php", {agent_id: agent_id, action: 'create_order', task: 'getPartner'},
+                function(result) {
+                    if(result){
+                        $('#partner_id').empty();
+                        $('#partner_id').html(result);
+                    }else{
+                        $('#partner_id').empty();
+                    }
+                });
+            });            
+            
             $('#step').click(function() {
                 var house_id = $('#house_id').val();
                 $('#submit').attr('disabled', false);
@@ -719,7 +732,7 @@
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
                         var contract_signature_day = $('#contract_signature_day').val();
-
+                        
                         var contract_handover_day = $('#contract_handover_day').val();
                         var contract_period_from = $('#contract_period_from').val();
                         var contract_period_to = $('#contract_period_to').val();
@@ -730,7 +743,8 @@
                         var contract_payment_report = $('input[name="contract_payment_report"]:checked').val();
                         var contract_payment_date_from = $('#contract_payment_date_from').val();
                         var contract_payment_date_to = $('#contract_payment_date_to').val();
-
+                        var partner_id=$('#partner_id').val();
+                        var partner_percent=$('#partner_percent').val();
                         /*
                          var plus_money_unit = new Array();
                          $("input[name^='contract_plus_money']").each(function() {
@@ -794,7 +808,7 @@
                             plus_money_unit: plus_money_unit, contract_key_money_unit: contract_key_money_unit, contract_deposit1_money_unit: contract_deposit1_money_unit, contract_deposit2_money_unit: contract_deposit2_money_unit,
                             contract_broker_fee: contract_broker_fee, contract_broker_fee_unit: contract_broker_fee_unit, contract_ads_fee: contract_ads_fee, contract_ads_fee_unit: contract_ads_fee_unit,
                             contract_transaction_finish: contract_transaction_finish, contract_payment_date_from: contract_payment_date_from, contract_payment_date_to: contract_payment_date_to,
-                            contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report,
+                            contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report,partner_id: partner_id,partner_percent: partner_percent,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -1801,6 +1815,27 @@
                         <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>Agent:</td>
+                        <td class='form2'>
+                            <select id="agent_id"name="agent_id"style="height: 26px; width: 300px;">
+                            <option value=""></option>
+                            {foreach from=$agents item=agent}
+                                <option value="{$agent.id}">{$agent.agent_name}</option>
+                            {/foreach}
+                            </select>
+                        </td>
+                        <td class='form1' nowrap>Partner:</td>
+                        <td class='form2'>
+                            <select id="partner_id"name="partner_id" style="height:26px; width: 220px;">
+                                <option value=""></option>
+                                {foreach from=$partners item=partner}
+                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
+                                {/foreach}
+                            </select>
+                                <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                        </td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>

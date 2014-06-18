@@ -233,7 +233,23 @@ class ajax {
         }
         return $house_arr;
     }
-
+    function getPartnerByKey($agent_id){
+        global $database;
+        $query = "select hu.* from home_agent as ha left join home_user as hu on ha.id=hu.agent_id ";
+        $query.="where hu.user_authorities>1 and hu.user_locked=0";    
+        if (!empty($agent_id))
+            $query.=" and ha.id='{$agent_id}' and hu.agent_id='{$agent_id}' ";     
+        
+        $result = $database->database_query($query);
+        $partner_arr = array();
+        while($row=$database->database_fetch_assoc($result)){
+            $partner['id']=$row['id'];
+            $partner['user_fname']=$row['user_fname'];
+            $partner['user_lname']=$row['user_lname'];
+            $partner_arr[]=$partner;
+        }
+        return $partner_arr;
+    }
     function getBrokerByKey($search) {
         global $database;
         $search = trim($search);
@@ -411,7 +427,7 @@ class ajax {
                     . "log_mail_status,"
                     . "log_revisit,"
                     . "log_time_mail,"
-                    . "log_date_appointment_to"                    
+                    . "log_date_appointment_to"
                     . ") values("
                     . "'{$user->user_info['id']}',"
                     . "'{$client_id}',"
@@ -434,7 +450,7 @@ class ajax {
                     . "'{$log_mail_status}',"
                     . "'{$log_revisit}',"
                     . "'{$log_time_mail}',"
-                    . "'{$log_date_appointment_to}'"                    
+                    . "'{$log_date_appointment_to}'"
                     . ")";
             $result = $database->database_query($query);
             return array('id' => $database->database_insert_id());
@@ -519,29 +535,29 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $client_id, $order_id) {
         global $database, $user;
         //calculator fee
-        $total=0;
-        
-        if($contract_key_money_unit=='ヵ月')
-            $contract_key_money=(float)$contract_key_money*$contract_cost;
-        if($contract_ads_fee_unit=='ヵ月')
-            $contract_ads_fee=(float)$contract_ads_fee*$contract_cost;
-        if($contract_broker_fee_unit=='ヵ月')
-            $contract_broker_fee=(float)$contract_broker_fee*$contract_cost;
-        if($contract_deposit1_money_unit=='ヵ月')
-            $contract_deposit_1=(float)$contract_deposit_1*$contract_cost;
-        if($contract_deposit2_money_unit=='ヵ月')
-            $contract_deposit_2=(float)$contract_deposit_2*$contract_cost;       
-       
-        for($i=0;$i<count($plus_money);$i++){
-            if($plus_money_unit[$i]=='ヵ月')
-                $total=(float)($total+$plus_money[$i]*$contract_cost);
+        $total = 0;
+
+        if ($contract_key_money_unit == 'ヵ月')
+            $contract_key_money = (float) $contract_key_money * $contract_cost;
+        if ($contract_ads_fee_unit == 'ヵ月')
+            $contract_ads_fee = (float) $contract_ads_fee * $contract_cost;
+        if ($contract_broker_fee_unit == 'ヵ月')
+            $contract_broker_fee = (float) $contract_broker_fee * $contract_cost;
+        if ($contract_deposit1_money_unit == 'ヵ月')
+            $contract_deposit_1 = (float) $contract_deposit_1 * $contract_cost;
+        if ($contract_deposit2_money_unit == 'ヵ月')
+            $contract_deposit_2 = (float) $contract_deposit_2 * $contract_cost;
+
+        for ($i = 0; $i < count($plus_money); $i++) {
+            if ($plus_money_unit[$i] == 'ヵ月')
+                $total = (float) ($total + $plus_money[$i] * $contract_cost);
             else
-                $total=(float)($total+$plus_money[$i]);
-        }       
-        $contract_total=(float)($contract_cost+$contract_key_money+$contract_ads_fee+$contract_broker_fee+$total);        
+                $total = (float) ($total + $plus_money[$i]);
+        }
+        $contract_total = (float) ($contract_cost + $contract_key_money + $contract_ads_fee + $contract_broker_fee + $total);
         //check order exist
         $contract_date_create = $contract_date_update = time();
         $contract_id = checkExistContract($user->user_info['id'], $order_id);
@@ -604,6 +620,30 @@ class ajax {
                 }
             }
             //end update plus money
+            //begin partner
+            if ($partner_id) {
+                $check_partner_exist = checkPartnerExist($contract_detail_id, $partner_id);
+                if ($check_partner_exist) {
+                    $query = "update home_contract_partner set
+                     partner_percent='{$partner_percent}'
+                         where id='{$check_partner_exist}'
+                    ";
+                    $database->database_query($query);
+                } else {
+                    $query = "insert into home_contract_partner("
+                            . "contract_detail_id,"
+                            . "partner_id,"
+                            . "partner_percent"
+                            . ")values("
+                            . "'{$contract_detail_id}',"
+                            . "'{$partner_id}',"
+                            . "'{$partner_percent}'"
+                            . ")";
+                    $database->database_query($query);
+                }
+            }
+
+            //end partner                        
             return array('id' => "", 'update' => $update);
         } else {
             $query = "insert into home_contract("
@@ -637,13 +677,13 @@ class ajax {
                         . "contract_name,"
                         . "contract_application,"
                         . "contract_application_date,"
-                        ."contract_broker_fee,"
-                        ."contract_ads_fee,"
-                        ."contract_transaction_finish,"
-                        ."contract_payment_date_from,"
-                        ."contract_payment_date_to,"
-                        ."contract_payment_status,"
-                        ."contract_payment_report"
+                        . "contract_broker_fee,"
+                        . "contract_ads_fee,"
+                        . "contract_transaction_finish,"
+                        . "contract_payment_date_from,"
+                        . "contract_payment_date_to,"
+                        . "contract_payment_status,"
+                        . "contract_payment_report"
                         . ") values("
                         . "'{$contract_id}',"
                         . "'{$contract_cost}',"
@@ -663,13 +703,13 @@ class ajax {
                         . "'{$contract_name}',"
                         . "'{$contract_application}',"
                         . "'{$contract_application_date}',"
-                        ."'{$contract_broker_fee}',"
-                        ."'{$contract_ads_fee}',"
-                        ."'{$contract_transaction_finish}',"
-                        ."'{$contract_payment_date_from}',"
-                        ."'{$contract_payment_date_to}',"
-                        ."'{$contract_payment_status}',"
-                        ."'{$contract_payment_report}'"                        
+                        . "'{$contract_broker_fee}',"
+                        . "'{$contract_ads_fee}',"
+                        . "'{$contract_transaction_finish}',"
+                        . "'{$contract_payment_date_from}',"
+                        . "'{$contract_payment_date_to}',"
+                        . "'{$contract_payment_status}',"
+                        . "'{$contract_payment_report}'"
                         . ")";
                 //   echo $query;die();
                 $result = $database->database_query($query);
@@ -691,6 +731,30 @@ class ajax {
                         $database->database_query($query);
                     }
                 }
+                //begin partner
+                if ($partner_id) {
+                    $check_partner_exist = checkPartnerExist($contract_detail_id, $partner_id);
+                    if ($check_partner_exist) {
+                        $query = "update home_contract_partner set
+                     partner_percent='{$partner_percent}'
+                         where id='{$check_partner_exist}'
+                    ";
+                        $database->database_query($query);
+                    } else {
+                        $query = "insert into home_contract_partner("
+                                . "contract_detail_id,"
+                                . "partner_id,"
+                                . "partner_percent"
+                                . ")values("
+                                . "'{$contract_detail_id}',"
+                                . "'{$partner_id}',"
+                                . "'{$partner_percent}'"
+                                . ")";
+                        $database->database_query($query);
+                    }
+                }
+
+                //end partner
             }
             return array('id' => $contract_detail_id);
         }
@@ -746,11 +810,11 @@ class ajax {
                 $row['client_address'] = $row['client_address'];
             }
             //$row['client_address'] = $row['client_address'];
-            $row['city_id']=$city_id;
-            $row['district_id']=$district_id;
-            $row['street_id']=$street_id;
-            $row['ward_id']=$ward_id;
-            
+            $row['city_id'] = $city_id;
+            $row['district_id'] = $district_id;
+            $row['street_id'] = $street_id;
+            $row['ward_id'] = $ward_id;
+
             $row['client_phone'] = $row['client_phone'];
             $row['client_income'] = $row['client_income'];
             $row['client_occupation'] = $row['client_occupation'];
@@ -765,7 +829,7 @@ class ajax {
             $row['client_resident_phone'] = $row['client_resident_phone'];
             $row['client_rent'] = $row['client_rent'];
             $row['client_room_type'] = $house->getRoomTypeById($row['client_room_type']);
-           
+
             $client_arr = $row;
         }
         return $client_arr;
@@ -810,6 +874,22 @@ class ajax {
         return $ward_arr;
     }
 
+}
+
+function checkPartnerExist($contract_detail_id, $partner_id) {
+    global $database;
+    $query = "select * from home_contract_partner where contract_detail_id={$contract_detail_id} and partner_id={$partner_id}";
+
+    $result = $database->database_query($query);
+
+    $row = $database->database_num_rows($result);
+    if ($row >= 1) {
+        //get contract id
+        $info = $database->database_fetch_assoc($result);
+        return $info['id'];
+    } else {
+        return FALSE;
+    }
 }
 
 function checkExistContract($user_id, $order_id) {
