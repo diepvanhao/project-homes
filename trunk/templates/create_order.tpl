@@ -49,19 +49,19 @@
                     }
                 });
             });
-            $("#agent_id").change(function(e){
-                var agent_id=$('#agent_id').val();
+            $("#agent_id").change(function(e) {
+                var agent_id = $('#agent_id').val();
                 $.post("include/function_ajax.php", {agent_id: agent_id, action: 'create_order', task: 'getPartner'},
                 function(result) {
-                    if(result){
+                    if (result) {
                         $('#partner_id').empty();
                         $('#partner_id').html(result);
-                    }else{
+                    } else {
                         $('#partner_id').empty();
                     }
                 });
-            });            
-            
+            });
+
             $('#step').click(function() {
                 var house_id = $('#house_id').val();
                 $('#submit').attr('disabled', false);
@@ -608,6 +608,11 @@
                         var log_time_call = $('#log_time_call').val();
                         var log_time_arrive_company = $('#log_time_arrive_company').val();
                         var log_time_mail = $('#log_time_mail').val();
+
+                        var log_time_call_date = $('#log_time_call_date').val();
+                        var log_time_arrive_company_date = $('#log_time_arrive_company_date').val();
+                        var log_time_mail_date = $('#log_time_mail_date').val();
+
                         var log_comment = $('#log_comment').val();
                         var log_date_appointment_from = $('#log_date_appointment_from').val();
                         var log_date_appointment_to = $('#log_date_appointment_to').val();
@@ -669,6 +674,7 @@
                         var order_id = $('#order_id').val();
 
                         $.post("include/function_ajax.php", {log_time_call: log_time_call, log_time_arrive_company: log_time_arrive_company, log_time_mail: log_time_mail,
+                            log_time_call_date: log_time_call_date, log_time_arrive_company_date: log_time_arrive_company_date, log_time_mail_date: log_time_mail_date,
                             log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
                             log_date_appointment_to: log_date_appointment_to, log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
                             log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
@@ -732,7 +738,7 @@
                         var contract_condition = $('#contract_condition').val();
                         var contract_valuation = $('#contract_valuation').val();
                         var contract_signature_day = $('#contract_signature_day').val();
-                        
+
                         var contract_handover_day = $('#contract_handover_day').val();
                         var contract_period_from = $('#contract_period_from').val();
                         var contract_period_to = $('#contract_period_to').val();
@@ -743,8 +749,8 @@
                         var contract_payment_report = $('input[name="contract_payment_report"]:checked').val();
                         var contract_payment_date_from = $('#contract_payment_date_from').val();
                         var contract_payment_date_to = $('#contract_payment_date_to').val();
-                        var partner_id=$('#partner_id').val();
-                        var partner_percent=$('#partner_percent').val();
+                        var partner_id = $('#partner_id').val();
+                        var partner_percent = $('#partner_percent').val();
                         /*
                          var plus_money_unit = new Array();
                          $("input[name^='contract_plus_money']").each(function() {
@@ -800,7 +806,14 @@
                         $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                             plus_money_unit.push($(this).val());
                         });
-
+                        //validate
+                        if (partner_id.length > 0) {
+                            if (partner_percent=="") {
+                                $('#error_partner_id').html('How many pertcent for this partner ?');
+                                return false;
+                            }
+                        }
+                        $('#error_partner_id').html("");
                         $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_key_money: contract_key_money,
                             contract_condition: contract_condition, contract_valuation: contract_valuation, contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day,
                             contract_period_from: contract_period_from, contract_period_to: contract_period_to, contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
@@ -808,7 +821,7 @@
                             plus_money_unit: plus_money_unit, contract_key_money_unit: contract_key_money_unit, contract_deposit1_money_unit: contract_deposit1_money_unit, contract_deposit2_money_unit: contract_deposit2_money_unit,
                             contract_broker_fee: contract_broker_fee, contract_broker_fee_unit: contract_broker_fee_unit, contract_ads_fee: contract_ads_fee, contract_ads_fee_unit: contract_ads_fee_unit,
                             contract_transaction_finish: contract_transaction_finish, contract_payment_date_from: contract_payment_date_from, contract_payment_date_to: contract_payment_date_to,
-                            contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report,partner_id: partner_id,partner_percent: partner_percent,
+                            contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report, partner_id: partner_id, partner_percent: partner_percent,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -1519,19 +1532,19 @@
                     <tr>
                         <td class='form1'>Time call: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_call_date" name="log_time_call_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 100px;"/>
                         </td>
                         <td class='form1' nowrap>Time arrive:</td>
                         <td class='form2'>
-                            <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 100px;"/>
                         </td>
                     </tr>
                     <tr>
                         <td class='form1'>Time send email: </td>
                         <td class='form2'>
-                            <input type='text' id="log_time_mail_date" name="log_time_mail_date" value=""style="height: 26px; width: 115px;"/>
+                            <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 100px;"/>
                         </td>
                         <td class='form1' nowrap>Comment:</td>
@@ -1820,10 +1833,10 @@
                         <td class='form1'>Agent:</td>
                         <td class='form2'>
                             <select id="agent_id"name="agent_id"style="height: 26px; width: 300px;">
-                            <option value=""></option>
-                            {foreach from=$agents item=agent}
-                                <option value="{$agent.id}">{$agent.agent_name}</option>
-                            {/foreach}
+                                <option value=""></option>
+                                {foreach from=$agents item=agent}
+                                    <option value="{$agent.id}">{$agent.agent_name}</option>
+                                {/foreach}
                             </select>
                         </td>
                         <td class='form1' nowrap>Partner:</td>
@@ -1834,7 +1847,8 @@
                                     <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
                                 {/foreach}
                             </select>
-                                <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                            <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                            <div id="error_partner_id" class="error"></div>
                         </td>
                     </tr>
                     <tr>                    

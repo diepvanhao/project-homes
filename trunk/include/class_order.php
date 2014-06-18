@@ -179,11 +179,7 @@ class HOMEOrder {
                                
                                 hhl.log_time_mail,
                                 hhl.log_date_appointment_to AS log_date_appointment_to,
-                                hhl.log_payment_date_appointment_from,
-                                hhl.log_payment_date_appointment_to,
-                                hhl.log_payment_appointment_status,
-                                hhl.log_payment_appointment_report,
-
+                                
                                 hha.id AS aspirations_id,
                                 hha.aspirations_type_house AS aspirations_type_house,
                                 hha.aspirations_rent_cost AS aspirations_rent_cost,
@@ -247,11 +243,7 @@ class HOMEOrder {
         $client['log_revisit'] = $row['log_revisit'];
         $client['source_id'] = $row['source_id'];
         $client['log_time_mail'] = $row['log_time_mail'];
-        $client['log_date_appointment_to'] = $row['log_date_appointment_to'];
-        $client['log_payment_date_appointment_from'] = $row['log_payment_date_appointment_from'];
-        $client['log_payment_date_appointment_to'] = $row['log_payment_date_appointment_to'];
-        $client['log_payment_appointment_status'] = $row['log_payment_appointment_status'];
-        $client['log_payment_appointment_report'] = $row['log_payment_appointment_report'];
+        $client['log_date_appointment_to'] = $row['log_date_appointment_to'];        
 
         $client['aspirations_id'] = $row['aspirations_id'];
         $client['aspirations_type_house'] = $row['aspirations_type_house'];
@@ -282,7 +274,14 @@ class HOMEOrder {
                                 hcd.contract_key_money,
                                 hcd.contract_name,
                                 hcd.contract_application,
-                                hcd.contract_application_date
+                                hcd.contract_application_date,
+                                hcd.contract_broker_fee,
+                                hcd.contract_ads_fee,
+                                hcd.contract_transaction_finish,
+                                hcd.contract_payment_date_from,
+                                hcd.contract_payment_date_to,
+                                hcd.contract_payment_status,
+                                hcd.contract_payment_report
                                 
                                 FROM home_order AS ho                                                                                                                               
                                 
@@ -318,6 +317,13 @@ class HOMEOrder {
         $client['contract_name'] = $row['contract_name'];
         $client['contract_application'] = $row['contract_application'];
         $client['contract_application_date'] = $row['contract_application_date'];
+        $client['contract_payment_date_from'] = $row['contract_payment_date_from'];  
+        $client['contract_payment_date_to'] = $row['contract_payment_date_to'];  
+        $client['contract_payment_status'] = $row['contract_payment_status'];  
+        $client['contract_payment_report'] = $row['contract_payment_report'];  
+        $client['contract_broker_fee'] = $row['contract_broker_fee'];  
+        $client['contract_ads_fee'] = $row['contract_ads_fee'];  
+        $client['contract_transaction_finish'] = $row['contract_transaction_finish']; 
         // }
         $client_arr = $client;
         return $client_arr;
@@ -333,6 +339,19 @@ class HOMEOrder {
            // $plus_money[]=$money;
         }
         return $plus_money;
+    }
+    function getPartnerId($contract_detail_id){
+        global $database;
+        $query="select * from home_contract_partner where contract_detail_id={$contract_detail_id} order by id DESC limit 1";        
+        $result=$database->database_query($query);
+        $partner_arr=array();
+        while($row=$database->database_fetch_assoc($result)){
+            $partner['id']=$row['id'];
+            $partner['partner_id']=$row['partner_id'];
+            $partner['partner_percent']=$row['partner_percent'];
+            $partner_arr[]=$partner;
+        }
+        return $partner_arr;
     }
     function generate_order_name(){
         global $database;

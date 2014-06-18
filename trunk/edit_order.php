@@ -250,6 +250,29 @@ if (isset($_POST['log_time_mail'])) {
 } else {
     $log_time_mail = "";
 }
+
+if (isset($_POST['log_time_call_date'])) {
+    $log_time_call_date = $_POST['log_time_call_date'];
+} elseif (isset($_GET['log_time_call_date'])) {
+    $log_time_call_date = $_GET['log_time_call_date'];
+} else {
+    $log_time_call_date = "";
+}
+if (isset($_POST['log_time_arrive_company_date'])) {
+    $log_time_arrive_company_date = $_POST['log_time_arrive_company_date'];
+} elseif (isset($_GET['log_time_arrive_company_date'])) {
+    $log_time_arrive_company_date = $_GET['log_time_arrive_company_date'];
+} else {
+    $log_time_arrive_company_date = "";
+}
+if (isset($_POST['log_time_mail_date'])) {
+    $log_time_mail_date = $_POST['log_time_mail_date'];
+} elseif (isset($_GET['log_time_mail_date'])) {
+    $log_time_mail_date = $_GET['log_time_mail_date'];
+} else {
+    $log_time_mail_date = "";
+}
+
 if (isset($_POST['log_comment'])) {
     $log_comment = $_POST['log_comment'];
 } elseif (isset($_GET['log_comment'])) {
@@ -271,7 +294,7 @@ if (isset($_POST['log_date_appointment_to'])) {
 } else {
     $log_date_appointment_to = "";
 }
-    
+
 if (isset($_POST['log_status_appointment'])) {
     $log_status_appointment = $_POST['log_status_appointment'];
 } elseif (isset($_GET['log_status_appointment'])) {
@@ -553,63 +576,71 @@ if (isset($_POST['contract_application_date'])) {
 } else {
     $contract_application_date = "";
 }
-    if (isset($_POST['contract_payment_date_from'])) {
-        $contract_payment_date_from = $_POST['contract_payment_date_from'];
-    } elseif (isset($_GET['contract_payment_date_from'])) {
-        $contract_payment_date_from = $_GET['contract_payment_date_from'];
+if (isset($_POST['contract_payment_date_from'])) {
+    $contract_payment_date_from = $_POST['contract_payment_date_from'];
+} elseif (isset($_GET['contract_payment_date_from'])) {
+    $contract_payment_date_from = $_GET['contract_payment_date_from'];
 } else {
-        $contract_payment_date_from = "";
+    $contract_payment_date_from = "";
 }
-    if (isset($_POST['contract_payment_date_to'])) {
-        $contract_payment_date_to = $_POST['contract_payment_date_to'];
-    } elseif (isset($_GET['contract_payment_date_to'])) {
-        $contract_payment_date_to = $_GET['contract_payment_date_to'];
-    } else {
-        $contract_payment_date_to = "";
-    }
-    if (isset($_POST['contract_payment_status'])) {
-        $contract_payment_status = $_POST['contract_payment_status'];
-    } elseif (isset($_GET['contract_payment_status'])) {
-        $contract_payment_status = $_GET['contract_payment_status'];
-    } else {
-        $contract_payment_status = "";
-    }
-    if (isset($_POST['contract_payment_report'])) {
-        $contract_payment_report = $_POST['contract_payment_report'];
-    } elseif (isset($_GET['contract_payment_report'])) {
-        $contract_payment_report = $_GET['contract_payment_report'];
-    } else {
-        $contract_payment_report = "";
-    }
-    if (isset($_POST['contract_broker_fee'])) {
-        $contract_broker_fee = $_POST['contract_broker_fee'];
-    } elseif (isset($_GET['contract_broker_fee'])) {
-        $contract_broker_fee = $_GET['contract_broker_fee'];
-    } else {
-        $contract_broker_fee = "";
-    }
-    if (isset($_POST['contract_ads_fee'])) {
-        $contract_ads_fee = $_POST['contract_ads_fee'];
-    } elseif (isset($_GET['contract_ads_fee'])) {
-        $contract_ads_fee = $_GET['contract_ads_fee'];
-    } else {
-        $contract_ads_fee = "";
-    }
-    if (isset($_POST['contract_transaction_finish'])) {
-        $contract_transaction_finish = $_POST['contract_transaction_finish'];
-    } elseif (isset($_GET['contract_transaction_finish'])) {
-        $contract_transaction_finish = $_GET['contract_transaction_finish'];
-    } else {
-        $contract_transaction_finish = "";
-    }
-//    if (isset($_POST['plus_money'])) {
-//        $plus_money = $_POST['plus_money'];
-//    } elseif (isset($_GET['plus_money'])) {
-//        $plus_money = $_GET['plus_money'];
-//    } else {
-//        $plus_money = "";
-//    }
-    $plus_money = array();
+if (isset($_POST['contract_payment_date_to'])) {
+    $contract_payment_date_to = $_POST['contract_payment_date_to'];
+} elseif (isset($_GET['contract_payment_date_to'])) {
+    $contract_payment_date_to = $_GET['contract_payment_date_to'];
+} else {
+    $contract_payment_date_to = "";
+}
+if (isset($_POST['contract_payment_status'])) {
+    $contract_payment_status = $_POST['contract_payment_status'];
+} elseif (isset($_GET['contract_payment_status'])) {
+    $contract_payment_status = $_GET['contract_payment_status'];
+} else {
+    $contract_payment_status = "";
+}
+if (isset($_POST['contract_payment_report'])) {
+    $contract_payment_report = $_POST['contract_payment_report'];
+} elseif (isset($_GET['contract_payment_report'])) {
+    $contract_payment_report = $_GET['contract_payment_report'];
+} else {
+    $contract_payment_report = "";
+}
+if (isset($_POST['contract_broker_fee'])) {
+    $contract_broker_fee = $_POST['contract_broker_fee'];
+} elseif (isset($_GET['contract_broker_fee'])) {
+    $contract_broker_fee = $_GET['contract_broker_fee'];
+} else {
+    $contract_broker_fee = "";
+}
+if (isset($_POST['contract_ads_fee'])) {
+    $contract_ads_fee = $_POST['contract_ads_fee'];
+} elseif (isset($_GET['contract_ads_fee'])) {
+    $contract_ads_fee = $_GET['contract_ads_fee'];
+} else {
+    $contract_ads_fee = "";
+}
+if (isset($_POST['contract_transaction_finish'])) {
+    $contract_transaction_finish = $_POST['contract_transaction_finish'];
+} elseif (isset($_GET['contract_transaction_finish'])) {
+    $contract_transaction_finish = $_GET['contract_transaction_finish'];
+} else {
+    $contract_transaction_finish = "";
+}
+if (isset($_POST['partner_id'])) {
+    $partner_id = $_POST['partner_id'];
+} elseif (isset($_GET['partner_id'])) {
+    $partner_id = $_GET['partner_id'];
+} else {
+    $partner_id = "";
+}
+if (isset($_POST['partner_percent'])) {
+    $partner_percent = $_POST['partner_percent'];
+} elseif (isset($_GET['partner_percent'])) {
+    $partner_percent = $_GET['partner_percent'];
+} else {
+    $partner_percent = "";
+}
+
+$plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
 
 $customer = new HOMECustomer();
@@ -695,15 +726,32 @@ if (isset($_POST['save'])) {
                 $client_time_change = $client_arr['client_time_change'];
                 $client_resident_name = $client_arr['client_resident_name'];
                 $client_resident_phone = $client_arr['client_resident_phone'];
-                    
+
                 if ($user->user_info['id'] == $client_arr['user_id']) {
                     $result = $customer->getCustomersOrder($order_id, $client_id);
                     if ($result) {
                         $client_arr = $result['client_arr'];
                         if (!empty($client_arr)) {
                             $log_time_call = $client_arr['log_time_call'];
+                            $log_time_call_date = explode(" ", $log_time_call);
+
+                            if (isset($log_time_call_date[1])) {
+                                $log_time_call = $log_time_call_date[1];
+                                $log_time_call_date = $log_time_call_date[0];
+                            }
                             $log_time_arrive_company = $client_arr['log_time_arrive_company'];
+                            $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
+                            if (isset($log_time_arrive_company_date[1])) {
+                                $log_time_arrive_company = $log_time_arrive_company_date[1];
+                                $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+                            }
                             $log_time_mail = $client_arr['log_time_mail'];
+                            $log_time_mail_date = explode(" ", $log_time_mail);
+                            if (isset($log_time_mail_date[1])) {
+                                $log_time_mail = $log_time_mail_date[1];
+                                $log_time_mail_date = $log_time_mail_date[0];
+                            }
+
                             $log_comment = $client_arr['log_comment'];
                             $log_date_appointment_from = $client_arr['log_date_appointment_from'];
                             $log_date_appointment_to = $client_arr['log_date_appointment_to'];
@@ -744,13 +792,13 @@ if (isset($_POST['save'])) {
                             $contract_total = $client_arr['contract_total'];
                             $contract_application = $client_arr['contract_application'];
                             $contract_application_date = $client_arr['contract_application_date'];
-                                $contract_payment_date_from = $client_arr['contract_payment_date_from'];
-                                $contract_payment_date_to = $client_arr['contract_payment_date_to'];
-                                $contract_payment_status = $client_arr['contract_payment_status'];
-                                $contract_payment_report = $client_arr['contract_payment_report'];
-                                $contract_broker_fee = $client_arr['contract_broker_fee'];
-                                $contract_ads_fee = $client_arr['contract_ads_fee'];
-                                $contract_transaction_finish = $client_arr['contract_transaction_finish'];
+                            $contract_payment_date_from = $client_arr['contract_payment_date_from'];
+                            $contract_payment_date_to = $client_arr['contract_payment_date_to'];
+                            $contract_payment_status = $client_arr['contract_payment_status'];
+                            $contract_payment_report = $client_arr['contract_payment_report'];
+                            $contract_broker_fee = $client_arr['contract_broker_fee'];
+                            $contract_ads_fee = $client_arr['contract_ads_fee'];
+                            $contract_transaction_finish = $client_arr['contract_transaction_finish'];
 
                             $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
                         }
@@ -776,6 +824,7 @@ if (isset($_POST['save'])) {
 //get client info, history and contact
 
     $client_arr = $order->getClientByOrderId($order_id);
+    // print_r($client_arr);
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
             $client_id = $client_arr['client_id'];
@@ -786,16 +835,16 @@ if (isset($_POST['save'])) {
         $client_fax = $client_arr['client_fax'];
         $gender = $client_arr['client_gender'];
         if ($house->isSerialized($client_arr['client_address'])) {
-                    $house_address_serialize = unserialize($client_arr['client_address']);
-                    $city_id = $house_address_serialize['city_id'];
-                    $district_id = $house_address_serialize['district_id'];
-                    $street_id = $house_address_serialize['street_id'];
-                    $ward_id = $house_address_serialize['ward_id'];
-                    $client_address = $house_address_serialize['client_address'];
-                } else {
-                    $client_address = $client_arr['client_address'];
-                }
-       // $client_address = $client_arr['client_address'];
+            $house_address_serialize = unserialize($client_arr['client_address']);
+            $city_id = $house_address_serialize['city_id'];
+            $district_id = $house_address_serialize['district_id'];
+            $street_id = $house_address_serialize['street_id'];
+            $ward_id = $house_address_serialize['ward_id'];
+            $client_address = $house_address_serialize['client_address'];
+        } else {
+            $client_address = $client_arr['client_address'];
+        }
+        // $client_address = $client_arr['client_address'];
         $client_occupation = $client_arr['client_occupation'];
         $client_company = $client_arr['client_company'];
         $client_income = $client_arr['client_income'];
@@ -807,15 +856,28 @@ if (isset($_POST['save'])) {
         $client_resident_phone = $client_arr['client_resident_phone'];
 
         $log_time_call = $client_arr['log_time_call'];
+        $log_time_call_date = explode(" ", $log_time_call);
+
+        if (isset($log_time_call_date[1])) {
+            $log_time_call = $log_time_call_date[1];
+            $log_time_call_date = $log_time_call_date[0];
+        }
         $log_time_arrive_company = $client_arr['log_time_arrive_company'];
+        $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
+        if (isset($log_time_arrive_company_date[1])) {
+            $log_time_arrive_company = $log_time_arrive_company_date[1];
+            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+        }
         $log_time_mail = $client_arr['log_time_mail'];
+        $log_time_mail_date = explode(" ", $log_time_mail);
+        if (isset($log_time_mail_date[1])) {
+            $log_time_mail = $log_time_mail_date[1];
+            $log_time_mail_date = $log_time_mail_date[0];
+        }
         $log_comment = $client_arr['log_comment'];
         $log_date_appointment_from = $client_arr['log_date_appointment_from'];
         $log_date_appointment_to = $client_arr['log_date_appointment_to'];
-        $log_payment_date_appointment_from = $client_arr['log_payment_date_appointment_from'];
-        $log_payment_date_appointment_to = $client_arr['log_payment_date_appointment_to'];
-        $log_payment_appointment_status = $client_arr['log_payment_appointment_status'];
-        $log_payment_appointment_report = $client_arr['log_payment_appointment_report'];
+
         $log_status_appointment = $client_arr['log_status_appointment'];
         $log_tel = $client_arr['log_tel'];
         $log_tel_status = $client_arr['log_tel_status'];
@@ -853,13 +915,33 @@ if (isset($_POST['save'])) {
         $contract_total = $client_arr['contract_total'];
         $contract_application = $client_arr['contract_application'];
         $contract_application_date = $client_arr['contract_application_date'];
+        $contract_payment_date_from = $client_arr['contract_payment_date_from'];
+        $contract_payment_date_to = $client_arr['contract_payment_date_to'];
+        $contract_payment_status = $client_arr['contract_payment_status'];
+        $contract_payment_report = $client_arr['contract_payment_report'];
+        $contract_broker_fee = $client_arr['contract_broker_fee'];
+        $contract_ads_fee = $client_arr['contract_ads_fee'];
+        $contract_transaction_finish = $client_arr['contract_transaction_finish'];
         //get plus money
         $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
+        //get partner
+        $partner = $order->getPartnerId($client_arr['contract_detail_id']);
+        if (!empty($partner)) {
+            $partner_id = $partner[0]['partner_id'];
+            $partner_percent = $partner[0]['partner_percent'];
+        }
     }
 }
 //get source
 
 $sources = $house->getAllSource();
+$agent = new HOMEAgent();
+$agents = $agent->getAllAgent();
+$partners = $user->getAllUsers(true);
+$smarty->assign('agents', $agents);
+$smarty->assign('partners', $partners);
+$smarty->assign('partner_id', $partner_id);
+$smarty->assign('partner_percent', $partner_percent);
 $cities = $house->getAllCity();
 
 $smarty->assign('cities', $cities);
@@ -879,15 +961,15 @@ $smarty->assign('contract_cancel', $contract_cancel);
 $smarty->assign('contract_total', $contract_total);
 $smarty->assign('contract_application', $contract_application);
 $smarty->assign('contract_application_date', $contract_application_date);
-    
-    $smarty->assign('contract_payment_date_from', $contract_payment_date_from);
-    $smarty->assign('contract_payment_date_to', $contract_payment_date_to);
-    $smarty->assign('contract_payment_status', $contract_payment_status);
-    $smarty->assign('contract_payment_report', $contract_payment_report);
-    $smarty->assign('contract_broker_fee', $contract_broker_fee);
-    $smarty->assign('contract_ads_fee', $contract_ads_fee);
-    $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
-    
+
+$smarty->assign('contract_payment_date_from', $contract_payment_date_from);
+$smarty->assign('contract_payment_date_to', $contract_payment_date_to);
+$smarty->assign('contract_payment_status', $contract_payment_status);
+$smarty->assign('contract_payment_report', $contract_payment_report);
+$smarty->assign('contract_broker_fee', $contract_broker_fee);
+$smarty->assign('contract_ads_fee', $contract_ads_fee);
+$smarty->assign('contract_transaction_finish', $contract_transaction_finish);
+
 $smarty->assign('house_id', $house_id);
 $smarty->assign('introduce_house_content', $introduce_house_content);
 $smarty->assign('introduce_house_photo', $introduce_house_photo);
@@ -901,6 +983,9 @@ $smarty->assign('aspirations_comment', $aspirations_comment);
 $smarty->assign('log_time_call', $log_time_call);
 $smarty->assign('log_time_arrive_company', $log_time_arrive_company);
 $smarty->assign('log_time_mail', $log_time_mail);
+$smarty->assign('log_time_call_date', $log_time_call_date);
+$smarty->assign('log_time_arrive_company_date', $log_time_arrive_company_date);
+$smarty->assign('log_time_mail_date', $log_time_mail_date);
 $smarty->assign('log_comment', $log_comment);
 $smarty->assign('log_date_appointment_from', $log_date_appointment_from);
 $smarty->assign('log_date_appointment_to', $log_date_appointment_to);
