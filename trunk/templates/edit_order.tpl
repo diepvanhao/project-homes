@@ -808,7 +808,7 @@
                         });
                         //validate                        
                         if (partner_id.length > 0) {
-                            if (partner_percent=="") {
+                            if (partner_percent == "") {
                                 $('#error_partner_id').html('How many pertcent for this partner ?');
                                 return false;
                             }
@@ -898,52 +898,52 @@
                 if (result != "") {
 
                     /*reset form*/
-                    /* $('#cus_id').val('');
-                    $('#log_time_call').val('');
-                    $('#log_time_arrive_company').val('');
-                    $('#log_time_mail').val('');
-                    $('#log_comment').val('');
-                    $('#log_date_appointment_from').val('');
-                    $('#log_date_appointment_to').val('');
-                    $('#log_payment_date_appointment_from').val('');
-                    $('#log_payment_date_appointment_to').val('');
-                    $('input[name="log_status_appointment"]').attr('checked', "");
-                    $('input[name="log_payment_appointment_status"]').attr('checked', "");
-                    $('input[name="log_payment_appointment_report"]').attr('checked', "");
-                    $('#log_tel').attr('checked', "");
-                    $('#log_tel_status').attr('checked', "");
-                    $('#log_mail').attr('checked', "");
-                    $('#log_mail_status').attr('checked', "");
-                    $('#log_contact_head_office').attr('checked', "");
-                    $('#log_shop_sign').attr('checked', "");
-                    $('#log_local_sign').attr('checked', "");
-                    $('#log_introduction').attr('checked', "");
-                    $('#log_flyer').attr('checked', "");
-                    $('#log_line').attr('checked', "");
-                    $('#log_revisit').val('');
-                    $('#source_id').each(function(e) {
-                        $('option').removeAttr('selected');
-                    });
-                    $('#aspirations_type_house').val('');
-                    $('#aspirations_type_room').val('');
-                    $('#aspirations_build_time').val('');
-                    $('#aspirations_area').val('');
-                    $('#aspirations_size').val('');
-                    $('#aspirations_rent_cost').val('');
-                    $('#aspirations_comment').val('');
-                    $('#contract_name').val('');
-                    $('#contract_cost').val('');
-                    $('#contract_plus_money').val('');
-                    $('#contract_key_money').val('');
-                    $('#contract_condition').val('');
-                    $('#contract_valuation').val('');
-                    $('#contract_signature_day').val('');
-                    $('#contract_handover_day').val('');
-                    $('#contract_period_from').val('');
-                    $('#contract_period_to').val('');
-                    $('#contract_deposit_1').val('');
-                    $('#contract_deposit_2').val('');
-                    $('#contract_cancel').val('');
+                    $('#cus_id').val('');
+                    /* $('#log_time_call').val('');
+                     $('#log_time_arrive_company').val('');
+                     $('#log_time_mail').val('');
+                     $('#log_comment').val('');
+                     $('#log_date_appointment_from').val('');
+                     $('#log_date_appointment_to').val('');
+                     $('#log_payment_date_appointment_from').val('');
+                     $('#log_payment_date_appointment_to').val('');
+                     $('input[name="log_status_appointment"]').attr('checked', "");
+                     $('input[name="log_payment_appointment_status"]').attr('checked', "");
+                     $('input[name="log_payment_appointment_report"]').attr('checked', "");
+                     $('#log_tel').attr('checked', "");
+                     $('#log_tel_status').attr('checked', "");
+                     $('#log_mail').attr('checked', "");
+                     $('#log_mail_status').attr('checked', "");
+                     $('#log_contact_head_office').attr('checked', "");
+                     $('#log_shop_sign').attr('checked', "");
+                     $('#log_local_sign').attr('checked', "");
+                     $('#log_introduction').attr('checked', "");
+                     $('#log_flyer').attr('checked', "");
+                     $('#log_line').attr('checked', "");
+                     $('#log_revisit').val('');
+                     $('#source_id').each(function(e) {
+                     $('option').removeAttr('selected');
+                     });
+                     $('#aspirations_type_house').val('');
+                     $('#aspirations_type_room').val('');
+                     $('#aspirations_build_time').val('');
+                     $('#aspirations_area').val('');
+                     $('#aspirations_size').val('');
+                     $('#aspirations_rent_cost').val('');
+                     $('#aspirations_comment').val('');
+                     $('#contract_name').val('');
+                     $('#contract_cost').val('');
+                     $('#contract_plus_money').val('');
+                     $('#contract_key_money').val('');
+                     $('#contract_condition').val('');
+                     $('#contract_valuation').val('');
+                     $('#contract_signature_day').val('');
+                     $('#contract_handover_day').val('');
+                     $('#contract_period_from').val('');
+                     $('#contract_period_to').val('');
+                     $('#contract_deposit_1').val('');
+                     $('#contract_deposit_2').val('');
+                     $('#contract_cancel').val('');
                      $('#contract_total').val('');*/
 
                     var json = $.parseJSON(result);
@@ -1314,10 +1314,22 @@
                     <tr>
                         <td class='form1'>House type: </td>
                         <td class='form2'>
-                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 300px;"/>
+                            <select id="aspirations_type_house" name="aspirations_type_house" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$houseTypes item=houseType}
+                                    <option value="{$houseType.id}" {if $houseType.id eq $aspirations_type_house}selected="selected"{/if}>{$houseType.type_name}</option>        
+                                {/foreach}
+                            </select><div id="error_aspirations_type_house" class="error"></div>
+
                         </td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'>
+                            <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$roomTypes item=roomType}
+                                    <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
+                                {/foreach}
+                            </select><div id="error_aspirations_type_room" class="error"></div>
                     </tr>
                     <tr>
                         <td class='form1'>Build time:</td>
@@ -1329,7 +1341,10 @@
                         <td class='form1'>Size:</td>
                         <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Price:</td>
-                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'> 
+                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 245px;"/>
+                            <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>Comment:</td>
@@ -1359,7 +1374,8 @@
 
                     <tr>
                         <td class="form1">Filter House</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
+                        <td class="form2">
+                            <input type="text" id="search_house" name="search_house" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>                            
                         </td>
                     </tr>
                     <tr>            
@@ -1375,7 +1391,7 @@
                     </tr>
                     <tr>            
                         <td class='form1'>Description House: </td>
-                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description" >{$introduce_house_content}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description" >{$introduce_house_content}</textarea></td>
                     </tr>
                     <tr>            
                         <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
@@ -1831,6 +1847,26 @@
                                                                 }
                                                             });
                                                         }
+                                                    });
+                                                    $('#search_house').keyup(function(e) {
+                                                        var search = $('#search_house').val();
+                                                        $('#error_house').html("");
+                                                        //    showloadgif();
+                                                        $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#house_id').empty();
+                                                                $('#house_id').html(result);
+                                                                $('#step').click();
+                                                                //   hideloadgif();
+                                                            } else {
+                                                                $('#house_id').empty();
+                                                                $('#room_id').empty();
+                                                                $('#house_description').html("");
+                                                                $('#error_house').html("No any house for your keyword");
+                                                                //     hideloadgif();
+                                                            }
+                                                        });
                                                     });
                                                 });
                                                 function removePlus(childElem) {

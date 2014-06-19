@@ -508,7 +508,7 @@ class ajax {
         global $database, $user;
         //check order exist
 
-        if (checkExistIntroduce($client_id, $house_id, $room_id)) {
+        if (checkExistIntroduce($client_id, trim($house_id), trim($room_id))) {
 
             return array('id' => "");
         } else {
@@ -912,8 +912,8 @@ function checkExistContract($user_id, $order_id) {
 
 function checkExistIntroduce($client_id, $house_id, $room_id) {
     global $database;
-    $query = "select * from home_introduce_house where client_id={$client_id} and house_id={$house_id} and room_id={$room_id}";
-
+    $query = "select * from home_introduce_house where client_id={$client_id} and house_id={$house_id} and room_id='{$room_id}'";
+    //echo $query;
     $result = $database->database_query($query);
     $row = $database->database_num_rows($result);
     if ($row >= 1) {

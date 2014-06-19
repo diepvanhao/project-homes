@@ -728,7 +728,7 @@
                                 if (json.id != "")
                                     alert('Saved');
                                 else if (json.id == "")
-                                    $('#error_house').html('This house is introduced. Please choose other house to introduce !!!');
+                                    $('#error_house').html('This room is introduced. Please choose other room/house to introduce !!!');
                             });
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
@@ -898,7 +898,7 @@
                 if (result != "") {
 
                     /*reset form*/
-                     $('#cus_id').val('');
+                    $('#cus_id').val('');
                     /* $('#log_time_call').val('');
                      $('#log_time_arrive_company').val('');
                      $('#log_time_mail').val('');
@@ -1643,10 +1643,22 @@
                     <tr>
                         <td class='form1'>House type: </td>
                         <td class='form2'>
-                            <input type='text' id="aspirations_type_house" name="aspirations_type_house" value="{$aspirations_type_house}" style="height: 26px; width: 300px;"/>
+                            <select id="aspirations_type_house" name="aspirations_type_house" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$houseTypes item=houseType}
+                                    <option value="{$houseType.id}" {if $houseType.id eq $aspirations_type_house}selected="selected"{/if}>{$houseType.type_name}</option>        
+                                {/foreach}
+                            </select><div id="error_aspirations_type_house" class="error"></div>
+
                         </td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="aspirations_type_room" name="aspirations_type_room" value="{$aspirations_type_room}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'>
+                            <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$roomTypes item=roomType}
+                                    <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
+                                {/foreach}
+                            </select><div id="error_aspirations_type_room" class="error"></div>
                     </tr>
                     <tr>
                         <td class='form1'>Build time:</td>
@@ -1658,7 +1670,10 @@
                         <td class='form1'>Size:</td>
                         <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Price:</td>
-                        <td class='form2'> <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'> 
+                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 245px;"/>
+                            <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>Comment:</td>
@@ -1688,7 +1703,8 @@
 
                     <tr>
                         <td class="form1">Filter House</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
+                        <td class="form2">
+                            <input type="text" id="search_house" name="search_house" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>                            
                         </td>
                     </tr>
                     <tr>            
@@ -1704,7 +1720,7 @@
                     </tr>
                     <tr>            
                         <td class='form1'>Description House: </td>
-                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description" >{$introduce_house_content}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description" >{$introduce_house_content}</textarea></td>
                     </tr>
                     <tr>            
                         <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
@@ -2160,6 +2176,26 @@
                                                                 }
                                                             });
                                                         }
+                                                    });
+                                                    $('#search_house').keyup(function(e) {                                                        
+                                                        var search = $('#search_house').val();
+                                                        $('#error_house').html("");
+                                                        //    showloadgif();
+                                                        $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#house_id').empty();
+                                                                $('#house_id').html(result);
+                                                                $('#step').click();
+                                                                //   hideloadgif();
+                                                            } else {
+                                                                $('#house_id').empty();
+                                                                $('#room_id').empty();
+                                                                $('#house_description').html("");
+                                                                $('#error_house').html("No any house for your keyword");
+                                                                //     hideloadgif();
+                                                            }
+                                                        });
                                                     });
                                                 });
                                                 function removePlus(childElem) {

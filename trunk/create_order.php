@@ -1038,6 +1038,7 @@ if ($step == 1) {
     }
     //get source
     // $house = new HOMEHouse();
+    $houseTypes = $house->getHouseType();
     $roomTypes = $house->getRoomType();
     $sources = $house->getAllSource();
     $agent = new HOMEAgent();
@@ -1140,6 +1141,7 @@ if ($step == 1) {
     $smarty->assign('customers', $customers);
     $smarty->assign('sources', $sources);
     $smarty->assign('roomTypes', $roomTypes);
+    $smarty->assign('houseTypes', $houseTypes);
     $smarty->assign('errorHouseExist', $errorHouseExist);
 }
 
