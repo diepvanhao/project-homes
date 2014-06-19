@@ -808,7 +808,7 @@
                         });
                         //validate
                         if (partner_id.length > 0) {
-                            if (partner_percent=="") {
+                            if (partner_percent == "") {
                                 $('#error_partner_id').html('How many pertcent for this partner ?');
                                 return false;
                             }
@@ -898,53 +898,54 @@
                 if (result != "") {
 
                     /*reset form*/
-                    $('#cus_id').val('');
-                    $('#log_time_call').val('');
-                    $('#log_time_arrive_company').val('');
-                    $('#log_time_mail').val('');
-                    $('#log_comment').val('');
-                    $('#log_date_appointment_from').val('');
-                    $('#log_date_appointment_to').val('');
-                    $('#log_payment_date_appointment_from').val('');
-                    $('#log_payment_date_appointment_to').val('');
-                    $('input[name="log_status_appointment"]').attr('checked', "");
-                    $('input[name="log_payment_appointment_status"]').attr('checked', "");
-                    $('input[name="log_payment_appointment_report"]').attr('checked', "");
-                    $('#log_tel').attr('checked', "");
-                    $('#log_tel_status').attr('checked', "");
-                    $('#log_mail').attr('checked', "");
-                    $('#log_mail_status').attr('checked', "");
-                    $('#log_contact_head_office').attr('checked', "");
-                    $('#log_shop_sign').attr('checked', "");
-                    $('#log_local_sign').attr('checked', "");
-                    $('#log_introduction').attr('checked', "");
-                    $('#log_flyer').attr('checked', "");
-                    $('#log_line').attr('checked', "");
-                    $('#log_revisit').val('');
-                    $('#source_id').each(function(e) {
-                        $('option').removeAttr('selected');
-                    });
-                    $('#aspirations_type_house').val('');
-                    $('#aspirations_type_room').val('');
-                    $('#aspirations_build_time').val('');
-                    $('#aspirations_area').val('');
-                    $('#aspirations_size').val('');
-                    $('#aspirations_rent_cost').val('');
-                    $('#aspirations_comment').val('');
-                    $('#contract_name').val('');
-                    $('#contract_cost').val('');
-                    $('#contract_plus_money').val('');
-                    $('#contract_key_money').val('');
-                    $('#contract_condition').val('');
-                    $('#contract_valuation').val('');
-                    $('#contract_signature_day').val('');
-                    $('#contract_handover_day').val('');
-                    $('#contract_period_from').val('');
-                    $('#contract_period_to').val('');
-                    $('#contract_deposit_1').val('');
-                    $('#contract_deposit_2').val('');
-                    $('#contract_cancel').val('');
-                    $('#contract_total').val('');
+                     $('#cus_id').val('');
+                    /* $('#log_time_call').val('');
+                     $('#log_time_arrive_company').val('');
+                     $('#log_time_mail').val('');
+                     $('#log_comment').val('');
+                     $('#log_date_appointment_from').val('');
+                     $('#log_date_appointment_to').val('');
+                     $('#log_payment_date_appointment_from').val('');
+                     $('#log_payment_date_appointment_to').val('');
+                     $('input[name="log_status_appointment"]').attr('checked', "");
+                     $('input[name="log_payment_appointment_status"]').attr('checked', "");
+                     $('input[name="log_payment_appointment_report"]').attr('checked', "");
+                     $('#log_tel').attr('checked', "");
+                     $('#log_tel_status').attr('checked', "");
+                     $('#log_mail').attr('checked', "");
+                     $('#log_mail_status').attr('checked', "");
+                     $('#log_contact_head_office').attr('checked', "");
+                     $('#log_shop_sign').attr('checked', "");
+                     $('#log_local_sign').attr('checked', "");
+                     $('#log_introduction').attr('checked', "");
+                     $('#log_flyer').attr('checked', "");
+                     $('#log_line').attr('checked', "");
+                     $('#log_revisit').val('');
+                     $('#source_id').each(function(e) {
+                     $('option').removeAttr('selected');
+                     });
+                     $('#aspirations_type_house').val('');
+                     $('#aspirations_type_room').val('');
+                     $('#aspirations_build_time').val('');
+                     $('#aspirations_area').val('');
+                     $('#aspirations_size').val('');
+                     $('#aspirations_rent_cost').val('');
+                     $('#aspirations_comment').val('');
+                     $('#contract_name').val('');
+                     $('#contract_cost').val('');
+                     $('#contract_plus_money').val('');
+                     $('#contract_key_money').val('');
+                     $('#contract_condition').val('');
+                     $('#contract_valuation').val('');
+                     $('#contract_signature_day').val('');
+                     $('#contract_handover_day').val('');
+                     $('#contract_period_from').val('');
+                     $('#contract_period_to').val('');
+                     $('#contract_deposit_1').val('');
+                     $('#contract_deposit_2').val('');
+                     $('#contract_cancel').val('');
+                     $('#contract_total').val('');*/
+
                     var json = $.parseJSON(result);
                     $('#client_name').val(json.client_name);
                     $('#client_birthday').val(json.client_birthday);
@@ -1486,7 +1487,15 @@
                         <td class='form1'>Income:</td>
                         <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'> 
+                            <select id="client_room_type" name="client_room_type" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$roomTypes item=roomType}
+                                    <option value="{$roomType.id}" {if $roomType.id eq $client_room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
+                                {/foreach}
+                            </select><div id="error_client_room_type" class="error"></div>
+                           <!-- <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 300px;"/>-->
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>Rent current :</td>

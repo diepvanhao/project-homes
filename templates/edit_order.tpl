@@ -898,7 +898,7 @@
                 if (result != "") {
 
                     /*reset form*/
-                    $('#cus_id').val('');
+                    /* $('#cus_id').val('');
                     $('#log_time_call').val('');
                     $('#log_time_arrive_company').val('');
                     $('#log_time_mail').val('');
@@ -944,7 +944,8 @@
                     $('#contract_deposit_1').val('');
                     $('#contract_deposit_2').val('');
                     $('#contract_cancel').val('');
-                    $('#contract_total').val('');
+                     $('#contract_total').val('');*/
+
                     var json = $.parseJSON(result);
                     $('#client_name').val(json.client_name);
                     $('#client_birthday').val(json.client_birthday);
@@ -1157,7 +1158,15 @@
                         <td class='form1'>Income:</td>
                         <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 300px;"/></td>
                         <td class='form1' nowrap>Room type:</td>
-                        <td class='form2'> <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 300px;"/></td>
+                        <td class='form2'> 
+                            <select id="client_room_type" name="client_room_type" style="height:26px; width: 300px;">
+                                <option value=""></option>
+                                {foreach from=$roomTypes item=roomType}
+                                    <option value="{$roomType.id}" {if $roomType.id eq $client_room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
+                                {/foreach}
+                            </select><div id="error_client_room_type" class="error"></div>
+                           <!-- <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 300px;"/>-->
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>Rent current :</td>

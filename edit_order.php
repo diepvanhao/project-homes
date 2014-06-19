@@ -738,18 +738,33 @@ if (isset($_POST['save'])) {
                             if (isset($log_time_call_date[1])) {
                                 $log_time_call = $log_time_call_date[1];
                                 $log_time_call_date = $log_time_call_date[0];
+                            } elseif (isset($log_time_call_date[0])) {
+                                $log_time_call_date = $log_time_call_date[0];
+                                $log_time_call = "";
+                            } else {
+                                $log_time_call = $log_time_call_date = "";
                             }
                             $log_time_arrive_company = $client_arr['log_time_arrive_company'];
                             $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
                             if (isset($log_time_arrive_company_date[1])) {
                                 $log_time_arrive_company = $log_time_arrive_company_date[1];
                                 $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+                            } elseif (isset($log_time_arrive_company_date[0])) {
+                                $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+                                $log_time_arrive_company = "";
+                            } else {
+                                $log_time_arrive_company = $log_time_arrive_company_date = "";
                             }
                             $log_time_mail = $client_arr['log_time_mail'];
                             $log_time_mail_date = explode(" ", $log_time_mail);
                             if (isset($log_time_mail_date[1])) {
                                 $log_time_mail = $log_time_mail_date[1];
                                 $log_time_mail_date = $log_time_mail_date[0];
+                            } elseif (isset($log_time_mail_date[0])) {
+                                $log_time_mail_date = $log_time_mail_date[0];
+                                $log_time_mail = "";
+                            } else {
+                                $log_time_mail = $log_time_mail_date = "";
                             }
 
                             $log_comment = $client_arr['log_comment'];
@@ -861,18 +876,33 @@ if (isset($_POST['save'])) {
         if (isset($log_time_call_date[1])) {
             $log_time_call = $log_time_call_date[1];
             $log_time_call_date = $log_time_call_date[0];
+        } elseif (isset($log_time_call_date[0])) {
+            $log_time_call_date = $log_time_call_date[0];
+            $log_time_call = "";
+        } else {
+            $log_time_call = $log_time_call_date = "";
         }
         $log_time_arrive_company = $client_arr['log_time_arrive_company'];
         $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
         if (isset($log_time_arrive_company_date[1])) {
             $log_time_arrive_company = $log_time_arrive_company_date[1];
             $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+        } elseif (isset($log_time_arrive_company_date[0])) {
+            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+            $log_time_arrive_company = "";
+        } else {
+            $log_time_arrive_company = $log_time_arrive_company_date = "";
         }
         $log_time_mail = $client_arr['log_time_mail'];
         $log_time_mail_date = explode(" ", $log_time_mail);
         if (isset($log_time_mail_date[1])) {
             $log_time_mail = $log_time_mail_date[1];
             $log_time_mail_date = $log_time_mail_date[0];
+        } elseif (isset($log_time_mail_date[0])) {
+            $log_time_mail_date = $log_time_mail_date[0];
+            $log_time_mail = "";
+        } else {
+            $log_time_mail = $log_time_mail_date = "";
         }
         $log_comment = $client_arr['log_comment'];
         $log_date_appointment_from = $client_arr['log_date_appointment_from'];
@@ -933,7 +963,7 @@ if (isset($_POST['save'])) {
     }
 }
 //get source
-
+$roomTypes = $house->getRoomType();
 $sources = $house->getAllSource();
 $agent = new HOMEAgent();
 $agents = $agent->getAllAgent();
@@ -1034,6 +1064,7 @@ $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('customers', $customers);
 $smarty->assign('sources', $sources);
+$smarty->assign('roomTypes', $roomTypes);
 $smarty->assign('errorHouseExist', $errorHouseExist);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);

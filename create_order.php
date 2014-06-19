@@ -933,18 +933,33 @@ if ($step == 1) {
                                 if (isset($log_time_call_date[1])) {
                                     $log_time_call = $log_time_call_date[1];
                                     $log_time_call_date = $log_time_call_date[0];
+                                } elseif (isset($log_time_call_date[0])) {
+                                    $log_time_call_date = $log_time_call_date[0];
+                                    $log_time_call = "";
+                                } else {
+                                    $log_time_call = $log_time_call_date = "";
                                 }
                                 $log_time_arrive_company = $client_arr['log_time_arrive_company'];
                                 $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
                                 if (isset($log_time_arrive_company_date[1])) {
                                     $log_time_arrive_company = $log_time_arrive_company_date[1];
                                     $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+                                } elseif (isset($log_time_arrive_company_date[0])) {
+                                    $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+                                    $log_time_arrive_company = "";
+                                } else {
+                                    $log_time_arrive_company = $log_time_arrive_company_date = "";
                                 }
                                 $log_time_mail = $client_arr['log_time_mail'];
                                 $log_time_mail_date = explode(" ", $log_time_mail);
                                 if (isset($log_time_mail_date[1])) {
                                     $log_time_mail = $log_time_mail_date[1];
                                     $log_time_mail_date = $log_time_mail_date[0];
+                                } elseif (isset($log_time_mail_date[0])) {
+                                    $log_time_mail_date = $log_time_mail_date[0];
+                                    $log_time_mail = "";
+                                } else {
+                                    $log_time_mail = $log_time_mail_date = "";
                                 }
 
                                 $log_comment = $client_arr['log_comment'];
@@ -1023,6 +1038,7 @@ if ($step == 1) {
     }
     //get source
     // $house = new HOMEHouse();
+    $roomTypes = $house->getRoomType();
     $sources = $house->getAllSource();
     $agent = new HOMEAgent();
     $agents = $agent->getAllAgent();
@@ -1123,6 +1139,7 @@ if ($step == 1) {
     $smarty->assign('totalPage', $totalPage);
     $smarty->assign('customers', $customers);
     $smarty->assign('sources', $sources);
+    $smarty->assign('roomTypes', $roomTypes);
     $smarty->assign('errorHouseExist', $errorHouseExist);
 }
 
