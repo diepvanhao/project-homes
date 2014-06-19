@@ -230,3 +230,8 @@ ALTER TABLE `home_contract_detail`
 
 ALTER TABLE `home_contract_detail`   
   CHANGE `contract_ads_payment` `contract_transaction_finish` TINYINT(1) NULL;
+
+/*19/6 Hao*/
+
+ALTER TABLE `home_introduce_house`   
+  CHANGE `room_id` `room_id` VARCHAR(128) NULL;

@@ -922,7 +922,7 @@ if (isset($_POST['save'])) {
         $log_revisit = $client_arr['log_revisit'];
         $source_id = $client_arr['source_id'];
 
-        $aspirations_type_house = $client_arr['aspirations_type_house'];
+        $aspirations_type_house = trim($client_arr['aspirations_type_house']);        
         $aspirations_type_room = $client_arr['aspirations_type_room'];
         $aspirations_build_time = $client_arr['aspirations_build_time'];
         $aspirations_area = $client_arr['aspirations_area'];
@@ -963,6 +963,7 @@ if (isset($_POST['save'])) {
     }
 }
 //get source
+$houseTypes = $house->getHouseType();
 $roomTypes = $house->getRoomType();
 $sources = $house->getAllSource();
 $agent = new HOMEAgent();
@@ -1065,6 +1066,7 @@ $smarty->assign('totalPage', $totalPage);
 $smarty->assign('customers', $customers);
 $smarty->assign('sources', $sources);
 $smarty->assign('roomTypes', $roomTypes);
+$smarty->assign('houseTypes', $houseTypes);
 $smarty->assign('errorHouseExist', $errorHouseExist);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
