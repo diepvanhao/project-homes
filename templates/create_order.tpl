@@ -709,17 +709,17 @@
                         });
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce') {
-                        var house_id = $('#house_id').val();
-                        var house_description = $('#house_description').val();
+                        var house_id = $('#introduce_house_id').val();
+                        var house_description = $('#introduce_house_content').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-                        var room_id = $('#room_id').val();
-                        $('#error_house').html('');
-                        $('#error_room_introduce').html('');
+                        var room_id = $('#introduce_room_id').val();
+                        $('#error_introduce_house_id').html('');
+                        $('#error_introduce_room_id').html('');
                         if (house_id == "")
-                            $('#error_house').html('Please choose house.');
+                            $('#error_introduce_house_id').html('Please choose house.');
                         else if (room_id == "") {
-                            $('#error_room_introduce').html('Please choose room.');
+                            $('#error_introduce_room_id').html('Please choose room.');
                         } else {
                             $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, introduce_house_content: house_description,
                                 client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
@@ -728,7 +728,7 @@
                                 if (json.id != "")
                                     alert('Saved');
                                 else if (json.id == "")
-                                    $('#error_house').html('This room is introduced. Please choose other room/house to introduce !!!');
+                                    $('#error_introduce_house_id').html('This room is introduced. Please choose other room/house to introduce !!!');
                             });
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
@@ -1710,27 +1710,27 @@
                     <tr>            
                         <td class='form1'>Select House: </td>
                         <td class='form2'>
-                            <select id="house_id" name="house_id" style="height:26px; width: 300px;">
+                            <select id="introduce_house_id" name="introduce_house_id" style="height:26px; width: 300px;">
                                 <option value=""></option>
                                 {foreach from=$houses item=house}
-                                    <option value="{$house.id}" {if $house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
+                                    <option value="{$house.id}" {if $introduce_house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
-                            </select><div id="error_house" class="error"></div>
+                            </select><div id="error_introduce_house_id" class="error"></div>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>Description House: </td>
-                        <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description" >{$introduce_house_content}</textarea></td>
+                        <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="introduce_house_content" name="introduce_house_content" >{$introduce_house_content}</textarea></td>
                     </tr>
                     <tr>            
                         <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
                     </tr>
                     <tr>            
                         <td class='form1'>Select Room: </td>
-                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 300px;">
+                        <td class='form2'><select id="introduce_room_id" name="introduce_room_id" style="height:26px; width: 300px;">
                                 <option value=""></option>
 
-                            </select><div id="error_room_introduce" class="error"></div>
+                            </select><div id="error_introduce_room_id" class="error"></div>
                         </td>
                     </tr>
                     <tr>
@@ -1740,6 +1740,7 @@
                             <div style="margin-top:10px">
                                 <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
                                 <input type="hidden" id="task" name="task" value="introduce"/>
+                                <input type="hidden" id="introduce_house" name="introduce_house" />
                                 <input type="hidden" id="step" name="step" value="registry"/>  
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                 <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
@@ -1904,7 +1905,7 @@
                             <div style="margin-top:10px;text-align: center;">
                                 <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="contract"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="step" name="step" value="registry"/>                                 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                 <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                                 <input type="hidden" id="calculator" name="calculator"/>
@@ -2030,183 +2031,230 @@
             }
 
         </style>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#sidebar_container').css('display', 'none');
-                var fieldCount = 1;
-                $('#add').click(function() {
-                    var label = prompt('which  plus do you want to add ?', '');
-                    if (label != null && label != "" && label != 0) {
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebar_container').css('display', 'none');
+            var fieldCount = 1;
+            $('#add').click(function() {
+                var label = prompt('which  plus do you want to add ?', '');
+                if (label != null && label != "" && label != 0) {
                         // fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
-                        if (fieldCount == 1)
-                            CalculatorPlus();
-                        fieldCount++;
+                    $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                    if (fieldCount == 1)
+                        CalculatorPlus();
+                    fieldCount++;
+                }
+            });
+            //Address
+            //city
+            $('#city_id').change(function(e) {
+                var city_id = $('#city_id').val();
+                var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+
+                if (city_id == "") {
+                    $('#district_id').empty();
+                    $('#street_id').empty();
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                    function(result) {
+                        if (result) {
+                            $('#district_id').empty();
+                            $('#district_id').html(result);
+                            $('#district_id').change();
+                        } else {
+                            $('#district_id').empty();
+                            $('#street_id').empty();
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            //district
+            $('#district_id').change(function(e) {
+                var district_id = $('#district_id').val();
+                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
+
+                if (district_id == "") {
+                    $('#street_id').empty();
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                    function(result) {
+                        if (result) {
+                            $('#street_id').empty();
+                            $('#street_id').html(result);
+                            $('#street_id').change();
+                        } else {
+                            $('#street_id').empty();
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            //street
+            $('#street_id').change(function(e) {
+                var street_id = $('#street_id').val();
+                var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
+
+                if (street_id == "") {
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                    function(result) {
+                        if (result) {
+                            $('#ward_id').empty();
+                            $('#ward_id').html(result);
+                        } else {
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+
+            //clone 
+            //city
+            $('#city_cus').change(function(e) {
+                var city_id = $('#city_cus').val();
+                var district_id = $('#district_cus').val();
+
+                if (city_id == "") {
+                    $('#district_id').empty();
+                    $('#street_id').empty();
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                    function(result) {
+                        if (result) {
+                            $('#district_id').empty();
+                            $('#district_id').html(result);
+                            $('#district_cus').change();
+                        } else {
+                            $('#district_id').empty();
+                            $('#street_id').empty();
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            //district
+            $('#district_cus').change(function(e) {
+                    var district_id = $('#district_id').val();
+                    var street_id = $('#street_cus').val();
+
+                if (district_id == "") {
+                    $('#street_id').empty();
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                    function(result) {
+                        if (result) {
+                            $('#street_id').empty();
+                            $('#street_id').html(result);
+                            $('#street_cus').change();
+                        } else {
+                            $('#street_id').empty();
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            //street
+            $('#street_cus').change(function(e) {
+                var street_id = $('#street_id').val();
+                var ward_id = $('#ward_cus').val();
+
+                if (street_id == "") {
+                    $('#ward_id').empty();
+                } else {
+                    $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                    function(result) {
+                        if (result) {
+                            $('#ward_id').empty();
+                            $('#ward_id').html(result);
+                        } else {
+                            $('#ward_id').empty();
+                        }
+                    });
+                }
+            });
+            $('#search_house').keyup(function(e) {                                                        
+                var search = $('#search_house').val();
+                $('#error_introduce_house_id').html("");
+                                                        //    showloadgif();
+                $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
+                function(result) {
+                    if (result) {
+                        $('#introduce_house_id').empty();
+                        $('#introduce_house_id').html(result);
+                        $('#introduce_house').click();
+                                                                //   hideloadgif();
+                    } else {
+                        $('#introduce_house_id').empty();
+                        $('#introduce_room_id').empty();
+                        $('#introduce_house_content').html("");
+                        $('#error_introduce_house_id').html("No any house for your keyword");
+                                                                //     hideloadgif();
                     }
                 });
-                //Address
-                //city
-                $('#city_id').change(function(e) {
-                    var city_id = $('#city_id').val();
-                    var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
-
-                                if (city_id == "") {
-                                    $('#district_id').empty();
-                                    $('#street_id').empty();
-                                    $('#ward_id').empty();
-                                } else {
-                                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                    function(result) {
-                                        if (result) {
-                                            $('#district_id').empty();
-                                            $('#district_id').html(result);
-                                            $('#district_id').change();
-                                        } else {
-                                            $('#district_id').empty();
-                                            $('#street_id').empty();
-                                            $('#ward_id').empty();
-                                        }
-                                    });
-                                }
-                            });
-                            //district
-                            $('#district_id').change(function(e) {
-                                var district_id = $('#district_id').val();
-                                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
-
-                                            if (district_id == "") {
-                                                $('#street_id').empty();
-                                                $('#ward_id').empty();
-                                            } else {
-                                                $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                function(result) {
-                                                    if (result) {
-                                                        $('#street_id').empty();
-                                                        $('#street_id').html(result);
-                                                        $('#street_id').change();
-                                                    } else {
-                                                        $('#street_id').empty();
-                                                        $('#ward_id').empty();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                        //street
-                                        $('#street_id').change(function(e) {
-                                            var street_id = $('#street_id').val();
-                                            var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
-
-                                                        if (street_id == "") {
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#ward_id').empty();
-                                                                    $('#ward_id').html(result);
-                                                                } else {
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-
-                                                    //clone 
-                                                    //city
-                                                    $('#city_cus').change(function(e) {
-                                                        var city_id = $('#city_cus').val();
-                                                        var district_id = $('#district_cus').val();
-
-                                                        if (city_id == "") {
-                                                            $('#district_id').empty();
-                                                            $('#street_id').empty();
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#district_id').empty();
-                                                                    $('#district_id').html(result);
-                                                                    $('#district_cus').change();
-                                                                } else {
-                                                                    $('#district_id').empty();
-                                                                    $('#street_id').empty();
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    //district
-                                                    $('#district_cus').change(function(e) {
-                                                        var district_id = $('#district_id').val();
-                                                        var street_id = $('#street_cus').val();
-
-                                                        if (district_id == "") {
-                                                            $('#street_id').empty();
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#street_id').empty();
-                                                                    $('#street_id').html(result);
-                                                                    $('#street_cus').change();
-                                                                } else {
-                                                                    $('#street_id').empty();
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    //street
-                                                    $('#street_cus').change(function(e) {
-                                                        var street_id = $('#street_id').val();
-                                                        var ward_id = $('#ward_cus').val();
-
-                                                        if (street_id == "") {
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#ward_id').empty();
-                                                                    $('#ward_id').html(result);
-                                                                } else {
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    $('#search_house').keyup(function(e) {                                                        
-                                                        var search = $('#search_house').val();
-                                                        $('#error_house').html("");
-                                                        //    showloadgif();
-                                                        $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
-                                                        function(result) {
-                                                            if (result) {
-                                                                $('#house_id').empty();
-                                                                $('#house_id').html(result);
-                                                                $('#step').click();
-                                                                //   hideloadgif();
-                                                            } else {
-                                                                $('#house_id').empty();
-                                                                $('#room_id').empty();
-                                                                $('#house_description').html("");
-                                                                $('#error_house').html("No any house for your keyword");
-                                                                //     hideloadgif();
-                                                            }
-                                                        });
-                                                    });
-                                                });
-                                                function removePlus(childElem) {
-                                                    var row = $(childElem).closest("tr"); // find <tr> parent
-                                                    if (row) {
-                                                        row.remove();
-                                                        CalculatorPlus();
-                                                    }
-                                                }
-        </script>
+            });
+            $('#introduce_house').click(function() {                                                        
+                var house_id = $('#introduce_house_id').val();
+                                                       
+                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    $('#introduce_house_content').html(json.house_description);
+                    get_introduce_room(house_id, 0);
+                });
+            });
+            $('#introduce_house_id').change(function() {               
+                var house_id = $('#introduce_house_id').val();
+                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    $('#introduce_house_contrent').html(json.house_description);
+                    get_introduce_room(house_id, 0);
+                });
+            });
+        });
+        function get_introduce_room(house_id, room_id) {                                                   
+            $('#error_introduce_room_id').html("");
+            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
+                function(result) {
+                if (result) {
+                    $('#introduce_room_id').empty();
+                    $('#introduce_room_id').html(result);
+                } else {
+                    $('#introduce_room_id').empty();
+                    $('#introduce_house_content').html("");
+                    if (house_id)
+                       $('#error_introduce_room_id').html("This house haven't been room yet");
+                }
+            });
+        }
+        function removePlus(childElem) {
+            var row = $(childElem).closest("tr"); // find <tr> parent
+                if (row) {
+                    row.remove();
+                    CalculatorPlus();
+                }
+        }
+        
+    </script>
     {/literal}
+    {if $introduce_house_id ne ""}
+        {literal}
+        <script type="text/javascript">
+        $(document).ready(function(){
+            var introduce_house_id={/literal}{$introduce_house_id}{literal}
+            var introduce_room_id={/literal}'{$introduce_room_id}'{literal}           
+            get_introduce_room(introduce_house_id, introduce_room_id);
+        });
+            
+        </script>
+        {/literal}
+    {/if}
     {if $city_id ne ""}
         {literal}
             <script type="text/javascript">

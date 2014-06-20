@@ -635,12 +635,19 @@ if ($step == 1) {
     }
 ///////////////////////////////////End Aspirations///////////////////////////////////
 //////////////////////////////////Begin Introduce///////////////////////////////////
-    if (isset($_POST['house_id'])) {
-        $house_id = $_POST['house_id'];
-    } elseif (isset($_GET['house_id'])) {
-        $house_id = $_GET['house_id'];
+    if (isset($_POST['introduce_house_id'])) {
+        $introduce_house_id = $_POST['introduce_house_id'];
+    } elseif (isset($_GET['introduce_house_id'])) {
+        $introduce_house_id = $_GET['introduce_house_id'];
     } else {
-        $house_id = "";
+        $introduce_house_id = "";
+    }
+    if (isset($_POST['introduce_room_id'])) {
+        $introduce_room_id = $_POST['introduce_room_id'];
+    } elseif (isset($_GET['introduce_room_id'])) {
+        $introduce_room_id = $_GET['introduce_room_id'];
+    } else {
+        $introduce_room_id = "";
     }
     if (isset($_POST['introduce_house_content'])) {
         $introduce_house_content = $_POST['introduce_house_content'];
@@ -923,6 +930,17 @@ if ($step == 1) {
                     $client_resident_phone = $client_arr['client_resident_phone'];
 
                     if ($user->user_info['id'] == $client_arr['user_id']) {
+                        //fetch introduce
+                        $result=$customer->getCustomerIntroduce($order_id, $client_id);  
+                        
+                        if($result){
+                            $client_arr = $result['client_arr'];                            
+                            $introduce_house_id=$client_arr['introduce_house_id'];
+                            $introduce_room_id=$client_arr['introduce_room_id'];
+                            $introduce_house_content=$client_arr['introduce_house_content'];
+                        }
+                        
+                        //fetch aspirations,contract and history
                         $result = $customer->getCustomersOrder($order_id, $client_id);
                         if ($result) {
                             $client_arr = $result['client_arr'];
@@ -1074,9 +1092,11 @@ if ($step == 1) {
     $smarty->assign('contract_ads_fee', $contract_ads_fee);
     $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
 
-    $smarty->assign('house_id', $house_id);
+    $smarty->assign('introduce_house_id', $introduce_house_id);
+    $smarty->assign('introduce_room_id', $introduce_room_id);
     $smarty->assign('introduce_house_content', $introduce_house_content);
     $smarty->assign('introduce_house_photo', $introduce_house_photo);
+    
     $smarty->assign('aspirations_type_house', $aspirations_type_house);
     $smarty->assign('aspirations_type_room', $aspirations_type_room);
     $smarty->assign('aspirations_build_time', $aspirations_build_time);
