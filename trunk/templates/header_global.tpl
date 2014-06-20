@@ -64,7 +64,12 @@
                                     <li><a href="manage_broker.php">Broker Company</a></li>                                    
                                 </ul>
                             </li>
-                            <li><a href="report.php">Report</a></li>
+                            <li><a href="#">Report</a>
+                                <ul>
+                                    <li><a href="report.php">Agent Report</a></li>
+                                    <li><a href="company_report.php">Company Report</a></li>
+                                </ul>
+                            </li>
                             <li><a href="import.php">Import CSV</a></li>
                             <li><a href="#">Contact Us</a></li> 
                             <li><a href="#">Address</a>
