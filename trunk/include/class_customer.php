@@ -40,13 +40,13 @@ class HOMECustomer {
         return $row;
     }
 
-    function create_customer($client_name, $client_birthday, $client_email, $client_phone,$client_fax, $order_id, $client_id) {
+    function create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id) {
         global $database, $user;
 
         $exits = FALSE;
         if ($client_id) {
             $exits = true;
-        } elseif ($this->checkExistClient($client_name,$client_phone)) {
+        } elseif ($this->checkExistClient($client_name, $client_phone)) {
             $exits = true;
         }
         if (!$exits) {
@@ -83,7 +83,7 @@ class HOMECustomer {
             //update introduce house
             $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
             $database->database_query($query);
-            
+
             return array('exist' => $exits, 'id' => $id, 'client_arr' => "");
         } else {
 //            if ($client_id) {
@@ -92,9 +92,9 @@ class HOMECustomer {
 //                $database->database_query($query);
 //                return array('exist' => $exits, 'id' => $client_id, 'client_arr' => "");
 //            } else {
-            $client_name=trim($client_name);
-            $client_phone=  trim($client_phone);
-            
+            $client_name = trim($client_name);
+            $client_phone = trim($client_phone);
+
             $query = "select id from home_client where   client_phone='{$client_phone}' and client_name='{$client_name}'";
 
             $result = $database->database_query($query);
@@ -175,8 +175,27 @@ class HOMECustomer {
         }
     }
 
-    function getCustomersOrder($order_id, $client_id) {
+    function getCustomerIntroduce($order_id, $client_id) {
+        global $database;
+        $client_arr = array();
+        $query = " select hih.* from home_order AS ho"
+                . " LEFT JOIN home_introduce_house AS hih ON ho.id=hih.order_id where hih.order_id='{$order_id}' and hih.client_id='{$client_id}' and ho.id='{$order_id}' order by hih.id DESC limit 1";
                 
+        $result = $database->database_query($query);
+        while ($row = $database->database_fetch_assoc($result)) {
+            $introduce['id']=$row['id'];
+            $introduce['introduce_house_id']=$row['house_id'];
+            $introduce['introduce_room_id']=$row['room_id'];
+            $introduce['introduce_house_content']=$row['introduce_house_content'];
+            $introduce['introduce_house_photo']=$row['introduce_house_photo'];
+            
+            $client_arr = $introduce;
+            return array('client_arr' => $client_arr);
+        }
+    }
+
+    function getCustomersOrder($order_id, $client_id) {
+
         global $database;
         $client_arr = array();
         $query = "SELECT
@@ -257,7 +276,7 @@ class HOMECustomer {
         $row['log_revisit'] = $row1['log_revisit'];
         $row['source_id'] = $row1['source_id'];
         $row['log_time_mail'] = $row1['log_time_mail'];
-        $row['log_date_appointment_to'] = $row1['log_date_appointment_to'];        
+        $row['log_date_appointment_to'] = $row1['log_date_appointment_to'];
 
         $row['aspirations_id'] = $row1['aspirations_id'];
         $row['aspirations_type_house'] = $row1['aspirations_type_house'];
@@ -322,13 +341,13 @@ class HOMECustomer {
                                 where hct.order_id={$order_id} and hct.client_id={$client_id}                                                                    
                                 
                                 LIMIT 1";
-                               
+
         $result = $database->database_query($query);
 
         $row1 = $database->database_fetch_assoc($result);
 
         $row['contract_id'] = $row1['contract_id'];
-        $row['contract_detail_id'] = $row1['contract_detail_id'];        
+        $row['contract_detail_id'] = $row1['contract_detail_id'];
         $row['contract_cost'] = $row1['contract_cost'];
         $row['contract_total'] = $row1['contract_total'];
         $row['contract_application'] = $row1['contract_application'];
@@ -345,16 +364,16 @@ class HOMECustomer {
         $row['contract_deposit_1'] = $row1['contract_deposit_1'];
         $row['contract_deposit_2'] = $row1['contract_deposit_2'];
         $row['contract_key_money'] = $row1['contract_key_money'];
-        $row['contract_name'] = $row1['contract_name'];       
-        $row['contract_payment_date_from'] = $row1['contract_payment_date_from'];  
-        $row['contract_payment_date_to'] = $row1['contract_payment_date_to'];  
-        $row['contract_payment_status'] = $row1['contract_payment_status'];  
-        $row['contract_payment_report'] = $row1['contract_payment_report'];  
-        $row['contract_broker_fee'] = $row1['contract_broker_fee'];  
-        $row['contract_ads_fee'] = $row1['contract_ads_fee'];  
-        $row['contract_transaction_finish'] = $row1['contract_transaction_finish'];  
-        
-        $client_arr = $row;        
+        $row['contract_name'] = $row1['contract_name'];
+        $row['contract_payment_date_from'] = $row1['contract_payment_date_from'];
+        $row['contract_payment_date_to'] = $row1['contract_payment_date_to'];
+        $row['contract_payment_status'] = $row1['contract_payment_status'];
+        $row['contract_payment_report'] = $row1['contract_payment_report'];
+        $row['contract_broker_fee'] = $row1['contract_broker_fee'];
+        $row['contract_ads_fee'] = $row1['contract_ads_fee'];
+        $row['contract_transaction_finish'] = $row1['contract_transaction_finish'];
+
+        $client_arr = $row;
         return array('client_arr' => $client_arr);
     }
 
@@ -377,11 +396,11 @@ class HOMECustomer {
         return $database->database_query($query);
     }
 
-    function checkExistClient($client_name,$client_phone) {
+    function checkExistClient($client_name, $client_phone) {
         global $database;
-        $client_name=trim($client_name);
-        $client_phone=trim($client_phone);
-        
+        $client_name = trim($client_name);
+        $client_phone = trim($client_phone);
+
         $query = "select * from home_client where client_phone='{$client_phone}' and  client_name='{$client_name}'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
