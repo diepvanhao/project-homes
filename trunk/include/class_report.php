@@ -68,7 +68,7 @@ class Report {
      * @return array
      */
     public function getUserInfo($user_id = 0, $date = null, $fromdate = null) {
-        
+
         global $database;
         if (empty($user_id)) {
             return array();
@@ -1494,7 +1494,7 @@ class Report {
         //fee today
         $select = "SELECT o.id AS order_id, 
                     o.user_id AS user_id, 
-                    d.id AS detail_id
+                    d.id AS detail_id,
                     d.contract_broker_fee AS broker_fee, 
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
@@ -1504,9 +1504,9 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today}";
-            
+
         $result = $database->database_query($select);
-        
+
         while ($row = $database->database_fetch_assoc($result)) {
             if(empty($row['application'])){
                 continue;
@@ -1519,7 +1519,7 @@ class Report {
                 $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
             }
             
-            if(!empty($row['transaction'])){
+            if(!empty($row['transaction'])){ 
                 $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
             }elseif(!empty($row['signature_date'])){
                 $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] ;
@@ -1532,7 +1532,7 @@ class Report {
         //fee of month
         $select = "SELECT o.id AS order_id, 
                     o.user_id AS user_id, 
-                    d.id AS detail_id
+                    d.id AS detail_id,
                     d.contract_broker_fee AS broker_fee, 
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
@@ -1542,14 +1542,14 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month}";
-            
-        $result = $database->database_query($select);
+
+            $result = $database->database_query($select);
         
         while ($row = $database->database_fetch_assoc($result)) {
             if(empty($row['application'])){
                 continue;
             }
-            $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS p
+            $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS pgetLastyearInfo
                 WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
             if(!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0){

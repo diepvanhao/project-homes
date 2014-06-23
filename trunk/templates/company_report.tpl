@@ -90,7 +90,7 @@
                 </td>
                 <td>Today</td>
                 <!--<td>{$info.cost_today}</td>-->
-                {$commission = $report ->userCommission($agent.id,$date,$fromdate)}
+                {$commission = $report ->agentCommission($agent.id,$date,$fromdate)}
                 {$today.cost = $today.cost + $commission.today_already_recorded}
                 {$today.unsigned = $today.unsigned + $commission.today_unsigned}
                 <td>{$commission.today_already_recorded}</td> <!--Already Recorded-->
@@ -161,10 +161,10 @@
             </tr>
             <tr>
                 <td>Total</td>
-                    {$month.cost = $month.cost + $commission.today_already_recorded}
+                    {$month.cost = $month.cost + $commission.month_already_recorded}
                     {$month.unsigned = $month.unsigned + $commission.month_unsigned}
-                <td>{$commission.today_already_recorded}</td> <!--Already Recorded-->
-                <td>{$commission.today_unsigned}</td> <!--Unsigned-->
+                <td>{$commission.month_already_recorded}</td> <!--Already Recorded-->
+                <td>{$commission.month_unsigned}</td> <!--Unsigned-->
                 <td></td>
                 <td>
                     {$info.cost_previous_month - $info.target}
@@ -632,13 +632,14 @@
                 var data = google.visualization.arrayToDataTable([
                     ['name','Actually','Target'],
                 {/literal}
-                        {foreach $users as $key => $user}
-                            {$commission = $report ->userCommission($user.id,$date,$fromdate)}
-                            {$today.chart_cost = $today.chart_cost + $commission.today_already_recorded}
-                            {$today.chart_target = $today.chart_target + $user.user_target}
-                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.today_already_recorded}{literal},{/literal}{$user.user_target}{literal}],{/literal}
+                        {foreach $agents as $key => $agent}
+                            {$commission = $report->agentCommission($agent.id,$date,$fromdate)}
+                            {$info = $report ->getAgentInfo($agent.id,$date,$fromdate)}
+                            {$today.chart_cost = $today.chart_cost + $commission.month_already_recorded}
+                            {$today.chart_target = $today.chart_target + $info.target}
+                            {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$info.target}{literal}],{/literal}
                     {/foreach}
-                    {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
+                    {literal}['Company',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
                     {literal}
                     ]);
 

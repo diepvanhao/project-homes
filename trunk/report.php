@@ -54,6 +54,7 @@ if(!empty($post)){
 //    }
 }
 $smarty->assign('date', $date);
+$smarty->assign('agent_id', $agent_id);
 $smarty->assign('fromdate', $fromdate);
 $smarty->assign('error', $error);
 $smarty->assign('users', $users = $report->getUsersByAgent($agent_id));

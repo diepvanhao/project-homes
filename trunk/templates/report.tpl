@@ -185,10 +185,10 @@
             </tr>
             <tr>
                 <td>Total</td>
-                    {$month.cost = $month.cost + $commission.today_already_recorded}
+                    {$month.cost = $month.cost + $commission.month_already_recorded}
                     {$month.unsigned = $month.unsigned + $commission.month_unsigned}
-                <td>{$commission.today_already_recorded}</td> <!--Already Recorded-->
-                <td>{$commission.today_unsigned}</td> <!--Unsigned-->
+                <td>{$commission.month_already_recorded}</td> <!--Already Recorded-->
+                <td>{$commission.month_unsigned}</td> <!--Unsigned-->
                 <td></td>
                 <td>
                     {$info.cost_previous_month - $user.user_target}
@@ -367,7 +367,7 @@
                 <th>自社</th>
                 <th>Ledger</th>
             </tr>
-            {$yearReport = $report ->getLastyearInfo($agent.id,$date,$fromdate)}
+            {$yearReport = $report ->getLastyearInfo($agent_id,$date,$fromdate)}
             <tbody>
                 <tr>
                     <td rowspan="2">
@@ -658,11 +658,11 @@
                 {/literal}
                         {foreach $users as $key => $user}
                             {$commission = $report ->userCommission($user.id,$date,$fromdate)}
-                            {$today.chart_cost = $today.chart_cost + $commission.today_already_recorded}
+                            {$today.chart_cost = $today.chart_cost + $commission.month_already_recorded}
                             {$today.chart_target = $today.chart_target + $user.user_target}
-                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.today_already_recorded}{literal},{/literal}{$user.user_target}{literal}],{/literal}
+                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$user.user_target}{literal}],{/literal}
                     {/foreach}
-                    {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
+                    {literal}['{/literal}{$agent_name}{literal}',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
                     {literal}
                     ]);
 
