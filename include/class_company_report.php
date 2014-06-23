@@ -1452,9 +1452,9 @@ class CompanyReport {
         return $return;
     }
     
-    public function userCommission($user_id= null, $date = null, $fromdate = null){
+    public function agentCommission($agent_id= null, $date = null, $fromdate = null){
         global $database;
-        if (empty($user_id)) {
+        if (empty($agent_id)) {
             return array();
         }
         if(empty($date)){
@@ -1482,7 +1482,7 @@ class CompanyReport {
         //fee today
         $select = "SELECT o.id AS order_id, 
                     o.user_id AS user_id, 
-                    d.id AS detail_id
+                    d.id AS detail_id,
                     d.contract_broker_fee AS broker_fee, 
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
@@ -1491,7 +1491,8 @@ class CompanyReport {
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today}";
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE u.agent_id = {$agent_id} AND o.order_status = 1 AND  {$today}";
             
         $result = $database->database_query($select);
         
@@ -1499,6 +1500,7 @@ class CompanyReport {
             if(empty($row['application'])){
                 continue;
             }
+           /*
             $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS p
                 WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
@@ -1506,7 +1508,7 @@ class CompanyReport {
                 $row['broker_fee'] = $row['broker_fee'] *  $tmp['partner_percent'] / 100;
                 $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
             }
-            
+            */
             if(!empty($row['transaction'])){
                 $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
             }elseif(!empty($row['signature_date'])){
@@ -1520,7 +1522,7 @@ class CompanyReport {
         //fee of month
         $select = "SELECT o.id AS order_id, 
                     o.user_id AS user_id, 
-                    d.id AS detail_id
+                    d.id AS detail_id,
                     d.contract_broker_fee AS broker_fee, 
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
@@ -1529,14 +1531,15 @@ class CompanyReport {
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month}";
-            
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE u.agent_id = {$agent_id} AND o.order_status = 1 AND  {$month}";
         $result = $database->database_query($select);
-        
+
         while ($row = $database->database_fetch_assoc($result)) {
             if(empty($row['application'])){
                 continue;
             }
+            /*
             $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS p
                 WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
@@ -1544,7 +1547,7 @@ class CompanyReport {
                 $row['broker_fee'] = $row['broker_fee'] *  $tmp['partner_percent'] / 100;
                 $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
             }
-            
+            */
             if(!empty($row['transaction'])){
                 $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
             }elseif(!empty($row['signature_date'])){
