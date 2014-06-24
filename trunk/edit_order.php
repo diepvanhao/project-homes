@@ -569,6 +569,14 @@ if (isset($_POST['contract_total'])) {
     $contract_total = "";
 }
 
+    if (isset($_POST['contract_ambition'])) {
+        $contract_ambition = $_POST['contract_ambition'];
+    } elseif (isset($_GET['contract_ambition'])) {
+        $contract_ambition = $_GET['contract_ambition'];
+    } else {
+        $contract_ambition = "";
+    }
+    
 if (isset($_POST['contract_application'])) {
     $contract_application = $_POST['contract_application'];
 } elseif (isset($_GET['contract_application'])) {
@@ -832,6 +840,7 @@ if (isset($_POST['save'])) {
                             $contract_broker_fee = $client_arr['contract_broker_fee'];
                             $contract_ads_fee = $client_arr['contract_ads_fee'];
                             $contract_transaction_finish = $client_arr['contract_transaction_finish'];
+                            $contract_ambition = $client_arr['contract_ambition'];
 
                             $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
                             //get partner
@@ -976,6 +985,7 @@ if (isset($_POST['save'])) {
         $contract_broker_fee = $client_arr['contract_broker_fee'];
         $contract_ads_fee = $client_arr['contract_ads_fee'];
         $contract_transaction_finish = $client_arr['contract_transaction_finish'];
+        $contract_ambition = $client_arr['contract_ambition'];
         //get plus money
         $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
         //get partner
@@ -1033,6 +1043,7 @@ $smarty->assign('contract_payment_report', $contract_payment_report);
 $smarty->assign('contract_broker_fee', $contract_broker_fee);
 $smarty->assign('contract_ads_fee', $contract_ads_fee);
 $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
+$smarty->assign('contract_ambition', $contract_ambition);
 
 $smarty->assign('introduce_house_id', $introduce_house_id);
 $smarty->assign('introduce_room_id', $introduce_room_id);

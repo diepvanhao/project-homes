@@ -23,7 +23,8 @@
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.core.js"></script>
         <!-- modernizr enables HTML5 elements and feature detects -->          
         <script type="text/javascript" src="{$url->url_base}include/js/modernizr-1.5.min.js"></script>
-
+        <!--calendar-->
+        
     </head>
 
     <body>
@@ -33,7 +34,7 @@
                     <div id="logo_text">
                         <!-- class="logo_colour", allows you to change the colour of the text -->
                         <h1><a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="133px;"/></span></a></h1>
-                        {*<h2>Simple. Contemporary. Website Template.</h2>*}
+                                    {*<h2>Simple. Contemporary. Website Template.</h2>*}
                     </div>
                 </div>
                 <nav>
@@ -86,8 +87,8 @@
             </header>
 
             <script type="text/javascript">
-                var j=jQuery.noConflict();
+                var j = jQuery.noConflict();
                 j(document).ready(function() {
-                    datepicker();                    
+                    datepicker();
                 });
             </script>

@@ -235,3 +235,7 @@ ALTER TABLE `home_contract_detail`
 
 ALTER TABLE `home_introduce_house`   
   CHANGE `room_id` `room_id` VARCHAR(128) NULL;
+
+/*23/6*/
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `contract_ambition` TINYINT(1) NULL AFTER `contract_payment_report`;

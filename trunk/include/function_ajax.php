@@ -1006,6 +1006,13 @@ if ($action == "check_email") {
         } else {
             $contract_transaction_finish = "";
         }
+        if (isset($_POST['contract_ambition'])) {
+            $contract_ambition = $_POST['contract_ambition'];
+        } elseif (isset($_GET['contract_ambition'])) {
+            $contract_ambition = $_GET['contract_ambition'];
+        } else {
+            $contract_ambition = "";
+        }
         if (isset($_POST['partner_id'])) {
             $partner_id = $_POST['partner_id'];
         } elseif (isset($_GET['partner_id'])) {
@@ -1064,7 +1071,7 @@ if ($action == "check_email") {
             $contract_deposit2_money_unit = "";
         }
 
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit,$partner_id,$partner_percent, $client_id, $order_id);
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit,$partner_id,$partner_percent,$contract_ambition, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {

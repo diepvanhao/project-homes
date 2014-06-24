@@ -777,6 +777,11 @@
                         else
                             var contract_transaction_finish = 0;
 
+                        if ($('#contract_ambition').is(':checked'))
+                            var contract_ambition = 1;
+                        else
+                            var contract_ambition = 0;
+                        
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
@@ -822,7 +827,7 @@
                             contract_broker_fee: contract_broker_fee, contract_broker_fee_unit: contract_broker_fee_unit, contract_ads_fee: contract_ads_fee, contract_ads_fee_unit: contract_ads_fee_unit,
                             contract_transaction_finish: contract_transaction_finish, contract_payment_date_from: contract_payment_date_from, contract_payment_date_to: contract_payment_date_to,
                             contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report, partner_id: partner_id, partner_percent: partner_percent,
-                            client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
+                            contract_ambition: contract_ambition,client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
                             if (json.id != "")
@@ -1511,8 +1516,8 @@
                         <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 245px;"/>
                             <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                         </td>
-                        <td class='form1' nowrap></td>
-                        <td class='form2'></td>
+                        <td class='form1' nowrap>Manage by Ambition</td>
+                        <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
                     </tr>
                     <tr>
                         <td class='form1'>Application:</td>
