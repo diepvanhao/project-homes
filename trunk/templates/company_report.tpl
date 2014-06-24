@@ -155,8 +155,8 @@
                 </td>
                 <td>{round(($tmp > 0) ? (100*($info.today_agreement)/$tmp):0,2)}%</td>
                 <td>
-                    {$info.today_agreement}
-                    {$today.done = $today.done + $info.today_agreement}
+                    {(int) $info.today_ambition}
+                    {$today.done = $today.done + $info.today_ambition}
                 </td>
             </tr>
             <tr>
@@ -228,8 +228,8 @@
                 </td>
                 <td>{round(($tmp > 0) ? (100*($info.month_agreement)/$tmp):0,2)}%</td>
                 <td>
-                    {(int)$info.month_agreement}
-                    {$month.done = $month.done + (int)$info.month_agreement}
+                    {(int)$info.month_ambition}
+                    {$month.done = $month.done + (int) $info.month_ambition}
                 </td>
             </tr>
             {/foreach}
@@ -321,7 +321,6 @@
                 <td>{$month.agreement}</td>
                 <td>{round(($tmp > 0) ? (100*($month.agreement)/$tmp):0,2)}%</td>
                 <td>{$month.done}</td>
-            </tr>
             </tr>
         </table>
     </div>
@@ -602,9 +601,9 @@
                     <td>{(int)$com_info.today_shop_sign + $com_info.today_local_sign}</td>
                     <td>{(int) $com_info.today_revisit}</td>
                     <td>{(int) $com_info.today_application}</td>
-                    <td>{$com_info.today_cancel}</td>
-                    <td>{$com_info.today_change}</td>
-                    <td>{$com_info.today_agreement}</td>
+                    <td>{(int) $com_info.today_cancel}</td>
+                    <td>{(int) $com_info.today_change}</td>
+                    <td>{(int) $com_info.today_agreement}</td>
                 </tr>
                 <tr>
                     <td>Total</td>
@@ -613,9 +612,9 @@
                     <td>{(int)$com_info.month_shop_sign + $com_info.month_local_sign}</td>
                     <td>{(int) $com_info.month_revisit}</td>
                     <td>{(int) $com_info.month_application}</td>
-                    <td>{$com_info.month_cancel}</td>
-                    <td>{$com_info.month_change}</td>
-                    <td>{$com_info.month_agreement}</td>
+                    <td>{(int) $com_info.month_cancel}</td>
+                    <td>{(int) $com_info.month_change}</td>
+                    <td>{(int) $com_info.month_agreement}</td>
                 </tr>
                 {/foreach}
             </tbody>
