@@ -208,7 +208,24 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['month_agreement'] = (int) $row[0];
 
+        //company registeration
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
 
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$month} ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_ambition'] = (int) $row[0];
+        
         return $return;
     }
 

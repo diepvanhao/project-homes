@@ -179,8 +179,8 @@
                 </td>
                 <td>{round(($tmp > 0) ? (100*($info.today_agreement)/$tmp):0,2)}%</td>
                 <td>
-                    {$info.today_agreement}
-                    {$today.done = $today.done + $info.today_agreement}
+                    {(int)$info.today_ambition}
+                    {$today.done = $today.done + $info.today_ambition}
                 </td>
             </tr>
             <tr>
@@ -252,8 +252,8 @@
                 </td>
                 <td>{round(($tmp > 0) ? (100*($info.month_agreement)/$tmp):0,2)}%</td>
                 <td>
-                    {(int)$info.month_agreement}
-                    {$month.done = $month.done + (int)$info.month_agreement}
+                    {(int)$info.month_ambition}
+                    {$month.done = $month.done + (int)$info.month_ambition}
                 </td>
             </tr>
             {/foreach}
@@ -345,7 +345,6 @@
                 <td>{$month.agreement}</td>
                 <td>{round(($tmp > 0) ? (100*($month.agreement)/$tmp):0,2)}%</td>
                 <td>{$month.done}</td>
-            </tr>
             </tr>
         </table>
     </div>
