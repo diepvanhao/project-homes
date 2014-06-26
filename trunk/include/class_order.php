@@ -362,4 +362,12 @@ class HOMEOrder {
         $row=$database->database_fetch_assoc($result);        
         return $row['id']+1;
     }
+    //fetch events for private schedule     
+    function fetchEvents($user_id){
+        global $database;
+        $query="select * from home_order 
+                
+
+                where user_id='{$user_id}'";
+    }
 }
