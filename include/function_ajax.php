@@ -352,7 +352,7 @@ if ($action == "check_email") {
         echo json_encode($result);
     }
     if ($task == 'getPartner') {
-        
+
         if (isset($_POST['agent_id'])) {
             $agent_id = $_POST['agent_id'];
         } elseif (isset($_GET['agent_id'])) {
@@ -360,7 +360,7 @@ if ($action == "check_email") {
         } else {
             $agent_id = "";
         }
-        
+
         $result = $ajax->getPartnerByKey($agent_id);
         if ($result) {
             echo "<option value=''></option>";
@@ -571,7 +571,7 @@ if ($action == "check_email") {
         } else {
             $log_time_mail = "";
         }
-        
+
         if (isset($_POST['log_time_call_date'])) {
             $log_time_call_date = $_POST['log_time_call_date'];
         } elseif (isset($_GET['log_time_call_date'])) {
@@ -593,7 +593,7 @@ if ($action == "check_email") {
         } else {
             $log_time_mail_date = "";
         }
-        
+
         if (isset($_POST['log_tel'])) {
             $log_tel = $_POST['log_tel'];
         } elseif (isset($_GET['log_tel'])) {
@@ -636,7 +636,20 @@ if ($action == "check_email") {
         } else {
             $log_date_appointment_to = "";
         }
-
+        if (isset($_POST['log_date_appointment_from_date'])) {
+            $log_date_appointment_from_date = $_POST['log_date_appointment_from_date'];
+        } elseif (isset($_GET['log_date_appointment_from_date'])) {
+            $log_date_appointment_from_date = $_GET['log_date_appointment_from_date'];
+        } else {
+            $log_date_appointment_from_date = "";
+        }
+        if (isset($_POST['log_date_appointment_to_date'])) {
+            $log_date_appointment_to_date = $_POST['log_date_appointment_to_date'];
+        } elseif (isset($_GET['log_date_appointment_to_date'])) {
+            $log_date_appointment_to_date = $_GET['log_date_appointment_to_date'];
+        } else {
+            $log_date_appointment_to_date = "";
+        }
 
         if (isset($_POST['log_mail_status'])) {
             $log_mail_status = $_POST['log_mail_status'];
@@ -703,10 +716,12 @@ if ($action == "check_email") {
         }
 
         //update time
-        $log_time_call=$log_time_call_date." ".$log_time_call;
-        $log_time_arrive_company=$log_time_arrive_company_date." ".$log_time_arrive_company;
-        $log_time_mail=$log_time_mail_date." ".$log_time_mail;
-        
+        $log_time_call = $log_time_call_date . " " . $log_time_call;
+        $log_time_arrive_company = $log_time_arrive_company_date . " " . $log_time_arrive_company;
+        $log_time_mail = $log_time_mail_date . " " . $log_time_mail;
+        $log_date_appointment_to = $log_date_appointment_to_date . " " . $log_date_appointment_to;
+        $log_date_appointment_from = $log_date_appointment_from_date . " " . $log_date_appointment_from;
+
         $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
@@ -901,6 +916,36 @@ if ($action == "check_email") {
         } else {
             $contract_period_to = "";
         }
+
+        if (isset($_POST['contract_signature_day_date'])) {
+            $contract_signature_day_date = $_POST['contract_signature_day_date'];
+        } elseif (isset($_GET['contract_signature_day_date'])) {
+            $contract_signature_day_date = $_GET['contract_signature_day_date'];
+        } else {
+            $contract_signature_day_date = "";
+        }
+        if (isset($_POST['contract_handover_day_date'])) {
+            $contract_handover_day_date = $_POST['contract_handover_day_date'];
+        } elseif (isset($_GET['contract_handover_day_date'])) {
+            $contract_handover_day_date = $_GET['contract_handover_day_date'];
+        } else {
+            $contract_handover_day_date = "";
+        }
+        if (isset($_POST['contract_period_from_date'])) {
+            $contract_period_from_date = $_POST['contract_period_from_date'];
+        } elseif (isset($_GET['contract_period_from_date'])) {
+            $contract_period_from_date = $_GET['contract_period_from_date'];
+        } else {
+            $contract_period_from_date = "";
+        }
+        if (isset($_POST['contract_period_to_date'])) {
+            $contract_period_to_date = $_POST['contract_period_to_date'];
+        } elseif (isset($_GET['contract_period_to_date'])) {
+            $contract_period_to_date = $_GET['contract_period_to_date'];
+        } else {
+            $contract_period_to_date = "";
+        }
+
         if (isset($_POST['contract_deposit_1'])) {
             $contract_deposit_1 = $_POST['contract_deposit_1'];
         } elseif (isset($_GET['contract_deposit_1'])) {
@@ -1070,8 +1115,15 @@ if ($action == "check_email") {
         } else {
             $contract_deposit2_money_unit = "";
         }
+        //update time
+        $contract_signature_day = $contract_signature_day_date . " " . $contract_signature_day;
 
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date,$contract_broker_fee,$contract_broker_fee_unit,$contract_ads_fee,$contract_ads_fee_unit,$contract_transaction_finish,$contract_payment_date_from,$contract_payment_date_to,$contract_payment_status,$contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit,$partner_id,$partner_percent,$contract_ambition, $client_id, $order_id);
+        $contract_handover_day = $contract_handover_day_date . " " . $contract_handover_day;
+        $contract_period_from = $contract_period_from_date . " " . $contract_period_from;
+        $contract_period_to = $contract_period_to_date . " " . $contract_period_to;
+
+
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {

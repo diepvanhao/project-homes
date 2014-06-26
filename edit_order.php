@@ -287,6 +287,13 @@ if (isset($_POST['log_date_appointment_from'])) {
 } else {
     $log_date_appointment_from = "";
 }
+if (isset($_POST['log_date_appointment_from_date'])) {
+    $log_date_appointment_from_date = $_POST['log_date_appointment_from_date'];
+} elseif (isset($_GET['log_date_appointment_from_date'])) {
+    $log_date_appointment_from_date = $_GET['log_date_appointment_from_date'];
+} else {
+    $log_date_appointment_from_date = "";
+}
 if (isset($_POST['log_date_appointment_to'])) {
     $log_date_appointment_to = $_POST['log_date_appointment_to'];
 } elseif (isset($_GET['log_date_appointment_to'])) {
@@ -294,7 +301,13 @@ if (isset($_POST['log_date_appointment_to'])) {
 } else {
     $log_date_appointment_to = "";
 }
-
+if (isset($_POST['log_date_appointment_to_date'])) {
+    $log_date_appointment_to_date = $_POST['log_date_appointment_to_date'];
+} elseif (isset($_GET['log_date_appointment_to_date'])) {
+    $log_date_appointment_to_date = $_GET['log_date_appointment_to_date'];
+} else {
+    $log_date_appointment_to_date = "";
+}
 if (isset($_POST['log_status_appointment'])) {
     $log_status_appointment = $_POST['log_status_appointment'];
 } elseif (isset($_GET['log_status_appointment'])) {
@@ -519,12 +532,26 @@ if (isset($_POST['contract_signature_day'])) {
 } else {
     $contract_signature_day = "";
 }
+if (isset($_POST['contract_signature_day_date'])) {
+    $contract_signature_day_date = $_POST['contract_signature_day_date'];
+} elseif (isset($_GET['contract_signature_day_date'])) {
+    $contract_signature_day_date = $_GET['contract_signature_day_date'];
+} else {
+    $contract_signature_day_date = "";
+}
 if (isset($_POST['contract_handover_day'])) {
     $contract_handover_day = $_POST['contract_handover_day'];
 } elseif (isset($_GET['contract_handover_day'])) {
     $contract_handover_day = $_GET['contract_handover_day'];
 } else {
     $contract_handover_day = "";
+}
+if (isset($_POST['contract_handover_day_date'])) {
+    $contract_handover_day_date = $_POST['contract_handover_day_date'];
+} elseif (isset($_GET['contract_handover_day_date'])) {
+    $contract_handover_day_date = $_GET['contract_handover_day_date'];
+} else {
+    $contract_handover_day_date = "";
 }
 if (isset($_POST['contract_period_from'])) {
     $contract_period_from = $_POST['contract_period_from'];
@@ -539,6 +566,20 @@ if (isset($_POST['contract_period_to'])) {
     $contract_period_to = $_GET['contract_period_to'];
 } else {
     $contract_period_to = "";
+}
+if (isset($_POST['contract_period_from_date'])) {
+    $contract_period_from_date = $_POST['contract_period_from_date'];
+} elseif (isset($_GET['contract_period_from_date'])) {
+    $contract_period_from_date = $_GET['contract_period_from_date'];
+} else {
+    $contract_period_from_date = "";
+}
+if (isset($_POST['contract_period_to_date'])) {
+    $contract_period_to_date = $_POST['contract_period_to_date'];
+} elseif (isset($_GET['contract_period_to_date'])) {
+    $contract_period_to_date = $_GET['contract_period_to_date'];
+} else {
+    $contract_period_to_date = "";
 }
 if (isset($_POST['contract_deposit_1'])) {
     $contract_deposit_1 = $_POST['contract_deposit_1'];
@@ -569,14 +610,14 @@ if (isset($_POST['contract_total'])) {
     $contract_total = "";
 }
 
-    if (isset($_POST['contract_ambition'])) {
-        $contract_ambition = $_POST['contract_ambition'];
-    } elseif (isset($_GET['contract_ambition'])) {
-        $contract_ambition = $_GET['contract_ambition'];
-    } else {
-        $contract_ambition = "";
-    }
-    
+if (isset($_POST['contract_ambition'])) {
+    $contract_ambition = $_POST['contract_ambition'];
+} elseif (isset($_GET['contract_ambition'])) {
+    $contract_ambition = $_GET['contract_ambition'];
+} else {
+    $contract_ambition = "";
+}
+
 if (isset($_POST['contract_application'])) {
     $contract_application = $_POST['contract_application'];
 } elseif (isset($_GET['contract_application'])) {
@@ -795,7 +836,29 @@ if (isset($_POST['save'])) {
 
                             $log_comment = $client_arr['log_comment'];
                             $log_date_appointment_from = $client_arr['log_date_appointment_from'];
+                            $log_date_appointment_from_date = explode(" ", $log_date_appointment_from);
+
+                            if (isset($log_date_appointment_from_date[1])) {
+                                $log_date_appointment_from = $log_date_appointment_from_date[1];
+                                $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+                            } elseif (isset($log_date_appointment_from_date[0])) {
+                                $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+                                $log_date_appointment_from = "";
+                            } else {
+                                $log_date_appointment_from = $log_date_appointment_from_date = "";
+                            }
                             $log_date_appointment_to = $client_arr['log_date_appointment_to'];
+                            $log_date_appointment_to_date = explode(" ", $log_date_appointment_to);
+
+                            if (isset($log_date_appointment_to_date[1])) {
+                                $log_date_appointment_to = $log_date_appointment_to_date[1];
+                                $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+                            } elseif (isset($log_date_appointment_to_date[0])) {
+                                $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+                                $log_date_appointment_to = "";
+                            } else {
+                                $log_date_appointment_to = $log_date_appointment_to_date = "";
+                            }
                             $log_status_appointment = $client_arr['log_status_appointment'];
                             $log_tel = $client_arr['log_tel'];
                             $log_tel_status = $client_arr['log_tel_status'];
@@ -824,9 +887,53 @@ if (isset($_POST['save'])) {
                             $contract_condition = $client_arr['contract_condition'];
                             $contract_valuation = $client_arr['contract_valuation'];
                             $contract_signature_day = $client_arr['contract_signature_day'];
+                            $contract_signature_day_date = explode(" ", $contract_signature_day);
+
+                            if (isset($contract_signature_day_date[1])) {
+                                $contract_signature_day = $contract_signature_day_date[1];
+                                $contract_signature_day_date = $contract_signature_day_date[0];
+                            } elseif (isset($contract_signature_day_date[0])) {
+                                $contract_signature_day_date = $contract_signature_day_date[0];
+                                $contract_signature_day = "";
+                            } else {
+                                $contract_signature_day = $contract_signature_day_date = "";
+                            }
                             $contract_handover_day = $client_arr['contract_handover_day'];
+                            $contract_handover_day_date = explode(" ", $contract_handover_day);
+
+                            if (isset($contract_handover_day_date[1])) {
+                                $contract_handover_day = $contract_handover_day_date[1];
+                                $contract_handover_day_date = $contract_handover_day_date[0];
+                            } elseif (isset($contract_handover_day_date[0])) {
+                                $contract_handover_day_date = $contract_handover_day_date[0];
+                                $contract_handover_day = "";
+                            } else {
+                                $contract_handover_day = $contract_handover_day_date = "";
+                            }
                             $contract_period_from = $client_arr['contract_period_from'];
+                            $contract_period_from_date = explode(" ", $contract_period_from);
+
+                            if (isset($contract_period_from_date[1])) {
+                                $contract_period_from = $contract_period_from_date[1];
+                                $contract_period_from_date = $contract_period_from_date[0];
+                            } elseif (isset($contract_period_from_date[0])) {
+                                $contract_period_from_date = $contract_period_from_date[0];
+                                $contract_period_from = "";
+                            } else {
+                                $contract_period_from = $contract_period_from_date = "";
+                            }
                             $contract_period_to = $client_arr['contract_period_to'];
+                            $contract_period_to_date = explode(" ", $contract_period_to);
+
+                            if (isset($contract_period_to_date[1])) {
+                                $contract_period_to = $contract_period_to_date[1];
+                                $contract_period_to_date = $contract_period_to_date[0];
+                            } elseif (isset($contract_period_to_date[0])) {
+                                $contract_period_to_date = $contract_period_to_date[0];
+                                $contract_period_to = "";
+                            } else {
+                                $contract_period_to = $contract_period_to_date = "";
+                            }
                             $contract_deposit_1 = $client_arr['contract_deposit_1'];
                             $contract_deposit_2 = $client_arr['contract_deposit_2'];
                             $contract_cancel = $client_arr['contract_cancel'];
@@ -939,7 +1046,29 @@ if (isset($_POST['save'])) {
         }
         $log_comment = $client_arr['log_comment'];
         $log_date_appointment_from = $client_arr['log_date_appointment_from'];
+        $log_date_appointment_from_date = explode(" ", $log_date_appointment_from);
+
+        if (isset($log_date_appointment_from_date[1])) {
+            $log_date_appointment_from = $log_date_appointment_from_date[1];
+            $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+        } elseif (isset($log_date_appointment_from_date[0])) {
+            $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+            $log_date_appointment_from = "";
+        } else {
+            $log_date_appointment_from = $log_date_appointment_from_date = "";
+        }
         $log_date_appointment_to = $client_arr['log_date_appointment_to'];
+        $log_date_appointment_to_date = explode(" ", $log_date_appointment_to);
+
+        if (isset($log_date_appointment_to_date[1])) {
+            $log_date_appointment_to = $log_date_appointment_to_date[1];
+            $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+        } elseif (isset($log_date_appointment_to_date[0])) {
+            $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+            $log_date_appointment_to = "";
+        } else {
+            $log_date_appointment_to = $log_date_appointment_to_date = "";
+        }
 
         $log_status_appointment = $client_arr['log_status_appointment'];
         $log_tel = $client_arr['log_tel'];
@@ -969,9 +1098,53 @@ if (isset($_POST['save'])) {
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
         $contract_signature_day = $client_arr['contract_signature_day'];
+        $contract_signature_day_date = explode(" ", $contract_signature_day);
+
+        if (isset($contract_signature_day_date[1])) {
+            $contract_signature_day = $contract_signature_day_date[1];
+            $contract_signature_day_date = $contract_signature_day_date[0];
+        } elseif (isset($contract_signature_day_date[0])) {
+            $contract_signature_day_date = $contract_signature_day_date[0];
+            $contract_signature_day = "";
+        } else {
+            $contract_signature_day = $contract_signature_day_date = "";
+        }
         $contract_handover_day = $client_arr['contract_handover_day'];
+        $contract_handover_day_date = explode(" ", $contract_handover_day);
+
+        if (isset($contract_handover_day_date[1])) {
+            $contract_handover_day = $contract_handover_day_date[1];
+            $contract_handover_day_date = $contract_handover_day_date[0];
+        } elseif (isset($contract_handover_day_date[0])) {
+            $contract_handover_day_date = $contract_handover_day_date[0];
+            $contract_handover_day = "";
+        } else {
+            $contract_handover_day = $contract_handover_day_date = "";
+        }
         $contract_period_from = $client_arr['contract_period_from'];
+        $contract_period_from_date = explode(" ", $contract_period_from);
+
+        if (isset($contract_period_from_date[1])) {
+            $contract_period_from = $contract_period_from_date[1];
+            $contract_period_from_date = $contract_period_from_date[0];
+        } elseif (isset($contract_period_from_date[0])) {
+            $contract_period_from_date = $contract_period_from_date[0];
+            $contract_period_from = "";
+        } else {
+            $contract_period_from = $contract_period_from_date = "";
+        }
         $contract_period_to = $client_arr['contract_period_to'];
+        $contract_period_to_date = explode(" ", $contract_period_to);
+
+        if (isset($contract_period_to_date[1])) {
+            $contract_period_to = $contract_period_to_date[1];
+            $contract_period_to_date = $contract_period_to_date[0];
+        } elseif (isset($contract_period_to_date[0])) {
+            $contract_period_to_date = $contract_period_to_date[0];
+            $contract_period_to = "";
+        } else {
+            $contract_period_to = $contract_period_to_date = "";
+        }
         $contract_deposit_1 = $client_arr['contract_deposit_1'];
         $contract_deposit_2 = $client_arr['contract_deposit_2'];
         $contract_cancel = $client_arr['contract_cancel'];
@@ -1029,6 +1202,10 @@ $smarty->assign('contract_signature_day', $contract_signature_day);
 $smarty->assign('contract_handover_day', $contract_handover_day);
 $smarty->assign('contract_period_from', $contract_period_from);
 $smarty->assign('contract_period_to', $contract_period_to);
+$smarty->assign('contract_signature_day_date', $contract_signature_day_date);
+$smarty->assign('contract_handover_day_date', $contract_handover_day_date);
+$smarty->assign('contract_period_from_date', $contract_period_from_date);
+$smarty->assign('contract_period_to_date', $contract_period_to_date);
 $smarty->assign('contract_deposit_1', $contract_deposit_1);
 $smarty->assign('contract_deposit_2', $contract_deposit_2);
 $smarty->assign('contract_cancel', $contract_cancel);
@@ -1068,6 +1245,8 @@ $smarty->assign('log_time_mail_date', $log_time_mail_date);
 $smarty->assign('log_comment', $log_comment);
 $smarty->assign('log_date_appointment_from', $log_date_appointment_from);
 $smarty->assign('log_date_appointment_to', $log_date_appointment_to);
+$smarty->assign('log_date_appointment_from_date', $log_date_appointment_from_date);
+$smarty->assign('log_date_appointment_to_date', $log_date_appointment_to_date);
 //    $smarty->assign('log_payment_date_appointment_from', $log_payment_date_appointment_from);
 //    $smarty->assign('log_payment_date_appointment_to', $log_payment_date_appointment_to);
 //    $smarty->assign('log_payment_appointment_status', $log_payment_appointment_status);
