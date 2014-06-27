@@ -71,7 +71,12 @@
                                     <li><a href="company_report.php">Company Report</a></li>
                                 </ul>
                             </li>
-                            <li><a href="import.php">Import CSV</a></li>
+                            <li><a href="#">Import CSV</a>
+                                <ul>
+                                    <li><a href="import.php">Import House</a></li>
+                                    <li><a href="import_address.php">Import Address</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#">Contact Us</a></li> 
                             <li><a href="#">Address</a>
                                 <ul>
