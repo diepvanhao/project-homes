@@ -236,7 +236,7 @@
         #sidebar{
             float: left;
             width: 20%;
-            height: 72%;
+            height: 75%;
             margin: 40px auto;
             background-color: #E6E6E6;
         }
