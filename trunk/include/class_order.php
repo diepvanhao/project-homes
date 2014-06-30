@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once('class_client.php');
 
 class HOMEOrder {
 
@@ -52,8 +53,8 @@ class HOMEOrder {
             $result = $database->database_query($query);
             $id = $database->database_insert_id();
             if ($id) {
-                $houseClass=new HOMEHouse();
-                $room_detail_id = getRoomDetailId($room_id, $house_id); 
+                $houseClass = new HOMEHouse();
+                $room_detail_id = getRoomDetailId($room_id, $house_id);
                 //update room status
                 $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
                 $database->database_query($query);
@@ -243,7 +244,7 @@ class HOMEOrder {
         $client['log_revisit'] = $row['log_revisit'];
         $client['source_id'] = $row['source_id'];
         $client['log_time_mail'] = $row['log_time_mail'];
-        $client['log_date_appointment_to'] = $row['log_date_appointment_to'];        
+        $client['log_date_appointment_to'] = $row['log_date_appointment_to'];
 
         $client['aspirations_id'] = $row['aspirations_id'];
         $client['aspirations_type_house'] = $row['aspirations_type_house'];
@@ -300,7 +301,7 @@ class HOMEOrder {
         $row = $database->database_fetch_assoc($result);
 
         $client['contract_id'] = $row['contract_id'];
-        $client['contract_detail_id'] = $row['contract_detail_id'];        
+        $client['contract_detail_id'] = $row['contract_detail_id'];
         $client['contract_cost'] = $row['contract_cost'];
         $client['contract_total'] = $row['contract_total'];
         $client['contract_signature_day'] = $row['contract_signature_day'];
@@ -318,12 +319,12 @@ class HOMEOrder {
         $client['contract_name'] = $row['contract_name'];
         $client['contract_application'] = $row['contract_application'];
         $client['contract_application_date'] = $row['contract_application_date'];
-        $client['contract_payment_date_from'] = $row['contract_payment_date_from'];  
-        $client['contract_payment_date_to'] = $row['contract_payment_date_to'];  
-        $client['contract_payment_status'] = $row['contract_payment_status'];  
-        $client['contract_payment_report'] = $row['contract_payment_report'];  
-        $client['contract_broker_fee'] = $row['contract_broker_fee'];  
-        $client['contract_ads_fee'] = $row['contract_ads_fee'];  
+        $client['contract_payment_date_from'] = $row['contract_payment_date_from'];
+        $client['contract_payment_date_to'] = $row['contract_payment_date_to'];
+        $client['contract_payment_status'] = $row['contract_payment_status'];
+        $client['contract_payment_report'] = $row['contract_payment_report'];
+        $client['contract_broker_fee'] = $row['contract_broker_fee'];
+        $client['contract_ads_fee'] = $row['contract_ads_fee'];
         $client['contract_transaction_finish'] = $row['contract_transaction_finish'];
         $client['contract_ambition'] = $row['contract_ambition'];
         // }
@@ -331,149 +332,181 @@ class HOMEOrder {
         return $client_arr;
     }
 
-    function getPlusMoney($contract_detail_id){
+    function getPlusMoney($contract_detail_id) {
         global $database;
-        $query="select * from home_plus_money where contract_detail_id={$contract_detail_id}";
-        $result=$database->database_query($query);
-        $plus_money=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $plus_money[$row['label']]=$row['price'];
-           // $plus_money[]=$money;
+        $query = "select * from home_plus_money where contract_detail_id={$contract_detail_id}";
+        $result = $database->database_query($query);
+        $plus_money = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $plus_money[$row['label']] = $row['price'];
+            // $plus_money[]=$money;
         }
         return $plus_money;
     }
-    function getPartnerId($contract_detail_id){
+
+    function getPartnerId($contract_detail_id) {
         global $database;
-        $query="select * from home_contract_partner where contract_detail_id={$contract_detail_id} order by id DESC limit 1";        
-        $result=$database->database_query($query);
-        $partner_arr=array();
-        while($row=$database->database_fetch_assoc($result)){
-            $partner['id']=$row['id'];
-            $partner['partner_id']=$row['partner_id'];
-            $partner['partner_percent']=$row['partner_percent'];
-            $partner_arr[]=$partner;
+        $query = "select * from home_contract_partner where contract_detail_id={$contract_detail_id} order by id DESC limit 1";
+        $result = $database->database_query($query);
+        $partner_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $partner['id'] = $row['id'];
+            $partner['partner_id'] = $row['partner_id'];
+            $partner['partner_percent'] = $row['partner_percent'];
+            $partner_arr[] = $partner;
         }
         return $partner_arr;
     }
-    function generate_order_name(){
+
+    function generate_order_name() {
         global $database;
-        $query="select id from home_order order by id DESC limit 1";
-        $result=$database->database_query($query);        
-        $row=$database->database_fetch_assoc($result);        
-        return $row['id']+1;
+        $query = "select id from home_order order by id DESC limit 1";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
+        return $row['id'] + 1;
     }
+
     //fetch events for private schedule     
-    function fetchEvents($user_id){
-        global $database;
-        $events=array();
-        $query="select ho.id from home_order as ho          
+    function fetchEvents($user_id) {
+        global $database,$user;
+        $client = new Client();
+        $events = array();
+        $query = "select ho.* from home_order as ho          
                 where ho.user_id='{$user_id}'";
+        $result = $database->database_query($query);
+        while ($row = $database->database_fetch_assoc($result)) {
+            //get client infomation
+            $birthday[] = $row['client_id'];
+            //contract info
+            $query = "select home_contract_detail.* from home_contract "
+                    . "left join home_contract_detail on home_contract.id = home_contract_detail.contract_id"
+                    . " where home_contract.user_id='{$user_id}' and home_contract.order_id='{$row['id']}'";
+            $data = $database->database_query($query);
+            while ($schedule = $database->database_fetch_assoc($data)) {
+                if ($schedule['contract_signature_day']) {
+                    $event['id'] = $schedule['id'];
+                    $event['title'] = "Signature date";
+                    $temp = explode(" ", $schedule['contract_signature_day']);
+                    if (isset($temp[1])) {
+                        $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
+                        $start.='T' . date('H:i:s', strtotime($schedule['contract_signature_day']));
+                    } else {
+                        $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
+                    }
+                    $event['start'] = $start;
+                    $events[] = $event;
+                }
+                if ($schedule['contract_handover_day']) {
+                    $event['id'] = $schedule['id'];
+                    $event['title'] = "Handover day";
+                    $temp = explode(" ", $schedule['contract_handover_day']);
+                    if (isset($temp[1])) {
+                        $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
+                        $start.='T' . date('H:i:s', strtotime($schedule['contract_handover_day']));
+                    } else {
+                        $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
+                    }
+                    $event['start'] = $start;
+                    $events[] = $event;
+                }
+                if ($schedule['contract_payment_date_from']) {
+                    $event['id'] = $schedule['id'];
+                    $event['title'] = "Payment day";
+                    $temp = explode(" ", $schedule['contract_payment_date_from']);
+                    if (isset($temp[1])) {
+                        $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
+                        $start.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_from']));
+                    } else {
+                        $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
+                    }
+                    $event['start'] = $start;
+
+                    $temp = explode(" ", $schedule['contract_payment_date_to']);
+                    if (isset($temp[1])) {
+                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
+                        $end.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_to']));
+                    } else {
+                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
+                    }
+                    $event['end'] = $end;
+                    $events[] = $event;
+                }
+                if ($schedule['contract_period_from']) {
+                    $event['id'] = $schedule['id'];
+                    $event['title'] = "Period time";
+                    $temp = explode(" ", $schedule['contract_period_from']);
+                    if (isset($temp[1])) {
+                        $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
+                        $start.='T' . date('H:i:s', strtotime($schedule['contract_period_from']));
+                    } else {
+                        $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
+                    }
+                    $event['start'] = $start;
+                    $temp = explode(" ", $schedule['contract_period_to']);
+                    if (isset($temp[1])) {
+                        $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
+                        $end.='T' . date('H:i:s', strtotime($schedule['contract_period_to']));
+                    } else {
+                        $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
+                    }
+                    $event['end'] = $end;
+                    $events[] = $event;
+                }
+            }
+
+            //history
+            $query = "select * from home_history_log where order_id='{$row['id']}' and user_id='{$user_id}'";
+            $history = $database->database_query($query);
+            while ($history_schedule = $database->database_fetch_assoc($history)) {
+                if ($history_schedule['log_date_appointment_from']) {
+                    $event['id'] = $history_schedule['id'];
+                    $event['title'] = "Appointment day";
+                    $temp = explode(" ", $history_schedule['log_date_appointment_from']);
+                    if (isset($temp[1])) {
+                        $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
+                        $start.='T' . date('H:i:s', strtotime($history_schedule['log_date_appointment_from']));
+                    } else {
+                        $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
+                    }
+                    $event['start'] = $start;
+                    $temp = explode(" ", $history_schedule['log_date_appointment_to']);
+                    if (isset($temp[1])) {
+                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
+                        $end.='T' . date('H:i:s', strtotime($history_schedule['log_date_appointment_to']));
+                    } else {
+                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
+                    }
+                    $event['end'] = $end;
+                    $events[] = $event;
+                }
+            }
+            //get client infomation
+        }
+        if (isset($birthday)) {
+            $birthday = array_unique($birthday);
+            
+            for ($i = 0; $i < count($birthday); $i++) {                
+                $clients = $client->getClientId($birthday[$i]);                               
+                $event['id'] = $clients['id'];
+                 $event['title']="Birthday's"." ".$clients['client_name']; 
+                //$event['title'] = "Birthday";
+                $event['start'] = $event['end'] =  date('Y-m-d', strtotime($clients['client_birthday']));
+                $events[] = $event;
+            }
+        }
+        
+        //get new event
+        $query="select * from home_event where user_id='{$user->user_info['id']}'";
         $result=$database->database_query($query);
         while($row=$database->database_fetch_assoc($result)){
-            //contract info
-            $query="select home_contract_detail.* from home_contract "
-                    . "left join home_contract_detail on home_contract.id = home_contract_detail.contract_id"
-                    . " where home_contract.user_id='{$user_id}' and home_contract.order_id='{$row['id']}'";                    
-            $data=$database->database_query($query);
-            while($schedule=$database->database_fetch_assoc($data)){
-                if($schedule['contract_signature_day']){
-                    $event['id']=$schedule['id'];
-                    $event['title']="Signature date";    
-                    $temp=  explode(" ", $schedule['contract_signature_day']);
-                    if(isset($temp[1])){
-                        $start=date('Y-m-d',strtotime($schedule['contract_signature_day']));
-                        $start.='T'.date('H:i:s',strtotime($schedule['contract_signature_day']));
-                    }else{
-                        $start=date('Y-m-d',strtotime($schedule['contract_signature_day']));
-                    }
-                    $event['start']=$start;
-                    $events[]=$event;
-                }
-                if($schedule['contract_handover_day']){
-                    $event['id']=$schedule['id'];
-                    $event['title']="Handover day";   
-                    $temp=  explode(" ", $schedule['contract_handover_day']);
-                    if(isset($temp[1])){
-                        $start=date('Y-m-d',strtotime($schedule['contract_handover_day']));
-                        $start.='T'.date('H:i:s',strtotime($schedule['contract_handover_day']));
-                    }else{
-                        $start=date('Y-m-d',strtotime($schedule['contract_handover_day']));
-                    }
-                    $event['start']=$start;
-                    $events[]=$event;
-                }
-                if($schedule['contract_payment_date_from']){
-                    $event['id']=$schedule['id'];
-                    $event['title']="Payment day";
-                    $temp=  explode(" ", $schedule['contract_payment_date_from']);
-                    if(isset($temp[1])){
-                        $start=date('Y-m-d',strtotime($schedule['contract_payment_date_from']));
-                        $start.='T'.date('H:i:s',strtotime($schedule['contract_payment_date_from']));
-                    }else{
-                        $start=date('Y-m-d',strtotime($schedule['contract_payment_date_from']));
-                    }
-                    $event['start']=$start;
-                    
-                    $temp=  explode(" ", $schedule['contract_payment_date_to']);
-                    if(isset($temp[1])){
-                        $end=date('Y-m-d',strtotime($schedule['contract_payment_date_to']));
-                        $end.='T'.date('H:i:s',strtotime($schedule['contract_payment_date_to']));
-                    }else{
-                        $end=date('Y-m-d',strtotime($schedule['contract_payment_date_to']));
-                    }
-                    $event['end']=$end;
-                    $events[]=$event;
-                }
-                if($schedule['contract_period_from']){
-                    $event['id']=$schedule['id'];
-                    $event['title']="Period time";
-                    $temp=  explode(" ", $schedule['contract_period_from']);
-                    if(isset($temp[1])){
-                        $start=date('Y-m-d',strtotime($schedule['contract_period_from']));
-                        $start.='T'.date('H:i:s',strtotime($schedule['contract_period_from']));
-                    }else{
-                        $start=date('Y-m-d',strtotime($schedule['contract_period_from']));
-                    }
-                    $event['start']=$start;
-                    $temp=  explode(" ", $schedule['contract_period_to']);
-                    if(isset($temp[1])){
-                        $end=date('Y-m-d',strtotime($schedule['contract_period_to']));
-                        $end.='T'.date('H:i:s',strtotime($schedule['contract_period_to']));
-                    }else{
-                        $end=date('Y-m-d',strtotime($schedule['contract_period_to']));
-                    }
-                    $event['end']=$end;
-                    $events[]=$event;
-                }
-            }
-           
-            //history
-            $query="select * from home_history_log where order_id='{$row['id']}' and user_id='{$user_id}'";
-            $history=$database->database_query($query);
-            while($history_schedule=$database->database_fetch_assoc($history)){
-                if($history_schedule['log_date_appointment_from']){
-                    $event['id']=$history_schedule['id'];
-                    $event['title']="Appointment day";
-                    $temp=  explode(" ", $history_schedule['log_date_appointment_from']);
-                    if(isset($temp[1])){
-                        $start=date('Y-m-d',strtotime($history_schedule['log_date_appointment_from']));
-                        $start.='T'.date('H:i:s',strtotime($history_schedule['log_date_appointment_from']));
-                    }else{
-                        $start=date('Y-m-d',strtotime($history_schedule['log_date_appointment_from']));
-                    }
-                    $event['start']=$start;
-                    $temp=  explode(" ", $history_schedule['log_date_appointment_to']);
-                    if(isset($temp[1])){
-                        $end=date('Y-m-d',strtotime($history_schedule['log_date_appointment_to']));
-                        $end.='T'.date('H:i:s',strtotime($history_schedule['log_date_appointment_to']));
-                    }else{
-                        $end=date('Y-m-d',strtotime($history_schedule['log_date_appointment_to']));
-                    }
-                    $event['end']=$end;
-                    $events[]=$event;
-                }
-            }
-        }     
+            $event['id']=$row['id'];
+            $event['title']=$row['event_title'].'(holiday)';
+            $event['start']=$row['event_start'];
+            $event['end']=$row['event_end'];
+            $event['url']=$row['event_url'];
+            $events[]=$event;
+        }
         return json_encode($events);
     }
+
 }

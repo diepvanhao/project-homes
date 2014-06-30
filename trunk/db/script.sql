@@ -239,3 +239,15 @@ ALTER TABLE `home_introduce_house`
 /*23/6*/
 ALTER TABLE `home_contract_detail`   
   ADD COLUMN `contract_ambition` TINYINT(1) NULL AFTER `contract_payment_report`;
+
+/*30/6 hao*/
+
+CREATE TABLE `home_event`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11),
+  `event_title` VARCHAR(128),
+  `event_start` VARCHAR(128),
+  `event_end` VARCHAR(128),
+  `event_url` varchar(128),
+  PRIMARY KEY (`id`)
+);
