@@ -17,8 +17,7 @@ echo "<script src='{$url->url_base}include/Calendar/lang-all.js'></script>";
 //fetch events
 $order=new HOMEOrder();
 
-$events=$order->fetchEvents($user->user_info['id']);
-
+$events=$order->fetchEvents($user->user_info['id']);//var_dump($events);
 $smarty->assign('events',$events);
 include "footer.php";
 

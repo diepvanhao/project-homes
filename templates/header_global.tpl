@@ -78,12 +78,12 @@
                                 </ul>
                             </li>
                             <li><a href="#">Contact Us</a></li> 
-                            <li><a href="#">Address</a>
+                            <li><a href="#">Schedule</a>
                                 <ul>
-                                    <li><a href="create_city.php">City</a></li>
-                                    <li><a href="create_district.php">District</a></li>
-                                    <li><a href="create_street.php">Street</a></li>
-                                    <li><a href="create_ward.php">Ward</a></li>                                    
+                                    <li><a href="google_calendar.php">Individual</a></li>
+                                    <li><a href="#">General</a></li>
+                                    
+                                                                        
                                 </ul>
                             </li>
                         </ul>
