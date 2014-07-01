@@ -64,10 +64,26 @@ class HOMEImport {
         if (!empty($row)) {
             return (int) $row['id'];
         }
-
+//address
+        $addr = explode(',', $arr['address']);
+        $address = '';
+        
+        if(is_array($addr)){
+            $city_id = (int) $this->_checkExistCity(@$addr[0]);
+            $district_id = (int) $this->_checkExistDistrict($city_id, @$addr[1]);
+            $street_id = (int) $this->_checkExistStreet($district_id, @$addr[2]);
+            $ward_id = (int) $this->_checkExistWard($street_id, @$addr[3]);
+            $address = serialize(array(
+                'city_id' => $city_id,
+                'district_id' => $district_id,
+                'street_id' => $street_id,
+                'ward_id' => $ward_id,
+                'house_address' => @$addr[4],
+            ));
+        }
         $database->database_query("
       INSERT INTO home_house(user_id,house_name,house_address, house_type) 
-      VALUES ('{$user->user_info['id']}','{$arr['name']}','{$arr['address']}','{$arr['type']}')");
+      VALUES ('{$user->user_info['id']}','{$arr['name']}','{$address}','{$arr['type']}')");
         return (int) $database->database_insert_id();
     }
 
@@ -147,7 +163,9 @@ class HOMEImport {
     private function _checkExistCity($city_name) {
 
         global $database;
-
+        
+        $city_name = trim($city_name);
+        
         $query = "SELECT * FROM house_city WHERE city_name='{$city_name}'";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
@@ -181,6 +199,8 @@ class HOMEImport {
 
         global $database;
 
+        $district_name = trim($district_name);
+        
         $query = "SELECT * FROM house_district WHERE district_name='{$district_name}' AND city_id='{$city_id}'";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
@@ -214,6 +234,8 @@ class HOMEImport {
 
         global $database;
 
+        $street_name = trim($street_name);
+        
         $query = "SELECT * FROM house_street WHERE street_name='{$street_name}' AND district_id='{$district_id}'";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
@@ -247,6 +269,8 @@ class HOMEImport {
 
         global $database;
 
+        $ward_name = trim($ward_name);
+        
         $query = "SELECT * FROM house_ward WHERE ward_name='{$ward_name}' AND street_id='{$street_id}'";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
