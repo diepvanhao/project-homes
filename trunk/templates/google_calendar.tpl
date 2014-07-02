@@ -3,16 +3,18 @@
     <script>
 
         $(document).ready(function() {
-            $('#create_new').click(function(){location.reload();});
+            $('#create_new').click(function() {
+                location.reload();
+            });
             $('#signature_day').removeAttr('checked');
             $('#handover_day').removeAttr('checked');
             $('#payment_day').removeAttr('checked');
             $('#appointment_day').removeAttr('checked');
-            $('#holiday').removeAttr('checked');
+            $('#other').removeAttr('checked');
             $('#period').removeAttr('checked');
             $('#birthday').removeAttr('checked');
-            
-                //location.reload()        
+
+            //location.reload()        
             var date = new Date();
             var d = date.getDate();
             var m = date.getMonth();
@@ -131,10 +133,11 @@
             //menu events click
             //click li
             $('ul li').click(function() {
-                if ($(this).find('input').is(':checked'))
-                    $(this).find('input').prop('checked', false);
-                else
-                    $(this).find('input').prop('checked', true);
+                /*  if ($(this).find('input:checkbox').is(':checked'))
+                 $(this).find('input:checkbox').attr('checked', true);
+                 else
+                 $(this).find('input:checkbox').attr('checked', false);
+                 */
                 display();
             });
         });
@@ -160,8 +163,8 @@
                 event.push('Appointment day');
                 color.push('Brown');
             }
-            if ($('#holiday').is(":checked")) {
-                event.push('(holiday)');
+            if ($('#other').is(":checked")) {
+                event.push('Other');
                 color.push('Brown');
             }
             if ($('#period').is(":checked")) {
@@ -188,11 +191,21 @@
                         if ($(this).find('.fc-event-title').html().substr(0, 8) == event[i]) {
                             $(this).css('display', '');
                             $(this).css('background-color', "red");
-                        }//alert($(this).find('.fc-event-title').html().slice(-9));
+                        }
 
-                        if ($(this).find('.fc-event-title').html().slice(-9) == event[i]) {
-                            $(this).css('display', '');
-                            $(this).css('background-color', "#3B5998");
+                        if (event[i] == 'Other') {
+                            if (
+                                    $(this).find('.fc-event-title').html() != 'Signature date' &&
+                                    $(this).find('.fc-event-title').html() != 'Handover day' &&
+                                    $(this).find('.fc-event-title').html() != 'Payment day' &&
+                                    $(this).find('.fc-event-title').html() != 'Appointment day' &&
+                                    $(this).find('.fc-event-title').html() != 'Period time' &&
+                                    $(this).find('.fc-event-title').html() != 'Birthday' 
+                                 
+                            ) {
+                                $(this).css('display', '');
+                                $(this).css('background-color', "#3B5998");
+                            }
                         }
                     });
                 }
@@ -232,11 +245,11 @@
             margin: 40px auto;
             float: left;
             padding-left: 10px;
+
         }
         #sidebar{
             float: left;
-            width: 20%;
-            height: 75%;
+            width: 20%;            
             margin: 40px auto;
             background-color: #E6E6E6;
         }
@@ -285,8 +298,8 @@
             <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">Signature day</label></li>
             <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">Handover day</label></li>
             <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">Payment day</label></li>
-            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment">Appointment day</label></li>
-            <li><input type="checkbox" id="holiday" name="holiday"/><label for="holiday">Holiday</label></li>
+            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">Appointment day</label></li>
+            <li><input type="checkbox" id="other" name="other"/><label for="other">Other</label></li>
             <li><input type="checkbox" id="period" name="period"/><label for="period">Period to</label></li>
             <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">Birthday</label></li>
             <li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">Create new</label></li>   

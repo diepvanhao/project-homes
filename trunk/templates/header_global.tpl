@@ -81,9 +81,7 @@
                             <li><a href="#">Schedule</a>
                                 <ul>
                                     <li><a href="google_calendar.php">Individual</a></li>
-                                    <li><a href="#">General</a></li>
-                                    
-                                                                        
+                                    <li><a href="general_calendar.php">General</a></li>                                                                                                            
                                 </ul>
                             </li>
                         </ul>
