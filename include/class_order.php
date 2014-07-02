@@ -500,7 +500,7 @@ class HOMEOrder {
         $result=$database->database_query($query);
         while($row=$database->database_fetch_assoc($result)){
             $event['id']=$row['id'];
-            $event['title']=$row['event_title'].'(holiday)';
+            $event['title']=$row['event_title'];
             $event['start']=$row['event_start'];
             $event['end']=$row['event_end'];
             $event['url']=$row['event_url'];

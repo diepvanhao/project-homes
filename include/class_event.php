@@ -9,14 +9,20 @@
 class HOMEEvent {
 
     function create_event($title, $start, $end, $url) {
-        global $database,$user;
+        global $database, $user;
         $checkExist = checkEventExist($title, $start, $end);
-        if($checkExist){
+        if ($checkExist) {
             return false;
-        }else{var_dump($user->user_info['id']);
-            $query="insert into home_event(user_id,event_title,event_start,event_end,event_url) values('{$user->user_info['id']}','$title','$start','$end','$url')";                       
+        } else {            
+            $query = "insert into home_event(user_id,event_title,event_start,event_end,event_url) values('{$user->user_info['id']}','$title','$start','$end','$url')";
             return $database->database_query($query);
         }
+    }
+
+    function getEvents($signature_day, $handover_day, $payment_day, $appointment_day, $other, $period, $birthday, $all_agent, $agent_id, $assign_id, $position, $date_from, $date_to) {
+        global $database,$user;
+        
+        
     }
 
 }
