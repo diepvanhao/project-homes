@@ -43,7 +43,7 @@ if (isset($_POST['search'])) {
     $search = "";
 }
 
-include 'include/class_client.php';
+include_once 'include/class_client.php';
 $client = new Client();
 $house=new HOMEHouse();
 //calculator paging

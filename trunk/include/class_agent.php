@@ -92,7 +92,7 @@ class HOMEAgent {
 
     function getAllAgent() {
         global $database;
-        $query = "select * from home_agent";       
+        $query = "select * from home_agent";
         //echo $query;
         $result = $database->database_query($query);
         $agent_arr = array();
@@ -117,6 +117,13 @@ class HOMEAgent {
         } else {
             return null;
         }
+    }
+
+    function getAgentByUserId($user_id) {
+        global $database;
+        $query = "select ha.* from home_user as hu join home_agent as ha on hu.agent_id=ha.id where hu.id='{$user_id}'";
+        $result = $database->database_query($query);
+        return $database->database_fetch_assoc($result);
     }
 
     function assign($agent_id = "", $staff_id = "") {
