@@ -233,23 +233,25 @@ class ajax {
         }
         return $house_arr;
     }
-    function getPartnerByKey($agent_id){
+
+    function getPartnerByKey($agent_id) {
         global $database;
         $query = "select hu.* from home_agent as ha left join home_user as hu on ha.id=hu.agent_id ";
-        $query.="where hu.user_authorities>1 and hu.user_locked=0";    
+        $query.="where hu.user_authorities>1 and hu.user_locked=0";
         if (!empty($agent_id))
-            $query.=" and ha.id='{$agent_id}' and hu.agent_id='{$agent_id}' ";     
-        
+            $query.=" and ha.id='{$agent_id}' and hu.agent_id='{$agent_id}' ";
+
         $result = $database->database_query($query);
         $partner_arr = array();
-        while($row=$database->database_fetch_assoc($result)){
-            $partner['id']=$row['id'];
-            $partner['user_fname']=$row['user_fname'];
-            $partner['user_lname']=$row['user_lname'];
-            $partner_arr[]=$partner;
+        while ($row = $database->database_fetch_assoc($result)) {
+            $partner['id'] = $row['id'];
+            $partner['user_fname'] = $row['user_fname'];
+            $partner['user_lname'] = $row['user_lname'];
+            $partner_arr[] = $partner;
         }
         return $partner_arr;
     }
+
     function getBrokerByKey($search) {
         global $database;
         $search = trim($search);
@@ -535,7 +537,7 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent,$contract_ambition, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $client_id, $order_id) {
         global $database, $user;
         //calculator fee
         $total = 0;
@@ -649,7 +651,7 @@ class ajax {
         } else {
             $query = "insert into home_contract("
                     . "user_id,"
-                    ."client_id,"
+                    . "client_id,"
                     . "order_id"
                     . ") values("
                     . "'{$user->user_info['id']}',"
@@ -687,7 +689,7 @@ class ajax {
                         . "contract_payment_date_to,"
                         . "contract_payment_status,"
                         . "contract_payment_report,"
-                        ."contract_ambition"
+                        . "contract_ambition"
                         . ") values("
                         . "'{$contract_id}',"
                         . "'{$contract_cost}',"
@@ -877,6 +879,255 @@ class ajax {
             $ward_arr[] = $ward;
         }
         return $ward_arr;
+    }
+
+    function getSchedule($signature_day, $handover_day, $payment_day, $appointment_day, $period, $birthday, $all_agent, $agent_id, $position, $assign_id, $date_from, $date_to) {
+        global $database;
+        $agent = new HOMEAgent();
+        $staff = new HOMEUser();
+        $client = new Client();
+        $events = Array();
+        //get order list
+        $query = "select ho.* from home_order as ho where "
+                . "ho.order_status=1 ";
+        if ($date_from)
+            $query.=" and ho.order_day_update >='{$date_from}'";
+        if ($date_to)
+            $query.=" and ho.order_day_update <='{$date_to}'";
+        $query.=" order by ho.order_day_update ASC";
+//echo $query;die();
+        $result_order = $database->database_query($query);
+        while ($row = $database->database_fetch_assoc($result_order)) {
+            //get transaction info
+            //get contract info             
+            $query = "select hcd.* from home_contract hc left join home_contract_detail hcd on hc.id=hcd.contract_id "
+                    . "where hc.order_id='{$row['id']}'"
+                    . " and hc.user_id='{$row['user_id']}'";
+
+            $result_contract = $database->database_query($query);
+            while ($contract = $database->database_fetch_assoc($result_contract)) {
+                if (trim($contract['contract_signature_day'])) {
+                    $event['id'] = $row['id'];
+                    $event['title'] = "Signature Day";
+                    $start = explode(" ", $contract['contract_signature_day']);
+                    if (isset($start[1]))
+                        $event['time'] = $start[1];
+                    else
+                        $event['time'] = "";
+                    $event['start'] = $start[0];
+                    $event['end'] = "";
+                    //$event['time']="";
+                    //fetch agent, user info.      
+                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    if ($agent_info)
+                        $event['agent'] = $agent_info['agent_name'];
+                    $staff_info = $staff->getAccountById($row['user_id']);
+                    if ($staff_info) {
+                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                        if ($staff_info['user_authorities'] == 2)
+                            $event['position'] = 'Super manager';
+                        elseif ($staff_info['user_authorities'] == 3)
+                            $event['position'] = "Manager";
+                        elseif ($staff_info['user_authorities'] == 4)
+                            $event['position'] = "Staff";
+                    }
+                    //fetch client info
+                    $client_info = $client->getClientId($row['client_id']);
+                    if ($client_info)
+                        $event['customer'] = $client_info['client_name'];
+                    $event['link'] = 'google.com.vn';
+                    $events[] = $event;
+                }
+                if (trim($contract['contract_handover_day'])) {
+                    $event['id'] = $row['id'];
+                    $event['title'] = "Handover Day";
+                    $start = explode(" ", $contract['contract_handover_day']);
+                    if (isset($start[1]))
+                        $event['time'] = $start[1];
+                    else
+                        $event['time'] = "";
+                    $event['start'] = $start[0];
+                    $event['end'] = "";
+
+                    //fetch agent, user info.      
+                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    if ($agent_info)
+                        $event['agent'] = $agent_info['agent_name'];
+                    $staff_info = $staff->getAccountById($row['user_id']);
+                    if ($staff_info) {
+                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                        if ($staff_info['user_authorities'] == 2)
+                            $event['position'] = 'Super manager';
+                        elseif ($staff_info['user_authorities'] == 3)
+                            $event['position'] = "Manager";
+                        elseif ($staff_info['user_authorities'] == 4)
+                            $event['position'] = "Staff";
+                    }
+                    //fetch client info
+                    $client_info = $client->getClientId($row['client_id']);
+                    if ($client_info)
+                        $event['customer'] = $client_info['client_name'];
+                    $event['link'] = 'google.com.vn';
+                    $events[] = $event;
+                }
+                if (trim($contract['contract_payment_date_from'])) {
+                    $event['id'] = $row['id'];
+                    $event['title'] = "Payment Day";
+                    $start = explode(" ", $contract['contract_payment_date_from']);
+                    if (isset($start[1]))
+                        $event['time'] = $start[1];
+                    else
+                        $event['time'] = "";
+                    $event['start'] = $start[0];
+
+                    $end = explode(" ", $contract['contract_payment_date_to']);
+                    if (isset($end[0]))
+                        $event['end'] = $end[0];
+                    else
+                        $event['end'] = "";
+                    //fetch agent, user info.      
+                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    if ($agent_info)
+                        $event['agent'] = $agent_info['agent_name'];
+                    $staff_info = $staff->getAccountById($row['user_id']);
+                    if ($staff_info) {
+                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                        if ($staff_info['user_authorities'] == 2)
+                            $event['position'] = 'Super manager';
+                        elseif ($staff_info['user_authorities'] == 3)
+                            $event['position'] = "Manager";
+                        elseif ($staff_info['user_authorities'] == 4)
+                            $event['position'] = "Staff";
+                    }
+                    //fetch client info
+                    $client_info = $client->getClientId($row['client_id']);
+                    if ($client_info)
+                        $event['customer'] = $client_info['client_name'];
+                    $event['link'] = 'google.com.vn';
+                    $events[] = $event;
+                }
+                if (trim($contract['contract_period_from'])) {
+                    $event['id'] = $row['id'];
+                    $event['title'] = "Period To";
+                    $start = explode(" ", $contract['contract_period_from']);
+                    if (isset($start[1]))
+                        $event['time'] = $start[1];
+                    else
+                        $event['time'] = "";
+                    $event['start'] = $start[0];
+
+                    $end = explode(" ", $contract['contract_period_to']);
+                    if (isset($end[0]))
+                        $event['end'] = $end[0];
+                    else
+                        $event['end'] = "";
+                    //fetch agent, user info.      
+                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    if ($agent_info)
+                        $event['agent'] = $agent_info['agent_name'];
+                    $staff_info = $staff->getAccountById($row['user_id']);
+                    if ($staff_info) {
+                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                        if ($staff_info['user_authorities'] == 2)
+                            $event['position'] = 'Super manager';
+                        elseif ($staff_info['user_authorities'] == 3)
+                            $event['position'] = "Manager";
+                        elseif ($staff_info['user_authorities'] == 4)
+                            $event['position'] = "Staff";
+                    }
+                    //fetch client info
+                    $client_info = $client->getClientId($row['client_id']);
+                    if ($client_info)
+                        $event['customer'] = $client_info['client_name'];
+                    $event['link'] = 'google.com.vn';
+                    $events[] = $event;
+                }
+            }
+            //get birthday client
+            if ($row['client_id']) {
+                $event['id'] = $row['id'];
+                $event['title'] = "Birthday";
+
+                //$event['end']=$contract['contract_period_to'];
+                //fetch agent, user info.      
+                $agent_info = $agent->getAgentByUserId($row['user_id']);
+                if ($agent_info)
+                    $event['agent'] = $agent_info['agent_name'];
+                $staff_info = $staff->getAccountById($row['user_id']);
+                if ($staff_info) {
+                    $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                    if ($staff_info['user_authorities'] == 2)
+                        $event['position'] = 'Super manager';
+                    elseif ($staff_info['user_authorities'] == 3)
+                        $event['position'] = "Manager";
+                    elseif ($staff_info['user_authorities'] == 4)
+                        $event['position'] = "Staff";
+                }
+                //fetch client info
+                $client_info = $client->getClientId($row['client_id']);
+                if ($client_info) {
+                    $event['customer'] = $client_info['client_name'];
+                    $event['start'] = $client_info['client_birthday'];
+                    $event['end'] = "";
+                    $event['time'] = "";
+                }
+                $event['link'] = 'google.com.vn';
+                $events[] = $event;
+            }
+            //get history info
+            $query = "select * from home_history_log where order_id='{$row['id']}' and user_id='{$row['user_id']}'";
+            $result_history = $database->database_query($query);
+            $history = $database->database_fetch_assoc($result_history);
+            if (trim($history['log_date_appointment_from'])) {
+                $event['id'] = $row['id'];
+                $event['title'] = "Appointment day";
+
+                $start = explode(" ", $history['log_date_appointment_from']);
+                if (isset($start[1]))
+                    $event['time'] = $start[1];
+                else
+                    $event['time'] = "";
+                $event['start'] = $start[0];
+
+                $end = explode(" ", $history['log_date_appointment_to']);
+                if (isset($end[0]))
+                    $event['end'] = $end[0];
+                else
+                    $event['end'] = "";
+                //fetch agent, user info.      
+                $agent_info = $agent->getAgentByUserId($row['user_id']);
+                if ($agent_info)
+                    $event['agent'] = $agent_info['agent_name'];
+                $staff_info = $staff->getAccountById($row['user_id']);
+                if ($staff_info) {
+                    $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                    if ($staff_info['user_authorities'] == 2)
+                        $event['position'] = 'Super manager';
+                    elseif ($staff_info['user_authorities'] == 3)
+                        $event['position'] = "Manager";
+                    elseif ($staff_info['user_authorities'] == 4)
+                        $event['position'] = "Staff";
+                }
+                //fetch client info
+                $client_info = $client->getClientId($row['client_id']);
+                if ($client_info)
+                    $event['customer'] = $client_info['client_name'];
+                $event['link'] = 'google.com.vn';
+                $events[] = $event;
+            }
+        }
+        // Obtain a list of columns
+        //sort event
+        foreach ($events as $key => $row) {
+            $volume[$key] = $row['start'];
+            $edition[$key] = $row['time'];
+        }
+
+// Sort the data with volume descending, edition ascending
+// Add $data as the last parameter, to sort by the common key
+        array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $events);
+        
+        return $events;
     }
 
 }
