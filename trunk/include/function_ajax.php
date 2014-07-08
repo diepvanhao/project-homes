@@ -1395,21 +1395,26 @@ if ($action == "check_email") {
         } else {
             $date_to = "";
         }
-        
-        $result = $ajax->getSchedule($signature_day,$handover_day,$payment_day,$appointment_day,$period,$birthday,$all_agent,$agent_id,$position,$assign_id,$date_from,$date_to);
+
+        $result = $ajax->getSchedule($signature_day, $handover_day, $payment_day, $appointment_day, $period, $birthday, $all_agent, $agent_id, $position, $assign_id, $date_from, $date_to);
 
         if ($result) {
-            echo "<option value''></option>";
-            for ($i = 0; $i < count($result); $i++) {
-
-                echo "<option value='{$result[$i]['id']}'";
-                if ($result[$i]['id'] == $ward_id)
-                    echo "selected='selected'";
-                echo ">";
-                echo "{$result[$i]['ward_name']}</option>";
+            for ($i = 1; $i <= count($result); $i++) {
+                $detail = base64_encode("assign&{$result[$i - 1]['id']}");
+                echo "<tr>";
+                echo "<td>{$i}</td>";
+                echo "<td>{$result[$i - 1]['agent']}</td>";
+                echo"<td>{$result[$i - 1]['position']}</td>";
+                echo "<td>{$result[$i - 1]['assigned']}</td>";
+                echo "<td>{$result[$i - 1]['start']}</td>";
+                echo "<td>{$result[$i - 1]['end']}</td>";
+                echo "<td>{$result[$i - 1]['time']}</td>";
+                echo "<td>{$result[$i - 1]['title']}</td>";
+                echo "<td>{$result[$i - 1]['customer']}</td>";
+                echo"<td><a href='order_detail.php?url={$detail}'>Detail</a></td>";
+                echo"</tr>    ";
             }
         }
-        
     }
 }
 

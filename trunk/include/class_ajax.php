@@ -887,6 +887,7 @@ class ajax {
         $staff = new HOMEUser();
         $client = new Client();
         $events = Array();
+
         //get order list
         $query = "select ho.* from home_order as ho where "
                 . "ho.order_status=1 ";
@@ -918,7 +919,7 @@ class ajax {
                     $event['end'] = "";
                     //$event['time']="";
                     //fetch agent, user info.      
-                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    $agent_info = $agent->getAgentByUserId($row['user_id'],$agent_id);
                     if ($agent_info)
                         $event['agent'] = $agent_info['agent_name'];
                     $staff_info = $staff->getAccountById($row['user_id']);
@@ -1116,18 +1117,38 @@ class ajax {
                 $events[] = $event;
             }
         }
+        //filter 
+        $filter = Array();
+        for ($i = 0; $i < count($events); $i++) {
+            if ($signature_day && $events[$i]['title'] == 'Signature Day')
+                $filter[] = $events[$i];
+            if ($handover_day && $events[$i]['title'] == 'Handover Day') {
+                $filter[] = $events[$i];
+            }
+            if ($payment_day && $events[$i]['title'] == 'Payment Day')
+                $filter[] = $events[$i];
+            if ($appointment_day && $events[$i]['title'] == 'Appointment day')
+                $filter[] = $events[$i];
+            if ($period && $events[$i]['title'] == 'Period To')
+                $filter[] = $events[$i];
+            if ($birthday && $events[$i]['title'] == 'Birthday')
+                $filter[] = $events[$i];
+        }
         // Obtain a list of columns
         //sort event
-        foreach ($events as $key => $row) {
+        if (empty($filter))
+            $filter = $events;
+        foreach ($filter as $key => $row) {
             $volume[$key] = $row['start'];
             $edition[$key] = $row['time'];
         }
 
 // Sort the data with volume descending, edition ascending
 // Add $data as the last parameter, to sort by the common key
-        array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $events);
-        
-        return $events;
+
+        array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filter);
+
+        return $filter;
     }
 
 }
