@@ -891,12 +891,19 @@ class ajax {
         //get order list
         $query = "select ho.* from home_order as ho where "
                 . "ho.order_status=1 ";
-        if ($date_from)
+        if ($assign_id)
+            $query.=" and ho.user_id='{$assign_id}'";
+        if ($date_from) {
+            $date_from = strtotime($date_from);
             $query.=" and ho.order_day_update >='{$date_from}'";
-        if ($date_to)
+        }
+        if ($date_to) {
+            $date_to = strtotime($date_to);
             $query.=" and ho.order_day_update <='{$date_to}'";
+        }
         $query.=" order by ho.order_day_update ASC";
-//echo $query;die();
+        //echo $query;
+      //  die();
         $result_order = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result_order)) {
             //get transaction info
@@ -904,9 +911,10 @@ class ajax {
             $query = "select hcd.* from home_contract hc left join home_contract_detail hcd on hc.id=hcd.contract_id "
                     . "where hc.order_id='{$row['id']}'"
                     . " and hc.user_id='{$row['user_id']}'";
-
+//echo $query;die();
             $result_contract = $database->database_query($query);
             while ($contract = $database->database_fetch_assoc($result_contract)) {
+
                 if (trim($contract['contract_signature_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "Signature Day";
@@ -919,10 +927,11 @@ class ajax {
                     $event['end'] = "";
                     //$event['time']="";
                     //fetch agent, user info.      
-                    $agent_info = $agent->getAgentByUserId($row['user_id'],$agent_id);
+                    $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                     if ($agent_info)
                         $event['agent'] = $agent_info['agent_name'];
-                    $staff_info = $staff->getAccountById($row['user_id']);
+                    $staff_info = $staff->getAccountById($row['user_id'], $position);
+                    //var_dump($staff_info);die();
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
@@ -937,7 +946,8 @@ class ajax {
                     if ($client_info)
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
-                    $events[] = $event;
+                    if ($agent_info && $staff_info)
+                        $events[] = $event;
                 }
                 if (trim($contract['contract_handover_day'])) {
                     $event['id'] = $row['id'];
@@ -951,10 +961,10 @@ class ajax {
                     $event['end'] = "";
 
                     //fetch agent, user info.      
-                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                     if ($agent_info)
                         $event['agent'] = $agent_info['agent_name'];
-                    $staff_info = $staff->getAccountById($row['user_id']);
+                    $staff_info = $staff->getAccountById($row['user_id'], $position);
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
@@ -969,7 +979,8 @@ class ajax {
                     if ($client_info)
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
-                    $events[] = $event;
+                    if ($agent_info && $staff_info)
+                        $events[] = $event;
                 }
                 if (trim($contract['contract_payment_date_from'])) {
                     $event['id'] = $row['id'];
@@ -987,10 +998,10 @@ class ajax {
                     else
                         $event['end'] = "";
                     //fetch agent, user info.      
-                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                     if ($agent_info)
                         $event['agent'] = $agent_info['agent_name'];
-                    $staff_info = $staff->getAccountById($row['user_id']);
+                    $staff_info = $staff->getAccountById($row['user_id'], $position);
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
@@ -1005,7 +1016,8 @@ class ajax {
                     if ($client_info)
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
-                    $events[] = $event;
+                    if ($agent_info && $staff_info)
+                        $events[] = $event;
                 }
                 if (trim($contract['contract_period_from'])) {
                     $event['id'] = $row['id'];
@@ -1023,10 +1035,10 @@ class ajax {
                     else
                         $event['end'] = "";
                     //fetch agent, user info.      
-                    $agent_info = $agent->getAgentByUserId($row['user_id']);
+                    $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                     if ($agent_info)
                         $event['agent'] = $agent_info['agent_name'];
-                    $staff_info = $staff->getAccountById($row['user_id']);
+                    $staff_info = $staff->getAccountById($row['user_id'], $position);
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
@@ -1041,7 +1053,8 @@ class ajax {
                     if ($client_info)
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
-                    $events[] = $event;
+                    if ($agent_info && $staff_info)
+                        $events[] = $event;
                 }
             }
             //get birthday client
@@ -1051,10 +1064,10 @@ class ajax {
 
                 //$event['end']=$contract['contract_period_to'];
                 //fetch agent, user info.      
-                $agent_info = $agent->getAgentByUserId($row['user_id']);
+                $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                 if ($agent_info)
                     $event['agent'] = $agent_info['agent_name'];
-                $staff_info = $staff->getAccountById($row['user_id']);
+                $staff_info = $staff->getAccountById($row['user_id'], $position);
                 if ($staff_info) {
                     $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                     if ($staff_info['user_authorities'] == 2)
@@ -1073,7 +1086,8 @@ class ajax {
                     $event['time'] = "";
                 }
                 $event['link'] = 'google.com.vn';
-                $events[] = $event;
+                if ($agent_info && $staff_info)
+                    $events[] = $event;
             }
             //get history info
             $query = "select * from home_history_log where order_id='{$row['id']}' and user_id='{$row['user_id']}'";
@@ -1096,10 +1110,10 @@ class ajax {
                 else
                     $event['end'] = "";
                 //fetch agent, user info.      
-                $agent_info = $agent->getAgentByUserId($row['user_id']);
+                $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                 if ($agent_info)
                     $event['agent'] = $agent_info['agent_name'];
-                $staff_info = $staff->getAccountById($row['user_id']);
+                $staff_info = $staff->getAccountById($row['user_id'], $position);
                 if ($staff_info) {
                     $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                     if ($staff_info['user_authorities'] == 2)
@@ -1114,7 +1128,8 @@ class ajax {
                 if ($client_info)
                     $event['customer'] = $client_info['client_name'];
                 $event['link'] = 'google.com.vn';
-                $events[] = $event;
+                if ($agent_info && $staff_info)
+                    $events[] = $event;
             }
         }
         //filter 
@@ -1145,8 +1160,8 @@ class ajax {
 
 // Sort the data with volume descending, edition ascending
 // Add $data as the last parameter, to sort by the common key
-
-        array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filter);
+        if ($filter)
+            array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filter);
 
         return $filter;
     }

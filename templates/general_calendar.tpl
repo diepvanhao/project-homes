@@ -141,10 +141,61 @@
                     if (result) {
                         $('#calendar').find('tbody').empty();
                         $('#calendar').find('tbody').html(result);
+                    } else {
+                        $('#calendar').find('tbody').empty();
                     }
                 });
             });
+            
         });
+        function selectDate(){
+            //handling filter
+                if ($('#signature_day').is(':checked'))
+                    var signature_day = 1;
+                else
+                    var signature_day = 0;
+                if ($('#handover_day').is(':checked'))
+                    var handover_day = 1;
+                else
+                    var handover_day = 0;
+                if ($('#payment_day').is(':checked'))
+                    var payment_day = 1;
+                else
+                    var payment_day = 0;
+                if ($('#appointment_day').is(':checked'))
+                    var appointment_day = 1;
+                else
+                    var appointment_day = 0;
+                if ($('#period').is(':checked'))
+                    var period = 1;
+                else
+                    var period = 0;
+                if ($('#birthday').is(':checked'))
+                    var birthday = 1;
+                else
+                    var birthday = 0;
+                if ($('#all_agent').is(':checked'))
+                    var all_agent = 1;
+                else
+                    var all_agent = 0;
+
+                var agent_id = $('#agent_id').val();
+                var position = $('#position').val();
+                var assign_id = $('#assign_id').val();
+                var date_from = $('#date_from').val();
+                var date_to = $('#date_to').val();
+                $.post("include/function_ajax.php", {signature_day: signature_day, handover_day: handover_day, payment_day: payment_day, appointment_day: appointment_day, period: period, birthday: birthday,
+                    all_agent: all_agent, agent_id: agent_id, position: position, assign_id: assign_id, date_from: date_from, date_to: date_to,
+                    action: 'schedule', task: 'general'},
+                function(result) {
+                    if (result) {
+                        $('#calendar').find('tbody').empty();
+                        $('#calendar').find('tbody').html(result);
+                    } else {
+                        $('#calendar').find('tbody').empty();
+                    }
+                });
+        }
     </script>
 {/literal}
 <div id="wrapper">   
@@ -192,8 +243,8 @@
                 </label>
             </li>
             <li>
-                <label>Date from:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;"/></label>
-                <label>Date to:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;"/></label>
+                <label>Date from:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>Date to:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
         </ul>
     </div>   

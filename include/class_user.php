@@ -945,10 +945,12 @@ class HOMEUser {
         return $user_arr;
     }
 
-    function getAccountById($user_id) {
+    function getAccountById($user_id,$position=null) {
         if ($user_id) {
             global $database;
             $query = "select * from home_user where id={$user_id}";
+            if($position)
+                $query.=" and user_authorities={$position}";                
             $result = $database->database_query($query);
             return $database->database_fetch_assoc($result);
         } else {
