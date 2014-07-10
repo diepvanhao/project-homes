@@ -251,3 +251,14 @@ CREATE TABLE `home_event`(
   `event_url` varchar(128),
   PRIMARY KEY (`id`)
 );
+
+/*10/7 hao*/
+CREATE TABLE `home_user_target`(  
+  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `target` INT(11),
+  `create_date` VARCHAR(128),
+  PRIMARY KEY (`user_id`)
+);
+
+ALTER TABLE `home_user`   
+  DROP COLUMN `user_target`;

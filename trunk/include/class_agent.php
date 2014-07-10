@@ -119,11 +119,11 @@ class HOMEAgent {
         }
     }
 
-    function getAgentByUserId($user_id,$agent_id) {
+    function getAgentByUserId($user_id,$agent_id=null) {
         global $database;
         $query = "select ha.* from home_user as hu join home_agent as ha on hu.agent_id=ha.id where hu.id='{$user_id}'";
         if($agent_id)
-            $query.=" and ha.id='{$agent_id}'";
+            $query.=" and ha.id='{$agent_id}'";            
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
