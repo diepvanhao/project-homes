@@ -783,8 +783,9 @@ if (isset($_POST['save'])) {
                 $client_resident_name = $client_arr['client_resident_name'];
                 $client_resident_phone = $client_arr['client_resident_phone'];
 
-                if ($user->user_info['id'] == $client_arr['user_id']) {
+               // if ($user->user_info['id'] == $client_arr['user_id']) {
                     //fetch introduce
+                if(1){
                     $result = $customer->getCustomerIntroduce($order_id, $client_id);
 
                     if ($result) {
