@@ -17,12 +17,12 @@ if (!$user->user_exists) {
     exit();
 }
 //var_dump($user);die();
-if ($user->user_info['user_authorities']  >2 ) {
+if ($user->user_info['user_authorities'] > 2) {
     header('Location: ./restrict.php');
     exit();
 }
 
-if($user->user_info['user_locked']){
+if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
@@ -76,6 +76,43 @@ if (isset($_POST['address'])) {
 } else {
     $address = "";
 }
+if (isset($_POST['city_id'])) {
+    $city_id = $_POST['city_id'];
+} elseif (isset($_GET['city_id'])) {
+    $city_id = $_GET['city_id'];
+} else {
+    $city_id = "";
+}
+if (isset($_POST['district_id'])) {
+    $district_id = $_POST['district_id'];
+} elseif (isset($_GET['district_id'])) {
+    $district_id = $_GET['district_id'];
+} else {
+    $district_id = 0;
+}
+if (isset($_POST['street_id'])) {
+    $street_id = $_POST['street_id'];
+} elseif (isset($_GET['street_id'])) {
+    $street_id = $_GET['street_id'];
+} else {
+    $street_id = 0;
+}
+if (isset($_POST['ward_id'])) {
+    $ward_id = $_POST['ward_id'];
+} elseif (isset($_GET['ward_id'])) {
+    $ward_id = $_GET['ward_id'];
+} else {
+    $ward_id = 0;
+}
+$house_address_serialize['city_id'] = $city_id;
+$house_address_serialize['district_id'] = $district_id;
+$house_address_serialize['street_id'] = $street_id;
+$house_address_serialize['ward_id'] = $ward_id;
+
+$house_address_serialize['address'] = $address;
+
+$house_address_serialize = serialize($house_address_serialize);
+
 if (isset($_POST['phone'])) {
     $phone = $_POST['phone'];
 } elseif (isset($_GET['phone'])) {
@@ -135,12 +172,15 @@ if (isset($_FILES['photo']['name'])) {
 
 //validate values input
 $validate = array(
-    'email' => array('email'=>$email),
+    'email' => array('email' => $email),
     'password' => array('pass' => $password, 'confirm_pass' => $confirm_password),
-    'username' => array('username'=>$username),
+    'username' => array('username' => $username),
     'firstname' => $firstname,
     'lastname' => $lastname,
-    'address' => $address
+    'city_id' => $city_id,
+    'district_id' => $district_id,
+    'street_id' => $street_id,
+    'ward_name' => $ward_id
 );
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
@@ -148,7 +188,7 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $userClass = new HOMEUser();
-        $result = $userClass->user_create($username, $password, $confirm_password, $firstname, $lastname, $address, $email, $phone, $gender, $birthday, $photo, $position, $level, $target);
+        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target);
         if ($result) {
             header("Location: notify.php?content=Sign Up Success!!!&url_return=user_account.php");
         }
@@ -159,7 +199,14 @@ if (isset($_POST['submit'])) {
 $agentClass = new HOMEAgent();
 $agents = $agentClass->getAgent();
 //$smarty->clearCache("$page.tpl");
+$house = new HOMEHouse();
+$cities = $house->getAllCity();
 
+$smarty->assign('cities', $cities);
+$smarty->assign('city_id', $city_id);
+$smarty->assign('district_id', $district_id);
+$smarty->assign('street_id', $street_id);
+$smarty->assign('ward_id', $ward_id);
 $smarty->assign('email', $email);
 $smarty->assign('password', $password);
 $smarty->assign('confirm_password', $confirm_password);

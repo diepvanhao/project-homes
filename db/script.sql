@@ -254,10 +254,11 @@ CREATE TABLE `home_event`(
 
 /*10/7 hao*/
 CREATE TABLE `home_user_target`(  
-  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11),
   `target` INT(11),
   `create_date` VARCHAR(128),
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`id`)
 );
 
 ALTER TABLE `home_user`   

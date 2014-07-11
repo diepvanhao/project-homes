@@ -659,7 +659,7 @@ class HOMEUser {
 // OUTPUT: AN INTEGER REPRESENTING THE NUMBER OF FRIENDS
 
 
-    function user_create($user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $user_locked = 0) {
+    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $user_locked = 0) {
 
         global $database, $url;
 
@@ -704,14 +704,11 @@ class HOMEUser {
 
         user_position,
 
-        user_locked,
+        user_locked              
         
-        user_target
-        
-
       ) VALUES (
 
-        '',
+        '{$agent}',
 
         '{$user_username}',
 
@@ -739,11 +736,8 @@ class HOMEUser {
 
         '{$user_position}',
 
-        '{$user_locked}',
-            
-        '{$user_target}'
-            
-
+        '{$user_locked}'
+                               
       )
 
     ");
@@ -751,11 +745,15 @@ class HOMEUser {
 
         $user_id = $database->database_insert_id();
 
-        if ($user_id)
+        if ($user_id) {
+            //save target
+            $create_date = time();
+            $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$user_target}','{$create_date}')";
+            $database->database_query($query);
             $result = TRUE;
-        else
+        } else {
             $result = FALSE;
-
+        }
 
 // ADD USER DIRECTORY
 
@@ -854,8 +852,7 @@ class HOMEUser {
                 `user_gender`='{$user_gender}',
                 `user_birthday`='{$user_birthday}',                     
                 `user_authorities`='{$user_authorities}',
-                 `user_position`='{$user_position}',
-                 `user_target`='{$user_target}'
+                 `user_position`='{$user_position}'                 
                
                 ";
         if ($user_photo)
@@ -866,6 +863,14 @@ class HOMEUser {
         $result = $database->database_query($query);
         if ($user_photo)
             $this->user_photo_upload('photo', false, $user_id);
+
+        if (trim($user_target) != trim(getTarget($user_id))) {
+            //save target
+            $create_date = time();
+            $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$user_target}','{$create_date}')";
+            $database->database_query($query);
+        }
+
         return $result;
     }
 
@@ -923,34 +928,48 @@ class HOMEUser {
         //echo $query;
         $result = $database->database_query($query);
         $user_arr = array();
+        $house = new HOMEHouse();
         while ($row = $database->database_fetch_assoc($result)) {
             $user['id'] = $row['id'];
             $user['user_username'] = $row['user_username'];
             $user['user_fname'] = $row['user_fname'];
             $user['user_lname'] = $row['user_lname'];
-            $user['user_address'] = $row['user_address'];
+            // $user['user_address'] = $row['user_address'];
+            if ($house->isSerialized($row['user_address'])) {
+                $house_address_serialize = unserialize($row['user_address']);
+                $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+                $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+                $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+                $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+                $address = $house_address_serialize['address'];
+                $user['user_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $address;
+            } else {
+                $user['user_address'] = $row['user_address'];
+            }
             $user['user_email'] = $row['user_email'];
             $user['user_phone'] = $row['user_phone'];
             $user['user_gender'] = $row['user_gender'];
             $user['user_birthday'] = $row['user_birthday'];
             $user['user_authorities'] = $row['user_authorities'];
             $user['user_position'] = $row['user_position'];
-            $user['user_target'] = $row['user_target'];
+            $user['user_target'] = getTarget($row['id']);
             $user['user_path_photo'] = $row['user_path_photo'];
             $user['user_path_thumb'] = $row['user_path_thumb'];
             $user['user_locked'] = $row['user_locked'];
             $user['user_photo'] = $row['user_photo'];
+            //fetch target
+
             $user_arr[] = $user;
         }
         return $user_arr;
     }
 
-    function getAccountById($user_id,$position=null) {
+    function getAccountById($user_id, $position = null) {
         if ($user_id) {
             global $database;
             $query = "select * from home_user where id={$user_id}";
-            if($position)
-                $query.=" and user_authorities={$position}";                
+            if ($position)
+                $query.=" and user_authorities={$position}";
             $result = $database->database_query($query);
             return $database->database_fetch_assoc($result);
         } else {
@@ -958,6 +977,14 @@ class HOMEUser {
         }
     }
 
+}
+
+function getTarget($user_id) {
+    global $database;
+    $query = "select target from home_user_target where user_id='{$user_id}' order by create_date DESC limit 1";
+    $result = $database->database_query($query);
+    $row = $database->database_fetch_assoc($result);
+    return $row['target'];
 }
 
 // Backwards compat
