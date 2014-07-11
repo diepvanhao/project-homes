@@ -26,6 +26,7 @@
             float: left;
             width: 20%;            
             margin: 2px auto;
+            margin-right: 10px;
             background-color: #E6E6E6;
         }
         #sidebar_schedule ul li{
