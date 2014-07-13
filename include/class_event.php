@@ -35,7 +35,7 @@ class HOMEEvent {
             $query.=" and ho.order_day_update <='{$date_to}'";
         $query.=" order by ho.order_day_update ASC";
 //echo $query;die();
-         $result_order = $database->database_query($query);       
+        $result_order = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result_order)) {
             //get transaction info
             //get contract info             
@@ -264,7 +264,8 @@ class HOMEEvent {
 
 // Sort the data with volume descending, edition ascending
 // Add $data as the last parameter, to sort by the common key
-        array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $events);
+        if ($events)
+            array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $events);
         return $events;
     }
 

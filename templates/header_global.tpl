@@ -40,44 +40,44 @@
                 <nav>
                     <div id="menu_container">
                         <ul class="sf-menu" id="nav">
-                            <li><a href="index.php">Home</a></li>
-                            <li><a href="user_account.php">Signup</a></li>
-                            <li><a href="#">Create</a>
+                            <li><a href="index.php">ホーム</a></li>
+                            <li><a href="user_account.php">サインアップ</a></li>
+                            <li><a href="#">クリエート</a>
                                 <ul>
-                                    <li><a href="create_order.php">Order</a></li>
-                                    <li><a href="create_agent.php">Agent</a></li>
-                                    <li><a href="create_house.php">House</a></li>
-                                    <li><a href="create_source.php">Source</a></li>
-                                    <li><a href="create_broker_company.php">Broker Company</a></li>                                   
-                                    <li><a href="create_client.php">Customer</a></li>    
-                                    <li><a href="create_room.php">Room</a></li>    
+                                    <li><a href="create_order.php">オーダー</a></li>
+                                    <li><a href="create_agent.php">店舗</a></li>
+                                    <li><a href="create_house.php">物件情報</a></li>
+                                    <li><a href="create_source.php">媒体</a></li>
+                                    <li><a href="create_broker_company.php">管理会社</a></li>                                   
+                                    <li><a href="create_client.php">お客情報</a></li>    
+                                    <li><a href="create_room.php">部屋情報</a></li>    
                                 </ul>
                             </li>
-                            <li><a href="#">Manage</a>
+                            <li><a href="#">管理</a>
                                 <ul> 
-                                    <li><a href="manage_order.php">Order</a> </li>
-                                    <li><a href="manage_client.php">Customer</a></li>
-                                    <li><a href="manage_account.php">Account</a></li>                                    
-                                    <li><a href="manage_agent.php">Agent</a></li>
-                                    <li><a href="manage_house.php">House</a></li>
-                                    <li><a href="manage_source.php">Source</a></li>
-                                    <li><a href="manage_room.php">Room</a></li>
-                                    <li><a href="manage_broker.php">Broker Company</a></li>                                    
+                                    <li><a href="manage_order.php">オーダー</a> </li>
+                                    <li><a href="manage_client.php">お客情報</a></li>
+                                    <li><a href="manage_account.php">アカウント</a></li>                                    
+                                    <li><a href="manage_agent.php">店舗</a></li>
+                                    <li><a href="manage_house.php">物件情報</a></li>
+                                    <li><a href="manage_source.php">媒体</a></li>
+                                    <li><a href="manage_room.php">部屋情報</a></li>
+                                    <li><a href="manage_broker.php">管理会社</a></li>                                    
                                 </ul>
                             </li>
-                            <li><a href="#">Report</a>
+                            <li><a href="#">日計表</a>
                                 <ul>
-                                    <li><a href="report.php">Agent Report</a></li>
-                                    <li><a href="company_report.php">Company Report</a></li>
+                                    <li><a href="report.php">店舗 日計表</a></li>
+                                    <li><a href="company_report.php">会社名 日計表</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Import CSV</a>
+                            <li><a href="#">インポート CSV</a>
                                 <ul>
-                                    <li><a href="import.php">Import House</a></li>
-                                    <li><a href="import_address.php">Import Address</a></li>
+                                    <li><a href="import.php">インポート 物件情報</a></li>
+                                    <li><a href="import_address.php">インポート 住所</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Contact Us</a></li> 
+                            <li><a href="#">連絡先</a></li> 
                             <li><a href="#">Schedule</a>
                                 <ul>
                                     <li><a href="google_calendar.php">Individual</a></li>
