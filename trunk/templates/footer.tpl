@@ -5,7 +5,7 @@
 </div>
 <footer>
     <p><img src="{$url->url_base}include/images/twitter.png" alt="twitter" />&nbsp;<img src="{$url->url_base}include/images/facebook.png" alt="facebook" />&nbsp;<img src="{$url->url_base}include/images/rss.png" alt="rss" /></p>
-    <p><a href="index.php">Home</a> | <a href="user_account.php">Signup</a> | <a href="report.php">Report</a> | <a href="contact.php">Contact Us</a></p>
+    <p><a href="index.php">ホーム</a> | <a href="user_account.php">サインアップ</a> | <a href="report.php">日計表</a> | <a href="contact.php">連絡先</a></p>
     <p>Copyright &copy; Ambition</p>
 </footer>
 </div>

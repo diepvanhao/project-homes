@@ -11,11 +11,11 @@
                         <form action='user_login.php' method='POST' name='login'>
                             <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                                 <tr>
-                                    <td class='form1'>Email</td>
+                                    <td class='form1'>Eメール</td>
                                     <td class='form2'><input type='text' class='text' name='email' id='email' value='' maxlength='70' style="height:26px; width: 172px;"></td>
                                 </tr>
                                 <tr>
-                                    <td class='form1'>Password</td>
+                                    <td class='form1'>パスワード</td>
                                     <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 172px;"> <div style="margin-top: 10px;"><a href='lostpass.php'>Forget password ?</a></div></td>
                                 </tr>
 
@@ -24,7 +24,7 @@
                                     <td class='form2'>
 
                                         <div style="margin-top:10px">
-                                            <input type='submit' class='smt_btn' id="submit" name="submit" value='Submit'  style="border: none; height: 22px"/>&nbsp; 
+                                            <input type='submit' class='smt_btn' id="submit" name="submit" value='送信'  style="border: none; height: 22px"/>&nbsp; 
                                             <input type='reset' class='smt_btn' value='Reset'  style="border: none; height: 22px;"/>&nbsp; 
 
                                         </div>
@@ -45,12 +45,12 @@
                                     {/if}
                                 </div>
                                 <br>
-                                Welcome, <a target="_top" href="./user_profile.php"> {$user->user_info.user_fname} {$user->user_info.user_lname}</a>
+                                おいでやす！, <a target="_top" href="./user_profile.php"> {$user->user_info.user_fname} {$user->user_info.user_lname}</a>
                                 &nbsp;&nbsp;<br><br>
 
-                                <a target="_top" href="help.php">Help</a>&nbsp;&nbsp;
+                                <a target="_top" href="help.php">ご質問・ご要望</a>&nbsp;&nbsp;
                                 <form target="_top" style="display:inline;margin:0;" action="user_logout.php" id="user_logout" method="POST"><a onclick="$('#user_logout').submit();
-                                        return false;" class="" href="user_logout.php">Logout</a>
+                                        return false;" class="" href="user_logout.php">ログアウト</a>
                                 </form>
                             </div></center>
                         </div>
@@ -59,13 +59,13 @@
             </div>
             {if $url_page  ne 'user_login.php' }
             <div class="sidebar">
-                <h3>Calendar</h3>
+                <h3>カレンダー</h3>
                 <div id="datepicker"></div>               
             </div>   
             {/if}
         </div>
         <div class="content">  
             {if $url_page eq 'home.php'}
-                <h1>Welcome to the ARP management system</h1>
+                <h1>ARP管理システムへようこそ！</h1>
             {/if}
             <!--your content write here -->   
