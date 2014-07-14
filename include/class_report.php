@@ -45,11 +45,42 @@ class Report {
     /**
      * 
      * @global type $database
+     * @param type $user_id
+     * @param type $fromdate
+     * @param type $todate
+     * @return real
+     */
+    public function getUserTarget($user_id = 0,  $todate = null , $fromdate = null){
+        global $database;
+        if (empty($user_id)) {
+            return array();
+        }
+        if (empty($todate)) {
+            $time = time();
+        } else {
+            $arr = explode('/', $todate);
+            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        }
+        if (empty($fromdate)) {
+            $fromtime = time();
+        } else {
+            $arr = explode('/', $fromdate);
+            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        }
+        $select = "SELECT SUM(t.target) as sum FROM home_user_target AS t 
+                 WHERE t.user_id = {$user_id} AND DATE_FORMAT(  t.create_date ,'%Y-%m') <= '" . date('Y-m', $time) . "' AND DATE_FORMAT( t.create_date ,'%Y-%m') >= '" . date('Y-m', $fromtime) . "'";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        return  $row[0];
+    }
+    /**
+     * 
+     * @global type $database
      * @return array 
      */
     public function getAllAgents() {
         global $database;
-        $select = "SELECT a.*, SUM(u.user_target) as target FROM home_agent a 
+        $select = "SELECT a.* FROM home_agent a 
                   LEFT JOIN home_user u ON u.agent_id = a.id  
                   GROUP BY u.agent_id
                   ORDER BY a.agent_name ASC";
@@ -73,22 +104,22 @@ class Report {
         if (empty($user_id)) {
             return array();
         }
-        if(empty($date)){
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        if(empty($fromdate)){
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
         //cost today
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -114,7 +145,7 @@ class Report {
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m',$time). " -1 months")) . "'";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['cost_previous_month'] = (int) $row[0];
@@ -225,7 +256,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_ambition'] = (int) $row[0];
-        
+
         return $return;
     }
 
@@ -235,23 +266,23 @@ class Report {
             return array();
         }
         $return = array();
-        if(empty($date)){
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-         if(empty($fromdate)){
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
-        
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
 //        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y') . "'";
         /**
@@ -1137,25 +1168,25 @@ class Report {
         if (empty($agent_id)) {
             return 0;
         }
-        global $database; 
-        
-        if(empty($date)){
+        global $database;
+
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        if(empty($fromdate)){
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
         $return = array();
-        
+
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
-        
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+
 //        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         ////cost of month
         $select = "SELECT SUM(d.contract_total) FROM home_contract_detail d
@@ -1175,7 +1206,7 @@ class Report {
      * @return array
      */
     public function getAgentInfo($id = null) {
-        if(empty($id)){
+        if (empty($id)) {
             return null;
         }
         global $database;
@@ -1200,6 +1231,7 @@ class Report {
         }
         return $arr;
     }
+
     /**
      * 
      * @global type $database
@@ -1223,35 +1255,34 @@ class Report {
      * @param type $company_id
      * @return type
      */
-    public function getCompanyInfo($company_id = 0, $date = null, $fromdate = null){
+    public function getCompanyInfo($company_id = 0, $date = null, $fromdate = null) {
         global $database;
         if (empty($company_id)) {
             return array();
         }
         $return = array();
 
-        if(empty($date)){
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        
-        if(empty($fromdate)){
+
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time). "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
-        
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+
 //        
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
 //        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
-        
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
@@ -1277,7 +1308,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1352,39 +1383,40 @@ class Report {
 
         return $return;
     }
+
     /**
      * 
      * @global type $database
      * @param type $company_id
      * @return type
      */
-    public function getSourceInfo($source_id = 0, $date = null, $fromdate = null){
+    public function getSourceInfo($source_id = 0, $date = null, $fromdate = null) {
         global $database;
         if (empty($source_id)) {
             return array();
         }
-        
+
         $return = array();
 
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
 //        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
-        if(empty($date)){
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        if(empty($fromdate)){
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
-        
-        
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+
+
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
@@ -1408,7 +1440,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1480,28 +1512,28 @@ class Report {
 
         return $return;
     }
-    
-    public function userCommission($user_id= null, $date = null, $fromdate = null){
+
+    public function userCommission($user_id = null, $date = null, $fromdate = null) {
         global $database;
         if (empty($user_id)) {
             return array();
         }
-        if(empty($date)){
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        if(empty($fromdate)){
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
-        
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
+
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
         $return = array(
             'today_already_recorded' => 0.00,
             'today_unsigned' => 0.00,
@@ -1525,27 +1557,27 @@ class Report {
         $result = $database->database_query($select);
 
         while ($row = $database->database_fetch_assoc($result)) {
-            if(empty($row['application'])){
+            if (empty($row['application'])) {
                 continue;
             }
             $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS p
                 WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
-            if(!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0){
-                $row['broker_fee'] = $row['broker_fee'] *  $tmp['partner_percent'] / 100;
+            if (!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0) {
+                $row['broker_fee'] = $row['broker_fee'] * $tmp['partner_percent'] / 100;
                 $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
             }
-            
-            if(!empty($row['transaction'])){ 
+
+            if (!empty($row['transaction'])) {
                 $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
-            }elseif(!empty($row['signature_date'])){
-                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] ;
+            } elseif (!empty($row['signature_date'])) {
+                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'];
                 $return['today_unsigned'] = $return['today_unsigned'] + $row['ads_fee'];
-            }else{
+            } else {
                 $return['today_unsigned'] = $return['today_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
             }
         }
-        
+
         //fee of month
         $select = "SELECT o.id AS order_id, 
                     o.user_id AS user_id, 
@@ -1560,53 +1592,54 @@ class Report {
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month}";
 
-            $result = $database->database_query($select);
-        
+        $result = $database->database_query($select);
+
         while ($row = $database->database_fetch_assoc($result)) {
-            if(empty($row['application'])){
+            if (empty($row['application'])) {
                 continue;
             }
             $select_partner = "SELECT p.partner_percent FROM home_contract_partner AS pgetLastyearInfo
                 WHERE p.contract_detail_id = '{$row['detail_id']}' AND p.partner_id = '{$user_id}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
-            if(!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0){
-                $row['broker_fee'] = $row['broker_fee'] *  $tmp['partner_percent'] / 100;
+            if (!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0) {
+                $row['broker_fee'] = $row['broker_fee'] * $tmp['partner_percent'] / 100;
                 $row['ads_fee'] = $row['ads_fee'] * $tmp['partner_percent'] / 100;
             }
-            
-            if(!empty($row['transaction'])){
+
+            if (!empty($row['transaction'])) {
                 $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
-            }elseif(!empty($row['signature_date'])){
-                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] ;
+            } elseif (!empty($row['signature_date'])) {
+                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'];
                 $return['month_unsigned'] = $return['month_unsigned'] + $row['ads_fee'];
-            }else{
+            } else {
                 $return['month_unsigned'] = $return['month_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
             }
         }
         return $return;
     }
+
     public function getChartInfo($agent_id = 0, $date = null, $fromdate = null) {
         if (empty($agent_id)) {
             return 0;
         }
-        global $database; 
-        
-        if(empty($date)){
+        global $database;
+
+        if (empty($date)) {
             $time = time();
-        }else{
-            $arr = explode('/',$date);
+        } else {
+            $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         }
-        if(empty($fromdate)){
+        if (empty($fromdate)) {
             $fromtime = time();
-        }else{
-            $arr = explode('/',$fromdate);
+        } else {
+            $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
         $return = array();
-        
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m',$time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '". date('Y-d-m',$time) ."' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '". date('Y-d-m',$fromtime) . "'";
-        
+
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+
         ////cost of month
         $select = "SELECT SUM(d.contract_total) FROM home_contract_detail d
             INNER JOIN home_user u  ON d.user_id = u.id
@@ -1617,4 +1650,556 @@ class Report {
 
         return (float) $row[0];
     }
+
+    public function exportOrder($order_id = null) {
+
+        global $database;
+        
+        $select = " SELECT o.*, c.*, u.* FROM home_order AS o 
+                    LEFT JOIN home_client AS c ON c.id = o.client_id
+                    LEFT JOIN home_user AS u ON u.id = o.user_id
+                    WHERE o.id = {$order_id}
+            ";
+
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        if(empty($row)){
+            return 0;
+        }
+        date_default_timezone_set("Asia/Bangkok");
+        
+        $date = date('d/m/Y');
+        $order_date = date('d/m/Y', $row['order_day_create']);
+
+        require_once 'include/PHPExcel.php';
+        // Create new PHPExcel object
+        $objPHPExcel = new PHPExcel();
+
+        $title = "Order Report";
+
+        $index = 2;
+        // Set document properties
+        $objPHPExcel->getProperties()->setCreator("Brad")
+                ->setLastModifiedBy("Brad")
+                ->setTitle($title)
+                ->setSubject($title)
+                ->setDescription("Report document for Office 2007 XLSX, generated using PHP classes.")
+                ->setKeywords($title)
+                ->setCategory("Report");
+
+
+        //Top
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:C{$index}")
+                ->mergeCells("H{$index}:J{$index}")
+                ->mergeCells("M{$index}:N{$index}")
+                ->mergeCells("O{$index}:R{$index}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Tên chi nhánh")
+                ->setCellValue("H{$index}", "Person in charged")
+                ->setCellValue("K{$index}", "{$row['user_fname']} {$row['user_lname']}")
+                ->setCellValue("L{$index}", "Application date")
+                ->setCellValue("M{$index}", "{$order_date}")
+        ;
+
+        $index ++;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:B{$index}")
+                ->mergeCells("K{$index}:L{$index}")
+                ->mergeCells("M{$index}:R{$index}")
+        ;
+                
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "Mã số sổ cái")
+                ->setCellValue("C{$index}", "{$row['id']}")
+//                ->setCellValue("D{$index}", "AAA")
+                ->setCellValue("K{$index}", "Ngày xuất sổ cái")
+                ->setCellValue("M{$index}", "$order_date")
+        ;
+
+        $index ++;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:H{$plus}")
+                ->mergeCells("K{$index}:L{$index}")
+                ->mergeCells("M{$index}:S{$index}")
+                ->mergeCells("L{$plus}:Q{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "取引成立台帳（賃貸借）")
+                ->setCellValue("K{$index}", "伝票№")
+                ->setCellValue("M{$index}", "AAA")
+                ->setCellValue("L{$plus}", "Ngày ký hợp đồng")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("C{$plus}:J{$plus}")
+                ->mergeCells("L{$index}:Q{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$plus}", "Phiên âm")
+                ->setCellValue("C{$plus}", "AAA")
+                ->setCellValue("L{$index}", "AAA")
+        ;
+        //1
+        $index = $plus + 1;
+        $plus = $index + 6;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "Người thuê")
+        ;
+
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:J{$plus}")
+                ->mergeCells("K{$index}:K{$plus}")
+                ->mergeCells("L{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Người ký hợp đồng")
+                ->setCellValue("C{$plus}", "AAA")
+                ->setCellValue("K{$index}", "TEL")
+                ->setCellValue("L{$index}", "AAA")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Address")
+                ->setCellValue("C{$index}", "台東区今戸1-9-6ジェイアムズコート浅草406")
+        ;
+                
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:J{$index}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Phiên âm")
+                ->setCellValue("C{$index}", "ホンニン")
+        ;
+
+        $index = $index + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:J{$plus}")
+                ->mergeCells("K{$index}:K{$plus}")
+                ->mergeCells("L{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Người vào ở")
+                ->setCellValue("C{$plus}", "本人")
+                ->setCellValue("K{$index}", "TEL")
+                ->setCellValue("L{$index}", "AAA")
+        ;
+
+        //2
+        $index = $plus + 1;
+        $plus = $index + 4;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "Người cho thuê")
+        ;
+
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:J{$plus}")
+                ->mergeCells("K{$index}:K{$plus}")
+                ->mergeCells("L{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Tên nơi ở")
+                ->setCellValue("C{$plus}", "東建ビル管理")
+                ->setCellValue("K{$index}", "TEL")
+                ->setCellValue("L{$index}", "052-232-8020")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Address")
+                ->setCellValue("C{$index}", "愛知県名古屋市中区丸の内2-1-33　東建本社丸ノ内ビル13Ｆ")
+        ;
+
+        //3
+        $index = $plus + 1;
+        $plus = $index + 6;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "元付")
+        ;
+
+
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Công ty quản lý")
+                ->setCellValue("C{$index}", "AaAAAAAAAAAA")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:J{$plus}")
+                ->mergeCells("K{$index}:K{$plus}")
+                ->mergeCells("L{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Người phụ trách")
+                ->setCellValue("C{$plus}", "AAA")
+                ->setCellValue("K{$index}", "TEL")
+                ->setCellValue("L{$index}", "AAA")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Address")
+                ->setCellValue("C{$index}", "足立区花畑6-13-13")
+        ;
+
+        //4
+        $index = $plus + 1;
+        $plus = $index + 6;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "物件の表示")
+        ;
+
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Địa chỉ hiện tại")
+                ->setCellValue("C{$index}", "台東区元浅草4-2-6")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:N{$plus}")
+                ->mergeCells("O{$index}:R{$plus}")
+                ->mergeCells("S{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Building Name")
+                ->setCellValue("C{$plus}", "AAA")
+                ->setCellValue("O{$index}", "AA")
+                ->setCellValue("S{$index}", "số phòng")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:D{$plus}")
+                ->mergeCells("F{$index}:G{$plus}")
+                ->mergeCells("H{$index}:H{$plus}")
+                ->mergeCells("I{$index}:J{$plus}")
+                ->mergeCells("K{$index}:L{$plus}")
+                ->mergeCells("M{$index}:O{$plus}")
+                ->mergeCells("P{$index}:Q{$plus}")
+                ->mergeCells("R{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Diện tích")
+                ->setCellValue("C{$index}", "25")
+                ->setCellValue("E{$index}", "㎡")
+                ->setCellValue("F{$index}", "Loại phòng")
+                ->setCellValue("H{$index}", "1")
+                ->setCellValue("I{$index}", "K")
+                ->setCellValue("K{$index}", "cấu tạo")
+                ->setCellValue("M{$index}", "ＲＣ")
+                ->setCellValue("P{$index}", "Mục đích sử dụng")
+                ->setCellValue("R{$index}", "AAA")
+        ;
+
+        //5
+        $index = $plus + 1;
+        $plus = $index + 6;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "賃貸条件")
+        ;
+
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:E{$plus}")
+                ->mergeCells("F{$index}:F{$plus}")
+                ->mergeCells("G{$index}:H{$plus}")
+                ->mergeCells("I{$index}:I{$plus}")
+                ->mergeCells("J{$index}:J{$plus}")
+                ->mergeCells("K{$index}:M{$plus}")
+                ->mergeCells("N{$index}:N{$plus}")
+                ->mergeCells("O{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Tiền thuê hàng tháng")
+                ->setCellValue("C{$index}", "AaAAAAAAAAAA")
+                ->setCellValue("F{$index}", "円")
+                ->setCellValue("G{$index}", "Tiền cọc")
+                ->setCellValue("I{$index}", "0")
+                ->setCellValue("J{$index}", "ヶ月")
+                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("N{$index}", "円")
+                ->setCellValue("O{$index}", "Thời hạn hợp đồng")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:E{$plus}")
+                ->mergeCells("F{$index}:F{$plus}")
+                ->mergeCells("G{$index}:H{$plus}")
+                ->mergeCells("I{$index}:I{$plus}")
+                ->mergeCells("J{$index}:J{$plus}")
+                ->mergeCells("K{$index}:M{$plus}")
+                ->mergeCells("N{$index}:N{$plus}")
+                ->mergeCells("O{$index}:O{$plus}")
+                ->mergeCells("P{$index}:S{$plus}")
+                ->mergeCells("T{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Phí quản lý hàng tháng")
+                ->setCellValue("C{$index}", "AaAAAAAAAAAA")
+                ->setCellValue("F{$index}", "円")
+                ->setCellValue("G{$index}", "tiền lễ")
+                ->setCellValue("I{$index}", "0")
+                ->setCellValue("J{$index}", "ヶ月")
+                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("N{$index}", "円")
+                ->setCellValue("O{$index}", "自")
+                ->setCellValue("P{$index}", "AAAA")
+                ->setCellValue("T{$index}", "～")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:C{$plus}")
+                ->mergeCells("D{$index}:D{$plus}")
+                ->mergeCells("E{$index}:E{$plus}")
+                ->mergeCells("F{$index}:F{$plus}")
+                ->mergeCells("G{$index}:H{$plus}")
+                ->mergeCells("K{$index}:M{$plus}")
+                ->mergeCells("P{$index}:S{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Số người ở")
+                ->setCellValue("C{$index}", "1")
+                ->setCellValue("D{$index}", "người")
+                ->setCellValue("D{$index}", "Hình thức giao dịch")
+                ->setCellValue("F{$index}", "仲介")
+                ->setCellValue("G{$index}", "Tiền bảo chứng")
+                ->setCellValue("I{$index}", "0")
+                ->setCellValue("J{$index}", "ヶ月")
+                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("N{$index}", "円")
+                ->setCellValue("O{$index}", "自")
+                ->setCellValue("P{$index}", "AAAA")
+                ->setCellValue("T{$index}", "迄")
+        ;
+
+        //6
+        $index = $plus + 1;
+        $plus = $index + 4;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "取引報酬")
+        ;
+
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:C{$plus}")
+                ->mergeCells("D{$index}:F{$plus}")
+                ->mergeCells("G{$index}:G{$plus}")
+                ->mergeCells("H{$index}:J{$plus}")
+                ->mergeCells("K{$index}:M{$plus}")
+                ->mergeCells("N{$index}:N{$plus}")
+                ->mergeCells("O{$index}:R{$plus}")
+                ->mergeCells("S{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "thu nhập")
+                ->setCellValue("C{$index}", "Chủ nhà")
+                ->setCellValue("D{$index}", "AAAA")
+                ->setCellValue("G{$index}", "円")
+                ->setCellValue("H{$index}", "Thời gian báo hủy hợp đồng")
+                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("N{$index}", "trước")
+                ->setCellValue("O{$index}", "Trả lại tiền bảo chứng")
+                ->setCellValue("S{$index}", "AAAAAA")
+        ;
+
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:C{$plus}")
+                ->mergeCells("D{$index}:F{$plus}")
+                ->mergeCells("G{$index}:G{$plus}")
+                ->mergeCells("H{$index}:I{$plus}")
+                ->mergeCells("J{$index}:K{$plus}")
+                ->mergeCells("L{$index}:N{$plus}")
+                ->mergeCells("O{$index}:Q{$plus}")
+                ->mergeCells("R{$index}:R{$plus}")
+                ->mergeCells("S{$index}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("B{$index}", "Phí làm thủ tục")
+                ->setCellValue("C{$index}", "Người thuê")
+                ->setCellValue("D{$index}", "AAAA")
+                ->setCellValue("G{$index}", "円")
+                ->setCellValue("H{$index}", "cập nhật hợp đồng")
+                ->setCellValue("J{$index}", "AAAAA")
+                ->setCellValue("L{$index}", "Phí cập nhật")
+                ->setCellValue("N{$index}", "trước")
+                ->setCellValue("O{$index}", "Tiền  thuê nhà mới")
+                ->setCellValue("R{$index}", "AAAAAA")
+                ->setCellValue("S{$index}", "ヶ月分")
+        ;
+
+        //7
+        $index = $plus + 1;
+        $plus = $index + 4;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "特約・備考")
+        ;
+
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("S{$index}", "AAAA")
+                ->setCellValue("T{$index}", "AAAA")
+        ;
+
+        //8
+        $index = $plus + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:A{$plus}")
+                ->mergeCells("B{$index}:B{$plus}")
+                ->mergeCells("C{$index}:G{$plus}")
+                ->mergeCells("H{$index}:J{$plus}")
+                ->mergeCells("K{$index}:T{$index}")
+                ->mergeCells("K{$plus}:T{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "仲介者")
+                ->setCellValue("B{$index}", "商　号")
+                ->setCellValue("C{$index}", "株式会社アンビション・ルームピア")
+                ->setCellValue("H{$index}", "住　所")
+                ->setCellValue("K{$index}", "東京都千代田区外神田1-3-10")
+                ->setCellValue("K{$plus}", "藤原ビル1F")
+        ;
+
+        //9
+        $index = $plus + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("A{$index}:T{$index}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A{$index}", "＊重説を当社で作成した場合は原本必要/重説を当社で行った場合は重説前に謄本取得（以下に手書き表示）")
+        ;
+
+        //10
+        $index = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("D{$index}:E{$index}")
+                ->mergeCells("H{$index}:I{$index}")
+                ->mergeCells("J{$index}:K{$index}")
+                ->mergeCells("L{$index}:M{$index}")
+                ->mergeCells("N{$index}:P{$index}")
+                ->mergeCells("Q{$index}:S{$index}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("C{$index}", "重説")
+                ->setCellValue("D{$index}", "当社･他社")
+                ->setCellValue("H{$index}", "経理検印")
+                ->setCellValue("J{$index}", "経理検印")
+                ->setCellValue("L{$index}", "経理検印")
+                ->setCellValue("N{$index}", "店舗経理印")
+                ->setCellValue("Q{$index}", "店長検印")
+        ;
+
+        //11
+        $index = $index + 1;
+        $plus = $index + 1;
+        $objPHPExcel->getActiveSheet()
+                ->mergeCells("D{$index}:E{$index}")
+                ->mergeCells("H{$index}:I{$plus}")
+                ->mergeCells("J{$index}:K{$plus}")
+                ->mergeCells("L{$index}:M{$plus}")
+                ->mergeCells("N{$index}:P{$plus}")
+                ->mergeCells("Q{$index}:S{$plus}")
+        ;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("C{$index}", "原本")
+                ->setCellValue("D{$index}", "必要・不要")
+        ;
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+
+// Redirect output to a client’s web browser (Excel5)
+        header('Content-Type: application/vnd.ms-excel');
+        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        header('Cache-Control: max-age=0');
+// If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+// If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 2015 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
+        exit;
+    }
+
 }

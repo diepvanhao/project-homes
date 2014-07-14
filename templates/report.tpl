@@ -109,8 +109,9 @@
                 <td rowspan="2">{$user.user_fname} {$user.user_lname}</td>
                 <td rowspan="2">{$user.user_position}</td>
                 <td rowspan="2">
-                    {$user.user_target}
-                    {$month.target = $month.target + $user.user_target}
+                    {$user_target = $report ->getUserTarget($user.id,$date,$fromdate)}
+                    {$user_target}
+                    {$month.target = $month.target + $user_target}
                 </td>
                 <td>Today</td>
                 <!--<td>{$info.cost_today}</td>-->
@@ -191,8 +192,8 @@
                 <td>{$commission.month_unsigned}</td> <!--Unsigned-->
                 <td></td>
                 <td>
-                    {$info.cost_previous_month - $user.user_target}
-                    {$month.cost_previous = $month.cost_previous + $info.cost_previous_month - $user.user_target}
+                    {$info.cost_previous_month - $user_target}
+                    {$month.cost_previous = $month.cost_previous + $info.cost_previous_month - $user_target}
                 </td>
                 <td>
                     {(int)($info.month_shop_sign + $info.month_local_sign)}
@@ -657,9 +658,10 @@
                 {/literal}
                         {foreach $users as $key => $user}
                             {$commission = $report ->userCommission($user.id,$date,$fromdate)}
+                            {$user_target = $report ->getUserTarget($user.id,$date,$fromdate)}
                             {$today.chart_cost = $today.chart_cost + $commission.month_already_recorded}
-                            {$today.chart_target = $today.chart_target + $user.user_target}
-                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$user.user_target}{literal}],{/literal}
+                            {$today.chart_target = $today.chart_target + $user_target}
+                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$user_target}{literal}],{/literal}
                     {/foreach}
                     {literal}['{/literal}{$agent_name}{literal}',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
                     {literal}
