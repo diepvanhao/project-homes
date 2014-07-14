@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 include 'header.php';
 $page = 'import_address';
@@ -24,7 +24,7 @@ if (!empty($_POST) && $_POST['submit'] && $_FILES['csv']['error'] == 0) {
     if ($ext === 'csv') {
         if (($handle = fopen($tmpName, 'r')) !== FALSE) {
             // necessary if a large csv file
-            set_time_limit(0);
+           // set_time_limit(0);
 
             $row = 0;
             $arr = array();
