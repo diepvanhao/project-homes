@@ -109,8 +109,8 @@
                 <td rowspan="2">{$user.user_fname} {$user.user_lname}</td>
                 <td rowspan="2">{$user.user_position}</td>
                 <td rowspan="2">
-                    {$user_target = $report ->getUserTarget($user.id,$date,$fromdate)}
-                    {$user_target}
+                    {$user_target = (int) $report ->getUserTarget($user.id,$date,$fromdate)}
+                    { $user_target}
                     {$month.target = $month.target + $user_target}
                 </td>
                 <td>Today</td>
@@ -658,7 +658,7 @@
                 {/literal}
                         {foreach $users as $key => $user}
                             {$commission = $report ->userCommission($user.id,$date,$fromdate)}
-                            {$user_target = $report ->getUserTarget($user.id,$date,$fromdate)}
+                            {$user_target = (int) $report ->getUserTarget($user.id,$date,$fromdate)}
                             {$today.chart_cost = $today.chart_cost + $commission.month_already_recorded}
                             {$today.chart_target = $today.chart_target + $user_target}
                             {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$user_target}{literal}],{/literal}
