@@ -748,8 +748,11 @@ class HOMEUser {
         if ($user_id) {
             //save target
             $create_date = time();
-            $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$user_target}','{$create_date}')";
+            for($i=0;$i<count($user_target)-1;$i++){
+                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$user_target[$i]}','{$user_target[count($user_target)-1]}')";
             $database->database_query($query);
+            }
+            
             $result = TRUE;
         } else {
             $result = FALSE;
@@ -984,7 +987,7 @@ function getTarget($user_id) {
     $query = "select target from home_user_target where user_id='{$user_id}' order by create_date DESC limit 1";
     $result = $database->database_query($query);
     $row = $database->database_fetch_assoc($result);
-    return $row['target'];
+    return $row['target']>0?$row['target']:"";
 }
 
 // Backwards compat

@@ -308,7 +308,7 @@
         <ul>
             <li>Name: {$user->user_info.user_fname} {$user->user_info.user_lname}</li>
             <li>Email: {$user->user_info.user_email}</li>
-            <li>Target: {$user->user_info.user_target}</li>
+            <li>Target: {$user_target}</li>
             <li>Position: {$user->user_info.user_position}</li>
             <li>Birthday: {$user->user_info.user_birthday}</li>
         </ul>
