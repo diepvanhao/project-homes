@@ -201,7 +201,9 @@ $agents = $agentClass->getAgent();
 //$smarty->clearCache("$page.tpl");
 $house = new HOMEHouse();
 $cities = $house->getAllCity();
-
+//get year
+$year=date('Y');
+$smarty->assign('year', $year);
 $smarty->assign('cities', $cities);
 $smarty->assign('city_id', $city_id);
 $smarty->assign('district_id', $district_id);
