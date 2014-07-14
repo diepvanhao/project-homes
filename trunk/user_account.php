@@ -10,22 +10,22 @@ $page = "user_account";
 $error = null;
 $result = FALSE;
 //check user login
-//if (!$user->user_exists) {
-//
-//    header('Location: ./user_login.php');
-//
-//    exit();
-//}
-////var_dump($user);die();
-//if ($user->user_info['user_authorities'] > 2) {
-//    header('Location: ./restrict.php');
-//    exit();
-//}
-//
-//if ($user->user_info['user_locked']) {
-//    header('Location: ./locked.php');
-//    exit();
-//}
+if (!$user->user_exists) {
+
+    header('Location: ./user_login.php');
+
+    exit();
+}
+//var_dump($user);die();
+if ($user->user_info['user_authorities'] > 2) {
+    header('Location: ./restrict.php');
+    exit();
+}
+
+if ($user->user_info['user_locked']) {
+    header('Location: ./locked.php');
+    exit();
+}
 
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
