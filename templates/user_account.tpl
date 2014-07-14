@@ -196,51 +196,51 @@
             </tr>
             <tr>
                 <td class='form1'>ターゲット: </td>
-                <td class='form2'><input type='text' name='target_1' id='target_1' value="{$target}" placeholder="target of month 1"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_1' id='target_1' value="{$target}" placeholder="target of month 1"  style="height:26px; width: 252px; margin-right: 4%;"><lable>{$year}-01-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_2' id='target_2' value="{$target}" placeholder="target of month 2"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_2' id='target_2' value="{$target}" placeholder="target of month 2"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-02-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_3' id='target_3' value="{$target}"  placeholder="target of month 3" style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_3' id='target_3' value="{$target}"  placeholder="target of month 3" style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-03-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_4' id='target_4' value="{$target}"  placeholder="target of month 4" style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_4' id='target_4' value="{$target}"  placeholder="target of month 4" style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-04-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_5' id='target_5' value="{$target}" placeholder="target of month 5"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_5' id='target_5' value="{$target}" placeholder="target of month 5"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-05-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_6' id='target_6' value="{$target}" placeholder="target of month 6"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_6' id='target_6' value="{$target}" placeholder="target of month 6"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-06-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_7' id='target_7' value="{$target}" placeholder="target of month 7"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_7' id='target_7' value="{$target}" placeholder="target of month 7"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-07-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_8' id='target_8' value="{$target}" placeholder="target of month 8"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_8' id='target_8' value="{$target}" placeholder="target of month 8"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-08-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_9' id='target_9' value="{$target}" placeholder="target of month 9"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_9' id='target_9' value="{$target}" placeholder="target of month 9"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-09-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_10' id='target_10' value="{$target}" placeholder="target of month 10"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_10' id='target_10' value="{$target}" placeholder="target of month 10"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-10-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_11' id='target_11' value="{$target}" placeholder="target of month 11"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_11' id='target_11' value="{$target}" placeholder="target of month 11"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-11-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_12' id='target_12' value="{$target}" placeholder="target of month 12"  style="height:26px; width: 175px;"></td>
+                <td class='form2'><input type='text' name='target_12' id='target_12' value="{$target}" placeholder="target of month 12"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-12-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'>レベル: </td>
