@@ -747,7 +747,7 @@ class HOMEUser {
 
         if ($user_id) {
             //save target
-            $create_date = time();
+            //$create_date = time();
             foreach($user_target as $key=>$val){
                 $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";               
             $database->database_query($query);
@@ -989,7 +989,18 @@ function getTarget($user_id) {
     $row = $database->database_fetch_assoc($result);
     return $row['target']>0?$row['target']:"";
 }
-
+function getTargetAccount($user_id) {
+    global $database;
+    $query = "select * from home_user_target where user_id='{$user_id}' order by create_date";
+    $result = $database->database_query($query);    
+    $target_arr=array();
+    while($row = $database->database_fetch_assoc($result)){
+        $target['target']=$row['target'];
+        $target['create_date']=$row['create_date'];
+        $target_arr[]=$target;
+    }
+    return $target_arr;
+}
 // Backwards compat
 
 class home_user extends HOMEUser {

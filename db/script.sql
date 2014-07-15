@@ -263,3 +263,5 @@ CREATE TABLE `home_user_target`(
 
 ALTER TABLE `home_user`   
   DROP COLUMN `user_target`;
+
+ALTER TABLE  `home_user_target` CHANGE  `create_date`  `create_date` DATE NOT NULL;
