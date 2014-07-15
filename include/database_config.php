@@ -3,6 +3,6 @@
 $database_host = 'localhost';
 $database_username = 'admin';
 $database_password = '123456';
-$database_name = 'homes';
+$database_name = 'home';
 
 ?>
