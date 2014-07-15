@@ -110,7 +110,7 @@
                 <td rowspan="2">{$user.user_position}</td>
                 <td rowspan="2">
                     {$user_target = (int) $report ->getUserTarget($user.id,$date,$fromdate)}
-                    { $user_target}
+                    {$user_target}
                     {$month.target = $month.target + $user_target}
                 </td>
                 <td>Today</td>
