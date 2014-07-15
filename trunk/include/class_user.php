@@ -659,7 +659,7 @@ class HOMEUser {
 // OUTPUT: AN INTEGER REPRESENTING THE NUMBER OF FRIENDS
 
 
-    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $user_locked = 0) {
+    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target,$year, $user_locked = 0) {
 
         global $database, $url;
 
@@ -748,8 +748,8 @@ class HOMEUser {
         if ($user_id) {
             //save target
             $create_date = time();
-            for($i=0;$i<count($user_target)-1;$i++){
-                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$user_target[$i]}','{$user_target[count($user_target)-1]}')";
+            foreach($user_target as $key=>$val){
+                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";               
             $database->database_query($query);
             }
             

@@ -226,7 +226,21 @@ if (isset($_POST['target_12'])) {
     $target_12 = "";
 }
 //$target= array();
-$target=array($target_1,$target_2,$target_3,$target_4,$target_5,$target_6,$target_7,$target_8,$target_9,$target_10,$target_11,$target_12,$year);
+$target=array(
+    "$year"."_01_01"=>$target_1,
+    "$year"."_02_01"=>$target_2,
+    "$year"."_03_01"=>$target_3,
+    "$year"."_04_01"=>$target_4,
+    "$year"."_05_01"=>$target_5,
+    "$year"."_06_01"=>$target_6,
+    "$year"."_07_01"=>$target_7,
+    "$year"."_08_01"=>$target_8,
+    "$year"."_09_01"=>$target_9,
+    "$year"."_10_01"=>$target_10,
+    "$year"."_11_01"=>$target_11,
+    "$year"."_12_01"=>$target_12
+    
+        );
 if (isset($_POST['level'])) {
     $level = $_POST['level'];
 } elseif (isset($_GET['level'])) {
@@ -263,11 +277,10 @@ $validate = array(
 );
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
-
     $error = $validator->validate($validate);
     if (empty($error)) {
         $userClass = new HOMEUser();
-        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target);
+        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year);
         if ($result) {
             header("Location: notify.php?content=Sign Up Success!!!&url_return=user_account.php");
         }
@@ -299,7 +312,18 @@ $smarty->assign('phone', $phone);
 $smarty->assign('gender', $gender);
 $smarty->assign('birthday', $birthday);
 $smarty->assign('position', $position);
-$smarty->assign('target', $target);
+$smarty->assign('target_1', $target_1);
+$smarty->assign('target_2', $target_2);
+$smarty->assign('target_3', $target_3);
+$smarty->assign('target_4', $target_4);
+$smarty->assign('target_5', $target_5);
+$smarty->assign('target_6', $target_6);
+$smarty->assign('target_7', $target_7);
+$smarty->assign('target_8', $target_8);
+$smarty->assign('target_9', $target_9);
+$smarty->assign('target_10', $target_10);
+$smarty->assign('target_11', $target_11);
+$smarty->assign('target_12', $target_12);
 $smarty->assign('level', $level);
 $smarty->assign('agent', $agent);
 $smarty->assign('agents', $agents);
