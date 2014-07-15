@@ -23,7 +23,7 @@
                         <th>No</th>
                         <th>Room Number</th>
                         <th>House Name</th> 
-                        <th>Source</th>   
+                        <th>Broker Company</th>   
                         <th>Room Type</th>
                         <th>Room Status</th>
                         <th>Room Rent</th>

@@ -59,7 +59,7 @@ $id = $content['1'];
 if (empty($id)) {
     $error[] = 'Client Not found';
 }
-include 'include/class_client.php';
+include_once 'include/class_client.php';
 $client = new Client();
 $item = $client->getClientId($id);
 if(empty($item)){

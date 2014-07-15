@@ -1260,7 +1260,7 @@ if ($action == "check_email") {
         $result = $ajax->getStreetListByDistrictID($district_id);
 
         if ($result) {
-            echo "<option value''></option>";
+            echo "<option value=''></option>";
             for ($i = 0; $i < count($result); $i++) {
 
                 echo "<option value='{$result[$i]['id']}'";

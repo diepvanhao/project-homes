@@ -852,6 +852,7 @@ class ajax {
             $district['district_name'] = $row['district_name'];
             $district_arr[] = $district;
         }
+        
         return $district_arr;
     }
 
@@ -865,6 +866,7 @@ class ajax {
             $street['street_name'] = $row['street_name'];
             $street_arr[] = $street;
         }
+        
         return $street_arr;
     }
 
@@ -893,14 +895,14 @@ class ajax {
                 . "ho.order_status=1 ";
         if ($assign_id)
             $query.=" and ho.user_id='{$assign_id}'";
-        if ($date_from) {
-            $date_from = strtotime($date_from);
-            $query.=" and ho.order_day_update >='{$date_from}'";
-        }
-        if ($date_to) {
-            $date_to = strtotime($date_to);
-            $query.=" and ho.order_day_update <='{$date_to}'";
-        }
+//        if ($date_from) {
+//            $date_from = strtotime($date_from);
+//            $query.=" and ho.order_day_update >='{$date_from}'";
+//        }
+//        if ($date_to) {
+//            $date_to = strtotime($date_to);
+//            $query.=" and ho.order_day_update <='{$date_to}'";
+//        }
         $query.=" order by ho.order_day_update ASC";
         //echo $query;
       //  die();
