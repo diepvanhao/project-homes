@@ -1782,7 +1782,6 @@ class Report {
         $index = $plus + 1;
         $plus = $index + 1;
         $objPHPExcel->getActiveSheet()
-                ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:J{$index}")
         ;
         $objPHPExcel->setActiveSheetIndex(0)
@@ -1800,14 +1799,14 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Người vào ở")
-                ->setCellValue("C{$plus}", "本人")
+                ->setCellValue("C{$index}", "本人")
                 ->setCellValue("K{$index}", "TEL")
                 ->setCellValue("L{$index}", "AAA")
         ;
 
         //2
         $index = $plus + 1;
-        $plus = $index + 4;
+        $plus = $index + 3;
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -1842,7 +1841,7 @@ class Report {
 
         //3
         $index = $plus + 1;
-        $plus = $index + 6;
+        $plus = $index + 5;
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -1889,7 +1888,7 @@ class Report {
 
         //4
         $index = $plus + 1;
-        $plus = $index + 6;
+        $plus = $index + 5;
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -1950,7 +1949,7 @@ class Report {
 
         //5
         $index = $plus + 1;
-        $plus = $index + 6;
+        $plus = $index + 5;
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -2041,7 +2040,7 @@ class Report {
 
         //6
         $index = $plus + 1;
-        $plus = $index + 4;
+        $plus = $index + 3;
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -2103,7 +2102,7 @@ class Report {
 
         //7
         $index = $plus + 1;
-        $plus = $index + 4;
+        $plus = $index + 3;
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -2112,8 +2111,8 @@ class Report {
         ;
 
         $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue("S{$index}", "AAAA")
-                ->setCellValue("T{$index}", "AAAA")
+                ->setCellValue("S{$plus}", "AAAA")
+                ->setCellValue("T{$plus}", "AAAA")
         ;
 
         //8
