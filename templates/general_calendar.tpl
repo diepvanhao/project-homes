@@ -244,8 +244,8 @@
                 </label>
             </li>
             <li>
-                <label>Date from:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
-                <label>Date to:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>Date start:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>Date end:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
         </ul>
     </div>   

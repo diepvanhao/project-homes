@@ -867,11 +867,18 @@ class HOMEUser {
         if ($user_photo)
             $this->user_photo_upload('photo', false, $user_id);
 
-        if (trim($user_target) != trim(getTarget($user_id))) {
+       // if (trim($user_target) != trim(getTarget($user_id))) {
             //save target
-            $create_date = time();
-            $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$user_target}','{$create_date}')";
-            $database->database_query($query);
+        foreach($user_target as $key=>$val){
+            
+            $query = "update home_user_target set "
+                    . "target={$val} where create_date='{$key}' and user_id={$user_id}";
+                   $result=$database->database_query($query);
+                   
+            if(!$result){
+                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";                
+                $database->database_query($query);
+            }
         }
 
         return $result;
