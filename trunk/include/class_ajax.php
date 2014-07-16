@@ -852,7 +852,7 @@ class ajax {
             $district['district_name'] = $row['district_name'];
             $district_arr[] = $district;
         }
-        
+
         return $district_arr;
     }
 
@@ -866,7 +866,7 @@ class ajax {
             $street['street_name'] = $row['street_name'];
             $street_arr[] = $street;
         }
-        
+
         return $street_arr;
     }
 
@@ -883,7 +883,7 @@ class ajax {
         return $ward_arr;
     }
 
-    function getSchedule($signature_day, $handover_day, $payment_day, $appointment_day, $period, $birthday, $all_agent, $agent_id, $position, $assign_id, $date_from, $date_to) {
+    function getSchedule($signature_day, $handover_day, $payment_day, $appointment_day, $period, $birthday, $all_agent, $agent_id, $position, $assign_id, $date_from, $date_to, $expire_from, $expire_to) {
         global $database;
         $agent = new HOMEAgent();
         $staff = new HOMEUser();
@@ -905,7 +905,7 @@ class ajax {
 //        }
         $query.=" order by ho.order_day_update ASC";
         //echo $query;
-      //  die();
+        //  die();
         $result_order = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result_order)) {
             //get transaction info
@@ -1055,8 +1055,26 @@ class ajax {
                     if ($client_info)
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
-                    if ($agent_info && $staff_info)
-                        $events[] = $event;
+                    if ($agent_info && $staff_info) {
+                        if (!empty(trim($expire_from)) && (trim($expire_to) == "" || $expire_to == NULL)) {                           
+                                if (strtotime($event['end']) >= strtotime($expire_from)) {
+                                    $events[] = $event;
+                                }                           
+                        } elseif (!empty(trim($expire_to)) && (trim($expire_from) == "" || $expire_from == NULL)) {       
+                                if (strtotime($event['end']) <= strtotime($expire_to)) {
+                                    $events[] = $event;
+                                }                            
+                        } elseif (!empty(trim($expire_from)) && !empty(trim($expire_to))) {                           
+                                if ((strtotime($event['end']) >= strtotime($expire_from)) && (strtotime($event['end']) <= strtotime($expire_to))) {
+                                    $events[] = $event;
+                                }                            
+                        } elseif(empty(trim($expire_from)) && empty(trim($expire_to))) {
+                            $events[] = $event;
+                        }else{
+                            
+                        }
+                       // $events[] = $event;
+                    }
                 }
             }
             //get birthday client
@@ -1136,6 +1154,8 @@ class ajax {
         }
         //filter 
         $filter = Array();
+        $filterDate = Array();
+
         for ($i = 0; $i < count($events); $i++) {
             if ($signature_day && $events[$i]['title'] == 'Signature Day')
                 $filter[] = $events[$i];
@@ -1151,21 +1171,47 @@ class ajax {
             if ($birthday && $events[$i]['title'] == 'Birthday')
                 $filter[] = $events[$i];
         }
-        // Obtain a list of columns
-        //sort event
+
         if (empty($filter))
             $filter = $events;
-        foreach ($filter as $key => $row) {
+        //  var_dump($filter);
+        if (!empty(trim($date_from)) && (trim($date_to) == "" || $date_to == NULL)) {
+
+            for ($i = 0; $i < count($filter); $i++) {
+                if (strtotime($filter[$i]['start']) >= strtotime($date_from)) {
+                    $filterDate[] = $filter[$i];
+                }
+            }
+        } elseif (!empty(trim($date_to)) && (trim($date_from) == "" || $date_from == NULL)) {
+
+            for ($i = 0; $i < count($filter); $i++) {
+                if (strtotime($filter[$i]['start']) <= strtotime($date_to)) {
+                    $filterDate[] = $filter[$i];
+                }
+            }
+        } elseif (!empty(trim($date_from)) && !empty(trim($date_to))) {
+
+            for ($i = 0; $i < count($filter); $i++) {
+                if ((strtotime($filter[$i]['start']) >= strtotime($date_from)) && (strtotime($filter[$i]['start']) <= strtotime($date_to))) {
+                    $filterDate[] = $filter[$i];
+                }
+            }
+        } else {
+
+            $filterDate = $filter;
+        }
+
+        foreach ($filterDate as $key => $row) {
             $volume[$key] = $row['start'];
             $edition[$key] = $row['time'];
         }
 
 // Sort the data with volume descending, edition ascending
 // Add $data as the last parameter, to sort by the common key
-        if ($filter)
-            array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filter);
+        if ($filterDate)
+            array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filterDate);
 
-        return $filter;
+        return $filterDate;
     }
 
 }

@@ -1395,8 +1395,22 @@ if ($action == "check_email") {
         } else {
             $date_to = "";
         }
+        if (isset($_POST['expire_from'])) {
+            $expire_from = $_POST['expire_from'];
+        } elseif (isset($_GET['expire_from'])) {
+            $expire_from = $_GET['expire_from'];
+        } else {
+            $expire_from = "";
+        }
+        if (isset($_POST['expire_to'])) {
+            $expire_to = $_POST['expire_to'];
+        } elseif (isset($_GET['expire_to'])) {
+            $expire_to = $_GET['expire_to'];
+        } else {
+            $expire_to = "";
+        }
 
-        $result = $ajax->getSchedule($signature_day, $handover_day, $payment_day, $appointment_day, $period, $birthday, $all_agent, $agent_id, $position, $assign_id, $date_from, $date_to);
+        $result = $ajax->getSchedule($signature_day, $handover_day, $payment_day, $appointment_day, $period, $birthday, $all_agent, $agent_id, $position, $assign_id, $date_from, $date_to, $expire_from, $expire_to);
 
         if ($result) {
             for ($i = 1; $i <= count($result); $i++) {
