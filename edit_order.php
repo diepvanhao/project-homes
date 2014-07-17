@@ -733,6 +733,13 @@ for ($i = 0; $i < count($customers); $i++) {
 //Introduce house
 
 $houses = $house->getHouses();
+   if(!empty($_POST['export'])){
+        if(!empty($order_id)){
+            include 'include/class_report.php';
+            $report = new Report();
+            $report ->exportOrder($order_id);
+        }
+    }
 //Store client's info
 $order = new HOMEOrder();
 if (isset($_POST['save'])) {
