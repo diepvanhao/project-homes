@@ -369,6 +369,64 @@ if ($action == "check_email") {
             }
         }
     }
+    if ($task == 'Later') {
+        if (isset($_POST['room_id'])) {
+            $room_id = $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id = $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
+        if (isset($_POST['order_name'])) {
+            $order_name = $_POST['order_name'];
+        } elseif (isset($_GET['order_name'])) {
+            $order_name = $_GET['order_name'];
+        } else {
+            $order_name = "";
+        }
+        if (isset($_POST['order_rent_cost'])) {
+            $order_rent_cost = $_POST['order_rent_cost'];
+        } elseif (isset($_GET['order_rent_cost'])) {
+            $order_rent_cost = $_GET['order_rent_cost'];
+        } else {
+            $order_rent_cost = "";
+        }
+        if (isset($_POST['order_comment'])) {
+            $order_comment = $_POST['order_comment'];
+        } elseif (isset($_GET['order_comment'])) {
+            $order_comment = $_GET['order_comment'];
+        } else {
+            $order_comment = "";
+        }
+
+        if (isset($_POST['create_id'])) {
+            $create_id = $_POST['create_id'];
+        } elseif (isset($_GET['create_id'])) {
+            $create_id = $_GET['create_id'];
+        } else {
+            $create_id = "";
+        }
+        if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+        if (isset($_POST['broker_id'])) {
+            $broker_id = $_POST['broker_id'];
+        } elseif (isset($_GET['broker_id'])) {
+            $broker_id = $_GET['broker_id'];
+        } else {
+            $broker_id = "";
+        }
+
+        //get create day
+        $order_day_create = time();
+
+        $result = $ajax->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
+        echo json_encode($result);
+    }
 } elseif ($action == 'deleteClient') {
 
     if (isset($_POST['id'])) {

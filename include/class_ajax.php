@@ -1056,24 +1056,24 @@ class ajax {
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
                     if ($agent_info && $staff_info) {
-                        if (!empty(trim($expire_from)) && (trim($expire_to) == "" || $expire_to == NULL)) {                           
-                                if (strtotime($event['end']) >= strtotime($expire_from)) {
-                                    $events[] = $event;
-                                }                           
-                        } elseif (!empty(trim($expire_to)) && (trim($expire_from) == "" || $expire_from == NULL)) {       
-                                if (strtotime($event['end']) <= strtotime($expire_to)) {
-                                    $events[] = $event;
-                                }                            
-                        } elseif (!empty(trim($expire_from)) && !empty(trim($expire_to))) {                           
-                                if ((strtotime($event['end']) >= strtotime($expire_from)) && (strtotime($event['end']) <= strtotime($expire_to))) {
-                                    $events[] = $event;
-                                }                            
-                        } elseif(empty(trim($expire_from)) && empty(trim($expire_to))) {
+                        if (!empty(trim($expire_from)) && (trim($expire_to) == "" || $expire_to == NULL)) {
+                            if (strtotime($event['end']) >= strtotime($expire_from)) {
+                                $events[] = $event;
+                            }
+                        } elseif (!empty(trim($expire_to)) && (trim($expire_from) == "" || $expire_from == NULL)) {
+                            if (strtotime($event['end']) <= strtotime($expire_to)) {
+                                $events[] = $event;
+                            }
+                        } elseif (!empty(trim($expire_from)) && !empty(trim($expire_to))) {
+                            if ((strtotime($event['end']) >= strtotime($expire_from)) && (strtotime($event['end']) <= strtotime($expire_to))) {
+                                $events[] = $event;
+                            }
+                        } elseif (empty(trim($expire_from)) && empty(trim($expire_to))) {
                             $events[] = $event;
-                        }else{
+                        } else {
                             
                         }
-                       // $events[] = $event;
+                        // $events[] = $event;
                     }
                 }
             }
@@ -1212,6 +1212,11 @@ class ajax {
             array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filterDate);
 
         return $filterDate;
+    }
+
+    function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
+        $order=new HOMEOrder();
+        return $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
     }
 
 }
