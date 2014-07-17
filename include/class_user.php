@@ -659,7 +659,7 @@ class HOMEUser {
 // OUTPUT: AN INTEGER REPRESENTING THE NUMBER OF FRIENDS
 
 
-    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target,$year, $user_locked = 0) {
+    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $year, $user_locked = 0) {
 
         global $database, $url;
 
@@ -748,11 +748,11 @@ class HOMEUser {
         if ($user_id) {
             //save target
             //$create_date = time();
-            foreach($user_target as $key=>$val){
-                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";               
-            $database->database_query($query);
+            foreach ($user_target as $key => $val) {
+                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";
+                $database->database_query($query);
             }
-            
+
             $result = TRUE;
         } else {
             $result = FALSE;
@@ -867,16 +867,17 @@ class HOMEUser {
         if ($user_photo)
             $this->user_photo_upload('photo', false, $user_id);
 
-       // if (trim($user_target) != trim(getTarget($user_id))) {
-            //save target
-        foreach($user_target as $key=>$val){
-            
-            $query = "update home_user_target set "
-                    . "target={$val} where create_date='{$key}' and user_id={$user_id}";
-                   $result=$database->database_query($query);
-                   
-            if(!$result){
-                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";                
+        // if (trim($user_target) != trim(getTarget($user_id))) {
+        //save target
+        foreach ($user_target as $key => $val) {
+            //check exist
+            $checkExist = checkTargetExist($key, $user_id);
+            if ($checkExist) {
+                $query = "update home_user_target set "
+                        . "target={$val} where create_date='{$key}' and user_id={$user_id}";
+                $result = $database->database_query($query);
+            } else {
+                $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";
                 $database->database_query($query);
             }
         }
@@ -989,25 +990,38 @@ class HOMEUser {
 
 }
 
+function checkTargetExist($create_date, $user_id) {
+    global $database;
+    $query = "select * from home_user_target where create_date='{$create_date}' and user_id='{$user_id}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
+}
+
 function getTarget($user_id) {
     global $database;
     $query = "select target from home_user_target where user_id='{$user_id}' order by create_date DESC limit 1";
     $result = $database->database_query($query);
     $row = $database->database_fetch_assoc($result);
-    return $row['target']>0?$row['target']:"";
+    return $row['target'] > 0 ? $row['target'] : "";
 }
+
 function getTargetAccount($user_id) {
     global $database;
     $query = "select * from home_user_target where user_id='{$user_id}' order by create_date";
-    $result = $database->database_query($query);    
-    $target_arr=array();
-    while($row = $database->database_fetch_assoc($result)){
-        $target['target']=$row['target'];
-        $target['create_date']=$row['create_date'];
-        $target_arr[]=$target;
+    $result = $database->database_query($query);
+    $target_arr = array();
+    while ($row = $database->database_fetch_assoc($result)) {
+        $target['target'] = $row['target'];
+        $target['create_date'] = $row['create_date'];
+        $target_arr[] = $target;
     }
     return $target_arr;
 }
+
 // Backwards compat
 
 class home_user extends HOMEUser {
