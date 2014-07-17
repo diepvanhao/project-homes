@@ -195,8 +195,8 @@ if (!empty($post['export']) && empty($error)) {
     foreach ($users as $key => $item) {
         $plus = $index + 1;
         $info = $report->getUserInfo($item['id'], $date,$fromdate);
-
-        $month_target = $month_target + $item['user_target'];
+        $user_target = (int) $report ->getUserTarget($item['id'],$date,$fromdate);
+        $month_target = $month_target + $user_target;
         $today_signboard = $today_signboard + (int) ($info['today_shop_sign'] + $info['today_local_sign']);
         $today_introduction = $today_introduction + (int) $info['today_introduction'];
         $today_tel_status = $today_tel_status + (int) $info['today_tel_status'];
@@ -212,7 +212,7 @@ if (!empty($post['export']) && empty($error)) {
         $today_done = $today_done + (int) $info['today_agreement'];
 
         $month_cost = $month_cost + (int) $info['cost_month'];
-        $month_cost_previous = $month_cost_previous + $info['cost_previous_month'] - $item['user_target'];
+        $month_cost_previous = $month_cost_previous + $info['cost_previous_month'] - $user_target;
         $month_signboard = $month_signboard + (int) ($info['month_shop_sign'] + $info['month_local_sign']);
         $month_introduction = $month_introduction + (int) $info['month_introduction'];
         $month_tel_status = $month_tel_status + (int) $info['month_tel_status'];
@@ -247,7 +247,7 @@ if (!empty($post['export']) && empty($error)) {
                 ->setCellValue("A{$index}", $key + 1)
                 ->setCellValue("B{$index}", $item['user_fname'] . ' ' . $item['user_lname'])
                 ->setCellValue("E{$index}", $item['user_position'])
-                ->setCellValue("G{$index}", $item['user_target'])
+                ->setCellValue("G{$index}", $user_target)
                 ->setCellValue("J{$index}", "Today")
                 ->setCellValue("K{$index}", $info['cost_today'])
                 ->setCellValue("W{$index}", $info['today_shop_sign'] + $info['today_local_sign'])
@@ -271,7 +271,7 @@ if (!empty($post['export']) && empty($error)) {
                 ->setCellValue("AO{$index}", $info['today_agreement'])
                 ->setCellValue("J{$plus}", "Total")
                 ->setCellValue("K{$plus}", $info['cost_month'])
-                ->setCellValue("T{$plus}", $info['cost_previous_month'] - $item['user_target'])
+                ->setCellValue("T{$plus}", $info['cost_previous_month'] - $user_target)
                 ->setCellValue("W{$plus}", $info['month_shop_sign'] + $info['month_local_sign'])
                 ->setCellValue("X{$plus}", $info['month_introduction'])
                 ->setCellValue("Y{$plus}", $info['month_tel_status'])

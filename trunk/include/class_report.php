@@ -1655,12 +1655,19 @@ class Report {
 
         global $database;
         
-        $select = " SELECT o.*, c.*, u.* FROM home_order AS o 
+        $select = " SELECT o.*, c.*, u.*,d.*,h.*,ho.*,bk.*,r.*,rd.*,rt.* FROM home_order AS o 
                     LEFT JOIN home_client AS c ON c.id = o.client_id
                     LEFT JOIN home_user AS u ON u.id = o.user_id
+                    LEFT JOIN home_contract AS t ON o.id = t.order_id
+                    LEFT JOIN home_contract_detail AS d ON t.id = d.contract_id
+                    LEFT JOIN home_house AS h ON h.id = o.house_id
+                    LEFT JOIN home_house_owner AS ho ON ho.id = h.house_owner_id
+                    LEFT JOIN home_broker_company AS bk ON bk.id = o.broker_id
+                    LEFT JOIN home_room AS r ON r.id = o.room_id AND r.house_id = o.house_id
+                    LEFT JOIN home_room_detail AS rd ON rd.id = r.room_detail_id
+                    LEFT JOIN house_room_type AS rt ON rt.id = rd.room_type
                     WHERE o.id = {$order_id}
             ";
-
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         if(empty($row)){
@@ -1729,10 +1736,11 @@ class Report {
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A{$index}", "取引成立台帳（賃貸借）")
                 ->setCellValue("K{$index}", "伝票№")
-                ->setCellValue("M{$index}", "AAA")
+                ->setCellValue("M{$index}", "")
                 ->setCellValue("L{$plus}", "Ngày ký hợp đồng")
         ;
 
+        $signdate = $row['contract_signature_day'];
         $index = $plus + 1;
         $plus = $index + 1;
         $objPHPExcel->getActiveSheet()
@@ -1741,8 +1749,8 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$plus}", "Phiên âm")
-                ->setCellValue("C{$plus}", "AAA")
-                ->setCellValue("L{$index}", "AAA")
+                ->setCellValue("C{$plus}", "{$row['client_name']}")
+                ->setCellValue("L{$index}", "{$signdate}")
         ;
         //1
         $index = $plus + 1;
@@ -1763,9 +1771,9 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Người ký hợp đồng")
-                ->setCellValue("C{$plus}", "AAA")
+                ->setCellValue("C{$index}", "{$row['client_name']}")
                 ->setCellValue("K{$index}", "TEL")
-                ->setCellValue("L{$index}", "AAA")
+                ->setCellValue("L{$index}", "{$row['client_phone']}")
         ;
 
         $index = $plus + 1;
@@ -1776,7 +1784,7 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Address")
-                ->setCellValue("C{$index}", "台東区今戸1-9-6ジェイアムズコート浅草406")
+                ->setCellValue("C{$index}", "{$row['client_address']}")
         ;
                 
         $index = $plus + 1;
@@ -1789,6 +1797,8 @@ class Report {
                 ->setCellValue("C{$index}", "ホンニン")
         ;
 
+        $resident = empty($row['client_resident_name'])? $row['client_name'] : $row['client_resident_name'];
+        $resident_phone = empty($row['client_resident_phone'])? $row['client_phone'] : $row['client_resident_phone'];
         $index = $index + 1;
         $plus = $index + 1;
         $objPHPExcel->getActiveSheet()
@@ -1799,9 +1809,9 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Người vào ở")
-                ->setCellValue("C{$index}", "本人")
+                ->setCellValue("C{$index}", "{$resident}")
                 ->setCellValue("K{$index}", "TEL")
-                ->setCellValue("L{$index}", "AAA")
+                ->setCellValue("L{$index}", "{$resident_phone}")
         ;
 
         //2
@@ -1823,9 +1833,9 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Tên nơi ở")
-                ->setCellValue("C{$plus}", "東建ビル管理")
+                ->setCellValue("C{$index}", "{$row['house_owner_name']}")
                 ->setCellValue("K{$index}", "TEL")
-                ->setCellValue("L{$index}", "052-232-8020")
+                ->setCellValue("L{$index}", "{$row['house_owner_phone']}")
         ;
 
         $index = $plus + 1;
@@ -1836,7 +1846,7 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Address")
-                ->setCellValue("C{$index}", "愛知県名古屋市中区丸の内2-1-33　東建本社丸ノ内ビル13Ｆ")
+                ->setCellValue("C{$index}", "{$row['house_owner_address']}")
         ;
 
         //3
@@ -1857,7 +1867,7 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Công ty quản lý")
-                ->setCellValue("C{$index}", "AaAAAAAAAAAA")
+                ->setCellValue("C{$index}", "{$row['broker_company_name']}")
         ;
 
         $index = $plus + 1;
@@ -1870,9 +1880,9 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Người phụ trách")
-                ->setCellValue("C{$plus}", "AAA")
+                ->setCellValue("C{$index}", "{$row['broker_company_undertake']}")
                 ->setCellValue("K{$index}", "TEL")
-                ->setCellValue("L{$index}", "AAA")
+                ->setCellValue("L{$index}", "{$row['broker_company_phone']}")
         ;
 
         $index = $plus + 1;
@@ -1883,7 +1893,7 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Address")
-                ->setCellValue("C{$index}", "足立区花畑6-13-13")
+                ->setCellValue("C{$index}", "{$row['broker_company_address']}")
         ;
 
         //4
@@ -1903,7 +1913,7 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Địa chỉ hiện tại")
-                ->setCellValue("C{$index}", "台東区元浅草4-2-6")
+                ->setCellValue("C{$index}", "{$row['house_address']}")
         ;
 
         $index = $plus + 1;
@@ -1916,8 +1926,8 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Building Name")
-                ->setCellValue("C{$plus}", "AAA")
-                ->setCellValue("O{$index}", "AA")
+                ->setCellValue("C{$plus}", "{$row['house_name']}")
+                ->setCellValue("O{$index}", "{$row['room_id']}")
                 ->setCellValue("S{$index}", "số phòng")
         ;
 
@@ -1926,6 +1936,7 @@ class Report {
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:D{$plus}")
+                ->mergeCells("E{$index}:E{$plus}")
                 ->mergeCells("F{$index}:G{$plus}")
                 ->mergeCells("H{$index}:H{$plus}")
                 ->mergeCells("I{$index}:J{$plus}")
@@ -1936,15 +1947,15 @@ class Report {
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Diện tích")
-                ->setCellValue("C{$index}", "25")
+                ->setCellValue("C{$index}", "{$row['room_size']}")
                 ->setCellValue("E{$index}", "㎡")
                 ->setCellValue("F{$index}", "Loại phòng")
-                ->setCellValue("H{$index}", "1")
-                ->setCellValue("I{$index}", "K")
+                ->setCellValue("H{$index}", "")
+                ->setCellValue("I{$index}", "{$row['room_name']}")
                 ->setCellValue("K{$index}", "cấu tạo")
-                ->setCellValue("M{$index}", "ＲＣ")
+                ->setCellValue("M{$index}", "")
                 ->setCellValue("P{$index}", "Mục đích sử dụng")
-                ->setCellValue("R{$index}", "AAA")
+                ->setCellValue("R{$index}", "")
         ;
 
         //5
@@ -1969,14 +1980,15 @@ class Report {
                 ->mergeCells("N{$index}:N{$plus}")
                 ->mergeCells("O{$index}:T{$plus}")
         ;
+        $k = (float) ($row['room_rent'] * $row['room_deposit']);
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Tiền thuê hàng tháng")
-                ->setCellValue("C{$index}", "AaAAAAAAAAAA")
+                ->setCellValue("C{$index}", "{$row['room_rent']}")
                 ->setCellValue("F{$index}", "円")
                 ->setCellValue("G{$index}", "Tiền cọc")
-                ->setCellValue("I{$index}", "0")
+                ->setCellValue("I{$index}", "{$row['room_deposit']}")
                 ->setCellValue("J{$index}", "ヶ月")
-                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("K{$index}", "$k")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "Thời hạn hợp đồng")
         ;
@@ -1996,17 +2008,18 @@ class Report {
                 ->mergeCells("P{$index}:S{$plus}")
                 ->mergeCells("T{$index}:T{$plus}")
         ;
+        $k = (float) ($row['room_key_money'] * 0);        
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Phí quản lý hàng tháng")
-                ->setCellValue("C{$index}", "AaAAAAAAAAAA")
+                ->setCellValue("C{$index}", "{$row['room_key_money']}")
                 ->setCellValue("F{$index}", "円")
                 ->setCellValue("G{$index}", "tiền lễ")
                 ->setCellValue("I{$index}", "0")
                 ->setCellValue("J{$index}", "ヶ月")
-                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("K{$index}", "$k")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", "AAAA")
+                ->setCellValue("P{$index}", "{$row['contract_period_from']}")
                 ->setCellValue("T{$index}", "～")
         ;
 
@@ -2031,10 +2044,10 @@ class Report {
                 ->setCellValue("G{$index}", "Tiền bảo chứng")
                 ->setCellValue("I{$index}", "0")
                 ->setCellValue("J{$index}", "ヶ月")
-                ->setCellValue("K{$index}", "AAA")
+                ->setCellValue("K{$index}", "")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", "AAAA")
+                ->setCellValue("P{$index}", "{$row['contract_period_to']}")
                 ->setCellValue("T{$index}", "迄")
         ;
 
@@ -2089,14 +2102,14 @@ class Report {
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("B{$index}", "Phí làm thủ tục")
                 ->setCellValue("C{$index}", "Người thuê")
-                ->setCellValue("D{$index}", "AAAA")
+                ->setCellValue("D{$index}", "")
                 ->setCellValue("G{$index}", "円")
                 ->setCellValue("H{$index}", "cập nhật hợp đồng")
-                ->setCellValue("J{$index}", "AAAAA")
+                ->setCellValue("J{$index}", "")
                 ->setCellValue("L{$index}", "Phí cập nhật")
                 ->setCellValue("N{$index}", "trước")
                 ->setCellValue("O{$index}", "Tiền  thuê nhà mới")
-                ->setCellValue("R{$index}", "AAAAAA")
+                ->setCellValue("R{$index}", "")
                 ->setCellValue("S{$index}", "ヶ月分")
         ;
 

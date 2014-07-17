@@ -1978,6 +1978,7 @@
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                 <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                                 <input type="hidden" id="calculator" name="calculator"/>
+                                <input type="submit" class='btn-signup' value="Export" id="export" name="export" style="width: 100px;"/> 
                             </div>                        
                         </td>
                     </tr>

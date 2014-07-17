@@ -931,6 +931,13 @@ if ($step == 1) {
     //  $house = new HOMEHouse();
     $houses = $house->getHouses();
     //Store client's info
+    if(!empty($_POST['export'])){
+        if(!empty($order_id)){
+            include 'include/class_report.php';
+            $report = new Report();
+            $report ->exportOrder($order_id);
+        }
+    }
     if (isset($_POST['save'])) {
 
         if (isset($_POST['task'])) {
