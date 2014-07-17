@@ -265,3 +265,9 @@ ALTER TABLE `home_user`
   DROP COLUMN `user_target`;
 
 ALTER TABLE  `home_user_target` CHANGE  `create_date`  `create_date` DATE NOT NULL;
+
+/*17/7 hao */
+ALTER TABLE `home_client`   
+  ADD COLUMN `client_read_way` VARCHAR(128) NULL AFTER `client_name`;
+ALTER TABLE `home_order`   
+  CHANGE `order_rent_cost` `order_rent_cost` VARCHAR(128) NULL;

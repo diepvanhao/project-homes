@@ -105,12 +105,13 @@ if ($step == 1) {
     //end
     //$house = new HOMEHouse();
     $houses = $house->getHouses();
-    $users = $user->getAllUsers();
-    $broker = new HOMEBroker();
+    $users = $user->getAllUsers(true);    
+    $broker = new HOMEBroker();    
     $brokers = $broker->getAllBroker();
     $smarty->assign('brokers', $brokers);
     $smarty->assign('houses', $houses);
-    $smarty->assign('users', $users);
+    $smarty->assign('users', $users);    
+    $smarty->assign('loged_id', $user->user_info['id']);
 } elseif ($step == 'verify') {
 
     if (isset($_POST['staff_id'])) {
