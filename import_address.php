@@ -57,7 +57,7 @@ if (!empty($_POST) && $_POST['submit'] && $_FILES['csv']['error'] == 0) {
         }
     }
     if (count($csv) > 1) {
-//        unset($csv[0]);
+        unset($csv[0]); 
         $import = new HOMEImport();
         $import->importAddress($csv);
         header("Location: notify.php?content=Import Success!!!&url_return=import_address.php");
