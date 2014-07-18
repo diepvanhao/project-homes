@@ -50,8 +50,9 @@ $user = new HOMEUser();
 $agent = new HOMEAgent();
 $account = $user->getAccountById($account_id);
 
-
 $smarty->assign('account', $account);    
 $smarty->assign('agent', $agent->getAgentById($account['agent_id']));    
+$smarty->assign('targets', $user->getUserTarget($account_id));    
+
 
 include "footer.php";
