@@ -50,12 +50,15 @@ $house = new HOMEHouse();
 $detail = new HOMEDetail();
 
 $order = $detail->getOrder($order_id);
+$house_detail = $house->getHouseById($order['house_id']);
+
 $smarty->assign('order', $order);    
 $smarty->assign('room', $detail->getRoomDetail($order['room_id']));
-$smarty->assign('house', $house->getHouseById($order['house_id']));
+$smarty->assign('house', $house_detail);
 $smarty->assign('client', $detail->getClient($order['client_id']));
 $smarty->assign('broker', $detail->getBroker($order['broker_id']));
 $smarty->assign('history', $detail->getHistory($order['id']));
-
+$smarty->assign('status', empty($order['order_status'])?'No':'Yes');
+$smarty->assign('house_type',$house->getHouseTypeById($house_detail['house_type']));
 
 include "footer.php";
