@@ -2,7 +2,7 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>Import CSV</h3>
+        <h3>Import house </h3>
     </div>
     <div class="report-filter">
         <form method="POST" enctype="multipart/form-data">
@@ -20,7 +20,7 @@
                         <td class="form1">&nbsp;</td>
                         <td class="form2">
                             <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="Import" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="インポート" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
                             </div>
                         </td>
                     </tr>

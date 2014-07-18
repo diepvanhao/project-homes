@@ -20,7 +20,7 @@
                         <td class="form1">&nbsp;</td>
                         <td class="form2">
                             <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="Import" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="インポート" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
                             </div>
                         </td>
                     </tr>

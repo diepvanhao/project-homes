@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Create Room</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">部屋登録</div>
 {nocache}
     {if $error|@count gt 0}
         {foreach from=$error item=val}
@@ -7,15 +7,15 @@
         {/foreach}
     {/if}
     <form action="create_room.php" method="post" enctype="multipart/form-data">
-        <div style="margin-bottom: 20px;"><label >House Infomation</label></div>        
+        <div style="margin-bottom: 20px;"><label >物件情報</label></div>        
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class="form1">Filter House</td>
-                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 300px;"/>
+                <td class="form1">物件フィルタ</td>
+                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 300px;"/>
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>Select House: </td>
+                <td class='form1'>物件選択: </td>
                 <td class='form2'>
                     <select id="house_id" name="house_id" style="height:26px; width: 300px;">
                         <option value=""></option>
@@ -26,17 +26,17 @@
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>Description House: </td>
+                <td class='form1'>物件備考: </td>
                 <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description"></textarea></td>
             </tr>
             <tr>            
-                <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
             </tr>            
         </table>
-        <div style="margin-bottom: 20px;"><label >Broker Company Infomation</label></div>      
+        <div style="margin-bottom: 20px;"><label >管理会社情報</label></div>      
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
             <tr>            
-                <td class='form1'>Select Broker Company: </td>
+                <td class='form1'>管理会社選択: </td>
                 <td class='form2'>
                     <select id="broker_id" name="broker_id" style="height:26px; width: 300px;">
                         <option value=""></option>
@@ -47,18 +47,18 @@
                 </td>
             </tr>   
             <tr> 
-                {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
-                <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
+                {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
             </tr>
         </table>
-        <div><label class="title">Room Infomation</label></div>
+        <div><label class="title">部屋情報</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Room Number: <span class="required">*</span></td>
+                <td class='form1'>号室: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='room_number' id='room_number' value="{$room_number}"  style="height:26px; width: 300px;"><div id="room_number_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Type:  <span class="required">*</span></td>
+                <td class='form1'>間取り:  <span class="required">*</span></td>
                 <td class='form2'><select id="room_type" name="room_type" style="height:26px; width: 300px;">
                         <option value=""></option>
                         {foreach from=$roomTypes item=roomType}
@@ -68,16 +68,16 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Size: <span class="required">*</span></td>
+                <td class='form1'>面積: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 300px;"><div id="room_size_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Price: <span class="required">*</span></td>
+                <td class='form1'>賃料: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='room_rent' id='room_rent' value="{$room_rent}" style="height:26px; width: 232px;">
                     <label style="padding: 1% 5.5% 1% 5.5%;background-color: white;">円</label><div id="room_rent_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Key Money: </td>
+                <td class='form1'>礼金: </td>
                 <td class='form2'>
                     <input type='text' class='text' name='room_key_money'  id='room_key_money' value="{$room_key_money}"  style="height:26px; width: 232px;">
                     <select id="room_key_money_unit" name="room_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
@@ -88,7 +88,7 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Administrative Expense: </td>
+                <td class='form1'>管理費: </td>
                 <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}"  style="height:26px; width: 232px;">
                     <select id="room_administrative_expense_unit" name="room_administrative_expense_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                         <option value="円"{if $room_administrative_expense_unit eq "円"}selected{/if}>円</option>
@@ -98,7 +98,7 @@
             </tr>
 
             <tr>
-                <td class='form1'>Deposit: </td>
+                <td class='form1'>敷金・保証金: </td>
                 <td class='form2'>
                     <input type='text' class='text' name='room_deposit' id='room_deposit' value="{$room_deposit}"  style="height:26px; width: 232px;">
                     <select id="room_deposit_unit" name="room_deposit_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
@@ -109,7 +109,7 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Discount: </td>
+                <td class='form1'>割引: </td>
                 <td class='form2'><input type='text' class='text' name='room_discount' id='room_discount' value="{$room_discount}"  style="height:26px; width: 300px;"><div id="room_discount_error"class="error"></div></td>
             </tr>
             <!--<tr>
@@ -117,12 +117,12 @@
                 <td class='form2'><input type='file' class='text' name='room_photo' id='room_photo' value="{$room_photo}"  style="height:26px; width: 300px;"><div id="room_photo_error"class="error"></div></td>
             </tr>-->                                
             <tr>            
-                <td class='form1'>Room Status: </td>
+                <td class='form1'>現況: </td>
                 <td class='form2'>
                     <select id="room_status" name="room_status" style="height:26px; width: 300px;">
-                        <option value="0">Empty</option>
-                        <option value="1">For rent</option>
-                        <option value="2">Constructing</option>
+                        <option value="0">空家</option>
+                        <option value="1">賃貸中</option>
+                        <option value="2">未完成</option>
                     </select>
                 </td>
             </tr>
@@ -132,7 +132,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-left: 20%;">
-                        <input type='submit' class='btn-signup' value='Create' id="submit" name="submit"/>&nbsp;          
+                        <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;          
                         <input type="hidden" id="step" name="step" value=""/>
                     </div>
                 </td>

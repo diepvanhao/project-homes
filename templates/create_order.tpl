@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Create Order</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー登録</div>
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -50,7 +50,7 @@
                         $('#house_id').empty();
                         $('#room_id').empty();
                         $('#house_description').html("");
-                        $('#error_house').html("No any house for your keyword");
+                        $('#error_house').html("物件名のキーワードが見つかりませんでした。");
                         //     hideloadgif();
                     }
                 });
@@ -100,16 +100,16 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-                        $('#error_room').html("This room had person rent. Please choose other room");
+                        $('#error_room').html("入居中なので、別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
                         $("#submit").css('color', 'grey');
                     } else if (json.status == 2) {
-                        $('#error_room').html("This room is contructing. Please choose other room");
+                        $('#error_room').html("未完成なので、別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
                         $("#submit").css('color', 'grey');
                     } else {
                         if (json.flag == 'false') {
-                            $('#error_room').html("This room isn't belong to broker company that you selected.");
+                            $('#error_room').html("この部屋は、選択した管理会社の管理ではありません。");
                             $('#submit').attr('disabled', true);
                             $("#submit").css('color', 'grey');
                         } else {
@@ -544,7 +544,7 @@
             $('#client_detail').find('#save').click(function(e) {
                 var cus_id = $('#cus_id').val();
                 if (cus_id == "" && getDivClass('basic') == 0) {
-                    alert('Please supply basic information first !!!');
+                    alert('基本情報の入力をお願いいたします。 !!!');
                     $('#client_info ul li').first().click();
                     e.preventDefault();
                 }
@@ -579,16 +579,16 @@
                         var order_id = $('#order_id').val();
 
                         if (city_id == "" || city_id == null) {
-                            $('#error_city_id').html('City is required');
+                            $('#error_city_id').html('都道府県は必須です。');
                             return false;
                         } else if (district_id == "" || district_id == null) {
-                            $('#error_district_id').html('District is required');
+                            $('#error_district_id').html('市区町村は必須です。');
                             return false;
                         } else if (street_id == "" || street_id == null) {
-                            $('#error_street_id').html('Street is required');
+                            $('#error_street_id').html('大字・通称は必須です。');
                             return false;
                         } else if (ward_id == "" || ward_id == null) {
-                            $('#error_ward_id').html('Ward is required');
+                            $('#error_ward_id').html('字・丁目は必須です。');
                             return false;
                         }
                         //clear notify error
@@ -603,9 +603,9 @@
                             client_resident_phone: client_resident_phone, client_id: client_id, order_id: order_id, action: 'customer', task: 'detail'},
                         function(result) {
                             if (result == 'success') {
-                                alert('Saved');
+                                alert('保存済');
                             } else if (result == 'fail') {
-                                alert("Save fail");
+                                alert("保存が失敗しました。");
                             }
                         });
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'history') {
@@ -691,9 +691,9 @@
                         function(result) {
                             var json = $.parseJSON(result);
                             if (json.id != "")
-                                alert('Saved');
+                                alert('保存');
                             else if (json.id == "")
-                                alert("Updated");
+                                alert("更新が完了しました。");
                         });
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
@@ -712,9 +712,9 @@
                         function(result) {
                             var json = $.parseJSON(result);
                             if (json.id != "")
-                                alert('Saved');
+                                alert('保存');
                             else if (json.id == "")
-                                alert("Updated");
+                                alert("更新が完了しました。");
                         });
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'introduce') {
@@ -735,9 +735,9 @@
                             function(result) {
                                 var json = $.parseJSON(result);
                                 if (json.id != "")
-                                    alert('Saved');
+                                    alert('保存');
                                 else if (json.id == "")
-                                    $('#error_introduce_house_id').html('This room is introduced. Please choose other room/house to introduce !!!');
+                                    $('#error_introduce_house_id').html('紹介しました。別の部屋および物件を選択してください。 !!!');
                             });
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'contract') {
@@ -849,9 +849,9 @@
                         function(result) {
                             var json = $.parseJSON(result);
                             if (json.id != "")
-                                alert('Saved');
+                                alert('保存済');
                             else if (json.id == "")
-                                alert("Updated");
+                                alert("更新が完了しました。");
                         });
                     }
                 });
@@ -1014,7 +1014,7 @@
                     $('#room_id').empty();
                     $('#house_description').html("");
                     if (house_id)
-                        $('#error_room').html("This house haven't been room yet");
+                        $('#error_room').html("この物件は部屋番号が存在していません。");
                 }
             });
         }
@@ -1060,15 +1060,15 @@
 {if $step eq 2}    
 
     <form action="create_order.php" method="post">
-        <div class="title"><label >Input house information</label></div>
+        <div class="title"><label >物件情報</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
             <tr>
-                <td class="form1">Filter Broker</td>
-                <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="Enter broker name to filter for selection broker" style="height:26px; width: 215px;"/>
+                <td class="form1">管理会社フィルタ</td>
+                <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
                 </td>
             </tr>
             <tr>       
-                <td class='form1'>Select Broker Company: </td>
+                <td class='form1'>管理会社選択: </td>
                 <td class='form2'>
                     <select id="broker_id" name="broker_id" style="height:26px; width: 215px;">
                         <option value=""></option>
@@ -1080,12 +1080,12 @@
                 </td>
             </tr> 
             <tr> 
-                {assign var=broker_link value='If not broker company that you want. You can add new broker company by link <a href="./create_broker_company.php">Create Broker</a>'}
-                <td colspan="2" nowrap><div>{$broker_link|wordwrap:70:"<br />\n"}</div></td>
+                {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
             </tr>            
             <tr>
                 <td class="form1">
-                    Assign
+                    担当
                 </td>
 
                 <td class='form2'>
@@ -1101,12 +1101,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="form1">Filter House</td>
-                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 215px;"/>
+                <td class="form1">物件フィルタ</td>
+                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>Select House: </td>
+                <td class='form1'>物件選択: </td>
                 <td class='form2'>
                     <select id="house_id" name="house_id" style="height:26px; width: 215px;">
                         <option value=""></option>
@@ -1117,15 +1117,15 @@
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>Description House: </td>
+                <td class='form1'>物件備考: </td>
                 <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
             </tr>
             <tr>            
-                <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
             </tr>
 
             <tr>            
-                <td class='form1'>Select Room: </td>
+                <td class='form1'>部屋選択: </td>
                 <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
                         <option value=""></option>
 
@@ -1134,15 +1134,15 @@
             </tr>
             <!--order part-->
             <tr>            
-                <td class='form1'>Order name: </td>
+                <td class='form1'>オーダーID: </td>
                 <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 215px;"/><div id="error_order_name" class="error"></div></td>
             </tr>
             <tr>            
-                <td class='form1'>Price: </td>
+                <td class='form1'>賃料: </td>
                 <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 215px;"/></td>
             </tr>
             <tr>            
-                <td class='form1'>Comment: </td>
+                <td class='form1'>備考: </td>
                 <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 215px;"/></td>
             </tr>
 
@@ -1151,7 +1151,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='Next' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
+                        <input type='submit' class='btn-signup' value='次' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
                         <input type="hidden" id="step" name="step" value="verify"/>     
                         <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
                         <input type="hidden" id="room_bk" name="room_bk" value="{$room_id}"/>
@@ -1185,7 +1185,7 @@
                             $('table').find('tr:nth-child(2)').css('display', '');
                             $('table').find('tr:nth-child(3)').css('display', '');
                             $('table').find('tr:last-child').css('display', '');
-                            $('#error_broker').html("No any broker company for your keyword");
+                            $('#error_broker').html("仲介会社のキーワードが見つかりませんでした。");
                         }
                     });
                 });
@@ -1204,7 +1204,7 @@
                             $('#house_id').html(result);
                         } else {
                             $('#house_id').empty();
-                            $('#error_house').html('No any house for your keyword');
+                            $('#error_house').html('物件名のキーワードが見つかりませんでした。');
                         }
 
                     });
@@ -1223,23 +1223,23 @@
                     var order_name = $('#order_name').val();
                     var room_id = $('#room_id').val();
                     if (broker_id == "" || broker_id == null) {
-                        $('#error_broker').html('Please choose broker company.');
+                        $('#error_broker').html('仲介会社をご選択ください。');
                         e.preventDefault();
                         return false;
                     } else if (staff_id == "" || staff_id == null) {
-                        $('#error_staff').html('Please choose assign.');
+                        $('#error_staff').html('担当者をご選択ください。.');
                         e.preventDefault();
                         return false;
                     } else if (house_id == "" || house_id == null) {
-                        $('#error_house').html('Please choose house.');
+                        $('#error_house').html('物件ををご選択ください。.');
                         e.preventDefault();
                         return false;
                     } else if (room_id == "" || room_id == null) {
-                        $('#error_room').html('Please choose room.');
+                        $('#error_room').html('お部屋をご選択ください。.');
                         e.preventDefault();
                         return false;
                     } else if (order_name == "" || order_name == null) {
-                        $('#error_order_name').html('Order name is required.');
+                        $('#error_order_name').html('オーダーの名前は必要です。.');
                         e.preventDefault();
                         return false;
                     } else {
@@ -1293,48 +1293,48 @@
 {*step verify*}
 {if $step eq "verify"}
     <form action="create_order.php" method="post">
-        <div class="title"><label ><h2>Verify information</h2></label></div>
+        <div class="title"><label ><h2>情報確認</h2></label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Source:</td>
+                <td class='form1'>媒体:</td>
                 <td class='form2'>{$brokers.broker_company_name}</td>
             </tr>
             <tr>
-                <td class='form1' nowrap>Staff assigned:</td>
+                <td class='form1' nowrap>担当者:</td>
                 <td class='form2'> {$staffs.user_fname} {$staffs.user_lname}</td>
             </tr>
             <tr>
-                <td class='form1' nowrap>House name:</td>
+                <td class='form1' nowrap>物件名:</td>
                 <td class='form2'>{$houses.house_name}</td>
             </tr>
             <tr>
-                <td class='form1' nowrap>Room Number:</td>
+                <td class='form1' nowrap>号室:</td>
                 <td class='form2'>{$room_id}</td>
             </tr>
             <tr>
-                <td class='form1'>Desctiption:</td>
+                <td class='form1'>備考:</td>
                 <td class='form2'>{$houses.house_description}</td>
             </tr>
             <tr>
-                <td class='form1'>Order name:</td>
+                <td class='form1'>オーダーID:</td>
                 <td class='form2'>{$order_name}</td>
             </tr>
             <tr>
-                <td class='form1'>Price:</td>
+                <td class='form1'>賃料:</td>
                 <td class='form2'>{$order_rent_cost}</td>
             </tr>
             <tr>
-                <td class='form1'>Comment:</td>
+                <td class='form1'>備考:</td>
                 <td class='form2'>{$order_comment}</td>
             </tr>
             <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type="submit" class='btn-signup' value="Registry" id="registry" name="registry" style="width: 100px;"/>&nbsp; 
-                        <input type="button" class='btn-signup' value="Later" id="later" name="later"style="width: 100px;margin: 0px 10px 0px 10px;"/>
-                        <input type="button" class='btn-signup' value="Cancel" id="cancel" name="cancel"style="width: 100px;"/>
-                        <input type='button' class='btn-signup' value='Back' id="back" name="back" style="width: 100px;float: right;margin-right: 1%;"/>&nbsp; 
+                        <input type="submit" class='btn-signup' value="登録" id="registry" name="registry" style="width: 100px;"/>&nbsp; 
+                        <input type="button" class='btn-signup' value="後で" id="later" name="later"style="width: 100px;margin: 0px 10px 0px 10px;"/>
+                        <input type="button" class='btn-signup' value="キャンセル" id="cancel" name="cancel"style="width: 100px;"/>
+                        <input type='button' class='btn-signup' value='戻る' id="back" name="back" style="width: 100px;float: right;margin-right: 1%;"/>&nbsp; 
                         <input type="hidden" id="create_id" name="create_id" value="{$staffs.id}"/>
                         <input type="hidden" id="staff_id" name="staff_id" value="{$staffs.id}"/>
                         <input type="hidden" id="house_id" name="house_id" value="{$houses.id}"/>
@@ -1377,10 +1377,10 @@
                     function(result) {
                         var json = $.parseJSON(result);
                         if (json.id) {
-                            alert('This order is saved !!!');
+                            alert('保存が完了しました。!!!');
                             window.location.href = "create_order.php";
                         } else if (json.error) {
-                            alert('This order was created. Please check room number and house seleted');
+                            alert('オーダーが存在しています。再度部屋番号を確認してください。');
                         }
                     });
                 });
@@ -1397,10 +1397,10 @@
     <form action="create_order.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
             <tr>
-                <td>Filter customer</td>
-                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 215px;" placeholder="Type name of customer"/>
+                <td>顧客フィルたー</td>
+                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 215px;" placeholder="顧客を入力"/>
                     <span>
-                        <input type='submit' class='btn-search' value='Submit' id="search" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-search' value='送信' id="search" name="submit"/>&nbsp;                     
                     </span>
                 </td>
             <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="Done" id="done" name="done"class='btn-search'/></div>
@@ -1410,7 +1410,7 @@
 
     <div style="margin-bottom:10px;">
         <center>
-            Page:
+            ページ:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="create_order.php?step='registry'&filter={$filter}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}
@@ -1418,11 +1418,11 @@
     </div>
     <div id="customer">
         <ul>
-            <li class="even">No</li>
-            <li class="even">Name</li>
-            <li class="even">Birthday</li>
-            <li class="even">Address</li>
-            <li class="even">Phone Number</li>
+            <li class="even">番号</li>
+            <li class="even">名称</li>
+            <li class="even">生年月日</li>
+            <li class="even">住所</li>
+            <li class="even">電話番号</li>
         </ul>
 
         {foreach from=$customers key=k item=item}
@@ -1436,15 +1436,15 @@
         {/foreach}
 
     </div>
-    <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">Customer Information</div>
+    <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">クライアント情報</div>
     <div id="client_info">
         <ul>
-            <li class="select_menu" title="basic">Basic Info</li>
-            <li class="noselect_menu" title="detail">Detail</li>
-            <li class="noselect_menu" title="history">History</li>
-            <li class="noselect_menu" title="aspirations">Aspirations</li>
-            <li class="noselect_menu" title="introduce">Introduce</li>
-            <li class="noselect_menu" title="contract">Contract</li>
+            <li class="select_menu" title="basic">基本情報</li>
+            <li class="noselect_menu" title="detail">明細</li>
+            <li class="noselect_menu" title="history">履歴</li>
+            <li class="noselect_menu" title="aspirations">希望</li>
+            <li class="noselect_menu" title="introduce">紹介</li>
+            <li class="noselect_menu" title="contract">連絡</li>
         </ul>
     </div>
     <div id="client_detail">
@@ -1453,21 +1453,21 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
-                        <td class='form1'>Name:</td>
+                        <td class='form1'>名称:</td>
                         <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Birthday:</td>
+                        <td class='form1' nowrap>生年月日:</td>
                         <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Email:</td>
+                        <td class='form1'>Eメール:</td>
                         <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1'>Phone number:</td>
+                        <td class='form1'>電話番号:</td>
                         <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'></td>
-                        <td class='form1' nowrap>Fax:</td>
+                        <td class='form1' nowrap>ファックス:</td>
                         <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
@@ -1475,7 +1475,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="submit" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="basic"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -1490,19 +1490,19 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
-                        <td class='form1'>Gender: </td>
+                        <td class='form1'>性別: </td>
                         <td class='form2'>
                             <select id="gender"name="gender" style="height:26px; width: 215px;">
-                                <option value="male" {if $gender eq "male"}selected{/if}>Male</option>
-                                <option value="female"{if $gender eq "female"}selected{/if}>Female</option>
-                                <option value="other" {if $gender eq "other"}selected{/if}>Other</option>
+                                <option value="male" {if $gender eq "male"}selected{/if}>男性</option>
+                                <option value="female"{if $gender eq "female"}selected{/if}>情勢</option>
+                                <option value="other" {if $gender eq "other"}selected{/if}>備考</option>
                             </select>
                         </td>
-                        <td class='form1' nowrap>Numer Address: <span class="required">*</span></td>
+                        <td class='form1' nowrap>番地: <span class="required">*</span></td>
                         <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>City:  <span class="required">*</span></td>
+                        <td class='form1'>都道府県:  <span class="required">*</span></td>
                         <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
                                 {foreach from=$cities item=city}
@@ -1510,7 +1510,7 @@
                                 {/foreach}
                             </select><div id="error_city_id" class="error"></div>
                         </td>
-                        <td class='form1'>District:  <span class="required">*</span></td>
+                        <td class='form1'>市区町村:  <span class="required">*</span></td>
                         <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 215px;">                       
 
                             </select><div id="error_district_id" class="error"></div>
@@ -1518,12 +1518,12 @@
                     </tr>      
 
                     <tr>
-                        <td class='form1'>Street:  <span class="required">*</span></td>
+                        <td class='form1'>大字・通称:  <span class="required">*</span></td>
                         <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 215px;">
 
                             </select><div id="error_street_id" class="error"></div>
                         </td>
-                        <td class='form1'>Ward:  <span class="required">*</span></td>
+                        <td class='form1'>字・丁目:  <span class="required">*</span></td>
                         <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 215px;">
 
                             </select><div id="error_ward_id" class="error"></div>
@@ -1531,15 +1531,15 @@
                     </tr>
 
                     <tr>
-                        <td class='form1'>Occupation:</td>
+                        <td class='form1'>職業 :</td>
                         <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Company:</td>
+                        <td class='form1' nowrap>会社名:</td>
                         <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Income:</td>
+                        <td class='form1'>収入:</td>
                         <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Room type:</td>
+                        <td class='form1' nowrap>間取り:</td>
                         <td class='form2'> 
                             <select id="client_room_type" name="client_room_type" style="height:26px; width: 215px;">
                                 <option value=""></option>
@@ -1551,19 +1551,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Rent current :</td>
+                        <td class='form1'>現在の賃料:</td>
                         <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Reason change:</td>
+                        <td class='form1' nowrap>引越の理由:</td>
                         <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Date change :</td>
+                        <td class='form1'>引越予定日:</td>
                         <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Client resident name</td>
+                        <td class='form1' nowrap>入居者の名前</td>
                         <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 215px;"/> </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Client resident phone :</td>
+                        <td class='form1'>入居者の電話番号:</td>
                         <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'> </td>
@@ -1573,7 +1573,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="detail"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="city_cus" name="city_cus" value=""/> 
@@ -1592,45 +1592,45 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
-                        <td class='form1'>Time call: </td>
+                        <td class='form1'>通話時刻: </td>
                         <td class='form2'>
                             <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap>Time arrive:</td>
+                        <td class='form1' nowrap>来店時刻:</td>
                         <td class='form2'>
                             <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Time send email: </td>
+                        <td class='form1'>メール送信時刻: </td>
                         <td class='form2'>
                             <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap>Comment:</td>
+                        <td class='form1' nowrap>備考:</td>
                         <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'nowrap>Date appointment from:</td>
+                        <td class='form1'nowrap>予約日付　（～まで）:</td>
                         <td class='form2'>
                             <input type="text" id="log_date_appointment_from_date" name="log_date_appointment_from_date" value="{$log_date_appointment_from_date}"style="height: 26px; width: 115px;"/>
                             <input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap>Appointment status:</td>
+                        <td class='form1' nowrap>予約現況:</td>
                         <td class='form2'>
                             <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
                             <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">No</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Date appointment to: </td>
+                        <td class='form1'>予約日付　（～から）: </td>
                         <td class='form2'>
                             <input type='text' id="log_date_appointment_to_date" name="log_date_appointment_to_date" value="{$log_date_appointment_to_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1'>Select Source:</td>
+                        <td class='form1'>媒体を選択してください。:</td>
                         <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
                                 {foreach from=$sources item=source}
@@ -1641,37 +1641,37 @@
                     </tr>
 
                     <tr>
-                        <td class='form1'>Contact by tel:</td>
+                        <td class='form1'>TEL:</td>
                         <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>Tel status:</td>
+                        <td class='form1' nowrap>電話現況:</td>
                         <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Contact by mail:</td>
+                        <td class='form1'>MAIL:</td>
                         <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>Mail status:</td>
+                        <td class='form1' nowrap>メール現況:</td>
                         <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Contact by head office :</td>
+                        <td class='form1'>本社へ連絡:</td>
                         <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>Shop sign:</td>
+                        <td class='form1' nowrap>店頭看板:</td>
                         <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Local sign:</td>
+                        <td class='form1'>現地看板:</td>
                         <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign"{if $log_local_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>Introduction:</td>
+                        <td class='form1' nowrap>紹介:</td>
                         <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" {if $log_introduction eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Flyer:</td>
+                        <td class='form1'>チラシ:</td>
                         <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer"{if $log_flyer eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>Line:</td>
+                        <td class='form1' nowrap>ライン:</td>
                         <td class='form2'> <input type='checkbox' id="log_line" name="log_line"{if $log_line eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Revisit: </td>
+                        <td class='form1'>再来店: </td>
                         <td class='form2'>
                             <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
                         </td>
@@ -1683,7 +1683,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="history"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -1698,7 +1698,7 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
-                        <td class='form1'>House type: </td>
+                        <td class='form1'>物件種別: </td>
                         <td class='form2'>
                             <select id="aspirations_type_house" name="aspirations_type_house" style="height:26px; width: 215px;">
                                 <option value=""></option>
@@ -1708,7 +1708,7 @@
                             </select><div id="error_aspirations_type_house" class="error"></div>
 
                         </td>
-                        <td class='form1' nowrap>Room type:</td>
+                        <td class='form1' nowrap>間取り:</td>
                         <td class='form2'>
                             <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 215px;">
                                 <option value=""></option>
@@ -1718,22 +1718,22 @@
                             </select><div id="error_aspirations_type_room" class="error"></div>
                     </tr>
                     <tr>
-                        <td class='form1'>Build time:</td>
+                        <td class='form1'>築年月:</td>
                         <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Area:</td>
+                        <td class='form1' nowrap>アリアー:</td>
                         <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Size:</td>
+                        <td class='form1'>面積:</td>
                         <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Price:</td>
+                        <td class='form1' nowrap>賃料:</td>
                         <td class='form2'> 
                             <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>
                             <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Comment:</td>
+                        <td class='form1'>備考:</td>
                         <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap></td>
                         <td class='form2'></td>
@@ -1743,7 +1743,7 @@
                         <td class='form2' colspan="3">
                             <div style="margin-top:10px;text-align: center;">
                                 <div id="error_validate" class="error"></div>
-                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="aspirations"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -1759,13 +1759,13 @@
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
 
                     <tr>
-                        <td class="form1">Filter House</td>
+                        <td class="form1">物件フィルタ</td>
                         <td class="form2">
                             <input type="text" id="search_house" name="search_house" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 215px;"/>                            
                         </td>
                     </tr>
                     <tr>            
-                        <td class='form1'>Select House: </td>
+                        <td class='form1'>物件選択: </td>
                         <td class='form2'>
                             <select id="introduce_house_id" name="introduce_house_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
@@ -1776,14 +1776,14 @@
                         </td>
                     </tr>
                     <tr>            
-                        <td class='form1'>Description House: </td>
+                        <td class='form1'>物件備考: </td>
                         <td class='form2'><textarea style="width: 215px;height: 129px;" disabled="1" id="introduce_house_content" name="introduce_house_content" >{$introduce_house_content}</textarea></td>
                     </tr>
                     <tr>            
-                        <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_house.php">物件登録</a></div></td>
                     </tr>
                     <tr>            
-                        <td class='form1'>Select Room: </td>
+                        <td class='form1'>部屋選択: </td>
                         <td class='form2'><select id="introduce_room_id" name="introduce_room_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
 
@@ -1795,7 +1795,7 @@
                         <td class='form2'>
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px">
-                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp;  
+                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
                                 <input type="hidden" id="task" name="task" value="introduce"/>
                                 <input type="hidden" id="introduce_house" name="introduce_house" />
                                 <input type="hidden" id="step" name="step" value="registry"/>  
@@ -1811,11 +1811,11 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="contract_plus">
                     <tr>                       
-                        <td class='form1' nowrap>Cost:</td>
+                        <td class='form1' nowrap>賃料:</td>
                         <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
                             <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                         </td>
-                        <td class='form1'>Key fee:</td>
+                        <td class='form1'>礼金:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
                             <select id="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
@@ -1824,14 +1824,14 @@
                         </td>
                     </tr>                                        
                     <tr>                    
-                        <td class='form1'>Brokerage fee:</td>
+                        <td class='form1'>仲介手数料:</td>
                         <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
                             <select id="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
                                 <option value="ヵ月">ヵ月</option>
                             </select>
                         </td>
-                        <td class='form1'>Advertising fee:</td>
+                        <td class='form1'>広告代:</td>
                         <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
                             <select id="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
@@ -1840,63 +1840,63 @@
                         </td>                                           
                     </tr>
                     <tr>                    
-                        <td class='form1' nowrap>Condition:</td>
+                        <td class='form1' nowrap>条件:</td>
                         <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                        <td class='form1' nowrap>Valuation:</td>
+                        <td class='form1' nowrap>評価:</td>
                         <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Signature day:</td>
+                        <td class='form1'>サイン日付:</td>
                         <td class='form2'>
                             <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
                             <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap>Handover day:</td>
+                        <td class='form1' nowrap>鍵渡日:</td>
                         <td class='form2'>
                             <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
                             <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Period from:</td>
+                        <td class='form1'>契約始期:</td>
                         <td class='form2'>
                             <input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>
                             <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap>Period to:</td>
+                        <td class='form1' nowrap>契約終期:</td>
                         <td class='form2'>
                             <input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>
                             <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 95px;"/>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1' nowrap>Payment date from:</td>
+                        <td class='form1' nowrap>支払いの予約日付　（～から）:</td>
                         <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>Payment status:</td>
+                        <td class='form1' nowrap>支払い状況:</td>
                         <td class='form2'>
                             <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">Yes</label> &nbsp; &nbsp; 
                             <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">No</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Payment date to: </td>
+                        <td class='form1'>支払いの予約日付　（～まで）: </td>
                         <td class='form2'>
                             <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
                         </td>
-                        <td class='form1' nowrap>Payment report:</td>
+                        <td class='form1' nowrap>支払い状況レポート:</td>
                         <td class='form2'>
                             <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">Yes</label> &nbsp; &nbsp; 
                             <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">No</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Deposit 1:</td>
+                        <td class='form1'>敷金・保証金 1:</td>
                         <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
                             <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
                                 <option value="ヵ月">ヵ月</option>
                             </select></td>
-                        <td class='form1' nowrap>Deposit 2:</td>
+                        <td class='form1' nowrap>敷金・保証金 2:</td>
                         <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
                             <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                 <option value="円">円</option>
@@ -1905,27 +1905,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>Total:</td>
+                        <td class='form1'>合計:</td>
                         <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
                             <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                         </td>
-                        <td class='form1' nowrap>Manage by Ambition</td>
+                        <td class='form1' nowrap>自社</td>
                         <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Application:</td>
+                        <td class='form1'>申し込み:</td>
                         <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
-                        <td class='form1' nowrap>Application Date:</td>
+                        <td class='form1' nowrap>申込日:</td>
                         <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Transaction finish:</td>
+                        <td class='form1'>売上済み:</td>
                         <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
                         <td class='form1' nowrap>Cancel:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>Agent:</td>
+                        <td class='form1'>店舗:</td>
                         <td class='form2'>
                             <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
                                 <option value=""></option>
@@ -1934,7 +1934,7 @@
                                 {/foreach}
                             </select>
                         </td>
-                        <td class='form1' nowrap>Partner:</td>
+                        <td class='form1' nowrap>按分先:</td>
                         <td class='form2'>
                             <select id="partner_id"name="partner_id" style="height:26px; width: 220px;">
                                 <option value=""></option>
@@ -1949,7 +1949,7 @@
                     <tr>                    
                         <td class='form1'></td>
                         <td class='form2'>
-                            <input type="button" id="add" class='btn-signup' name="add" value="Add plus fee" style="width: 140px;"/> 
+                            <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
                         </td>       
                         <td class='form1'></td>
                         <td class='form2'></td>   
@@ -1972,7 +1972,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="button" class='btn-signup' value="Save" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                 <input type="hidden" id="task" name="task" value="contract"/>
                                 <input type="hidden" id="step" name="step" value="registry"/>                                 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -2106,10 +2106,10 @@
                 $('#sidebar_container').css('display', 'none');
                 var fieldCount = 1;
                 $('#add').click(function() {
-                    var label = prompt('which  plus do you want to add ?', '');
+                    var label = prompt('その他費用を追加する ?', '');
                     if (label != null && label != "" && label != 0) {
                         // fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                         if (fieldCount == 1)
                             CalculatorPlus();
                         fieldCount++;
@@ -2263,7 +2263,7 @@
                                                                 $('#introduce_house_id').empty();
                                                                 $('#introduce_room_id').empty();
                                                                 $('#introduce_house_content').html("");
-                                                                $('#error_introduce_house_id').html("No any house for your keyword");
+                                                                $('#error_introduce_house_id').html("物件名のキーワードが見つかりませんでした。");
                                                                 //     hideloadgif();
                                                             }
                                                         });
@@ -2299,7 +2299,7 @@
                                                             $('#introduce_room_id').empty();
                                                             $('#introduce_house_content').html("");
                                                             if (house_id)
-                                                                $('#error_introduce_room_id').html("This house haven't been room yet");
+                                                                $('#error_introduce_room_id').html("この物件は部屋番号が存在していません。");
                                                         }
                                                     });
                                                 }

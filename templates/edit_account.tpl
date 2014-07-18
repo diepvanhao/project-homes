@@ -94,51 +94,51 @@
             </tr>
             <tr>
                 <td class='form1'>Target: </td>
-                <td class='form2'><input type='text' name='target_1' id='target_1' value="{$target_1}" placeholder="target of month 1"  style="height:26px; width: 252px; margin-right: 4%;"><lable>{$year}-01-01</lable></td>
+                <td class='form2'><input type='text' name='target_1' id='target_1' value="{$target_1}" placeholder="今月目標 1"  style="height:26px; width: 252px; margin-right: 4%;"><lable>{$year}-01-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_2' id='target_2' value="{$target_2}" placeholder="target of month 2"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-02-01</lable></td>
+                <td class='form2'><input type='text' name='target_2' id='target_2' value="{$target_2}" placeholder="今月目標 2"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-02-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_3' id='target_3' value="{$target_3}"  placeholder="target of month 3" style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-03-01</lable></td>
+                <td class='form2'><input type='text' name='target_3' id='target_3' value="{$target_3}"  placeholder="今月目標 3" style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-03-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_4' id='target_4' value="{$target_4}"  placeholder="target of month 4" style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-04-01</lable></td>
+                <td class='form2'><input type='text' name='target_4' id='target_4' value="{$target_4}"  placeholder="今月目標 4" style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-04-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_5' id='target_5' value="{$target_5}" placeholder="target of month 5"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-05-01</lable></td>
+                <td class='form2'><input type='text' name='target_5' id='target_5' value="{$target_5}" placeholder="今月目標 5"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-05-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_6' id='target_6' value="{$target_6}" placeholder="target of month 6"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-06-01</lable></td>
+                <td class='form2'><input type='text' name='target_6' id='target_6' value="{$target_6}" placeholder="今月目標 6"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-06-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_7' id='target_7' value="{$target_7}" placeholder="target of month 7"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-07-01</lable></td>
+                <td class='form2'><input type='text' name='target_7' id='target_7' value="{$target_7}" placeholder="今月目標 7"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-07-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_8' id='target_8' value="{$target_8}" placeholder="target of month 8"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-08-01</lable></td>
+                <td class='form2'><input type='text' name='target_8' id='target_8' value="{$target_8}" placeholder="今月目標 8"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-08-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_9' id='target_9' value="{$target_9}" placeholder="target of month 9"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-09-01</lable></td>
+                <td class='form2'><input type='text' name='target_9' id='target_9' value="{$target_9}" placeholder="今月目標 9"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-09-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_10' id='target_10' value="{$target_10}" placeholder="target of month 10"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-10-01</lable></td>
+                <td class='form2'><input type='text' name='target_10' id='target_10' value="{$target_10}" placeholder="今月目標 10"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-10-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_11' id='target_11' value="{$target_11}" placeholder="target of month 11"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-11-01</lable></td>
+                <td class='form2'><input type='text' name='target_11' id='target_11' value="{$target_11}" placeholder="今月目標 11"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-11-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_12' id='target_12' value="{$target_12}" placeholder="target of month 12"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-12-01</lable></td>
+                <td class='form2'><input type='text' name='target_12' id='target_12' value="{$target_12}" placeholder="今月目標 12"  style="height:26px; width: 252px;margin-right: 4%;"><lable>{$year}-12-01</lable></td>
             </tr>
             <tr>
                 <td class='form1'>Level: </td>

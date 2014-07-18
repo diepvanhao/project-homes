@@ -129,9 +129,9 @@ class HOMEValidate {
             $email = trim($val['email']);
 
             if (empty($email)) {
-                $this->error[] = "Email is required";
+                $this->error[] = "Eメールは必須です";
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->error[] = "Email is not valid";
+                $this->error[] = "Eメールが有効ではありません。";
             } else {
                 global $database;
 
@@ -141,7 +141,7 @@ class HOMEValidate {
                     $query.=" and id<>{$val['user_id']}";
                 $result = $database->database_query($query);
                 if ($database->database_num_rows($result)) {
-                    $this->error[] = "Email in use. Please enter a new email.";
+                    $this->error[] = "既に使用されているEメールです。メールアドレスを入力してください。";
                 }
             }
         }
@@ -173,7 +173,7 @@ class HOMEValidate {
         // CHECK FOR EMPTY PASSWORDS
 
         if (!trim($password['pass']) || !trim($password['confirm_pass'])) {
-            $this->error[] = "Password is required";
+            $this->error[] = "パスワードは必須です";
             return;
         }
 
@@ -207,7 +207,7 @@ class HOMEValidate {
 
             $email = trim($val['agent_email']);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->error[] = "Email is not valid";
+                $this->error[] = "Eメールが有効ではありません。";
             } else {
                 global $database;
 
@@ -216,7 +216,7 @@ class HOMEValidate {
                     $query.=" and id<>{$val['agent_id']}";
                 $result = $database->database_query($query);
                 if ($database->database_num_rows($result)) {
-                    $this->error[] = "Email in use. Please enter a new email.";
+                    $this->error[] = "既に使用されているEメールです。メールアドレスを入力してください。";
                 }
             }
         }
@@ -227,9 +227,9 @@ class HOMEValidate {
 
             $email = trim($val['broker_company_email']);
             if (empty($email)) {
-                $this->error[] = "Email is required";
+                $this->error[] = "Eメールは必須です";
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->error[] = "Email is not valid";
+                $this->error[] = "Eメールが有効ではありません。";
             } else {
                 global $database;
 
@@ -238,7 +238,7 @@ class HOMEValidate {
                     $query.=" and id<>{$val['broker_id']}";
                 $result = $database->database_query($query);
                 if ($database->database_num_rows($result)) {
-                    $this->error[] = "Email in use. Please enter a new email.";
+                    $this->error[] = "既に使用されているEメールです。メールアドレスを入力してください。";
                 }
             }
         }

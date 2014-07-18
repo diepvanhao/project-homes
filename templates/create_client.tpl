@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Create Client</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">クライアント登録</div>
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -78,19 +78,19 @@
         {/foreach}
     {/if}
     <form action="create_client.php" method="post">
-        <div><label class="title">Client Infomation</label></div>
+        <div><label class="title">クライアント情報</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Name: <span class="required">*</span></td>
+                <td class='form1'>名称: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='client_name' id='client_name' value="{$data.client_name}"  style="height:26px; width: 351px;"><div id="client_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Birthday:</td>
+                <td class='form1'>生年月日:</td>
                 <td class='form2'><input type='text' name='client_birthday' id='client_birthday'  value="{$data.client_birthday}"  style="height:26px; width: 351px;"></td>
             </tr>
 
             <tr>
-                <td class='form1'>City:  <span class="required">*</span></td>
+                <td class='form1'>都道府県:  <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$cities item=city}
@@ -100,87 +100,87 @@
                 </td>
             </tr>      
             <tr>
-                <td class='form1'>District:  <span class="required">*</span></td>
+                <td class='form1'>市区町村:  <span class="required">*</span></td>
                 <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 351px;">                       
 
                     </select><div id="error_district_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Street:  <span class="required">*</span></td>
+                <td class='form1'>大字・通称:  <span class="required">*</span></td>
                 <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_street_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Ward:  <span class="required">*</span></td>
+                <td class='form1'>字・丁目:  <span class="required">*</span></td>
                 <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_ward_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>House Number: </td>
+                <td class='form1'>番地: </td>
                 <td class='form2'><input type='text' class='text' name='client_address' id='client_address' value="{$data.client_address}" style="height:26px; width: 351px;"><div id="client_address_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Phone: <span class="required">*</span></td>
+                <td class='form1'>電話番号: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='client_phone' id='client_phone' value="{$data.client_phone}" style="height:26px; width: 351px;"><div id="client_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Income: </td>
+                <td class='form1'>収入: </td>
                 <td class='form2'><input type='text' class='text' name='client_income' id='client_income' value="{$data.client_income}"  style="height:26px; width: 351px;"><div id="client_income_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Occupation: </td>
+                <td class='form1'>職業 : </td>
                 <td class='form2'><input type='text' class='text' name='client_occupation' id='client_occupation' value="{$data.client_occupation}"  style="height:26px; width: 351px;"><div id="client_occupation_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Company: </td>
+                <td class='form1'>会社名: </td>
                 <td class='form2'><input type='text' class='text' name='client_company' id='client_company' value="{$data.client_company}"  style="height:26px; width: 351px;"><div id="client_company_error"class="error"></div></td>
             </tr>
 
             <tr>
-                <td class='form1'>Fax: </td>
+                <td class='form1'>ファックス: </td>
                 <td class='form2'><input type='text' class='text' name='client_fax' id='client_fax' value="{$data.client_fax}"  style="height:26px; width: 351px;"><div id="client_fax_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Gender: </td>
+                <td class='form1'>性別: </td>
                 <td class='form2'>
                     <select id="gender"name="client_gender" style="height:26px; width: 351px;">
-                        <option value="male"{if $data.client_gender eq "male"}selected{/if}>Male</option>
-                        <option value="female"{if $data.client_gender eq "female"}selected{/if}>Female</option>
+                        <option value="male"{if $data.client_gender eq "male"}selected{/if}>男性</option>
+                        <option value="female"{if $data.client_gender eq "female"}selected{/if}>女性</option>
                         <option value="other"{if $data.client_gender eq "other"}selected{/if}>Other</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Email: </td>
+                <td class='form1'>Eメール: </td>
                 <td class='form2'><input type='email' class='text' name='client_email' id='client_email' value="{$data.client_email}"  style="height:26px; width: 351px;"><div id="client_email_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Reason Change: </td>
+                <td class='form1'>引越の理由: </td>
                 <td class='form2'><input type='text' class='text' name='client_reason_change' id='client_reason_change' value="{$data.client_reason_change}"  style="height:26px; width: 351px;"><div id="client_reason_change_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Time Change: </td>
+                <td class='form1'>引越予定時期: </td>
                 <td class='form2'><input type='text' class='text' name='client_time_change' id='client_time_change' value="{$data.client_time_change}"  style="height:26px; width: 351px;"><div id="client_time_change_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Resident Name: </td>
+                <td class='form1'>入居者の名前: </td>
                 <td class='form2'><input type='text' class='text' name='client_resident_name' id='client_resident_name' value="{$data.client_resident_name}"  style="height:26px; width: 351px;"><div id="client_resident_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Resident Phone: </td>
+                <td class='form1'>入居者の電話番号: </td>
                 <td class='form2'><input type='text' class='text' name='client_resident_phone' id='client_resident_phone' value="{$data.client_resident_phone}" style="height:26px; width: 351px;"><div id="client_resident_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Rent: </td>
+                <td class='form1'>賃料: </td>
                 <td class='form2'><input type='text' class='text' name='client_rent' id='house_owner_phone' value="{$data.client_rent}"  style="height:26px; width: 351px;"><div id="client_rent_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Room Type:  </td>
+                <td class='form1'>間取り:  </td>
                 <td class='form2'><select id="client_room_type" name="client_room_type" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$roomTypes item=roomType}
@@ -197,7 +197,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='Create' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;                     
                     </div>
                 </td>
             </tr>

@@ -83,11 +83,11 @@
     <form action="edit_broker.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Name: <span class="required">*</span></td>
+                <td class='form1'>名称: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='broker_company_name' id='broker_company_name' value="{$broker_company_name}"  style="height:26px; width: 351px;"><div id="broker_company_name_error"class="error"></div></td>
             </tr>        
             <tr>
-                <td class='form1'>City:  <span class="required">*</span></td>
+                <td class='form1'>都道府県:  <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$cities item=city}
@@ -97,44 +97,44 @@
                 </td>
             </tr>      
             <tr>
-                <td class='form1'>District:  <span class="required">*</span></td>
+                <td class='form1'>市区町村:  <span class="required">*</span></td>
                 <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 351px;">                       
 
                     </select><div id="error_district_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Street:  <span class="required">*</span></td>
+                <td class='form1'>大字・通称:  <span class="required">*</span></td>
                 <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_street_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Ward:  <span class="required">*</span></td>
+                <td class='form1'>字・丁目:  <span class="required">*</span></td>
                 <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_ward_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>House Number:</td>
+                <td class='form1'>番地: </td>
                 <td class='form2'><input type='text' class='text' name='broker_company_address' id='broker_company_address' value="{$broker_company_address}"  style="height:26px; width: 351px;"><div id="broker_company_address_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Phone Number: <span class="required">*</span></td>
+                <td class='form1'>電話番号: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='broker_company_phone' id='broker_company_phone' value="{$broker_company_phone}" style="height:26px; width: 351px;"><div id="broker_company_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Email: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='broker_company_email' id='broker_company_email' value="{$broker_company_email}"  style="height:26px; width: 351px;"><div id="broker_company_email_error"class="error"></div></td>
+                <td class='form1'>Eメール: <span class="required">*</span></td>
+                <td class='form2'><input type='email' class='text' name='broker_company_email' id='broker_company_email' value="{$broker_company_email}"  style="height:26px; width: 351px;"><div id="broker_company_email_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Fax: </td>
+                <td class='form1'>ファックス: </td>
                 <td class='form2'><input type='text' class='text' name='broker_company_fax' id='broker_company_fax' value="{$broker_company_fax}"  style="height:26px; width: 351px;"><div id="broker_company_fax_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Person In Charge: </td>
+                <td class='form1'>担当者: </td>
                 <td class='form2'><input type='text' class='text' name='broker_company_undertake' id='broker_company_undertake' value="{$broker_company_undertake}"  style="height:26px; width: 351px;"><div id="broker_company_undertake_error"class="error"></div></td>
             </tr>
             <tr>
@@ -142,7 +142,7 @@
                 <td class='form2'>
                     <div style="margin-top:10px">
                         <input type='submit' class='btn-search' value='Change' id="submit" name="submit"/>&nbsp;  &nbsp; 
-                        <input type='button' class='btn-search' value='Back' id="back" name="back" onclick="back();"/>&nbsp;  
+                        <input type='button' class='btn-search' value='戻る' id="back" name="back" onclick="back();"/>&nbsp;  
                         <input type='hidden'  value='{$broker_id}' id="broker_id" name="broker_id"/>                   
                     </div>
                 </td>
