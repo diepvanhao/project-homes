@@ -987,6 +987,22 @@ class HOMEUser {
             return null;
         }
     }
+    
+    public function getUserTarget($user_id = 0){
+        if(empty($user_id)){
+            return null;
+        }
+        global $database;
+        $select = "SELECT t.target ,DATE_FORMAT(t.create_date ,'%m-%Y') as date  FROM home_user_target AS t 
+                 WHERE t.user_id = {$user_id} AND DATE_FORMAT(t.create_date ,'%Y') = '" . date('Y') . "'
+                 ORDER BY t.create_date ASC";
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
 
 }
 

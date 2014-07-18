@@ -42,6 +42,19 @@
                 <span>{$account.user_position}</span>
             </li>
         </ul>
+        {if $targets}
+            <div class="house-title">
+                <span>Target</span>
+            </div>
+            <ul class="house-info">
+                {foreach from=$targets key=k item=target}
+                    <li>
+                        <strong>{$target.date}</strong>
+                        <span>{money_format('%(#10n',$target.target)} 円</span>
+                    </li>
+                {/foreach}
+            </ul>
+        {/if}
         {if $agent}
             <div class="house-title">
                 <span>Agent Information</span>
