@@ -1,15 +1,15 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Room</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">部屋管理</div>
 <center>
     <div style="width: 100%;">
         <div>
             <form action="manage_room.php" method="post">
                 <table style="">
                     <tr>
-                        <td style='font-size: 1.4em;font-weight: bold;'>Search</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter room number to search" style="height:26px; width: 190px;"/>
+                        <td style='font-size: 1.4em;font-weight: bold;'>検索</td>
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には号室、物件名、管理会社を入力します。" style="height:26px; width: 270px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='Submit' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -20,16 +20,16 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Room Number</th>
-                        <th>House Name</th> 
-                        <th>Broker Company</th>   
-                        <th>Room Type</th>
-                        <th>Room Status</th>
+                        <th>番号</th>
+                        <th>号室</th>
+                        <th>物件名</th> 
+                        <th>管理会社</th>   
+                        <th>間取り</th>
+                        <th>現況</th>
                         <th>Room Rent</th>
-                        <th>Room Size</th>                        
-                        <th>Room Deposit</th>                                                                                                                                                         
-                        <th>Action</th>
+                        <th>面積</th>                        
+                        <th>敷金・保証金</th>                                                                                                                                                         
+                        <th>活動</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,18 +42,18 @@
                             <td>{$room.house_name}</td>
                             <td>{$room.broker_company_name}</td>
                             <td>{$room.room_type}</td>
-                            <td>{if $room.room_status eq 1}For Rent {elseif $room.room_status eq 2}Constructing{else} Empty {/if}</td>                           
+                            <td>{if $room.room_status eq 1}賃貸中 {elseif $room.room_status eq 2}未完成{else} 空家 {/if}</td>                           
                             <td>{$room.room_rent}</td>                           
                             <td>{$room.room_size}</td>
                             <td>{$room.room_deposit}</td>                           
-                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$room.id},{$room.broker_id},{$room.house_id})" style="margin: 0% 10% 0% 10%;">Delete</a><a href="room_detail.php?url={$add|base64_encode}">Detail</a></td>
+                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$room.id},{$room.broker_id},{$room.house_id})" style="margin: 0% 10% 0% 10%;">削除</a><a href="room_detail.php?url={$add|base64_encode}">詳細</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
             </table>
         </div>
         <center>
-            Page:
+            ページ:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_room.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}

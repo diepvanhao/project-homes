@@ -4,7 +4,7 @@
     <div style="color: red;padding-left: 2%;">
         Sorry your accout was locked :(
     </div>
-    <div style="padding: 20px 0px 20px 2%;">Please contact manager or admin for detail !!</div>
+    <div style="padding: 20px 0px 20px 2%;">詳細は管理者またはマネジャーにお問い合わせください。 !!</div>
     
 </div>
 

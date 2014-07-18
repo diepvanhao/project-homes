@@ -83,16 +83,16 @@
     <form action="edit_agent.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Agent Name: <span class="required">*</span></td>
+                <td class='form1'>店舗名: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='agent_name' id='agent_name' value="{$agent_name}"  style="height:26px; width: 351px;"><div id="agent_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Email: </td>
-                <td class='form2'><input type='text' class='text' name='agent_email' id='agent_email' value="{$agent_email}"  style="height:26px; width: 351px;"><div id="agent_email_error"class="error"></div></td>
+                <td class='form1'>Eメール: <span class="required">*</span></td>
+                <td class='form2'><input type='email' class='text' name='agent_email' id='agent_email' value="{$agent_email}"  style="height:26px; width: 351px;"><div id="agent_email_error"class="error"></div></td>
             </tr>
 
             <tr>
-                <td class='form1'>City:  <span class="required">*</span></td>
+                <td class='form1'>都道府県:  <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$cities item=city}
@@ -102,36 +102,36 @@
                 </td>
             </tr>      
             <tr>
-                <td class='form1'>District:  <span class="required">*</span></td>
+                <td class='form1'>市区町村:  <span class="required">*</span></td>
                 <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 351px;">                       
 
                     </select><div id="error_district_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Street:  <span class="required">*</span></td>
+                <td class='form1'>大字・通称:  <span class="required">*</span></td>
                 <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_street_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Ward:  <span class="required">*</span></td>
+                <td class='form1'>字・丁目:  <span class="required">*</span></td>
                 <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_ward_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>House Number: </td>
+                <td class='form1'>番地: </td>
                 <td class='form2'><input type='text' class='text' name='agent_address' id='agent_address' value="{$agent_address}" style="height:26px; width: 351px;"><div id="agent_address_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Phone Number: <span class="required">*</span></td>
+                <td class='form1'>電話番号: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='agent_phone' id='agent_phone' value="{$agent_phone}" maxlength='70' style="height:26px; width: 351px;"><div id="agent_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Fax: </td>
+                <td class='form1'>ファックス: </td>
                 <td class='form2'><input type='text' class='text' name='agent_fax' id='agent_fax' value="{$agent_fax}" maxlength='70' style="height:26px; width: 351px;"><div id="agent_fax_error"class="error"></div></td>
             </tr>
             <tr>
@@ -139,7 +139,7 @@
                 <td class='form2'>
                     <div style="margin-top:10px">
                         <input type='submit' class='btn-search' value='Change' id="submit" name="submit"/>&nbsp;  &nbsp; 
-                        <input type='button' class='btn-search' value='Back' id="back" name="back" onclick="back();"/>&nbsp;  
+                        <input type='button' class='btn-search' value='戻る' id="back" name="back" onclick="back();"/>&nbsp;  
                         <input type='hidden'  value='{$agent_id}' id="agent_id" name="agent_id"/>                   
                     </div>
                 </td>

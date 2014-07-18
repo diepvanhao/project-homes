@@ -1,6 +1,6 @@
 {include file="header_global.tpl"}
 {if $url_page  eq 'user_login.php' }
-<div style="margin: 50px 0px 0px 480px;background-color: #F1F5FE;width: 50%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px;">Sign In</div>
+<div style="margin: 50px 0px 0px 480px;background-color: #F1F5FE;width: 50%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px;">サインイン</div>
 
 {/if}
     <div id="site_content">
@@ -45,7 +45,7 @@
                                     {/if}
                                 </div>
                                 <br>
-                                おいでやす！, <a target="_top" href="./user_profile.php"> {$user->user_info.user_fname} {$user->user_info.user_lname}</a>
+                                Welcome, <a target="_top" href="./user_profile.php"> {$user->user_info.user_fname} {$user->user_info.user_lname}</a>
                                 &nbsp;&nbsp;<br><br>
 
                                 <a target="_top" href="help.php">ご質問・ご要望</a>&nbsp;&nbsp;
