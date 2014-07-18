@@ -47,10 +47,20 @@ if (isset($content[1])) {
 }
 $house = new HOMEHouse();
 $detail = new HOMEDetail();
+
 $room = $detail->getRoomDetail($id);
+$housedetail = $house->getHouseById($room['house_id']);
+$house_address_serialize = unserialize($housedetail['house_address']);
+$city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+$district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+$street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+$ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+$house_address = $house_address_serialize['house_address'];
+
 $smarty->assign('room', $room);    
-$smarty->assign('house', $house->getHouseById($room['house_id']));    
+$smarty->assign('house', $housedetail);    
 $smarty->assign('brokers', $detail->getBrokers($id, $room['house_id']));    
+$smarty->assign('address', $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $house_address);    
 
 
 include "footer.php";

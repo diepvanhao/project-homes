@@ -15,7 +15,7 @@
             </li>
             <li>
                 <strong>Address : </strong>
-                <span>{$house.house_address}</span>
+                <span>{$address}</span>
             </li>
             <li>
                 <strong>Area : </strong>
