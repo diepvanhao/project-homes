@@ -80,8 +80,8 @@
                             <li><a href="#">連絡先</a></li> 
                             <li><a href="#">Schedule</a>
                                 <ul>
-                                    <li><a href="google_calendar.php">Individual</a></li>
-                                    <li><a href="general_calendar.php">General</a></li>                                                                                                            
+                                    <li><a href="google_calendar.php">個人</a></li>
+                                    <li><a href="general_calendar.php">一般</a></li>                                                                                                            
                                 </ul>
                             </li>
                         </ul>
