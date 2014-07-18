@@ -2,7 +2,7 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>Import Address</h3>
+        <h3>住所をインポートします</h3>
     </div>
     <div class="report-filter">
         <form method="POST" enctype="multipart/form-data">
@@ -10,7 +10,7 @@
                 <tbody>
                     <tr>
                         <td class="form1">
-                            Select CSV file:
+                            CSVファイルを選択してください。:
                         </td>
                         <td class="form2">
                             <input type="file" name="csv"/>
