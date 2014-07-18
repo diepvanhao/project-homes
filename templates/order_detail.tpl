@@ -19,7 +19,7 @@
             </li>
             <li>
                 <strong>Status : </strong>
-                <span>{$order.order_status}</span>
+                <span>{$status}</span>
             </li>
             <li>
                 <strong>Comment : </strong>
@@ -45,7 +45,7 @@
                 </li>
                 <li>
                     <strong>Type : </strong>
-                    <span>{$room.room_type}</span>
+                    <span>{$room.room_name}</span>
                 </li>
                 <li>
                     <strong>Size : </strong>
@@ -92,7 +92,7 @@
                 </li>
                 <li>
                     <strong>Type : </strong>
-                    <span>{$house.house_type}</span>
+                    <span>{$house_type}</span>
                 </li>
                 <li>
                     <strong>Description : </strong>
