@@ -9,7 +9,9 @@ include "header.php";
 $page = "user_account";
 $error = null;
 $result = FALSE;
+//var_dump($user);die();
 //check user login
+
 if (!$user->user_exists) {
 
     header('Location: ./user_login.php');
@@ -282,7 +284,7 @@ if (isset($_POST['submit'])) {
         $userClass = new HOMEUser();
         $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year);
         if ($result) {
-            header("Location: notify.php?content=Sign Up Success!!!&url_return=user_account.php");
+            header("Location: notify.php?content=サインアップ ～は成功に作成されました。!!!&url_return=user_account.php");
         }
     }
 }

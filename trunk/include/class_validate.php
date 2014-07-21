@@ -18,103 +18,103 @@ class HOMEValidate {
                         $this->checkEmail($val);
                         break;
                     case('username'):
-                        $this->checkEmpty('Username', $val);
+                        $this->checkEmpty('ユーザー', $val);
                         break;
                     case('firstname'):
-                        $this->checkEmpty('First name', $val);
+                        $this->checkEmpty('名前', $val);
                         break;
                     case('lastname'):
-                        $this->checkEmpty('Last name', $val);
+                        $this->checkEmpty('名字', $val);
                         break;
                     case('address'):
-                        $this->checkEmpty('Address', $val);
+                        $this->checkEmpty('住所', $val);
                         break;
                     case ('password'):
                         $this->checkPassword($val);
                         break;
                     case('agent_name'):
-                        $this->checkEmpty('Agent name', $val);
+                        $this->checkEmpty('店舗名', $val);
                         break;
                     case('agent_address'):
-                        $this->checkEmpty('Number address', $val);
+                        $this->checkEmpty('住所', $val);
                         break;
                     case('agent_phone'):
-                        $this->checkEmpty('Agent phone number', $val);
+                        $this->checkEmpty('店舗の電話番号', $val);
                         break;
                     case('agent_email'):
                         $this->checkEmailAgent($val);
                         break;
                     case('house_name'):
-                        $this->checkEmpty('House name', $val);
+                        $this->checkEmpty('物件名', $val);
                         break;
                     case('house_address'):
-                        $this->checkEmpty('House number', $val);
+                        $this->checkEmpty('番地', $val);
                         break;
                     case('house_size'):
                         $this->checkEmpty('House size', $val);
                         break;
                     case('house_area'):
-                        $this->checkEmpty('House area', $val);
+                        $this->checkEmpty('エリア', $val);
                         break;
                     case('house_original_price'):
                         $this->checkEmpty('House price', $val);
                         break;
                     case('house_owner_name'):
-                        $this->checkEmpty('House owner name', $val);
+                        $this->checkEmpty('オーナー名', $val);
                         break;
                     case("broker_company_name"):
-                        $this->checkEmpty('Broker company name', $val);
+                        $this->checkEmpty('管理会社', $val);
                         break;
                     case('broker_company_address'):
-                        $this->checkEmpty('House number', $val);
+                        $this->checkEmpty('番地', $val);
                         break;
                     case('broker_company_phone'):
-                        $this->checkEmpty('Phone number', $val);
+                        $this->checkEmpty('電話番号', $val);
                         break;
                     case('broker_company_email'):
                         $this->checkEmailBroker($val);
                         break;
                     case("room_number"):
-                        $this->checkEmpty('Room number', $val);
+                        $this->checkEmpty('部屋番号', $val);
                         break;
                     case("room_type"):
-                        $this->checkEmpty('Room type', $val);
+                        $this->checkEmpty('間取り', $val);
                         break;
                     case("room_size"):
-                        $this->checkEmpty('Room size', $val);
+                        $this->checkEmpty('面積', $val);
                         break;
                     case("room_rent"):
-                        $this->checkEmpty('Room rent', $val);
+                        $this->checkEmpty('賃料', $val);
                         break;
                      case("house_id"):
-                        $this->checkEmpty('Select house', $val);
+                        $this->checkEmpty('物件名を選択してください。', $val);
                         break;
                      case("broker_id"):
-                        $this->checkEmpty('Broker company', $val);
+                        $this->checkEmpty('管理会社', $val);
                         break;
                     case("source_name"):
-                        $this->checkEmpty('Source name', $val);
+                        $this->checkEmpty('媒体', $val);
                         break;
                     case("city_name"):
-                        $this->checkEmpty('City name', $val);
+                        $this->checkEmpty('都道府県', $val);
                         break;
                     case("district_name"):
-                        $this->checkEmpty('District name', $val);
+                        $this->checkEmpty('市区町村', $val);
                         break;
                     case("city_id"):
-                        $this->checkEmpty('City', $val);
+                        $this->checkEmpty('都道府県', $val);
                         break;
                     case("street_name"):
-                        $this->checkEmpty('Street name', $val);
+                        $this->checkEmpty('大字・通称', $val);
                         break;
                     case("district_id"):
-                        $this->checkEmpty('District', $val);
+                        $this->checkEmpty('市区町村', $val);
                         break;
                     case("ward_name"):
-                        $this->checkEmpty('Ward name', $val);
+                        $this->checkEmpty('字・丁目', $val);
                         break;
                     case("street_id"):
-                        $this->checkEmpty('Street', $val);
+                        $this->checkEmpty('大字・通称', $val);
                         break;
                     default :
                         break;
@@ -148,11 +148,11 @@ class HOMEValidate {
     }
 
     function checkEmpty($key, $val) {
-        if (!empty($val) && $key == 'Username') {
+        if (!empty($val) && $key == 'ユーザー') {
             global $database;
             $username = trim($val['username']);
             if (empty($username))
-                $this->error[] = $key . " is required";
+                $this->error[] = $key . " が必要です。";
             else {
                 $query = "select * from home_user where user_username='{$username}'";
                 if (isset($val['user_id']) && !empty($val['user_id']))
@@ -160,12 +160,12 @@ class HOMEValidate {
 
                 $result = $database->database_query($query);
                 if ($database->database_num_rows($result)) {
-                    $this->error[] = $key . " in use. Please enter a new username.";
+                    $this->error[] = $key . " in used. Please enter a new username.";
                 }
             }
         }elseif($key !='Username'){
             if(empty($val))
-                $this->error[] = $key . " is required";
+                $this->error[] = $key . " が必要です。";
         }
     }
 
@@ -184,7 +184,7 @@ class HOMEValidate {
 // MAKE SURE BOTH PASSWORDS ARE IDENTICAL
 
         if ($password['pass'] != $password['confirm_pass']) {
-            $this->error[] = "Passwords do not match";
+            $this->error[] = "パスワードは不正です。";
             return;
         }
 
@@ -192,7 +192,7 @@ class HOMEValidate {
 // MAKE SURE PASSWORD IS LONGER THAN 5 CHARS
 
         if (trim($password['pass']) && strlen($password['pass']) < 6) {
-            $this->error[] = "Password 6 characters minimum ";
+            $this->error[] = "パスワードはミニマム6字で";
             return;
         }
 

@@ -26,7 +26,7 @@ if (isset($_POST['email'])) {
 
 if (isset($_POST['submit'])) {
     $userClass = new HOMEUser();
-    $error = $userClass->user_login($email, $password);
+    $error = $userClass->user_login($email, $password,0);
 }
 if(empty($error['error'])&&$error['login']){
     $smarty->clearCache();

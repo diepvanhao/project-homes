@@ -1,5 +1,5 @@
 {include file='header_global.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">General Schedule</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">一般</div>
 {literal}
     <style>
         #sidebar_container{
@@ -7,6 +7,10 @@
         }
         .content{
             width: 100%;
+        }
+        #calendar{
+            float: right;
+            width: 79%;
         }
         #schedule_title{
             text-align: center;
@@ -211,21 +215,21 @@
 {/literal}
 <div id="wrapper">   
     <div id="sidebar_schedule">
-        <div id="schedule_title">Intended</div>
+        <div id="schedule_title">予定</div>
         <ul>
-            <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">Signature day</label></li>
-            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">Handover day</label></li>
-            <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">Payment day</label></li>
-            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">Appointment day</label></li>
+            <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">契約日</label></li>
+            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡し日</label></li>
+            <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">入金日</label></li>
+            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">来店日</label></li>
             <!--<li><input type="checkbox" id="other" name="other"/><label for="other">Other</label></li>-->
-            <li><input type="checkbox" id="period" name="period"/><label for="period">Period to</label></li>
-            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">Birthday</label></li>
+            <li><input type="checkbox" id="period" name="period"/><label for="period">期間</label></li>
+            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">生年月日</label></li>
             <!--<li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">Create new</label></li>   -->
         </ul>
-        <div id="schedule_title">Group</div>
+        <div id="schedule_title">グループ</div>
         <ul>
-            <li><input type="checkbox" id="all_agent" name="all_agent"/><label for="all_agent">All agent</label></li>
-            <li><lable>Agent:
+            <li style="display:none;"><input type="checkbox" id="all_agent" name="all_agent"/><label for="all_agent">All agent</label></li>
+            <li><lable>店舗:
                 <select id="agent_id"name="agent_id" style="width:98%;height: 25px;">
                     <option value=""></option>
                     {foreach from=$agents item=agent}
@@ -234,16 +238,16 @@
                 </select></lable>
             </li>
             <li>
-                <label>Positon:
+                <label>役職:
                     <select id="position" name="position" style="width:98%;height: 25px; ">
                         <option value=""></option>
-                        <option value="2">Super Manager</option>
-                        <option value="3">Manager</option>
-                        <option value="4">Staff</option>
+                        <option value="2">スーパーマネージャー</option>
+                        <option value="3">マネージャー</option>
+                        <option value="4">スタッフ</option>
                     </select>
                 </label>
             </li>
-            <li><label>Assign:
+            <li><label>担当:
                     <select id="assign_id" name="assign_id" style="width:98%;height: 25px;">
                         <option value=""></option>
                         {foreach from=$staffs item=staff}
@@ -254,12 +258,12 @@
                 </label>
             </li>
             <li>
-                <label>Date start:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
-                <label>Date end:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>～日から:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>～日まで:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
             <li>
-                <label>Expire from:<input type="text" title="For period" id="expire_from" name="expire_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
-                <label>Expire to:<input type="text" title="For period" id="expire_to" name="expire_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>満期から:<input type="text" title="For period" id="expire_from" name="expire_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>満期まで:<input type="text" title="For period" id="expire_to" name="expire_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
         </ul>
     </div>   
@@ -267,16 +271,16 @@
         <table style="width: 100%;">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Agent</th>
-                    <th>Position</th>
-                    <th>Person in charge</th>
-                    <th>Date from</th>
-                    <th>Date to</th>
-                    <th>Time</th>
-                    <th>Event name</th>
-                    <th>Customer name</th>
-                    <th>Link</th>                    
+                    <th>番号</th>
+                    <th>店舗</th>
+                    <th>役職</th>
+                    <th>担当者</th>
+                    <th>期間から</th>
+                    <th>期間まで</th>
+                    <th>時間</th>
+                    <th>エベント名</th>
+                    <th>顧客名</th>
+                    <th>リンク</th>                    
                 </tr>
             </thead>
             <tbody>    
@@ -293,7 +297,7 @@
                         <td>{$event.time}</td>                           
                         <td>{$event.title}</td>
                         <td>{$event.customer}</td>
-                        <td><a href="order_detail.php?url={$detail|base64_encode}">Detail</a></td>
+                        <td><a href="order_detail.php?url={$detail|base64_encode}">詳細</a></td>
                     </tr>
                 {/foreach}
 

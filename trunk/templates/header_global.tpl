@@ -78,7 +78,7 @@
                                 </ul>
                             </li>
                             <li><a href="#">連絡先</a></li> 
-                            <li><a href="#">Schedule</a>
+                            <li><a href="#">スケジュール</a>
                                 <ul>
                                     <li><a href="google_calendar.php">個人</a></li>
                                     <li><a href="general_calendar.php">一般</a></li>                                                                                                            

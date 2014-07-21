@@ -63,7 +63,7 @@
 {literal}
     <script type="text/javascript">
         function deleteItem(id, broker_id, house_id) {
-            if (confirm("Are you sure?")) {
+            if (confirm("確かですか?")) {
                 $.post("include/function_ajax.php", {id: id, broker_id: broker_id, house_id: house_id, action: 'deleteRoom'},
                 function(result) {
                     if (result)

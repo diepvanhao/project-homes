@@ -757,7 +757,7 @@ if (isset($_POST['save'])) {
             $client_id = $result['id'];
             $exist = $result['exist'];
             if ($exist)
-                $error[] = "This client existed and the system auto fill in information :)";
+                $error[] = "";
             else
                 $error[] = "";
             $client_arr = $result['client_arr'];

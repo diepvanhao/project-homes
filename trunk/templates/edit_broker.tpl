@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">Edit Broker Company</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">管理会社編集</div>
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -141,7 +141,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-search' value='Change' id="submit" name="submit"/>&nbsp;  &nbsp; 
+                        <input type='submit' class='btn-search' value='変更' id="submit" name="submit"/>&nbsp;  &nbsp; 
                         <input type='button' class='btn-search' value='戻る' id="back" name="back" onclick="back();"/>&nbsp;  
                         <input type='hidden'  value='{$broker_id}' id="broker_id" name="broker_id"/>                   
                     </div>

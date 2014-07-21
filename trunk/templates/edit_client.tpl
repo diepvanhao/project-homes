@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Edit Client</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">顧客情報編集</div>
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -196,7 +196,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-search' value='Change' id="submit" name="submit"/>&nbsp;         
+                        <input type='submit' class='btn-search' value='変更' id="submit" name="submit"/>&nbsp;         
                         <a  href="manage_client.php"><button class='btn-search' type="button">戻る</button></a> 
                     </div>
                 </td>

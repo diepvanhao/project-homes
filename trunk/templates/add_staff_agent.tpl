@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">Assign Staff To Agent</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">店舗にスタッフを負担します</div>
 {nocache}
     {if $error|@count gt 0}
         {foreach from=$error item=val}
@@ -19,27 +19,27 @@
     <form action="add_staff_agent.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Agent Name:</td>
+                <td class='form1'>店舗名:</td>
                 <td class='form2'><input type='text'  value="{$agent_name}"  style="height:26px; width: 351px;"disabled></td>
             </tr>
             <tr>
-                <td class='form1'>Email: </td>
+                <td class='form1'>Eメール: </td>
                 <td class='form2'><input type='text' value="{$agent_email}"  style="height:26px; width: 351px;" disabled></td>
             </tr>
             <tr>
-                <td class='form1'>Address: </td>
+                <td class='form1'>番地: </td>
                 <td class='form2'><input type='text'  value="{$agent_address}" style="height:26px; width: 351px;"disabled></td>
             </tr>
             <tr>
-                <td class='form1'>Phone Number: </td>
+                <td class='form1'>電話番号: </td>
                 <td class='form2'><input type='text'  value="{$agent_phone}" maxlength='70' style="height:26px; width: 351px;"disabled></td>
             </tr>
             <tr>
-                <td class='form1'>Fax: </td>
+                <td class='form1'>ファックス: </td>
                 <td class='form2'><input type='text'  value="{$agent_fax}" maxlength='70' style="height:26px; width: 351px;"disabled></td>
             </tr>
             <tr>
-                <td class='form1'>Assign to: </td>
+                <td class='form1'>担当: </td>
                 <td class='form2'>
                     <select id="staff_id" name="staff_id" style="height:26px; width: 351px;">
                         {foreach from=$users item=user}
@@ -52,8 +52,8 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-search' value='Assign' id="submit" name="submit"/>&nbsp;  &nbsp; 
-                        <input type='button' class='btn-search' value='Back' id="back" name="back" onclick="back();"/>&nbsp;  
+                        <input type='submit' class='btn-search' value='担当' id="submit" name="submit"/>&nbsp;  &nbsp; 
+                        <input type='button' class='btn-search' value='戻る' id="back" name="back" onclick="back();"/>&nbsp;  
                         <input type='hidden'  value='{$agent_id}' id="agent_id" name="agent_id"/>               
                         <input type='hidden'  name='agent_name' id='agent_name' value="{$agent_name}"/>
                         <input type='hidden'  name='agent_email' id='agent_email' value="{$agent_email}"/>
