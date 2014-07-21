@@ -16,7 +16,7 @@
                 <tbody>
                     <tr>
                         <td class="form1">
-                            Select Agent:
+                            店舗:
                         </td>
                         <td class="form2">
                             <select id="agent_id" name="agent_id" style="height:26px; width: 251px;">
@@ -86,8 +86,8 @@
                 <th>紹介</th>
                 <th>呼</th>
                 <th>呼</th>
-                <th>呼率</th>
-                <th>呼率</th>
+                <th>コールの割合</th>
+                <th>メールの割合</th>
                 <th>呼実</th>
                 <th>呼率</th>
                 <th>反響</th>
@@ -458,7 +458,7 @@
                         4
                     </td>
                     <td rowspan="2">
-                        Local sign
+                        ローカルののサイン
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todaylocalsign_mail + $yearReport.todaylocalsign_tel)}</td>
@@ -514,7 +514,7 @@
                         6
                     </td>
                     <td rowspan="2">
-                        Shop sign
+                        店看板				
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todayshopsign_mail + $yearReport.todayshopsign_tel)}</td>
@@ -542,7 +542,7 @@
                         7
                     </td>
                     <td rowspan="2">
-                        Local Flyers
+                        チラシ
                     </td>
                     <td>当日</td>
                     <td>{(int)($yearReport.todayflyer_mail + $yearReport.todayflyer_tel)}</td>
@@ -570,7 +570,7 @@
                         8
                     </td>
                     <td rowspan="2">
-                        Line
+                        ライン
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todayline_mail + $yearReport.todayline_tel)}</td>
@@ -603,7 +603,7 @@
         <table>
             <tr>
                 <th></th>
-                <th></th>
+                <th>会社名</th>
                 <th>累計</th>
                 <th>反響</th>
                 <th>呼実</th>
