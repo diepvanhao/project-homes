@@ -50,7 +50,7 @@
                                     <option value="{$user->user_info.id}">{$user->user_info.user_fname} {$user->user_info.user_lname}</option>                                           
                                 </select>
                                 {/if}</td>                                                                     
-                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">登録</a>{/if}{if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
+                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">登録</a>{/if}{if (($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)and ($order.user_id ne 0))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
                             </tr>
                             {/foreach}
                             </tbody> 
@@ -67,7 +67,7 @@
             {literal}
                 <script type="text/javascript">
                     function deleteItem(id) {
-                        if (confirm("Are you sure?")) {
+                        if (confirm("確かですか?")) {
                             $.post("include/function_ajax.php", {house_id: id, action: 'deleteHouse'},
                             function(result) {
                                 if (result)

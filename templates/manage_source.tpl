@@ -49,7 +49,7 @@
 {literal}
     <script type="text/javascript">
         function deleteItem(id) {
-            if (confirm("Are you sure?")) {
+            if (confirm("確かですか?")) {
                  $.post("include/function_ajax.php", {source_id:id, action: 'deleteSource'},
                     function(result) {
                         if(result)

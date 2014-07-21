@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">Add Room To Broker</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">部屋番号を管理会社管理に追加します</div>
 {nocache}
     {if $error|@count gt 0}
         {foreach from=$error item=val}
@@ -12,36 +12,36 @@
     <form action="add_house_broker.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Name: </td>
+                <td class='form1'>名称: </td>
                 <td class='form2'><input type='text'  value="{$broker_company_name}"  style="height:26px; width: 351px;" disabled><div id="broker_company_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Address: </td>
+                <td class='form1'>住所: </td>
                 <td class='form2'><input type='text' value="{$broker_company_address}"  style="height:26px; width: 351px;"disabled><div id="broker_company_address_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Phone Number: </td>
+                <td class='form1'>電話番号: </td>
                 <td class='form2'><input type='text'  value="{$broker_company_phone}" style="height:26px; width: 351px;"disabled><div id="broker_company_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Email: </td>
+                <td class='form1'>Eメール: </td>
                 <td class='form2'><input type='text'  value="{$broker_company_email}"  style="height:26px; width: 351px;"disabled><div id="broker_company_email_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Fax: </td>
+                <td class='form1'>ファックス: </td>
                 <td class='form2'><input type='text'  value="{$broker_company_fax}"  style="height:26px; width: 351px;"disabled><div id="broker_company_fax_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Person In Charge: </td>
+                <td class='form1'>担当者: </td>
                 <td class='form2'><input type='text'  value="{$broker_company_undertake}"  style="height:26px; width: 351px;"disabled><div id="broker_company_undertake_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class="form1">Filter House</td>
+                <td class="form1">物件フィルター</td>
                 <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>Select House: </td>
+                <td class='form1'>物件名を選択してください。: </td>
                 <td class='form2'>
                     <select id="house_id" name="house_id" style="height:26px; width: 351px;">
                         <option value=""></option>
@@ -52,14 +52,14 @@
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>Description House: </td>
+                <td class='form1'>備考: </td>
                 <td class='form2'><textarea style="width: 340px;height: 129px;"  id="house_description" name="house_description">{$house_description}</textarea></td>
             </tr>
             <tr>            
-                <td colspan="2"><div>If not house that you want. You can add new house by link <a href="./create_house.php">Create House</a></div></td>
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_house.php">物件登録</a></div></td>
             </tr>
             <tr>            
-                <td class='form1'>Select Room: </td>
+                <td class='form1'>部屋選択: </td>
                 <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 351px;">
                         <option value=""></option>
 
@@ -70,8 +70,8 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-search' value='Add' id="submit" name="submit"/>&nbsp;  &nbsp; 
-                        <input type='button' class='btn-search' value='Back' id="back" name="back" onclick="back();"/>&nbsp;  
+                        <input type='submit' class='btn-search' value='加える' id="submit" name="submit"/>&nbsp;  &nbsp; 
+                        <input type='button' class='btn-search' value='戻る' id="back" name="back" onclick="back();"/>&nbsp;  
                         <input type='hidden'  value='{$broker_id}' id="broker_id" name="broker_id"/>                                       
                         <input type='hidden'  name='broker_company_name' id='broker_company_name' value="{$broker_company_name}"/>
                         <input type='hidden'  name='broker_company_address' id='broker_company_address' value="{$broker_company_address}"/>

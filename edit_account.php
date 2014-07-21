@@ -312,7 +312,7 @@ if (isset($_POST['submit'])) {
         $account = new HOMEUser();
         $result = $account->update($username, $password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target, $agent, $user_id);
         if ($result) {
-            $notify = "Update success !!!";
+            $notify = "アップデート成功 !!!";
             $result = $account->getAccountById($user_id);
             if (!empty($result)) {
                 $user_id = $result['id'];

@@ -554,7 +554,7 @@
                         var name = $('#client_name').val();
                         var phone = $('#client_phone').val();
                         if (name == "" || phone == "") {
-                            $('#error_validate').html(' Note: fill Name and Phone number fields !!!');
+                            $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
                             e.preventDefault();
 
                         }
@@ -726,9 +726,9 @@
                         $('#error_introduce_house_id').html('');
                         $('#error_introduce_room_id').html('');
                         if (house_id == "")
-                            $('#error_introduce_house_id').html('Please choose house.');
+                            $('#error_introduce_house_id').html('物件ををご選択ください。.');
                         else if (room_id == "") {
-                            $('#error_introduce_room_id').html('Please choose room.');
+                            $('#error_introduce_room_id').html('お部屋をご選択ください。.');
                         } else {
                             $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, introduce_house_content: house_description,
                                 client_id: client_id, order_id: order_id, action: 'customer', task: 'introduce'},
@@ -830,7 +830,7 @@
                         //validate
                         if (partner_id.length > 0) {
                             if (partner_percent == "") {
-                                $('#error_partner_id').html('How many pertcent for this partner ?');
+                                $('#error_partner_id').html('この人は何パーセントがやりましたか。 ?');
                                 return false;
                             }
                         }
@@ -1403,7 +1403,7 @@
                         <input type='submit' class='btn-search' value='送信' id="search" name="submit"/>&nbsp;                     
                     </span>
                 </td>
-            <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="Done" id="done" name="done"class='btn-search'/></div>
+            <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
             </tr>
         </table>
     </form>
@@ -1620,8 +1620,8 @@
                         </td>
                         <td class='form1' nowrap>予約現況:</td>
                         <td class='form2'>
-                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">No</label>
+                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">はい。</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">いいえ。</label>
                         </td>
                     </tr>
                     <tr>
@@ -1761,7 +1761,7 @@
                     <tr>
                         <td class="form1">物件フィルタ</td>
                         <td class="form2">
-                            <input type="text" id="search_house" name="search_house" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 215px;"/>                            
+                            <input type="text" id="search_house" name="search_house" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>                            
                         </td>
                     </tr>
                     <tr>            
@@ -1874,8 +1874,8 @@
                         <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap>支払い状況:</td>
                         <td class='form2'>
-                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">No</label>
+                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
                         </td>
                     </tr>
                     <tr>
@@ -1885,8 +1885,8 @@
                         </td>
                         <td class='form1' nowrap>支払い状況レポート:</td>
                         <td class='form2'>
-                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">Yes</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">No</label>
+                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
                         </td>
                     </tr>
                     <tr>
@@ -1936,7 +1936,7 @@
                         </td>
                         <td class='form1' nowrap>按分先:</td>
                         <td class='form2'>
-                            <select id="partner_id"name="partner_id" style="height:26px; width: 220px;">
+                            <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
                                 <option value=""></option>
                                 {foreach from=$partners item=partner}
                                     <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
@@ -1978,7 +1978,7 @@
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                 <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                                 <input type="hidden" id="calculator" name="calculator"/>
-                                <input type="submit" class='btn-signup' value="Export" id="export" name="export" style="width: 100px;"/> 
+                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
                             </div>                        
                         </td>
                     </tr>

@@ -1,6 +1,6 @@
 <?php
 
-include '../header.php';
+include_once '../header.php';
 
 //include 'class_database.php';
 /*
@@ -1056,19 +1056,19 @@ class ajax {
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
                     if ($agent_info && $staff_info) {
-                        if (!empty(trim($expire_from)) && (trim($expire_to) == "" || $expire_to == NULL)) {
+                        if (trim($expire_from)!="" && (trim($expire_to) == "" || $expire_to == NULL)) {
                             if (strtotime($event['end']) >= strtotime($expire_from)) {
                                 $events[] = $event;
                             }
-                        } elseif (!empty(trim($expire_to)) && (trim($expire_from) == "" || $expire_from == NULL)) {
+                        } elseif (trim($expire_to)!="" && (trim($expire_from) == "" || $expire_from == NULL)) {
                             if (strtotime($event['end']) <= strtotime($expire_to)) {
                                 $events[] = $event;
                             }
-                        } elseif (!empty(trim($expire_from)) && !empty(trim($expire_to))) {
+                        } elseif (trim($expire_from)!="" && trim($expire_to)!="") {
                             if ((strtotime($event['end']) >= strtotime($expire_from)) && (strtotime($event['end']) <= strtotime($expire_to))) {
                                 $events[] = $event;
                             }
-                        } elseif (empty(trim($expire_from)) && empty(trim($expire_to))) {
+                        } elseif (trim($expire_from)=="" && trim($expire_to)=="") {
                             $events[] = $event;
                         } else {
                             
@@ -1175,21 +1175,21 @@ class ajax {
         if (empty($filter))
             $filter = $events;
         //  var_dump($filter);
-        if (!empty(trim($date_from)) && (trim($date_to) == "" || $date_to == NULL)) {
+        if (trim($date_from)!="" && (trim($date_to) == "" || $date_to == NULL)) {
 
             for ($i = 0; $i < count($filter); $i++) {
                 if (strtotime($filter[$i]['start']) >= strtotime($date_from)) {
                     $filterDate[] = $filter[$i];
                 }
             }
-        } elseif (!empty(trim($date_to)) && (trim($date_from) == "" || $date_from == NULL)) {
+        } elseif (trim($date_to)!="" && (trim($date_from) == "" || $date_from == NULL)) {
 
             for ($i = 0; $i < count($filter); $i++) {
                 if (strtotime($filter[$i]['start']) <= strtotime($date_to)) {
                     $filterDate[] = $filter[$i];
                 }
             }
-        } elseif (!empty(trim($date_from)) && !empty(trim($date_to))) {
+        } elseif (trim($date_from)!="" && trim($date_to)!="") {
 
             for ($i = 0; $i < count($filter); $i++) {
                 if ((strtotime($filter[$i]['start']) >= strtotime($date_from)) && (strtotime($filter[$i]['start']) <= strtotime($date_to))) {

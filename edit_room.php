@@ -272,7 +272,7 @@ if (isset($_POST['submit'])) {
                 $room_deposit_unit = '円';
             }
         }
-        if (strpos($room_deposit, 'ヵ月') == true) {echo $room_deposit;echo 'alajk;l';
+        if (strpos($room_deposit, 'ヵ月') == true) {
             $room_deposit_unit = explode('ヵ月', $room_deposit);            
             if (isset($room_deposit_unit[0])) {
                 $room_deposit = $room_deposit_unit[0];
