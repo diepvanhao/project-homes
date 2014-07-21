@@ -133,7 +133,7 @@
                             <span>{$broker.broker_company_fax} </span>
                         </li>
                         <li>
-                            <span>引き受ける : </span>
+                            <span>担当者 : </span>
                             <span>{$broker.broker_company_undertake} </span>
                         </li>
                     </ul>
