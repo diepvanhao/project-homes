@@ -36,14 +36,14 @@ if (empty($fromdate)) {
 $error = array();
 if(!empty($post)){
     if(empty($date) || empty($fromdate)){
-        $error[] = "From Date and To Date can not be empty"; 
+        $error[] = "「日から」は「日まで」より大きくすることは禁止です。"; 
     }else{
         $arr = explode('/',$date);
         $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
         $arr = explode('/',$fromdate);
         $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         if($fromtime > $time){
-            $error[] = "From Date can not great than To Date"; 
+            $error[] = "「日から」と「日まで」には空にすることは禁止です。"; 
         }
 //        if($fromdate > time() || $time > time()){
 //            $error[] = "From Date and To Date can not in future"; 

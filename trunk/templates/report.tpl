@@ -16,7 +16,7 @@
                 <tbody>
                     <tr>
                         <td class="form1">
-                            店舗:
+                            店舗を選択します:
                         </td>
                         <td class="form2">
                             <select id="agent_id" name="agent_id" style="height:26px; width: 251px;">
@@ -28,19 +28,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>From Date: </td>
+                        <td class='form1'>この日付から: </td>
                         <td class='form2'><input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
-                        <td class='form1'>To Date: </td>
+                        <td class='form1'>この日付まで: </td>
                         <td class='form2'><input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
                         <td class="form1">&nbsp;</td>
                         <td class="form2">
                             <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="View" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
-                                <input type="submit" class="btn-signup" value="Export" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;  
                             </div>
                         </td>
                     </tr>
@@ -374,7 +374,7 @@
                         1
                     </td>
                     <td rowspan="2">
-                        Internet(e-mail)
+                        インターネット（メール）   
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todaymail_mail + $yearReport.todaymail_tel)}</td>
@@ -402,7 +402,7 @@
                         2
                     </td>
                     <td rowspan="2">
-                        Internet (phone)
+                        インターネット（電話）   
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todayphone_mail + $yearReport.todayphone_tel)}</td>
@@ -430,7 +430,7 @@
                         3
                     </td>
                     <td rowspan="2">
-                        (TEL, email) term building lease
+                        定借(TEL、メール）
                     </td>
                     <td>当日</td>
                     <td>{(int)($yearReport.todaydiscount_mail + $yearReport.todaydiscount_tel)}</td>
