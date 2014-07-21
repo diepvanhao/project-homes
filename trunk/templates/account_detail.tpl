@@ -2,49 +2,49 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>Account Detail</h3>
+        <h3>アカウントの詳細</h3>
     </div>
     {if $account}
         <div class="house-title">
-            <span>Account Information</span>
+            <span>アカウント</span>
         </div>
         <ul class="house-info">
             <li>
-                <strong>User Name : </strong>
+                <strong>ユーザー : </strong>
                 <span>{$account.user_username}</span>
             </li>
             <li>
-                <strong>First Name : </strong>
+                <strong>名前 : </strong>
                 <span>{$account.user_fname}</span>
             </li>
             <li>
-                <strong>Last Name : </strong>
+                <strong>ラストネーム : </strong>
                 <span>{$account.user_lname}</span>
             </li>
             <li>
-                <strong>Email : </strong>
+                <strong>Eメール : </strong>
                 <span>{$account.user_email}</span>
             </li>
             <li>
-                <strong>Phone : </strong>
+                <strong>電話番号 : </strong>
                 <span>{$account.user_phone}</span>
             </li>
             <li>
-                <strong>Gender : </strong>
+                <strong>性別 : </strong>
                 <span>{$account.user_gender}</span>
             </li>
             <li>
-                <strong>Birthday : </strong>
+                <strong>生年月日 : </strong>
                 <span>{$account.user_birthday}</span>
             </li>
             <li>
-                <strong>Position : </strong>
+                <strong>ポジション : </strong>
                 <span>{$account.user_position}</span>
             </li>
         </ul>
         {if $targets}
             <div class="house-title">
-                <span>Target</span>
+                <span>ターゲット</span>
             </div>
             <ul class="house-info">
                 {foreach from=$targets key=k item=target}
@@ -57,27 +57,27 @@
         {/if}
         {if $agent}
             <div class="house-title">
-                <span>Agent Information</span>
+                <span>店舗</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>Name : </strong>
+                    <strong>名称 : </strong>
                     <span>{$agent.agent_name}</span>
                 </li>
                 <li>
-                    <strong>Address : </strong>
+                    <strong>住所 : </strong>
                     <span>{$agent.agent_address}</span>
                 </li>
                 <li>
-                    <strong>Phone : </strong>
+                    <strong>電話番号 : </strong>
                     <span>{$agent.agent_phone}</span>
                 </li>
                 <li>
-                    <strong>Fax : </strong>
+                    <strong>ファックス : </strong>
                     <span>{$agent.agent_email}</span>
                 </li>
                 <li>
-                    <strong>Email : </strong>
+                    <strong>Eメール : </strong>
                     <span>{$agent.agent_email}</span>
                 </li>
             </ul>

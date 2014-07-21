@@ -2,31 +2,31 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>Order Detail</h3>
+        <h3>オーダーの詳細</h3>
     </div>
     {if $order}
         <div class="house-title">
-            <span>Order Information</span>
+            <span>オーダー</span>
         </div>
         <ul class="house-info">
             <li>
-                <strong>Name : </strong>
+                <strong>オーダーID : </strong>
                 <span>{$order.order_name}</span>
             </li>
             <li>
-                <strong>Rent Cost : </strong>
+                <strong>賃料 : </strong>
                 <span>{$order.order_rent_cost}</span>
             </li>
             <li>
-                <strong>Status : </strong>
+                <strong>現況 : </strong>
                 <span>{$status}</span>
             </li>
             <li>
-                <strong>Comment : </strong>
+                <strong>備考 : </strong>
                 <span>{$order.order_comment}</span>
             </li>
             <li>
-                <strong>Creation Date : </strong>
+                <strong>登録日付 : </strong>
                 <span>{$order.order_day_create}</span>
             </li>
             <li>
@@ -36,179 +36,179 @@
         </ul>
         {if $room}
             <div class="house-title">
-                <span>Room Information</span>
+                <span>部屋情報</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>Number : </strong>
+                    <strong>号室 : </strong>
                     <span>{$room.room_number}</span>
                 </li>
                 <li>
-                    <strong>Type : </strong>
+                    <strong>間取り : </strong>
                     <span>{$room.room_name}</span>
                 </li>
                 <li>
-                    <strong>Size : </strong>
+                    <strong>面積 : </strong>
                     <span>{$room.room_size}</span>
                 </li>
                 <li>
-                    <strong>Rent : </strong>
+                    <strong>賃料 : </strong>
                     <span>{$room.room_rent}</span>
                 </li>
                 <li>
-                    <strong>Key Money : </strong>
+                    <strong>礼金 : </strong>
                     <span>{$room.room_key_money}</span>
                 </li>
                 <li>
-                    <strong>Administrative Expense : </strong>
+                    <strong>管理費 : </strong>
                     <span>{$room.room_administrative_expense}</span>
                 </li>
                 <li>
-                    <strong>Deposit : </strong>
+                    <strong>敷金・保証金 : </strong>
                     <span>{$room.room_deposit}</span>
                 </li>
                 <li>
-                    <strong>Discount : </strong>
+                    <strong>割引 : </strong>
                     <span>{$room.room_discount}</span>
                 </li>
             </ul>
         {/if}
         {if $house}
             <div class="house-title">
-                <span>House Information</span>
+                <span>物件情報</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>Name : </strong>
+                    <strong>名称 : </strong>
                     <span>{$house.house_name}</span>
                 </li>
                 <li>
-                    <strong>Address : </strong>
+                    <strong>住所 : </strong>
                     <span>{$house.house_address}</span>
                 </li>
                 <li>
-                    <strong>Area : </strong>
+                    <strong>アリアー : </strong>
                     <span>{$house.house_area}</span>
                 </li>
                 <li>
-                    <strong>Type : </strong>
+                    <strong>間取り : </strong>
                     <span>{$house_type}</span>
                 </li>
                 <li>
-                    <strong>Description : </strong>
+                    <strong>備考 : </strong>
                     <span>{$house.house_description}</span>
                 </li>
                 <li>
-                    <strong>Structure : </strong>
+                    <strong>建物構造 : </strong>
                     <span>{$house.house_structure}</span>
                 </li>
                 <li>
-                    <strong>Build Time : </strong>
+                    <strong>築年月 : </strong>
                     <span>{$house.house_build_time}</span>
                 </li>
             </ul>
         {/if}
         {if $house.house_owner_id}
             <div class="house-title">
-                <span>House Owner Information</span>
+                <span>オーナー名</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>Name : </strong>
+                    <strong>名称 : </strong>
                     <span>{$house.house_owner_name}</span>
                 </li>
                 <li>
-                    <strong>Address : </strong>
+                    <strong>住所 : </strong>
                     <span>{$house.house_owner_address}</span>
                 </li>
                 <li>
-                    <strong>Phone : </strong>
+                    <strong>電話番号 : </strong>
                     <span>{$house.house_owner_phone}</span>
                 </li>
                 <li>
-                    <strong>Fax : </strong>
+                    <strong>ファックス : </strong>
                     <span>{$house.house_owner_fax}</span>
                 </li>
                 <li>
-                    <strong>Email : </strong>
+                    <strong>Eメール : </strong>
                     <span>{$house.house_owner_email}</span>
                 </li>
             </ul>
         {/if}
         {if $client}
             <div class="house-title">
-                <span>Client Information</span>
+                <span>クライアント情報</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>Name : </strong>
+                    <strong>名称 : </strong>
                     <span>{$client.client_name}</span>
                 </li>
                 <li>
-                    <strong>Address : </strong>
+                    <strong>住所 : </strong>
                     <span>{$client.client_address}</span>
                 </li>
                 <li>
-                    <strong>Phone : </strong>
+                    <strong>電話番号 : </strong>
                     <span>{$client.client_phone}</span>
                 </li>
                 <li>
-                    <strong>Fax : </strong>
+                    <strong>ファックス : </strong>
                     <span>{$client.client_fax}</span>
                 </li>
                 <li>
-                    <strong>Email : </strong>
+                    <strong>Eメール : </strong>
                     <span>{$client.client_email}</span>
                 </li>
                 <li>
-                    <strong>Birthday : </strong>
+                    <strong>生年月日 : </strong>
                     <span>{$client.client_birthday}</span>
                 </li>
                 <li>
-                    <strong>Gender : </strong>
+                    <strong>性別 : </strong>
                     <span>{$client.client_gender}</span>
                 </li>
                 <li>
-                    <strong>Income : </strong>
+                    <strong>収入 : </strong>
                     <span>{$client.client_income}</span>
                 </li>
                 <li>
-                    <strong>Occupation : </strong>
+                    <strong>職業  : </strong>
                     <span>{$client.client_occupation}</span>
                 </li>
                 <li>
-                    <strong>Company : </strong>
+                    <strong>会社名 : </strong>
                     <span>{$client.client_company}</span>
                 </li>
             </ul>
         {/if}
         {if $client}
             <div class="house-title">
-                <span>Broker Information</span>
+                <span>管理会社</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <span>Name : </span>
+                    <span>名称 : </span>
                     <span>{$broker.broker_company_name} </span>
                 </li>
                 <li>
-                    <span>Address : </span>
+                    <span>住所 : </span>
                     <span>{$broker.broker_company_address} </span>
                 </li>
                 <li>
-                    <span>Phone : </span>
+                    <span>電話番号 : </span>
                     <span>{$broker.broker_company_phone} </span>
                 </li>
                 <li>
-                    <span>Email : </span>
+                    <span>Eメール : </span>
                     <span>{$broker.broker_company_email} </span>
                 </li>
                 <li>
-                    <span>Fax : </span>
+                    <span>ファックス : </span>
                     <span>{$broker.broker_company_fax} </span>
                 </li>
                 <li>
-                    <span>Undertake : </span>
+                    <span>引き受ける : </span>
                     <span>{$broker.broker_company_undertake} </span>
                 </li>
             </ul>
@@ -219,67 +219,67 @@
             </div>
             <ul class="house-info">
                 <li>
-                    <span>Time Call : </span>
+                    <span>通話時間 : </span>
                     <span>{$history.log_time_call} </span>
                 </li>
                 <li>
-                    <span>Time Arrive Company : </span>
+                    <span>来店時間 : </span>
                     <span>{$history.log_time_arrive_company} </span>
                 </li>
                 <li>
-                    <span>Comment : </span>
+                    <span>備考 : </span>
                     <span>{$history.log_comment} </span>
                 </li>
                 <li>
-                    <span>Date Appointment From : </span>
+                    <span>予約日付　（～まで） : </span>
                     <span>{$history.log_date_appointment_from} </span>
                 </li>
                 <li>
-                    <span>Status Appointment : </span>
+                    <span>予約現況 : </span>
                     <span>{$history.log_status_appointment} </span>
                 </li>
                 <li>
-                    <span>Shop Sign : </span>
+                    <span>店看板 : </span>
                     <span>{$history.log_shop_sign} </span>
                 </li>
                 <li>
-                    <span>Local Sign : </span>
+                    <span>ローカルののサイン : </span>
                     <span>{$history.log_local_sign} </span>
                 </li>
                 <li>
-                    <span>Introduction : </span>
+                    <span>紹介 : </span>
                     <span>{$history.log_introduction} </span>
                 </li>
                 <li>
-                    <span>Tel : </span>
+                    <span>電話で連絡 : </span>
                     <span>{$history.log_tel} </span>
                 </li>
                 <li>
-                    <span>Mail : </span>
+                    <span>メールで連絡 : </span>
                     <span>{$history.log_mail} </span>
                 </li>
                 <li>
-                    <span>Flyer : </span>
+                    <span>チラシ : </span>
                     <span>{$history.log_flyer} </span>
                 </li>
                 <li>
-                    <span>Line : </span>
+                    <span>ライン : </span>
                     <span>{$history.log_line} </span>
                 </li>
                 <li>
-                    <span>Contact Head Office : </span>
+                    <span>本社へ連絡 : </span>
                     <span>{$history.log_contact_head_office} </span>
                 </li>
                 <li>
-                    <span>Tel Status : </span>
+                    <span>電話現況 : </span>
                     <span>{$history.log_tel_status} </span>
                 </li>
                 <li>
-                    <span>Mail Status : </span>
+                    <span>メール現況 : </span>
                     <span>{$history.log_mail_status} </span>
                 </li>
                 <li>
-                    <span>Revisit : </span>
+                    <span>再来店 : </span>
                     <span>{$history.log_revisit} </span>
                 </li>
             </ul>
