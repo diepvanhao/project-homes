@@ -3,7 +3,7 @@
 {nocache}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>Company Report</h3>
+        <h3>会社</h3>
     </div>
     {if count($error)}
         {foreach from=$error item=val}
@@ -15,19 +15,19 @@
             <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
                 <tbody>
                     <tr>
-                        <td class='form1'>From Date: </td>
+                        <td class='form1'>この日付から: </td>
                         <td class='form2'><input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
-                        <td class='form1'>To Date: </td>
+                        <td class='form1'>この日付まで: </td>
                         <td class='form2'><input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
                         <td class="form1">&nbsp;</td>
                         <td class="form2">
                             <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="View" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
-                                <!--<input type="submit" class="btn-signup" value="Export" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;-->  
+                                <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <!--<input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;-->  
                             </div>
                         </td>
                     </tr>
@@ -39,10 +39,10 @@
     <div class="agent-content">
         <div class="report-lable">
             <div class="agent-date">
-                <span>DATE: </span>
+                <span>日付: </span>
                 <span> 
                     {if $date}
-                       From {$fromdate} to {$date}
+                        {$fromdate} - {$date}
                     {else}
                         {date("m/d/Y")}
                     {/if}
@@ -349,7 +349,7 @@
                         1
                     </td>
                     <td rowspan="2">
-                        Internet(e-mail)
+                        インターネット（メール）
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todaymail_mail + $yearReport.todaymail_tel)}</td>
@@ -377,7 +377,7 @@
                         2
                     </td>
                     <td rowspan="2">
-                        Internet (phone)
+                        インターネット（電話）
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todayphone_mail + $yearReport.todayphone_tel)}</td>
@@ -405,7 +405,7 @@
                         3
                     </td>
                     <td rowspan="2">
-                        (TEL, email) term building lease
+                        定借(TEL、メール）
                     </td>
                     <td>当日</td>
                     <td>{(int)($yearReport.todaydiscount_mail + $yearReport.todaydiscount_tel)}</td>
@@ -629,7 +629,7 @@
             google.setOnLoadCallback(drawChart);
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
-                    ['name','Actually','Target'],
+                    ['name','実際に','ターゲット'],
                 {/literal}
                         {foreach $agents as $key => $agent}
                             {$commission = $report->agentCommission($agent.id,$date,$fromdate)}
@@ -643,8 +643,8 @@
                     ]);
 
                             var options = {
-                                title: 'Agent Performance',
-                                vAxis: {title: 'month', titleTextStyle: {color: 'red'}}
+                                title: '',
+                                vAxis: {title: '月', titleTextStyle: {color: 'red'}}
                             };
 
                     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));

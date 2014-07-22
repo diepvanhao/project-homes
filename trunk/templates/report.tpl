@@ -57,10 +57,10 @@
             </div>
             <br>
             <div class="agent-date">
-                <span>DATE: </span>
+                <span>日付 : </span>
                 <span> 
                     {if $date}
-                       From {$fromdate} to {$date}
+                       {$fromdate} - {$date}
                     {else}
                         {date("m/d/Y")}
                     {/if}
@@ -654,7 +654,7 @@
             google.setOnLoadCallback(drawChart);
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
-                    ['name','Actually','Target'],
+                    ['name','実際に','ターゲット'],
                 {/literal}
                         {foreach $users as $key => $user}
                             {$commission = $report ->userCommission($user.id,$date,$fromdate)}
@@ -668,8 +668,8 @@
                     ]);
 
                             var options = {
-                                title: 'Agent Performance',
-                                vAxis: {title: 'month', titleTextStyle: {color: 'red'}}
+                                title: ' ',
+                                vAxis: {title: '月', titleTextStyle: {color: 'red'}}
                             };
 
                     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
