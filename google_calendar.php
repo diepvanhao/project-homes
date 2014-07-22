@@ -8,6 +8,7 @@ echo "<link href='{$url->url_base}include/Calendar/fullcalendar.print.css' rel='
 echo "<script src='{$url->url_base}include/Calendar/lib/moment.min.js'></script>";
 echo "<script src='{$url->url_base}include/Calendar/lib/jquery.min.js'></script>";
 echo "<script src='{$url->url_base}include/Calendar/lib/jquery-ui.custom.min.js'></script>";
+echo "<script src='{$url->url_base}include/Calendar/lib/jquery.cookie.js'></script>";
 echo "<script src='{$url->url_base}include/Calendar/fullcalendar.min.js'></script>";
 echo "<script src='{$url->url_base}include/Calendar/lang-all.js'></script>";
 //echo "<script src='{$url->url_base}include/Calendar/fullcalendar.js'></script>";

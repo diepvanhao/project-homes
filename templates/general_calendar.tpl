@@ -8,9 +8,12 @@
         .content{
             width: 100%;
         }
-        #calendar{
-            float: right;
+        #calendar_general{
+            float: left;
             width: 79%;
+        }
+        table {
+            margin: 1px 0 30px;
         }
         #schedule_title{
             text-align: center;
@@ -31,6 +34,7 @@
             width: 20%;            
             margin: 2px auto;
             margin-right: 10px;
+            margin-bottom: 30px;            
             background-color: #E6E6E6;
         }
         #sidebar_schedule ul li{
@@ -267,7 +271,7 @@
             </li>
         </ul>
     </div>   
-    <div id="calendar">
+    <div id="calendar_general">
         <table style="width: 100%;">
             <thead>
                 <tr>
