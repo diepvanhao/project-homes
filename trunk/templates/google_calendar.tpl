@@ -3,7 +3,14 @@
     <script>
 
         $(document).ready(function() {
+            var create_new = $.cookie("create_new");
             $('#create_new').click(function() {
+                $('#loadgif').css('display','block');
+                if ($('input:checkbox[name=create_new]').is(":checked")) {
+                    $.cookie("create_new", "changed");
+                } else {
+                    $.removeCookie("create_new");
+                }
                 location.reload();
             });
             $('#signature_day').removeAttr('checked');
@@ -20,7 +27,7 @@
             var m = date.getMonth();
             var y = date.getFullYear();
 
-            var currentLangCode = 'en';
+            var currentLangCode = 'ja';
 
             // build the language selector's options
             $.each($.fullCalendar.langs, function(langCode) {
@@ -43,10 +50,12 @@
 
 
             function renderCalendar() {
-                if ($('#create_new').is(":checked")) {
+                if (create_new == 'changed') {
                     var flag = true;
+                    $('#create_new').attr('checked', 'checked');
                 } else {
                     var flag = false;
+                    $('#create_new').removeAttr('checked');
                 }
                 $('#calendar').fullCalendar({
                     theme: true,
@@ -200,9 +209,9 @@
                                     $(this).find('.fc-event-title').html() != 'Payment day' &&
                                     $(this).find('.fc-event-title').html() != 'Appointment day' &&
                                     $(this).find('.fc-event-title').html() != 'Period time' &&
-                                    $(this).find('.fc-event-title').html() != 'Birthday' 
-                                 
-                            ) {
+                                    $(this).find('.fc-event-title').html() != 'Birthday'
+
+                                    ) {
                                 $(this).css('display', '');
                                 $(this).css('background-color', "#3B5998");
                             }
@@ -277,6 +286,34 @@
             line-height: 30px;
             font-size: 1.4em;
         }
+        #loadgif {
+            padding-top:2px;
+            font: 10px #000;
+            text-align:center;
+            vertical-align:text-top;
+            font-size: 1.8em;
+            height: 180px;
+            width: 430px;
+
+            /* Centering the div to fit any screen resolution */
+            top: 50%;
+            left: 50%;
+            margin-top: -41px; /* Div height divided by 2 including top padding */
+            margin-left: -65px; /* Div width divided by 2 */
+            position: absolute;
+            display:    none; /* JS will change it to block display */
+            position:   fixed;
+            z-index:    1000;
+
+            /* Loading GIF set as background of the div */
+            background: #FFF url(include/images/wait.gif) 50% 75% no-repeat;
+
+            /* Misc decoration */
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            border-radius: 15px;
+            // border:#7580a8 solid 1px;
+        }
     </style>
 {/literal}
 
@@ -289,28 +326,28 @@
 <div id="wrapper">
     <div style="width: 100%;font-size: 1.8em;background-color: #F1F5FE; height: 83px;line-height: 80px;">
         <a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="82px;"/></span></a>
-        <label style="margin-left: 300px;position: absolute;">Schedule Report</label>
+        <label style="margin-left: 300px;position: absolute;">スケジュールレポート</label>
 
     </div>
     <div id="sidebar">
-        <div id="schedule_title">Private Schedule</div>
+        <div id="schedule_title">個人スケジュール</div>
         <ul>
-            <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">Signature day</label></li>
-            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">Handover day</label></li>
-            <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">Payment day</label></li>
-            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">Appointment day</label></li>
-            <li><input type="checkbox" id="other" name="other"/><label for="other">Other</label></li>
-            <li><input type="checkbox" id="period" name="period"/><label for="period">Period to</label></li>
-            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">Birthday</label></li>
-            <li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">Create new</label></li>   
+            <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">契約日</label></li>
+            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡し日</label></li>
+            <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">入金日</label></li>
+            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">来店日</label></li>
+            <li><input type="checkbox" id="other" name="other"/><label for="other">その他</label></li>
+            <li><input type="checkbox" id="period" name="period"/><label for="period">期間</label></li>
+            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">生年月日</label></li>
+            <li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">新規登録</label></li>   
         </ul>
-        <div id="schedule_title">User Information</div>
+        <div id="schedule_title">ユーザー情報</div>
         <ul>
-            <li>Name: {$user->user_info.user_fname} {$user->user_info.user_lname}</li>
-            <li>Email: {$user->user_info.user_email}</li>
-            <li>Target: {$user_target}</li>
-            <li>Position: {$user->user_info.user_position}</li>
-            <li>Birthday: {$user->user_info.user_birthday}</li>
+            <li>名称: {$user->user_info.user_fname} {$user->user_info.user_lname}</li>
+            <li>Eメール: {$user->user_info.user_email}</li>
+            <li>ターゲット: {$user_target}</li>
+            <li>役職: {$user->user_info.user_position}</li>
+            <li>生年月日: {$user->user_info.user_birthday}</li>
         </ul>
     </div>
     <div id='calendar'>
@@ -322,3 +359,4 @@
         <label><p>Copyright &copy; Ambition</p></label>
     </div>
 </div>
+<div id="loadgif">Loading...</div>
