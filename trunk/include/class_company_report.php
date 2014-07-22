@@ -49,7 +49,7 @@ class CompanyReport {
      */
     public function getAllAgents() {
         global $database;
-        $select = "SELECT a.*, SUM(u.user_target) as target FROM home_agent a 
+        $select = "SELECT a.* FROM home_agent a 
                   LEFT JOIN home_user u ON u.agent_id = a.id  
                   GROUP BY u.agent_id
                   ORDER BY a.agent_name ASC";
