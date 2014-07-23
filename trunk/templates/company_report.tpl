@@ -638,13 +638,13 @@
                             {$today.chart_target = $today.chart_target + $info.target}
                             {literal}['{/literal}{$agent.agent_name}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$info.target}{literal}],{/literal}
                     {/foreach}
-                    {literal}['Company',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
+                    {literal}['会社',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
                     {literal}
                     ]);
 
                             var options = {
                                 title: '',
-                                vAxis: {title: '月', titleTextStyle: {color: 'red'}}
+                                vAxis: {title: ' ', titleTextStyle: {color: 'red'}}
                             };
 
                     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
