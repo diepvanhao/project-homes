@@ -60,7 +60,7 @@ $house_address = $house_address_serialize['house_address'];
 $smarty->assign('room', $room);    
 $smarty->assign('house', $housedetail);    
 $smarty->assign('brokers', $detail->getBrokers($id, $room['house_id']));    
-$smarty->assign('address', $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $house_address);    
+$smarty->assign('address', $city_id_filter . $district_id_filter .  $street_id_filter .  $ward_id_filter .  $house_address);    
 
 
 include "footer.php";

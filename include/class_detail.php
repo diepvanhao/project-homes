@@ -43,7 +43,7 @@ class HOMEDetail {
         $query = "SELECT * FROM home_room_detail AS d
                 INNER JOIN home_room AS r ON r.room_detail_id = d.id
                 LEFT JOIN house_room_type AS t ON d.room_type = t.id
-                WHERE r.id = '{$id}'
+                WHERE d.id = '{$id}'
                 ";
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
