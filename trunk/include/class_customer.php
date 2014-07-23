@@ -137,7 +137,8 @@ class HOMECustomer {
                                 hc.client_resident_name AS client_resident_name,
                                 hc.client_resident_phone AS client_resident_phone,
                                 hc.client_rent AS client_rent,
-                                hc.client_room_type AS client_room_type
+                                hc.client_room_type AS client_room_type,
+                                hc.client_room_type_number AS client_room_type_number
 
                                 FROM home_client AS hc                                
                                 where hc.id={$id}                                                             
@@ -167,6 +168,7 @@ class HOMECustomer {
                 $row['client_resident_phone'] = $row['client_resident_phone'];
                 $row['client_rent'] = $row['client_rent'];
                 $row['client_room_type'] = $row['client_room_type'];
+                $row['client_room_type_number'] = $row['client_room_type_number'];
 
                 $client_arr = $row;
             }
@@ -180,15 +182,15 @@ class HOMECustomer {
         $client_arr = array();
         $query = " select hih.* from home_order AS ho"
                 . " LEFT JOIN home_introduce_house AS hih ON ho.id=hih.order_id where hih.order_id='{$order_id}' and hih.client_id='{$client_id}' and ho.id='{$order_id}' order by hih.id DESC limit 1";
-                
+
         $result = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result)) {
-            $introduce['id']=$row['id'];
-            $introduce['introduce_house_id']=$row['house_id'];
-            $introduce['introduce_room_id']=$row['room_id'];
-            $introduce['introduce_house_content']=$row['introduce_house_content'];
-            $introduce['introduce_house_photo']=$row['introduce_house_photo'];
-            
+            $introduce['id'] = $row['id'];
+            $introduce['introduce_house_id'] = $row['house_id'];
+            $introduce['introduce_room_id'] = $row['room_id'];
+            $introduce['introduce_house_content'] = $row['introduce_house_content'];
+            $introduce['introduce_house_photo'] = $row['introduce_house_photo'];
+
             $client_arr = $introduce;
             return array('client_arr' => $client_arr);
         }
@@ -388,6 +390,7 @@ class HOMECustomer {
                 client_company= '{$client_company}',
                 client_income= '{$client_income}',
                 client_room_type='{$client_room_type}',
+                client_room_type_number='{$client_room_type_number}',
                 client_rent='{$client_rent}',
                 client_reason_change= '{$client_reason_change}',
                 client_time_change   ='{$client_time_change}',     

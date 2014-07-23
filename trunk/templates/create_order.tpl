@@ -570,6 +570,8 @@
                         var client_company = $('#client_company').val();
                         var client_income = $('#client_income').val();
                         var client_room_type = $('#client_room_type').val();
+                        var client_room_type_number = $('#client_room_type_number').val();
+                        
                         var client_rent = $('#client_rent').val();
                         var client_reason_change = $('#client_reason_change').val();
                         var client_time_change = $('#client_time_change').val();
@@ -598,7 +600,7 @@
                         $('#error_ward_id').html('');
 
                         $.post("include/function_ajax.php", {gender: gender, client_address: client_address, city_id: city_id, district_id: district_id, street_id: street_id, ward_id: ward_id, client_occupation: client_occupation,
-                            client_company: client_company, client_income: client_income, client_room_type: client_room_type, client_rent: client_rent,
+                            client_company: client_company, client_income: client_income, client_room_type: client_room_type,client_room_type_number: client_room_type_number, client_rent: client_rent,
                             client_reason_change: client_reason_change, client_time_change: client_time_change, client_resident_name: client_resident_name,
                             client_resident_phone: client_resident_phone, client_id: client_id, order_id: order_id, action: 'customer', task: 'detail'},
                         function(result) {
@@ -1541,7 +1543,8 @@
                         <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap>間取り:</td>
                         <td class='form2'> 
-                            <select id="client_room_type" name="client_room_type" style="height:26px; width: 215px;">
+                            <input type='text' class='text' name='client_room_type_number' id='client_room_type_number' value="{$client_room_type_number}" style="height:26px; width: 90px;"/>
+                            <select id="client_room_type" name="client_room_type" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
                                 <option value=""></option>
                                 {foreach from=$roomTypes item=roomType}
                                     <option value="{$roomType.id}" {if $roomType.id eq $client_room_type}selected="selected"{/if}>{$roomType.room_name}</option>        

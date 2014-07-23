@@ -47,7 +47,7 @@ class HOMEEvent {
             while ($contract = $database->database_fetch_assoc($result_contract)) {
                 if (trim($contract['contract_signature_day'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Signature Day";
+                    $event['title'] = "契約日";
                     $start = explode(" ", $contract['contract_signature_day']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -62,14 +62,14 @@ class HOMEEvent {
                         $event['agent'] = $agent_info['agent_name'];
                     $staff_info = $staff->getAccountById($row['user_id']);
                     if ($staff_info) {
-                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
-                        if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
-                        elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
-                        elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
-                    }
+                    $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                    if ($staff_info['user_authorities'] == 2)
+                        $event['position'] = 'スーパーマネージャー';
+                    elseif ($staff_info['user_authorities'] == 3)
+                        $event['position'] = "マネージャー";
+                    elseif ($staff_info['user_authorities'] == 4)
+                        $event['position'] = "スタッフ";
+                }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
                     if ($client_info)
@@ -79,7 +79,7 @@ class HOMEEvent {
                 }
                 if (trim($contract['contract_handover_day'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Handover Day";
+                    $event['title'] = "鍵渡し日";
                     $start = explode(" ", $contract['contract_handover_day']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -94,14 +94,14 @@ class HOMEEvent {
                         $event['agent'] = $agent_info['agent_name'];
                     $staff_info = $staff->getAccountById($row['user_id']);
                     if ($staff_info) {
-                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
-                        if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
-                        elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
-                        elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
-                    }
+                    $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                    if ($staff_info['user_authorities'] == 2)
+                        $event['position'] = 'スーパーマネージャー';
+                    elseif ($staff_info['user_authorities'] == 3)
+                        $event['position'] = "マネージャー";
+                    elseif ($staff_info['user_authorities'] == 4)
+                        $event['position'] = "スタッフ";
+                }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
                     if ($client_info)
@@ -111,7 +111,7 @@ class HOMEEvent {
                 }
                 if (trim($contract['contract_payment_date_from'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Payment Day";
+                    $event['title'] = "入金日";
                     $start = explode(" ", $contract['contract_payment_date_from']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -130,14 +130,14 @@ class HOMEEvent {
                         $event['agent'] = $agent_info['agent_name'];
                     $staff_info = $staff->getAccountById($row['user_id']);
                     if ($staff_info) {
-                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
-                        if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
-                        elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
-                        elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
-                    }
+                    $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                    if ($staff_info['user_authorities'] == 2)
+                        $event['position'] = 'スーパーマネージャー';
+                    elseif ($staff_info['user_authorities'] == 3)
+                        $event['position'] = "マネージャー";
+                    elseif ($staff_info['user_authorities'] == 4)
+                        $event['position'] = "スタッフ";
+                }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
                     if ($client_info)
@@ -147,7 +147,7 @@ class HOMEEvent {
                 }
                 if (trim($contract['contract_period_from'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Period To";
+                    $event['title'] = "期間";
                     $start = explode(" ", $contract['contract_period_from']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -166,14 +166,14 @@ class HOMEEvent {
                         $event['agent'] = $agent_info['agent_name'];
                     $staff_info = $staff->getAccountById($row['user_id']);
                     if ($staff_info) {
-                        $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
-                        if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
-                        elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
-                        elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
-                    }
+                    $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
+                    if ($staff_info['user_authorities'] == 2)
+                        $event['position'] = 'スーパーマネージャー';
+                    elseif ($staff_info['user_authorities'] == 3)
+                        $event['position'] = "マネージャー";
+                    elseif ($staff_info['user_authorities'] == 4)
+                        $event['position'] = "スタッフ";
+                }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
                     if ($client_info)
@@ -185,7 +185,7 @@ class HOMEEvent {
             //get birthday client
             if ($row['client_id']) {
                 $event['id'] = $row['id'];
-                $event['title'] = "Birthday";
+                $event['title'] = "生年月日";
 
                 //$event['end']=$contract['contract_period_to'];
                 //fetch agent, user info.      
@@ -196,11 +196,11 @@ class HOMEEvent {
                 if ($staff_info) {
                     $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                     if ($staff_info['user_authorities'] == 2)
-                        $event['position'] = 'Super manager';
+                        $event['position'] = 'スーパーマネージャー';
                     elseif ($staff_info['user_authorities'] == 3)
-                        $event['position'] = "Manager";
+                        $event['position'] = "マネージャー";
                     elseif ($staff_info['user_authorities'] == 4)
-                        $event['position'] = "Staff";
+                        $event['position'] = "スタッフ";
                 }
                 //fetch client info
                 $client_info = $client->getClientId($row['client_id']);
@@ -219,7 +219,7 @@ class HOMEEvent {
             $history = $database->database_fetch_assoc($result_history);
             if (trim($history['log_date_appointment_from'])) {
                 $event['id'] = $row['id'];
-                $event['title'] = "Appointment day";
+                $event['title'] = "来店日";
 
                 $start = explode(" ", $history['log_date_appointment_from']);
                 if (isset($start[1]))
@@ -241,11 +241,11 @@ class HOMEEvent {
                 if ($staff_info) {
                     $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                     if ($staff_info['user_authorities'] == 2)
-                        $event['position'] = 'Super manager';
+                        $event['position'] = 'スーパーマネージャー';
                     elseif ($staff_info['user_authorities'] == 3)
-                        $event['position'] = "Manager";
+                        $event['position'] = "マネージャー";
                     elseif ($staff_info['user_authorities'] == 4)
-                        $event['position'] = "Staff";
+                        $event['position'] = "スタッフ";
                 }
                 //fetch client info
                 $client_info = $client->getClientId($row['client_id']);

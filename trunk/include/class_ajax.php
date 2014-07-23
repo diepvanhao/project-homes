@@ -16,13 +16,13 @@ class ajax {
     function checkExists($key, $val) {
         switch ($key) {
             case('email'):
-                $this->checkEmail('Email', $val);
+                $this->checkEmail('Eメール', $val);
                 break;
             case('username'):
                 $this->checkUsername('UserName', $val);
                 break;
             case('confirm_password'):
-                $this->checkPassword('Password do not match', $val);
+                $this->checkPassword('パスワードは不正です。', $val);
             default :
                 break;
         }
@@ -38,7 +38,7 @@ class ajax {
 
             $result = $database->database_query($query);
             if ($database->database_num_rows($result)) {
-                $this->error = $key . " in use. Please enter a new email.";
+                $this->error = "既に使用されているEメールです。メールアドレスを入力してください。.";
             }
         }
     }
@@ -50,7 +50,7 @@ class ajax {
             $query = "select * from home_user where user_username='{$username}'";
             $result = $database->database_query($query);
             if ($database->database_num_rows($result)) {
-                $this->error = $key . " in use. Please enter a new username.";
+                $this->error = "既に使用されているユーザーです。メールアドレスを入力してください。.";
             }
         }
     }
@@ -126,7 +126,7 @@ class ajax {
         global $user, $database;
         if (!trim($password) || $user->user_password_crypt($password) != $user->user_info['user_password']) {
 
-            $this->error = "Your password was incorrect !!!";
+            $this->error = "パースワードは不正です。 !!!";
         } else {
             $query = "update home_user set user_fname='{$fname}',user_lname='{$lname}' where id='{$user->user_info['id']}'";
             $database->database_query($query);
@@ -139,7 +139,7 @@ class ajax {
         global $user, $database;
         if (!trim($password) || $user->user_password_crypt($password) != $user->user_info['user_password']) {
 
-            $this->error['password'] = "Your password was incorrect !!!";
+            $this->error['password'] = "パースワードは不正です。 !!!";
         } elseif (!trim($username)) {
             $this->error['username'] = "Username isn't white space";
         } elseif (checkUsernameExist($username)) {
@@ -156,7 +156,7 @@ class ajax {
         global $user, $database;
         if (!trim($password) || $user->user_password_crypt($password) != $user->user_info['user_password']) {
 
-            $this->error['password'] = "Your password was incorrect !!!";
+            $this->error['password'] = "パースワードは不正です。 !!!";
         } elseif (!trim($email)) {
             $this->error['email'] = "Email isn't white space";
         } elseif (checkEmailExist($email)) {
@@ -188,7 +188,7 @@ class ajax {
             // MAKE SURE PASSWORD IS LONGER THAN 5 CHARS
         } elseif (!trim($current_password) || $user->user_password_crypt($current_password) != $user->user_info['user_password']) {
 
-            $this->error['current_password'] = "Your password was incorrect !!!";
+            $this->error['current_password'] = "パースワードは不正です。 !!!";
             // CHECK FOR OLD PASSWORD MATCH
         } else {
 
@@ -203,7 +203,7 @@ class ajax {
         global $user, $database;
         if (!trim($password) || $user->user_password_crypt($password) != $user->user_info['user_password']) {
 
-            $this->error['password'] = "Your password was incorrect !!!";
+            $this->error['password'] = "パースワードは不正です。 !!!";
         }
         return $this->error;
     }
@@ -356,7 +356,7 @@ class ajax {
             return array('flag' => 'false');
     }
 
-    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
+    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type,$client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
         global $database;
         $query = "update home_client set 
                 client_gender= '{$gender}',
@@ -365,6 +365,7 @@ class ajax {
                 client_company= '{$client_company}',
                 client_income= '{$client_income}',
                 client_room_type='{$client_room_type}',
+                client_room_type_number='{$client_room_type_number}',    
                 client_rent='{$client_rent}',
                 client_reason_change= '{$client_reason_change}',
                 client_time_change   ='{$client_time_change}',     
@@ -919,7 +920,7 @@ class ajax {
 
                 if (trim($contract['contract_signature_day'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Signature Day";
+                    $event['title'] = "契約日";
                     $start = explode(" ", $contract['contract_signature_day']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -937,11 +938,11 @@ class ajax {
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
+                            $event['position'] = 'スーパーマネージャー';
                         elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
+                            $event['position'] = "マネージャー";
                         elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
+                            $event['position'] = "スタッフ";
                     }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
@@ -953,7 +954,7 @@ class ajax {
                 }
                 if (trim($contract['contract_handover_day'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Handover Day";
+                    $event['title'] = "鍵渡し日";
                     $start = explode(" ", $contract['contract_handover_day']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -970,11 +971,11 @@ class ajax {
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
+                            $event['position'] = 'スーパーマネージャー';
                         elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
+                            $event['position'] = "マネージャー";
                         elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
+                            $event['position'] = "スタッフ";
                     }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
@@ -986,7 +987,7 @@ class ajax {
                 }
                 if (trim($contract['contract_payment_date_from'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Payment Day";
+                    $event['title'] = "入金日";
                     $start = explode(" ", $contract['contract_payment_date_from']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -1007,11 +1008,11 @@ class ajax {
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
+                            $event['position'] = 'スーパーマネージャー';
                         elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
+                            $event['position'] = "マネージャー";
                         elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
+                            $event['position'] = "スタッフ";
                     }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
@@ -1023,7 +1024,7 @@ class ajax {
                 }
                 if (trim($contract['contract_period_from'])) {
                     $event['id'] = $row['id'];
-                    $event['title'] = "Period To";
+                    $event['title'] = "期間";
                     $start = explode(" ", $contract['contract_period_from']);
                     if (isset($start[1]))
                         $event['time'] = $start[1];
@@ -1044,11 +1045,11 @@ class ajax {
                     if ($staff_info) {
                         $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                         if ($staff_info['user_authorities'] == 2)
-                            $event['position'] = 'Super manager';
+                            $event['position'] = 'スーパーマネージャー';
                         elseif ($staff_info['user_authorities'] == 3)
-                            $event['position'] = "Manager";
+                            $event['position'] = "マネージャー";
                         elseif ($staff_info['user_authorities'] == 4)
-                            $event['position'] = "Staff";
+                            $event['position'] = "スタッフ";
                     }
                     //fetch client info
                     $client_info = $client->getClientId($row['client_id']);
@@ -1056,19 +1057,19 @@ class ajax {
                         $event['customer'] = $client_info['client_name'];
                     $event['link'] = 'google.com.vn';
                     if ($agent_info && $staff_info) {
-                        if (trim($expire_from)!="" && (trim($expire_to) == "" || $expire_to == NULL)) {
+                        if (trim($expire_from) != "" && (trim($expire_to) == "" || $expire_to == NULL)) {
                             if (strtotime($event['end']) >= strtotime($expire_from)) {
                                 $events[] = $event;
                             }
-                        } elseif (trim($expire_to)!="" && (trim($expire_from) == "" || $expire_from == NULL)) {
+                        } elseif (trim($expire_to) != "" && (trim($expire_from) == "" || $expire_from == NULL)) {
                             if (strtotime($event['end']) <= strtotime($expire_to)) {
                                 $events[] = $event;
                             }
-                        } elseif (trim($expire_from)!="" && trim($expire_to)!="") {
+                        } elseif (trim($expire_from) != "" && trim($expire_to) != "") {
                             if ((strtotime($event['end']) >= strtotime($expire_from)) && (strtotime($event['end']) <= strtotime($expire_to))) {
                                 $events[] = $event;
                             }
-                        } elseif (trim($expire_from)=="" && trim($expire_to)=="") {
+                        } elseif (trim($expire_from) == "" && trim($expire_to) == "") {
                             $events[] = $event;
                         } else {
                             
@@ -1080,7 +1081,7 @@ class ajax {
             //get birthday client
             if ($row['client_id']) {
                 $event['id'] = $row['id'];
-                $event['title'] = "Birthday";
+                $event['title'] = "生年月日";
 
                 //$event['end']=$contract['contract_period_to'];
                 //fetch agent, user info.      
@@ -1091,11 +1092,11 @@ class ajax {
                 if ($staff_info) {
                     $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                     if ($staff_info['user_authorities'] == 2)
-                        $event['position'] = 'Super manager';
+                        $event['position'] = 'スーパーマネージャー';
                     elseif ($staff_info['user_authorities'] == 3)
-                        $event['position'] = "Manager";
+                        $event['position'] = "マネージャー";
                     elseif ($staff_info['user_authorities'] == 4)
-                        $event['position'] = "Staff";
+                        $event['position'] = "スタッフ";
                 }
                 //fetch client info
                 $client_info = $client->getClientId($row['client_id']);
@@ -1115,7 +1116,7 @@ class ajax {
             $history = $database->database_fetch_assoc($result_history);
             if (trim($history['log_date_appointment_from'])) {
                 $event['id'] = $row['id'];
-                $event['title'] = "Appointment day";
+                $event['title'] = "来店日";
 
                 $start = explode(" ", $history['log_date_appointment_from']);
                 if (isset($start[1]))
@@ -1137,11 +1138,11 @@ class ajax {
                 if ($staff_info) {
                     $event['assigned'] = $staff_info['user_fname'] . " " . $staff_info['user_lname'];
                     if ($staff_info['user_authorities'] == 2)
-                        $event['position'] = 'Super manager';
+                        $event['position'] = 'スーパーマネージャー';
                     elseif ($staff_info['user_authorities'] == 3)
-                        $event['position'] = "Manager";
+                        $event['position'] = "マネージャー";
                     elseif ($staff_info['user_authorities'] == 4)
-                        $event['position'] = "Staff";
+                        $event['position'] = "スタッフ";
                 }
                 //fetch client info
                 $client_info = $client->getClientId($row['client_id']);
@@ -1157,39 +1158,39 @@ class ajax {
         $filterDate = Array();
 
         for ($i = 0; $i < count($events); $i++) {
-            if ($signature_day && $events[$i]['title'] == 'Signature Day')
+            if ($signature_day && $events[$i]['title'] == '契約日')
                 $filter[] = $events[$i];
-            if ($handover_day && $events[$i]['title'] == 'Handover Day') {
+            if ($handover_day && $events[$i]['title'] == '鍵渡し日') {
                 $filter[] = $events[$i];
             }
-            if ($payment_day && $events[$i]['title'] == 'Payment Day')
+            if ($payment_day && $events[$i]['title'] == '入金日')
                 $filter[] = $events[$i];
-            if ($appointment_day && $events[$i]['title'] == 'Appointment day')
+            if ($appointment_day && $events[$i]['title'] == '来店日')
                 $filter[] = $events[$i];
-            if ($period && $events[$i]['title'] == 'Period To')
+            if ($period && $events[$i]['title'] == '期間')
                 $filter[] = $events[$i];
-            if ($birthday && $events[$i]['title'] == 'Birthday')
+            if ($birthday && $events[$i]['title'] == '生年月日')
                 $filter[] = $events[$i];
         }
 
         if (empty($filter))
             $filter = $events;
         //  var_dump($filter);
-        if (trim($date_from)!="" && (trim($date_to) == "" || $date_to == NULL)) {
+        if (trim($date_from) != "" && (trim($date_to) == "" || $date_to == NULL)) {
 
             for ($i = 0; $i < count($filter); $i++) {
                 if (strtotime($filter[$i]['start']) >= strtotime($date_from)) {
                     $filterDate[] = $filter[$i];
                 }
             }
-        } elseif (trim($date_to)!="" && (trim($date_from) == "" || $date_from == NULL)) {
+        } elseif (trim($date_to) != "" && (trim($date_from) == "" || $date_from == NULL)) {
 
             for ($i = 0; $i < count($filter); $i++) {
                 if (strtotime($filter[$i]['start']) <= strtotime($date_to)) {
                     $filterDate[] = $filter[$i];
                 }
             }
-        } elseif (trim($date_from)!="" && trim($date_to)!="") {
+        } elseif (trim($date_from) != "" && trim($date_to) != "") {
 
             for ($i = 0; $i < count($filter); $i++) {
                 if ((strtotime($filter[$i]['start']) >= strtotime($date_from)) && (strtotime($filter[$i]['start']) <= strtotime($date_to))) {
@@ -1215,7 +1216,7 @@ class ajax {
     }
 
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
-        $order=new HOMEOrder();
+        $order = new HOMEOrder();
         return $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
     }
 

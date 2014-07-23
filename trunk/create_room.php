@@ -38,6 +38,14 @@ if (isset($_POST['room_type'])) {
     $room_type = "";
 }
 
+if (isset($_POST['room_type_number'])) {
+    $room_type_number = $_POST['room_type_number'];
+} elseif (isset($_GET['room_type_number'])) {
+    $room_type_number = $_GET['room_type_number'];
+} else {
+    $room_type_number = "";
+}
+
 if (isset($_POST['room_size'])) {
     $room_size = $_POST['room_size'];
 } elseif (isset($_GET['room_size'])) {
@@ -159,10 +167,10 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {        
         $result = $house->create_room(
-                $room_number,$room_type,$room_size,$room_status,$room_rent,$room_key_money.$room_key_money_unit,$room_administrative_expense.$room_administrative_expense_unit,$room_deposit.$room_deposit_unit,$room_discount,$room_photo,$house_id,$broker_id
+                $room_number,$room_type,$room_type_number,$room_size,$room_status,$room_rent,$room_key_money.$room_key_money_unit,$room_administrative_expense.$room_administrative_expense_unit,$room_deposit.$room_deposit_unit,$room_discount,$room_photo,$house_id,$broker_id
         );
         if ($result['flag']) {
-            header("Location: notify.php?content=Create Room Success!!!&url_return=create_room.php");
+            header("Location: notify.php?content=部屋情報～は成功に作成されました。!!!&url_return=create_room.php");
         }elseif($result['error']){
             $error[]=$result['error'];            
         }else{
@@ -180,6 +188,7 @@ $roomTypes=$house->getRoomType();
 
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
+$smarty->assign('room_type_number', $room_type_number);
 $smarty->assign('room_size', $room_size);
 $smarty->assign('room_discount', $room_discount);
 $smarty->assign('room_status', $room_status);

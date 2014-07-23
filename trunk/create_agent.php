@@ -119,7 +119,7 @@ if (isset($_POST['submit'])) {
         $agent = new HOMEAgent();
         $result = $agent->create($agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax);
         if ($result) {
-            header("Location: notify.php?content=Create Agent Success!!!&url_return=create_agent.php");
+            header("Location: notify.php?content=店舗～は成功に作成されました。!!!&url_return=create_agent.php");
         }
     }
 }

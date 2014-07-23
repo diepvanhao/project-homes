@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //End customize
         $result = $client->update($id,$data);
         if ($result) {
-            $notify="Update success !!!";
+            $notify="アップデート成功 !!!";
             $house_address_serialize = unserialize($data['client_address']);
             $data['client_address']= $house_address_serialize['client_address'];
         }

@@ -62,7 +62,7 @@ if (isset($_POST['submit'])) {
         $house = new HOMEHouse();
         $result = $house->update_source($source_id, $source_name);
         if ($result['flag']) {
-            $notify = "Update success !!!";
+            $notify = "アップデート成功 !!!";
         } elseif ($result['error']) {
             $error[] = $result['error'];
         } else {

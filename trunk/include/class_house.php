@@ -74,10 +74,10 @@ class HOMEHouse {
 
     function getTotalItem($search) {
         global $database;
-        $search=trim($search);
+        $search = trim($search);
         $query = "select * from home_house";
         if (!empty($search))
-             $query.=" where house_name like '%{$search}%' or house_address like '%{$search}%'";
+            $query.=" where house_name like '%{$search}%' or house_address like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -101,7 +101,7 @@ class HOMEHouse {
 
     function getHouse($search = "", $offset = 0, $length = 50) {
         global $database;
-        $search=  trim($search);
+        $search = trim($search);
 
         $query = "select * from home_house";
         if (!empty($search))
@@ -180,6 +180,7 @@ class HOMEHouse {
             $room['id'] = $row['id'];
             $room['room_number'] = $row['room_number'];
             $room['room_type'] = $row['room_type'];
+            $room['room_type_number'] = $row['room_type_number'];
             $room['room_size'] = $row['room_size'];
             $room['room_status'] = $row['room_status'];
             $room['room_rent'] = $row['room_rent'];
@@ -315,7 +316,7 @@ class HOMEHouse {
         return true;
     }
 
-    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id) {
+    function create_room($room_number, $room_type, $room_type_number, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id) {
         global $database;
         //check exist room
         if (checkRoomExist($room_number, $broker_id, $house_id)) {
@@ -345,6 +346,7 @@ class HOMEHouse {
                     $query = "insert into home_room_detail(                                   
                         `room_number`,
                         `room_type`,
+                        `room_type_number`,
                         `room_size`,
                         `room_status`,
                         `room_rent`,
@@ -356,6 +358,7 @@ class HOMEHouse {
                     )values(
                         '{$room_number}',
                         '{$room_type}',
+                        '{$room_type_number}',
                         '{$room_size}',
                         '{$room_status}',
                         '{$room_rent}',
@@ -378,12 +381,13 @@ class HOMEHouse {
         }
     }
 
-    function update_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk) {
+    function update_room($room_number, $room_type,$room_type_number, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk) {
         global $database;
         if (($room_number == $room_number_bk) && ($broker_id == $broker_id_bk) && ($house_id == $house_id_bk)) {
             $query = "update home_room_detail set 
                 room_number='{$room_number}',
                 room_type='{$room_type}',
+                room_type_number='{$room_type_number}',    
                 room_size='{$room_size}',                   
                 room_status='{$room_status}',              
                 room_rent='{$room_rent}',
@@ -412,6 +416,7 @@ class HOMEHouse {
                 $query = "update home_room_detail set 
                 room_number='{$room_number}',
                 room_type='{$room_type}',
+                room_type_number='{$room_type_number}', 
                 room_size='{$room_size}',                   
                 room_status='{$room_status}',              
                 room_rent='{$room_rent}',
@@ -534,13 +539,15 @@ class HOMEHouse {
         }
         return $houseTypes;
     }
-    function getHouseTypeById($house_type_id){
+
+    function getHouseTypeById($house_type_id) {
         global $database;
-        $query="select type_name from house_type where id='{$house_type_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select type_name from house_type where id='{$house_type_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['type_name'];
     }
+
     function getHouseStructures() {
         global $database;
         $query = "select * from house_structure order by structure_name ASC";
@@ -553,13 +560,15 @@ class HOMEHouse {
         }
         return $houseStructures;
     }
-    function getHouseStructureById($house_structure_id){
+
+    function getHouseStructureById($house_structure_id) {
         global $database;
-        $query="select structure_name from house_structure where id='{$house_structure_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select structure_name from house_structure where id='{$house_structure_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['structure_name'];
     }
+
     function getRoomType() {
         global $database;
         $query = "select * from house_room_type ";
@@ -572,13 +581,15 @@ class HOMEHouse {
         }
         return $roomTypes;
     }
-    function getRoomTypeById($room_type_id){
+
+    function getRoomTypeById($room_type_id) {
         global $database;
-        $query="select room_name from house_room_type where id='{$room_type_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select room_name from house_room_type where id='{$room_type_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['room_name'];
     }
+
 //Address
     function create_city($city_name) {
         global $database;
@@ -701,36 +712,40 @@ class HOMEHouse {
             return false;
         }
     }
+
     //parse address 
-    function getNameCity($city_id){
+    function getNameCity($city_id) {
         global $database;
-        $query="select city_name from house_city where id='{$city_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select city_name from house_city where id='{$city_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['city_name'];
     }
-    function getNameDistrict($district_id){
+
+    function getNameDistrict($district_id) {
         global $database;
-        $query="select district_name from house_district where id='{$district_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select district_name from house_district where id='{$district_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['district_name'];
     }
-    function getNameStreet($street_id){
+
+    function getNameStreet($street_id) {
         global $database;
-        $query="select street_name from house_street where id='{$street_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select street_name from house_street where id='{$street_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['street_name'];
     }
-    function getNameWard($ward_id){
+
+    function getNameWard($ward_id) {
         global $database;
-        $query="select ward_name from house_ward where id='{$ward_id}'";
-        $result=$database->database_query($query);
-        $row=$database->database_fetch_assoc($result);
+        $query = "select ward_name from house_ward where id='{$ward_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
         return $row['ward_name'];
     }
-    
+
 }
 
 function checkExistWard($street_id, $ward_name) {

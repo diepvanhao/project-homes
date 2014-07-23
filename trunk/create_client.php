@@ -53,28 +53,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     extract($_POST);
     $error = array();
     if (empty($client_name)) {
-        $error[] = 'Name is required';
+        $error[] = '名称～は成功に作成されました。';
     }
 //    if (empty($client_address)) {
 //        $error[] = 'Address is required';
 //    }
     //Hao customize
     if (empty($city_id)) {
-        $error[] = 'City is required';
+        $error[] = '都道府県は必須です。';
     }
     if (empty($district_id)) {
-        $error[] = 'District is required';
+        $error[] = '市区町村は必須です。';
     }
     if (empty($street_id)) {
-        $error[] = 'Street is required';
+        $error[] = '大字・通称は必須です。';
     }
     if (empty($ward_id)) {
-        $error[] = 'Ward is required';
+        $error[] = '字・丁目は必須です。';
     }
 
     //end customize
     if (empty($client_phone)) {
-        $error[] = 'Phone is required';
+        $error[] = '電話番号～は成功に作成されました。';
     }
     if (!empty($client_income) && !filter_var($client_income, FILTER_VALIDATE_FLOAT)) {
         $error[] = 'Income must be a Float number';
@@ -83,11 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error[] = 'Rent must be a Float number';
     }
     if (!empty($client_email) && !filter_var($client_email, FILTER_VALIDATE_EMAIL)) {
-        $error[] = 'Email is invalid';
+        $error[] = 'Eメールが有効ではありません。';
     }
 
     if (empty($error)) {
-        include 'include/class_client.php';
+        include_once 'include/class_client.php';
         //Hao customize
         $house_address_serialize['city_id'] = $city_id;
         $house_address_serialize['district_id'] = $district_id;
@@ -103,7 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $client = new Client();
         $result = $client->create($data);
         if ($result) {
-            header('Location: ./manage_client.php');
+            //header('Location: ./manage_client.php');
+            header("Location: notify.php?content=お客情報～は成功に作成されました。!!!&url_return=create_client.php");
         }
     }
 } else {

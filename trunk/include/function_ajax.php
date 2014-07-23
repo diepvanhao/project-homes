@@ -542,6 +542,13 @@ if ($action == "check_email") {
         } else {
             $client_room_type = "";
         }
+        if (isset($_POST['client_room_type_number'])) {
+            $client_room_type_number = $_POST['client_room_type_number'];
+        } elseif (isset($_GET['client_room_type_number'])) {
+            $client_room_type_number = $_GET['client_room_type_number'];
+        } else {
+            $client_room_type_number = "";
+        }
         if (isset($_POST['client_rent'])) {
             $client_rent = $_POST['client_rent'];
         } elseif (isset($_GET['client_rent'])) {
@@ -578,7 +585,7 @@ if ($action == "check_email") {
             $client_resident_phone = "";
         }
 
-        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
+        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type,$client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
         if ($result)
             echo "success";
         else
@@ -1483,7 +1490,7 @@ if ($action == "check_email") {
                 echo "<td>{$result[$i - 1]['time']}</td>";
                 echo "<td>{$result[$i - 1]['title']}</td>";
                 echo "<td>{$result[$i - 1]['customer']}</td>";
-                echo"<td><a href='order_detail.php?url={$detail}'>Detail</a></td>";
+                echo"<td><a href='order_detail.php?url={$detail}'>詳細</a></td>";
                 echo"</tr>    ";
             }
         }

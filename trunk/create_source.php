@@ -45,7 +45,7 @@ if(isset($_POST['submit'])){
         if ($result['error']) {
             $error[]=$result['error'];
         }elseif($result['flag']){
-            header("Location: notify.php?content=Create Source Success!!!&url_return=create_source.php");
+            header("Location: notify.php?content=媒体～は成功に作成されました。!!!&url_return=create_source.php");
         }else
             $error[]="Create source fail, maybe error of connect database !!!";
     }

@@ -39,6 +39,14 @@ if (isset($_POST['room_type'])) {
     $room_type = "";
 }
 
+if (isset($_POST['room_type_number'])) {
+    $room_type_number = $_POST['room_type_number'];
+} elseif (isset($_GET['room_type_number'])) {
+    $room_type_number = $_GET['room_type_number'];
+} else {
+    $room_type_number = "";
+}
+
 if (isset($_POST['room_size'])) {
     $room_size = $_POST['room_size'];
 } elseif (isset($_GET['room_size'])) {
@@ -202,10 +210,10 @@ if (isset($_POST['submit'])) {
     if (empty($error)) {
 
         $result = $house->update_room(
-                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense.$room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk
+                $room_number, $room_type,$room_type_number, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense.$room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk
         );
         if ($result['flag']) {
-            $notify = "Update success !!!";
+            $notify = "アップデート成功 !!!";
             $house_id_bk = $house_id;
             $broker_id_bk = $broker_id;
             $room_number_bk = $room_number;
@@ -227,6 +235,7 @@ if (isset($_POST['submit'])) {
     if ($room) {
         $room_number_bk = $room_number = $room['room_number'];
         $room_type = $room['room_type'];
+        $room_type_number = $room['room_type_number'];
         $room_size = $room['room_size'];
         $room_status = $room['room_status'];
         $room_rent = $room['room_rent'];
@@ -294,6 +303,7 @@ $roomTypes = $house->getRoomType();
 
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
+$smarty->assign('room_type_number', $room_type_number);
 $smarty->assign('room_size', $room_size);
 $smarty->assign('room_discount', $room_discount);
 $smarty->assign('room_status', $room_status);

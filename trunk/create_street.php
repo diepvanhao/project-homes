@@ -54,7 +54,7 @@ if(isset($_POST['submit'])){
         if ($result['error']) {
             $error[]=$result['error'];
         }elseif($result['flag']){
-            header("Location: notify.php?content=Create Street Success!!!&url_return=create_street.php");
+            header("Location: notify.php?content=大字・通称～は成功に作成されました。!!!&url_return=create_street.php");
         }else
             $error[]="Create street fail, maybe error of connect database !!!";
     }

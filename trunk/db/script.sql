@@ -271,3 +271,9 @@ ALTER TABLE `home_client`
   ADD COLUMN `client_read_way` VARCHAR(128) NULL AFTER `client_name`;
 ALTER TABLE `home_order`   
   CHANGE `order_rent_cost` `order_rent_cost` VARCHAR(128) NULL;
+
+/*23/7 Hao*/
+ALTER TABLE `home_room_detail`   
+  ADD COLUMN `room_type_number` VARCHAR(128) NULL AFTER `room_type`;
+ALTER TABLE `home_client`   
+  ADD COLUMN `client_room_type_number` VARCHAR(128) NULL AFTER `client_room_type`;

@@ -388,6 +388,13 @@ if ($step == 1) {
     } else {
         $client_room_type = "";
     }
+    if (isset($_POST['client_room_type_number'])) {
+        $client_room_type_number = $_POST['client_room_type_number'];
+    } elseif (isset($_GET['client_room_type_number'])) {
+        $client_room_type_number = $_GET['client_room_type_number'];
+    } else {
+        $client_room_type_number = "";
+    }
     if (isset($_POST['client_rent'])) {
         $client_rent = $_POST['client_rent'];
     } elseif (isset($_GET['client_rent'])) {
@@ -980,6 +987,7 @@ if ($step == 1) {
                     $client_company = $client_arr['client_company'];
                     $client_income = $client_arr['client_income'];
                     $client_room_type = $client_arr['client_room_type'];
+                    $client_room_type_number = $client_arr['client_room_type_number'];
                     $client_rent = $client_arr['client_rent'];
                     $client_reason_change = $client_arr['client_reason_change'];
                     $client_time_change = $client_arr['client_time_change'];
@@ -1274,6 +1282,7 @@ if ($step == 1) {
     $smarty->assign('client_company', $client_company);
     $smarty->assign('client_income', $client_income);
     $smarty->assign('client_room_type', $client_room_type);
+    $smarty->assign('client_room_type_number', $client_room_type_number);
     $smarty->assign('client_rent', $client_rent);
     $smarty->assign('client_reason_change', $client_reason_change);
     $smarty->assign('client_time_change', $client_time_change);
