@@ -158,6 +158,7 @@ class HOMEOrder {
                                 hc.client_resident_phone AS client_resident_phone,
                                 hc.client_rent AS client_rent,
                                 hc.client_room_type AS client_room_type,
+                                hc.client_room_type_number AS client_room_type_number,
                                 
                                 hhl.id AS history_log_id, 
                                 hhl.source_id,
@@ -224,7 +225,8 @@ class HOMEOrder {
         $client['client_resident_phone'] = $row['client_resident_phone'];
         $client['client_rent'] = $row['client_rent'];
         $client['client_room_type'] = $row['client_room_type'];
-
+        $client['client_room_type_number'] = $row['client_room_type_number'];
+        
         $client['history_log_id'] = $row['history_log_id'];
         $client['log_time_call'] = $row['log_time_call'];
         $client['log_time_arrive_company'] = $row['log_time_arrive_company'];
