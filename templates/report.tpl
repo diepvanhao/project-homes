@@ -669,7 +669,7 @@
 
                             var options = {
                                 title: ' ',
-                                vAxis: {title: '月', titleTextStyle: {color: 'red'}}
+                                vAxis: {title: ' ', titleTextStyle: {color: 'red'}}
                             };
 
                     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));

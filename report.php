@@ -392,7 +392,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "1")
-            ->setCellValue("B{$index}", "Internet(e-mail)")
+            ->setCellValue("B{$index}", "インターネット（メール）")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todaymail_mail'] + $yearReport['todaymail_tel']))
@@ -421,7 +421,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "2")
-            ->setCellValue("B{$index}", "Internet (phone)")
+            ->setCellValue("B{$index}", "インターネット（電話）")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todayphone_mail'] + $yearReport['todayphone_tel']))
@@ -450,7 +450,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "3")
-            ->setCellValue("B{$index}", "(TEL, email) term building lease")
+            ->setCellValue("B{$index}", "定借(TEL、メール）")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todaydiscount_mail'] + $yearReport['todaydiscount_tel']))
@@ -480,7 +480,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "4")
-            ->setCellValue("B{$index}", "Local sign")
+            ->setCellValue("B{$index}", "ローカルののサイン")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todaylocalsign_mail'] + $yearReport['todaylocalsign_tel']))
@@ -509,7 +509,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "5")
-            ->setCellValue("B{$index}", "Introduction")
+            ->setCellValue("B{$index}", "紹介")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todayintroduction_mail'] + $yearReport['todayintroduction_tel']))
@@ -539,7 +539,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "6")
-            ->setCellValue("B{$index}", "Shop sign")
+            ->setCellValue("B{$index}", "店看板")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todayshopsign_mail'] + $yearReport['todayshopsign_tel']))
@@ -568,7 +568,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "7")
-            ->setCellValue("B{$index}", "Local Flyers")
+            ->setCellValue("B{$index}", "チラシ")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todayflyer_mail'] + $yearReport['todayflyer_tel']))
@@ -597,7 +597,7 @@ if (!empty($post['export']) && empty($error)) {
     ;
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue("A{$index}", "8")
-            ->setCellValue("B{$index}", "Line")
+            ->setCellValue("B{$index}", "ライン")
             ->setCellValue("F{$index}", "当日")
             ->setCellValue("F{$plus}", "累計")
             ->setCellValue("G{$index}", (int) ($yearReport['todayline_mail'] + $yearReport['todayline_tel']))
