@@ -972,7 +972,7 @@ if (isset($_POST['save'])) {
     } elseif ($task == 'detail') {
         $result = $customer->update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
         if ($result)
-            $errorHouseExist = " success !!!";
+            $errorHouseExist = "アップデート成功 !!!";
     } elseif ($task == 'history') {
         
     } elseif ($task == 'aspirations') {

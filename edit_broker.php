@@ -146,7 +146,7 @@ if (isset($_POST['submit'])) {
         $broker = new HOMEBroker();
         $result = $broker->update($broker_id, $broker_company_name, $house_address_serialize, $broker_company_phone, $broker_company_email, $broker_company_fax,$broker_company_undertake);        
         if ($result) {
-            $notify="Update success !!!";
+            $notify="アップデート成功 !!!";
         }
     }
 } elseif ($content[0] == 'edit') {

@@ -61,7 +61,7 @@
                             <td>{$client.client_resident_name}</td>
                             <td>{$client.client_resident_phone}</td>
                             <td>{$client.client_rent}</td>
-                            <td>{$client.client_room_type}</td>
+                            <td>{$client.client_room_type_number}{$client.client_room_type}</td>
                             <td style="width:9%"><a href="edit_client.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$client.id})" style="margin: 0% 10% 0% 10%;">削除</a><!--a href="house_detail.php?url={$add|base64_encode}">Detail</a--></td>
                         </tr>
                     {/foreach}

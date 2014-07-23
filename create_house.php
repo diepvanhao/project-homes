@@ -224,7 +224,7 @@ if (isset($_POST['submit'])) {
                 $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email
         );
         if ($result) {
-            header("Location: notify.php?content=Create House Success!!!&url_return=create_house.php");
+            header("Location: notify.php?content=物件情報～は成功に作成されました。!!!&url_return=create_house.php");
         }
     }
 }

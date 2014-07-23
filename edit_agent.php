@@ -132,7 +132,7 @@ if (isset($_POST['submit'])) {
         $agent = new HOMEAgent();
         $result = $agent->update($agent_id, $agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax);        
         if ($result) {
-            $notify="Update success !!!";
+            $notify="アップデート成功 !!!";
         }
     }
 } elseif ($content[0] == 'edit') {

@@ -257,7 +257,7 @@ if (isset($_POST['submit'])) {
                 $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id
         );
         if ($result) {
-            $notify = "Update success !!!";
+            $notify = "アップデート成功 !!!";
         }
     }
 } elseif ($content[0] == 'edit') {

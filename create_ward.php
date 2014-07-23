@@ -54,7 +54,7 @@ if (isset($_POST['submit'])) {
         if ($result['error']) {
             $error[] = $result['error'];
         } elseif ($result['flag']) {
-            header("Location: notify.php?content=Create Ward Success!!!&url_return=create_ward.php");
+            header("Location: notify.php?content=字・丁目～は成功に作成されました。!!!&url_return=create_ward.php");
         } else
             $error[] = "Create ward fail, maybe error of connect database !!!";
     }

@@ -126,7 +126,7 @@ if (isset($_POST['submit'])) {
         $broker = new HOMEBroker();
         $result = $broker->create($broker_company_name, $house_address_serialize, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake);
         if ($result) {
-            header("Location: notify.php?content=Create Broker Company Success!!!&url_return=create_broker_company.php");
+            header("Location: notify.php?content=管理会社～は成功に作成されました。!!!&url_return=create_broker_company.php");
         }
     }
 }

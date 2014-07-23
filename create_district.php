@@ -54,7 +54,7 @@ if(isset($_POST['submit'])){
         if ($result['error']) {
             $error[]=$result['error'];
         }elseif($result['flag']){
-            header("Location: notify.php?content=Create District Success!!!&url_return=create_district.php");
+            header("Location: notify.php?content=市区町村～は成功に作成されました。!!!&url_return=create_district.php");
         }else
             $error[]="Create city fail, maybe error of connect database !!!";
     }

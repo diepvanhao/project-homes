@@ -8,7 +8,7 @@
         .content{
             width: 100%;
         }
-        #calendar_general{
+        #calendar{
             float: left;
             width: 79%;
         }
@@ -271,7 +271,7 @@
             </li>
         </ul>
     </div>   
-    <div id="calendar_general">
+    <div id="calendar">
         <table style="width: 100%;">
             <thead>
                 <tr>

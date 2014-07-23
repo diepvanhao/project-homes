@@ -79,7 +79,7 @@ for ($i = 0; $i < count($clients); $i++) {
     }
 for ($i = 0; $i < count($clients); $i++) {
     if($clients[$i]['client_room_type']){
-        $clients[$i]['client_room_type']=$house->getHouseTypeById($clients[$i]['client_room_type']);
+        $clients[$i]['client_room_type']=$house->getRoomTypeById($clients[$i]['client_room_type']);
     }
 }
 $smarty->assign('search', $search);

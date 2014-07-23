@@ -129,8 +129,13 @@
                 <td class='form2'><input type='text' class='text' name='client_phone' id='client_phone' value="{$data.client_phone}" style="height:26px; width: 351px;"><div id="client_phone_error"class="error"></div></td>
             </tr>
             <tr>
+                <td class='form1'>ファックス: </td>
+                <td class='form2'><input type='text' class='text' name='client_fax' id='client_fax' value="{$data.client_fax}"  style="height:26px; width: 351px;"><div id="client_fax_error"class="error"></div></td>
+            </tr>
+            <tr>
                 <td class='form1'>収入: </td>
-                <td class='form2'><input type='text' class='text' name='client_income' id='client_income' value="{$data.client_income}"  style="height:26px; width: 351px;"><div id="client_income_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='client_income' id='client_income' value="{$data.client_income}"  style="height:26px; width: 284px;">
+                    <label style="padding: 1% 4.7% 1% 4.7%;background-color: white;">円</label><div id="client_income_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>職業 : </td>
@@ -141,10 +146,7 @@
                 <td class='form2'><input type='text' class='text' name='client_company' id='client_company' value="{$data.client_company}"  style="height:26px; width: 351px;"><div id="client_company_error"class="error"></div></td>
             </tr>
 
-            <tr>
-                <td class='form1'>ファックス: </td>
-                <td class='form2'><input type='text' class='text' name='client_fax' id='client_fax' value="{$data.client_fax}"  style="height:26px; width: 351px;"><div id="client_fax_error"class="error"></div></td>
-            </tr>
+            
             <tr>
                 <td class='form1'>性別: </td>
                 <td class='form2'>
@@ -177,11 +179,14 @@
             </tr>
             <tr>
                 <td class='form1'>賃料: </td>
-                <td class='form2'><input type='text' class='text' name='client_rent' id='house_owner_phone' value="{$data.client_rent}"  style="height:26px; width: 351px;"><div id="client_rent_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='client_rent' id='house_owner_phone' value="{$data.client_rent}"  style="height:26px; width: 284px;">
+                    <label style="padding: 1% 4.7% 1% 4.7%;background-color: white;">円</label><div id="client_rent_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>間取り:  </td>
-                <td class='form2'><select id="client_room_type" name="client_room_type" style="height:26px; width: 351px;">
+                <td class='form2'>
+                    <input type='text' class='text' name='client_room_type_number' id='client_room_type_number' value="{$data.client_room_type_number}" style="height:26px; width: 90px;"/>
+                    <select id="client_room_type" name="client_room_type" style="position: absolute;margin-left: 0.5%;height:28px; width: 251px;">
                         <option value=""></option>
                         {foreach from=$roomTypes item=roomType}
                             <option value="{$roomType.id}" {if $roomType.id eq $data.client_room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
