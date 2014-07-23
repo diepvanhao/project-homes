@@ -35,7 +35,7 @@
                 <tbody>
                     {foreach from=$rooms key=k item=room}
                         {assign var="link" value="edit&{$room.id}&{$room.broker_id}&{$room.house_id}"}
-                        {assign var="add" value="assign&{$room.id}"}
+                        {assign var="add" value="assign&{$room.room_detail_id}"}
                         <tr>
                             <td>{$k+1}</td>                                
                             <td>{$room.room_number}</td>
