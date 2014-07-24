@@ -111,6 +111,13 @@ if (!empty($post['export']) && empty($error)) {
     }
     $title = "Report - {$date}";
 
+    $styleArray = array(
+        'borders' => array(
+          'allborders' => array(
+            'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+          )
+        )
+      );
     $index = 2;
 // Set document properties
     $objPHPExcel->getProperties()->setCreator("Brad")

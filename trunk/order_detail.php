@@ -58,7 +58,7 @@ $smarty->assign('house', $house_detail);
 $smarty->assign('client', $detail->getClient($order['client_id']));
 $smarty->assign('broker', $detail->getBroker($order['broker_id']));
 $smarty->assign('history', $detail->getHistory($order['id']));
-$smarty->assign('status', empty($order['order_status'])?'No':'Yes');
+$smarty->assign('status', empty($order['order_status'])?'いいえ。':'はい。');
 $smarty->assign('house_type',$house->getHouseTypeById($house_detail['house_type']));
 
 include "footer.php";

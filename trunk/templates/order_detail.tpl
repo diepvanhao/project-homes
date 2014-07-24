@@ -188,27 +188,27 @@
             </div>
             <ul class="house-info">
                 <li>
-                    <span>名称 : </span>
+                    <strong>名称 : </strong>
                     <span>{$broker.broker_company_name} </span>
                 </li>
                 <li>
-                    <span>住所 : </span>
+                    <strong>住所 : </strong>
                     <span>{$broker.broker_company_address} </span>
                 </li>
                 <li>
-                    <span>電話番号 : </span>
+                    <strong>電話番号 : </strong>
                     <span>{$broker.broker_company_phone} </span>
                 </li>
                 <li>
-                    <span>Eメール : </span>
+                    <strong>Eメール : </strong>
                     <span>{$broker.broker_company_email} </span>
                 </li>
                 <li>
-                    <span>ファックス : </span>
+                    <strong>ファックス : </strong>
                     <span>{$broker.broker_company_fax} </span>
                 </li>
                 <li>
-                    <span>担当者 : </span>
+                    <strong>担当者 : </strong>
                     <span>{$broker.broker_company_undertake} </span>
                 </li>
             </ul>
@@ -219,68 +219,140 @@
             </div>
             <ul class="house-info">
                 <li>
-                    <span>通話時間 : </span>
+                    <strong>通話時間 : </strong>
                     <span>{$history.log_time_call} </span>
                 </li>
                 <li>
-                    <span>来店時間 : </span>
+                    <strong>来店時間 : </strong>
                     <span>{$history.log_time_arrive_company} </span>
                 </li>
                 <li>
-                    <span>備考 : </span>
+                    <strong>備考 : </strong>
                     <span>{$history.log_comment} </span>
                 </li>
                 <li>
-                    <span>予約日付　（～まで） : </span>
+                    <strong>予約日付　（～まで） : </strong>
                     <span>{$history.log_date_appointment_from} </span>
                 </li>
                 <li>
-                    <span>予約現況 : </span>
-                    <span>{$history.log_status_appointment} </span>
+                    <strong>予約現況 : </strong>
+                    <span>
+                        {if !empty($history.log_status_appointment)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>店看板 : </span>
-                    <span>{$history.log_shop_sign} </span>
+                    <strong>店看板 : </strong>
+                    <span>
+                        {if !empty($history.log_shop_sign)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>ローカルののサイン : </span>
-                    <span>{$history.log_local_sign} </span>
+                    <strong>ローカルののサイン : </strong>
+                    <span>
+                        {if !empty($history.log_local_sign)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>紹介 : </span>
-                    <span>{$history.log_introduction} </span>
+                    <strong>紹介 : </strong>
+                    <span>
+                        {if !empty($history.log_introduction)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>電話で連絡 : </span>
-                    <span>{$history.log_tel} </span>
+                    <strong>電話で連絡 : </strong>
+                    <span>
+                        {if !empty($history.log_tel)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>メールで連絡 : </span>
-                    <span>{$history.log_mail} </span>
+                    <strong>メールで連絡 : </strong>
+                    <span>
+                        {if !empty($history.log_mail)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>チラシ : </span>
-                    <span>{$history.log_flyer} </span>
+                    <strong>チラシ : </strong>
+                    <span>
+                        {if !empty($history.log_flyer)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>ライン : </span>
-                    <span>{$history.log_line} </span>
+                    <strong>ライン : </strong>
+                    <span>
+                        {if !empty($history.log_line)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>本社へ連絡 : </span>
-                    <span>{$history.log_contact_head_office} </span>
+                    <strong>本社へ連絡 : </strong>
+                    <span>
+                        {if !empty($history.log_contact_head_office)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>電話現況 : </span>
-                    <span>{$history.log_tel_status} </span>
+                    <strong>電話現況 : </strong>
+                    <span>
+                        {if !empty($history.log_tel_status)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>メール現況 : </span>
-                    <span>{$history.log_mail_status} </span>
+                    <strong>メール現況 : </strong>
+                    <span>
+                        {if !empty($history.log_mail_status)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
                 <li>
-                    <span>再来店 : </span>
-                    <span>{$history.log_revisit} </span>
+                    <strong>再来店 : </strong>
+                    <span>
+                        {if !empty($history.log_revisit)}
+                        はい。
+                        {else}
+                         いいえ。
+                        {/if}
+                    </span>
                 </li>
             </ul>
         {/if}
