@@ -1393,7 +1393,7 @@
 {if $step eq "registry"}
     {if $errorHouseExist ne ""}
 
-        <div class="error">Don't refesh browser if not neccessary !!!</div>
+        <div class="error"></div>
 
     {/if}
     <form action="create_order.php" method="post">

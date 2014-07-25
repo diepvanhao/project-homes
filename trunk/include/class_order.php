@@ -189,7 +189,14 @@ class HOMEOrder {
                                 hha.aspirations_build_time AS aspirations_build_time,
                                 hha.aspirations_area AS aspirations_area,
                                 hha.aspirations_size AS aspirations_size,
-                                hha.aspirations_comment AS aspirations_comment
+                                hha.aspirations_comment AS aspirations_comment,
+                                
+                                ho.order_name,
+                                ho.order_rent_cost,
+                                ho.order_comment,
+                                ho.house_id,
+                                ho.broker_id,
+                                ho.room_id
                                 
                                 FROM home_order AS ho 
                                 
@@ -256,6 +263,13 @@ class HOMEOrder {
         $client['aspirations_area'] = $row['aspirations_area'];
         $client['aspirations_size'] = $row['aspirations_size'];
         $client['aspirations_comment'] = $row['aspirations_comment'];
+        
+        $client['order_name'] = $row['order_name'];
+        $client['order_comment'] = $row['order_comment'];
+        $client['order_rent_cost'] = $row['order_rent_cost'];
+        $client['house_id'] = $row['house_id'];
+        $client['broker_id'] = $row['broker_id'];
+        $client['room_id'] = $row['room_id'];
         // }
         //get contact 
         $query = "SELECT                               

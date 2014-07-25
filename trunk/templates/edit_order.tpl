@@ -571,7 +571,7 @@
                         var client_income = $('#client_income').val();
                         var client_room_type = $('#client_room_type').val();
                         var client_room_type_number = $('#client_room_type_number').val();
-                        
+
                         var client_rent = $('#client_rent').val();
                         var client_reason_change = $('#client_reason_change').val();
                         var client_time_change = $('#client_time_change').val();
@@ -600,7 +600,7 @@
                         $('#error_ward_id').html('');
 
                         $.post("include/function_ajax.php", {gender: gender, client_address: client_address, city_id: city_id, district_id: district_id, street_id: street_id, ward_id: ward_id, client_occupation: client_occupation,
-                            client_company: client_company, client_income: client_income, client_room_type: client_room_type,client_room_type_number: client_room_type_number, client_rent: client_rent,
+                            client_company: client_company, client_income: client_income, client_room_type: client_room_type, client_room_type_number: client_room_type_number, client_rent: client_rent,
                             client_reason_change: client_reason_change, client_time_change: client_time_change, client_resident_name: client_resident_name,
                             client_resident_phone: client_resident_phone, client_id: client_id, order_id: order_id, action: 'customer', task: 'detail'},
                         function(result) {
@@ -686,7 +686,7 @@
                         $.post("include/function_ajax.php", {log_time_call: log_time_call, log_time_arrive_company: log_time_arrive_company, log_time_mail: log_time_mail,
                             log_time_call_date: log_time_call_date, log_time_arrive_company_date: log_time_arrive_company_date, log_time_mail_date: log_time_mail_date,
                             log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
-                            log_date_appointment_to: log_date_appointment_to,log_date_appointment_from_date: log_date_appointment_from_date,log_date_appointment_to_date: log_date_appointment_to_date,
+                            log_date_appointment_to: log_date_appointment_to, log_date_appointment_from_date: log_date_appointment_from_date, log_date_appointment_to_date: log_date_appointment_to_date,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
                             log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
@@ -753,13 +753,13 @@
                         var contract_handover_day = $('#contract_handover_day').val();
                         var contract_period_from = $('#contract_period_from').val();
                         var contract_period_to = $('#contract_period_to').val();
-                        
+
                         var contract_signature_day_date = $('#contract_signature_day_date').val();
 
                         var contract_handover_day_date = $('#contract_handover_day_date').val();
                         var contract_period_from_date = $('#contract_period_from_date').val();
                         var contract_period_to_date = $('#contract_period_to_date').val();
-                        
+
                         var contract_deposit_1 = $('#contract_deposit_1').val();
                         var contract_deposit_2 = $('#contract_deposit_2').val();
                         var contract_application_date = $('#contract_application_date').val();
@@ -799,7 +799,7 @@
                             var contract_ambition = 1;
                         else
                             var contract_ambition = 0;
-                        
+
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
@@ -838,8 +838,8 @@
                         }
                         $('#error_partner_id').html("");
                         $.post("include/function_ajax.php", {contract_name: contract_name, contract_cost: contract_cost, contract_key_money: contract_key_money,
-                            contract_condition: contract_condition, contract_valuation: contract_valuation, 
-                            contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day, contract_period_from: contract_period_from, contract_period_to: contract_period_to, 
+                            contract_condition: contract_condition, contract_valuation: contract_valuation,
+                            contract_signature_day: contract_signature_day, contract_handover_day: contract_handover_day, contract_period_from: contract_period_from, contract_period_to: contract_period_to,
                             contract_signature_day_date: contract_signature_day_date, contract_handover_day_date: contract_handover_day_date, contract_period_from_date: contract_period_from_date, contract_period_to_date: contract_period_to_date,
                             contract_deposit_1: contract_deposit_1, contract_deposit_2: contract_deposit_2,
                             contract_cancel: contract_cancel, contract_total: contract_total, contract_application: contract_application, contract_application_date: contract_application_date, label: label, plus_money: plus_money,
@@ -847,7 +847,7 @@
                             contract_broker_fee: contract_broker_fee, contract_broker_fee_unit: contract_broker_fee_unit, contract_ads_fee: contract_ads_fee, contract_ads_fee_unit: contract_ads_fee_unit,
                             contract_transaction_finish: contract_transaction_finish, contract_payment_date_from: contract_payment_date_from, contract_payment_date_to: contract_payment_date_to,
                             contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report, partner_id: partner_id, partner_percent: partner_percent,
-                            contract_ambition: contract_ambition,client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
+                            contract_ambition: contract_ambition, client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
                             if (json.id != "")
@@ -1023,615 +1023,823 @@
     </script>
 {/literal}
 {nocache}
-    {if $error|@count gt 0}
-        {foreach from=$error item=val}
-            <div class="error">{$val}</div>
-        {/foreach}
-    {/if}
-    {if $notify ne ""}
-        {$notify}
-    {/if}
-
-    {if $errorHouseExist ne ""}
-
-        <div class="error">Don't refesh browser if not neccessary !!!</div>
-
-    {/if}
-    <form action="edit_order.php" method="post">
-        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
-            <tr>
-                <td>顧客フィルたー</td>
-                <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 300px;" placeholder="顧客を入力"/>
-                    <span>
-                        <input type='submit' class='btn-search' value='Submit' id="search" name="submit"/>&nbsp;                     
-                    </span>
-                </td>
-            <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
-            </tr>
-        </table>
-    </form>
-
-    <div style="margin-bottom:10px;">
-        <center>
-            ページ:
-            {for $i=1 to $totalPage }
-                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="edit_order.php?step='registry'&filter={$filter}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
-            {/for}
-        </center>
-    </div>
-    <div id="customer">
-        <ul>
-            <li class="even">番号</li>
-            <li class="even">名称</li>
-            <li class="even">生年月日</li>
-            <li class="even">住所</li>
-            <li class="even">電話番号</li>
-        </ul>
-
-        {foreach from=$customers key=k item=item}
-            <ul>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
-            </ul>
-        {/foreach}
-
-    </div>
-    <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">クライアント情報</div>
-    <div id="client_info">
-        <ul>
-            <li class="select_menu" title="basic">基本情報</li>
-            <li class="noselect_menu" title="detail">明細</li>
-            <li class="noselect_menu" title="history">履歴</li>
-            <li class="noselect_menu" title="aspirations">希望</li>
-            <li class="noselect_menu" title="introduce">紹介</li>
-            <li class="noselect_menu" title="contract">連絡</li>
-        </ul>
-    </div>
-    <div id="client_detail">
-
-        <div id="basic"class="active">
-            <form action="edit_order.php" method="post">        
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                    <tr>
-                        <td class='form1'>名称:</td>
-                        <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>生年月日:</td>
-                        <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>Eメール:</td>
-                        <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1'>電話番号:</td>
-                        <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2'></td>
-                        <td class='form1' nowrap>ファックス:</td>
-                        <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2' colspan="3">
-                            <div id="error_validate" class="error"></div>
-                            <div style="margin-top:10px;text-align: center;">
-                                <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                <input type="hidden" id="task" name="task" value="basic"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
-                            </div>                        
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div id="detail"class="inactive">
-            <form action="edit_order.php" method="post">        
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                    <tr>
-                        <td class='form1'>性別: </td>
-                        <td class='form2'>
-                            <select id="gender"name="gender" style="height:26px; width: 215px;">
-                                <option value="male" {if $gender eq "male"}selected{/if}>男性</option>
-                                <option value="female"{if $gender eq "female"}selected{/if}>情勢</option>
-                                <option value="other" {if $gender eq "other"}selected{/if}>備考</option>
-                            </select>
-                        </td>
-                        <td class='form1' nowrap>番地: <span class="required">*</span></td>
-                        <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>都道府県:  <span class="required">*</span></td>
-                        <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$cities item=city}
-                                    <option value="{$city.id}" {if $city.id eq $city_id}selected="selected"{/if}>{$city.city_name}</option>        
-                                {/foreach}
-                            </select><div id="error_city_id" class="error"></div>
-                        </td>
-                        <td class='form1'>市区町村:  <span class="required">*</span></td>
-                        <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 215px;">                       
-
-                            </select><div id="error_district_id" class="error"></div>
-                        </td>
-                    </tr>      
-
-                    <tr>
-                        <td class='form1'>大字・通称:  <span class="required">*</span></td>
-                        <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 215px;">
-
-                            </select><div id="error_street_id" class="error"></div>
-                        </td>
-                        <td class='form1'>字・丁目:  <span class="required">*</span></td>
-                        <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 215px;">
-
-                            </select><div id="error_ward_id" class="error"></div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class='form1'>職業 :</td>
-                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>会社名:</td>
-                        <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>収入:</td>
-                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>間取り:</td>
-                        <td class='form2'> 
-                            <input type='text' class='text' name='client_room_type_number' id='client_room_type_number' value="{$client_room_type_number}" style="height:26px; width: 90px;"/>
-                            <select id="client_room_type" name="client_room_type" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
-                                <option value=""></option>
-                                {foreach from=$roomTypes item=roomType}
-                                    <option value="{$roomType.id}" {if $roomType.id eq $client_room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
-                                {/foreach}
-                            </select><div id="error_client_room_type" class="error"></div>
-                           <!-- <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 215px;"/>-->
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>現在の賃料:</td>
-                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>引越の理由:</td>
-                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>引越予定日:</td>
-                        <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>入居者の名前</td>
-                        <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 215px;"/> </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>入居者の電話番号:</td>
-                        <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap></td>
-                        <td class='form2'> </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2' colspan="3">
-                            <div id="error_validate" class="error"></div>
-                            <div style="margin-top:10px;text-align: center;">
-                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                <input type="hidden" id="task" name="task" value="detail"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
-                                <input type="hidden" id="city_cus" name="city_cus" value=""/> 
-                                <input type="hidden" id="district_cus" name="district_cus" value=""/> 
-                                <input type="hidden" id="street_cus" name="street_cus" value=""/> 
-                                <input type="hidden" id="ward_cus" name="ward_cus" value=""/> 
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
-                            </div>                        
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div id="history"class="inactive">
-            <form action="edit_order.php" method="post">        
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                    <tr>
-                        <td class='form1'>通話時刻: </td>
-                        <td class='form2'>
-                            <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
-                            <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1' nowrap>来店時刻:</td>
-                        <td class='form2'>
-                            <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
-                            <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>メール送信時刻: </td>
-                        <td class='form2'>
-                            <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
-                            <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1' nowrap>備考:</td>
-                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'nowrap>予約日付　（～まで）:</td>
-                        <td class='form2'>
-                            <input type="text" id="log_date_appointment_from_date" name="log_date_appointment_from_date" value="{$log_date_appointment_from_date}"style="height: 26px; width: 115px;"/>
-                            <input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1' nowrap>予約現況:</td>
-                        <td class='form2'>
-                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">いいえ。</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>予約日付　（～から）: </td>
-                        <td class='form2'>
-                            <input type='text' id="log_date_appointment_to_date" name="log_date_appointment_to_date" value="{$log_date_appointment_to_date}"style="height: 26px; width: 115px;"/>
-                            <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1'>媒体を選択してください。:</td>
-                        <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$sources item=source}
-                                    <option value="{$source.id}" {if $source_id eq $source.id} selected="selected"{/if}>{$source.source_name}</option>        
-                                {/foreach}
-                            </select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class='form1'>TEL:</td>
-                        <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>電話現況:</td>
-                        <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>MAIL:</td>
-                        <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>メール現況:</td>
-                        <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>本社へ連絡:</td>
-                        <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>店頭看板:</td>
-                        <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>現地看板:</td>
-                        <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign"{if $log_local_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>紹介:</td>
-                        <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" {if $log_introduction eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>チラシ:</td>
-                        <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer"{if $log_flyer eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>ライン:</td>
-                        <td class='form2'> <input type='checkbox' id="log_line" name="log_line"{if $log_line eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>再来店: </td>
-                        <td class='form2'>
-                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
-                        </td>
-                        <td class='form1' nowrap><span id="error_revisit"></span></td>
-                        <td class='form2'></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2' colspan="3">
-                            <div id="error_validate" class="error"></div>
-                            <div style="margin-top:10px;text-align: center;">
-                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                <input type="hidden" id="task" name="task" value="history"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
-                            </div>                        
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div id="aspirations" class="inactive">
-            <form action="edit_order.php" method="post">        
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
-                    <tr>
-                        <td class='form1'>物件種別: </td>
-                        <td class='form2'>
-                            <select id="aspirations_type_house" name="aspirations_type_house" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$houseTypes item=houseType}
-                                    <option value="{$houseType.id}" {if $houseType.id eq $aspirations_type_house}selected="selected"{/if}>{$houseType.type_name}</option>        
-                                {/foreach}
-                            </select><div id="error_aspirations_type_house" class="error"></div>
-
-                        </td>
-                        <td class='form1' nowrap>間取り:</td>
-                        <td class='form2'>
-                            <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$roomTypes item=roomType}
-                                    <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
-                                {/foreach}
-                            </select><div id="error_aspirations_type_room" class="error"></div>
-                    </tr>
-                    <tr>
-                        <td class='form1'>築年月:</td>
-                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>アリアー:</td>
-                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>面積:</td>
-                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>賃料:</td>
-                        <td class='form2'> 
-                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>
-                            <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>備考:</td>
-                        <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap></td>
-                        <td class='form2'></td>
-                    </tr>                
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2' colspan="3">
-                            <div style="margin-top:10px;text-align: center;">
-                                <div id="error_validate" class="error"></div>
-                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                <input type="hidden" id="task" name="task" value="aspirations"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
-                            </div>                        
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div id="introduce" class="inactive">
-            <form action="edit_order.php" method="post">            
+    <div>
+        <div id="edit_room">
+            <form action="edit_order.php" method="post">
+                <div class="title"><label >物件情報</label></div>
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
+                    <tr>
+                        <td class="form1">管理会社フィルタ</td>
+                        <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
+                        </td>
+                    </tr>
+                    <tr>       
+                        <td class='form1'>管理会社選択: </td>
+                        <td class='form2'>
+                            <select id="broker_id" name="broker_id" style="height:26px; width: 215px;">
+                                <option value=""></option>
+                                {foreach from=$brokers item=broker}
+                                    <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
+                                {/foreach}
+                            </select>
+                            <div id="error_broker" class="error"></div>
+                        </td>
+                    </tr> 
+                    <tr> 
+                        {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                        <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
+                    </tr>            
+                   <!-- <tr>
+                        <td class="form1">
+                            担当
+                        </td>
 
+                        <td class='form2'>
+                            <select id="staff_id" name="staff_id" style="height:26px; width: 215px;">
+                                <option value=""></option>
+                                {foreach from=$users item=user}
+                                    {if $user.id eq $loged_id}
+                                        <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
+                                    {/if}
+                                {/foreach}
+                            </select><div id="error_staff" class="error"></div>
+
+                        </td>
+                    </tr>-->
                     <tr>
                         <td class="form1">物件フィルタ</td>
-                        <td class="form2">
-                            <input type="text" id="search_house" name="search_house" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>                            
+                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>物件選択: </td>
                         <td class='form2'>
-                            <select id="introduce_house_id" name="introduce_house_id" style="height:26px; width: 215px;">
+                            <select id="house_id" name="house_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
                                 {foreach from=$houses item=house}
-                                    <option value="{$house.id}" {if $introduce_house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
+                                    <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
-                            </select><div id="error_introduce_house_id" class="error"></div>
+                            </select><div id="error_house" class="error"></div>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>物件備考: </td>
-                        <td class='form2'><textarea style="width: 215px;height: 129px;" disabled="1" id="introduce_house_content" name="introduce_house_content" >{$introduce_house_content}</textarea></td>
+                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
                     </tr>
                     <tr>            
-                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_house.php">物件登録</a></div></td>
+                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
                     </tr>
+
                     <tr>            
                         <td class='form1'>部屋選択: </td>
-                        <td class='form2'><select id="introduce_room_id" name="introduce_room_id" style="height:26px; width: 215px;">
+                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
 
-                            </select><div id="error_introduce_room_id" class="error"></div>
+                            </select><div id="error_room" class="error"></div>
                         </td>
                     </tr>
+                    <!--order part-->
+                    <tr>            
+                        <td class='form1'>オーダーID: </td>
+                        <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 215px;"/><div id="error_order_name" class="error"></div></td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>賃料: </td>
+                        <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 215px;"/></td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>備考: </td>
+                        <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 215px;"/></td>
+                    </tr>
+
+                    <!--end order-->
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
-                            <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px">
-                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
-                                <input type="hidden" id="task" name="task" value="introduce"/>
-                                <input type="hidden" id="introduce_house" name="introduce_house" />
-                                <input type="hidden" id="step" name="step" value="registry"/>  
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                <input type='submit' class='btn-signup' value='次' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
+                                <input type="hidden" id="step" name="step" value="verify"/>     
+                                <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
+                                <input type="hidden" id="room_bk" name="room_bk" value="{$room_id}"/>
                             </div>
                         </td>
                     </tr>
                 </table>
             </form>
-        </div>
-        <div id="contract" class="inactive">
-            <form action="edit_order.php" method="post">        
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+            {literal}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('#filter_broker').keyup(function(e) {
+                            var filter = $('#filter_broker').val();
+                            $('#error_broker').html("");
+                            //showloadgif();
+                            $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
+                            function(result) {
+                                if (result) {
+                                    //  hideloadgif();
+                                    $('#broker_id').empty();
+                                    $('#broker_id').html(result);                                    
+                                    $('#yoke_muscle').click();
+                                } else {
+                                    // hideloadgif();
+                                    $('#broker_id').empty();
+                                   // $('#house_id').empty();
+                                    //$('#house_description').html("");                                    
+                                    $('#error_broker').html("仲介会社のキーワードが見つかりませんでした。");
+                                }
+                            });
+                        });
+                        $('#yoke_muscle').click(function() {
+                            var broker_id = $('#broker_id').val();
+                            //$('#submit').attr('disabled', false);
+                            // $("#submit").css('color', '#fff');
+                            $('#room_id').html('');
+                            $('#search').val('');
+                            $('error_house').html('');
+                            $('error_room').html('');
+                            $.post('include/function_ajax.php', {broker_id: broker_id, action: 'create_order', task: 'getHouseList'},
+                            function(result) {
+                                if (result) {
+                                    $('#house_id').empty();
+                                    $('#house_id').html(result);
+                                } else {
+                                    $('#house_id').empty();
+                                    $('#error_house').html('物件名のキーワードが見つかりませんでした。');
+                                }
+
+                            });
+                        });
+
+
+                        $('#submit').click(function(e) {
+                            $('#error_broker').html("");
+                           
+                            $('#error_house').html("");
+                            $('#error_order_name').html("");
+                            $('#error_room').html("");
+                          
+                            var broker_id = $('#broker_id').val();
+                            var house_id = $('#house_id').val();
+                            var order_name = $('#order_name').val();
+                            var room_id = $('#room_id').val();
+                            if (broker_id == "" || broker_id == null) {
+                                $('#error_broker').html('仲介会社をご選択ください。');
+                                e.preventDefault();
+                                return false;
+                            } else if (house_id == "" || house_id == null) {
+                                $('#error_house').html('物件ををご選択ください。.');
+                                e.preventDefault();
+                                return false;
+                            } else if (room_id == "" || room_id == null) {
+                                $('#error_room').html('お部屋をご選択ください。.');
+                                e.preventDefault();
+                                return false;
+                            } else if (order_name == "" || order_name == null) {
+                                $('#error_order_name').html('オーダーの名前は必要です。.');
+                                e.preventDefault();
+                                return false;
+                            } else {
+                                showloadgif();
+                                $('#submit').submit();
+                            }
+
+                        });
+                        $('#broker_id').change(function() {
+                            //active form
+                            $('#error_broker').html("");
+                            $('#error_house').html("");
+                            var broker_id = $('#broker_id').val();
+                            if (broker_id) {                               
+                                $('#yoke_muscle').click();
+                            } else {                                
+                            }
+                        });
+                        var broker_id = $('#broker_id').val();
+                        
+                        var house_id = $('#house_id').val();
+
+                        // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
+                        var room_id = $('#room_bk').val();
+
+                        $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                        function(result) {
+                            var json = $.parseJSON(result);
+                            $('#house_description').html(json.house_description);
+                            get_room(house_id, room_id);
+                        });
+                    });
+                </script>
+            {/literal}
+        </div>  
+        <div id="edit_client" style="display: none;">
+            {if $error|@count gt 0}
+                {foreach from=$error item=val}
+                    <div class="error">{$val}</div>
+                {/foreach}
+            {/if}
+            {if $notify ne ""}
+                {$notify}
+            {/if}
+
+            {if $errorHouseExist ne ""}
+                <div class="error"></div>
+            {/if}
+            <form action="edit_order.php" method="post">
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="60%">
                     <tr>
-                        <td class='form1' nowrap>賃料:</td>
-                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
-                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                        <td>顧客フィルたー</td>
+                        <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 300px;" placeholder="顧客を入力"/>
+                            <span>
+                                <input type='submit' class='btn-search' value='送信' id="search" name="submit"/>&nbsp;                     
+                            </span>
                         </td>
-                        <td class='form1'>礼金:</td>
-                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'>仲介手数料:</td>
-                        <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
-                            </select>
-                        </td>
-                        <td class='form1'>広告代:</td>
-                        <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
-                            </select>
-                        </td>                                           
-                    </tr>
-                    <tr>                    
-                        <td class='form1' nowrap>条件:</td>
-                        <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                        <td class='form1' nowrap>評価:</td>
-                        <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>サイン日付:</td>
-                        <td class='form2'>
-                            <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
-                            <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1' nowrap>鍵渡日:</td>
-                        <td class='form2'>
-                            <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
-                            <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>契約始期:</td>
-                        <td class='form2'>
-                            <input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>
-                            <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1' nowrap>契約終期:</td>
-                        <td class='form2'>
-                            <input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>
-                            <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 95px;"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1' nowrap>支払いの予約日付　（～から）:</td>
-                        <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>支払い状況:</td>
-                        <td class='form2'>
-                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>支払いの予約日付　（～まで）: </td>
-                        <td class='form2'>
-                            <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
-                        </td>
-                        <td class='form1' nowrap>支払い状況レポート:</td>
-                        <td class='form2'>
-                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>敷金・保証金 1:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
-                            </select></td>
-                        <td class='form1' nowrap>敷金・保証金 2:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>合計:</td>
-                        <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
-                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                        </td>
-                        <td class='form1' nowrap>自社</td>
-                        <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>申し込み:</td>
-                        <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
-                        <td class='form1' nowrap>申込日:</td>
-                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'>売上済み:</td>
-                        <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
-                        <td class='form1' nowrap>Cancel:</td>
-                        <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'>店舗:</td>
-                        <td class='form2'>
-                            <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$agents item=agent}
-                                    <option value="{$agent.id}">{$agent.agent_name}</option>
-                                {/foreach}
-                            </select>
-                        </td>
-                        <td class='form1' nowrap>按分先:</td>
-                        <td class='form2'>
-                            <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
-                                <option value=""></option>
-                                {foreach from=$partners item=partner}
-                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
-                                {/foreach}
-                            </select>
-                            <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
-                            <div id="error_partner_id" class="error"></div>
-                        </td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'></td>
-                        <td class='form2'>
-                            <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
-                        </td>       
-                        <td class='form1'></td>
-                        <td class='form2'></td>   
-                    </tr>
-                    {foreach from=$plus_money key=k item=money}
-                        <tr>
-                            <td class='form1'>{$k} :</td>
-                            <td class='form2'>
-                                <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
-                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
-                                <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
-                                <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
-                            </td> 
-                            <td class='form1'></td>
-                            <td class='form2'></td> 
-                        </tr>
-                    {/foreach}
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2' colspan="3">
-                            <div id="error_validate" class="error"></div>
-                            <div style="margin-top:10px;text-align: center;">
-                                <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                <input type="hidden" id="task" name="task" value="contract"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
-                                <input type="hidden" id="calculator" name="calculator"/>
-                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
-                            </div>                        
-                        </td>
+                    <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
                     </tr>
                 </table>
             </form>
-        </div>
-        <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
-    </div>
 
+            <div style="margin-bottom:10px;">
+                <center>
+                    ページ:
+                    {for $i=1 to $totalPage }
+                        {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="edit_order.php?step='registry'&filter={$filter}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
+                    {/for}
+                </center>
+            </div>
+            <div id="customer">
+                <ul>
+                    <li class="even">番号</li>
+                    <li class="even">名称</li>
+                    <li class="even">生年月日</li>
+                    <li class="even">住所</li>
+                    <li class="even">電話番号</li>
+                </ul>
+
+                {foreach from=$customers key=k item=item}
+                    <ul>
+                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
+                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
+                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
+                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
+                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
+                    </ul>
+                {/foreach}
+
+            </div>
+            <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">クライアント情報</div>
+            <div id="client_info">
+                <ul>
+                    <li class="select_menu" title="basic">基本情報</li>
+                    <li class="noselect_menu" title="detail">明細</li>
+                    <li class="noselect_menu" title="history">履歴</li>
+                    <li class="noselect_menu" title="aspirations">希望</li>
+                    <li class="noselect_menu" title="introduce">紹介</li>
+                    <li class="noselect_menu" title="contract">連絡</li>
+                </ul>
+            </div>
+            <div id="client_detail">
+
+                <div id="basic"class="active">
+                    <form action="edit_order.php" method="post">        
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                            <tr>
+                                <td class='form1'>名称:</td>
+                                <td class='form2'><input type="text" id="client_name" name="client_name" value="{$client_name}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>生年月日:</td>
+                                <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>Eメール:</td>
+                                <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form1'>電話番号:</td>
+                                <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2'></td>
+                                <td class='form1' nowrap>ファックス:</td>
+                                <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2' colspan="3">
+                                    <div id="error_validate" class="error"></div>
+                                    <div style="margin-top:10px;text-align: center;">
+                                        <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        <input type="hidden" id="task" name="task" value="basic"/>
+                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                    </div>                        
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div id="detail"class="inactive">
+                    <form action="edit_order.php" method="post">        
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                            <tr>
+                                <td class='form1'>性別: </td>
+                                <td class='form2'>
+                                    <select id="gender"name="gender" style="height:26px; width: 215px;">
+                                        <option value="male" {if $gender eq "male"}selected{/if}>男性</option>
+                                        <option value="female"{if $gender eq "female"}selected{/if}>情勢</option>
+                                        <option value="other" {if $gender eq "other"}selected{/if}>備考</option>
+                                    </select>
+                                </td>
+                                <td class='form1' nowrap>番地: <span class="required">*</span></td>
+                                <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>都道府県:  <span class="required">*</span></td>
+                                <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$cities item=city}
+                                            <option value="{$city.id}" {if $city.id eq $city_id}selected="selected"{/if}>{$city.city_name}</option>        
+                                        {/foreach}
+                                    </select><div id="error_city_id" class="error"></div>
+                                </td>
+                                <td class='form1'>市区町村:  <span class="required">*</span></td>
+                                <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 215px;">                       
+
+                                    </select><div id="error_district_id" class="error"></div>
+                                </td>
+                            </tr>      
+
+                            <tr>
+                                <td class='form1'>大字・通称:  <span class="required">*</span></td>
+                                <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 215px;">
+
+                                    </select><div id="error_street_id" class="error"></div>
+                                </td>
+                                <td class='form1'>字・丁目:  <span class="required">*</span></td>
+                                <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 215px;">
+
+                                    </select><div id="error_ward_id" class="error"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class='form1'>職業 :</td>
+                                <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>会社名:</td>
+                                <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>収入:</td>
+                                <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>間取り:</td>
+                                <td class='form2'> 
+                                    <input type='text' class='text' name='client_room_type_number' id='client_room_type_number' value="{$client_room_type_number}" style="height:26px; width: 90px;"/>
+                                    <select id="client_room_type" name="client_room_type" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
+                                        <option value=""></option>
+                                        {foreach from=$roomTypes item=roomType}
+                                            <option value="{$roomType.id}" {if $roomType.id eq $client_room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
+                                        {/foreach}
+                                    </select><div id="error_client_room_type" class="error"></div>
+                                   <!-- <input type='text' id="client_room_type" name="client_room_type" value="{$client_room_type}"style="height: 26px; width: 215px;"/>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>現在の賃料:</td>
+                                <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>引越の理由:</td>
+                                <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>引越予定日:</td>
+                                <td class='form2'><input type="text" id="client_time_change" name="client_time_change" value="{$client_time_change}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>入居者の名前</td>
+                                <td class='form2'><input type="text" id="client_resident_name" name="client_resident_name" value="{$client_resident_name}"style="height: 26px; width: 215px;"/> </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>入居者の電話番号:</td>
+                                <td class='form2'><input type="text" id="client_resident_phone" name="client_resident_phone" value="{$client_resident_phone}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap></td>
+                                <td class='form2'> </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2' colspan="3">
+                                    <div id="error_validate" class="error"></div>
+                                    <div style="margin-top:10px;text-align: center;">
+                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        <input type="hidden" id="task" name="task" value="detail"/>
+                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        <input type="hidden" id="city_cus" name="city_cus" value=""/> 
+                                        <input type="hidden" id="district_cus" name="district_cus" value=""/> 
+                                        <input type="hidden" id="street_cus" name="street_cus" value=""/> 
+                                        <input type="hidden" id="ward_cus" name="ward_cus" value=""/> 
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                    </div>                        
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div id="history"class="inactive">
+                    <form action="edit_order.php" method="post">        
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                            <tr>
+                                <td class='form1'>通話時刻: </td>
+                                <td class='form2'>
+                                    <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
+                                    <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1' nowrap>来店時刻:</td>
+                                <td class='form2'>
+                                    <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
+                                    <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>メール送信時刻: </td>
+                                <td class='form2'>
+                                    <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
+                                    <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1' nowrap>備考:</td>
+                                <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'nowrap>予約日付　（～まで）:</td>
+                                <td class='form2'>
+                                    <input type="text" id="log_date_appointment_from_date" name="log_date_appointment_from_date" value="{$log_date_appointment_from_date}"style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1' nowrap>予約現況:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">いいえ。</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>予約日付　（～から）: </td>
+                                <td class='form2'>
+                                    <input type='text' id="log_date_appointment_to_date" name="log_date_appointment_to_date" value="{$log_date_appointment_to_date}"style="height: 26px; width: 115px;"/>
+                                    <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1'>媒体を選択してください。:</td>
+                                <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$sources item=source}
+                                            <option value="{$source.id}" {if $source_id eq $source.id} selected="selected"{/if}>{$source.source_name}</option>        
+                                        {/foreach}
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class='form1'>TEL:</td>
+                                <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>電話現況:</td>
+                                <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>MAIL:</td>
+                                <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>メール現況:</td>
+                                <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>本社へ連絡:</td>
+                                <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>店頭看板:</td>
+                                <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>現地看板:</td>
+                                <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign"{if $log_local_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>紹介:</td>
+                                <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" {if $log_introduction eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>チラシ:</td>
+                                <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer"{if $log_flyer eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>ライン:</td>
+                                <td class='form2'> <input type='checkbox' id="log_line" name="log_line"{if $log_line eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>再来店: </td>
+                                <td class='form2'>
+                                    <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
+                                </td>
+                                <td class='form1' nowrap><span id="error_revisit"></span></td>
+                                <td class='form2'></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2' colspan="3">
+                                    <div id="error_validate" class="error"></div>
+                                    <div style="margin-top:10px;text-align: center;">
+                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        <input type="hidden" id="task" name="task" value="history"/>
+                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                    </div>                        
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div id="aspirations" class="inactive">
+                    <form action="edit_order.php" method="post">        
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                            <tr>
+                                <td class='form1'>物件種別: </td>
+                                <td class='form2'>
+                                    <select id="aspirations_type_house" name="aspirations_type_house" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$houseTypes item=houseType}
+                                            <option value="{$houseType.id}" {if $houseType.id eq $aspirations_type_house}selected="selected"{/if}>{$houseType.type_name}</option>        
+                                        {/foreach}
+                                    </select><div id="error_aspirations_type_house" class="error"></div>
+
+                                </td>
+                                <td class='form1' nowrap>間取り:</td>
+                                <td class='form2'>
+                                    <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$roomTypes item=roomType}
+                                            <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
+                                        {/foreach}
+                                    </select><div id="error_aspirations_type_room" class="error"></div>
+                            </tr>
+                            <tr>
+                                <td class='form1'>築年月:</td>
+                                <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>アリアー:</td>
+                                <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>面積:</td>
+                                <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>賃料:</td>
+                                <td class='form2'> 
+                                    <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>備考:</td>
+                                <td class='form2'><input type="text" id="aspirations_comment" name="aspirations_comment" value="{$aspirations_comment}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap></td>
+                                <td class='form2'></td>
+                            </tr>                
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2' colspan="3">
+                                    <div style="margin-top:10px;text-align: center;">
+                                        <div id="error_validate" class="error"></div>
+                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        <input type="hidden" id="task" name="task" value="aspirations"/>
+                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                    </div>                        
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div id="introduce" class="inactive">
+                    <form action="edit_order.php" method="post">            
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
+
+                            <tr>
+                                <td class="form1">物件フィルタ</td>
+                                <td class="form2">
+                                    <input type="text" id="search_house" name="search_house" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>                            
+                                </td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>物件選択: </td>
+                                <td class='form2'>
+                                    <select id="introduce_house_id" name="introduce_house_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$houses item=house}
+                                            <option value="{$house.id}" {if $introduce_house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
+                                        {/foreach}
+                                    </select><div id="error_introduce_house_id" class="error"></div>
+                                </td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>物件備考: </td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;" disabled="1" id="introduce_house_content" name="introduce_house_content" >{$introduce_house_content}</textarea></td>
+                            </tr>
+                            <tr>            
+                                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_house.php">物件登録</a></div></td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>部屋選択: </td>
+                                <td class='form2'><select id="introduce_room_id" name="introduce_room_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+
+                                    </select><div id="error_introduce_room_id" class="error"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2'>
+                                    <div id="error_validate" class="error"></div>
+                                    <div style="margin-top:10px">
+                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
+                                        <input type="hidden" id="task" name="task" value="introduce"/>
+                                        <input type="hidden" id="introduce_house" name="introduce_house" />
+                                        <input type="hidden" id="step" name="step" value="registry"/>  
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div id="contract" class="inactive">
+                    <form action="edit_order.php" method="post">        
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                            <tr>
+                                <td class='form1' nowrap>賃料:</td>
+                                <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                                <td class='form1'>礼金:</td>
+                                <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>仲介手数料:</td>
+                                <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select>
+                                </td>
+                                <td class='form1'>広告代:</td>
+                                <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select>
+                                </td>                                           
+                            </tr>
+                            <tr>                    
+                                <td class='form1' nowrap>条件:</td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
+                                <td class='form1' nowrap>評価:</td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>サイン日付:</td>
+                                <td class='form2'>
+                                    <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1' nowrap>鍵渡日:</td>
+                                <td class='form2'>
+                                    <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>契約始期:</td>
+                                <td class='form2'>
+                                    <input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1' nowrap>契約終期:</td>
+                                <td class='form2'>
+                                    <input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 95px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1' nowrap>支払いの予約日付　（～から）:</td>
+                                <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>支払い状況:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>支払いの予約日付　（～まで）: </td>
+                                <td class='form2'>
+                                    <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
+                                </td>
+                                <td class='form1' nowrap>支払い状況レポート:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>敷金・保証金 1:</td>
+                                <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select></td>
+                                <td class='form1' nowrap>敷金・保証金 2:</td>
+                                <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
+                                    <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>合計:</td>
+                                <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                                <td class='form1' nowrap>自社</td>
+                                <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>申し込み:</td>
+                                <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                                <td class='form1' nowrap>申込日:</td>
+                                <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>売上済み:</td>
+                                <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                                <td class='form1' nowrap>Cancel:</td>
+                                <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>店舗:</td>
+                                <td class='form2'>
+                                    <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$agents item=agent}
+                                            <option value="{$agent.id}">{$agent.agent_name}</option>
+                                        {/foreach}
+                                    </select>
+                                </td>
+                                <td class='form1' nowrap>按分先:</td>
+                                <td class='form2'>
+                                    <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
+                                        <option value=""></option>
+                                        {foreach from=$partners item=partner}
+                                            <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
+                                        {/foreach}
+                                    </select>
+                                    <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                                    <div id="error_partner_id" class="error"></div>
+                                </td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'></td>
+                                <td class='form2'>
+                                    <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
+                                </td>       
+                                <td class='form1'></td>
+                                <td class='form2'></td>   
+                            </tr>
+                            {foreach from=$plus_money key=k item=money}
+                                <tr>
+                                    <td class='form1'>{$k} :</td>
+                                    <td class='form2'>
+                                        <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
+                                        <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
+                                        <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
+                                        <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
+                                    </td> 
+                                    <td class='form1'></td>
+                                    <td class='form2'></td> 
+                                </tr>
+                            {/foreach}
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2' colspan="3">
+                                    <div id="error_validate" class="error"></div>
+                                    <div style="margin-top:10px;text-align: center;">
+                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        <input type="hidden" id="task" name="task" value="contract"/>
+                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        <input type="hidden" id="calculator" name="calculator"/>
+                                        <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
+                                    </div>                        
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
+            </div>
+        </div>
+    </div>
     {literal}
         <style type="text/css">
 
