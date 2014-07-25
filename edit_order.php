@@ -191,13 +191,13 @@ if (isset($_POST['client_room_type'])) {
 } else {
     $client_room_type = "";
 }
-    if (isset($_POST['client_room_type_number'])) {
-        $client_room_type_number = $_POST['client_room_type_number'];
-    } elseif (isset($_GET['client_room_type_number'])) {
-        $client_room_type_number = $_GET['client_room_type_number'];
-    } else {
-        $client_room_type_number = "";
-    }
+if (isset($_POST['client_room_type_number'])) {
+    $client_room_type_number = $_POST['client_room_type_number'];
+} elseif (isset($_GET['client_room_type_number'])) {
+    $client_room_type_number = $_GET['client_room_type_number'];
+} else {
+    $client_room_type_number = "";
+}
 if (isset($_POST['client_rent'])) {
     $client_rent = $_POST['client_rent'];
 } elseif (isset($_GET['client_rent'])) {
@@ -702,7 +702,53 @@ if (isset($_POST['partner_percent'])) {
 } else {
     $partner_percent = "";
 }
+//for edit room
+if (isset($_POST['broker_id'])) {
+    $broker_id = $_POST['broker_id'];
+} elseif (isset($_GET['broker_id'])) {
+    $broker_id = $_GET['broker_id'];
+} else {
+    $broker_id = "";
+}
+if (isset($_POST['house_id'])) {
+    $house_id = $_POST['house_id'];
+} elseif (isset($_GET['house_id'])) {
+    $house_id = $_GET['house_id'];
+} else {
+    $house_id = "";
+}
+if (isset($_POST['room_id'])) {
+    $room_id = $_POST['room_id'];
+} elseif (isset($_GET['room_id'])) {
+    $room_id = $_GET['room_id'];
+} else {
+    $room_id = "";
+}
+if (isset($_POST['order_name'])) {
+    $order_name = $_POST['order_name'];
+} elseif (isset($_GET['order_name'])) {
+    $order_name = $_GET['order_name'];
+} else {
+    $order_name = "";
+}
 
+if (isset($_POST['order_rent_cost'])) {
+    $order_rent_cost = $_POST['order_rent_cost'];
+} elseif (isset($_GET['order_rent_cost'])) {
+    $order_rent_cost = $_GET['order_rent_cost'];
+} else {
+    $order_rent_cost = "";
+}
+if (isset($_POST['order_comment'])) {
+    $order_comment = $_POST['order_comment'];
+} elseif (isset($_GET['order_comment'])) {
+    $order_comment = $_GET['order_comment'];
+} else {
+    $order_comment = "";
+}
+
+
+//end edit room
 $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
 
@@ -740,13 +786,13 @@ for ($i = 0; $i < count($customers); $i++) {
 //Introduce house
 
 $houses = $house->getHouses();
-   if(!empty($_POST['export'])){
-        if(!empty($order_id)){
-            include 'include/class_report.php';
-            $report = new Report();
-            $report ->exportOrder($order_id);
-        }
+if (!empty($_POST['export'])) {
+    if (!empty($order_id)) {
+        include 'include/class_report.php';
+        $report = new Report();
+        $report->exportOrder($order_id);
     }
+}
 //Store client's info
 $order = new HOMEOrder();
 if (isset($_POST['save'])) {
@@ -798,9 +844,9 @@ if (isset($_POST['save'])) {
                 $client_resident_name = $client_arr['client_resident_name'];
                 $client_resident_phone = $client_arr['client_resident_phone'];
 
-               // if ($user->user_info['id'] == $client_arr['user_id']) {
-                    //fetch introduce
-                if(1){
+                // if ($user->user_info['id'] == $client_arr['user_id']) {
+                //fetch introduce
+                if (1) {
                     $result = $customer->getCustomerIntroduce($order_id, $client_id);
 
                     if ($result) {
@@ -980,7 +1026,7 @@ if (isset($_POST['save'])) {
     } elseif ($task == 'detail') {
         $result = $customer->update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
         if ($result)
-                $errorHouseExist = " success !!!";
+            $errorHouseExist = " success !!!";
     } elseif ($task == 'history') {
         
     } elseif ($task == 'aspirations') {
@@ -995,7 +1041,7 @@ if (isset($_POST['save'])) {
 //get client info, history and contact
 
     $client_arr = $order->getClientByOrderId($order_id);
-    // print_r($client_arr);
+    
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
             $client_id = $client_arr['client_id'];
@@ -1109,6 +1155,13 @@ if (isset($_POST['save'])) {
         $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
         $aspirations_comment = $client_arr['aspirations_comment'];
 
+        $order_name=$client_arr['order_name'];
+        $order_comment=$client_arr['order_comment'];
+        $order_rent_cost=$client_arr['order_rent_cost'];
+        $house_id=trim($client_arr['house_id']);
+        $broker_id=trim($client_arr['broker_id']);
+        $room_id=trim($client_arr['room_id']);
+        
         $contract_name = $client_arr['contract_name'];
         $contract_cost = $client_arr['contract_cost'];
         $contract_key_money = $client_arr['contract_key_money'];
@@ -1196,6 +1249,19 @@ if (isset($_POST['save'])) {
     }
 }
 //get source
+//for tag edit room
+
+$broker = new HOMEBroker();
+$brokers = $broker->getAllBroker();
+$smarty->assign('order_name', $order_name);
+$smarty->assign('order_rent_cost', $order_rent_cost);
+$smarty->assign('order_comment', $order_comment);
+$smarty->assign('brokers', $brokers);
+$smarty->assign('broker_id', $broker_id);
+$smarty->assign('house_id', $house_id);
+$smarty->assign('room_id', $room_id);
+//end tag edit room
+
 $houseTypes = $house->getHouseType();
 $roomTypes = $house->getRoomType();
 $sources = $house->getAllSource();
