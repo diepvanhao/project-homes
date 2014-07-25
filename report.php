@@ -362,7 +362,18 @@ if (!empty($post['export']) && empty($error)) {
             ->setCellValue("AN{$plus}", round(($tmp > 0) ? (100 * ($month_agreement) / $tmp) : 0, 2) . '%')
             ->setCellValue("AO{$plus}", $month_agreement)
     ;
-
+            
+    //border
+    $border = array(
+        'borders' => array(
+          'allborders' => array(
+            'style' => PHPExcel_Style_Border::BORDER_MEDIUM,
+          )
+        )
+      );
+    $objPHPExcel->getActiveSheet()->getStyle("A2:AO{$plus}")->applyFromArray($border);
+            
+    //2
     $index = $index + 3;
     $objPHPExcel->getActiveSheet()
             ->mergeCells("A{$index}:J{$index}")
@@ -373,6 +384,10 @@ if (!empty($post['export']) && empty($error)) {
 
     $index = $index + 2;
     $index_tmp = $index;
+    
+    //Border
+    $objPHPExcel->getActiveSheet()->getStyle("A{$index}:N".($index + 18))->applyFromArray($border);
+    
     $objPHPExcel->getActiveSheet()
             ->mergeCells("B{$index}:E{$index}")
     ;
@@ -813,6 +828,7 @@ if (!empty($post['export']) && empty($error)) {
             ->setCellValue("AJ{$index_tmp}", "台帳")
     ;
     $webs = $report->getAllSource();
+    $idx = $index_tmp;
     $index_tmp = $index_tmp - 1;
     
     $today_feedback = 0.00;
@@ -881,7 +897,9 @@ if (!empty($post['export']) && empty($error)) {
             ;
         }
     }
-
+    //Border
+    $objPHPExcel->getActiveSheet()->getStyle("U{$idx}:AJ{$plus}")->applyFromArray($border);
+    
 // Rename worksheet
 //    $objPHPExcel->getActiveSheet()->setTitle('Simple');
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet

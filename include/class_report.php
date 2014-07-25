@@ -1684,6 +1684,33 @@ class Report {
 
         $title = "Order Report";
 
+        $border = array(
+            'borders' => array(
+              'allborders' => array(
+                'style' => PHPExcel_Style_Border::BORDER_MEDIUM,
+              )
+            )
+          );
+        $greenColor = array(
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'CCFFCC')
+            )
+        );
+        $yellowColor = array(
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'FCF305')
+            )
+        );
+        
+        $redColor = array(
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'FF99CC')
+            )
+        );
+        
         $index = 2;
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Brad")
@@ -1693,9 +1720,14 @@ class Report {
                 ->setDescription("Report document for Office 2007 XLSX, generated using PHP classes.")
                 ->setKeywords($title)
                 ->setCategory("Report");
-
-
+         
         //Top
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:S{$index}")->applyFromArray($border);
+
+        $objPHPExcel->getActiveSheet()->getStyle("B{$index}:C{$index}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("M{$index}:S{$index}")->applyFromArray($greenColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:C{$index}")
                 ->mergeCells("H{$index}:J{$index}")
@@ -1711,6 +1743,12 @@ class Report {
         ;
 
         $index ++;
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:D{$index}")->applyFromArray($border);
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:R{$index}")->applyFromArray($border);
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:D{$index}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("M{$index}:R{$index}")->applyFromArray($greenColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:B{$index}")
                 ->mergeCells("K{$index}:L{$index}")
@@ -1727,6 +1765,11 @@ class Report {
 
         $index ++;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:S{$index}")->applyFromArray($border);
+        
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:S{$index}")->applyFromArray($yellowColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:H{$plus}")
                 ->mergeCells("K{$index}:L{$index}")
@@ -1743,6 +1786,11 @@ class Report {
         $signdate = $row['contract_signature_day'];
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$plus}:J{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        $objPHPExcel->getActiveSheet()->getStyle("L{$index}:Q{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        $objPHPExcel->getActiveSheet()->getStyle("A{$plus}:T".($plus + 33))->applyFromArray($border);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("C{$plus}:J{$plus}")
                 ->mergeCells("L{$index}:Q{$plus}")
@@ -1763,6 +1811,9 @@ class Report {
         ;
 
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:J{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:J{$plus}")
@@ -1861,6 +1912,9 @@ class Report {
 
 
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:T{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:T{$plus}")
@@ -1872,6 +1926,10 @@ class Report {
 
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:J{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        $objPHPExcel->getActiveSheet()->getStyle("L{$index}:T{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:J{$plus}")
@@ -1918,6 +1976,9 @@ class Report {
 
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:R{$plus}")->applyFromArray(array_merge($border,$greenColor));
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:N{$plus}")
@@ -1933,6 +1994,11 @@ class Report {
 
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("H{$index}:J{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("M{$index}:O{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("R{$index}:T{$plus}")->applyFromArray($redColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:D{$plus}")
@@ -1969,6 +2035,11 @@ class Report {
         ;
 
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:E{$plus}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("I{$index}:I{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:M{$plus}")->applyFromArray($yellowColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:E{$plus}")
@@ -1995,6 +2066,12 @@ class Report {
 
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:E{$plus}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("I{$index}:I{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:M{$plus}")->applyFromArray($yellowColor);
+        $objPHPExcel->getActiveSheet()->getStyle("P{$index}:S{$plus}")->applyFromArray($greenColor);
+
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:E{$plus}")
@@ -2025,6 +2102,11 @@ class Report {
 
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("I{$index}:I{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:M{$plus}")->applyFromArray($yellowColor);
+        $objPHPExcel->getActiveSheet()->getStyle("P{$index}:S{$plus}")->applyFromArray($greenColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:C{$plus}")
@@ -2062,6 +2144,10 @@ class Report {
         ;
 
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:M{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("S{$index}:T{$plus}")->applyFromArray($redColor);
+         
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:C{$plus}")
@@ -2087,6 +2173,11 @@ class Report {
 
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("D{$index}:F{$plus}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("J{$index}:K{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("R{$index}:R{$plus}")->applyFromArray($redColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("B{$index}:B{$plus}")
                 ->mergeCells("C{$index}:C{$plus}")
@@ -2116,6 +2207,10 @@ class Report {
         //7
         $index = $plus + 1;
         $plus = $index + 3;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("B{$plus}:C{$plus}")->applyFromArray($greenColor);
+        $objPHPExcel->getActiveSheet()->getStyle("S{$plus}:T{$plus}")->applyFromArray($greenColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
         ;
@@ -2131,6 +2226,10 @@ class Report {
         //8
         $index = $plus + 1;
         $plus = $index + 1;
+        
+        $objPHPExcel->getActiveSheet()->getStyle("C{$index}:G{$plus}")->applyFromArray($redColor);
+        $objPHPExcel->getActiveSheet()->getStyle("K{$index}:T{$plus}")->applyFromArray($redColor);
+        
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A{$index}:A{$plus}")
                 ->mergeCells("B{$index}:B{$plus}")
