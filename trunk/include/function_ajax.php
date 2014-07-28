@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -427,6 +428,89 @@ if ($action == "check_email") {
         $result = $ajax->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
         echo json_encode($result);
     }
+    if ($task == "edit_room") {
+        if (isset($_POST['house_id'])) {
+            $house_id = $_POST['house_id'];
+        } elseif (isset($_GET['house_id'])) {
+            $house_id = $_GET['house_id'];
+        } else {
+            $house_id = "";
+        }
+        if (isset($_POST['broker_id'])) {
+            $broker_id = $_POST['broker_id'];
+        } elseif (isset($_GET['broker_id'])) {
+            $broker_id = $_GET['broker_id'];
+        } else {
+            $broker_id = "";
+        }
+        if (isset($_POST['room_id'])) {
+            $room_id = $_POST['room_id'];
+        } elseif (isset($_GET['room_id'])) {
+            $room_id = $_GET['room_id'];
+        } else {
+            $room_id = "";
+        }
+        if (isset($_POST['house_id_bk'])) {
+            $house_id_bk = $_POST['house_id_bk'];
+        } elseif (isset($_GET['house_id_bk'])) {
+            $house_id_bk = $_GET['house_id_bk'];
+        } else {
+            $house_id_bk = "";
+        }
+        if (isset($_POST['broker_id_bk'])) {
+            $broker_id_bk = $_POST['broker_id_bk'];
+        } elseif (isset($_GET['broker_id_bk'])) {
+            $broker_id_bk = $_GET['broker_id_bk'];
+        } else {
+            $broker_id_bk = "";
+        }
+        if (isset($_POST['room_id_bk'])) {
+            $room_id_bk = $_POST['room_id_bk'];
+        } elseif (isset($_GET['room_id_bk'])) {
+            $room_id_bk = $_GET['room_id_bk'];
+        } else {
+            $room_id_bk = "";
+        }
+        if (isset($_POST['order_rent_cost'])) {
+            $order_rent_cost = $_POST['order_rent_cost'];
+        } elseif (isset($_GET['order_rent_cost'])) {
+            $order_rent_cost = $_GET['order_rent_cost'];
+        } else {
+            $order_rent_cost = "";
+        }
+        if (isset($_POST['order_comment'])) {
+            $order_comment = $_POST['order_comment'];
+        } elseif (isset($_GET['order_comment'])) {
+            $order_comment = $_GET['order_comment'];
+        } else {
+            $order_comment = "";
+        }
+        if (isset($_POST['change_house_array'])) {
+            $change_house_array = $_POST['change_house_array'];
+        } elseif (isset($_GET['change_house_array'])) {
+            $change_house_array = $_GET['change_house_array'];
+        } else {
+            $change_house_array = "";
+        }
+        if (isset($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
+        } elseif (isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+        } else {
+            $order_id = "";
+        }
+        if (isset($_POST['client_id'])) {
+            $client_id = $_POST['client_id'];
+        } elseif (isset($_GET['client_id'])) {
+            $client_id = $_GET['client_id'];
+        } else {
+            $client_id = "";
+        }
+        $order_day_update = time();
+        
+        $result = $ajax->edit_room($room_id,$room_id_bk,$house_id_bk,$broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id,$change_house_array, $order_day_update,$client_id,$order_id);
+        echo json_encode($result);
+    }
 } elseif ($action == 'deleteClient') {
 
     if (isset($_POST['id'])) {
@@ -585,7 +669,7 @@ if ($action == "check_email") {
             $client_resident_phone = "";
         }
 
-        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type,$client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
+        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
         if ($result)
             echo "success";
         else

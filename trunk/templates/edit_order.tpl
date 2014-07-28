@@ -1025,6 +1025,7 @@
 {nocache}
     <div>
         <div id="edit_room">
+            <div id="error_edit" class="error"></div>
             <form action="edit_order.php" method="post">
                 <div class="title"><label >物件情報</label></div>
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
@@ -1049,23 +1050,23 @@
                         {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
                         <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
                     </tr>            
-                   <!-- <tr>
-                        <td class="form1">
-                            担当
-                        </td>
+                    <!-- <tr>
+                         <td class="form1">
+                             担当
+                         </td>
+ 
+                         <td class='form2'>
+                             <select id="staff_id" name="staff_id" style="height:26px; width: 215px;">
+                                 <option value=""></option>
+                    {foreach from=$users item=user}
+                        {if $user.id eq $loged_id}
+                            <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
+                        {/if}
+                    {/foreach}
+                </select><div id="error_staff" class="error"></div>
 
-                        <td class='form2'>
-                            <select id="staff_id" name="staff_id" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$users item=user}
-                                    {if $user.id eq $loged_id}
-                                        <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
-                                    {/if}
-                                {/foreach}
-                            </select><div id="error_staff" class="error"></div>
-
-                        </td>
-                    </tr>-->
+            </td>
+        </tr>-->
                     <tr>
                         <td class="form1">物件フィルタ</td>
                         <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
@@ -1117,10 +1118,15 @@
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
                             <div style="margin-top:10px">
-                                <input type='submit' class='btn-signup' value='次' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
+                                <input type='button' class='btn-signup' value='変更' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
                                 <input type="hidden" id="step" name="step" value="verify"/>     
                                 <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
-                                <input type="hidden" id="room_bk" name="room_bk" value="{$room_id}"/>
+                                <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$room_id}"/>
+                                <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id}"/>
+                                <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id}"/>
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                <input type="hidden" id="change_house_array" name="change_house_array" value="{$change_house_array}"/>
                             </div>
                         </td>
                     </tr>
@@ -1129,6 +1135,7 @@
             {literal}
                 <script type="text/javascript">
                     $(document).ready(function() {
+                        $('#order_name').attr('disabled', 'disabled');
                         $('#filter_broker').keyup(function(e) {
                             var filter = $('#filter_broker').val();
                             $('#error_broker').html("");
@@ -1138,12 +1145,12 @@
                                 if (result) {
                                     //  hideloadgif();
                                     $('#broker_id').empty();
-                                    $('#broker_id').html(result);                                    
+                                    $('#broker_id').html(result);
                                     $('#yoke_muscle').click();
                                 } else {
                                     // hideloadgif();
                                     $('#broker_id').empty();
-                                   // $('#house_id').empty();
+                                    // $('#house_id').empty();
                                     //$('#house_description').html("");                                    
                                     $('#error_broker').html("仲介会社のキーワードが見つかりませんでした。");
                                 }
@@ -1173,15 +1180,23 @@
 
                         $('#submit').click(function(e) {
                             $('#error_broker').html("");
-                           
+                            $('#error_edit').html("");
                             $('#error_house').html("");
                             $('#error_order_name').html("");
                             $('#error_room').html("");
-                          
+                            var client_id = $('#client_id').val();
+                            var order_id = $('#order_id').val();
                             var broker_id = $('#broker_id').val();
                             var house_id = $('#house_id').val();
+                            var broker_id_bk = $('#broker_id_bk').val();
+                            var house_id_bk = $('#house_id_bk').val();
                             var order_name = $('#order_name').val();
                             var room_id = $('#room_id').val();
+                            var room_id_bk = $('#room_id_bk').val();
+                            var order_rent_cost=$('#order_rent_cost').val();
+                            var order_comment=$('#order_comment').val();
+                            var change_house_array = $('#change_house_array').val();
+                            
                             if (broker_id == "" || broker_id == null) {
                                 $('#error_broker').html('仲介会社をご選択ください。');
                                 e.preventDefault();
@@ -1199,8 +1214,24 @@
                                 e.preventDefault();
                                 return false;
                             } else {
-                                showloadgif();
-                                $('#submit').submit();
+                                //showloadgif();
+
+                                $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, broker_id: broker_id,
+                                    order_rent_cost: order_rent_cost, order_comment: order_comment, change_house_aray: change_house_array,
+                                    room_id_bk: room_id_bk, house_id_bk: house_id_bk, broker_id_bk: broker_id_bk,
+                                    client_id: client_id, order_id: order_id, action: 'create_order', task: 'edit_room'},
+                                function(result) {
+                                    var json = $.parseJSON(result);
+                                    if (json) {
+                                        alert('保存');
+                                        $('#room_bk').val(room_id);
+                                        $('#house_id_bk').val(house_id_bk);
+                                        $('#broker_id_bk').val(broker_id_bk);
+                                    }
+                                    else {
+                                        $('#error_edit').html('更新に失敗しました。もう一度試してください。 !!!');
+                                    }
+                                });
                             }
 
                         });
@@ -1209,13 +1240,13 @@
                             $('#error_broker').html("");
                             $('#error_house').html("");
                             var broker_id = $('#broker_id').val();
-                            if (broker_id) {                               
+                            if (broker_id) {
                                 $('#yoke_muscle').click();
-                            } else {                                
+                            } else {
                             }
                         });
                         var broker_id = $('#broker_id').val();
-                        
+
                         var house_id = $('#house_id').val();
 
                         // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}

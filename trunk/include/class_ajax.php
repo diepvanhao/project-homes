@@ -356,7 +356,7 @@ class ajax {
             return array('flag' => 'false');
     }
 
-    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type,$client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
+    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
         global $database;
         $query = "update home_client set 
                 client_gender= '{$gender}',
@@ -1220,6 +1220,42 @@ class ajax {
         return $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
     }
 
+    function edit_room($room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id, $change_house_array, $order_day_update, $client_id, $order_id) {
+        global $database;
+        $change_house_array_serialize = $room_id . "," . $change_house_array;
+        
+        $change_house_array_edit = serialize($change_house_array_serialize);
+        $query = "update home_order set"
+                . " room_id='{$room_id}',"
+                . "house_id='{$house_id}',"
+                . "broker_id='{$broker_id}',"
+                . "order_comment='{$order_comment}',"
+                . "order_rent_cost='{$order_rent_cost}',"
+                . "order_day_update='{$order_day_update}',"
+                . "change_house_array='{$change_house_array_edit}'"
+                . "where client_id='{$client_id}' and id='{$order_id}'";
+              //  echo $query;die();
+        $result = $database->database_query($query);
+        if ($result) {
+            //update empty status for room
+            //fetch room_detail_id
+            $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
+            $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
+            return $database->database_query($query);
+        }else{
+            return false;
+        }
+    }
+
+}
+
+function getRoomDetailIdEdit($room_id, $house_id, $broker_id) {
+    global $database;
+    $query = "select room_detail_id from home_room where id='{$room_id}' and house_id='{$house_id}' and broker_id='{$broker_id}' limit 1";
+
+    $result = $database->database_query($query);
+    $row = $database->database_fetch_assoc($result);
+    return $row['room_detail_id'];
 }
 
 function checkPartnerExist($contract_detail_id, $partner_id) {
