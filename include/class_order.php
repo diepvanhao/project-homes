@@ -196,7 +196,8 @@ class HOMEOrder {
                                 ho.order_comment,
                                 ho.house_id,
                                 ho.broker_id,
-                                ho.room_id
+                                ho.room_id,
+                                ho.change_house_array
                                 
                                 FROM home_order AS ho 
                                 
@@ -270,6 +271,7 @@ class HOMEOrder {
         $client['house_id'] = $row['house_id'];
         $client['broker_id'] = $row['broker_id'];
         $client['room_id'] = $row['room_id'];
+        $client['change_house_array'] = $row['change_house_array'];
         // }
         //get contact 
         $query = "SELECT                               

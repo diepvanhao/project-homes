@@ -746,7 +746,13 @@ if (isset($_POST['order_comment'])) {
 } else {
     $order_comment = "";
 }
-
+if (isset($_POST['change_house_array'])) {
+    $change_house_array = $_POST['change_house_array'];
+} elseif (isset($_GET['change_house_array'])) {
+    $change_house_array = $_GET['change_house_array'];
+} else {
+    $change_house_array = "";
+}
 
 //end edit room
 $plus_money = array();
@@ -1161,6 +1167,7 @@ if (isset($_POST['save'])) {
         $house_id=trim($client_arr['house_id']);
         $broker_id=trim($client_arr['broker_id']);
         $room_id=trim($client_arr['room_id']);
+        $change_house_array=  unserialize($client_arr['change_house_array']);
         
         $contract_name = $client_arr['contract_name'];
         $contract_cost = $client_arr['contract_cost'];
@@ -1260,6 +1267,7 @@ $smarty->assign('brokers', $brokers);
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('house_id', $house_id);
 $smarty->assign('room_id', $room_id);
+$smarty->assign('change_house_array', $change_house_array);
 //end tag edit room
 
 $houseTypes = $house->getHouseType();
