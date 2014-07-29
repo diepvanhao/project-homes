@@ -16,7 +16,7 @@
                                 </tr>
                                 <tr>
                                     <td class='form1'>パスワード</td>
-                                    <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 172px;"> <div style="margin-top: 10px;"><a href='lostpass.php'>Forget password ?</a></div></td>
+                                    <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 172px;"> <div style="margin-top: 10px;"><a href='lostpass.php'>パースワードを忘れました。?</a></div></td>
                                 </tr>
 
                                 <tr>
@@ -25,7 +25,7 @@
 
                                         <div style="margin-top:10px">
                                             <input type='submit' class='smt_btn' id="submit" name="submit" value='送信'  style="border: none; height: 22px"/>&nbsp; 
-                                            <input type='reset' class='smt_btn' value='Reset'  style="border: none; height: 22px;"/>&nbsp; 
+                                            <input type='reset' class='smt_btn' value='リセット'  style="border: none; height: 22px;"/>&nbsp; 
 
                                         </div>
 
