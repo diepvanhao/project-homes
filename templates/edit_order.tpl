@@ -538,6 +538,34 @@
                 });
 
             });
+            $('#edit_order ul li').click(function() {
+                $('#edit_order ul li').each(function() {
+                    if ($(this).attr('class') == 'select_menu') {
+                        $(this).removeClass('select_menu');
+                        $(this).addClass('noselect_menu');
+                    }
+                });
+                $(this).removeClass('noselect_menu');
+                $(this).addClass('select_menu');
+                //active tag
+                var id = $(this).attr('title');
+                //               
+                if ($('#order_detail').find('#edit_room').attr('class') == 'active') {
+                    $('#order_detail').find('#edit_room').removeClass('active');
+                    $('#order_detail').find('#edit_room').addClass('inactive');
+                }
+                if ($('#order_detail').find('#edit_client').attr('class') == 'active') {
+                    $('#order_detail').find('#edit_client').removeClass('active');
+                    $('#order_detail').find('#edit_client').addClass('inactive');
+                }
+                $('#order_detail').find('div').each(function() {
+                    if ($(this).attr('id') == id) {
+                        $(this).removeClass('inactive');
+                        $(this).addClass('active');
+                    }
+                });
+
+            });
             /*$('#client_detail').find('#client_id').each(function() {
              $(this).val(4);
              });*/
@@ -1023,8 +1051,16 @@
     </script>
 {/literal}
 {nocache}
-    <div>
-        <div id="edit_room">
+
+    <div id="edit_order">
+        <ul>
+            <li class="select_menu" title="edit_client">顧客情報編集</li>
+
+            <li class="noselect_menu" title="edit_room">部屋情報編集</li>
+        </ul>
+    </div>
+    <div id="order_detail">
+        <div id="edit_room" class="inactive">
             <div id="error_edit" class="error"></div>
             <form action="edit_order.php" method="post">
                 <div class="title"><label >物件情報</label></div>
@@ -1193,10 +1229,10 @@
                             var order_name = $('#order_name').val();
                             var room_id = $('#room_id').val();
                             var room_id_bk = $('#room_id_bk').val();
-                            var order_rent_cost=$('#order_rent_cost').val();
-                            var order_comment=$('#order_comment').val();
+                            var order_rent_cost = $('#order_rent_cost').val();
+                            var order_comment = $('#order_comment').val();
                             var change_house_array = $('#change_house_array').val();
-                            
+
                             if (broker_id == "" || broker_id == null) {
                                 $('#error_broker').html('仲介会社をご選択ください。');
                                 e.preventDefault();
@@ -1217,16 +1253,16 @@
                                 //showloadgif();
 
                                 $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, broker_id: broker_id,
-                                    order_rent_cost: order_rent_cost, order_comment: order_comment, change_house_aray: change_house_array,
+                                    order_rent_cost: order_rent_cost, order_comment: order_comment, change_house_array: change_house_array,
                                     room_id_bk: room_id_bk, house_id_bk: house_id_bk, broker_id_bk: broker_id_bk,
                                     client_id: client_id, order_id: order_id, action: 'create_order', task: 'edit_room'},
                                 function(result) {
                                     var json = $.parseJSON(result);
                                     if (json) {
                                         alert('保存');
-                                        $('#room_bk').val(room_id);
-                                        $('#house_id_bk').val(house_id_bk);
-                                        $('#broker_id_bk').val(broker_id_bk);
+                                        $('#room_id_bk').val(room_id);
+                                        $('#house_id_bk').val(house_id);
+                                        $('#broker_id_bk').val(broker_id);
                                     }
                                     else {
                                         $('#error_edit').html('更新に失敗しました。もう一度試してください。 !!!');
@@ -1250,7 +1286,7 @@
                         var house_id = $('#house_id').val();
 
                         // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
-                        var room_id = $('#room_bk').val();
+                        var room_id = $('#room_id_bk').val();
 
                         $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                         function(result) {
@@ -1262,7 +1298,7 @@
                 </script>
             {/literal}
         </div>  
-        <div id="edit_client" style="display: none;">
+        <div id="edit_client" class="active">
             {if $error|@count gt 0}
                 {foreach from=$error item=val}
                     <div class="error">{$val}</div>
@@ -1982,7 +2018,32 @@
                 background: url(include/images/bg-btn-forget.gif) repeat-x;
 
             }
+            #edit_order ul li.select_menu{
+                background: url(include/images/bg-btn-forget.gif) repeat-x;
+                float: left;
+                //background: beige;
+                padding: 0px;
+                width: 50%;
+                cursor: pointer;
+                text-align: center;
+            }
+            #edit_order ul li.noselect_menu{
+                float: left;
+                background: beige;
+                padding: 0px;
+                width: 50%;
+                cursor: pointer;
+                text-align: center;
+            }
+            #edit_order ul li:hover{
 
+                background: url(include/images/bg-btn-forget.gif) repeat-x;
+
+            }
+            #edit_order{
+                width: 100%; 
+                padding-bottom: 4%;
+            }
         </style>
         <script type="text/javascript">
             $(document).ready(function() {
