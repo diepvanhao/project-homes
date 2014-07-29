@@ -11,7 +11,9 @@ class HOMEOrder {
 
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         global $database;
-        $change_house_array = serialize($room_id);
+        $room_arr= Array();
+        $room_arr[]=$room_id."_".$house_id."_".$broker_id;
+        $change_house_array = serialize($room_arr);
         //check house empty
         $checkExist = $this->checkHouseEmpty($house_id, $room_id);
         if ($checkExist)
@@ -377,11 +379,12 @@ class HOMEOrder {
     }
 
     function generate_order_name() {
-        global $database;
+        global $database,$user;
         $query = "select id from home_order order by id DESC limit 1";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
-        return $row['id'] + 1;
+        $id=$row['id'] + 1;        
+        return $user->user_info['user_fname']."_".$user->user_info['user_lname']."_".$id;
     }
 
     //fetch events for private schedule     

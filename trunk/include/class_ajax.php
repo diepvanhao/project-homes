@@ -1222,28 +1222,51 @@ class ajax {
 
     function edit_room($room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id, $change_house_array, $order_day_update, $client_id, $order_id) {
         global $database;
-        $change_house_array_serialize = $room_id . "," . $change_house_array;
-        
+
+        $change_house_array_decode = base64_decode($change_house_array);
+        $change_house_array_serialize = $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode;
+        $change_house_array_serialize = explode(",", $change_house_array_serialize);
+
         $change_house_array_edit = serialize($change_house_array_serialize);
-        $query = "update home_order set"
-                . " room_id='{$room_id}',"
-                . "house_id='{$house_id}',"
-                . "broker_id='{$broker_id}',"
-                . "order_comment='{$order_comment}',"
-                . "order_rent_cost='{$order_rent_cost}',"
-                . "order_day_update='{$order_day_update}',"
-                . "change_house_array='{$change_house_array_edit}'"
-                . "where client_id='{$client_id}' and id='{$order_id}'";
-              //  echo $query;die();
-        $result = $database->database_query($query);
-        if ($result) {
-            //update empty status for room
-            //fetch room_detail_id
-            $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
-            $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
-            return $database->database_query($query);
-        }else{
-            return false;
+        if ($room_id == $room_id_bk && $house_id == $house_id_bk && $broker_id == $broker_id_bk) {
+            $query = "update home_order set "                    
+                    . "order_comment='{$order_comment}',"                    
+                    . "order_day_update='{$order_day_update}'"                    
+                    . "where client_id='{$client_id}' and id='{$order_id}'";
+            //  echo $query;die();
+            $result = $database->database_query($query);
+            if ($result) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            $query = "update home_order set"
+                    . " room_id='{$room_id}',"
+                    . "house_id='{$house_id}',"
+                    . "broker_id='{$broker_id}',"
+                    . "order_comment='{$order_comment}',"
+                    . "order_rent_cost='{$order_rent_cost}',"
+                    . "order_day_update='{$order_day_update}',"
+                    . "change_house_array='{$change_house_array_edit}'"
+                    . "where client_id='{$client_id}' and id='{$order_id}'";
+            //  echo $query;die();
+            $result = $database->database_query($query);
+            if ($result) {
+                //set for rent for room edited
+                //fetch room_detail_id
+                $room_detail_id = getRoomDetailIdEdit($room_id , $house_id, $broker_id);
+                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
+                $database->database_query($query);
+                
+                //update empty status for room
+                //fetch room_detail_id
+                $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
+                $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
+                return $database->database_query($query);
+            } else {
+                return false;
+            }
         }
     }
 
