@@ -112,26 +112,27 @@ class HOMEHouse {
         $result = $database->database_query($query);
         $house_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
-            $house['id'] = $row['id'];
-            $house['user_id'] = $row['user_id'];
-            $house['house_name'] = $row['house_name'];
-            $house['house_address'] = $row['house_address'];
-            $house['house_area'] = $row['house_area'];
-            $house['house_build_time'] = $row['house_build_time'];
-            $house['house_type'] = $row['house_type'];
-            $house['house_description'] = $row['house_description'];
-            $house['house_photo'] = $row['house_photo'];
-            $house['house_structure'] = $row['house_structure'];
-            $house['house_owner_id'] = $row['house_owner_id'];
-            $house_arr[] = $house;
+//            $house['id'] = $row['id'];
+//            $house['user_id'] = $row['user_id'];
+//            $house['house_name'] = $row['house_name'];
+//            $house['house_address'] = $row['house_address'];
+//            $house['house_area'] = $row['house_area'];
+//            $house['house_build_time'] = $row['house_build_time'];
+//            $house['house_type'] = $row['house_type'];
+//            $house['house_description'] = $row['house_description'];
+//            $house['house_photo'] = $row['house_photo'];
+//            $house['house_structure'] = $row['house_structure'];
+//            $house['house_owner_id'] = $row['house_owner_id'];
+            $house_arr[] = $row;
         }
+       
         return $house_arr;
     }
 
     function getRoom($search = "", $offset = 0, $length = 50) {
         global $database;
         $search = trim($search);
-        $query = "select hr.broker_id,hr.house_id,hr.room_detail_id,hrd.*,hbc.broker_company_name,hh.house_name 
+        $query = "select hr.id as room_id,hr.broker_id,hr.house_id,hr.room_detail_id,hrd.*,hbc.broker_company_name,hh.house_name 
             from home_room as hr 
                 left join home_room_detail as hrd on hr.room_detail_id=hrd.id
                 left join home_house as hh on hr.house_id=hh.id
@@ -145,22 +146,22 @@ class HOMEHouse {
         $result = $database->database_query($query);
         $room_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
-            $room['id'] = $row['id'];
-            $room['room_number'] = $row['room_number'];
-            $room['room_type'] = $row['room_type'];
-            $room['room_size'] = $row['room_size'];
-            $room['room_status'] = $row['room_status'];
-            $room['room_rent'] = $row['room_rent'];
-            $room['room_key_money'] = $row['room_key_money'];
-            $room['room_administrative_expense'] = $row['room_administrative_expense'];
-            $room['room_deposit'] = $row['room_deposit'];
-            $room['room_photo'] = $row['room_photo'];
-            $room['room_detail_id'] = $row['room_detail_id'];
-            $room['broker_company_name'] = $row['broker_company_name'];
-            $room['house_name'] = $row['house_name'];
-            $room['broker_id'] = $row['broker_id'];
-            $room['house_id'] = $row['house_id'];
-            $room_arr[] = $room;
+//            $room['id'] = $row['id'];
+//            $room['room_number'] = $row['room_number'];
+//            $room['room_type'] = $row['room_type'];
+//            $room['room_size'] = $row['room_size'];
+//            $room['room_status'] = $row['room_status'];
+//            $room['room_rent'] = $row['room_rent'];
+//            $room['room_key_money'] = $row['room_key_money'];
+//            $room['room_administrative_expense'] = $row['room_administrative_expense'];
+//            $room['room_deposit'] = $row['room_deposit'];
+//            $room['room_photo'] = $row['room_photo'];
+//            $room['room_detail_id'] = $row['room_detail_id'];
+//            $room['broker_company_name'] = $row['broker_company_name'];
+//            $room['house_name'] = $row['house_name'];
+//            $room['broker_id'] = $row['broker_id'];
+//            $room['house_id'] = $row['house_id'];
+            $room_arr[] = $row;
         }
         return $room_arr;
     }

@@ -44,7 +44,7 @@
                             <td>{$house.house_type}</td>                           
                             <td>{$house.house_structure}</td>
                             <td>{$house.house_description}</td>                                                                             
-                            <td style="width:9%"><a href="edit_house.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$house.id})" style="margin: 0% 10% 0% 10%;">削除</a><a href="house_detail.php?url={$add|base64_encode}">詳細</a></td>
+                            <td style="width:9%"><a href="edit_house.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$house.id},{$house.house_lock})" style="margin: 0% 10% 0% 10%;">{if $house.house_lock eq 0}削除{else}回復{/if}</a><a href="house_detail.php?url={$add|base64_encode}">詳細</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -60,15 +60,16 @@
 </center>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id) {
+        function deleteItem(id, lock) {
             if (confirm("確かですか?")) {
-                 $.post("include/function_ajax.php", {house_id:id, action: 'deleteHouse'},
-                    function(result) {
-                        if(result)
-                            window.location.reload(true);
-                        else
-                            alert('削除が失敗しました。 :(');
-                    });
+                $.post("include/function_ajax.php", {house_id: id, house_lock: lock, action: 'deleteHouse'},
+                function(result) {
+                    if (result) {
+                        window.location.reload(true);
+                    } else {
+                        alert('削除が失敗しました。 :(');
+                    }
+                });
             }
         }
 

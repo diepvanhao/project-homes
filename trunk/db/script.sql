@@ -277,3 +277,10 @@ ALTER TABLE `home_room_detail`
   ADD COLUMN `room_type_number` VARCHAR(128) NULL AFTER `room_type`;
 ALTER TABLE `home_client`   
   ADD COLUMN `client_room_type_number` VARCHAR(128) NULL AFTER `client_room_type`;
+
+/*30/7 hao*/
+ALTER TABLE `home_house`   
+  ADD COLUMN `house_lock` TINYINT(1) DEFAULT 0  NULL AFTER `house_owner_id`;
+
+ALTER TABLE `home_room_detail`   
+  ADD COLUMN `room_lock` TINYINT(1) DEFAULT 0  NULL AFTER `room_photo`;

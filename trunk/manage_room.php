@@ -61,7 +61,7 @@ $length = $max;
 $rooms = $houseClass->getRoom($search, $offset, $length);
 for ($i = 0; $i < count($rooms); $i++) {
     if($rooms[$i]['room_type']){
-        $rooms[$i]['room_type']=$houseClass->getHouseTypeById($rooms[$i]['room_type']);
+        $rooms[$i]['room_type']=$houseClass->getRoomTypeById($rooms[$i]['room_type']);
     }
 }
 $smarty->assign('search', $search);

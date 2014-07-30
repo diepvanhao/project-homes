@@ -26,7 +26,7 @@
                         <th>管理会社</th>   
                         <th>間取り</th>
                         <th>現況</th>
-                        <th>Room Rent</th>
+                        <th>賃料</th>
                         <th>面積</th>                        
                         <th>敷金・保証金</th>                                                                                                                                                         
                         <th>活動</th>
@@ -41,12 +41,12 @@
                             <td>{$room.room_number}</td>
                             <td>{$room.house_name}</td>
                             <td>{$room.broker_company_name}</td>
-                            <td>{$room.room_type}</td>
+                            <td>{$room.room_type_number}{$room.room_type}</td>
                             <td>{if $room.room_status eq 1}賃貸中 {elseif $room.room_status eq 2}未完成{else} 空家 {/if}</td>                           
                             <td>{$room.room_rent}</td>                           
                             <td>{$room.room_size}</td>
                             <td>{$room.room_deposit}</td>                           
-                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$room.id},{$room.broker_id},{$room.house_id})" style="margin: 0% 10% 0% 10%;">削除</a><a href="room_detail.php?url={$add|base64_encode}">詳細</a></td>
+                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$room.room_id},{$room.broker_id},{$room.house_id},{$room.room_lock})" style="margin: 0% 10% 0% 10%;">{if $room.room_lock eq 0}削除{else}回復{/if}</a><a href="room_detail.php?url={$add|base64_encode}">詳細</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -62,9 +62,9 @@
 </center>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id, broker_id, house_id) {
+        function deleteItem(id, broker_id, house_id,room_lock) {
             if (confirm("確かですか?")) {
-                $.post("include/function_ajax.php", {id: id, broker_id: broker_id, house_id: house_id, action: 'deleteRoom'},
+                $.post("include/function_ajax.php", {id: id, broker_id: broker_id, house_id: house_id, room_lock: room_lock, action: 'deleteRoom'},
                 function(result) {
                     if (result)
                         window.location.reload(true);
