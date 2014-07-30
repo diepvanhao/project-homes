@@ -73,15 +73,19 @@ class ajax {
         return;
     }
 
-    function deleteHouse($house_id) {
+    function deleteHouse($house_id, $house_lock) {
         global $database;
-        $query = "delete from home_house where id={$house_id}";
+        $house_lock = $house_lock == 0 ? 1 : 0;
+        $query = "update home_house set house_lock=$house_lock where id={$house_id}";
         return $database->database_query($query);
     }
 
-    function deleteRoom($id, $broker_id, $house_id) {
+    function deleteRoom($id, $broker_id, $house_id, $room_lock) {
         global $database;
-        $query = "delete from home_room where broker_id='{$broker_id}' and house_id='{$house_id}' and room_detail_id='{$id}'";
+                
+        $room_detail_id = getRoomDetailIdEdit($id, $house_id, $broker_id);        
+        $room_lock = $room_lock == 0 ? 1 : 0;
+        $query = "update home_room_detail set room_lock=$room_lock where id='{$room_detail_id}'";        
         return $database->database_query($query);
     }
 
@@ -1229,9 +1233,9 @@ class ajax {
 
         $change_house_array_edit = serialize($change_house_array_serialize);
         if ($room_id == $room_id_bk && $house_id == $house_id_bk && $broker_id == $broker_id_bk) {
-            $query = "update home_order set "                    
-                    . "order_comment='{$order_comment}',"                    
-                    . "order_day_update='{$order_day_update}'"                    
+            $query = "update home_order set "
+                    . "order_comment='{$order_comment}',"
+                    . "order_day_update='{$order_day_update}'"
                     . "where client_id='{$client_id}' and id='{$order_id}'";
             //  echo $query;die();
             $result = $database->database_query($query);
@@ -1255,10 +1259,10 @@ class ajax {
             if ($result) {
                 //set for rent for room edited
                 //fetch room_detail_id
-                $room_detail_id = getRoomDetailIdEdit($room_id , $house_id, $broker_id);
+                $room_detail_id = getRoomDetailIdEdit($room_id, $house_id, $broker_id);
                 $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
                 $database->database_query($query);
-                
+
                 //update empty status for room
                 //fetch room_detail_id
                 $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
@@ -1275,7 +1279,6 @@ class ajax {
 function getRoomDetailIdEdit($room_id, $house_id, $broker_id) {
     global $database;
     $query = "select room_detail_id from home_room where id='{$room_id}' and house_id='{$house_id}' and broker_id='{$broker_id}' limit 1";
-
     $result = $database->database_query($query);
     $row = $database->database_fetch_assoc($result);
     return $row['room_detail_id'];

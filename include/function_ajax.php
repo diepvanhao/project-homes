@@ -94,7 +94,14 @@ if ($action == "check_email") {
     } else {
         $house_id = "";
     }
-    $result = $ajax->deleteHouse($house_id);
+    if (isset($_POST['house_lock'])) {
+        $house_lock = $_POST['house_lock'];
+    } elseif (isset($_GET['house_lock'])) {
+        $house_lock = $_GET['house_lock'];
+    } else {
+        $house_lock = "";
+    }
+    $result = $ajax->deleteHouse($house_id,$house_lock);
     echo $result;
 } elseif ($action == 'deleteBroker') {
 
@@ -1341,7 +1348,14 @@ if ($action == "check_email") {
     } else {
         $broker_id = "";
     }
-    $result = $ajax->deleteRoom($id, $broker_id, $house_id);
+    if (isset($_POST['room_lock'])) {
+        $room_lock = $_POST['room_lock'];
+    } elseif (isset($_GET['room_lock'])) {
+        $room_lock = $_GET['room_lock'];
+    } else {
+        $room_lock = "";
+    }
+    $result = $ajax->deleteRoom($id, $broker_id, $house_id,$room_lock);
     echo $result;
 } elseif ($action == 'deleteSource') {
     if (isset($_POST['source_id'])) {
