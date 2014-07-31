@@ -79,13 +79,13 @@ class HOMEAgent {
         $result = $database->database_query($query);
         $agent_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
-            $agent['id'] = $row['id'];
-            $agent['agent_name'] = $row['agent_name'];
-            $agent['agent_email'] = $row['agent_email'];
-            $agent['agent_address'] = $row['agent_address'];
-            $agent['agent_phone'] = $row['agent_phone'];
-            $agent['agent_fax'] = $row['agent_fax'];
-            $agent_arr[] = $agent;
+//            $agent['id'] = $row['id'];
+//            $agent['agent_name'] = $row['agent_name'];
+//            $agent['agent_email'] = $row['agent_email'];
+//            $agent['agent_address'] = $row['agent_address'];
+//            $agent['agent_phone'] = $row['agent_phone'];
+//            $agent['agent_fax'] = $row['agent_fax'];
+            $agent_arr[] = $row;
         }
         return $agent_arr;
     }

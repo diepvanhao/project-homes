@@ -41,7 +41,7 @@
                             <td>{$agent.agent_phone}</td>
                             <td>{$agent.agent_email}</td>
                             <td>{$agent.agent_fax}</td>
-                            <td><a href="edit_agent.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$agent.id})" style="margin: 0% 10% 0% 10%;">削除</a><a href="add_staff_agent.php?url={$add|base64_encode}">担当</a></td>
+                            <td><a href="edit_agent.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$agent.id},{$agent.agent_lock})" style="margin: 0% 10% 0% 10%;">{if $agent.agent_lock eq 0}削除{else}回復{/if}</a><a href="add_staff_agent.php?url={$add|base64_encode}">担当</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -57,9 +57,9 @@
 </center>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id) {
+        function deleteItem(id,agent_lock) {
             if (confirm("確かですか?")) {
-                 $.post("include/function_ajax.php", {agent_id:id, action: 'deleteAgent'},
+                 $.post("include/function_ajax.php", {agent_id:id,agent_lock: agent_lock, action: 'deleteAgent'},
                     function(result) {
                         if(result)
                             window.location.reload(true);

@@ -82,8 +82,14 @@ if ($action == "check_email") {
     } else {
         $agent_id = "";
     }
-
-    $result = $ajax->deleteAgent($agent_id);
+    if (isset($_POST['agent_lock'])) {
+        $agent_lock = $_POST['agent_lock'];
+    } elseif (isset($_GET['agent_lock'])) {
+        $agent_lock = $_GET['agent_lock'];
+    } else {
+        $agent_lock = "";
+    }
+    $result = $ajax->deleteAgent($agent_id,$agent_lock);
     echo $result;
 } elseif ($action == 'deleteHouse') {
 
@@ -101,7 +107,7 @@ if ($action == "check_email") {
     } else {
         $house_lock = "";
     }
-    $result = $ajax->deleteHouse($house_id,$house_lock);
+    $result = $ajax->deleteHouse($house_id, $house_lock);
     echo $result;
 } elseif ($action == 'deleteBroker') {
 
@@ -112,7 +118,14 @@ if ($action == "check_email") {
     } else {
         $broker_id = "";
     }
-    $result = $ajax->deleteBroker($broker_id);
+    if (isset($_POST['broker_company_lock'])) {
+        $broker_company_lock = $_POST['broker_company_lock'];
+    } elseif (isset($_GET['broker_company_lock'])) {
+        $broker_company_lock = $_GET['broker_company_lock'];
+    } else {
+        $broker_company_lock = "";
+    }
+    $result = $ajax->deleteBroker($broker_id,$broker_company_lock);
     echo $result;
 } elseif ($action == 'deleteAccount') {
 
@@ -514,8 +527,8 @@ if ($action == "check_email") {
             $client_id = "";
         }
         $order_day_update = time();
-        
-        $result = $ajax->edit_room($room_id,$room_id_bk,$house_id_bk,$broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id,$change_house_array, $order_day_update,$client_id,$order_id);
+
+        $result = $ajax->edit_room($room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id, $change_house_array, $order_day_update, $client_id, $order_id);
         echo json_encode($result);
     }
 } elseif ($action == 'deleteClient') {
@@ -527,9 +540,16 @@ if ($action == "check_email") {
     } else {
         $id = "";
     }
-    include 'class_client.php';
+    if (isset($_POST['client_lock'])) {
+        $client_lock = $_POST['client_lock'];
+    } elseif (isset($_GET['client_lock'])) {
+        $client_lock = $_GET['client_lock'];
+    } else {
+        $client_lock = "";
+    }
+    include_once 'class_client.php';
     $client = new Client();
-    echo $client->delete($id);
+    echo $client->delete($id, $client_lock);
 } elseif ($action == 'customer') {
 
     if (isset($_POST['task'])) {
@@ -1355,7 +1375,7 @@ if ($action == "check_email") {
     } else {
         $room_lock = "";
     }
-    $result = $ajax->deleteRoom($id, $broker_id, $house_id,$room_lock);
+    $result = $ajax->deleteRoom($id, $broker_id, $house_id, $room_lock);
     echo $result;
 } elseif ($action == 'deleteSource') {
     if (isset($_POST['source_id'])) {
@@ -1365,8 +1385,14 @@ if ($action == "check_email") {
     } else {
         $source_id = "";
     }
-
-    $result = $ajax->deleteSource($source_id);
+if (isset($_POST['source_lock'])) {
+        $source_lock = $_POST['source_lock'];
+    } elseif (isset($_GET['source_lock'])) {
+        $source_lock = $_GET['source_lock'];
+    } else {
+        $source_lock = "";
+    }
+    $result = $ajax->deleteSource($source_id,$source_lock);
     echo $result;
 } elseif ($action == 'create_house') {
     if (isset($_POST['task'])) {

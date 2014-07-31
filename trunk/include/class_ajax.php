@@ -61,16 +61,11 @@ class ajax {
         }
     }
 
-    function deleteAgent($agent_id) {
+    function deleteAgent($agent_id,$agent_lock) {
         global $database;
-        $query = "delete from home_agent where id={$agent_id}";
-        $result = $database->database_query($query);
-        if ($result) {
-            //update user
-            $query = "update home_user set agent_id=0 where agent_id={$agent_id}";
-            return $database->database_query($query);
-        }
-        return;
+        $agent_lock = $agent_lock == 0 ? 1 : 0;
+        $query = " update home_agent set agent_lock=$agent_lock where id={$agent_id}";
+        return $result = $database->database_query($query);                
     }
 
     function deleteHouse($house_id, $house_lock) {
@@ -89,16 +84,12 @@ class ajax {
         return $database->database_query($query);
     }
 
-    function deleteBroker($broker_id) {
+    function deleteBroker($broker_id,$broker_company_lock) {
         global $database;
-        $query = "delete from home_broker_company where id={$broker_id}";
-        $result = $database->database_query($query);
-        if ($result) {
-            //update house
-            $query = "update home_house set broker_id=null where broker_id={$broker_id}";
-            return $database->database_query($query);
-        }
-        return;
+        $broker_company_lock = $broker_company_lock == 0 ? 1 : 0;
+        $query = "update home_broker_company set broker_company_lock=$broker_company_lock where id={$broker_id}";
+        return $result = $database->database_query($query);
+        
     }
 
     function deleteAccount($user_id) {
@@ -119,9 +110,10 @@ class ajax {
         return $result;
     }
 
-    function deleteSource($source_id) {
+    function deleteSource($source_id,$source_lock) {
         global $database;
-        $query = "delete from home_source where id='{$source_id}'";
+        $source_lock = $source_lock == 0 ? 1 : 0;
+        $query = "update home_source set source_lock=$source_lock where id='{$source_id}'";
         return $database->database_query($query);
     }
 

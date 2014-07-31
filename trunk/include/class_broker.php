@@ -86,7 +86,7 @@ class HOMEBroker {
             $broker['broker_company_email'] = $row['broker_company_email'];
             $broker['broker_company_fax'] = $row['broker_company_fax'];
             $broker['broker_company_undertake'] = $row['broker_company_undertake'];
-
+            $broker['broker_company_lock'] = $row['broker_company_lock'];
             $broker_arr[] = $broker;
         }
         return $broker_arr;

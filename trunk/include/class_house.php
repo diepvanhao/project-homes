@@ -469,9 +469,9 @@ class HOMEHouse {
         $result = $database->database_query($query);
         $source_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
-            $source['id'] = $row['id'];
-            $source['source_name'] = $row['source_name'];
-            $source_arr[] = $source;
+//            $source['id'] = $row['id'];
+//            $source['source_name'] = $row['source_name'];
+            $source_arr[] = $row;
         }
         return $source_arr;
     }
