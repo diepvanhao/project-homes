@@ -32,7 +32,7 @@
                         <tr>
                             <td style="width: 10%">{$k+1}</td>
                             <td>{$source.source_name}</td>                            
-                            <td style="width: 10%"><a href="edit_source.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$source.id})" style="margin: 0% 10% 0% 10%;">削除</a></td>
+                            <td style="width: 10%"><a href="edit_source.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$source.id},{$source.source_lock})" style="margin: 0% 10% 0% 10%;">{if $source.source_lock eq 0}削除{else}回復{/if}</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -48,9 +48,9 @@
 </center>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id) {
+        function deleteItem(id,source_lock) {
             if (confirm("確かですか?")) {
-                 $.post("include/function_ajax.php", {source_id:id, action: 'deleteSource'},
+                 $.post("include/function_ajax.php", {source_id: id,source_lock: source_lock, action: 'deleteSource'},
                     function(result) {
                         if(result)
                             window.location.reload(true);

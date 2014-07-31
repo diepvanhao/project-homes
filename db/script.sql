@@ -284,3 +284,15 @@ ALTER TABLE `home_house`
 
 ALTER TABLE `home_room_detail`   
   ADD COLUMN `room_lock` TINYINT(1) DEFAULT 0  NULL AFTER `room_photo`;
+
+ALTER TABLE `home_client`   
+  ADD COLUMN `client_lock` TINYINT(1) DEFAULT 0  NULL AFTER `client_room_type_number`;
+
+ALTER TABLE `home_agent`   
+  ADD COLUMN `agent_lock` TINYINT(1) DEFAULT 0  NULL AFTER `agent_fax`;
+
+ALTER TABLE `home_source`   
+  ADD COLUMN `source_lock` TINYINT(1) DEFAULT 0  NULL AFTER `source_name`;
+
+ALTER TABLE `home_broker_company`   
+  ADD COLUMN `broker_company_lock` TINYINT(1) DEFAULT 0  NULL AFTER `broker_company_undertake`;

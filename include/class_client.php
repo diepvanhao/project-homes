@@ -133,9 +133,10 @@ class Client {
         return $database->database_query($query);
     }
 
-    function delete($id) {
+    function delete($id,$client_lock) {
         global $database;
-        $query = "DELETE FROM home_client WHERE id={$id}";
+        $client_lock = $client_lock == 0 ? 1 : 0;
+        $query = "update home_client set client_lock=$client_lock WHERE id={$id}";
         return $database->database_query($query);
     }
 }
