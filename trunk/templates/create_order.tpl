@@ -1280,13 +1280,13 @@
 
                 // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
                 var room_id = $('#room_bk').val();
-
+                if(house_id){
                 $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
                 function(result) {
                     var json = $.parseJSON(result);
                     $('#house_description').html(json.house_description);
                     get_room(house_id, room_id);
-                });
+                });}
             });
         </script>
     {/literal}

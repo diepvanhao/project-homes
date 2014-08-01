@@ -135,6 +135,7 @@ class HOMEOrder {
             $order['change_house_array'] = $row['change_house_array'];
             $order_arr[] = $order;
         }
+        
         return $order_arr;
     }
 
