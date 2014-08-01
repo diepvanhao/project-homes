@@ -104,7 +104,7 @@ if ($step == 1) {
     $smarty->assign('broker_id', $broker_id);
     //end
     //$house = new HOMEHouse();
-    $houses = $house->getHouses();
+    $houses = $house->getHouses();    
     $users = $user->getAllUsers(true);    
     $broker = new HOMEBroker();    
     $brokers = $broker->getAllBroker();

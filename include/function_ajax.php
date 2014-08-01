@@ -89,7 +89,38 @@ if ($action == "check_email") {
     } else {
         $agent_lock = "";
     }
-    $result = $ajax->deleteAgent($agent_id,$agent_lock);
+    $result = $ajax->deleteAgent($agent_id, $agent_lock);
+    echo $result;
+} elseif ($action == 'deleteOrder') {
+    if (isset($_POST['order_id'])) {
+        $order_id = $_POST['order_id'];
+    } elseif (isset($_GET['order_id'])) {
+        $order_id = $_GET['order_id'];
+    } else {
+        $order_id = "";
+    }
+    if (isset($_POST['house_id'])) {
+        $house_id = $_POST['house_id'];
+    } elseif (isset($_GET['house_id'])) {
+        $house_id = $_GET['house_id'];
+    } else {
+        $house_id = "";
+    }
+    if (isset($_POST['broker_id'])) {
+        $broker_id = $_POST['broker_id'];
+    } elseif (isset($_GET['broker_id'])) {
+        $broker_id = $_GET['broker_id'];
+    } else {
+        $broker_id = "";
+    }
+    if (isset($_POST['room_id'])) {
+        $room_id = $_POST['room_id'];
+    } elseif (isset($_GET['room_id'])) {
+        $room_id = $_GET['room_id'];
+    } else {
+        $room_id = "";
+    }
+    $result = $ajax->deleteOrder($order_id,$house_id,$broker_id,$room_id);
     echo $result;
 } elseif ($action == 'deleteHouse') {
 
@@ -125,7 +156,7 @@ if ($action == "check_email") {
     } else {
         $broker_company_lock = "";
     }
-    $result = $ajax->deleteBroker($broker_id,$broker_company_lock);
+    $result = $ajax->deleteBroker($broker_id, $broker_company_lock);
     echo $result;
 } elseif ($action == 'deleteAccount') {
 
@@ -299,7 +330,7 @@ if ($action == "check_email") {
             $broker_id = $_GET['broker_id'];
         } else {
             $broker_id = "";
-        }
+        }        
         $result = $ajax->getHouseListByBrokerId($broker_id);
         if ($result) {
             echo "<option value=''></option>";
@@ -1385,14 +1416,14 @@ if ($action == "check_email") {
     } else {
         $source_id = "";
     }
-if (isset($_POST['source_lock'])) {
+    if (isset($_POST['source_lock'])) {
         $source_lock = $_POST['source_lock'];
     } elseif (isset($_GET['source_lock'])) {
         $source_lock = $_GET['source_lock'];
     } else {
         $source_lock = "";
     }
-    $result = $ajax->deleteSource($source_id,$source_lock);
+    $result = $ajax->deleteSource($source_id, $source_lock);
     echo $result;
 } elseif ($action == 'create_house') {
     if (isset($_POST['task'])) {

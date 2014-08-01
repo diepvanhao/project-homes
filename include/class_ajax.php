@@ -61,11 +61,11 @@ class ajax {
         }
     }
 
-    function deleteAgent($agent_id,$agent_lock) {
+    function deleteAgent($agent_id, $agent_lock) {
         global $database;
         $agent_lock = $agent_lock == 0 ? 1 : 0;
         $query = " update home_agent set agent_lock=$agent_lock where id={$agent_id}";
-        return $result = $database->database_query($query);                
+        return $result = $database->database_query($query);
     }
 
     function deleteHouse($house_id, $house_lock) {
@@ -77,19 +77,18 @@ class ajax {
 
     function deleteRoom($id, $broker_id, $house_id, $room_lock) {
         global $database;
-                
-        $room_detail_id = getRoomDetailIdEdit($id, $house_id, $broker_id);        
+
+        $room_detail_id = getRoomDetailIdEdit($id, $house_id, $broker_id);
         $room_lock = $room_lock == 0 ? 1 : 0;
-        $query = "update home_room_detail set room_lock=$room_lock where id='{$room_detail_id}'";        
+        $query = "update home_room_detail set room_lock=$room_lock where id='{$room_detail_id}'";
         return $database->database_query($query);
     }
 
-    function deleteBroker($broker_id,$broker_company_lock) {
+    function deleteBroker($broker_id, $broker_company_lock) {
         global $database;
         $broker_company_lock = $broker_company_lock == 0 ? 1 : 0;
         $query = "update home_broker_company set broker_company_lock=$broker_company_lock where id={$broker_id}";
         return $result = $database->database_query($query);
-        
     }
 
     function deleteAccount($user_id) {
@@ -110,7 +109,7 @@ class ajax {
         return $result;
     }
 
-    function deleteSource($source_id,$source_lock) {
+    function deleteSource($source_id, $source_lock) {
         global $database;
         $source_lock = $source_lock == 0 ? 1 : 0;
         $query = "update home_source set source_lock=$source_lock where id='{$source_id}'";
@@ -305,7 +304,7 @@ class ajax {
 
     function getHouseContent($house_id) {
         global $database;
-        $query = "select house_description from home_house where id='{$house_id}'";
+        $query = "select house_description from home_house where id='{$house_id}'";        
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
@@ -1266,6 +1265,61 @@ class ajax {
         }
     }
 
+    function deleteOrder($order_id, $house_id, $broker_id, $room_id) {
+        global $database;
+        $room_detail_id = getRoomDetailIdEdit($room_id, $house_id, $broker_id);
+        $contract_id = getContractId($order_id);
+        $contract_detail_id = getContractDetailId($contract_id);
+        if ($order_id) {
+            //update empty status for room
+            if ($room_detail_id) {
+                $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
+                $database->database_query($query);
+            }
+            //delete contract
+            if ($contract_id) {
+                $query = "delete from home_contract where order_id=$order_id";
+                $database->database_query($query);
+                //delete detail of contract
+                $query = "delete from home_contract_detail where id=$contract_id";
+                $database->database_query($query);
+            }
+            //delete history
+            $query = "delete from home_history_log where order_id=$order_id";
+            $database->database_query($query);
+            //delete aspirations
+            $query = "delete from home_history_aspirations where order_id=$order_id";
+            $database->database_query($query);
+            //delete introduce
+            $query = "delete from home_introduce_house where order_id=$order_id";
+            $database->database_query($query);
+            //delete plus money
+            $query = "delete from home_plus_money where contract_detail_id=$contract_detail_id";
+            $database->database_query($query);
+            //delete order
+            $query = "delete from home_order where id=$order_id";
+            $database->database_query($query);
+            return true;
+        }
+        return false;
+    }
+
+}
+
+function getContractDetailId($contract_id = 0) {
+    global $database;
+    $query = "select id from home_contract_detail where contract_id=$contract_id";
+    $result = $database->database_query($query);
+    $row = $database->database_fetch_assoc($result);
+    return $row['id'];
+}
+
+function getContractId($order_id = 0) {
+    global $database;
+    $query = "select id from home_contract where order_id=$order_id";
+    $result = $database->database_query($query);
+    $row = $database->database_fetch_assoc($result);
+    return $row['id'];
 }
 
 function getRoomDetailIdEdit($room_id, $house_id, $broker_id) {
