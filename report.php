@@ -810,7 +810,7 @@ if (!empty($post['export']) && empty($error)) {
                     $yearReport['yearline_agreement']
                     ))
     ;
-
+            $t1 = $plus;
     // Detail of Web
     $objPHPExcel->getActiveSheet()
             ->mergeCells("V{$index_tmp}:AA{$index_tmp}")
@@ -896,10 +896,92 @@ if (!empty($post['export']) && empty($error)) {
                     ->setCellValue("AJ{$plus}", (int) $com_info['month_agreement'])
             ;
         }
+//        $index = $plus + 1;
+//        $plus = $index + 1;
+//        $objPHPExcel->getActiveSheet()
+//                ->mergeCells("U{$index}:AA{$plus}")
+//        ;
+//        $objPHPExcel->setActiveSheetIndex(0)
+//                ->setCellValue("U{$index}", '合　計')
+//                ->setCellValue("V{$index_tmp}", $web['source_name'])
+//                ->setCellValue("AB{$index_tmp}", "当日")
+//                ->setCellValue("AB{$plus}", "累計")
+//                ->setCellValue("AC{$index_tmp}", (int) ($com_info['today_tel'] + $com_info['today_mail']))
+//                ->setCellValue("AD{$index_tmp}", (int) ($com_info['today_tel_status'] + $com_info['today_mail_status']))
+//                ->setCellValue("AE{$index_tmp}", (int) ($com_info['today_shop_sign'] + $com_info['today_shop_sign']))
+//                ->setCellValue("AF{$index_tmp}", (int) $com_info['today_revisit'])
+//                ->setCellValue("AG{$index_tmp}", (int) $com_info['today_application'])
+//                ->setCellValue("AH{$index_tmp}", (int) $com_info['today_cancel'])
+//                ->setCellValue("AI{$index_tmp}", (int) $com_info['today_change'])
+//                ->setCellValue("AJ{$index_tmp}", (int) $com_info['today_agreement'])
+//                ->setCellValue("AC{$plus}", (int) ($com_info['month_mail'] + $com_info['month_tel']))
+//                ->setCellValue("AD{$plus}", (int) ($com_info['month_tel_status'] + $com_info['month_mail_status']))
+//                ->setCellValue("AE{$plus}", (int) ($com_info['month_shop_sign'] + $com_info['month_shop_sign']))
+//                ->setCellValue("AF{$plus}", (int) $com_info['month_revisit'])
+//                ->setCellValue("AG{$plus}", (int) $com_info['month_application'])
+//                ->setCellValue("AH{$plus}", (int) $com_info['month_cancel'])
+//                ->setCellValue("AI{$plus}", (int) $com_info['month_change'])
+//                ->setCellValue("AJ{$plus}", (int) $com_info['month_agreement'])
+//        ;
     }
     //Border
     $objPHPExcel->getActiveSheet()->getStyle("U{$idx}:AJ{$plus}")->applyFromArray($border);
     
+    
+    $index = (($t1 > $plus)? $t1: $plus) + 2;
+    $chart_data = array();
+    $chart_data[] = array( '','ターゲット','実際に');
+    $chart_cost = 0.00;
+    $chart_target = 0.00;
+    $chart_data[] = array('',0,0);
+    $chart_data[] = array($agent_name,&$chart_target,&$chart_cost);
+    foreach ($users as $key => $user){
+        $commission = $report ->userCommission($user['id'],$date,$fromdate);
+        $user_target = (int) $report ->getUserTarget($user['id'],$date,$fromdate);
+        $chart_cost = $chart_cost + $commission['month_already_recorded'];
+        $chart_target = $chart_target + $user_target;
+        $chart_data[] = array( $user['user_fname'].' '.$user['user_lname'],$user_target,$commission['month_already_recorded']);
+    }
+    
+    $sheet = $objPHPExcel->getActiveSheet();
+    $sheet->fromArray($chart_data);
+    $labels = array(
+      new PHPExcel_Chart_DataSeriesValues('String', 'Worksheet!$B$1', null, 1),
+      new PHPExcel_Chart_DataSeriesValues('String', 'Worksheet!$C$1', null, 1),
+    );
+    $categories = array(
+      new PHPExcel_Chart_DataSeriesValues('String', 'Worksheet!$A$2:$A$5', null, 4),
+      new PHPExcel_Chart_DataSeriesValues('String', 'Worksheet!$A$2:$A$5', null, 4),
+    );
+    $values = array(
+      new PHPExcel_Chart_DataSeriesValues('Number', 'Worksheet!$B$2:$B$5', null, 4),
+      new PHPExcel_Chart_DataSeriesValues('Number', 'Worksheet!$C$2:$C$5', null, 4),
+    );
+    $series = new PHPExcel_Chart_DataSeries(
+      PHPExcel_Chart_DataSeries::TYPE_BARCHART,       // plotType
+      PHPExcel_Chart_DataSeries::GROUPING_CLUSTERED   ,  // plotGrouping
+      array(1, 0),                                    // plotOrder
+      $labels,                                        // plotLabel
+      $categories,                                    // plotCategory
+      $values                                         // plotValues
+    );
+    $series->setPlotDirection(PHPExcel_Chart_DataSeries::DIRECTION_BAR);
+    $plotarea = new PHPExcel_Chart_PlotArea(null, array($series));
+    $legend = new PHPExcel_Chart_Legend(PHPExcel_Chart_Legend::POSITION_RIGHT, null, false);
+    $chart = new PHPExcel_Chart(
+      'chart1',                                       // name
+      null,                                           // title
+      $legend,                                        // legend
+      $plotarea,                                      // plotArea
+      true,                                           // plotVisibleOnly
+      0,                                              // displayBlanksAs
+      null,                                           // xAxisLabel
+      null                                            // yAxisLabel
+    );
+    $chart->setTopLeftPosition("B$index");
+    $chart->setBottomRightPosition("T".($index + 20));
+    $sheet->addChart($chart);
+
 // Rename worksheet
 //    $objPHPExcel->getActiveSheet()->setTitle('Simple');
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -919,7 +1001,8 @@ if (!empty($post['export']) && empty($error)) {
     header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
     header('Pragma: public'); // HTTP/1.0
 
-    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter->setIncludeCharts(TRUE);
     $objWriter->save('php://output');
     exit;
 }
