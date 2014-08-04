@@ -50,16 +50,17 @@ $house = new HOMEHouse();
 $detail = new HOMEDetail();
 
 $housedetail = $house->getHouseById($house_id);
+if ($house->isSerialized($housedetail['house_address'])) {
+    $house_address_serialize = unserialize($housedetail['house_address']);
+    $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+    $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+    $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+    $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+    $house_address = $house_address_serialize['house_address'];
+}
 
-$house_address_serialize = unserialize($housedetail['house_address']);
-$city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
-$district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
-$street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
-$ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
-$house_address = $house_address_serialize['house_address'];
-        
 $smarty->assign('house', $housedetail);    
 $smarty->assign('rooms', $detail->getRooms($house_id));    
-$smarty->assign('address', $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $house_address);    
+$smarty->assign('address', $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address);    
 
 include "footer.php";

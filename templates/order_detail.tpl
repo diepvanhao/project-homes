@@ -182,7 +182,7 @@
                 </li>
             </ul>
         {/if}
-        {if $client}
+        {if $broker}
             <div class="house-title">
                 <span>管理会社</span>
             </div>
