@@ -571,7 +571,7 @@
                         var client_income = $('#client_income').val();
                         var client_room_type = $('#client_room_type').val();
                         var client_room_type_number = $('#client_room_type_number').val();
-                        
+
                         var client_rent = $('#client_rent').val();
                         var client_reason_change = $('#client_reason_change').val();
                         var client_time_change = $('#client_time_change').val();
@@ -600,7 +600,7 @@
                         $('#error_ward_id').html('');
 
                         $.post("include/function_ajax.php", {gender: gender, client_address: client_address, city_id: city_id, district_id: district_id, street_id: street_id, ward_id: ward_id, client_occupation: client_occupation,
-                            client_company: client_company, client_income: client_income, client_room_type: client_room_type,client_room_type_number: client_room_type_number, client_rent: client_rent,
+                            client_company: client_company, client_income: client_income, client_room_type: client_room_type, client_room_type_number: client_room_type_number, client_rent: client_rent,
                             client_reason_change: client_reason_change, client_time_change: client_time_change, client_resident_name: client_resident_name,
                             client_resident_phone: client_resident_phone, client_id: client_id, order_id: order_id, action: 'customer', task: 'detail'},
                         function(result) {
@@ -701,6 +701,7 @@
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
                         var aspirations_type_house = $('#aspirations_type_house').val();
                         var aspirations_type_room = $('#aspirations_type_room').val();
+                        var aspirations_type_room_number = $('#aspirations_type_room_number').val();
                         var aspirations_build_time = $('#aspirations_build_time').val();
                         var aspirations_area = $('#aspirations_area').val();
                         var aspirations_size = $('#aspirations_size').val();
@@ -708,7 +709,7 @@
                         var aspirations_comment = $('#aspirations_comment').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room, aspirations_build_time: aspirations_build_time,
+                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room, aspirations_type_room_number: aspirations_type_room_number, aspirations_build_time: aspirations_build_time,
                             aspirations_area: aspirations_area, aspirations_size: aspirations_size, aspirations_rent_cost: aspirations_rent_cost, aspirations_comment: aspirations_comment,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'aspirations'},
                         function(result) {
@@ -924,6 +925,43 @@
 
                     /*reset form*/
                     $('#cus_id').val('');
+                    $('#client_name').val('');
+                    $('#client_birthday').val('');
+                    $('#client_email').val('');
+                    $('#client_phone').val('');
+                    $('#gender').val('');
+                    $('#client_address').val('');
+
+                    $('#city_cus').val('');
+                    $('#district_cus').val('');
+                    $('#street_cus').val('');
+                    $('#ward_cus').val('');
+                    $('#city_id').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#district').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#street').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#ward').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+
+                    $('#client_occupation').val("");
+                    $('#client_company').val("");
+                    $('#client_income').val("");
+                    //$('#client_room_type').val(json.client_room_type);
+                    $('#client_room_type').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#client_rent').val("");
+                    $('#client_reason_change').val("");
+                    $('#client_time_change').val("");
+                    $('#client_resident_name').val("");
+                    $('#client_resident_phone').val("");
+                    $('#client_room_type_number').val("");
                     /* $('#log_time_call').val('');
                      $('#log_time_arrive_company').val('');
                      $('#log_time_mail').val('');
@@ -992,12 +1030,19 @@
                     $('#client_occupation').val(json.client_occupation);
                     $('#client_company').val(json.client_company);
                     $('#client_income').val(json.client_income);
-                    $('#client_room_type').val(json.client_room_type);
+                    //$('#client_room_type').val(json.client_room_type);
+                    $('#client_room_type').find('option').each(function() {
+                        if ($(this).val() == json.client_room_type) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
                     $('#client_rent').val(json.client_rent);
                     $('#client_reason_change').val(json.client_reason_change);
                     $('#client_time_change').val(json.client_time_change);
                     $('#client_resident_name').val(json.client_resident_name);
                     $('#client_resident_phone').val(json.client_resident_phone);
+                    $('#client_room_type_number').val(json.client_room_type_number);
+
                     //get information order, history, aspirations and contract
                     // if(selectClient())
                     $('#city_cus').change();
@@ -1280,13 +1325,14 @@
 
                 // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
                 var room_id = $('#room_bk').val();
-                if(house_id){
-                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
-                function(result) {
-                    var json = $.parseJSON(result);
-                    $('#house_description').html(json.house_description);
-                    get_room(house_id, room_id);
-                });}
+                if (house_id) {
+                    $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                    function(result) {
+                        var json = $.parseJSON(result);
+                        $('#house_description').html(json.house_description);
+                        get_room(house_id, room_id);
+                    });
+                }
             });
         </script>
     {/literal}
@@ -1355,7 +1401,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
-                $('#cancel').click(function(){
+                $('#cancel').click(function() {
                     window.location.href = "create_order.php";
                 });
                 $('#later').click(function() {
@@ -1386,9 +1432,10 @@
                         }
                     });
                 });
-            });</script>
-        {/literal}
-    {/if}
+            });
+        </script>
+    {/literal}
+{/if}
 
 {if $step eq "registry"}
     {if $errorHouseExist ne ""}
@@ -1595,15 +1642,33 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
+                        <td colspan="2" style="text-align: right;">Choose contact type?</td>
+                        <td colspan="2">
+                            <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">コール</label>
+                            <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
+                            <input type="radio" id="log_time_arrive_company_type" name="choose_contact_type"/><label for="log_time_arrive_company_type">来店</label>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class='form1'>通話時刻: </td>
                         <td class='form2'>
                             <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
                         </td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'>
+
+                        </td>
+                    </tr>
+                    <tr>
                         <td class='form1' nowrap>来店時刻:</td>
                         <td class='form2'>
                             <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
+                        </td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'>
+
                         </td>
                     </tr>
                     <tr>
@@ -1612,8 +1677,8 @@
                             <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap>備考:</td>
-                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'></td>
                     </tr>
                     <tr>
                         <td class='form1'nowrap>予約日付　（～まで）:</td>
@@ -1678,8 +1743,8 @@
                         <td class='form2'>
                             <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
                         </td>
-                        <td class='form1' nowrap><span id="error_revisit"></span></td>
-                        <td class='form2'></td>
+                        <td class='form1' nowrap>備考:</td>
+                        <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>&nbsp;</td>
@@ -1712,8 +1777,9 @@
 
                         </td>
                         <td class='form1' nowrap>間取り:</td>
-                        <td class='form2'>
-                            <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 215px;">
+                        <td class='form2'>                            
+                            <input type='text' class='text' name='aspirations_type_room_number' id='aspirations_type_room_number' value="{$aspirations_type_room_number}" style="height:26px; width: 90px;"/>
+                            <select id="aspirations_type_room" name="aspirations_type_room" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
                                 <option value=""></option>
                                 {foreach from=$roomTypes item=roomType}
                                     <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
@@ -1924,7 +1990,7 @@
                     <tr>
                         <td class='form1'>売上済み:</td>
                         <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
-                        <td class='form1' nowrap>Cancel:</td>
+                        <td class='form1' nowrap>キャンセル:</td>
                         <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                     </tr>
                     <tr>
@@ -2289,6 +2355,24 @@
                                                             $('#introduce_house_contrent').html(json.house_description);
                                                             get_introduce_room(house_id, 0);
                                                         });
+                                                    });
+                                                   // $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    $('#log_time_call_type').click(function() {
+                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    });
+                                                    $('#log_time_mail_type').click(function() {
+                                                        $('#history table').find('tr:nth-child(4)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    });
+                                                    $('#log_time_arrive_company_type').click(function() {
+                                                        $('#history table').find('tr:nth-child(3)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                     });
                                                 });
                                                 function get_introduce_room(house_id, room_id) {

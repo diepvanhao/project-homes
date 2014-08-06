@@ -304,7 +304,7 @@ class ajax {
 
     function getHouseContent($house_id) {
         global $database;
-        $query = "select house_description from home_house where id='{$house_id}'";        
+        $query = "select house_description from home_house where id='{$house_id}'";
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
@@ -455,7 +455,7 @@ class ajax {
         }
     }
 
-    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id) {
+    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id) {
         global $database, $user;
         //check order exist
 
@@ -464,6 +464,7 @@ class ajax {
             $query = "update home_history_aspirations set 
                     aspirations_type_house='{$aspirations_type_house}',
                     aspirations_type_room='{$aspirations_type_room}',
+                    aspirations_type_room_number='{$aspirations_type_room_number}',    
                     aspirations_build_time='{$aspirations_build_time}',
                     aspirations_area='{$aspirations_area}',
                     aspirations_size='{$aspirations_size}',
@@ -480,6 +481,7 @@ class ajax {
                     . "aspirations_type_house,"
                     . "aspirations_rent_cost,"
                     . "aspirations_type_room,"
+                    . "aspirations_type_room_number,"
                     . "aspirations_build_time,"
                     . "aspirations_area,"
                     . "aspirations_size,"
@@ -491,6 +493,7 @@ class ajax {
                     . "'{$aspirations_type_house}',"
                     . "'{$aspirations_rent_cost}',"
                     . "'{$aspirations_type_room}',"
+                    . "'{$aspirations_type_room_number}',"
                     . "'{$aspirations_build_time}',"
                     . "'{$aspirations_area}',"
                     . "'{$aspirations_size}',"
@@ -592,6 +595,14 @@ class ajax {
                     ";
 
             $update = $database->database_query($query);
+            //update order status
+            if ($contract_cancel) {
+                $query = "update home_order set order_status=0 where id=$order_id";
+                $database->database_query($query);
+            } else {
+                $query = "update home_order set order_status=1 where id=$order_id";
+                $database->database_query($query);
+            }
             //update plus money
             //1. Delete first
             //1.1 get contract_detail_id
@@ -756,7 +767,14 @@ class ajax {
                         $database->database_query($query);
                     }
                 }
-
+                //update order status
+                if ($contract_cancel) {
+                    $query = "update home_order set order_status=0 where id=$order_id";
+                    $database->database_query($query);
+                } else {
+                    $query = "update home_order set order_status=1 where id=$order_id";
+                    $database->database_query($query);
+                }
                 //end partner
             }
             return array('id' => $contract_detail_id);
@@ -786,7 +804,8 @@ class ajax {
                                 hc.client_resident_name AS client_resident_name,
                                 hc.client_resident_phone AS client_resident_phone,
                                 hc.client_rent AS client_rent,
-                                hc.client_room_type AS client_room_type
+                                hc.client_room_type AS client_room_type,
+                                hc.client_room_type_number AS client_room_type_number
 
                                 FROM home_client AS hc                                
                                 where hc.id={$id}                                                             
@@ -831,7 +850,9 @@ class ajax {
             $row['client_resident_name'] = $row['client_resident_name'];
             $row['client_resident_phone'] = $row['client_resident_phone'];
             $row['client_rent'] = $row['client_rent'];
-            $row['client_room_type'] = $house->getRoomTypeById($row['client_room_type']);
+            //$row['client_room_type'] = $house->getRoomTypeById($row['client_room_type']);
+            $row['client_room_type'] = $row['client_room_type'];
+            $row['client_room_type_number'] = $row['client_room_type_number'];
 
             $client_arr = $row;
         }
