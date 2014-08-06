@@ -296,3 +296,7 @@ ALTER TABLE `home_source`
 
 ALTER TABLE `home_broker_company`   
   ADD COLUMN `broker_company_lock` TINYINT(1) DEFAULT 0  NULL AFTER `broker_company_undertake`;
+
+/*4-8 Hao*/
+ALTER TABLE `home_history_aspirations`   
+  ADD COLUMN `aspirations_type_room_number` VARCHAR(128) NULL AFTER `aspirations_type_room`;

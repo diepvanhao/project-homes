@@ -729,6 +729,7 @@
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
                         var aspirations_type_house = $('#aspirations_type_house').val();
                         var aspirations_type_room = $('#aspirations_type_room').val();
+                        var aspirations_type_room_number = $('#aspirations_type_room_number').val();
                         var aspirations_build_time = $('#aspirations_build_time').val();
                         var aspirations_area = $('#aspirations_area').val();
                         var aspirations_size = $('#aspirations_size').val();
@@ -736,7 +737,7 @@
                         var aspirations_comment = $('#aspirations_comment').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room, aspirations_build_time: aspirations_build_time,
+                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room,aspirations_type_room_number: aspirations_type_room_number, aspirations_build_time: aspirations_build_time,
                             aspirations_area: aspirations_area, aspirations_size: aspirations_size, aspirations_rent_cost: aspirations_rent_cost, aspirations_comment: aspirations_comment,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'aspirations'},
                         function(result) {
@@ -952,6 +953,43 @@
 
                     /*reset form*/
                     $('#cus_id').val('');
+                    $('#client_name').val('');
+                    $('#client_birthday').val('');
+                    $('#client_email').val('');
+                    $('#client_phone').val('');
+                    $('#gender').val('');
+                    $('#client_address').val('');
+
+                    $('#city_cus').val('');
+                    $('#district_cus').val('');
+                    $('#street_cus').val('');
+                    $('#ward_cus').val('');
+                    $('#city_id').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#district').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#street').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#ward').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+
+                    $('#client_occupation').val("");
+                    $('#client_company').val("");
+                    $('#client_income').val("");
+                    //$('#client_room_type').val(json.client_room_type);
+                    $('#client_room_type').each(function() {
+                        $('option').removeAttr('selected');
+                    });
+                    $('#client_rent').val("");
+                    $('#client_reason_change').val("");
+                    $('#client_time_change').val("");
+                    $('#client_resident_name').val("");
+                    $('#client_resident_phone').val("");
+                    $('#client_room_type_number').val("");
                     /* $('#log_time_call').val('');
                      $('#log_time_arrive_company').val('');
                      $('#log_time_mail').val('');
@@ -1020,12 +1058,19 @@
                     $('#client_occupation').val(json.client_occupation);
                     $('#client_company').val(json.client_company);
                     $('#client_income').val(json.client_income);
-                    $('#client_room_type').val(json.client_room_type);
+                    //$('#client_room_type').val(json.client_room_type);
+                    $('#client_room_type').find('option').each(function() {
+                        if ($(this).val() == json.client_room_type) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
                     $('#client_rent').val(json.client_rent);
                     $('#client_reason_change').val(json.client_reason_change);
                     $('#client_time_change').val(json.client_time_change);
                     $('#client_resident_name').val(json.client_resident_name);
                     $('#client_resident_phone').val(json.client_resident_phone);
+                    $('#client_room_type_number').val(json.client_room_type_number);
+
                     //get information order, history, aspirations and contract
                     // if(selectClient())
                     $('#city_cus').change();
@@ -1628,7 +1673,8 @@
                                 </td>
                                 <td class='form1' nowrap>間取り:</td>
                                 <td class='form2'>
-                                    <select id="aspirations_type_room" name="aspirations_type_room" style="height:26px; width: 215px;">
+                            <input type='text' class='text' name='aspirations_type_room_number' id='aspirations_type_room_number' value="{$aspirations_type_room_number}" style="height:26px; width: 90px;"/>
+                            <select id="aspirations_type_room" name="aspirations_type_room" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
                                         <option value=""></option>
                                         {foreach from=$roomTypes item=roomType}
                                             <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
@@ -1839,7 +1885,7 @@
                             <tr>                    
                                 <td class='form1'>売上済み:</td>
                                 <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
-                                <td class='form1' nowrap>Cancel:</td>
+                                <td class='form1' nowrap>キャンセル:</td>
                                 <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             <tr>                    

@@ -422,6 +422,13 @@ if (isset($_POST['aspirations_type_room'])) {
 } else {
     $aspirations_type_room = "";
 }
+if (isset($_POST['aspirations_type_room_number'])) {
+    $aspirations_type_room_number = $_POST['aspirations_type_room_number'];
+} elseif (isset($_GET['aspirations_type_room_number'])) {
+    $aspirations_type_room_number = $_GET['aspirations_type_room_number'];
+} else {
+    $aspirations_type_room_number = "";
+}
 if (isset($_POST['aspirations_build_time'])) {
     $aspirations_build_time = $_POST['aspirations_build_time'];
 } elseif (isset($_GET['aspirations_build_time'])) {
@@ -943,6 +950,7 @@ if (isset($_POST['save'])) {
 
                             $aspirations_type_house = $client_arr['aspirations_type_house'];
                             $aspirations_type_room = $client_arr['aspirations_type_room'];
+                            $aspirations_type_room_number = $client_arr['aspirations_type_room_number'];
                             $aspirations_build_time = $client_arr['aspirations_build_time'];
                             $aspirations_area = $client_arr['aspirations_area'];
                             $aspirations_size = $client_arr['aspirations_size'];
@@ -1047,7 +1055,7 @@ if (isset($_POST['save'])) {
 //get client info, history and contact
 
     $client_arr = $order->getClientByOrderId($order_id);
-    
+
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
             $client_id = $client_arr['client_id'];
@@ -1155,20 +1163,21 @@ if (isset($_POST['save'])) {
 
         $aspirations_type_house = trim($client_arr['aspirations_type_house']);
         $aspirations_type_room = $client_arr['aspirations_type_room'];
+        $aspirations_type_room_number = $client_arr['aspirations_type_room_number'];
         $aspirations_build_time = $client_arr['aspirations_build_time'];
         $aspirations_area = $client_arr['aspirations_area'];
         $aspirations_size = $client_arr['aspirations_size'];
         $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
         $aspirations_comment = $client_arr['aspirations_comment'];
 
-        $order_name=$client_arr['order_name'];
-        $order_comment=$client_arr['order_comment'];
-        $order_rent_cost=$client_arr['order_rent_cost'];
-        $house_id=trim($client_arr['house_id']);
-        $broker_id=trim($client_arr['broker_id']);
-        $room_id=trim($client_arr['room_id']);
-        $change_house_array= base64_encode(implode(",",unserialize($client_arr['change_house_array'])));
-        
+        $order_name = $client_arr['order_name'];
+        $order_comment = $client_arr['order_comment'];
+        $order_rent_cost = $client_arr['order_rent_cost'];
+        $house_id = trim($client_arr['house_id']);
+        $broker_id = trim($client_arr['broker_id']);
+        $room_id = trim($client_arr['room_id']);
+        $change_house_array = base64_encode(implode(",", unserialize($client_arr['change_house_array'])));
+
         $contract_name = $client_arr['contract_name'];
         $contract_cost = $client_arr['contract_cost'];
         $contract_key_money = $client_arr['contract_key_money'];
@@ -1320,6 +1329,7 @@ $smarty->assign('introduce_house_photo', $introduce_house_photo);
 
 $smarty->assign('aspirations_type_house', $aspirations_type_house);
 $smarty->assign('aspirations_type_room', $aspirations_type_room);
+$smarty->assign('aspirations_type_room_number', $aspirations_type_room_number);
 $smarty->assign('aspirations_build_time', $aspirations_build_time);
 $smarty->assign('aspirations_area', $aspirations_area);
 $smarty->assign('aspirations_size', $aspirations_size);

@@ -226,6 +226,7 @@ class HOMECustomer {
                                 hha.aspirations_type_house AS aspirations_type_house,
                                 hha.aspirations_rent_cost AS aspirations_rent_cost,
                                 hha.aspirations_type_room AS aspirations_type_room,
+                                hha.aspirations_type_room_number AS aspirations_type_room_number,
                                 hha.aspirations_build_time AS aspirations_build_time,
                                 hha.aspirations_area AS aspirations_area,
                                 hha.aspirations_size AS aspirations_size,
@@ -284,6 +285,7 @@ class HOMECustomer {
         $row['aspirations_type_house'] = $row1['aspirations_type_house'];
         $row['aspirations_rent_cost'] = $row1['aspirations_rent_cost'];
         $row['aspirations_type_room'] = $row1['aspirations_type_room'];
+        $row['aspirations_type_room_number'] = $row1['aspirations_type_room_number'];
         $row['aspirations_build_time'] = $row1['aspirations_build_time'];
         $row['aspirations_area'] = $row1['aspirations_area'];
         $row['aspirations_size'] = $row1['aspirations_size'];
