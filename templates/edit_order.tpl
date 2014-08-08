@@ -737,7 +737,7 @@
                         var aspirations_comment = $('#aspirations_comment').val();
                         var client_id = $('#client_id').val();
                         var order_id = $('#order_id').val();
-                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room,aspirations_type_room_number: aspirations_type_room_number, aspirations_build_time: aspirations_build_time,
+                        $.post("include/function_ajax.php", {aspirations_type_house: aspirations_type_house, aspirations_type_room: aspirations_type_room, aspirations_type_room_number: aspirations_type_room_number, aspirations_build_time: aspirations_build_time,
                             aspirations_area: aspirations_area, aspirations_size: aspirations_size, aspirations_rent_cost: aspirations_rent_cost, aspirations_comment: aspirations_comment,
                             client_id: client_id, order_id: order_id, action: 'customer', task: 'aspirations'},
                         function(result) {
@@ -1555,15 +1555,33 @@
                     <form action="edit_order.php" method="post">        
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
+                                <td colspan="2" style="text-align: right;">Choose contact type?</td>
+                                <td colspan="2">
+                                    <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">コール</label>
+                                    <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
+                                    <input type="radio" id="log_time_arrive_company_type" name="choose_contact_type"/><label for="log_time_arrive_company_type">来店</label>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class='form1'>通話時刻: </td>
                                 <td class='form2'>
                                     <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                                     <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
                                 </td>
+                                <td class='form1' nowrap></td>
+                                <td class='form2'>
+
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class='form1' nowrap>来店時刻:</td>
                                 <td class='form2'>
                                     <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                                     <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1'>本社へ連絡:</td>
+                                <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>                        
+
                                 </td>
                             </tr>
                             <tr>
@@ -1572,8 +1590,8 @@
                                     <input type='text' id="log_time_mail_date" name="log_time_mail_date" value="{$log_time_mail_date}"style="height: 26px; width: 115px;"/>
                                     <input type='text' id="log_time_mail" name="log_time_mail" value="{$log_time_mail}"style="height: 26px; width: 95px;"/>
                                 </td>
-                                <td class='form1' nowrap>備考:</td>
-                                <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap></td>
+                                <td class='form2'></td>
                             </tr>
                             <tr>
                                 <td class='form1'nowrap>予約日付　（～まで）:</td>
@@ -1615,11 +1633,12 @@
                                 <td class='form1' nowrap>メール現況:</td>
                                 <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                             </tr>
+
                             <tr>
-                                <td class='form1'>本社へ連絡:</td>
-                                <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                                 <td class='form1' nowrap>店頭看板:</td>
                                 <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap></td>
+                                <td class='form2'></td>
                             </tr>
                             <tr>
                                 <td class='form1'>現地看板:</td>
@@ -1638,8 +1657,8 @@
                                 <td class='form2'>
                                     <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
                                 </td>
-                                <td class='form1' nowrap><span id="error_revisit"></span></td>
-                                <td class='form2'></td>
+                                <td class='form1' nowrap>備考:</td>
+                                <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
                                 <td class='form1'>&nbsp;</td>
@@ -1673,8 +1692,8 @@
                                 </td>
                                 <td class='form1' nowrap>間取り:</td>
                                 <td class='form2'>
-                            <input type='text' class='text' name='aspirations_type_room_number' id='aspirations_type_room_number' value="{$aspirations_type_room_number}" style="height:26px; width: 90px;"/>
-                            <select id="aspirations_type_room" name="aspirations_type_room" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
+                                    <input type='text' class='text' name='aspirations_type_room_number' id='aspirations_type_room_number' value="{$aspirations_type_room_number}" style="height:26px; width: 90px;"/>
+                                    <select id="aspirations_type_room" name="aspirations_type_room" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
                                         <option value=""></option>
                                         {foreach from=$roomTypes item=roomType}
                                             <option value="{$roomType.id}" {if $roomType.id eq $aspirations_type_room}selected="selected"{/if}>{$roomType.room_name}</option>        
@@ -2277,6 +2296,72 @@
                                                             get_introduce_room(house_id, 0);
                                                         });
                                                     });
+                                                    // $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    if ($('#log_time_call_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    }
+                                                    if ($('#log_time_mail_type').is(':checked')) {
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    }
+                                                    if ($('#log_time_arrive_company_type').is(':checked')) {
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    }
+                                                    $('#log_time_call_type').click(function() {
+                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(7)').css('display', '');
+                                                        $('#log_time_mail').val('');
+                                                        $('#log_time_mail_date').val('');
+                                                        $('#log_time_arrive_company').val('');
+                                                        $('#log_time_arrive_company_date').val('');
+                                                        $('#log_mail').removeAttr('checked');
+                                                        $('#log_mail_status').removeAttr('checked');
+                                                        $('#log_contact_head_office').removeAttr('checked');
+
+                                                    });
+                                                    $('#log_time_mail_type').click(function() {
+                                                        $('#history table').find('tr:nth-child(4)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', '');
+                                                        $('#log_time_call').val('');
+                                                        $('#log_time_call_date').val('');
+                                                        $('#log_time_arrive_company').val('');
+                                                        $('#log_time_arrive_company_date').val('');
+                                                        $('#log_tel').removeAttr('checked');
+                                                        $('#log_tel_status').removeAttr('checked');
+                                                        $('#log_contact_head_office').removeAttr('checked');
+                                                    });
+                                                    $('#log_time_arrive_company_type').click(function() {
+                                                        $('#history table').find('tr:nth-child(3)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                        $('#log_time_mail').val('');
+                                                        $('#log_time_mail_date').val('');
+                                                        $('#log_time_call').val('');
+                                                        $('#log_time_call_date').val('');
+                                                        $('#log_mail').removeAttr('checked');
+                                                        $('#log_mail_status').removeAttr('checked');
+                                                        $('#log_tel').removeAttr('checked');
+                                                        $('#log_tel_status').removeAttr('checked');
+                                                    });
+                                                    if($('#log_time_call').val()!="" || $('#log_time_call_date').val()!=""){
+                                                        $('#log_time_call_type').click();
+                                                    }
+                                                    if($('#log_time_mail').val()!="" || $('#log_time_mail_date').val()!=""){
+                                                        $('#log_time_mail_type').click();
+                                                    }
+                                                    if($('#log_time_arrive_company').val()!="" || $('#log_time_arrive_company_date').val()!=""){
+                                                        $('#log_time_arrive_company_type').click();
+                                                    }
                                                 });
                                                 function get_introduce_room(house_id, room_id) {
                                                     $('#error_introduce_room_id').html("");
