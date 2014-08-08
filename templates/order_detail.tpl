@@ -30,7 +30,7 @@
                 <span>{$order.order_day_create}</span>
             </li>
             <li>
-                <strong>Update Date : </strong>
+                <strong>引っ越し日付 : </strong>
                 <span>{$order.order_day_create}</span>
             </li>
         </ul>
@@ -356,7 +356,33 @@
                 </li>
             </ul>
         {/if}
-        
+        {if $old_room}
+            <div class="house-title">
+                <span>前の号室</span>
+            </div>
+            <ul class="house-info">
+                <li>
+                    <strong>号室 : </strong>
+                    <span>{$old_room.room_number}</span>
+                </li>
+                <li>
+                    <strong>間取り : </strong>
+                    <span>{$old_room.room_name}</span>
+                </li>
+                {if $old_house}
+                    <li>
+                        <strong>名称 : </strong>
+                        <span>{$old_house.house_name}</span>
+                    </li>
+                {/if}
+                {if $old_broker}
+                    <li>
+                        <strong>名称 : </strong>
+                        <span>{$old_broker.broker_company_name} </span>
+                    </li>
+                {/if}
+            </ul>
+        {/if}
         
     {else}
 
