@@ -48,6 +48,27 @@ class HOMEDetail {
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
+    /**
+     * 
+     * @global type $database
+     * @param type $id
+     * @return null
+     */
+    public function getRoom($room_id = null, $house_id,$broker_id) {
+        if (empty($room_id)) {
+            return null;
+        }
+        global $database;
+
+        $query = "SELECT * FROM home_room_detail AS d
+                INNER JOIN home_room AS r ON r.room_detail_id = d.id
+                LEFT JOIN house_room_type AS t ON d.room_type = t.id
+                WHERE r.id = '{$room_id}' AND r.house_id = '{$house_id}' AND r.broker_id = '{$broker_id}'
+                ";
+                echo $query;
+        $result = $database->database_query($query);
+        return $database->database_fetch_assoc($result);
+    }
 
     /**
      * 
