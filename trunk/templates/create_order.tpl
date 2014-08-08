@@ -1666,8 +1666,8 @@
                             <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
                         </td>
-                        <td class='form1' nowrap></td>
-                        <td class='form2'>
+                        <td class='form1'>本社へ連絡:</td>
+                        <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>                        
 
                         </td>
                     </tr>
@@ -1720,11 +1720,12 @@
                         <td class='form1' nowrap>メール現況:</td>
                         <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
+
                     <tr>
-                        <td class='form1'>本社へ連絡:</td>
-                        <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>店頭看板:</td>
                         <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                        <td class='form1' nowrap></td>
+                        <td class='form2'></td>
                     </tr>
                     <tr>
                         <td class='form1'>現地看板:</td>
@@ -2356,23 +2357,62 @@
                                                             get_introduce_room(house_id, 0);
                                                         });
                                                     });
-                                                   // $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                    // $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    if ($('#log_time_call_type').is(':checked')) {
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    }
+                                                    if ($('#log_time_mail_type').is(':checked')) {
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    }
+                                                    if ($('#log_time_arrive_company_type').is(':checked')) {
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    }
                                                     $('#log_time_call_type').click(function() {
                                                         $('#history table').find('tr:nth-child(2)').css('display', '');
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(7)').css('display', '');
+                                                        $('#log_time_mail').val('');
+                                                        $('#log_time_mail_date').val('');
+                                                        $('#log_time_arrive_company').val('');
+                                                        $('#log_time_arrive_company_date').val('');
+                                                        $('#log_mail').removeAttr('checked');
+                                                        $('#log_mail_status').removeAttr('checked');
+                                                        $('#log_contact_head_office').removeAttr('checked');
+
                                                     });
                                                     $('#log_time_mail_type').click(function() {
                                                         $('#history table').find('tr:nth-child(4)').css('display', '');
                                                         $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', '');
+                                                        $('#log_time_call').val('');
+                                                        $('#log_time_call_date').val('');
+                                                        $('#log_time_arrive_company').val('');
+                                                        $('#log_time_arrive_company_date').val('');
+                                                        $('#log_tel').removeAttr('checked');
+                                                        $('#log_tel_status').removeAttr('checked');
+                                                        $('#log_contact_head_office').removeAttr('checked');
                                                     });
                                                     $('#log_time_arrive_company_type').click(function() {
                                                         $('#history table').find('tr:nth-child(3)').css('display', '');
                                                         $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                        $('#log_time_mail').val('');
+                                                        $('#log_time_mail_date').val('');
+                                                        $('#log_time_call').val('');
+                                                        $('#log_time_call_date').val('');
+                                                        $('#log_mail').removeAttr('checked');
+                                                        $('#log_mail_status').removeAttr('checked');
+                                                        $('#log_tel').removeAttr('checked');
+                                                        $('#log_tel_status').removeAttr('checked');
                                                     });
                                                 });
                                                 function get_introduce_room(house_id, room_id) {
