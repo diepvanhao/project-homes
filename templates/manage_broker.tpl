@@ -40,10 +40,12 @@
                             <td>{$broker.broker_company_name}</td>
                             <td>{$broker.broker_company_address}</td>
                             <td>{$broker.broker_company_phone}</td>
-                            <td>{$broker.broker_company_email}</td>
+                            <td>{$broker.broker_company_email}</td> 
                             <td>{$broker.broker_company_fax}</td>
                             <td>{$broker.broker_company_undertake}</td>
-                            <td><a href="edit_broker.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$broker.id},{$broker.broker_company_lock})" style="margin: 0% 10% 0% 10%;">{if $broker.broker_company_lock eq 0}削除{else}回復{/if}</a><a href="add_house_broker.php?url={$add|base64_encode}">お部屋を追加します</a></td>
+                            <td><a href="edit_broker.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$broker.id},{$broker.broker_company_lock})" style="margin: 0% 10% 0% 10%;">{if $broker.broker_company_lock eq 0}削除{else}回復{/if}</a><a href="add_house_broker.php?url={$add|base64_encode}">お部屋を追加します</a>
+                                <a href="mail_broker.php?id={$broker.id}">MAIL</a>
+                            </td>
                         </tr>
                     {/foreach}
                 </tbody>
