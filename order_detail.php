@@ -91,19 +91,22 @@ if ($house->isSerialized($broker['broker_company_address'])) {
     $house_address = @$house_address_serialize['broker_company_address'];
     $broker['broker_company_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
 }
-$old_room = null;
-$old_house = null;
-$old_broker = null;
+$older = array();
+//$old_room = null;
+//$old_house = null;
+//$old_broker = null;
 
 if(!empty($order['change_house_array']) && $house->isSerialized($order['change_house_array'])){
     $house_array = unserialize($order['change_house_array']);
     if(isset($house_array[1]) && !empty($house_array[1])){
-        $arr = explode('_', $house_array[1]);
-        if(count($arr) == 3){
-            $old_room = $detail->getRoom($arr[0], $arr[1],$arr[2]);
-            $old_house = $house->getHouseById($arr[1]);
-            $old_broker = $detail->getBroker($arr[2]);
-        }
+        unset($house_array[0]);
+        $older = $house_array;
+//        $arr = explode('_', $house_array[1]);
+//        if(count($arr) == 3){
+//            $old_room = $detail->getRoom($arr[0], $arr[1],$arr[2]);
+//            $old_house = $house->getHouseById($arr[1]);
+//            $old_broker = $detail->getBroker($arr[2]);
+//        }
     }
 }
 $smarty->assign('order', $order);    
@@ -114,8 +117,11 @@ $smarty->assign('broker', $broker);
 $smarty->assign('history', $detail->getHistory($order['id']));
 $smarty->assign('status', empty($order['order_status'])?'いいえ。':'はい。');
 $smarty->assign('house_type',$house->getHouseTypeById($house_detail['house_type']));
-$smarty->assign('old_room', $old_room);
-$smarty->assign('old_house', $old_house);
-$smarty->assign('old_broker', $old_broker);
+//$smarty->assign('old_room', $old_room);
+//$smarty->assign('old_house', $old_house);
+//$smarty->assign('old_broker', $old_broker);
+$smarty->assign('older', $older);
+$smarty->assign('house_class', $house);
+$smarty->assign('detail_class', $detail);
 
 include "footer.php";

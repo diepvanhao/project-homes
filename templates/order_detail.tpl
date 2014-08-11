@@ -356,32 +356,42 @@
                 </li>
             </ul>
         {/if}
-        {if $old_room}
-            <div class="house-title">
-                <span>前の号室</span>
-            </div>
-            <ul class="house-info">
-                <li>
-                    <strong>部屋情報 : </strong>
-                    <span>{$old_room.room_number}</span>
-                </li>
-                <li>
-                    <strong>間取り : </strong>
-                    <span>{$old_room.room_name}</span>
-                </li>
-                {if $old_house}
-                    <li>
-                        <strong>物件名 : </strong>
-                        <span>{$old_house.house_name}</span>
+        {if count($older)}
+            {foreach from=$older item=val}
+            {$arr = explode('_', $val)}
+            {$old_room = $detail_class->getRoom($arr[0], $arr[1],$arr[2])}
+            {$old_house = $house_class->getHouseById($arr[1])}
+            {$old_broker = $detail_class->getBroker($arr[2])}
+                <div class="house-title">
+                    <span>前の号室</span>
+                </div>
+                <ul class="house-info detail-list-items">
+                     <li>
+                        <ul>
+                            <li>
+                                <strong>部屋情報 : </strong>
+                                <span>{$old_room.room_number}</span>
+                            </li>
+                            <li>
+                                <strong>間取り : </strong>
+                                <span>{$old_room.room_name}</span>
+                            </li>
+                            {if $old_house}
+                                <li>
+                                    <strong>物件名 : </strong>
+                                    <span>{$old_house.house_name}</span>
+                                </li>
+                            {/if}
+                            {if $old_broker}
+                                <li>
+                                    <strong>管理会社 : </strong>
+                                    <span>{$old_broker.broker_company_name} </span>
+                                </li>
+                            {/if}
+                         </ul>
                     </li>
-                {/if}
-                {if $old_broker}
-                    <li>
-                        <strong>管理会社 : </strong>
-                        <span>{$old_broker.broker_company_name} </span>
-                    </li>
-                {/if}
-            </ul>
+                </ul>
+            {/foreach}
         {/if}
         
     {else}
