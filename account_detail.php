@@ -48,10 +48,22 @@ if (isset($content[1])) {
 }
 $user = new HOMEUser();
 $agent = new HOMEAgent();
+$house = new HOMEHouse();
 $account = $user->getAccountById($account_id);
+$agent_detail = $agent->getAgentById($account['agent_id']);
+
+if ($house->isSerialized($agent_detail['agent_address'])) {
+    $house_address_serialize = unserialize($agent_detail['agent_address']);
+    $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+    $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+    $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+    $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+    $house_address = $house_address_serialize['address'];
+    $agent_detail['agent_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+}
 
 $smarty->assign('account', $account);    
-$smarty->assign('agent', $agent->getAgentById($account['agent_id']));    
+$smarty->assign('agent', $agent_detail);    
 $smarty->assign('targets', $user->getUserTarget($account_id));    
 
 
