@@ -65,7 +65,6 @@ class HOMEDetail {
                 LEFT JOIN house_room_type AS t ON d.room_type = t.id
                 WHERE r.id = '{$room_id}' AND r.house_id = '{$house_id}' AND r.broker_id = '{$broker_id}'
                 ";
-                echo $query;
         $result = $database->database_query($query);
         return $database->database_fetch_assoc($result);
     }
