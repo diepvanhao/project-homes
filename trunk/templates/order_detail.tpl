@@ -362,7 +362,7 @@
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>号室 : </strong>
+                    <strong>部屋情報 : </strong>
                     <span>{$old_room.room_number}</span>
                 </li>
                 <li>
@@ -371,13 +371,13 @@
                 </li>
                 {if $old_house}
                     <li>
-                        <strong>名称 : </strong>
+                        <strong>物件名 : </strong>
                         <span>{$old_house.house_name}</span>
                     </li>
                 {/if}
                 {if $old_broker}
                     <li>
-                        <strong>名称 : </strong>
+                        <strong>管理会社 : </strong>
                         <span>{$old_broker.broker_company_name} </span>
                     </li>
                 {/if}
