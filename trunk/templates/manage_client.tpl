@@ -4,12 +4,16 @@
     <div style="width: 100%;">
         <div>
             <form action="manage_client.php" method="post">
-                <table style="width:32%">
+                <table>
                     <tr>
                         <td style='font-size: 1.4em;font-weight: bold;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には名前を入力します。" style="height:26px; width: 190px;"/>
+                        <td class="form2">
+                            <input type="text" id="search" name="search" value="{$search}" placeholder="検索には名前を入力します。" style="height:26px; width: 190px;"/>
                             <span>
                                 <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                            </span>
+                            <span>
+                                <a href="create_client.php" style="text-decoration: none;margin-left: 100px;"><input type='button' class='btn-search' value='クライアント登録' id="create_client" name="create_client"/></a>&nbsp;                     
                             </span>
                         </td>
                     </tr>
