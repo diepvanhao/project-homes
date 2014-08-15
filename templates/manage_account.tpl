@@ -4,7 +4,7 @@
     <div style="width: 100%;">
         <div>
             <form action="manage_account.php" method="post">
-                <table style="width:32%">
+                <table style="">
                     <tr>
                         <td style='font-size: 1.4em;font-weight: bold;'>検索</td>
                         <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索に名称を入力してください。" style="height:26px; width: 190px;"/>

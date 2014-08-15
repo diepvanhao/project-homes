@@ -68,7 +68,7 @@ for ($i = 0; $i < count($houses); $i++) {
         $street_id_filter = $houseClass->getNameStreet($house_address_serialize['street_id']);
         $ward_id_filter = $houseClass->getNameWard($house_address_serialize['ward_id']);
         $house_address = $house_address_serialize['house_address'];
-        $houses[$i]['house_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $house_address;
+        $houses[$i]['house_address'] = $city_id_filter . $district_id_filter  . $street_id_filter  . $ward_id_filter. $house_address;
     } else {
         $houses[$i]['house_address'] = $houses[$i]['house_address'];
     }

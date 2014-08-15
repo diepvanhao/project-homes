@@ -64,10 +64,10 @@ class HOMEAgent {
 
     function getTotalItem($search) {
         global $database;
-
+        $search = trim($search);
         $query = "select * from home_agent";
         if (!empty($search))
-            $query.=" where agent_name like '%{$search}%'";
+            $query.=" where agent_name like '%{$search}%' or agent_search like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -75,9 +75,10 @@ class HOMEAgent {
 
     function getAgent($search = "", $offset = 0, $length = 50) {
         global $database;
+        $search = trim($search);
         $query = "select * from home_agent";
         if (!empty($search))
-            $query.=" where agent_name like '%{$search}%'";
+            $query.=" where agent_name like '%{$search}%' or agent_search like '%{$search}%'";
 
         $query.=" limit $offset,$length";
         //echo $query;

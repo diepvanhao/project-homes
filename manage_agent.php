@@ -72,7 +72,7 @@ for ($i = 0; $i < count($agents); $i++) {
         $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
         $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
         $agent_address = $house_address_serialize['agent_address'];
-        $agents[$i]['agent_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $agent_address;
+        $agents[$i]['agent_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $agent_address;
     } else {
         $agents[$i]['agent_address'] = $agents[$i]['agent_address'];
     }

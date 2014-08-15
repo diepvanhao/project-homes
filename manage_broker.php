@@ -70,7 +70,7 @@ for ($i = 0; $i < count($brokers); $i++) {
         $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
         $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
         $broker_company_address = $house_address_serialize['broker_company_address'];
-        $brokers[$i]['broker_company_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $broker_company_address;
+        $brokers[$i]['broker_company_address'] = $city_id_filter  . $district_id_filter . $street_id_filter . $ward_id_filter  . $broker_company_address;
     } else {
         $brokers[$i]['broker_company_address'] = $brokers[$i]['broker_company_address'];
     }
