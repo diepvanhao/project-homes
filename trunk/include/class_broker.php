@@ -8,7 +8,7 @@
 
 class HOMEBroker {
 
-    function create($broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake) {
+    function create($broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake,$house_search="") {
         global $database, $user;
         $database->database_query("
 
@@ -26,7 +26,9 @@ class HOMEBroker {
         
         broker_company_fax,
         
-        broker_company_undertake    
+        broker_company_undertake,
+        
+        broker_company_search
 
       ) VALUES (
       
@@ -40,9 +42,11 @@ class HOMEBroker {
 
         '{$broker_company_email}',  
         
-        '{$broker_company_fax}'  ,
+        '{$broker_company_fax}',
             
-        '{$broker_company_undertake}'
+        '{$broker_company_undertake}',
+         
+        '{$house_search}'
       )
 
     ");
@@ -124,9 +128,9 @@ class HOMEBroker {
         }
     }
 
-    function update($broker_id, $broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake) {
+    function update($broker_id, $broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake,$house_search="") {
         global $database;
-        $query = "update home_broker_company set broker_company_name='{$broker_company_name}',broker_company_address='{$broker_company_address}',broker_company_phone='{$broker_company_phone}',broker_company_email='{$broker_company_email}',broker_company_fax='{$broker_company_fax}',broker_company_undertake='{$broker_company_undertake}'
+        $query = "update home_broker_company set broker_company_name='{$broker_company_name}',broker_company_address='{$broker_company_address}',broker_company_phone='{$broker_company_phone}',broker_company_email='{$broker_company_email}',broker_company_fax='{$broker_company_fax}',broker_company_undertake='{$broker_company_undertake}',broker_company_search='{$house_search}'
          where id={$broker_id}
         ";
 

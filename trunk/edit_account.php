@@ -22,6 +22,7 @@ if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
+$house = new HOMEHouse();
 $year=date('Y');
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
@@ -108,6 +109,12 @@ $house_address_serialize['ward_id'] = $ward_id;
 $house_address_serialize['address'] = $address;
 
 $house_address_serialize = serialize($house_address_serialize);
+//get info search
+$house_city_search=$house->getNameCity($city_id);
+$house_district_search=$house->getNameDistrict($district_id);
+$house_street_search=$house->getNameStreet($street_id);
+$house_ward_search=$house->getNameWard($ward_id);
+$house_search=$house_city_search.$house_district_search.$house_street_search.$house_ward_search.$address;
 if (isset($_POST['phone'])) {
     $phone = $_POST['phone'];
 } elseif (isset($_GET['phone'])) {
@@ -304,13 +311,13 @@ $validate = array(
     'lastname' => $lastname,
     'address' => $address
 );
-$house = new HOMEHouse();
+
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
         $account = new HOMEUser();
-        $result = $account->update($username, $password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target, $agent, $user_id);
+        $result = $account->update($username, $password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target, $agent, $user_id,$house_search);
         if ($result) {
             $notify = "アップデート成功 !!!";
             $result = $account->getAccountById($user_id);

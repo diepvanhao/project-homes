@@ -28,6 +28,7 @@ if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
+$house = new HOMEHouse();
 $year=date('Y');
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
@@ -114,7 +115,12 @@ $house_address_serialize['ward_id'] = $ward_id;
 $house_address_serialize['address'] = $address;
 
 $house_address_serialize = serialize($house_address_serialize);
-
+//get info search
+$house_city_search=$house->getNameCity($city_id);
+$house_district_search=$house->getNameDistrict($district_id);
+$house_street_search=$house->getNameStreet($street_id);
+$house_ward_search=$house->getNameWard($ward_id);
+$house_search=$house_city_search.$house_district_search.$house_street_search.$house_ward_search.$address;
 if (isset($_POST['phone'])) {
     $phone = $_POST['phone'];
 } elseif (isset($_GET['phone'])) {
@@ -282,7 +288,7 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $userClass = new HOMEUser();
-        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year);
+        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year,$house_search);
         if ($result) {
             header("Location: notify.php?content=サインアップ ～は成功に作成されました。!!!&url_return=user_account.php");
         }
@@ -293,7 +299,7 @@ if (isset($_POST['submit'])) {
 $agentClass = new HOMEAgent();
 $agents = $agentClass->getAgent();
 //$smarty->clearCache("$page.tpl");
-$house = new HOMEHouse();
+
 $cities = $house->getAllCity();
 //get year
 

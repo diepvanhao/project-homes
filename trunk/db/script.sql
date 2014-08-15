@@ -300,3 +300,22 @@ ALTER TABLE `home_broker_company`
 /*4-8 Hao*/
 ALTER TABLE `home_history_aspirations`   
   ADD COLUMN `aspirations_type_room_number` VARCHAR(128) NULL AFTER `aspirations_type_room`;
+
+/*13-8 Hao */
+ALTER TABLE `home_house`   
+  ADD COLUMN `house_search` VARCHAR(128) NULL AFTER `house_lock`;
+
+ALTER TABLE `home_broker_company`   
+  ADD COLUMN `broker_company_search` VARCHAR(128) NULL AFTER `broker_company_lock`;
+
+ALTER TABLE `home_agent`   
+  ADD COLUMN `agent_search` VARCHAR(128) NULL AFTER `agent_lock`;
+
+ALTER TABLE `home_client`   
+  ADD COLUMN `client_search` VARCHAR(128) NULL AFTER `client_lock`;
+
+ALTER TABLE `home_house_owner`   
+  ADD COLUMN `house_owner_search` VARCHAR(128) NULL AFTER `house_owner_photo`;
+
+ALTER TABLE `home_user`   
+  ADD COLUMN `user_search` VARCHAR(128) NULL AFTER `user_path_thumb`;

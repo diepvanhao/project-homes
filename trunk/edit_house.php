@@ -29,7 +29,7 @@ if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
-
+$house = new HOMEHouse();
 if (isset($_POST['house_name'])) {
     $house_name = $_POST['house_name'];
 } elseif (isset($_GET['house_name'])) {
@@ -122,6 +122,12 @@ $house_address_serialize['ward_id'] = $ward_id;
 $house_address_serialize['house_address'] = $house_address;
 
 $house_address_serialize = serialize($house_address_serialize);
+//get info search
+$house_city_search=$house->getNameCity($city_id);
+$house_district_search=$house->getNameDistrict($district_id);
+$house_street_search=$house->getNameStreet($street_id);
+$house_ward_search=$house->getNameWard($ward_id);
+$house_search=$house_city_search.$house_district_search.$house_street_search.$house_ward_search.$house_address;
 /////////////////////////////////////////////////////////////////////// Owner
 if (isset($_POST['house_owner_name'])) {
     $house_owner_name = $_POST['house_owner_name'];
@@ -222,7 +228,12 @@ $house_owner_address_serialize['ward_id_owner'] = $ward_id_owner;
 $house_owner_address_serialize['house_owner_address'] = $house_owner_address;
 
 $house_owner_address_serialize = serialize($house_owner_address_serialize);
-
+//get info search
+$house_city_search=$house->getNameCity($city_id_owner);
+$house_district_search=$house->getNameDistrict($district_id_owner);
+$house_street_search=$house->getNameStreet($street_id_owner);
+$house_ward_search=$house->getNameWard($ward_id_owner);
+$house_owner_search=$house_city_search.$house_district_search.$house_street_search.$house_ward_search.$house_owner_address;
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -246,7 +257,6 @@ $validate = array(
 if ($owner)
     $validate['house_owner_name'] = $house_owner_name;
 
-$house = new HOMEHouse();
 
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
@@ -254,7 +264,7 @@ if (isset($_POST['submit'])) {
     if (empty($error)) {
 
         $result = $house->update_house(
-                $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id
+                $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id,$house_search,$house_owner_search
         );
         if ($result) {
             $notify = "アップデート成功 !!!";

@@ -22,7 +22,7 @@ if($user->user_info['user_locked']){
     header('Location: ./locked.php');
     exit();
 }
-
+$house = new HOMEHouse();
 if (isset($_POST['agent_name'])) {
     $agent_name = $_POST['agent_name'];
 } elseif (isset($_GET['agent_name'])) {
@@ -106,7 +106,12 @@ $house_address_serialize['ward_id'] = $ward_id;
 $house_address_serialize['agent_address'] = $agent_address;
 
 $house_address_serialize = serialize($house_address_serialize);
-
+//get info search
+$house_city_search=$house->getNameCity($city_id);
+$house_district_search=$house->getNameDistrict($district_id);
+$house_street_search=$house->getNameStreet($street_id);
+$house_ward_search=$house->getNameWard($ward_id);
+$house_search=$house_city_search.$house_district_search.$house_street_search.$house_ward_search.$agent_address;
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
 } elseif (isset($_GET['url'])) {
@@ -124,13 +129,13 @@ $validate = array(
     'agent_phone' => $agent_phone,
     'agent_email' => array('agent_email'=>$agent_email,'agent_id'=>$agent_id)
 );
-$house = new HOMEHouse();
+
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
         $agent = new HOMEAgent();
-        $result = $agent->update($agent_id, $agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax);        
+        $result = $agent->update($agent_id, $agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax,$house_search);        
         if ($result) {
             $notify="アップデート成功 !!!";
         }
