@@ -76,12 +76,12 @@ class HOMEHouse {
         }
     }
 
-    function getTotalItem($search) {
+    function getTotalItem($search) {        
         global $database;
         $search = trim($search);
         $query = "select * from home_house";
         if (!empty($search))
-            $query.=" where house_name like '%{$search}%' or house_address like '%{$search}%'";
+            $query.=" where house_name like '%{$search}%' or house_search like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -109,7 +109,7 @@ class HOMEHouse {
 
         $query = "select * from home_house";
         if (!empty($search))
-            $query.=" where house_name like '%{$search}%' or house_address like '%{$search}%'";
+            $query.=" where house_name like '%{$search}%' or house_search like '%{$search}%'";
 
         $query.=" limit $offset,$length";
         //echo $query;
@@ -325,7 +325,7 @@ class HOMEHouse {
         return true;
     }
 
-    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number) {
+    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number="") {
         global $database;
         //check exist room
         if (checkRoomExist($room_number, $broker_id, $house_id)) {

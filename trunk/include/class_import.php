@@ -66,6 +66,9 @@ class HOMEImport {
         }
 //address
         $addr = explode(',', $arr['address']);
+        //Hao customize
+        $house_search=  str_replace(',', '', $arr['address']);
+        //end customise
         $address = '';
         
         if(is_array($addr)){
@@ -82,8 +85,8 @@ class HOMEImport {
             ));
         }
         $database->database_query("
-      INSERT INTO home_house(user_id,house_name,house_address, house_type) 
-      VALUES ('{$user->user_info['id']}','{$arr['name']}','{$address}','{$arr['type']}')");
+      INSERT INTO home_house(user_id,house_name,house_address, house_type,house_search) 
+      VALUES ('{$user->user_info['id']}','{$arr['name']}','{$address}','{$arr['type']}','{$house_search}')");
         return (int) $database->database_insert_id();
     }
 

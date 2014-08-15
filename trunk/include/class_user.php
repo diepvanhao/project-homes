@@ -922,11 +922,11 @@ class HOMEUser {
 
     function getTotalItem($search) {
         global $database;
-
+        $search=trim($search);
         $query = "select * from home_user";
 
         if (!empty($search))
-            $query.=" where user_fname like '%{$search}%' or user_lname like '%{$search}%'";
+            $query.=" where user_fname like '%{$search}%' or user_lname like '%{$search}%' or user_search like '%{$search}%'";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -934,13 +934,13 @@ class HOMEUser {
 
     function getAccount($search = "", $offset = 0, $length = 50) {
         global $database;
-
+        $search=trim($search);
         $query = "select * from home_user";
         if (!empty($search))
-            $query.=" where user_fname like '%{$search}%' or user_lname like '%{$search}%'";
+            $query.=" where user_fname like '%{$search}%' or user_lname like '%{$search}%' or user_search like '%{$search}%'";
 
         $query.=" limit $offset,$length";
-        //echo $query;
+       // echo $query;
         $result = $database->database_query($query);
         $user_arr = array();
         $house = new HOMEHouse();
@@ -957,7 +957,7 @@ class HOMEUser {
                 $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
                 $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
                 $address = $house_address_serialize['address'];
-                $user['user_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $address;
+                $user['user_address'] = $city_id_filter  . $district_id_filter  . $street_id_filter  . $ward_id_filter  . $address;
             } else {
                 $user['user_address'] = $row['user_address'];
             }

@@ -55,10 +55,10 @@ class Client {
 
     function getTotalItem($search) {
         global $database;
-
+        $search = trim($search);
         $query = "SELECT count(*) FROM home_client";
         if (!empty($search)){
-            $query.=" WHERE client_name LIKE '%{$search}%'";
+            $query.=" WHERE client_name LIKE '%{$search}%' or client_search like '%{$search}%'";
         }
         $result = $database->database_query($query);
         $row = $database->database_fetch_array($result);
@@ -71,7 +71,7 @@ class Client {
 
         $query = "SELECT * FROM home_client";
         if (!empty($search))
-            $query.=" WHERE client_name LIKE '%{$search}%'";
+            $query.=" WHERE client_name LIKE '%{$search}%' or client_search like '%{$search}%'";
 
         $query.=" LIMIT $offset,$length";
 
