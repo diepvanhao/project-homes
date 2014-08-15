@@ -115,7 +115,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $house_address_serialize['client_address'] = $data['client_address'];
 
         $house_address_serialize = serialize($house_address_serialize);
-        
+        //get info search
+        $house_city_search = $house->getNameCity($city_id);
+        $house_district_search = $house->getNameDistrict($district_id);
+        $house_street_search = $house->getNameStreet($street_id);
+        $house_ward_search = $house->getNameWard($ward_id);
+        $house_search = $house_city_search . $house_district_search . $house_street_search . $house_ward_search . $data['client_address'];
+        $data['client_search']=$house_search;
         $data['client_address']=$house_address_serialize;
         //End customize
         $result = $client->update($id,$data);

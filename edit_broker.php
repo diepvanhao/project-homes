@@ -22,7 +22,7 @@ if($user->user_info['user_locked']){
     header('Location: ./locked.php');
     exit();
 }
-
+$house = new HOMEHouse();
 
 if (isset($_POST['broker_company_name'])) {
     $broker_company_name = $_POST['broker_company_name'];
@@ -117,6 +117,12 @@ $house_address_serialize['ward_id'] = $ward_id;
 $house_address_serialize['broker_company_address'] = $broker_company_address;
 
 $house_address_serialize = serialize($house_address_serialize);
+//get info search
+$house_city_search=$house->getNameCity($city_id);
+$house_district_search=$house->getNameDistrict($district_id);
+$house_street_search=$house->getNameStreet($street_id);
+$house_ward_search=$house->getNameWard($ward_id);
+$house_search=$house_city_search.$house_district_search.$house_street_search.$house_ward_search.$broker_company_address;
 
 if (isset($_POST['url'])) {
     $content = $_POST['url'];
@@ -138,13 +144,13 @@ $validate = array(
     'broker_company_phone' => $broker_company_phone,
     'broker_company_email' => array('broker_company_email'=>$broker_company_email,'broker_id'=>$broker_id) 
 );
-$house = new HOMEHouse();
+
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
     if (empty($error)) {
         $broker = new HOMEBroker();
-        $result = $broker->update($broker_id, $broker_company_name, $house_address_serialize, $broker_company_phone, $broker_company_email, $broker_company_fax,$broker_company_undertake);        
+        $result = $broker->update($broker_id, $broker_company_name, $house_address_serialize, $broker_company_phone, $broker_company_email, $broker_company_fax,$broker_company_undertake,$house_search);        
         if ($result) {
             $notify="アップデート成功 !!!";
         }

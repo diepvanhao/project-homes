@@ -179,7 +179,7 @@
             </tr>
             <tr>
                 <td class='form1'>賃料: </td>
-                <td class='form2'><input type='text' class='text' name='client_rent' id='house_owner_phone' value="{$data.client_rent}"  style="height:26px; width: 284px;">
+                <td class='form2'><input type='text' class='text' name='client_rent' id='client_rent' value="{$data.client_rent}"  style="height:26px; width: 284px;">
                     <label style="padding: 1% 4.7% 1% 4.7%;background-color: white;">円</label><div id="client_rent_error"class="error"></div></td>
             </tr>
             <tr>

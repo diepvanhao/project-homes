@@ -8,7 +8,7 @@
 
 class HOMEAgent {
 
-    function create($agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax) {
+    function create($agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax,$house_search="") {
         global $database;
 
         $database->database_query("
@@ -23,7 +23,9 @@ class HOMEAgent {
 
         agent_phone,
         
-        agent_fax                
+        agent_fax,
+        
+        agent_search
 
       ) VALUES (
         
@@ -35,7 +37,10 @@ class HOMEAgent {
 
         '{$agent_phone}',  
         
-        '{$agent_fax}'        
+        '{$agent_fax}',
+            
+        '{$house_search}'
+            
       )
 
     ");
@@ -48,9 +53,9 @@ class HOMEAgent {
         return $result;
     }
 
-    function update($agent_id, $agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax) {
+    function update($agent_id, $agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax,$house_search="") {
         global $database;
-        $query = "update home_agent set agent_name='{$agent_name}',agent_email='{$agent_email}',agent_address='{$agent_address}',agent_phone='{$agent_phone}',agent_fax='{$agent_fax}'
+        $query = "update home_agent set agent_name='{$agent_name}',agent_email='{$agent_email}',agent_address='{$agent_address}',agent_phone='{$agent_phone}',agent_fax='{$agent_fax}',agent_search='{$house_search}'
          where id={$agent_id}
         ";
 

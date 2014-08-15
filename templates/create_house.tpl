@@ -249,10 +249,7 @@
                     <td class='form1'>名称: <span class="required">*</span></td>
                     <td class='form2'><input type='text' class='text' name='house_owner_name' id='house_owner_name' value="{$house_owner_name}"  style="height:26px; width: 351px;"><div id="house_owner_name_error"class="error"></div></td>
                 </tr>
-                <tr>
-                    <td class='form1'>番地: </td>
-                    <td class='form2'><input type='text' class='text' name='house_owner_address' id='house_owner_address' value="{$house_owner_address}"  style="height:26px; width: 351px;"><div id="house_owner_address_error"class="error"></div></td>
-                </tr>
+                
                 <tr>
                     <td class='form1'>都道府県:  </td>
                     <td class='form2'><select id="city_id_owner" name="city_id_owner" style="height:26px; width: 351px;">
@@ -283,6 +280,10 @@
 
                         </select><div id="error_ward_id_owner" class="error"></div>
                     </td>
+                </tr>
+                <tr>
+                    <td class='form1'>番地: </td>
+                    <td class='form2'><input type='text' class='text' name='house_owner_address' id='house_owner_address' value="{$house_owner_address}"  style="height:26px; width: 351px;"><div id="house_owner_address_error"class="error"></div></td>
                 </tr>
                 <tr>
                     <td class='form1'>Eメール: </td>

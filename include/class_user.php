@@ -659,7 +659,7 @@ class HOMEUser {
 // OUTPUT: AN INTEGER REPRESENTING THE NUMBER OF FRIENDS
 
 
-    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $year, $user_locked = 0) {
+    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $year,$house_search="", $user_locked = 0) {
 
         global $database, $url;
 
@@ -704,7 +704,9 @@ class HOMEUser {
 
         user_position,
 
-        user_locked              
+        user_locked,
+        
+        user_search
         
       ) VALUES (
 
@@ -736,8 +738,9 @@ class HOMEUser {
 
         '{$user_position}',
 
-        '{$user_locked}'
-                               
+        '{$user_locked}',
+                 
+        '{$house_search}'
       )
 
     ");
@@ -837,7 +840,7 @@ class HOMEUser {
 // OUTPUT:
 //end add code
 
-    function update($user_username, $user_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $agent_id, $user_id) {
+    function update($user_username, $user_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $agent_id, $user_id,$house_search="") {
         global $database, $url;
         $crypt_password = $this->user_password_crypt($user_password);
 
@@ -855,7 +858,8 @@ class HOMEUser {
                 `user_gender`='{$user_gender}',
                 `user_birthday`='{$user_birthday}',                     
                 `user_authorities`='{$user_authorities}',
-                 `user_position`='{$user_position}'                 
+                 `user_position`='{$user_position}',
+                `user_search`='{$house_search}'
                
                 ";
         if ($user_photo)

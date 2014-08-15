@@ -8,7 +8,7 @@
 
 class HOMEHouse {
 
-    function create($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email) {
+    function create($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email,$house_search="",$house_owner_search="") {
 
         global $user, $database;
 
@@ -22,7 +22,8 @@ class HOMEHouse {
             `house_description`,           
             `house_photo`,                       
             `house_structure`,
-            `house_owner_id`
+            `house_owner_id`,
+            `house_search`
             ) values(
                 '{$user->user_info['id']}',
                 '{$house_name}',
@@ -33,7 +34,8 @@ class HOMEHouse {
                 '{$house_description}',     
                     '',                
                 '{$house_structure}',
-                    ''                
+                    '',
+                '{$house_search}'
                 )";
         //echo $query;die();
         $result = $database->database_query($query);
@@ -46,14 +48,16 @@ class HOMEHouse {
                         `house_owner_phone`,
                         `house_owner_fax`,
                         `house_owner_email`,
-                        `house_owner_photo`
+                        `house_owner_photo`,
+                        `house_owner_search`
                     )values(
                         '{$house_owner_name}',
                         '{$house_owner_address}',
                         '{$house_owner_phone}',
                         '{$house_owner_fax}',
                         '{$house_owner_email}',
-                         ''                        
+                         '',
+                        '{$house_owner_search}'
                     )";
                 //echo $query;die();
                 $result = $database->database_query($query);
@@ -125,7 +129,7 @@ class HOMEHouse {
 //            $house['house_owner_id'] = $row['house_owner_id'];
             $house_arr[] = $row;
         }
-       
+
         return $house_arr;
     }
 
@@ -259,7 +263,7 @@ class HOMEHouse {
         }
     }
 
-    function update_house($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id) {
+    function update_house($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id,$house_search="",$house_owner_search="") {
 
         global $database;
         $query = "update home_house set 
@@ -269,7 +273,8 @@ class HOMEHouse {
                 house_build_time='{$house_build_time}',
                 house_type='{$house_type}',
                 house_description='{$house_description}',                                             
-                house_structure='{$house_structure}'
+                house_structure='{$house_structure}',
+                house_search='{$house_search}'
                 
          where id={$house_id}
         ";
@@ -282,7 +287,8 @@ class HOMEHouse {
                 house_owner_address='{$house_owner_address}',
                 house_owner_phone='{$house_owner_phone}',
                 house_owner_fax='{$house_owner_fax}',
-                house_owner_email='{$house_owner_email}'               
+                house_owner_email='{$house_owner_email}',
+                house_owner_search='{$house_owner_search}'
                              
          where id={$owner_id}
         ";
@@ -295,14 +301,16 @@ class HOMEHouse {
                         `house_owner_phone`,
                         `house_owner_fax`,
                         `house_owner_email`,
-                        `house_owner_photo`
+                        `house_owner_photo`,
+                        `house_owner_search`
                     )values(
                         '{$house_owner_name}',
                         '{$house_owner_address}',
                         '{$house_owner_phone}',
                         '{$house_owner_fax}',
                         '{$house_owner_email}',
-                         ''                        
+                         '',
+                        '{$house_owner_search}'
                     )";
             //echo $query;die();
             $result = $database->database_query($query);
@@ -317,7 +325,7 @@ class HOMEHouse {
         return true;
     }
 
-    function create_room($room_number, $room_type, $room_type_number, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id) {
+    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number) {
         global $database;
         //check exist room
         if (checkRoomExist($room_number, $broker_id, $house_id)) {
@@ -382,7 +390,7 @@ class HOMEHouse {
         }
     }
 
-    function update_room($room_number, $room_type,$room_type_number, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk) {
+    function update_room($room_number, $room_type, $room_type_number, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_detail_id, $house_id_bk, $broker_id_bk, $room_number_bk) {
         global $database;
         if (($room_number == $room_number_bk) && ($broker_id == $broker_id_bk) && ($house_id == $house_id_bk)) {
             $query = "update home_room_detail set 

@@ -25,7 +25,8 @@ class Client {
             `client_resident_phone`,
             `client_rent`,
             `client_room_type`,
-            `client_room_type_number`
+            `client_room_type_number`,
+            `client_search`
             ) VALUES(
                 '{$user->user_info['id']}',
                 '{$params['client_name']}',
@@ -45,7 +46,8 @@ class Client {
                 '{$params['client_resident_phone']}',
                 '{$params['client_rent']}',
                 '{$params['client_room_type']}',
-                '{$params['client_room_type_number']}'
+                '{$params['client_room_type_number']}',
+                '{$params['client_search']}'    
                 )";
 
         return $database->database_query($query);
@@ -126,7 +128,8 @@ class Client {
                 client_resident_phone = '{$params['client_resident_phone']}',
                 client_rent = '{$params['client_rent']}',
                 client_room_type = '{$params['client_room_type']}',
-                client_room_type_number = '{$params['client_room_type_number']}'    
+                client_room_type_number = '{$params['client_room_type_number']}',
+                client_search='{$params['client_search']}'
                 WHERE id={$id}
         ";
 

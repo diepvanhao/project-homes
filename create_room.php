@@ -165,16 +165,16 @@ $house = new HOMEHouse();
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
     $error = $validator->validate($validate);
-    if (empty($error)) {        
+    if (empty($error)) {
         $result = $house->create_room(
-                $room_number,$room_type,$room_type_number,$room_size,$room_status,$room_rent,$room_key_money.$room_key_money_unit,$room_administrative_expense.$room_administrative_expense_unit,$room_deposit.$room_deposit_unit,$room_discount,$room_photo,$house_id,$broker_id
+                $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense . $room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number
         );
         if ($result['flag']) {
             header("Location: notify.php?content=部屋情報～は成功に作成されました。!!!&url_return=create_room.php");
-        }elseif($result['error']){
-            $error[]=$result['error'];            
-        }else{
-            $error[]="Create fail. Please try again!!!";
+        } elseif ($result['error']) {
+            $error[] = $result['error'];
+        } else {
+            $error[] = "Create fail. Please try again!!!";
         }
     }
 }
@@ -184,7 +184,7 @@ $houses = $house->getAllHouses();
 $brokerClass = new HOMEBroker();
 $brokers = $brokerClass->getAllBroker();
 //get room type
-$roomTypes=$house->getRoomType();
+$roomTypes = $house->getRoomType();
 
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
