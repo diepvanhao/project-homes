@@ -153,7 +153,7 @@
                     <select id="gender"name="client_gender" style="height:26px; width: 351px;">
                         <option value="male"{if $data.client_gender eq "male"}selected{/if}>男性</option>
                         <option value="female"{if $data.client_gender eq "female"}selected{/if}>女性</option>
-                        <option value="other"{if $data.client_gender eq "other"}selected{/if}>Other</option>
+                        <option value="other"{if $data.client_gender eq "other"}selected{/if}>その他</option>
                     </select>
                 </td>
             </tr>
