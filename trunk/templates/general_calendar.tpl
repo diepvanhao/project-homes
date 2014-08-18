@@ -222,7 +222,7 @@
         <div id="schedule_title">予定</div>
         <ul>
             <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">契約日</label></li>
-            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡し日</label></li>
+            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡日</label></li>
             <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">入金日</label></li>
             <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">来店日</label></li>
             <!--<li><input type="checkbox" id="other" name="other"/><label for="other">Other</label></li>-->
@@ -262,12 +262,12 @@
                 </label>
             </li>
             <li>
-                <label>～日から:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
-                <label>～日まで:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>日付～:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>～日付:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
             <li>
-                <label>満期から:<input type="text" title="For period" id="expire_from" name="expire_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
-                <label>満期まで:<input type="text" title="For period" id="expire_to" name="expire_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>契約満了日～:<input type="text" title="For period" id="expire_from" name="expire_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>～契約満了日:<input type="text" title="For period" id="expire_to" name="expire_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
         </ul>
     </div>   
@@ -282,7 +282,7 @@
                     <th>期間から</th>
                     <th>期間まで</th>
                     <th>時間</th>
-                    <th>エベント名</th>
+                    <th>内容</th>
                     <th>顧客名</th>
                     <th>リンク</th>                    
                 </tr>

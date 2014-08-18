@@ -136,7 +136,7 @@
                     <td class='form2'><input type='text' class='text' name='house_owner_address' id='house_owner_address' value="{$house_owner_address}"  style="height:26px; width: 351px;"><div id="house_owner_address_error"class="error"></div></td>
                 </tr>
                 <tr>
-                    <td class='form1'>Eメール: </td>
+                    <td class='form1'>Ｅメール: </td>
                     <td class='form2'><input type='email' class='text' name='house_owner_email' id='house_owner_email' value="{$house_owner_email}" style="height:26px; width: 351px;"><div id="house_owner_email_error"class="error"></div></td>
                 </tr>
                 <tr>

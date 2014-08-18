@@ -2,7 +2,7 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>ハウスの詳細</h3>
+        <h3>物件の詳細</h3>
     </div>
     {if $house}
         <div class="house-title">
@@ -18,7 +18,7 @@
                 <span>{$address}</span>
             </li>
             <li>
-                <strong>アリアー : </strong>
+                <strong>エリア: </strong>
                 <span>{$house.house_area}</span>
             </li>
             <li>
@@ -60,7 +60,7 @@
                     <span>{$house.house_owner_fax}</span>
                 </li>
                 <li>
-                    <strong>Eメール : </strong>
+                    <strong>Ｅメール : </strong>
                     <span>{$house.house_owner_email}</span>
                 </li>
             </ul>

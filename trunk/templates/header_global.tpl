@@ -42,7 +42,7 @@
                         <ul class="sf-menu" id="nav">
                             <li><a href="index.php">ホーム</a></li>
                             <li><a href="user_account.php">サインアップ</a></li>
-                            <li><a href="#">クリエート</a>
+                            <li><a href="#">作成</a>
                                 <ul>
                                     <li><a href="create_order.php">オーダー</a></li>
                                     <li><a href="create_agent.php">店舗</a></li>

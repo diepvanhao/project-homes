@@ -10,7 +10,7 @@
         <div style="margin-bottom: 20px;"><label >物件情報</label></div>        
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class="form1">物件フィルタ</td>
+                <td class="form1">物件検索</td>
                 <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 300px;"/>
                 </td>
             </tr>

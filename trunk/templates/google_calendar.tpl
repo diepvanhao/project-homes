@@ -326,14 +326,14 @@
 <div id="wrapper">
     <div style="width: 100%;font-size: 1.8em;background-color: #F1F5FE; height: 83px;line-height: 80px;">
         <a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="82px;"/></span></a>
-        <label style="margin-left: 300px;position: absolute;">スケジュールレポート</label>
+        <label style="margin-left: 300px;position: absolute;">カレンダー</label>
 
     </div>
     <div id="sidebar">
         <div id="schedule_title">個人スケジュール</div>
         <ul>
             <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">契約日</label></li>
-            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡し日</label></li>
+            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡日</label></li>
             <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">入金日</label></li>
             <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">来店日</label></li>
             <li><input type="checkbox" id="other" name="other"/><label for="other">その他</label></li>
@@ -344,8 +344,8 @@
         <div id="schedule_title">ユーザー情報</div>
         <ul>
             <li>名称: {$user->user_info.user_fname} {$user->user_info.user_lname}</li>
-            <li>Eメール: {$user->user_info.user_email}</li>
-            <li>ターゲット: {$user_target}</li>
+            <li>Ｅメール: {$user->user_info.user_email}</li>
+            <li>目標: {$user_target}</li>
             <li>役職: {$user->user_info.user_position}</li>
             <li>生年月日: {$user->user_info.user_birthday}</li>
         </ul>

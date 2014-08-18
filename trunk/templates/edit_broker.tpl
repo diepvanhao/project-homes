@@ -126,7 +126,7 @@
                 <td class='form2'><input type='text' class='text' name='broker_company_phone' id='broker_company_phone' value="{$broker_company_phone}" style="height:26px; width: 351px;"><div id="broker_company_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Eメール: <span class="required">*</span></td>
+                <td class='form1'>Ｅメール: <span class="required">*</span></td>
                 <td class='form2'><input type='email' class='text' name='broker_company_email' id='broker_company_email' value="{$broker_company_email}"  style="height:26px; width: 351px;"><div id="broker_company_email_error"class="error"></div></td>
             </tr>
             <tr>
