@@ -28,11 +28,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>この日付から: </td>
+                        <td class='form1'>日付～: </td>
                         <td class='form2'><input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
-                        <td class='form1'>この日付まで: </td>
+                        <td class='form1'>～日付: </td>
                         <td class='form2'><input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly></td>
                     </tr>
                     <tr>
@@ -77,21 +77,21 @@
                 <th>氏名</th>
                 <th>役職</th>
                 <th>今月目標</th>
-                <th>計</th>
+                <th>合計</th>
                 <th>売上済み</th>
                 <th>未契約</th>
                 <th>次月に繰越</th>
                 <th>前月からの繰越</th>
                 <th>フリー</th>
                 <th>紹介</th>
-                <th>呼</th>
-                <th>呼</th>
-                <th>コールの割合</th>
-                <th>メールの割合</th>
+                <th>ＴＥＬ呼</th>
+                <th>ＭＡＩＬ呼</th>
+                <th>ＴＥＬ呼率</th>
+                <th>ＭＡＩＬ呼率</th>
                 <th>呼実</th>
                 <th>呼率</th>
-                <th>反響</th>
-                <th>反響</th>
+                <th>ＴＥＬ反響</th>
+                <th>ＭＡＩＬ反響</th>
                 <th>反響合計</th>
                 <th>再来店</th>
                 <th>申込</th>
@@ -458,7 +458,7 @@
                         4
                     </td>
                     <td rowspan="2">
-                        ローカルののサイン
+                        現地看板
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todaylocalsign_mail + $yearReport.todaylocalsign_tel)}</td>
@@ -570,7 +570,7 @@
                         8
                     </td>
                     <td rowspan="2">
-                        ライン
+                        ＬＩＮＥ
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todayline_mail + $yearReport.todayline_tel)}</td>
@@ -654,7 +654,7 @@
             google.setOnLoadCallback(drawChart);
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
-                    ['name','実際に','ターゲット'],
+                    ['name','計上済','目標'],
                 {/literal}
                         {foreach $users as $key => $user}
                             {$commission = $report ->userCommission($user.id,$date,$fromdate)}

@@ -10,19 +10,19 @@
         </div>
         <ul class="house-info">
             <li>
-                <strong>ユーザー : </strong>
+                <strong>ユーザー名 : </strong>
                 <span>{$account.user_username}</span>
             </li>
             <li>
-                <strong>名前 : </strong>
+                <strong>名字 : </strong>
                 <span>{$account.user_fname}</span>
             </li>
             <li>
-                <strong>ラストネーム : </strong>
+                <strong>名前 : </strong>
                 <span>{$account.user_lname}</span>
             </li>
             <li>
-                <strong>Eメール : </strong>
+                <strong>Ｅメール : </strong>
                 <span>{$account.user_email}</span>
             </li>
             <li>
@@ -38,13 +38,13 @@
                 <span>{$account.user_birthday}</span>
             </li>
             <li>
-                <strong>ポジション : </strong>
+                <strong>役職 : </strong>
                 <span>{$account.user_position}</span>
             </li>
         </ul>
         {if $targets}
             <div class="house-title">
-                <span>ターゲット</span>
+                <span>目標</span>
             </div>
             <ul class="house-info">
                 {foreach from=$targets key=k item=target}
@@ -77,7 +77,7 @@
                     <span>{$agent.agent_email}</span>
                 </li>
                 <li>
-                    <strong>Eメール : </strong>
+                    <strong>Ｅメール : </strong>
                     <span>{$agent.agent_email}</span>
                 </li>
             </ul>

@@ -24,7 +24,7 @@
                 <td class='form2'><input type='text'  value="{$broker_company_phone}" style="height:26px; width: 351px;"disabled><div id="broker_company_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Eメール: </td>
+                <td class='form1'>Ｅメール: </td>
                 <td class='form2'><input type='text'  value="{$broker_company_email}"  style="height:26px; width: 351px;"disabled><div id="broker_company_email_error"class="error"></div></td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
                 <td class='form2'><input type='text'  value="{$broker_company_undertake}"  style="height:26px; width: 351px;"disabled><div id="broker_company_undertake_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class="form1">物件フィルター</td>
+                <td class="form1">物件検索</td>
                 <td class="form2"><input type="text" id="search" name="search" value="" placeholder="Enter house name to filter for selection house" style="height:26px; width: 351px;"/>
                 </td>
             </tr>
@@ -70,7 +70,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-search' value='加える' id="submit" name="submit"/>&nbsp;  &nbsp; 
+                        <input type='submit' class='btn-search' value='追加' id="submit" name="submit"/>&nbsp;  &nbsp; 
                         <input type='button' class='btn-search' value='戻る' id="back" name="back" onclick="back();"/>&nbsp;  
                         <input type='hidden'  value='{$broker_id}' id="broker_id" name="broker_id"/>                                       
                         <input type='hidden'  name='broker_company_name' id='broker_company_name' value="{$broker_company_name}"/>

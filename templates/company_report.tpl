@@ -433,7 +433,7 @@
                         4
                     </td>
                     <td rowspan="2">
-                        ローカルののサイン
+                        現地看板
                     </td>
                     <td>当日</td>
                     <td>{(int) ($yearReport.todaylocalsign_mail + $yearReport.todaylocalsign_tel)}</td>
@@ -629,7 +629,7 @@
             google.setOnLoadCallback(drawChart);
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
-                    ['name','実際に','ターゲット'],
+                    ['name','計上済','目標'],
                 {/literal}
                         {foreach $agents as $key => $agent}
                             {$commission = $report->agentCommission($agent.id,$date,$fromdate)}

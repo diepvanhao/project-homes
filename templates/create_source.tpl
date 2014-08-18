@@ -16,7 +16,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;                     
                     </div>
                 </td>
             </tr>

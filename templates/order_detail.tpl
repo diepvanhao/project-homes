@@ -10,7 +10,7 @@
         </div>
         <ul class="house-info">
             <li>
-                <strong>オーダーID : </strong>
+                <strong>オーダーＩＤ : </strong>
                 <span>{$order.order_name}</span>
             </li>
             <li>
@@ -18,7 +18,7 @@
                 <span>{$order.order_rent_cost}</span>
             </li>
             <li>
-                <strong>現況 : </strong>
+                <strong>連絡の現況 : </strong>
                 <span>{$status}</span>
             </li>
             <li>
@@ -30,7 +30,7 @@
                 <span>{$order.order_day_create}</span>
             </li>
             <li>
-                <strong>引っ越し日付 : </strong>
+                <strong>引越予定日 : </strong>
                 <span>{$order.order_day_create}</span>
             </li>
         </ul>
@@ -87,7 +87,7 @@
                     <span>{$house.house_address}</span>
                 </li>
                 <li>
-                    <strong>アリアー : </strong>
+                    <strong>エリア : </strong>
                     <span>{$house.house_area}</span>
                 </li>
                 <li>
@@ -130,7 +130,7 @@
                     <span>{$house.house_owner_fax}</span>
                 </li>
                 <li>
-                    <strong>Eメール : </strong>
+                    <strong>Ｅメール : </strong>
                     <span>{$house.house_owner_email}</span>
                 </li>
             </ul>
@@ -157,7 +157,7 @@
                     <span>{$client.client_fax}</span>
                 </li>
                 <li>
-                    <strong>Eメール : </strong>
+                    <strong>Ｅメール : </strong>
                     <span>{$client.client_email}</span>
                 </li>
                 <li>
@@ -169,7 +169,7 @@
                     <span>{$client.client_gender}</span>
                 </li>
                 <li>
-                    <strong>収入 : </strong>
+                    <strong>年収 : </strong>
                     <span>{$client.client_income}</span>
                 </li>
                 <li>
@@ -200,7 +200,7 @@
                     <span>{$broker.broker_company_phone} </span>
                 </li>
                 <li>
-                    <strong>Eメール : </strong>
+                    <strong>Ｅメール : </strong>
                     <span>{$broker.broker_company_email} </span>
                 </li>
                 <li>
@@ -231,11 +231,11 @@
                     <span>{$history.log_comment} </span>
                 </li>
                 <li>
-                    <strong>予約日付　（～まで） : </strong>
+                    <strong>来店予定日時 : </strong>
                     <span>{$history.log_date_appointment_from} </span>
                 </li>
                 <li>
-                    <strong>予約現況 : </strong>
+                    <strong>予約の現況 : </strong>
                     <span>
                         {if !empty($history.log_status_appointment)}
                         はい。
@@ -255,7 +255,7 @@
                     </span>
                 </li>
                 <li>
-                    <strong>ローカルののサイン : </strong>
+                    <strong>現地看板 : </strong>
                     <span>
                         {if !empty($history.log_local_sign)}
                         はい。
@@ -305,7 +305,7 @@
                     </span>
                 </li>
                 <li>
-                    <strong>ライン : </strong>
+                    <strong>ＬＩＮＥ: </strong>
                     <span>
                         {if !empty($history.log_line)}
                         はい。
@@ -315,7 +315,7 @@
                     </span>
                 </li>
                 <li>
-                    <strong>本社へ連絡 : </strong>
+                    <strong>本社反響 : </strong>
                     <span>
                         {if !empty($history.log_contact_head_office)}
                         はい。
@@ -325,7 +325,7 @@
                     </span>
                 </li>
                 <li>
-                    <strong>電話現況 : </strong>
+                    <strong>電話の現況 : </strong>
                     <span>
                         {if !empty($history.log_tel_status)}
                         はい。
@@ -335,7 +335,7 @@
                     </span>
                 </li>
                 <li>
-                    <strong>メール現況 : </strong>
+                    <strong>メールの現況 : </strong>
                     <span>
                         {if !empty($history.log_mail_status)}
                         はい。

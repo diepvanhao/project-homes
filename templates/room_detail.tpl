@@ -56,7 +56,7 @@
                     <span>{$address}</span>
                 </li>
                 <li>
-                    <strong>アリアー : </strong>
+                    <strong>エリア: </strong>
                     <span>{$house.house_area}</span>
                 </li>
                 <li>
@@ -99,7 +99,7 @@
                     <span>{$house.house_owner_fax}</span>
                 </li>
                 <li>
-                    <strong>Eメール : </strong>
+                    <strong>Ｅメール : </strong>
                     <span>{$house.house_owner_email}</span>
                 </li>
             </ul>
@@ -125,7 +125,7 @@
                             <span>{$broker.broker_company_phone} </span>
                         </li>
                         <li>
-                            <span>Eメール : </span>
+                            <span>Ｅメール : </span>
                             <span>{$broker.broker_company_email} </span>
                         </li>
                         <li>

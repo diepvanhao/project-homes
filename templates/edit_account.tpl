@@ -12,7 +12,7 @@
     <form action='edit_account.php' method='POST' name='create' id="create" enctype="multipart/form-data">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>Eメール: <span class="required">*</span></td>
+                <td class='form1'>Ｅメール: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='email' id='email' value="{$email}" maxlength='70' style="height:26px; width: 351px;"><div id="email_error"class="error"></div></td>
             </tr>
             <tr>
@@ -24,15 +24,15 @@
                 <td class='form2'><input type='password' class='text' name='confirm_password' id='confirm_password' value="{$confirm_password}" size='25'  style="height:26px; width: 351px;"><div id="confirm_password_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>ユーザー: <span class="required">*</span></td>
+                <td class='form1'>ユーザー名: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='username' id='username' value="{$username}"   style="height:26px; width: 351px;"><div id="username_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>名前: <span class="required">*</span></td>
+                <td class='form1'>名字: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='firstname' id='firstname' value="{$firstname}"  style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
-                <td class='form1'>名字: <span class="required">*</span></td>
+                <td class='form1'>名前: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='lastname' id='lastname' value="{$lastname}"   style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
@@ -79,7 +79,7 @@
                 <td class='form2'>
                     <select id="gender"name="gender" style="height:26px; width: 351px;">
                         <option value="male"{if $gender eq "male"}selected{/if}>男性</option>
-                        <option value="female"{if $gender eq "female"}selected{/if}>情勢</option>
+                        <option value="female"{if $gender eq "female"}selected{/if}>女性</option>
                         <option value="other"{if $gender eq "other"}selected{/if}>その他</option>
                     </select>
                 </td>
@@ -93,7 +93,7 @@
                 <td class='form2'><input type='text' name='position' id='position' value="{$position}"   style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
-                <td class='form1'>ターゲット: </td>
+                <td class='form1'>目標: </td>
                 <td class='form2'><input type='text' name='target_1' id='target_1' value="{$target_1}" placeholder="今月目標 1"  style="height:26px; width: 252px; margin-right: 4%;"><lable>{$year}-01-01</lable></td>
             </tr>
             <tr>

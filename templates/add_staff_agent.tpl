@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">店舗にスタッフを負担します</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">店舗にスタッフを追加します</div>
 {nocache}
     {if $error|@count gt 0}
         {foreach from=$error item=val}
@@ -23,7 +23,7 @@
                 <td class='form2'><input type='text'  value="{$agent_name}"  style="height:26px; width: 351px;"disabled></td>
             </tr>
             <tr>
-                <td class='form1'>Eメール: </td>
+                <td class='form1'>Ｅメール: </td>
                 <td class='form2'><input type='text' value="{$agent_email}"  style="height:26px; width: 351px;" disabled></td>
             </tr>
             <tr>

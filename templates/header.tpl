@@ -11,7 +11,7 @@
                         <form action='user_login.php' method='POST' name='login'>
                             <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                                 <tr>
-                                    <td class='form1'>Eメール</td>
+                                    <td class='form1'>Ｅメール</td>
                                     <td class='form2'><input type='text' class='text' name='email' id='email' value='' maxlength='70' style="height:26px; width: 172px;"></td>
                                 </tr>
                                 <tr>

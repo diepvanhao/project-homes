@@ -78,7 +78,7 @@
         {/foreach}
     {/if}
     <form action="create_client.php" method="post">
-        <div><label class="title">クライアント情報</label></div>
+        <div><label class="title">お客様情報</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
                 <td class='form1'>名称: <span class="required">*</span></td>
@@ -133,7 +133,7 @@
                 <td class='form2'><input type='text' class='text' name='client_fax' id='client_fax' value="{$data.client_fax}"  style="height:26px; width: 351px;"><div id="client_fax_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>収入: </td>
+                <td class='form1'>年収: </td>
                 <td class='form2'><input type='text' class='text' name='client_income' id='client_income' value="{$data.client_income}"  style="height:26px; width: 284px;">
                     <label style="padding: 1% 4.7% 1% 4.7%;background-color: white;">円</label><div id="client_income_error"class="error"></div></td>
             </tr>
@@ -158,11 +158,11 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Eメール: </td>
+                <td class='form1'>Ｅメール: </td>
                 <td class='form2'><input type='email' class='text' name='client_email' id='client_email' value="{$data.client_email}"  style="height:26px; width: 351px;"><div id="client_email_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>引越の理由: </td>
+                <td class='form1'>引越理由: </td>
                 <td class='form2'><input type='text' class='text' name='client_reason_change' id='client_reason_change' value="{$data.client_reason_change}"  style="height:26px; width: 351px;"><div id="client_reason_change_error"class="error"></div></td>
             </tr>
             <tr>
@@ -170,11 +170,11 @@
                 <td class='form2'><input type='text' class='text' name='client_time_change' id='client_time_change' value="{$data.client_time_change}"  style="height:26px; width: 351px;"><div id="client_time_change_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>入居者の名前: </td>
+                <td class='form1'>ご入居者のお名前: </td>
                 <td class='form2'><input type='text' class='text' name='client_resident_name' id='client_resident_name' value="{$data.client_resident_name}"  style="height:26px; width: 351px;"><div id="client_resident_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>入居者の電話番号: </td>
+                <td class='form1'>ご入居者の電話番号: </td>
                 <td class='form2'><input type='text' class='text' name='client_resident_phone' id='client_resident_phone' value="{$data.client_resident_phone}" style="height:26px; width: 351px;"><div id="client_resident_phone_error"class="error"></div></td>
             </tr>
             <tr>

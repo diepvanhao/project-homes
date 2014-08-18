@@ -84,7 +84,7 @@
                 <td class='form2'><input type='text' class='text' name='agent_name' id='agent_name' value="{$agent_name}"  style="height:26px; width: 351px;"><div id="agent_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Eメール: <span class="required">*</span></td>
+                <td class='form1'>Ｅメール: <span class="required">*</span></td>
                 <td class='form2'><input type='email' class='text' name='agent_email' id='agent_email' value="{$agent_email}"  style="height:26px; width: 351px;"><div id="agent_email_error"class="error"></div></td>
             </tr>
 
@@ -135,7 +135,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;                     
                     </div>
                 </td>
             </tr>
