@@ -29,6 +29,7 @@
                         <th>ファックス</th>
                         <th>担当者</th>
                         <th>活動</th>
+                        <th>ログイン</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,19 @@
                             <td><a href="edit_broker.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$broker.id},{$broker.broker_company_lock})" style="margin: 0% 10% 0% 10%;">{if $broker.broker_company_lock eq 0}削除{else}回復{/if}</a><a href="add_house_broker.php?url={$add|base64_encode}">お部屋を追加します</a>
                                 {*<a href="mail_broker.php?id={$broker.id}">MAIL</a>*}
                             </td>
+                            <td>
+                                {if $broker.name ne ""}
+                                    <form action="{$broker.action}" method="post" target="blank">
+                                        <input type="hidden" name="{$broker.idlogname}" value="{$broker.username}" />
+                                        <input type="hidden" name="{$broker.passlogname}" value="{$broker.password}" />
+                                        {if $broker.inputhidden ne ""}
+                                            {$broker.inputhidden}
+                                        {/if}
+                                        <input type="submit" class="btn" value="ログイン" {if $broker.submitname ne ""}name="{$broker.submitname}"{/if}/>	
+                                    </form>
+                                
+                                {/if}
+                            </td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -61,15 +75,15 @@
 </center>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id,broker_company_lock) {
+        function deleteItem(id, broker_company_lock) {
             if (confirm("確かですか?")) {
-                 $.post("include/function_ajax.php", {broker_id:id,broker_company_lock: broker_company_lock, action: 'deleteBroker'},
-                    function(result) {
-                        if(result)
-                            window.location.reload(true);
-                        else
-                            alert('Delete fail :(');
-                    });
+                $.post("include/function_ajax.php", {broker_id: id, broker_company_lock: broker_company_lock, action: 'deleteBroker'},
+                function(result) {
+                    if (result)
+                        window.location.reload(true);
+                    else
+                        alert('Delete fail :(');
+                });
             }
         }
 
