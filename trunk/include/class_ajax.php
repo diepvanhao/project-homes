@@ -176,10 +176,10 @@ class ajax {
 //        }
 //              
         if ($new_password != $re_new_password) {
-            $this->error['re_new_password'] = "Passwords do not match";
+            $this->error['re_new_password'] = "パスワードは不正です。";
             // MAKE SURE BOTH PASSWORDS ARE IDENTICAL
         } elseif (trim($new_password) && strlen($new_password) < 6) {
-            $this->error['new_password'] = "Passwords 6 characters minimum ";
+            $this->error['new_password'] = "パスワードはミニマム6字で ";
             // MAKE SURE PASSWORD IS LONGER THAN 5 CHARS
         } elseif (!trim($current_password) || $user->user_password_crypt($current_password) != $user->user_info['user_password']) {
 

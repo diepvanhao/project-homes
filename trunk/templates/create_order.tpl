@@ -1642,7 +1642,7 @@
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
-                        <td colspan="2" style="text-align: right;">Choose contact type?</td>
+                        <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
                         <td colspan="2">
                             <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
                             <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
