@@ -42,10 +42,10 @@
                             <td>{$order.house_name}</td>
                             <td>{$order.room_id}</td>
                             <td>{$order.order_rent_cost}</td>                            
-                            <td>{if $order.order_status eq 1}Processing{else} Canceled{/if}</td>
+                            <td>{if $order.order_status eq 1}処理{else} キャンセル{/if}</td>
                             <td>{$order.order_day_create}</td>                           
                             <td>{$order.client_name}</td>
-                            <td>{if $order.user_id ne 0}assigned {else} 
+                            <td>{if $order.user_id ne 0}割り当てられた {else} 
                                 <select id="staff_id" name="staff_id" >                                                                       
                                     <option value="{$user->user_info.id}">{$user->user_info.user_fname} {$user->user_info.user_lname}</option>                                           
                                 </select>
@@ -78,7 +78,7 @@
                         }
                     }
                     $('#registry').click(function() {
-                        if (confirm("Are you sure resgistry this order ?")) {
+                        if (confirm("このオーダーを登録しますか。 ?")) {
                             return true;
                         }else{
                             return false;

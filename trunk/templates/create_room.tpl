@@ -15,7 +15,7 @@
                 </td>
             </tr>
             <tr>            
-                <td class='form1'>物件選択: </td>
+                <td class='form1'>物件選択: <span class="required">*</span></td>
                 <td class='form2'>
                     <select id="house_id" name="house_id" style="height:26px; width: 300px;">
                         <option value=""></option>
@@ -36,7 +36,7 @@
         <div style="margin-bottom: 20px;"><label >管理会社情報</label></div>      
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">           
             <tr>            
-                <td class='form1'>管理会社選択: </td>
+                <td class='form1'>管理会社選択: <span class="required">*</span></td>
                 <td class='form2'>
                     <select id="broker_id" name="broker_id" style="height:26px; width: 300px;">
                         <option value=""></option>

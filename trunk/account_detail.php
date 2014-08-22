@@ -58,7 +58,7 @@ if ($house->isSerialized($agent_detail['agent_address'])) {
     $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
     $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
     $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
-    $house_address = $house_address_serialize['address'];
+    $house_address = $house_address_serialize['agent_address'];
     $agent_detail['agent_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
 }
 

@@ -121,17 +121,28 @@ if (isset($_POST['submit'])) {
     $broker = new HOMEBroker();
     $result = $broker->assign($broker_id, $house_id,$room_id);
     if ($result) {
-        $notify = "Add success !!!";
+        $notify = "成功の割り当て !!!";
     }else{
-        $error[]="This ".$room_id." room is added into ".$broker_company_name;
+        $error[]="この ".$room_id." 部屋は中に添加する ".$broker_company_name;
     }
 } elseif ($content[0] == 'assign') {
     $broker = new HOMEBroker();
-
+    $houseClass = new HOMEHouse();
     $result = $broker->getBrokerById($content[1]);
     if (!empty($result)) {
         $broker_company_name = $result['broker_company_name'];
-        $broker_company_address = $result['broker_company_address'];
+        if ($houseClass->isSerialized($result['broker_company_address'])) {
+            $house_address_serialize = unserialize($result['broker_company_address']);
+            $city_id_filter = $houseClass->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $houseClass->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $houseClass->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $houseClass->getNameWard($house_address_serialize['ward_id']);
+            $house_address = $house_address_serialize['broker_company_address'];
+            $broker_company_address = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $house_address;
+        } else {
+            $broker_company_address = $result['broker_company_address'];
+        }
+        //$broker_company_address = $result['broker_company_address'];
         $broker_company_phone = $result['broker_company_phone'];
         $broker_company_email = $result['broker_company_email'];
         $broker_company_fax = $result['broker_company_fax'];
@@ -144,7 +155,7 @@ $houseClass = new HOMEHouse();
 $houses = $houseClass->getHouses();
 
 if(empty($houses))
-    $error="All house are added. If you want to re_add, please go to edit room!!!";
+    $error="管理会社に入れる物件情報が存在していません。!!!";
 
 $smarty->assign('houses', $houses);
 $smarty->assign('house_id', $house_id);

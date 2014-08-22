@@ -42,7 +42,7 @@
                 <span>{$account.user_position}</span>
             </li>
         </ul>
-        {if $targets}
+      {*  {if $targets}
             <div class="house-title">
                 <span>目標</span>
             </div>
@@ -54,7 +54,7 @@
                     </li>
                 {/foreach}
             </ul>
-        {/if}
+        {/if}*}
         {if $agent}
             <div class="house-title">
                 <span>店舗</span>

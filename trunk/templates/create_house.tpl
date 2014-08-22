@@ -158,6 +158,7 @@
     {/if}
     <form action="create_house.php" method="post">
         <div><label class="title">物件情報</label></div>
+
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
                 <td class='form1'>名称: <span class="required">*</span></td>
@@ -240,7 +241,9 @@
             <td class='form1'>Status: </td>
             <td class='form2'><input type='text' class='text' name='house_status' id='house_status' value="{$house_status}"  style="height:26px; width: 351px;"><div id="house_status_error"class="error"></div></td>
             </tr>*}
+            
         </table>
+
         <div style="margin-bottom: 20px;"><input type="checkbox" value="" id="owner" name="owner" {if $owner eq 1}checked="checked"{/if}/> <label for="owner">オーナーの情報を入力しますか？</label></div>
         <div id="owner_info" {if $owner eq 1}style="display: block;"{else}style="display: none;" {/if}>
             <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
@@ -249,7 +252,7 @@
                     <td class='form1'>名称: <span class="required">*</span></td>
                     <td class='form2'><input type='text' class='text' name='house_owner_name' id='house_owner_name' value="{$house_owner_name}"  style="height:26px; width: 351px;"><div id="house_owner_name_error"class="error"></div></td>
                 </tr>
-                
+
                 <tr>
                     <td class='form1'>都道府県:  </td>
                     <td class='form2'><select id="city_id_owner" name="city_id_owner" style="height:26px; width: 351px;">
@@ -303,10 +306,10 @@
             <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
-                    <div style="margin-left: 30px;">
-                        <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;                     
-                    </div>
-                </td>
+            <center style="margin-right: 8%;">
+                <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;                     
+            </center>
+            </td>
             </tr>
         </table>
     </form>

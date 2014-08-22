@@ -18,7 +18,7 @@ if (!$user->user_exists) {
 
     exit();
 }
-if($user->user_info['user_locked']){
+if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
 }
@@ -97,16 +97,27 @@ if (isset($_POST['submit'])) {
     $agent = new HOMEAgent();
     $result = $agent->assign($agent_id, $staff_id);
     if ($result) {
-        $notify = "Assign success !!!";
+        $notify = "成功の割り当て !!!";
     }
 } elseif ($content[0] == 'assign') {
     $agent = new HOMEAgent();
-
+    $houseClass = new HOMEHouse();
     $result = $agent->getAgentById($content[1]);
     if (!empty($result)) {
         $agent_name = $result['agent_name'];
         $agent_email = $result['agent_email'];
-        $agent_address = $result['agent_address'];
+        if ($houseClass->isSerialized($result['agent_address'])) {
+            $house_address_serialize = unserialize($result['agent_address']);
+            $city_id_filter = $houseClass->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $houseClass->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $houseClass->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $houseClass->getNameWard($house_address_serialize['ward_id']);
+            $house_address = $house_address_serialize['agent_address'];
+            $agent_address = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $house_address;
+        } else {
+            $agent_address = $result['agent_address'];
+        }
+        //$agent_address = $result['agent_address'];
         $agent_phone = $result['agent_phone'];
         $agent_fax = $result['agent_fax'];
         $agent_id = $result['id'];
@@ -115,8 +126,8 @@ if (isset($_POST['submit'])) {
 //get user
 $users = $user->getUsers();
 
-if(empty($users))
-    $error="All staff are assigned. If you want to reassign, please go to edit staff !!!";
+if (empty($users))
+    $error = "スタッフは全員負担されました。再度負担したい場合はスタッフ編集の部分に戻ってください。 !!!";
 
 
 $smarty->assign('users', $users);
