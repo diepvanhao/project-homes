@@ -803,7 +803,35 @@ if (!empty($_POST['export'])) {
     if (!empty($order_id)) {
         include 'include/class_report.php';
         $report = new Report();
-        $report->exportOrder($order_id);
+        switch ($_POST['export_option']) {
+            case 1:
+                $report->exportPage1($order_id);
+                break;
+            case 2:
+                $report->exportPage2($order_id);
+                break;
+            case 3:
+                $report->exportPage3($order_id);
+                break;
+            case 4:
+                $report->exportPage4($order_id);
+                break;
+            case 5:
+                $report->exportPage5($order_id);
+                break;
+            case 6:
+                $report->exportPage6($order_id);
+                break;
+            case 7:
+                $report->exportPage7($order_id);
+                break;
+            case 10:
+                $report->exportOrder($order_id);
+                break;
+            default:
+                break;
+        }
+        
     }
 }
 //Store client's info
