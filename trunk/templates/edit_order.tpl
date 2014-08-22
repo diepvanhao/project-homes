@@ -2,6 +2,7 @@
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー情報編集</div>
 {literal}
     <script type="text/javascript">
+        var sendmail = 0;
         $(document).ready(function() {
             var txt = $("input#client_phone");
             var func = function(e) {
@@ -883,6 +884,14 @@
                                 alert('保存済');
                             else if (json.id == "")
                                 alert("更新が完了しました。");
+
+                            if(sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))){
+                                $.post("include/mail_ajax.php", {application: $('#contract_application').attr('checked'), transaction: $('#contract_transaction_finish').attr('checked'), order_id: $('#order_id').val()},
+                                    function(result) {
+            //                            alert(result);
+                                    }
+                                );
+                            }
                         });
                     }
                 });
@@ -1792,7 +1801,7 @@
                 </div>
                 <div id="contract" class="inactive">
                     <form action="edit_order.php" method="post">        
-                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="order_table">
                             <tr>
                                 <td class='form1' nowrap>賃料:</td>
                                 <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
@@ -1897,13 +1906,13 @@
                             </tr>
                             <tr>
                                 <td class='form1'>申込み:</td>
-                                <td class='form2'><input type="checkbox" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox"  onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
                                 <td class='form1' nowrap>申込日:</td>
                                 <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>                    
                                 <td class='form1'>売上計上:</td>
-                                <td class='form2'><input type="checkbox" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
                                 <td class='form1' nowrap>キャンセル:</td>
                                 <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                             </tr>
@@ -1961,11 +1970,43 @@
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                         <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                                         <input type="hidden" id="calculator" name="calculator"/>
-                                        <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
+                                        <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 100px;"/> 
                                     </div>                        
                                 </td>
                             </tr>
                         </table>
+                        <div id="export_form" style="display:none;">
+                            <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
+                                <tbody>
+                                    <tr>
+                                        <td class="form1">
+                                            選択
+                                        </td>
+                                        <td class="form2">
+                                            <select name="export_option">
+                                                <option value="10">オーダー</option>
+                                                <option value="1">申込報告書</option>
+                                                <option value="2">精算書家主用</option>
+                                                <option value="3">精算書入居者用</option>
+                                                <option value="4">入居者対応補助</option>
+                                                <option value="5">請求書</option>
+                                                <option value="6">業務委託料</option>
+                                                <option value="7">広告料</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="form1">&nbsp;</td>
+                                        <td class="form2">
+                                            <div style="margin-top:10px">
+                                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
+                                                <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                 </div>
                 <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
@@ -2111,6 +2152,19 @@
             }
         </style>
         <script type="text/javascript">
+            function openImport(){
+                $('#export_form').show();
+                $('#order_table').hide();
+            }
+            function closeImport(){
+                $('#export_form').hide();
+                $('#order_table').show();
+            }
+            function sendMail(el){
+                 if(el.checked && confirm("Do you want to send mail?")){
+                     sendmail =  1;
+                }
+            }
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');
                 var fieldCount = 1;
