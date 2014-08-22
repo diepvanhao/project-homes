@@ -319,3 +319,8 @@ ALTER TABLE `home_house_owner`
 
 ALTER TABLE `home_user`   
   ADD COLUMN `user_search` VARCHAR(128) NULL AFTER `user_path_thumb`;
+
+-- 14-08
+ALTER TABLE  `home_order` 
+CHANGE  `order_day_create`  `order_day_create` INT( 11 ) UNSIGNED NULL DEFAULT NULL ,
+CHANGE  `order_day_update`  `order_day_update` INT( 11 ) UNSIGNED NULL DEFAULT NULL;
