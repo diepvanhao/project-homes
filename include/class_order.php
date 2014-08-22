@@ -125,10 +125,10 @@ class HOMEOrder {
             $order['client_id'] = $row['client_id'];
             $order['client_name'] = $row['client_name'];
             $order['order_rent_cost'] = $row['order_rent_cost'];
-            $order['order_day_create'] = $row['order_day_create'];
+            $order['order_day_create'] = date('Y-m-d',$row['order_day_create']);
             $order['order_status'] = $row['order_status'];
             $order['order_comment'] = $row['order_comment'];
-            $order['order_day_update'] = $row['order_day_update'];
+            $order['order_day_update'] = date('Y-m-d',$row['order_day_update']);
             $order['create_id'] = $row['create_id'];
             $order['broker_id'] = $row['broker_id'];
             $order['change'] = $row['change'];

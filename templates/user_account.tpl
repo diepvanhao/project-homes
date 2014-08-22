@@ -100,10 +100,10 @@
 
     </script>
 {/literal}
-<div style="text-align: center;font-size: 1.4em;padding-bottom: 10px; ">
+<!--<div style="text-align: center;font-size: 1.4em;padding-bottom: 10px; ">
     <label >サインアップ</label>
-</div>
-
+</div>-->
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">サインアップ</div>
 {nocache}
     {if $error|@count gt 0}
         {foreach from=$error item=val}
