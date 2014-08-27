@@ -77,7 +77,7 @@ for ($i = 0; $i < count($brokers); $i++) {
     $house_address = $house_address_serialize['broker_company_address'];
     $brokers[$i]['broker_company_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $house_address;
 }
-var_dump($brokers);
+
 $smarty->assign('room', $room);
 $smarty->assign('house', $housedetail);
 $smarty->assign('brokers', $brokers);
