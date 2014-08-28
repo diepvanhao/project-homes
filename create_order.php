@@ -998,6 +998,10 @@ if ($step == 1) {
         if ($task == 'basic') {
             $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id,$client_read_way);
             if ($result) {
+                include 'include/class_mail.php';
+                $report = new Mail();
+                $report->createOrder($order_id);
+                
                 $client_id = $result['id'];
                 $exist = $result['exist'];
                 if ($exist)
