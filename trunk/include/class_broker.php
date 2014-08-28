@@ -8,9 +8,14 @@
 
 class HOMEBroker {
 
-    function create($broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake,$house_search="") {
+    function create($broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake, $house_search = "") {
         global $database, $user;
-        $database->database_query("
+        //check exist broker
+        if (checkExistBroker($broker_company_name)) {
+            return false;
+        } else {
+
+            $database->database_query("
 
       INSERT INTO home_broker_company(
       
@@ -50,19 +55,20 @@ class HOMEBroker {
       )
 
     ");
-        $broker_id = $database->database_insert_id();
+            $broker_id = $database->database_insert_id();
 
-        if ($broker_id)
-            $result = TRUE;
-        else
-            $result = FALSE;
+            if ($broker_id)
+                $result = TRUE;
+            else
+                $result = FALSE;
 
-        return $result;
+            return $result;
+        }
     }
 
     function getTotalItem($search) {
         global $database;
-        $search=trim($search);
+        $search = trim($search);
         $query = "select * from home_broker_company";
         if (!empty($search))
             $query.=" where broker_company_name like '%{$search}%' or broker_company_phone like '%{$search}%' or broker_company_search like '%{$search}%'";
@@ -73,7 +79,7 @@ class HOMEBroker {
 
     function getBroker($search = "", $offset = 0, $length = 50) {
         global $database;
-        $search=trim($search);
+        $search = trim($search);
         $query = "select * from home_broker_company";
         if (!empty($search))
             $query.=" where broker_company_name like '%{$search}%' or broker_company_phone like '%{$search}%' or broker_company_search like '%{$search}%'";
@@ -128,7 +134,7 @@ class HOMEBroker {
         }
     }
 
-    function update($broker_id, $broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake,$house_search="") {
+    function update($broker_id, $broker_company_name, $broker_company_address, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake, $house_search = "") {
         global $database;
         $query = "update home_broker_company set broker_company_name='{$broker_company_name}',broker_company_address='{$broker_company_address}',broker_company_phone='{$broker_company_phone}',broker_company_email='{$broker_company_email}',broker_company_fax='{$broker_company_fax}',broker_company_undertake='{$broker_company_undertake}',broker_company_search='{$house_search}'
          where id={$broker_id}
@@ -158,4 +164,16 @@ class HOMEBroker {
         }
     }
 
+}
+
+function checkExistBroker($broker_name) {
+    global $database;
+    $broker_name = trim($broker_name);
+    $query = "select * from home_broker_company where broker_company_name='{$broker_name}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
 }

@@ -96,6 +96,13 @@ if (isset($_POST['client_birthday'])) {
 } else {
     $client_birthday = "";
 }
+if (isset($_POST['client_read_way'])) {
+    $client_read_way = $_POST['client_read_way'];
+} elseif (isset($_GET['client_read_way'])) {
+    $client_read_way = $_GET['client_read_way'];
+} else {
+    $client_read_way = "";
+}
 if (isset($_POST['client_email'])) {
     $client_email = $_POST['client_email'];
 } elseif (isset($_GET['client_email'])) {
@@ -791,7 +798,7 @@ for ($i = 0; $i < count($customers); $i++) {
         $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
         $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
         $client_address = $house_address_serialize['client_address'];
-        $customers[$i]['client_address'] = $city_id_filter . ", " . $district_id_filter . ", " . $street_id_filter . ", " . $ward_id_filter . ", " . $client_address;
+        $customers[$i]['client_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $client_address;
     } else {
         $customers[$i]['client_address'] = $customers[$i]['client_address'];
     }
@@ -831,7 +838,6 @@ if (!empty($_POST['export'])) {
             default:
                 break;
         }
-        
     }
 }
 //Store client's info
@@ -846,7 +852,7 @@ if (isset($_POST['save'])) {
         $task = "";
     }
     if ($task == 'basic') {
-        $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id);
+        $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
         if ($result) {
             $client_id = $result['id'];
             $exist = $result['exist'];
@@ -858,6 +864,7 @@ if (isset($_POST['save'])) {
 
             if (!empty($client_arr)) {
                 $client_name = $client_arr['client_name'];
+                $client_read_way = $client_arr['client_read_way'];
                 $client_birthday = $client_arr['client_birthday'];
                 $client_email = $client_arr['client_email'];
                 $client_phone = $client_arr['client_phone'];
@@ -1086,8 +1093,9 @@ if (isset($_POST['save'])) {
 
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
-            $client_id = $client_arr['client_id'];
+        $client_id = $client_arr['client_id'];
         $client_name = $client_arr['client_name'];
+        $client_read_way = $client_arr['client_read_way'];
         $client_birthday = $client_arr['client_birthday'];
         $client_email = $client_arr['client_email'];
         $client_phone = $client_arr['client_phone'];
@@ -1411,6 +1419,7 @@ $smarty->assign('client_resident_name', $client_resident_name);
 $smarty->assign('client_resident_phone', $client_resident_phone);
 $smarty->assign('client_name', $client_name);
 $smarty->assign('client_birthday', $client_birthday);
+$smarty->assign('client_read_way', $client_read_way);
 $smarty->assign('client_email', $client_email);
 $smarty->assign('client_phone', $client_phone);
 $smarty->assign('client_fax', $client_fax);

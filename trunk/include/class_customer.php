@@ -40,7 +40,7 @@ class HOMECustomer {
         return $row;
     }
 
-    function create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id) {
+    function create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id,$client_read_way="") {
         global $database, $user;
 
         $exits = FALSE;
@@ -53,6 +53,7 @@ class HOMECustomer {
             $query = "insert into home_client(
                         user_id,
                         client_name,
+                        client_read_way,
                         client_birthday,
                         client_email,
                         client_phone,
@@ -60,6 +61,7 @@ class HOMECustomer {
                      )values(
             {$user->user_info['id']},
                      '{$client_name}',
+                     '{$client_read_way}',
                      '{$client_birthday}',
                      '{$client_email}',
                      '{$client_phone}',
@@ -122,6 +124,7 @@ class HOMECustomer {
             $query = "SELECT hc.id AS client_id,
                                 hc.user_id AS user_id,
                                 hc.client_name AS client_name,
+                                hc.client_read_way as client_read_way,
                                 hc.client_birthday AS client_birthday,
                                 hc.client_address AS client_address,
                                 hc.client_phone AS client_phone,
@@ -152,6 +155,7 @@ class HOMECustomer {
                 $row['client_id'] = $row['client_id'];
                 $row['user_id'] = $row['user_id'];
                 $row['client_name'] = $row['client_name'];
+                $row['client_read_way'] = $row['client_read_way'];
                 $row['client_birthday'] = $row['client_birthday'];
                 $row['client_address'] = $row['client_address'];
                 $row['client_phone'] = $row['client_phone'];

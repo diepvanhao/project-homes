@@ -145,6 +145,7 @@ class HOMEOrder {
         $query = "SELECT hc.id AS client_id,
                                 hc.user_id AS user_id,
                                 hc.client_name AS client_name,
+                                hc.client_read_way as client_read_way,
                                 hc.client_birthday AS client_birthday,
                                 hc.client_address AS client_address,
                                 hc.client_phone AS client_phone,
@@ -221,6 +222,7 @@ class HOMEOrder {
         $client['client_id'] = $row['client_id'];
         $client['user_id'] = $row['user_id'];
         $client['client_name'] = $row['client_name'];
+        $client['client_read_way'] = $row['client_read_way'];
         $client['client_birthday'] = $row['client_birthday'];
         $client['client_address'] = $row['client_address'];
         $client['client_phone'] = $row['client_phone'];
