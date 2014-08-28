@@ -12,11 +12,14 @@ class Mail {
 
         date_default_timezone_set("Asia/Bangkok");
         include 'PHPMailer/PHPMailerAutoload.php';
-
+        
+//        mb_language("japanese");           //言語(日本語)
+//        mb_internal_encoding("UTF-8");
         //Create a new PHPMailer instance
         $mail = new PHPMailer();
         //Tell PHPMailer to use SMTP
         $mail->isSMTP();
+        $mail->setLanguage('ja');
         //Enable SMTP debugging
         // 0 = off (for production use)
         // 1 = client messages
@@ -35,8 +38,8 @@ class Mail {
         //Password to use for SMTP authentication
         $mail->Password = "Aa123456@";
         
-        $mail->CharSet  =  'utf-8';
-        
+        $mail->CharSet = "iso-2022-jp";    //文字コード設定
+        $mail->Encoding = "7bit";
         $mail->IsHTML(true);
 
         //send the message, check for errors
@@ -83,39 +86,42 @@ class Mail {
         $month = date('m');
         $day = date('d');
         
-        $subject = mb_encode_mimeheader (mb_convert_encoding('[Mail 申込FM]',"UTF-8", "Shift-JIS"));
+        mb_language("japanese");           //言語(日本語)
+        mb_internal_encoding("UTF-8");
+        
+        $subject = mb_encode_mimeheader (mb_convert_encoding('[Mail 申込FM]',"UTF-8","UTF-8"));
         
         $body = "<div style='max-width: 1000px; margin: auto;'>
                 <div style='width:100%; background-color: #000;'>
                     <img src='http://{$_SERVER['SERVER_NAME']}/include/images/logo.png' title='AMBITION LOGO' alt='AMBITION LOGO' height='150'>
                 </div>
                 <div>
-                    <h3>".mb_convert_encoding($subject, "UTF-8", "Shift-JIS")."</h3>
-                    <h3>".mb_convert_encoding('_________________[申込速報]_________________', "UTF-8", "Shift-JIS")."</h3>
+                    <h3>[".mb_convert_encoding("Mail 申込FM", "JIS","UTF-8")."]</h3>
+                    <h3>_________________[".mb_convert_encoding("申込速報", "JIS","UTF-8")."]_________________</h3>
                 </div>
                 <div>
-                    <div>".($year-1988).mb_convert_encoding("年{$month}月{$day}日", "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding('おめでとうございます！', "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("只今、{$agent['agent_name']}", "UTF-8", "Shift-JIS")."</div> 
-                    <div>".mb_convert_encoding("{$user->user_info['user_fname']} {$user->user_info['user_lname']} さんが申込入りました！！", "UTF-8", "Shift-JIS")."</div> 
+                    <div>".($year-1988).mb_convert_encoding("年{$month}月{$day}日", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding('おめでとうございます！', "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("只今、{$agent['agent_name']}", "JIS","UTF-8")."</div> 
+                    <div>".mb_convert_encoding("{$user->user_info['user_fname']} {$user->user_info['user_lname']} さんが申込入りました！！", "JIS","UTF-8")."</div> 
                     <div>++++++++++++++++++++</div>
-                    <div>".mb_convert_encoding('[内容]', "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("売上済: {$order_detail['already_recorded']} 円", "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("未契約: {$order_detail['unsigned']} 円", "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("申込本数: {$order_detail['is_transaction']} 件", "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("成約本数: {$order_detail['is_unsigned']} 件", "UTF-8", "Shift-JIS")."</div>
+                    <div>".mb_convert_encoding('[内容]', "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("売上済: {$order_detail['already_recorded']} 円", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("未契約: {$order_detail['unsigned']} 円", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("申込本数: {$order_detail['is_transaction']} 件", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("成約本数: {$order_detail['is_unsigned']} 件", "JIS","UTF-8")."</div>
                         <br>
-                    <div>".mb_convert_encoding('[付帯]', "UTF-8", "Shift-JIS")."</div>
+                    <div>".mb_convert_encoding('[付帯]', "JIS","UTF-8")."</div>
                     NGU
                     <br>
-                    <div>".mb_convert_encoding('[井口 紘人さんの総合順位]', "UTF-8", "Shift-JIS")."</div>
+                    <div>".mb_convert_encoding('[井口 紘人さんの総合順位]', "JIS","UTF-8")."</div>
                     <br>
                     <br>
-                    <div>".mb_convert_encoding('[井口 紘人さん今月累計(達成率)]', "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("売上済: {$order_detail['month_already_recorded']} 円 ", "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding("未契約:  {$order_detail['month_unsigned']}円 ", "UTF-8", "Shift-JIS")."</div>
-                    <div>".mb_convert_encoding(">申込本数: {$order_detail['month_transaction']} 件 ", "UTF-8", "Shift-JIS")."</div
-                    <div>".mb_convert_encoding("成約本数: {$order_detail['month_unsigned']}件 ", "UTF-8", "Shift-JIS")."</div>
+                    <div>".mb_convert_encoding('[井口 紘人さん今月累計(達成率)]', "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("売上済: {$order_detail['month_already_recorded']} 円 ", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("未契約:  {$order_detail['month_unsigned']}円 ", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("申込本数: {$order_detail['month_transaction']} 件 ", "JIS","UTF-8")."</div
+                    <div>".mb_convert_encoding("成約本数: {$order_detail['month_unsigned']}件 ", "JIS","UTF-8")."</div>
                 </div>
             </div>";
         $mail = $this->_config(true);
@@ -228,4 +234,80 @@ class Mail {
         return $return;
     }
 
+    /**
+     * 
+     * @global type $user
+     * @param type $order_id
+     * @return boolean|string
+     */
+    public function createOrder($order_id = null){
+        if (empty($order_id)) {
+            return false;
+        }
+        global $user;
+
+        include('class_detail.php');
+        $detail = new HOMEDetail();
+        $order = $detail->getOrder($order_id);
+        $order_detail = $this->_getOrderDetail($order_id);
+        $house = new HOMEHouse();
+        $housedetail = $house->getHouseById($order['house_id']);
+        if ($house->isSerialized($housedetail['house_address'])) {
+            $house_address_serialize = unserialize($housedetail['house_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $house_address = $house_address_serialize['house_address'];
+            $housedetail['house_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+        }
+        $year = date('Y');
+        $month = date('m');
+        $day = date('d');
+        
+        mb_language("japanese");           //言語(日本語)
+        mb_internal_encoding("UTF-8");
+        
+        $subject = mb_encode_mimeheader (mb_convert_encoding('[ありがとう]',"UTF-8","UTF-8"));
+        
+        $body = "<div style='max-width: 1000px; margin: auto;'>
+                <div style='width:100%; background-color: #000;'>
+                    <img src='http://{$_SERVER['SERVER_NAME']}/include/images/logo.png' title='AMBITION LOGO' alt='AMBITION LOGO' height='150'>
+                </div>
+                <div>
+                    <h3>_________________[".mb_convert_encoding("ありがとう", "JIS","UTF-8")."]_________________</h3>
+                </div>
+                <div>
+                    <div>".($year-1988).mb_convert_encoding("年{$month}月{$day}日", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("名称: {$housedetail['house_name']}", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("住所:  {$housedetail['house_address']}", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("エリア: {$housedetail['house_area']} 件 ", "JIS","UTF-8")."</div
+                    <div>".mb_convert_encoding("間取り: {$order_detail['house_type']}件 ", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("備考: {$order_detail['house_description']}件 ", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("建物構造: {$order_detail['house_structure']}件 ", "JIS","UTF-8")."</div>
+                    <div>".mb_convert_encoding("築年月: {$order_detail['house_build_time']}件 ", "JIS","UTF-8")."</div>
+                </div>
+            </div>";
+        $mail = $this->_config(true);
+        //Set who the message is to be sent from
+        $mail->setFrom($mail->Username);
+        //Set an alternative reply-to address
+//        $mail->addReplyTo($user->info['user_email']);
+        //Set who the message is to be sent to
+        $mail->addAddress($user->user_info['user_email']);
+        //Set the subject line
+        $mail->Subject = $subject;
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        $mail->msgHTML(mb_convert_encoding($body, "UTF-8", "Shift-JIS"), dirname(__FILE__));
+        //Replace the plain text body with one created manually
+        $mail->AltBody = $body;
+        //Attach an image file
+//        $mail->addAttachment('images/phpmailer_mini.png');
+        if (!$mail->send()) {
+            return "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+            return "Mail Sent";
+        }
+    }
 }
