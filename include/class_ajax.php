@@ -789,6 +789,7 @@ class ajax {
         $query = "SELECT hc.id AS client_id,
                                 hc.user_id AS user_id,
                                 hc.client_name AS client_name,
+                                hc.client_read_way AS client_read_way,
                                 hc.client_birthday AS client_birthday,
                                 hc.client_address AS client_address,
                                 hc.client_phone AS client_phone,
@@ -820,6 +821,7 @@ class ajax {
             $row['client_id'] = $row['client_id'];
             $row['user_id'] = $row['user_id'];
             $row['client_name'] = $row['client_name'];
+            $row['client_read_way'] = $row['client_read_way'];
             $row['client_birthday'] = $row['client_birthday'];
             if ($house->isSerialized($row['client_address'])) {
                 $house_address_serialize = unserialize($row['client_address']);

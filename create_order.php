@@ -292,6 +292,13 @@ if ($step == 1) {
     } else {
         $client_birthday = "";
     }
+    if (isset($_POST['client_read_way'])) {
+        $client_read_way = $_POST['client_read_way'];
+    } elseif (isset($_GET['client_read_way'])) {
+        $client_read_way = $_GET['client_read_way'];
+    } else {
+        $client_read_way = "";
+    }
     if (isset($_POST['client_email'])) {
         $client_email = $_POST['client_email'];
     } elseif (isset($_GET['client_email'])) {
@@ -989,7 +996,7 @@ if ($step == 1) {
             $task = "";
         }
         if ($task == 'basic') {
-            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id);
+            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id,$client_read_way);
             if ($result) {
                 $client_id = $result['id'];
                 $exist = $result['exist'];
@@ -1001,6 +1008,7 @@ if ($step == 1) {
 
                 if (!empty($client_arr)) {
                     $client_name = $client_arr['client_name'];
+                    $client_read_way = $client_arr['client_read_way'];
                     $client_birthday = $client_arr['client_birthday'];
                     $client_email = $client_arr['client_email'];
                     $client_phone = $client_arr['client_phone'];
@@ -1326,6 +1334,7 @@ if ($step == 1) {
     $smarty->assign('client_resident_phone', $client_resident_phone);
     $smarty->assign('client_name', $client_name);
     $smarty->assign('client_birthday', $client_birthday);
+    $smarty->assign('client_read_way', $client_read_way);
     $smarty->assign('client_email', $client_email);
     $smarty->assign('client_phone', $client_phone);
     $smarty->assign('client_fax', $client_fax);

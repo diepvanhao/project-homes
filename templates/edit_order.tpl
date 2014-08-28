@@ -963,6 +963,7 @@
                     /*reset form*/
                     $('#cus_id').val('');
                     $('#client_name').val('');
+                    $('#client_read_way').val('');
                     $('#client_birthday').val('');
                     $('#client_email').val('');
                     $('#client_phone').val('');
@@ -1048,6 +1049,7 @@
 
                     var json = $.parseJSON(result);
                     $('#client_name').val(json.client_name);
+                    $('#client_read_way').val(json.client_read_way);
                     $('#client_birthday').val(json.client_birthday);
                     $('#client_email').val(json.client_email);
                     $('#client_phone').val(json.client_phone);
@@ -1430,17 +1432,18 @@
                                 <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
+                        <td class='form1'>How to read?:</td>
+                        <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
                                 <td class='form1'>Ｅメール:</td>
                                 <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
+                    </tr>
+                    <tr>                        
                                 <td class='form1'>電話番号:</td>
                                 <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 215px;"/></td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>&nbsp;</td>
-                                <td class='form2'></td>
                                 <td class='form1' nowrap>ファックス:</td>
                                 <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
                             </tr>
+                    
                             <tr>
                                 <td class='form1'>&nbsp;</td>
                                 <td class='form2' colspan="3">
@@ -1508,7 +1511,7 @@
                                 <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
-                                <td class='form1'>収入:</td>
+                        <td class='form1'>年収:</td>
                                 <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
                                 <td class='form1' nowrap>間取り:</td>
                                 <td class='form2'> 
@@ -1566,7 +1569,7 @@
                             <tr>
                                 <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
                                 <td colspan="2">
-                                    <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">コール</label>
+                            <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
                                     <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
                                     <input type="radio" id="log_time_arrive_company_type" name="choose_contact_type"/><label for="log_time_arrive_company_type">来店</label>
                                 </td>
@@ -1834,7 +1837,7 @@
                             <tr>                    
                                 <td class='form1' nowrap>条件:</td>
                                 <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                                <td class='form1' nowrap>評価:</td>
+                        <td class='form1' nowrap>評価額:</td>
                                 <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
                             </tr>
                             <tr>
@@ -1864,7 +1867,7 @@
                             <tr>
                                 <td class='form1' nowrap>契約金入金予定日　（～から）:</td>
                                 <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                                <td class='form1' nowrap>支払い状況:</td>
+                        <td class='form1' nowrap>入金状況:</td>
                                 <td class='form2'>
                                     <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
                                     <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
@@ -1882,7 +1885,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class='form1'>敷金・保証金 （預かり）:</td>
+                        <td class='form1'>敷金・保証金（預かり）:</td>
                                 <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
                                     <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                         <option value="円">円</option>
@@ -1901,7 +1904,7 @@
                                 <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
                                     <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                                 </td>
-                                <td class='form1' nowrap>自社</td>
+                        <td class='form1' nowrap>自社物件</td>
                                 <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             <tr>

@@ -935,6 +935,7 @@
                     /*reset form*/
                     $('#cus_id').val('');
                     $('#client_name').val('');
+                    $('#client_read_way').val('');
                     $('#client_birthday').val('');
                     $('#client_email').val('');
                     $('#client_phone').val('');
@@ -1020,6 +1021,7 @@
 
                     var json = $.parseJSON(result);
                     $('#client_name').val(json.client_name);
+                    $('#client_read_way').val(json.client_read_way);
                     $('#client_birthday').val(json.client_birthday);
                     $('#client_email').val(json.client_email);
                     $('#client_phone').val(json.client_phone);
@@ -1517,17 +1519,18 @@
                         <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
+                        <td class='form1'>How to read?:</td>
+                        <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1'>Ｅメール:</td>
                         <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
+                    </tr>
+                    <tr>                        
                         <td class='form1'>電話番号:</td>
                         <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2'></td>
                         <td class='form1' nowrap>ファックス:</td>
                         <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
                     </tr>
+                    
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
@@ -1553,7 +1556,7 @@
                             <select id="gender"name="gender" style="height:26px; width: 215px;">
                                 <option value="male" {if $gender eq "male"}selected{/if}>男性</option>
                                 <option value="female"{if $gender eq "female"}selected{/if}>女性</option>
-                                <option value="other" {if $gender eq "other"}selected{/if}>備考</option>
+                                <option value="other" {if $gender eq "other"}selected{/if}>その他</option>
                             </select>
                         </td>
                         <td class='form1' nowrap>番地: <span class="required">*</span></td>

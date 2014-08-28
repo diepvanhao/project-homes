@@ -133,6 +133,8 @@ if (isset($_POST['submit'])) {
         $result = $broker->create($broker_company_name, $house_address_serialize, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake,$house_search);
         if ($result) {
             header("Location: notify.php?content=管理会社～は成功に作成されました。!!!&url_return=create_broker_company.php");
+        }else{
+            $error[]="$broker_company_name"." 存在している.";
         }
     }
 }
