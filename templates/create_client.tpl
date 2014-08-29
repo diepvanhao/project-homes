@@ -83,6 +83,10 @@
             <tr>
                 <td class='form1'>名称: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='client_name' id='client_name' value="{$data.client_name}"  style="height:26px; width: 351px;"><div id="client_name_error"class="error"></div></td>
+            </tr>            
+            <tr>
+                <td class='form1'>How to read?:</td>
+                <td class='form2'><input type='text' class='text' name='client_read_way' id='client_read_way' value="{$data.client_read_way}"  style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
                 <td class='form1'>生年月日:</td>
@@ -146,7 +150,7 @@
                 <td class='form2'><input type='text' class='text' name='client_company' id='client_company' value="{$data.client_company}"  style="height:26px; width: 351px;"><div id="client_company_error"class="error"></div></td>
             </tr>
 
-            
+
             <tr>
                 <td class='form1'>性別: </td>
                 <td class='form2'>
