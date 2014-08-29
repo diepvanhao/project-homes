@@ -1432,7 +1432,7 @@
                                 <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
-                        <td class='form1'>How to read?:</td>
+                        <td class='form1'>フリガナ?:</td>
                         <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
                                 <td class='form1'>Ｅメール:</td>
                                 <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>

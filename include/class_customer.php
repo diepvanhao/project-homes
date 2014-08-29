@@ -40,7 +40,7 @@ class HOMECustomer {
         return $row;
     }
 
-    function create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id,$client_read_way="") {
+    function create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way = "") {
         global $database, $user;
 
         $exits = FALSE;
@@ -70,22 +70,25 @@ class HOMECustomer {
 
             $result = $database->database_query($query);
             $id = $database->database_insert_id($result);
-            //update order
-            $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
-            $database->database_query($query);
-            //update history
-            $query = "update home_history_log set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-            //update aspirations
-            $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-            //update contract
-            $query = "update home_contract set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-            //update introduce house
-            $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-
+            if ($id) {
+                //update order
+                $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
+                $database->database_query($query);
+                //update history
+                $query = "update home_history_log set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+                //update aspirations
+                $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+                //update contract
+                $query = "update home_contract set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+                //update introduce house
+                $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+            }else{
+                return array('exist' => $exits, 'id' => "", 'client_arr' => "");
+            }
             return array('exist' => $exits, 'id' => $id, 'client_arr' => "");
         } else {
 //            if ($client_id) {
@@ -102,24 +105,26 @@ class HOMECustomer {
             $result = $database->database_query($query);
             $row = $database->database_fetch_assoc($result);
             $id = $row['id'];
-
-            //update order
-            $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
-            $database->database_query($query);
-            //update history
-            $query = "update home_history_log set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-            //update aspirations
-            $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-            //update contract
-            //update contract
-            $query = "update home_contract set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-            //update introduce house
-            $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
-            $database->database_query($query);
-
+            if ($id) {
+                //update order
+                $query = "update home_order set client_id={$id}, user_id={$user->user_info['id']} where id={$order_id}";
+                $database->database_query($query);
+                //update history
+                $query = "update home_history_log set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+                //update aspirations
+                $query = "update home_history_aspirations set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+                //update contract
+                //update contract
+                $query = "update home_contract set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+                //update introduce house
+                $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
+                $database->database_query($query);
+            }else{
+                return array('exist' => $exits, 'id' => "", 'client_arr' => "");
+            }
             //get information about client
             $query = "SELECT hc.id AS client_id,
                                 hc.user_id AS user_id,
