@@ -854,7 +854,9 @@ if (isset($_POST['save'])) {
     if ($task == 'basic') {
         $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
         if ($result) {
-            $client_id = $result['id'];
+            
+            if ($result['id'])
+                $client_id = $result['id'];
             $exist = $result['exist'];
             if ($exist)
                 $error[] = "";
@@ -1093,7 +1095,7 @@ if (isset($_POST['save'])) {
 
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
-        $client_id = $client_arr['client_id'];
+            $client_id = $client_arr['client_id'];
         $client_name = $client_arr['client_name'];
         $client_read_way = $client_arr['client_read_way'];
         $client_birthday = $client_arr['client_birthday'];

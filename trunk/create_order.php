@@ -942,7 +942,7 @@ if ($step == 1) {
             $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
             $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
             $client_address = $house_address_serialize['client_address'];
-            $customers[$i]['client_address'] = $city_id_filter .  $district_id_filter . $street_id_filter . $ward_id_filter . $client_address;
+            $customers[$i]['client_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $client_address;
         } else {
             $customers[$i]['client_address'] = $customers[$i]['client_address'];
         }
@@ -983,7 +983,6 @@ if ($step == 1) {
                 default:
                     break;
             }
-
         }
     }
     if (isset($_POST['save'])) {
@@ -996,13 +995,13 @@ if ($step == 1) {
             $task = "";
         }
         if ($task == 'basic') {
-            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id,$client_read_way);
+            $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
             if ($result) {
                 include 'include/class_mail.php';
                 $report = new Mail();
                 $report->createOrder($order_id);
-                
-                $client_id = $result['id'];
+                if ($result['id'])
+                    $client_id = $result['id'];
                 $exist = $result['exist'];
                 if ($exist)
                     $error[] = "";
