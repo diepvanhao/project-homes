@@ -244,70 +244,79 @@ class Mail {
         if (empty($order_id)) {
             return false;
         }
-        global $user;
+        try{
+            global $user;
 
-        include('class_detail.php');
-        $detail = new HOMEDetail();
-        $order = $detail->getOrder($order_id);
-        $order_detail = $this->_getOrderDetail($order_id);
-        $house = new HOMEHouse();
-        $housedetail = $house->getHouseById($order['house_id']);
-        if ($house->isSerialized($housedetail['house_address'])) {
-            $house_address_serialize = unserialize($housedetail['house_address']);
-            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
-            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
-            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
-            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
-            $house_address = $house_address_serialize['house_address'];
-            $housedetail['house_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
-        }
-        $year = date('Y');
-        $month = date('m');
-        $day = date('d');
-        
-        mb_language("japanese");           //言語(日本語)
-        mb_internal_encoding("UTF-8");
-        
-        $subject = mb_encode_mimeheader (mb_convert_encoding('[ありがとう]',"UTF-8","UTF-8"));
-        
-        $body = "<div style='max-width: 1000px; margin: auto;'>
-                <div style='width:100%; background-color: #000;'>
-                    <img src='http://{$_SERVER['SERVER_NAME']}/include/images/logo.png' title='AMBITION LOGO' alt='AMBITION LOGO' height='150'>
-                </div>
-                <div>
-                    <h3>_________________[".mb_convert_encoding("ありがとう", "JIS","UTF-8")."]_________________</h3>
-                </div>
-                <div>
-                    <div>".($year-1988).mb_convert_encoding("年{$month}月{$day}日", "JIS","UTF-8")."</div>
-                    <div>".mb_convert_encoding("名称: {$housedetail['house_name']}", "JIS","UTF-8")."</div>
-                    <div>".mb_convert_encoding("住所:  {$housedetail['house_address']}", "JIS","UTF-8")."</div>
-                    <div>".mb_convert_encoding("エリア: {$housedetail['house_area']} 件 ", "JIS","UTF-8")."</div
-                    <div>".mb_convert_encoding("間取り: {$order_detail['house_type']}件 ", "JIS","UTF-8")."</div>
-                    <div>".mb_convert_encoding("備考: {$order_detail['house_description']}件 ", "JIS","UTF-8")."</div>
-                    <div>".mb_convert_encoding("建物構造: {$order_detail['house_structure']}件 ", "JIS","UTF-8")."</div>
-                    <div>".mb_convert_encoding("築年月: {$order_detail['house_build_time']}件 ", "JIS","UTF-8")."</div>
-                </div>
-            </div>";
-        $mail = $this->_config(true);
-        //Set who the message is to be sent from
-        $mail->setFrom($mail->Username);
-        //Set an alternative reply-to address
-//        $mail->addReplyTo($user->info['user_email']);
-        //Set who the message is to be sent to
-        $mail->addAddress($user->user_info['user_email']);
-        //Set the subject line
-        $mail->Subject = $subject;
-        //Read an HTML message body from an external file, convert referenced images to embedded,
-        //convert HTML into a basic plain-text alternative body
-        $mail->msgHTML(mb_convert_encoding($body, "UTF-8", "Shift-JIS"), dirname(__FILE__));
-        //Replace the plain text body with one created manually
-        $mail->AltBody = $body;
-        //Attach an image file
-//        $mail->addAttachment('images/phpmailer_mini.png');
-        if (!$mail->send()) {
-            return "Mailer Error: " . $mail->ErrorInfo;
-        } else {
-            return "Mail Sent";
+            include('class_detail.php');
+            $detail = new HOMEDetail();
+            $order = $detail->getOrder($order_id);
+            $order_detail = $this->_getOrderDetail($order_id);
+            $house = new HOMEHouse();
+            $housedetail = $house->getHouseById($order['house_id']);
+            $client = Client::getClientId($order['client_id']);
+            if ($house->isSerialized($housedetail['house_address'])) {
+                $house_address_serialize = unserialize($housedetail['house_address']);
+                $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+                $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+                $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+                $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+                $house_address = $house_address_serialize['house_address'];
+                $housedetail['house_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+            }
+            $year = date('Y');
+            $month = date('m');
+            $day = date('d');
+
+            mb_language("japanese");           //言語(日本語)
+            mb_internal_encoding("UTF-8");
+
+            $subject = mb_encode_mimeheader (mb_convert_encoding('[ありがとう]',"UTF-8","UTF-8"));
+
+            $body = "<div style='max-width: 1000px; margin: auto;'>
+                    <div style='width:100%; background-color: #000;'>
+                        <img src='http://{$_SERVER['SERVER_NAME']}/include/images/logo.png' title='AMBITION LOGO' alt='AMBITION LOGO' height='150'>
+                    </div>
+                    <div>
+                        <h3>_________________[".mb_convert_encoding("ありがとう", "JIS","UTF-8")."]_________________</h3>
+                    </div>
+                    <div>
+                        <div>".($year-1988).mb_convert_encoding("年{$month}月{$day}日", "JIS","UTF-8")."</div>
+                        <div>".mb_convert_encoding("名称: {$housedetail['house_name']}", "JIS","UTF-8")."</div>
+                        <div>".mb_convert_encoding("リンク: ", "JIS","UTF-8")
+                        . "<a href='http://{$_SERVER['SERVER_NAME']}/house_detail.php?house_id={$housedetail['id']}'>"
+                        . "http://{$_SERVER['SERVER_NAME']}/house_detail.php?house_id={$housedetail['id']}</a></div>
+                        <div>".mb_convert_encoding("住所:  {$housedetail['house_address']}", "JIS","UTF-8")."</div>
+                        <div>".mb_convert_encoding("エリア: {$housedetail['house_area']}", "JIS","UTF-8")."</div
+                        <div>".mb_convert_encoding("間取り: {$housedetail['house_type']}", "JIS","UTF-8")."</div>
+                        <div>".mb_convert_encoding("備考: {$housedetail['house_description']}", "JIS","UTF-8")."</div>
+                        <div>".mb_convert_encoding("建物構造: {$housedetail['house_structure']}", "JIS","UTF-8")."</div>
+                        <div>".mb_convert_encoding("築年月: {$housedetail['house_build_time']}", "JIS","UTF-8")."</div>
+                    </div>
+                </div>";
+            $mail = $this->_config(true);
+            $mail->SMTPDebug = 0;
+            //Set who the message is to be sent from
+            $mail->setFrom($mail->Username);
+            //Set an alternative reply-to address
+    //        $mail->addReplyTo($user->info['user_email']);
+            //Set who the message is to be sent to
+            $mail->addAddress($client['client_email']);
+            //Set the subject line
+            $mail->Subject = $subject;
+            //Read an HTML message body from an external file, convert referenced images to embedded,
+            //convert HTML into a basic plain-text alternative body
+            $mail->msgHTML(mb_convert_encoding($body, "UTF-8", "Shift-JIS"), dirname(__FILE__));
+            //Replace the plain text body with one created manually
+            $mail->AltBody = $body;
+            //Attach an image file
+    //        $mail->addAttachment('images/phpmailer_mini.png');
+            if (!$mail->send()) {
+                return "Mailer Error: " . $mail->ErrorInfo;
+            } else {
+                return "Mail Sent";
+            }
+        }catch(Exception $e){
+            
         }
     }
 }
