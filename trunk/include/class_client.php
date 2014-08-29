@@ -9,6 +9,7 @@ class Client {
         $query = "INSERT INTO home_client(
             `user_id`,
             `client_name`,
+            `client_read_way`,
             `client_birthday`,
             `client_address`,
             `client_phone`,
@@ -30,6 +31,7 @@ class Client {
             ) VALUES(
                 '{$user->user_info['id']}',
                 '{$params['client_name']}',
+                '{$params['client_read_way']}',    
                 '{$params['client_birthday']}',
                 '{$params['client_address']}',
                 '{$params['client_phone']}',
@@ -113,6 +115,7 @@ class Client {
         $query = "UPDATE home_client SET 
                 user_id = '{$user->user_info['id']}',
                 client_name = '{$params['client_name']}',
+                client_read_way = '{$params['client_read_way']}',    
                 client_birthday = '{$params['client_birthday']}',
                 client_address = '{$params['client_address']}',
                 client_phone = '{$params['client_phone']}',
