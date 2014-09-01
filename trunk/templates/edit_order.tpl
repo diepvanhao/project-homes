@@ -2,6 +2,12 @@
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー情報編集</div>
 {literal}
     <script type="text/javascript">
+        var checkPrice = function(el){
+            if(isNaN(el.val())){
+               alert('番号のみ');
+               el.val("");
+           }
+        }
         var sendmail = 0;
         $(document).ready(function() {
             var txt = $("input#client_phone");
@@ -122,6 +128,7 @@
                 });
             });
             $('#contract_broker_fee').keyup(function(e) {
+                checkPrice($('#contract_broker_fee'));
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -164,6 +171,7 @@
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
             });
             $('#contract_ads_fee').keyup(function(e) {
+                checkPrice($('#contract_ads_fee'));
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -331,7 +339,7 @@
                 $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
             });
             $('#contract_cost').keyup(function(e) {
-
+                checkPrice($('#contract_cost'));
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -461,6 +469,7 @@
                 });
             });
             $('#contract_key_money').keyup(function(e) {
+                checkPrice($('#contract_key_money'));
                 var contract_key_money = parseFloat($('#contract_key_money').val());
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
@@ -918,6 +927,12 @@
             $('#done').click(function() {
                 showloadgif();
                 window.location.href = "manage_order.php";
+            });
+            $('#contract_deposit_1').keyup(function(){
+                checkPrice($('#contract_deposit_1'));
+            });
+            $('#contract_deposit_2').keyup(function(){
+                checkPrice($('#contract_deposit_2'));
             });
         });
         function CalculatorPlus() {

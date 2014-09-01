@@ -170,6 +170,24 @@
                     $('#house_description').html(json.house_description);
                 });
             });
+            var checkPrice = function(el){
+                if(isNaN(el.val())){
+                   alert('番号のみ');
+                   el.val("");
+               }
+            }
+            $('#room_rent').keyup(function(){
+                checkPrice($('#room_rent'));
+            });
+            $('#room_key_money').keyup(function(){
+                checkPrice($('#room_key_money'));
+            });
+            $('#room_administrative_expense').keyup(function(){
+                checkPrice($('#room_administrative_expense'));
+            });
+            $('#room_deposit').keyup(function(){
+                checkPrice($('#room_deposit'));
+            });
         });
     </script>
 {/literal}
