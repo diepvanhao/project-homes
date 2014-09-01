@@ -906,6 +906,12 @@
             $('#contract_deposit_2').keyup(function(){
                 checkPrice($('#contract_deposit_2'));
             });
+            $('#client_income').keyup(function(){
+                checkPrice($('#client_income'));
+            });
+            $('#client_rent').keyup(function(){
+                checkPrice($('#client_rent'));
+            });
         });
         function CalculatorPlus() {
             var contract_key_money = parseFloat($('#contract_key_money').val());
