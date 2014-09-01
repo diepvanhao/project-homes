@@ -351,7 +351,7 @@ class ajax {
             return array('flag' => 'false');
     }
 
-    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id) {
+    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id,$house_search="") {
         global $database;
         $query = "update home_client set 
                 client_gender= '{$gender}',
@@ -365,8 +365,23 @@ class ajax {
                 client_reason_change= '{$client_reason_change}',
                 client_time_change   ='{$client_time_change}',     
                 client_resident_name='{$client_resident_name}',
-                client_resident_phone='{$client_resident_phone}'    
+                client_resident_phone='{$client_resident_phone}',
+                client_search='{$house_search}'
                 where id={$client_id}
+                ";
+        return $database->database_query($query);
+    }
+
+    function update_basic($client_name, $client_phone, $client_read_way, $client_birthday, $client_email, $client_fax, $client_id, $order_id) {
+        global $database;
+        $query = "update home_client set 
+                client_name= '{$client_name}',
+                client_phone='{$client_phone}',
+                client_read_way='{$client_read_way}',
+                client_birthday= '{$client_birthday}',
+                client_email= '{$client_email}',
+                client_fax='{$client_fax}'                    
+                where id={$client_id}                
                 ";
         return $database->database_query($query);
     }

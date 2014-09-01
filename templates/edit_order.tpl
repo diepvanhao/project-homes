@@ -580,12 +580,31 @@
                 //validate
                 $('#client_detail').find('div').each(function() {
                     if ($(this).attr('class') == 'active' && $(this).attr('id') == 'basic') {
-                        var name = $('#client_name').val();
-                        var phone = $('#client_phone').val();
-                        if (name == "" || phone == "") {
+                        $('#error_validate').html('');
+                        var client_name = $('#client_name').val();
+                        var client_phone = $('#client_phone').val();
+                        var client_read_way = $('#client_read_way').val();
+                        var client_birthday = $('#client_birthday').val();
+                        var client_email = $('#client_email').val();
+                        var client_fax = $('#client_fax').val();
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+                        var cus_id = $('#cus_id').val();
+                        if (client_name == "" || client_phone == "") {
                             $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
                             e.preventDefault();
 
+                        } else if (cus_id) {
+                            $.post("include/function_ajax.php", {client_name: client_name, client_phone: client_phone, client_read_way: client_read_way, client_birthday: client_birthday, client_email: client_email, client_fax: client_fax,
+                                client_id: client_id, order_id: order_id, action: 'customer', task: 'basic'},
+                            function(result) {
+                                if (result == 'success') {
+                                    alert('保存済');
+                                } else if (result == 'fail') {
+                                    alert("保存に失敗しました。");
+                                }
+                            });
+                            e.preventDefault();
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'detail') {
                         /*save information client detail*/
@@ -885,11 +904,11 @@
                             else if (json.id == "")
                                 alert("更新が完了しました。");
 
-                            if(sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))){
+                            if (sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))) {
                                 $.post("include/mail_ajax.php", {application: $('#contract_application').attr('checked'), transaction: $('#contract_transaction_finish').attr('checked'), order_id: $('#order_id').val()},
-                                    function(result) {
-            //                            alert(result);
-                                    }
+                                function(result) {
+                                    //                            alert(result);
+                                }
                                 );
                             }
                         });
@@ -1432,18 +1451,18 @@
                                 <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
-                        <td class='form1'>フリガナ?:</td>
-                        <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1'>フリガナ?:</td>
+                                <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
                                 <td class='form1'>Ｅメール:</td>
                                 <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>                        
+                            </tr>
+                            <tr>                        
                                 <td class='form1'>電話番号:</td>
                                 <td class='form2'> <input type='text' id="client_phone" name="client_phone" value="{$client_phone}" style="height: 26px; width: 215px;"/></td>
                                 <td class='form1' nowrap>ファックス:</td>
                                 <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
                             </tr>
-                    
+
                             <tr>
                                 <td class='form1'>&nbsp;</td>
                                 <td class='form2' colspan="3">
@@ -1472,7 +1491,7 @@
                                         <option value="other" {if $gender eq "other"}selected{/if}>その他</option>
                                     </select>
                                 </td>
-                                <td class='form1' nowrap>番地: <span class="required">*</span></td>
+                                <td class='form1' nowrap>番地:</td>
                                 <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
@@ -1511,7 +1530,7 @@
                                 <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
-                        <td class='form1'>年収:</td>
+                                <td class='form1'>年収:</td>
                                 <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
                                 <td class='form1' nowrap>間取り:</td>
                                 <td class='form2'> 
@@ -1569,7 +1588,7 @@
                             <tr>
                                 <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
                                 <td colspan="2">
-                            <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
+                                    <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
                                     <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
                                     <input type="radio" id="log_time_arrive_company_type" name="choose_contact_type"/><label for="log_time_arrive_company_type">来店</label>
                                 </td>
@@ -1837,7 +1856,7 @@
                             <tr>                    
                                 <td class='form1' nowrap>条件:</td>
                                 <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                        <td class='form1' nowrap>評価額:</td>
+                                <td class='form1' nowrap>評価額:</td>
                                 <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
                             </tr>
                             <tr>
@@ -1867,7 +1886,7 @@
                             <tr>
                                 <td class='form1' nowrap>契約金入金予定日　（～から）:</td>
                                 <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>入金状況:</td>
+                                <td class='form1' nowrap>入金状況:</td>
                                 <td class='form2'>
                                     <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
                                     <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
@@ -1885,7 +1904,7 @@
                                 </td>
                             </tr>
                             <tr>
-                        <td class='form1'>敷金・保証金（預かり）:</td>
+                                <td class='form1'>敷金・保証金（預かり）:</td>
                                 <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
                                     <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                         <option value="円">円</option>
@@ -1904,7 +1923,7 @@
                                 <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
                                     <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                                 </td>
-                        <td class='form1' nowrap>自社物件</td>
+                                <td class='form1' nowrap>自社物件</td>
                                 <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             <tr>
@@ -2155,17 +2174,17 @@
             }
         </style>
         <script type="text/javascript">
-            function openImport(){
+            function openImport() {
                 $('#export_form').show();
                 $('#order_table').hide();
             }
-            function closeImport(){
+            function closeImport() {
                 $('#export_form').hide();
                 $('#order_table').show();
             }
-            function sendMail(el){
-                 if(el.checked && confirm("Do you want to send mail?")){
-                     sendmail =  1;
+            function sendMail(el) {
+                if (el.checked && confirm("Do you want to send mail?")) {
+                    sendmail = 1;
                 }
             }
             $(document).ready(function() {
@@ -2357,7 +2376,7 @@
                                                     $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                     if ($('#log_time_call_type').is(':checked')) {
-                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
                                                     }
                                                     if ($('#log_time_mail_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
@@ -2410,13 +2429,13 @@
                                                         $('#log_tel').removeAttr('checked');
                                                         $('#log_tel_status').removeAttr('checked');
                                                     });
-                                                    if($('#log_time_call').val()!="" || $('#log_time_call_date').val()!=""){
+                                                    if ($('#log_time_call').val() != "" || $('#log_time_call_date').val() != "") {
                                                         $('#log_time_call_type').click();
                                                     }
-                                                    if($('#log_time_mail').val()!="" || $('#log_time_mail_date').val()!=""){
+                                                    if ($('#log_time_mail').val() != "" || $('#log_time_mail_date').val() != "") {
                                                         $('#log_time_mail_type').click();
                                                     }
-                                                    if($('#log_time_arrive_company').val()!="" || $('#log_time_arrive_company_date').val()!=""){
+                                                    if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
                                                         $('#log_time_arrive_company_type').click();
                                                     }
                                                 });

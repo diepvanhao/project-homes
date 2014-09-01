@@ -857,11 +857,13 @@ if (isset($_POST['save'])) {
             
             if ($result['id'])
                 $client_id = $result['id'];
-            $exist = $result['exist'];
-            if ($exist)
-                $error[] = "";
             else
-                $error[] = "";
+                $error[]="アップデートが失敗する";
+//            $exist = $result['exist'];
+//            if ($exist)
+//                $error[] = "";
+//            else
+//                $error[] = "";
             $client_arr = $result['client_arr'];
 
             if (!empty($client_arr)) {

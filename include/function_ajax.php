@@ -120,7 +120,7 @@ if ($action == "check_email") {
     } else {
         $room_id = "";
     }
-    $result = $ajax->deleteOrder($order_id,$house_id,$broker_id,$room_id);
+    $result = $ajax->deleteOrder($order_id, $house_id, $broker_id, $room_id);
     echo $result;
 } elseif ($action == 'deleteHouse') {
 
@@ -330,7 +330,7 @@ if ($action == "check_email") {
             $broker_id = $_GET['broker_id'];
         } else {
             $broker_id = "";
-        }        
+        }
         $result = $ajax->getHouseListByBrokerId($broker_id);
         if ($result) {
             echo "<option value=''></option>";
@@ -590,7 +590,71 @@ if ($action == "check_email") {
     } else {
         $task = "";
     }
+    if ($task == 'basic') {
+        if (isset($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
+        } elseif (isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+        } else {
+            $order_id = "";
+        }
+        if (isset($_POST['client_id'])) {
+            $client_id = $_POST['client_id'];
+        } elseif (isset($_GET['client_id'])) {
+            $client_id = $_GET['client_id'];
+        } else {
+            $client_id = "";
+        }
+        if (isset($_POST['client_name'])) {
+            $client_name = $_POST['client_name'];
+        } elseif (isset($_GET['client_name'])) {
+            $client_name = $_GET['client_name'];
+        } else {
+            $client_name = "";
+        }
+        if (isset($_POST['client_phone'])) {
+            $client_phone = $_POST['client_phone'];
+        } elseif (isset($_GET['client_phone'])) {
+            $client_phone = $_GET['client_phone'];
+        } else {
+            $client_phone = "";
+        }
+        if (isset($_POST['client_read_way'])) {
+            $client_read_way = $_POST['client_read_way'];
+        } elseif (isset($_GET['client_read_way'])) {
+            $client_read_way = $_GET['client_read_way'];
+        } else {
+            $client_read_way = "";
+        }
+        if (isset($_POST['client_birthday'])) {
+            $client_birthday = $_POST['client_birthday'];
+        } elseif (isset($_GET['client_birthday'])) {
+            $client_birthday = $_GET['client_birthday'];
+        } else {
+            $client_birthday = "";
+        }
+        if (isset($_POST['client_email'])) {
+            $client_email = $_POST['client_email'];
+        } elseif (isset($_GET['client_email'])) {
+            $client_email = $_GET['client_email'];
+        } else {
+            $client_email = "";
+        }
+        if (isset($_POST['client_fax'])) {
+            $client_fax = $_POST['client_fax'];
+        } elseif (isset($_GET['client_fax'])) {
+            $client_fax = $_GET['client_fax'];
+        } else {
+            $client_fax = "";
+        }
+        $result = $ajax->update_basic($client_name,$client_phone,$client_read_way,$client_birthday,$client_email,$client_fax,$client_id,$order_id);
+        if ($result)
+            echo "success";
+        else
+            echo "fail";
+    }
     if ($task == 'detail') {
+        $house = new HOMEHouse();
         if (isset($_POST['order_id'])) {
             $order_id = $_POST['order_id'];
         } elseif (isset($_GET['order_id'])) {
@@ -655,7 +719,14 @@ if ($action == "check_email") {
         $house_address_serialize['client_address'] = $client_address;
 
         $house_address_serialize = serialize($house_address_serialize);
-
+        //get info search
+        $house_city_search = $house->getNameCity($city_id);
+        $house_district_search = $house->getNameDistrict($district_id);
+        $house_street_search = $house->getNameStreet($street_id);
+        $house_ward_search = $house->getNameWard($ward_id);
+        $house_address=$client_address;
+        $house_search = $house_city_search . $house_district_search . $house_street_search . $house_ward_search . $house_address;
+        
         if (isset($_POST['client_occupation'])) {
             $client_occupation = $_POST['client_occupation'];
         } elseif (isset($_GET['client_occupation'])) {
@@ -727,7 +798,7 @@ if ($action == "check_email") {
             $client_resident_phone = "";
         }
 
-        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
+        $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id,$house_search);
         if ($result)
             echo "success";
         else
@@ -1008,7 +1079,7 @@ if ($action == "check_email") {
         }
 
 
-        $result = $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room,$aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
+        $result = $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'introduce') {
