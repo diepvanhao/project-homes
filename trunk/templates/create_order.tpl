@@ -552,12 +552,31 @@
                 //validate
                 $('#client_detail').find('div').each(function() {
                     if ($(this).attr('class') == 'active' && $(this).attr('id') == 'basic') {
-                        var name = $('#client_name').val();
-                        var phone = $('#client_phone').val();
-                        if (name == "" || phone == "") {
+                        $('#error_validate').html('');
+                        var client_name = $('#client_name').val();
+                        var client_phone = $('#client_phone').val();
+                        var client_read_way = $('#client_read_way').val();
+                        var client_birthday = $('#client_birthday').val();
+                        var client_email = $('#client_email').val();
+                        var client_fax = $('#client_fax').val();
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+                        var cus_id = $('#cus_id').val();
+                        if (client_name == "" || client_phone == "") {
                             $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
                             e.preventDefault();
 
+                        } else if (cus_id) {
+                            $.post("include/function_ajax.php", {client_name: client_name, client_phone: client_phone, client_read_way: client_read_way, client_birthday: client_birthday, client_email: client_email, client_fax: client_fax,
+                                client_id: client_id, order_id: order_id, action: 'customer', task: 'basic'},
+                            function(result) {
+                                if (result == 'success') {
+                                    alert('保存済');
+                                } else if (result == 'fail') {
+                                    alert("保存に失敗しました。");
+                                }
+                            });
+                            e.preventDefault();
                         }
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'detail') {
                         /*save information client detail*/
@@ -856,12 +875,12 @@
                                 alert('保存済');
                             else if (json.id == "")
                                 alert("更新が完了しました。");
-                            
-                            if(sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))){
+
+                            if (sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))) {
                                 $.post("include/mail_ajax.php", {application: $('#contract_application').attr('checked'), transaction: $('#contract_transaction_finish').attr('checked'), order_id: $('#order_id').val()},
-                                    function(result) {
-            //                            alert(result);
-                                    }
+                                function(result) {
+                                    //                            alert(result);
+                                }
                                 );
                             }
                         });
@@ -1530,7 +1549,7 @@
                         <td class='form1' nowrap>ファックス:</td>
                         <td class='form2'> <input type='text' id="client_fax" name="client_fax" value="{$client_fax}" style="height: 26px; width: 215px;"/></td>
                     </tr>
-                    
+
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2' colspan="3">
@@ -1559,7 +1578,7 @@
                                 <option value="other" {if $gender eq "other"}selected{/if}>その他</option>
                             </select>
                         </td>
-                        <td class='form1' nowrap>番地: <span class="required">*</span></td>
+                                <td class='form1' nowrap>番地:</td>
                         <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
@@ -2065,37 +2084,37 @@
                         </td>
                     </tr>
                     <div id="export_form" style="display:none;">
-                    <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
-                        <tbody>
-                            <tr>
-                                <td class="form1">
-                                    選択
-                                </td>
-                                <td class="form2">
-                                    <select name="export_option">
-                                        <option value="10">オーダー</option>
-                                        <option value="1">申込報告書</option>
-                                        <option value="2">精算書家主用</option>
-                                        <option value="3">精算書入居者用</option>
-                                        <option value="4">入居者対応補助</option>
-                                        <option value="5">請求書</option>
-                                        <option value="6">業務委託料</option>
-                                        <option value="7">広告料</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="form1">&nbsp;</td>
-                                <td class="form2">
-                                    <div style="margin-top:10px">
-                                        <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
-                                        <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
+                            <tbody>
+                                <tr>
+                                    <td class="form1">
+                                        選択
+                                    </td>
+                                    <td class="form2">
+                                        <select name="export_option">
+                                            <option value="10">オーダー</option>
+                                            <option value="1">申込報告書</option>
+                                            <option value="2">精算書家主用</option>
+                                            <option value="3">精算書入居者用</option>
+                                            <option value="4">入居者対応補助</option>
+                                            <option value="5">請求書</option>
+                                            <option value="6">業務委託料</option>
+                                            <option value="7">広告料</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="form1">&nbsp;</td>
+                                    <td class="form2">
+                                        <div style="margin-top:10px">
+                                            <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
+                                            <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </table>
             </form>
         </div>
@@ -2216,17 +2235,17 @@
 
         </style>
         <script type="text/javascript">
-            function openImport(){
+            function openImport() {
                 $('#export_form').show();
                 $('#order_table').hide();
             }
-            function closeImport(){
+            function closeImport() {
                 $('#export_form').hide();
                 $('#order_table').show();
             }
-            function sendMail(el){
-                 if(el.checked && confirm("Do you want to send mail?")){
-                     sendmail =  1;
+            function sendMail(el) {
+                if (el.checked && confirm("Do you want to send mail?")) {
+                    sendmail = 1;
                 }
             }
             $(document).ready(function() {
@@ -2494,7 +2513,7 @@
                                                         CalculatorPlus();
                                                     }
                                                 }
-                   
+
         </script>
     {/literal}
     {if $introduce_house_id ne ""}
