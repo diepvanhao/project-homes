@@ -1633,7 +1633,10 @@
                     </tr>
                     <tr>
                         <td class='form1'>年収:</td>
-                        <td class='form2'><input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/></td>
+                        <td class='form2'>
+                            <input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/>
+                            <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
+                        </td>
                         <td class='form1' nowrap>間取り:</td>
                         <td class='form2'> 
                             <input type='text' class='text' name='client_room_type_number' id='client_room_type_number' value="{$client_room_type_number}" style="height:26px; width: 90px;"/>
@@ -1648,7 +1651,10 @@
                     </tr>
                     <tr>
                         <td class='form1'>現在の賃料:</td>
-                        <td class='form2'><input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/></td>
+                        <td class='form2'>
+                            <input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/>
+                            <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
+                        </td>
                         <td class='form1' nowrap>引越理由:</td>
                         <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
                     </tr>
