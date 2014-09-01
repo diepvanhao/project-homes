@@ -183,6 +183,48 @@
 {/nocache}
 {literal}
     <script type="text/javascript">
+        var checkPrice = function(el){
+            if(isNaN(el.val())){
+               alert('番号のみ');
+               el.val("");
+           }
+        }
+        $('#target_1').keyup(function(){
+            checkPrice($('#target_1'));
+        });
+         $('#target_2').keyup(function(){
+            checkPrice($('#target_2'));
+        });
+        $('#target_3').keyup(function(){
+            checkPrice($('#target_3'));
+        });
+        $('#target_4').keyup(function(){
+            checkPrice($('#target_4'));
+        });
+        $('#target_5').keyup(function(){
+            checkPrice($('#target_5'));
+        });
+        $('#target_6').keyup(function(){
+            checkPrice($('#target_6'));
+        });
+        $('#target_7').keyup(function(){
+            checkPrice($('#target_7'));
+        });
+        $('#target_8').keyup(function(){
+            checkPrice($('#target_8'));
+        });
+        $('#target_9').keyup(function(){
+            checkPrice($('#target_9'));
+        });
+        $('#target_10').keyup(function(){
+            checkPrice($('#target_10'));
+        });
+        $('#target_11').keyup(function(){
+            checkPrice($('#target_11'));
+        });
+        $('#target_12').keyup(function(){
+            checkPrice($('#target_12'));
+        });
         $(document).ready(function() {
             birthday('birthday');
             $('#back').click(function() {
