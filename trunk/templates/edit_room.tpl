@@ -182,8 +182,11 @@
             });
             var checkPrice = function(el){
                 if(isNaN(el.val())){
-                   alert('番号のみ');
-                   el.val("");
+                    if(isNaN(parseFloat(el.val()))){
+                        el.val('');
+                    }else{
+                        el.val(parseFloat(el.val()));
+                    }
                }
             }
             $('#room_rent').keyup(function(){
