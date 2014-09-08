@@ -1561,12 +1561,12 @@ class Report {
             if (empty($row['application'])) {
                 continue;
             }
-            $select_partner = "SELECT SUM(p.partner_percent) FROM home_contract_partner AS p
+            $select_partner = "SELECT SUM(p.partner_percent) as percent FROM home_contract_partner AS p
                 WHERE p.contract_detail_id = '{$row['detail_id']}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
-            if (!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0) {
-                $row['broker_fee'] = $row['broker_fee'] * ((100 - $tmp['partner_percent']) / 100);
-                $row['ads_fee'] = $row['ads_fee'] * ((100 - $tmp['partner_percent']) / 100);
+            if (!empty($tmp['percent']) && $tmp['percent'] < 100 && $tmp['percent'] > 0) {
+                $row['broker_fee'] = $row['broker_fee'] * ((100 - $tmp['percent']) / 100);
+                $row['ads_fee'] = $row['ads_fee'] * ((100 - $tmp['percent']) / 100);
             }
             
             if (!empty($row['transaction'])) {
@@ -1586,12 +1586,13 @@ class Report {
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
                     d.contract_signature_day AS signature_date,
-                    d.contract_transaction_finish AS transaction
+                    d.contract_transaction_finish AS transaction,
+                    p.*
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             INNER JOIN home_contract_partner p  ON p.contract_detail_id = d.id
-            WHERE o.partner_id = {$user_id} AND o.order_status = 1 AND  {$today}";
+            WHERE p.partner_id = {$user_id} AND o.order_status = 1 AND  {$today}";
 
         $result = $database->database_query($select);
 
@@ -1636,12 +1637,12 @@ class Report {
             if (empty($row['application'])) {
                 continue;
             }
-            $select_partner = "SELECT SUM(p.partner_percent) FROM home_contract_partner AS p
+            $select_partner = "SELECT SUM(p.partner_percent) as percent FROM home_contract_partner AS p
                 WHERE p.contract_detail_id = '{$row['detail_id']}'";
             $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
-            if (!empty($tmp['partner_percent']) && $tmp['partner_percent'] < 100 && $tmp['partner_percent'] > 0) {
-                $row['broker_fee'] = $row['broker_fee'] * ((100 - $tmp['partner_percent']) / 100);
-                $row['ads_fee'] = $row['ads_fee'] * ((100 - $tmp['partner_percent']) / 100);
+            if (!empty($tmp['percent']) && $tmp['percent'] < 100 && $tmp['percent'] > 0) {
+                $row['broker_fee'] = $row['broker_fee'] * ((100 - $tmp['percent']) / 100);
+                $row['ads_fee'] = $row['ads_fee'] * ((100 - $tmp['percent']) / 100);
             }
             
             if (!empty($row['transaction'])) {
@@ -1661,13 +1662,13 @@ class Report {
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
                     d.contract_signature_day AS signature_date,
-                    d.contract_transaction_finish AS transaction
+                    d.contract_transaction_finish AS transaction,
+                    p.*
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             INNER JOIN home_contract_partner p  ON p.contract_detail_id = d.id
-            WHERE o.partner_id = {$user_id} AND o.order_status = 1 AND  {$month}";
-
+            WHERE p.partner_id = {$user_id} AND o.order_status = 1 AND  {$month}";
         $result = $database->database_query($select);
 
         while ($row = $database->database_fetch_assoc($result)) {
