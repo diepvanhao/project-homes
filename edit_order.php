@@ -1306,7 +1306,13 @@ if (isset($_POST['save'])) {
 }
 //get source
 //for tag edit room
-
+include "include/class_detail.php";
+$detail = @HOMEDetail::getRoom($room_id, $house_id,$broker_id);
+if(!empty($detail) && is_array($detail)){
+    $smarty->assign('room_administrative_expense', rtrim($detail['room_administrative_expense'],'円'));
+}else{
+    $smarty->assign('room_administrative_expense', 0);
+}
 $broker = new HOMEBroker();
 $brokers = $broker->getAllBroker();
 $smarty->assign('order_name', $order_name);
