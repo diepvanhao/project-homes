@@ -1995,8 +1995,11 @@
                                 <td class='form2'>
                                     <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
                                 </td>       
-                                <td class='form1'></td>
-                                <td class='form2'></td>   
+                                <td class='form1'>管理費:</td>
+                                <td class='form2'>
+                                    <input type="text" disabled="1" name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>   
                             </tr>
                             {foreach from=$plus_money key=k item=money}
                                 <tr>
