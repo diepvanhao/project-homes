@@ -1904,7 +1904,16 @@ class Report {
                 ->setCellValue("K{$index}", "電話")
                 ->setCellValue("L{$index}", "{$row['client_phone']}")
         ;
-
+        $house = new HOMEHouse();
+        if ($house->isSerialized($row['client_address'])) {
+            $house_address_serialize = unserialize($row['client_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $house_address = @$house_address_serialize['client_address'];
+            $row['client_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+        }
         $index = $plus + 1;
         $plus = $index + 1;
         $objPHPExcel->getActiveSheet()
@@ -1967,6 +1976,15 @@ class Report {
                 ->setCellValue("L{$index}", "{$row['house_owner_phone']}")
         ;
 
+        if ($house->isSerialized($row['house_owner_address'])) {
+            $house_address_serialize = unserialize($row['house_owner_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $house_address = @$house_address_serialize['house_owner_address'];
+            $row['house_owner_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+        }
         $index = $plus + 1;
         $plus = $index + 1;
         $objPHPExcel->getActiveSheet()
@@ -2020,7 +2038,15 @@ class Report {
                 ->setCellValue("K{$index}", "電話")
                 ->setCellValue("L{$index}", "{$row['broker_company_phone']}")
         ;
-
+        if ($house->isSerialized($row['broker_company_address'])) {
+            $house_address_serialize = unserialize($row['broker_company_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $house_address = @$house_address_serialize['broker_company_address'];
+            $row['broker_company_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+        }
         $index = $plus + 1;
         $plus = $index + 1;
         $objPHPExcel->getActiveSheet()
@@ -2028,7 +2054,7 @@ class Report {
                 ->mergeCells("C{$index}:T{$plus}")
         ;
         $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue("B{$index}", "Address")
+                ->setCellValue("B{$index}", "現住所")
                 ->setCellValue("C{$index}", "{$row['broker_company_address']}")
         ;
 
