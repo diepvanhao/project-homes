@@ -12,7 +12,7 @@
                                 <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
                             </span>
                             <span>
-                                <a href="create_order.php"><input type='button' class='btn-search' value='作成' id="submit" /></a>                   
+                                <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>                   
                             </span>
                         </td>
                     </tr>
