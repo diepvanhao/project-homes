@@ -110,9 +110,9 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-                        $('#error_room').html("入居中です。別の部屋を選択してください。");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+//                        $('#error_room').html("入居中です。別の部屋を選択してください。");
+//                        $('#submit').attr('disabled', true);
+//                        $("#submit").css('color', 'grey');
                     } else if (json.status == 2) {
                         $('#error_room').html("未完成です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
@@ -171,7 +171,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_ads_fee').keyup(function(e) {
                 checkPrice($('#contract_ads_fee'));
@@ -214,7 +214,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_broker_fee_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -256,7 +256,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_ads_fee_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -297,7 +297,7 @@
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_key_money_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -339,7 +339,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_cost').keyup(function(e) {
                 checkPrice($('#contract_cost'));
@@ -382,7 +382,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_plus_money').keyup(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -424,7 +424,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#calculator').click(function(e) {
 
@@ -468,7 +468,7 @@
                         total_plus += parseFloat(plus_money[i]);
                     }
 
-                    $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                    $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
                 });
             });
             $('#contract_key_money').keyup(function(e) {
@@ -512,7 +512,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
@@ -984,7 +984,7 @@
                 total_plus += parseFloat(plus_money[i]);
             }
 
-            $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+            $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
         }
         function getDivClass(title) {
             var flag = false;
@@ -1233,6 +1233,9 @@
 
                             </select><div id="error_room" class="error"></div>
                         </td>
+                    </tr>
+                    <tr>            
+                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
                     </tr>
                     <!--order part-->
                     <tr>            
