@@ -95,6 +95,9 @@ class HOMEValidate {
                     case("source_name"):
                         $this->checkEmpty('媒体', $val);
                         break;
+                    case("group_name"):
+                        $this->checkEmpty('グループ', $val);
+                        break;
                     case("city_name"):
                         $this->checkEmpty('都道府県', $val);
                         break;

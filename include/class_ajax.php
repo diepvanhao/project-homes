@@ -116,6 +116,13 @@ class ajax {
         return $database->database_query($query);
     }
 
+    function deleteGroup($group_id, $group_lock) {
+        global $database;
+        $group_lock = $group_lock == 0 ? 1 : 0;
+        $query = "update home_group set group_lock=$group_lock where id='{$group_id}'";
+        return $database->database_query($query);
+    }
+    
     function editName($fname, $lname, $password) {
         //check $password match
         global $user, $database;

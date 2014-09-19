@@ -324,3 +324,16 @@ ALTER TABLE `home_user`
 ALTER TABLE  `home_order` 
 CHANGE  `order_day_create`  `order_day_create` INT( 11 ) UNSIGNED NULL DEFAULT NULL ,
 CHANGE  `order_day_update`  `order_day_update` INT( 11 ) UNSIGNED NULL DEFAULT NULL;
+
+/*19/9 Hao*/
+CREATE TABLE `home_group`(  
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `group_name` VARCHAR(128),
+  PRIMARY KEY (`id`)
+) CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `home_user`   
+  ADD COLUMN `group_id` INT(11) NULL AFTER `user_search`;
+
+ALTER TABLE `home_group`   
+  ADD COLUMN `group_lock` TINYINT(1) DEFAULT 0  NULL AFTER `group_name`;

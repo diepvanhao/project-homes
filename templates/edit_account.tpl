@@ -162,6 +162,17 @@
                 </td>
             </tr>
             <tr>
+                <td class='form1'>グループ: </td>
+                <td class='form2'>
+                    <select id="group" name="group" style="height:26px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$groups key=k item=val}
+                            <option value="{$val.id}" {if $group eq $val.id}selected{/if}>{$val.group_name}</option>                  
+                        {/foreach}                                                   
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td class='form1'>写真: </td>
                 <td class='form2'><input type='file' name='photo' id='photo' size='25'  style="height:26px; width: 351px;"><div id="display_photo" name="display_photo" style="margin-top: 10px;"><img src="{$path_photo}{$thumb_photo}"/></div></td>
             </tr>        

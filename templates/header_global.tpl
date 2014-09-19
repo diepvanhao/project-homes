@@ -50,7 +50,8 @@
                                     <li><a href="create_source.php">媒体</a></li>
                                     <li><a href="create_broker_company.php">管理会社</a></li>                                   
                                     <li><a href="create_client.php">お客情報</a></li>    
-                                    <li><a href="create_room.php">部屋情報</a></li>    
+                                    <li><a href="create_room.php">部屋情報</a></li>  
+                                    <li><a href="create_group.php">グループ登録</a></li>  
                                 </ul>
                             </li>
                             <li><a href="#">管理</a>
@@ -62,7 +63,8 @@
                                     <li><a href="manage_house.php">物件情報</a></li>
                                     <li><a href="manage_source.php">媒体</a></li>
                                     <li><a href="manage_room.php">部屋情報</a></li>
-                                    <li><a href="manage_broker.php">管理会社</a></li>                                    
+                                    <li><a href="manage_broker.php">管理会社</a></li> 
+                                    <li><a href="manage_group.php">グループ管理</a></li> 
                                 </ul>
                             </li>
                             <li><a href="#">日計表</a>

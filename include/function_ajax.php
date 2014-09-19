@@ -1503,7 +1503,24 @@ if ($action == "check_email") {
     }
     $result = $ajax->deleteSource($source_id, $source_lock);
     echo $result;
-} elseif ($action == 'create_house') {
+}elseif($action == 'deleteGroup'){
+    if (isset($_POST['group_id'])) {
+        $group_id = $_POST['group_id'];
+    } elseif (isset($_GET['group_id'])) {
+        $group_id = $_GET['group_id'];
+    } else {
+        $group_id = "";
+    }
+    if (isset($_POST['group_lock'])) {
+        $group_lock = $_POST['group_lock'];
+    } elseif (isset($_GET['group_lock'])) {
+        $group_lock = $_GET['group_lock'];
+    } else {
+        $group_lock = "";
+    }
+    $result = $ajax->deleteGroup($group_id, $group_lock);
+    echo $result;
+}elseif ($action == 'create_house') {
     if (isset($_POST['task'])) {
         $task = $_POST['task'];
     } elseif (isset($_GET['task'])) {

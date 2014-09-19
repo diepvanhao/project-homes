@@ -257,7 +257,13 @@ if (isset($_POST['agent'])) {
 } else {
     $agent = "";
 }
-
+if (isset($_POST['group'])) {
+    $group = $_POST['group'];
+} elseif (isset($_GET['group'])) {
+    $group = $_GET['group'];
+} else {
+    $group = "";
+}
 if (isset($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
 } elseif (isset($_GET['user_id'])) {
@@ -317,13 +323,14 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $account = new HOMEUser();
-        $result = $account->update($username, $password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target, $agent, $user_id,$house_search);
+        $result = $account->update($username, $password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target, $agent, $user_id,$house_search,$group);
         if ($result) {
             $notify = "アップデート成功 !!!";
             $result = $account->getAccountById($user_id);
             if (!empty($result)) {
                 $user_id = $result['id'];
                 $agent = $result['agent_id'];
+                $group=$result['group_id'];
                 $username = $result['user_username'];
                 $firstname = $result['user_fname'];
                 $lastname = $result['user_lname'];
@@ -356,6 +363,7 @@ if (isset($_POST['submit'])) {
     if (!empty($result)) {
         $user_id = $result['id'];
         $agent = $result['agent_id'];
+        $group=$result['group_id'];
         $username = $result['user_username'];
         $firstname = $result['user_fname'];
         $lastname = $result['user_lname'];
@@ -426,6 +434,8 @@ if (isset($_POST['submit'])) {
 //get agents
 $agentClass = new HOMEAgent();
 $agents = $agentClass->getAgent();
+//get groups
+$groups=$house->getAllGroup();
 
 $cities = $house->getAllCity();
 $smarty->assign('year', $year);
@@ -465,6 +475,8 @@ $smarty->assign('path_photo', $path_photo);
 $smarty->assign('thumb_photo', $thumb_photo);
 $smarty->assign('user_id', $user_id);
 $smarty->assign('agents', $agents);
+$smarty->assign('group', $group);
+$smarty->assign('groups', $groups);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
 
