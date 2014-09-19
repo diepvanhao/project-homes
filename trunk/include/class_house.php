@@ -8,7 +8,7 @@
 
 class HOMEHouse {
 
-    function create($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email,$house_search="",$house_owner_search="") {
+    function create($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_search = "", $house_owner_search = "") {
 
         global $user, $database;
 
@@ -76,7 +76,7 @@ class HOMEHouse {
         }
     }
 
-    function getTotalItem($search) {        
+    function getTotalItem($search) {
         global $database;
         $search = trim($search);
         $query = "select * from home_house";
@@ -263,7 +263,7 @@ class HOMEHouse {
         }
     }
 
-    function update_house($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id,$house_search="",$house_owner_search="") {
+    function update_house($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id, $house_search = "", $house_owner_search = "") {
 
         global $database;
         $query = "update home_house set 
@@ -325,7 +325,7 @@ class HOMEHouse {
         return true;
     }
 
-    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number="") {
+    function create_room($room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money, $room_administrative_expense, $room_deposit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number = "") {
         global $database;
         //check exist room
         if (checkRoomExist($room_number, $broker_id, $house_id)) {
@@ -455,9 +455,24 @@ class HOMEHouse {
         global $database;
         $source_name = trim($source_name);
         if (checkExistSource($source_name)) {
-            return array('error' => "Source existed. Please enter other source !!!", 'flag' => '');
+            return array('error' => "ソースは存在しています。他のソースを入力してください。 !!!", 'flag' => '');
         }
         $query = "insert into home_source(`source_name`) values('{$source_name}')";
+
+        $result = $database->database_query($query);
+        if ($result)
+            return array('error' => "", 'flag' => TRUE);
+        else
+            return array('error' => "", 'flag' => FALSE);
+    }
+
+    function create_group($group_name) {
+        global $database;
+        $group_name = trim($group_name);
+        if (checkExistGroup($group_name)) {
+            return array('error' => "グループ名は存在しています。他の名前を入力してください。 !!!", 'flag' => '');
+        }
+        $query = "insert into home_group(`group_name`) values('{$group_name}')";
 
         $result = $database->database_query($query);
         if ($result)
@@ -473,6 +488,40 @@ class HOMEHouse {
             $query.=" where source_name like '%{$search}%'";
         $query.=" ORDER BY source_name ASC ";
         $query.=" limit $offset,$length";
+
+        $result = $database->database_query($query);
+        $source_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+//            $source['id'] = $row['id'];
+//            $source['source_name'] = $row['source_name'];
+            $source_arr[] = $row;
+        }
+        return $source_arr;
+    }
+
+    function getGroup($search = "", $offset = 0, $length = 50) {
+        global $database;
+        $query = "select * from home_group";
+        if (!empty($search))
+            $query.=" where group_name like '%{$search}%'";
+        $query.=" ORDER BY group_name ASC ";
+        $query.=" limit $offset,$length";
+
+        $result = $database->database_query($query);
+        $source_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+//            $source['id'] = $row['id'];
+//            $source['source_name'] = $row['source_name'];
+            $source_arr[] = $row;
+        }
+        return $source_arr;
+    }
+
+    function getAllGroup() {
+        global $database;
+        $query = "select * from home_group";
+
+        $query.=" ORDER BY group_name ASC ";
 
         $result = $database->database_query($query);
         $source_arr = array();
@@ -511,6 +560,17 @@ class HOMEHouse {
         return $row;
     }
 
+    function getTotalGroupItem($search) {
+        global $database;
+
+        $query = "select * from home_group";
+        if (!empty($search))
+            $query.=" where group_name like '%{$search}%'";
+        $result = $database->database_query($query);
+        $row = $database->database_num_rows($result);
+        return $row;
+    }
+
     function getSourceById($source_id) {
         global $database;
         $query = "select * from home_source where id='{$source_id}'";
@@ -521,16 +581,41 @@ class HOMEHouse {
         return $source;
     }
 
+    function getGroupById($group_id) {
+        global $database;
+        $query = "select * from home_group where id='{$group_id}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
+        $source['id'] = $row['id'];
+        $source['group_name'] = $row['group_name'];
+        return $source;
+    }
+
     function update_source($source_id, $source_name) {
         global $database;
         $source_name = trim($source_name);
         if (checkExistSource($source_name)) {
-            return array('error' => 'This source is existed', 'flag' => false);
+            return array('error' => 'ソースは存在しています。他のソースを入力してください。', 'flag' => false);
         } else {
             $query = "update home_source set 
                 source_name='{$source_name}'
                
          where id={$source_id}
+        ";
+            return array('error' => '', 'flag' => $database->database_query($query));
+        }
+    }
+
+    function update_group($group_id, $group_name) {
+        global $database;
+        $group_name = trim($group_name);
+        if (checkExistGroup($group_name)) {
+            return array('error' => 'グループ名は存在しています。他の名前を入力してください。', 'flag' => false);
+        } else {
+            $query = "update home_group set 
+                group_name='{$group_name}'
+               
+         where id={$group_id}
         ";
             return array('error' => '', 'flag' => $database->database_query($query));
         }
@@ -807,8 +892,20 @@ function checkExistCity($city_name) {
 
 function checkExistSource($source_name) {
     global $database;
-
+    $source_name = trim($source_name);
     $query = "select * from home_source where source_name='{$source_name}'";
+    $result = $database->database_query($query);
+    $row = $database->database_num_rows($result);
+    if ($row >= 1)
+        return true;
+    else
+        return false;
+}
+
+function checkExistGroup($group_name) {
+    global $database;
+    $group_name = trim($group_name);
+    $query = "select * from home_group where group_name='{$group_name}'";
     $result = $database->database_query($query);
     $row = $database->database_num_rows($result);
     if ($row >= 1)

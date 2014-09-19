@@ -263,6 +263,13 @@ if (isset($_POST['agent'])) {
 } else {
     $agent = "";
 }
+if (isset($_POST['group'])) {
+    $group = $_POST['group'];
+} elseif (isset($_GET['group'])) {
+    $group = $_GET['group'];
+} else {
+    $group = "";
+}
 if (isset($_FILES['photo']['name'])) {
     $photo = $_FILES['photo']['name'];
 } elseif (isset($_FILES['photo']['name'])) {
@@ -288,7 +295,7 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $userClass = new HOMEUser();
-        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year,$house_search);
+        $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year,$house_search,$group);
         if ($result) {
             header("Location: notify.php?content=サインアップ ～は成功に作成されました。!!!&url_return=user_account.php");
         }
@@ -298,6 +305,9 @@ if (isset($_POST['submit'])) {
 //get agents
 $agentClass = new HOMEAgent();
 $agents = $agentClass->getAgent();
+
+//get groups
+$groups=$house->getAllGroup();
 //$smarty->clearCache("$page.tpl");
 
 $cities = $house->getAllCity();
@@ -335,6 +345,8 @@ $smarty->assign('target_12', $target_12);
 $smarty->assign('level', $level);
 $smarty->assign('agent', $agent);
 $smarty->assign('agents', $agents);
+$smarty->assign('group', $group);
+$smarty->assign('groups', $groups);
 $smarty->assign('photo', $photo);
 $smarty->assign('error', $error);
 
