@@ -10,6 +10,24 @@ include_once 'class_house.php';
 
 class HOMEImport {
 
+    /**
+     * 
+     * @param type $string
+     * @return int
+     */
+    private function _convertMoney($string = ''){
+        $string = rtrim($string,'円');
+        if(is_numeric($string)){
+            return $string;
+        }
+        if(strpos($string, '万') !== false){
+            $arr = explode('万', $string);
+            if(!empty($arr)){
+                return 10000 * $arr[0] + (int) @$arr[1];
+            }
+        }
+        return 0;
+    }
     public function import($arr = array()) {
         if (empty($arr)) {
             return;

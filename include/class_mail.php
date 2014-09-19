@@ -38,7 +38,7 @@ class Mail {
         //Password to use for SMTP authentication
         $mail->Password = "Aa123456@";
         
-        @$mail->CharSet = "iso-2022-jp";    //文字コード設定
+//        @$mail->CharSet = "iso-2022-jp";    //文字コード設定
         $mail->Encoding = "7bit";
         $mail->IsHTML(true);
 

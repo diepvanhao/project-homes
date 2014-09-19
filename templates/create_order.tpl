@@ -110,9 +110,9 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-                        $('#error_room').html("入居中です。別の部屋を選択してください。");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+//                        $('#error_room').html("入居中です。別の部屋を選択してください。");
+//                        $('#submit').attr('disabled', true);
+//                        $("#submit").css('color', 'grey');
                     } else if (json.status == 2) {
                         $('#error_room').html("未完成です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
@@ -171,7 +171,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_ads_fee').keyup(function(e) {
                 checkPrice($('#contract_ads_fee'));
@@ -214,7 +214,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_broker_fee_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -256,7 +256,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_ads_fee_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -297,7 +297,7 @@
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_key_money_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -339,7 +339,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_cost').keyup(function(e) {
                 checkPrice($('#contract_cost'));
@@ -382,7 +382,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_plus_money').keyup(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -424,7 +424,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#calculator').click(function(e) {
 
@@ -468,7 +468,7 @@
                         total_plus += parseFloat(plus_money[i]);
                     }
 
-                    $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                    $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
                 });
             });
             $('#contract_key_money').keyup(function(e) {
@@ -512,7 +512,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
@@ -956,7 +956,7 @@
                 total_plus += parseFloat(plus_money[i]);
             }
 
-            $('#contract_total').val((total_plus > 0 ? total_plus : 0) + (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0) + (contract_ads_fee > 0 ? contract_ads_fee : 0));
+            $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
         }
         function getDivClass(title) {
             var flag = false;
@@ -1233,6 +1233,9 @@
                     </select><div id="error_room" class="error"></div>
                 </td>
             </tr>
+            <tr>            
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
+            </tr>
             <!--order part-->
             <tr>            
                 <td class='form1'>オーダーID: </td>
@@ -1435,7 +1438,7 @@
                     <div style="margin-top:10px">
                         <input type="submit" class='btn-signup' value="登録" id="registry" name="registry" style="width: 100px;"/>&nbsp; 
                         <input type="button" class='btn-signup' value="後で" id="later" name="later"style="width: 100px;margin: 0px 10px 0px 10px;"/>
-                        <input type="button" class='btn-signup' value="キャンセル" id="cancel" name="cancel"style="width: 100px;"/>
+                        <input type="button" class='btn-signup' value="キャンセル" id="cancel" name="cancel"style="width: 130px;"/>
                         <input type='button' class='btn-signup' value='戻る' id="back" name="back" style="width: 100px;float: right;margin-right: 1%;"/>&nbsp; 
                         <input type="hidden" id="create_id" name="create_id" value="{$staffs.id}"/>
                         <input type="hidden" id="staff_id" name="staff_id" value="{$staffs.id}"/>
@@ -1543,11 +1546,11 @@
     <div id="client_info">
         <ul>
             <li class="select_menu" title="basic">基本情報</li>
-            <li class="noselect_menu" title="detail">明細</li>
+            <li class="noselect_menu" title="detail">属性</li>
             <li class="noselect_menu" title="history">履歴</li>
             <li class="noselect_menu" title="aspirations">希望</li>
             <li class="noselect_menu" title="introduce">紹介</li>
-            <li class="noselect_menu" title="contract">連絡</li>
+            <li class="noselect_menu" title="contract">契約内容</li>
         </ul>
     </div>
     <div id="client_detail">
@@ -1562,7 +1565,7 @@
                         <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
-                        <td class='form1'>フリガナ?:</td>
+                        <td class='form1'>フリガナ:</td>
                         <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1'>Ｅメール:</td>
                         <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
@@ -1920,7 +1923,7 @@
 
                             </select><div id="error_introduce_room_id" class="error"></div>
                         </td>
-                    </tr>
+                    </tr>      
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
@@ -2112,10 +2115,11 @@
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                 <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                                 <input type="hidden" id="calculator" name="calculator"/>
-                                <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 100px;"/> 
+                                <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
                             </div>                        
                         </td>
                     </tr>
+                </table>
                     <div id="export_form" style="display:none;">
                         <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
                             <tbody>
@@ -2140,7 +2144,7 @@
                                     <td class="form1">&nbsp;</td>
                                     <td class="form2">
                                         <div style="margin-top:10px">
-                                            <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
+                                            <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 150px;"/> 
                                             <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
                                         </div>
                                     </td>
@@ -2148,7 +2152,6 @@
                             </tbody>
                         </table>
                     </div>
-                </table>
             </form>
         </div>
         <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>

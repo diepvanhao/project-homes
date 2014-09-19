@@ -119,8 +119,8 @@ class Report {
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
         //cost today
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -146,10 +146,10 @@ class Report {
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        $return['cost_previous_month'] = (int) $row[0];
+        $return['cost_previous_month'] = (int) abs($row[0]); 
 
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
@@ -183,7 +183,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_application'] = (int) $row[0];
-
+        
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
@@ -281,8 +281,8 @@ class Report {
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
 //        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y') . "'";
@@ -1186,7 +1186,7 @@ class Report {
         $return = array();
 
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m',$time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%m')= '" . date('Y-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
 //        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m') . "'";
         ////cost of month
@@ -1278,8 +1278,8 @@ class Report {
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
 //        
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
@@ -1414,8 +1414,8 @@ class Report {
             $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
         }
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
 
         //more info on today
@@ -1533,8 +1533,8 @@ class Report {
         }
 
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
         $return = array(
             'today_already_recorded' => 0.00,
             'today_unsigned' => 0.00,
@@ -1716,7 +1716,7 @@ class Report {
         }
         $return = array();
 
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%m')= '" . date('Y-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%m')= '" . date('Y-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
         ////cost of month
         $select = "SELECT SUM(d.contract_total) FROM home_contract_detail d

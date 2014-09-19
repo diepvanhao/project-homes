@@ -580,7 +580,7 @@ class ajax {
             else
                 $total = (float) ($total + $plus_money[$i]);
         }
-        $contract_total = (float) ($contract_cost + $contract_key_money + $contract_ads_fee + $contract_broker_fee + $total);
+        $contract_total = (float) ($contract_cost + $contract_key_money + $contract_broker_fee);
         //check order exist
         $contract_date_create = $contract_date_update = time();
         $contract_id = checkExistContract($user->user_info['id'], $order_id);

@@ -1365,12 +1365,14 @@ $smarty->assign('cities', $cities);
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('step', $step);
 $smarty->assign('error', $error);
-
-include "include/class_detail.php";
-$detail = @HOMEDetail::getRoom($room_id, $house_id,$broker_id);
-if(!empty($detail) && is_array($detail)){
-    $smarty->assign('room_administrative_expense', rtrim($detail['room_administrative_expense'],'円'));
-}else{
-    $smarty->assign('room_administrative_expense', 0);
+$room_ad_ex = 0;
+if(!empty($room_id) && !empty($house_id) && !empty($broker_id)){
+    include "include/class_detail.php";
+    $detail = @HOMEDetail::getRoom($room_id, $house_id,$broker_id);
+    if(!empty($detail) && is_array($detail)){
+        $room_ad_ex = rtrim($detail['room_administrative_expense'],'円');
+    }
 }
+$smarty->assign('room_administrative_expense', $room_ad_ex);
+
 include "footer.php";

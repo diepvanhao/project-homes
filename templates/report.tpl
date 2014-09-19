@@ -39,8 +39,8 @@
                         <td class="form1">&nbsp;</td>
                         <td class="form2">
                             <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
-                                <input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 150px;" onclick="showloadgif()">&nbsp;  
+                                <input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 150px;" onclick="showloadgif()">&nbsp;  
                             </div>
                         </td>
                     </tr>
@@ -192,8 +192,8 @@
                 <td>{$commission.month_unsigned}</td> <!--未契約-->
                 <td></td>
                 <td>
-                    {$info.cost_previous_month - $user_target}
-                    {$month.cost_previous = $month.cost_previous + $info.cost_previous_month - $user_target}
+                    {abs($info.cost_previous_month - $user_target)}
+                    {$month.cost_previous = $month.cost_previous + abs($info.cost_previous_month - $user_target)}
                 </td>
                 <td>
                     {(int)($info.month_shop_sign + $info.month_local_sign)}
