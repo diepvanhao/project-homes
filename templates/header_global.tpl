@@ -79,7 +79,7 @@
                                     <li><a href="import_address.php">インポート 住所</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">連絡先</a></li> 
+                            <li><a href="contact.php">連絡先</a></li> 
                             <li><a href="#">スケジュール</a>
                                 <ul>
                                     <li><a href="google_calendar.php">個人</a></li>
