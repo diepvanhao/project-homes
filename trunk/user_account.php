@@ -297,7 +297,7 @@ if (isset($_POST['submit'])) {
         $userClass = new HOMEUser();
         $result = $userClass->user_create($agent, $username, $password, $confirm_password, $firstname, $lastname, $house_address_serialize, $email, $phone, $gender, $birthday, $photo, $position, $level, $target,$year,$house_search,$group);
         if ($result) {
-            header("Location: notify.php?content=サインアップ ～は成功に作成されました。!!!&url_return=user_account.php");
+            header("Location: notify.php?content=登録完了致しましたは成功に作成されました。!!!&url_return=user_account.php");
         }
     }
 }

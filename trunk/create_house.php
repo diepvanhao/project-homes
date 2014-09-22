@@ -232,7 +232,7 @@ if (isset($_POST['submit'])) {
                 $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email,$house_search,$house_owner_search
         );
         if ($result) {
-            header("Location: notify_create_house.php?content=物件情報～は成功に作成されました。!!!&url_return=create_room.php");
+            header("Location: notify_create_house.php?content=登録完了致しましたは成功に作成されました。!!!&url_return=create_room.php");
         }
     }
 }
