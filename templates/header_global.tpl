@@ -74,12 +74,14 @@
                                     <li><a href="group_report.php">グループ</a></li>
                                 </ul>
                             </li>
+                            {if $user->user_info.user_authorities eq 1}
                             <li><a href="#">インポート CSV</a>
                                 <ul>
                                     <li><a href="import.php">インポート 物件情報</a></li>
                                     <li><a href="import_address.php">インポート 住所</a></li>
                                 </ul>
                             </li>
+                            {/if}
                             <li><a href="contact.php">連絡先</a></li> 
                             <li><a href="#">スケジュール</a>
                                 <ul>
