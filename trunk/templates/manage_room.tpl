@@ -6,7 +6,7 @@
             <form action="manage_room.php" method="post">
                 <table style="">
                     <tr>
-                        <td style='font-size: 1.4em;font-weight: bold;'>検索</td>
+                        <td  style='font-size: 13.33px;'>検索</td>
                         <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には号室、物件名、管理会社を入力します。" style="height:26px; width: 270px;"/>
                             <span>
                                 <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     

@@ -6,7 +6,7 @@
             <form action="manage_client.php" method="post">
                 <table>
                     <tr>
-                        <td style='font-size: 1.4em;font-weight: bold;'>検索</td>
+                        <td  style='font-size: 13.33px;'>検索</td>
                         <td class="form2">
                             <input type="text" id="search" name="search" value="{$search}" placeholder="検索には名前を入力します。" style="height:26px; width: 190px;"/>
                             <span>
