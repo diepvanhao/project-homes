@@ -73,6 +73,9 @@ class Autologin {
         }
         return "";
     }
+    function getBrokerLoginContact(){
+        return $this->brokers;
+    }
 
 }
 
