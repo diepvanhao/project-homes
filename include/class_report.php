@@ -3998,4 +3998,60 @@ class Report {
         $objWriter->save('php://output');
         exit;
     }
+    /**
+     * 
+     * @global type $database
+     * @return array 
+     */
+    public function getAllGroups() {
+        global $database;
+        $select = "SELECT g.* FROM home_group g 
+                  ORDER BY g.group_name ASC";
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
+/**
+ * 
+ * @global type $database
+ * @param type $id
+ * @return null
+ */
+    public function getUsersByGroup($id = null) {
+        if (empty($id)) {
+            return null;
+        }
+        global $database;
+        /*
+          $select = " SELECT u.*,a.*,h.* FROM home_user as u
+          INNER JOIN  home_agent as a ON u.agent_id = a.id
+          LEFT JOIN home_order as o ON o.user_id = u.id
+          LEFT JOIN home_history_log as h ON h.order_id = o.id
+          WHERE u.agent_id = {$id}
+          ";
+         * 
+         */
+        $select = " SELECT u.* FROM home_user as u
+            WHERE u.group_id = {$id}
+            ";
+
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
+    public function getGroupInfo($id = null) {
+        if (empty($id)) {
+            return null;
+        }
+        global $database;
+        $select = "SELECT * FROM home_group WHERE id = '{$id}' LIMIT 1";
+        $result = $database->database_query($select);
+        return $database->database_fetch_assoc($result);
+    }
 }
