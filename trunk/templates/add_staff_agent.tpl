@@ -43,7 +43,7 @@
                 <td class='form2'>
                     <select id="staff_id" name="staff_id" style="height:26px; width: 351px;">
                         {foreach from=$users item=user}
-                            <option value="{$user.id}">{$user.user_fname} {$user.user_lname}</option>        
+                            <option value="{$user.id}">{$user.user_lname} {$user.user_fname}</option>        
                         {/foreach}
                     </select>
                 </td>

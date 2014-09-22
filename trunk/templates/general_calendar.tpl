@@ -255,7 +255,7 @@
                     <select id="assign_id" name="assign_id" style="width:98%;height: 25px;">
                         <option value=""></option>
                         {foreach from=$staffs item=staff}
-                            <option value="{$staff.id}">{$staff.user_fname} {$staff.user_lname}</option>
+                            <option value="{$staff.id}">{$staff.user_lname} {$staff.user_fname} </option>
                         {/foreach}
                     </select>
 

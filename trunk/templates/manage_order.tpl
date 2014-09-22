@@ -50,7 +50,7 @@
                             <td>{$order.client_name}</td>
                             <td>{if $order.user_id ne 0}割り当てられた {else} 
                                 <select id="staff_id" name="staff_id" >                                                                       
-                                    <option value="{$user->user_info.id}">{$user->user_info.user_fname} {$user->user_info.user_lname}</option>                                           
+                                    <option value="{$user->user_info.id}">{$user->user_info.user_lname} {$user->user_info.user_fname} </option>                                           
                                 </select>
                                 {/if}</td>                                                                     
                                 <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.house_id},{$order.broker_id},{$order.room_id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>

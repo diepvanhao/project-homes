@@ -42,7 +42,7 @@
                         {assign var="add" value="assign&{$user.id}"}
                         <tr>
                             <td>{$k+1}</td>
-                            <td>{$user.user_fname} {$user.user_lname}</td>
+                            <td>{$user.user_lname} {$user.user_fname} </td>
                             <td>{$user.user_address|truncate:50}</td>
                             <td>{$user.user_phone}</td>
                             <td>{$user.user_email}</td>

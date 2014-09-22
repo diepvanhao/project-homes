@@ -45,7 +45,7 @@
                                     {/if}
                                 </div>
                                 <br>
-                                Welcome, <a target="_top" href="./user_profile.php"> {$user->user_info.user_fname} {$user->user_info.user_lname}</a>
+                                Welcome, <a target="_top" href="./user_profile.php">{$user->user_info.user_lname} {$user->user_info.user_fname} </a>
                                 &nbsp;&nbsp;<br><br>
 
                                 <a target="_top" href="help.php">ご質問・ご要望</a>&nbsp;&nbsp;
