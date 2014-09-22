@@ -343,7 +343,7 @@
         </ul>
         <div id="schedule_title">ユーザー情報</div>
         <ul>
-            <li>名称: {$user->user_info.user_fname} {$user->user_info.user_lname}</li>
+            <li>名称:  {$user->user_info.user_lname} {$user->user_info.user_fname}</li>
             <li>Ｅメール: {$user->user_info.user_email}</li>
             <li>目標: {$user_target}</li>
             <li>役職: {$user->user_info.user_position}</li>

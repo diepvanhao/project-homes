@@ -320,7 +320,7 @@
                     <a href="javascript:void" >
                         <h3>名称</h3>
                         <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/>編集</span>
-                        <span class="content_profile"><strong>{$user->user_info.user_fname} {$user->user_info.user_lname}</strong></span>
+                        <span class="content_profile"><strong>{$user->user_info.user_lname} {$user->user_info.user_fname} </strong></span>
                     </a>
                     <div id="edit_content" style="display:none;">
                         <div id="name_panel"><strong>名称</strong></div>

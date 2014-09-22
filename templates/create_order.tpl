@@ -1194,7 +1194,7 @@
                         <option value=""></option>
                         {foreach from=$users item=user}
                             {if $user.id eq $loged_id}
-                                <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
+                                <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}> {$user.user_lname} {$user.user_fname}</option>        
                             {/if}
                         {/foreach}
                     </select><div id="error_staff" class="error"></div>
@@ -1406,7 +1406,7 @@
             </tr>
             <tr>
                 <td class='form1' nowrap>担当者:</td>
-                <td class='form2'> {$staffs.user_fname} {$staffs.user_lname}</td>
+                <td class='form2'>{$staffs.user_lname} {$staffs.user_fname} </td>
             </tr>
             <tr>
                 <td class='form1' nowrap>物件名:</td>
@@ -2073,7 +2073,7 @@
                             <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
                                 <option value=""></option>
                                 {foreach from=$partners item=partner}
-                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname}</option>
+                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
                                 {/foreach}
                             </select>
                             <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>

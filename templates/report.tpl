@@ -106,7 +106,7 @@
             {$info = $report ->getUserInfo($user.id,$date,$fromdate)}
             <tr>
                 <td rowspan="2">{$key + 1}</td>
-                <td rowspan="2">{$user.user_fname} {$user.user_lname}</td>
+                <td rowspan="2">{$user.user_lname} {$user.user_fname} </td>
                 <td rowspan="2">{$user.user_position}</td>
                 <td rowspan="2">
                     {$user_target = (int) $report ->getUserTarget($user.id,$date,$fromdate)}
@@ -661,7 +661,7 @@
                             {$user_target = (int) $report ->getUserTarget($user.id,$date,$fromdate)}
                             {$today.chart_cost = $today.chart_cost + $commission.month_already_recorded}
                             {$today.chart_target = $today.chart_target + $user_target}
-                            {literal}['{/literal}{$user.user_fname} {$user.user_lname}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$user_target}{literal}],{/literal}
+                            {literal}['{/literal}{$user.user_lname} {$user.user_fname}{literal}',{/literal}{$commission.month_already_recorded}{literal},{/literal}{$user_target}{literal}],{/literal}
                     {/foreach}
                     {literal}['{/literal}{$agent_name}{literal}',{/literal}{$today.chart_cost}{literal},{/literal}{$today.chart_target}{literal}],{/literal}
                     {literal}
