@@ -1234,7 +1234,7 @@
                 </td>
             </tr>
             <tr>            
-                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php?return_url=create_order.php">部屋情報</a></div></td>
             </tr>
             <!--order part-->
             <tr>            

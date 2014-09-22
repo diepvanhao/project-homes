@@ -134,6 +134,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-left: 20%;">
+                        <input type='hidden' value='{$return_url}' name="return_url"/>&nbsp;          
                         <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;          
                         <input type="hidden" id="step" name="step" value=""/>
                     </div>

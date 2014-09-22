@@ -150,7 +150,14 @@ if (isset($_POST['broker_id'])) {
 } else {
     $broker_id = "";
 }
-
+/////////////////////////////////////////////////////////////////////////Broker
+if (isset($_POST['return_url'])) {
+    $return_url = $_POST['return_url'];
+} elseif (isset($_GET['return_url'])) {
+    $return_url = $_GET['return_url'];
+} else {
+    $return_url = "";
+}
 
 $validate = array(
     'room_number' => $room_number,
@@ -169,6 +176,10 @@ if (isset($_POST['submit'])) {
         $result = $house->create_room(
                 $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense . $room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number
         );
+        if (!empty($return_url)) {
+            header("Location: $return_url");
+            exit();
+        } 
         if ($result['flag']) {
             header("Location: notify.php?content=登録完了致しましたは成功に作成されました。!!!&url_return=create_room.php");
         } elseif ($result['error']) {
@@ -186,6 +197,7 @@ $brokers = $brokerClass->getAllBroker();
 //get room type
 $roomTypes = $house->getRoomType();
 
+$smarty->assign('return_url', $return_url);
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
 $smarty->assign('room_type_number', $room_type_number);
