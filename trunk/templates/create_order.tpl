@@ -1219,7 +1219,7 @@
             </tr>
             <tr>            
                 <td class='form1'>物件備考: </td>
-                <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description">{$house_description}</textarea></td>
             </tr>
             <tr>            
                 <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
@@ -1234,7 +1234,7 @@
                 </td>
             </tr>
             <tr>            
-                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php?return_url=create_order.php">部屋情報</a></div></td>
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="javascript:createRoom();"> <!--href="./create_room.php?return_url=create_order.php" --> 部屋情報</a></div></td>
             </tr>
             <!--order part-->
             <tr>            
@@ -1266,6 +1266,22 @@
     </form>
     {literal}
         <script type="text/javascript">
+            function createRoom(){
+                var params = '';
+                if($('#broker_id').val()){
+                    params += '&broker_id=' + $('#broker_id').val();
+                }
+                if($('#staff_id').val()){
+                    params += '&staff_id=' + $('#staff_id').val();
+                }
+                if($('#house_id').val()){
+                    params += '&house_id=' + $('#house_id').val();
+                }
+                if($('#house_description').val()){
+                    params += '&house_description=' + $('#house_description').val();
+                }
+                window.location = "create_room.php?return_url=create_order.php" + params;
+            }
             $(document).ready(function() {
                 $('#filter_broker').keyup(function(e) {
                     var filter = $('#filter_broker').val();

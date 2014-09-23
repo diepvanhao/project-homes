@@ -915,7 +915,13 @@ if ($step == 1) {
 
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
-
+if (isset($_POST['house_description'])) {
+    $house_description = $_POST['house_description'];
+} elseif (isset($_GET['house_description'])) {
+    $house_description = $_GET['house_description'];
+} else {
+    $house_description = "";
+}
     $customer = new HOMECustomer();
     //paging
     $max = 10;
@@ -1361,7 +1367,7 @@ $cities = $house->getAllCity();
 
 $smarty->assign('cities', $cities);
 
-
+$smarty->assign('house_description', $house_description);
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('step', $step);
 $smarty->assign('error', $error);
