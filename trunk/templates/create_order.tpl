@@ -2289,11 +2289,11 @@
         <script type="text/javascript">
             function openImport() {
                 $('#export_form').show();
-                $('#order_table').hide();
+                $('#contract_plus').hide();
             }
             function closeImport() {
                 $('#export_form').hide();
-                $('#order_table').show();
+                $('#contract_plus').show();
             }
             function sendMail(el) {
                 if (el.checked && confirm("Do you want to send mail?")) {
