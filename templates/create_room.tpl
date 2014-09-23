@@ -27,7 +27,7 @@
             </tr>
             <tr>            
                 <td class='form1'>物件備考: </td>
-                <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                <td class='form2'><textarea style="width: 300px;height: 129px;" disabled="1" id="house_description">{$house_description}</textarea></td>
             </tr>
             <tr>            
                 <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
@@ -134,7 +134,8 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-left: 20%;">
-                        <input type='hidden' value='{$return_url}' name="return_url"/>&nbsp;          
+                        <input type='hidden' value='{$return_url}' name="return_url"/>
+                        <input type='hidden' value='{$staff_id}' name="staff_id"/>
                         <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;          
                         <input type="hidden" id="step" name="step" value=""/>
                     </div>

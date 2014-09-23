@@ -158,6 +158,21 @@ if (isset($_POST['return_url'])) {
 } else {
     $return_url = "";
 }
+if (isset($_POST['house_description'])) {
+    $house_description = $_POST['house_description'];
+} elseif (isset($_GET['house_description'])) {
+    $house_description = $_GET['house_description'];
+} else {
+    $house_description = "";
+}
+if (isset($_POST['staff_id'])) {
+    $staff_id = $_POST['staff_id'];
+} elseif (isset($_GET['staff_id'])) {
+    $staff_id = $_GET['staff_id'];
+} else {
+    $staff_id = "";
+}
+
 
 $validate = array(
     'room_number' => $room_number,
@@ -177,7 +192,7 @@ if (isset($_POST['submit'])) {
                 $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense . $room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number
         );
         if (!empty($return_url)) {
-            header("Location: $return_url");
+            header("Location: $return_url?room_id={$room_number}&broker_id={$broker_id}&staff_id={$staff_id}&house_id={$house_id}&house_description={$house_description}&staff_id={$staff_id}&order_rent_cost={$room_rent}");
             exit();
         } 
         if ($result['flag']) {
@@ -198,6 +213,8 @@ $brokers = $brokerClass->getAllBroker();
 $roomTypes = $house->getRoomType();
 
 $smarty->assign('return_url', $return_url);
+$smarty->assign('house_description', $house_description);
+$smarty->assign('staff_id', $staff_id);
 $smarty->assign('room_number', $room_number);
 $smarty->assign('room_type', $room_type);
 $smarty->assign('room_type_number', $room_type_number);
