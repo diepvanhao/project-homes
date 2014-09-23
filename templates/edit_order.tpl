@@ -2028,7 +2028,7 @@
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                         <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
                                         <input type="hidden" id="calculator" name="calculator"/>
-                                        <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 100px;"/> 
+                                        <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
                                     </div>                        
                                 </td>
                             </tr>
@@ -2057,7 +2057,7 @@
                                         <td class="form1">&nbsp;</td>
                                         <td class="form2">
                                             <div style="margin-top:10px">
-                                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 100px;"/> 
+                                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 150px;"/> 
                                                 <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
                                             </div>
                                         </td>
