@@ -3,6 +3,7 @@
     <style type="text/css">
         .content{
             float: none;
+            width:100%;
         }
     </style>
 {/literal}

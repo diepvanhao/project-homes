@@ -184,7 +184,6 @@ class HOMEUser {
         $session_object = & HOMESession::getInstance();
 
 
-
 // Check if user exists
 
         $user_id = $session_object->get('user_id') ? $session_object->get('user_id') : isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null;

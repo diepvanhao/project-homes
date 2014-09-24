@@ -113,6 +113,7 @@
 //                        $('#error_room').html("入居中です。別の部屋を選択してください。");
 //                        $('#submit').attr('disabled', true);
 //                        $("#submit").css('color', 'grey');
+                          $('#order_rent_cost').val(json.room_rent);  
                     } else if (json.status == 2) {
                         $('#error_room').html("未完成です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
@@ -1162,7 +1163,7 @@
         <div id="edit_room" class="inactive">
             <div id="error_edit" class="error"></div>
             <form action="edit_order.php" method="post">
-                <div class="title"><label >物件情報</label></div>
+                <div class="title"><label >登録完了致しました</label></div>
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
                     <tr>
                         <td class="form1">管理会社検索</td>

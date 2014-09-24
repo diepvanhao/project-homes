@@ -24,7 +24,7 @@
         <!-- modernizr enables HTML5 elements and feature detects -->          
         <script type="text/javascript" src="{$url->url_base}include/js/modernizr-1.5.min.js"></script>
         <!--calendar-->
-        
+
     </head>
 
     <body>
@@ -41,7 +41,7 @@
                     <div id="menu_container">
                         <ul class="sf-menu" id="nav">
                             <li><a href="index.php">ホーム</a></li>
-                            <li><a href="user_account.php">サインアップ</a></li>
+                            <li><a href="user_account.php">登録完了致しました</a></li>
                             <li><a href="#">作成</a>
                                 <ul>
                                     <li><a href="create_order.php">オーダー</a></li>
@@ -74,15 +74,17 @@
                                     <li><a href="group_report.php">グループ</a></li>
                                 </ul>
                             </li>
-                            {if $user->user_info.user_authorities eq 1}
-                            <li><a href="#">インポート CSV</a>
-                                <ul>
-                                    <li><a href="import.php">インポート 物件情報</a></li>
-                                    <li><a href="import_address.php">インポート 住所</a></li>
-                                </ul>
-                            </li>
+                            {if isset($user->user_info.user_authorities) }
+                                {if $user->user_info.user_authorities eq 1}
+                                    <li><a href="#">インポート CSV</a>
+                                        <ul>
+                                            <li><a href="import.php">インポート 物件情報</a></li>
+                                            <li><a href="import_address.php">インポート 住所</a></li>
+                                        </ul>
+                                    </li>
+                                {/if}
                             {/if}
-                            <li><a href="contact.php">連絡先</a></li> 
+                            <li><a href="contact.php">各業者間サイト</a></li> 
                             <li><a href="#">スケジュール</a>
                                 <ul>
                                     <li><a href="google_calendar.php">個人</a></li>
