@@ -10,7 +10,7 @@
         {$notify}
     {/if}
     <form action="edit_house.php" method="post">
-        <div><label class="title">物件情報</label></div>
+        <div><label class="title">登録完了致しました</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
                 <td class='form1'>名称: <span class="required">*</span></td>

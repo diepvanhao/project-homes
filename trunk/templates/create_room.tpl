@@ -51,7 +51,7 @@
                 <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
             </tr>
         </table>
-        <div><label class="title">部屋情報</label></div>
+        <div><label class="title">登録完了致しました</label></div>
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
                 <td class='form1'>号室: <span class="required">*</span></td>
@@ -136,7 +136,7 @@
                     <div style="margin-left: 20%;">
                         <input type='hidden' value='{$return_url}' name="return_url"/>
                         <input type='hidden' value='{$staff_id}' name="staff_id"/>
-                        <input type='submit' class='btn-signup' value='クリエート' id="submit" name="submit"/>&nbsp;          
+                        <input type='submit' class='btn-signup' value='登録' id="submit" name="submit"/>&nbsp;          
                         <input type="hidden" id="step" name="step" value=""/>
                     </div>
                 </td>
