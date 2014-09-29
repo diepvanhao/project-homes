@@ -94,6 +94,14 @@ if ($step == 1) {
     } else {
         $room_id = "";
     }
+    if (isset($_POST['house_description'])) {
+        $house_description = $_POST['house_description'];
+    } elseif (isset($_GET['house_description'])) {
+        $house_description = $_GET['house_description'];
+    } else {
+        $house_description = "";
+    }
+    $smarty->assign('house_description', $house_description);
     $smarty->assign('order_name', $order_name);
     $smarty->assign('order_rent_cost', $order_rent_cost);
     $smarty->assign('order_comment', $order_comment);
@@ -104,7 +112,7 @@ if ($step == 1) {
     //end
     //$house = new HOMEHouse();
     $houses = $house->getHouses();
-    $users = $user->getAllUsers(true);
+    $users = $user->getAllUsers();
     $broker = new HOMEBroker();
     $brokers = $broker->getAllBroker();
     $smarty->assign('brokers', $brokers);
@@ -915,13 +923,6 @@ if ($step == 1) {
 
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
-if (isset($_POST['house_description'])) {
-    $house_description = $_POST['house_description'];
-} elseif (isset($_GET['house_description'])) {
-    $house_description = $_GET['house_description'];
-} else {
-    $house_description = "";
-}
     $customer = new HOMECustomer();
     //paging
     $max = 10;
@@ -1367,16 +1368,15 @@ $cities = $house->getAllCity();
 
 $smarty->assign('cities', $cities);
 
-$smarty->assign('house_description', $house_description);
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('step', $step);
 $smarty->assign('error', $error);
 $room_ad_ex = 0;
-if(!empty($room_id) && !empty($house_id) && !empty($broker_id)){
+if (!empty($room_id) && !empty($house_id) && !empty($broker_id)) {
     include "include/class_detail.php";
-    $detail = @HOMEDetail::getRoom($room_id, $house_id,$broker_id);
-    if(!empty($detail) && is_array($detail)){
-        $room_ad_ex = rtrim($detail['room_administrative_expense'],'円');
+    $detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
+    if (!empty($detail) && is_array($detail)) {
+        $room_ad_ex = rtrim($detail['room_administrative_expense'], '円');
     }
 }
 $smarty->assign('room_administrative_expense', $room_ad_ex);

@@ -47,6 +47,7 @@
             checkPrice($('#target_12'));
         });
         $(document).ready(function() {
+           
             birthday('birthday');
             $('#email').blur(function() {
                 if ($('#email').val() != "") {

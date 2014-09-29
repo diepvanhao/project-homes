@@ -18,6 +18,8 @@
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.sooperfish.js"></script>
 
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.datepicker.js"></script>
+        <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.datepicker-ja.js"></script>
+        
         <script type="text/javascript" src="{$url->url_base}include/js/plugins.js"></script>        
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.core.js"></script>
