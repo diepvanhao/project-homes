@@ -74,7 +74,7 @@
             </tr>
             <tr>
                 <td class='form1'>面積: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 300px;"><div id="room_size_error"class="error"></div></td>
+                <td class='form2'><input type='text' class='text' name='room_size' id='room_size' value="{$room_size}" style="height:26px; width: 300px;margin-right: 1%;">㎡<div id="room_size_error"class="error"></div></td>
             </tr>
             <tr>
                 <td class='form1'>賃料: <span class="required">*</span></td>
