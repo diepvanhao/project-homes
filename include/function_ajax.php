@@ -804,6 +804,205 @@ if ($action == "check_email") {
         else
             echo "fail";
     }
+    if ($task == 'history_create') {
+
+        if (isset($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
+        } elseif (isset($_GET['order_id'])) {
+            $order_id = $_GET['order_id'];
+        } else {
+            $order_id = "";
+        }
+        if (isset($_POST['client_id'])) {
+            $client_id = $_POST['client_id'];
+        } elseif (isset($_GET['client_id'])) {
+            $client_id = $_GET['client_id'];
+        } else {
+            $client_id = "";
+        }
+        if (isset($_POST['source_id'])) {
+            $source_id = $_POST['source_id'];
+        } elseif (isset($_GET['source_id'])) {
+            $source_id = $_GET['source_id'];
+        } else {
+            $source_id = "";
+        }
+
+        if (isset($_POST['log_time_call'])) {
+            $log_time_call = $_POST['log_time_call'];
+        } elseif (isset($_GET['log_time_call'])) {
+            $log_time_call = $_GET['log_time_call'];
+        } else {
+            $log_time_call = "";
+        }
+        if (isset($_POST['log_time_arrive_company'])) {
+            $log_time_arrive_company = $_POST['log_time_arrive_company'];
+        } elseif (isset($_GET['log_time_arrive_company'])) {
+            $log_time_arrive_company = $_GET['log_time_arrive_company'];
+        } else {
+            $log_time_arrive_company = "";
+        }
+        if (isset($_POST['log_time_mail'])) {
+            $log_time_mail = $_POST['log_time_mail'];
+        } elseif (isset($_GET['log_time_mail'])) {
+            $log_time_mail = $_GET['log_time_mail'];
+        } else {
+            $log_time_mail = "";
+        }
+
+        if (isset($_POST['log_time_call_date'])) {
+            $log_time_call_date = $_POST['log_time_call_date'];
+        } elseif (isset($_GET['log_time_call_date'])) {
+            $log_time_call_date = $_GET['log_time_call_date'];
+        } else {
+            $log_time_call_date = "";
+        }
+        if (isset($_POST['log_time_arrive_company_date'])) {
+            $log_time_arrive_company_date = $_POST['log_time_arrive_company_date'];
+        } elseif (isset($_GET['log_time_arrive_company_date'])) {
+            $log_time_arrive_company_date = $_GET['log_time_arrive_company_date'];
+        } else {
+            $log_time_arrive_company_date = "";
+        }
+        if (isset($_POST['log_time_mail_date'])) {
+            $log_time_mail_date = $_POST['log_time_mail_date'];
+        } elseif (isset($_GET['log_time_mail_date'])) {
+            $log_time_mail_date = $_GET['log_time_mail_date'];
+        } else {
+            $log_time_mail_date = "";
+        }
+
+        if (isset($_POST['log_tel'])) {
+            $log_tel = $_POST['log_tel'];
+        } elseif (isset($_GET['log_tel'])) {
+            $log_tel = $_GET['log_tel'];
+        } else {
+            $log_tel = "";
+        }
+        if (isset($_POST['log_tel_status'])) {
+            $log_tel_status = $_POST['log_tel_status'];
+        } elseif (isset($_GET['log_tel_status'])) {
+            $log_tel_status = $_GET['log_tel_status'];
+        } else {
+            $log_tel_status = "";
+        }
+        if (isset($_POST['log_mail'])) {
+            $log_mail = $_POST['log_mail'];
+        } elseif (isset($_GET['log_mail'])) {
+            $log_mail = $_GET['log_mail'];
+        } else {
+            $log_mail = "";
+        }
+        if (isset($_POST['log_comment'])) {
+            $log_comment = $_POST['log_comment'];
+        } elseif (isset($_GET['log_comment'])) {
+            $log_comment = $_GET['log_comment'];
+        } else {
+            $log_comment = "";
+        }
+        if (isset($_POST['log_date_appointment_from'])) {
+            $log_date_appointment_from = $_POST['log_date_appointment_from'];
+        } elseif (isset($_GET['log_date_appointment_from'])) {
+            $log_date_appointment_from = $_GET['log_date_appointment_from'];
+        } else {
+            $log_date_appointment_from = "";
+        }
+        if (isset($_POST['log_date_appointment_to'])) {
+            $log_date_appointment_to = $_POST['log_date_appointment_to'];
+        } elseif (isset($_GET['log_date_appointment_to'])) {
+            $log_date_appointment_to = $_GET['log_date_appointment_to'];
+        } else {
+            $log_date_appointment_to = "";
+        }
+        if (isset($_POST['log_date_appointment_from_date'])) {
+            $log_date_appointment_from_date = $_POST['log_date_appointment_from_date'];
+        } elseif (isset($_GET['log_date_appointment_from_date'])) {
+            $log_date_appointment_from_date = $_GET['log_date_appointment_from_date'];
+        } else {
+            $log_date_appointment_from_date = "";
+        }
+        if (isset($_POST['log_date_appointment_to_date'])) {
+            $log_date_appointment_to_date = $_POST['log_date_appointment_to_date'];
+        } elseif (isset($_GET['log_date_appointment_to_date'])) {
+            $log_date_appointment_to_date = $_GET['log_date_appointment_to_date'];
+        } else {
+            $log_date_appointment_to_date = "";
+        }
+
+        if (isset($_POST['log_mail_status'])) {
+            $log_mail_status = $_POST['log_mail_status'];
+        } elseif (isset($_GET['log_mail_status'])) {
+            $log_mail_status = $_GET['log_mail_status'];
+        } else {
+            $log_mail_status = "";
+        }
+        if (isset($_POST['log_contact_head_office'])) {
+            $log_contact_head_office = $_POST['log_contact_head_office'];
+        } elseif (isset($_GET['log_contact_head_office'])) {
+            $log_contact_head_office = $_GET['log_contact_head_office'];
+        } else {
+            $log_contact_head_office = "";
+        }
+        if (isset($_POST['log_shop_sign'])) {
+            $log_shop_sign = $_POST['log_shop_sign'];
+        } elseif (isset($_GET['log_shop_sign'])) {
+            $log_shop_sign = $_GET['log_shop_sign'];
+        } else {
+            $log_shop_sign = "";
+        }
+        if (isset($_POST['log_local_sign'])) {
+            $log_local_sign = $_POST['log_local_sign'];
+        } elseif (isset($_GET['log_local_sign'])) {
+            $log_local_sign = $_GET['log_local_sign'];
+        } else {
+            $log_local_sign = "";
+        }
+        if (isset($_POST['log_introduction'])) {
+            $log_introduction = $_POST['log_introduction'];
+        } elseif (isset($_GET['log_introduction'])) {
+            $log_introduction = $_GET['log_introduction'];
+        } else {
+            $log_introduction = "";
+        }
+        if (isset($_POST['log_flyer'])) {
+            $log_flyer = $_POST['log_flyer'];
+        } elseif (isset($_GET['log_flyer'])) {
+            $log_flyer = $_GET['log_flyer'];
+        } else {
+            $log_flyer = "";
+        }
+        if (isset($_POST['log_line'])) {
+            $log_line = $_POST['log_line'];
+        } elseif (isset($_GET['log_line'])) {
+            $log_line = $_GET['log_line'];
+        } else {
+            $log_line = "";
+        }
+        if (isset($_POST['log_revisit'])) {
+            $log_revisit = $_POST['log_revisit'];
+        } elseif (isset($_GET['log_revisit'])) {
+            $log_revisit = $_GET['log_revisit'];
+        } else {
+            $log_revisit = "";
+        }        
+        if (isset($_POST['log_status_appointment'])) {
+            $log_status_appointment = $_POST['log_status_appointment'];
+        } elseif (isset($_GET['log_status_appointment'])) {
+            $log_status_appointment = $_GET['log_status_appointment'];
+        } else {
+            $log_status_appointment = "";
+        }
+
+        //update time
+        $log_time_call = $log_time_call_date . " " . $log_time_call;
+        $log_time_arrive_company = $log_time_arrive_company_date . " " . $log_time_arrive_company;
+        $log_time_mail = $log_time_mail_date . " " . $log_time_mail;
+        $log_date_appointment_to = $log_date_appointment_to_date . " " . $log_date_appointment_to;
+        $log_date_appointment_from = $log_date_appointment_from_date . " " . $log_date_appointment_from;
+
+        $result = $ajax->update_history_create($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
+        echo json_encode($result);
+    }
     if ($task == 'history') {
 
         if (isset($_POST['order_id'])) {
@@ -985,6 +1184,20 @@ if ($action == "check_email") {
         } else {
             $log_revisit = "";
         }
+        if (isset($_POST['log_revisit_arr'])) {
+            $log_revisit_arr = $_POST['log_revisit_arr'];
+        } elseif (isset($_GET['log_revisit_arr'])) {
+            $log_revisit_arr = $_GET['log_revisit_arr'];
+        } else {
+            $log_revisit_arr = "";
+        }
+        if (isset($_POST['log_revisit_bk'])) {
+            $log_revisit_bk = $_POST['log_revisit_bk'];
+        } elseif (isset($_GET['log_revisit_bk'])) {
+            $log_revisit_bk = $_GET['log_revisit_bk'];
+        } else {
+            $log_revisit_bk = "";
+        }
         if (isset($_POST['log_status_appointment'])) {
             $log_status_appointment = $_POST['log_status_appointment'];
         } elseif (isset($_GET['log_status_appointment'])) {
@@ -1000,7 +1213,7 @@ if ($action == "check_email") {
         $log_date_appointment_to = $log_date_appointment_to_date . " " . $log_date_appointment_to;
         $log_date_appointment_from = $log_date_appointment_from_date . " " . $log_date_appointment_from;
 
-        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
+        $result = $ajax->update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit,$log_revisit_arr,$log_revisit_bk, $source_id, $log_status_appointment, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'aspirations') {

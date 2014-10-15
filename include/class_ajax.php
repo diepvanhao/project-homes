@@ -122,7 +122,7 @@ class ajax {
         $query = "update home_group set group_lock=$group_lock where id='{$group_id}'";
         return $database->database_query($query);
     }
-    
+
     function editName($fname, $lname, $password) {
         //check $password match
         global $user, $database;
@@ -358,7 +358,7 @@ class ajax {
             return array('flag' => 'false');
     }
 
-    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id,$house_search="") {
+    function update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id, $house_search = "") {
         global $database;
         $query = "update home_client set 
                 client_gender= '{$gender}',
@@ -393,8 +393,13 @@ class ajax {
         return $database->database_query($query);
     }
 
-    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id) {
+    function update_history_create($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
+        //serialize revisit
+        if (!empty($log_revisit)) {
+            $revisit[] = $log_revisit;
+            $log_revisit = serialize($revisit);
+        }
         //check order exist
 
         if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
@@ -469,6 +474,132 @@ class ajax {
                     . "'{$log_tel_status}',"
                     . "'{$log_mail_status}',"
                     . "'{$log_revisit}',"
+                    . "'{$log_time_mail}',"
+                    . "'{$log_date_appointment_to}'"
+                    . ")";
+            $result = $database->database_query($query);
+            return array('id' => $database->database_insert_id());
+        }
+    }
+
+    function update_history($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_revisit_arr, $log_revisit_bk, $source_id, $log_status_appointment, $client_id, $order_id) {
+        global $database, $user;
+        //serialize revisit
+        //$revisit[]=$log_revisit;
+        //$log_revisit=  serialize($revisit);
+        if (!empty($log_revisit)) {
+            $log_revisit_array_decode = base64_decode($log_revisit_arr);
+            if (!empty($log_revisit_array_decode))
+                $log_revisit_array_serialize = $log_revisit . "," . $log_revisit_array_decode;
+            else
+                $log_revisit_array_serialize = $log_revisit;
+            $log_revisit_array_serialize = explode(",", $log_revisit_array_serialize);
+
+            $log_revisit_array_edit = serialize($log_revisit_array_serialize);
+            //check order exist
+        }else {
+            $log_revisit_array_edit = "";
+        }
+        if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
+            //update history exist
+            if (trim($log_revisit) == trim($log_revisit_bk)) {
+                $query = "update home_history_log set 
+                    source_id='{$source_id}',
+                    log_time_call='{$log_time_call}',
+                    log_time_arrive_company='{$log_time_arrive_company}',
+                    log_comment='{$log_comment}',
+                    log_date_appointment_from='{$log_date_appointment_from}',
+                    log_status_appointment='{$log_status_appointment}',
+                    log_shop_sign='{$log_shop_sign}',
+                    log_local_sign='{$log_local_sign}',
+                    log_introduction='{$log_introduction}',
+                    log_tel='{$log_tel}',
+                    log_mail='{$log_mail}',
+                    log_flyer='{$log_flyer}',
+                    log_line='{$log_line}',
+                    log_contact_head_office='{$log_contact_head_office}',
+                    log_tel_status='{$log_tel_status}',
+                    log_mail_status='{$log_mail_status}',
+                    
+                    log_time_mail='{$log_time_mail}',
+                    log_date_appointment_to='{$log_date_appointment_to}'
+                    
+                     where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
+                    ";
+
+                return array('id' => "", 'update' => $database->database_query($query));
+            } else {
+                $query = "update home_history_log set 
+                    source_id='{$source_id}',
+                    log_time_call='{$log_time_call}',
+                    log_time_arrive_company='{$log_time_arrive_company}',
+                    log_comment='{$log_comment}',
+                    log_date_appointment_from='{$log_date_appointment_from}',
+                    log_status_appointment='{$log_status_appointment}',
+                    log_shop_sign='{$log_shop_sign}',
+                    log_local_sign='{$log_local_sign}',
+                    log_introduction='{$log_introduction}',
+                    log_tel='{$log_tel}',
+                    log_mail='{$log_mail}',
+                    log_flyer='{$log_flyer}',
+                    log_line='{$log_line}',
+                    log_contact_head_office='{$log_contact_head_office}',
+                    log_tel_status='{$log_tel_status}',
+                    log_mail_status='{$log_mail_status}',
+                    log_revisit='{$log_revisit_array_edit}',
+                    log_time_mail='{$log_time_mail}',
+                    log_date_appointment_to='{$log_date_appointment_to}'
+                    
+                     where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
+                    ";
+
+                return array('id' => "", 'update' => $database->database_query($query));
+            }
+        } else {
+            $query = "insert into home_history_log("
+                    . "user_id,"
+                    . "client_id,"
+                    . "order_id,"
+                    . "source_id,"
+                    . "log_time_call,"
+                    . "log_time_arrive_company,"
+                    . "log_comment,"
+                    . "log_date_appointment_from,"
+                    . "log_status_appointment,"
+                    . "log_shop_sign,"
+                    . "log_local_sign,"
+                    . "log_introduction,"
+                    . "log_tel,"
+                    . "log_mail,"
+                    . "log_flyer,"
+                    . "log_line,"
+                    . "log_contact_head_office,"
+                    . "log_tel_status,"
+                    . "log_mail_status,"
+                    . "log_revisit,"
+                    . "log_time_mail,"
+                    . "log_date_appointment_to"
+                    . ") values("
+                    . "'{$user->user_info['id']}',"
+                    . "'{$client_id}',"
+                    . "'{$order_id}',"
+                    . "'{$source_id}',"
+                    . "'{$log_time_call}',"
+                    . "'{$log_time_arrive_company}',"
+                    . "'{$log_comment}',"
+                    . "'{$log_date_appointment_from}',"
+                    . "'{$log_status_appointment}',"
+                    . "'{$log_shop_sign}',"
+                    . "'{$log_local_sign}',"
+                    . "'{$log_introduction}',"
+                    . "'{$log_tel}',"
+                    . "'{$log_mail}',"
+                    . "'{$log_flyer}',"
+                    . "'{$log_line}',"
+                    . "'{$log_contact_head_office}',"
+                    . "'{$log_tel_status}',"
+                    . "'{$log_mail_status}',"
+                    . "'{$log_revisit_array_edit}',"
                     . "'{$log_time_mail}',"
                     . "'{$log_date_appointment_to}'"
                     . ")";

@@ -20,7 +20,8 @@
                 }
             }
             txt.keyup(func).blur(func);
-
+            
+            birthday('log_revisit');
             birthday('client_birthday');
             birthday('client_time_change');
             timepicker('log_time_call');
@@ -110,9 +111,9 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-//                        $('#error_room').html("入居中です。別の部屋を選択してください。");
-//                        $('#submit').attr('disabled', true);
-//                        $("#submit").css('color', 'grey');
+                        $('#error_room').html("入居中です。別の部屋を選択してください。");
+                        $('#submit').attr('disabled', true);
+                        $("#submit").css('color', 'grey');
                           $('#order_rent_cost').val(json.room_rent);  
                     } else if (json.status == 2) {
                         $('#error_room').html("未完成です。別の部屋を選択してください。");
@@ -689,6 +690,8 @@
                         var log_date_appointment_to_date = $('#log_date_appointment_to_date').val();
 
                         var log_revisit = $('#log_revisit').val();
+                        var log_revisit_bk = $('#log_revisit_bk').val();
+                        var log_revisit_arr = $('#log_revisit_arr').val();
                         var source_id = $('#source_id').val();
 
                         if ($('#log_tel').is(':checked'))
@@ -749,7 +752,7 @@
                             log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
                             log_date_appointment_to: log_date_appointment_to, log_date_appointment_from_date: log_date_appointment_from_date, log_date_appointment_to_date: log_date_appointment_to_date,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
-                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, source_id: source_id,
+                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit,log_revisit_arr: log_revisit_arr,log_revisit_bk: log_revisit_bk, source_id: source_id,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -757,6 +760,7 @@
                                 alert('保存');
                             else if (json.id == "")
                                 alert("更新が完了しました。");
+                            $('#log_revisit_bk').val(log_revisit);
                         });
 
                     } else if ($(this).attr('class') == 'active' && $(this).attr('id') == 'aspirations') {
@@ -1460,11 +1464,11 @@
             <div id="client_info">
                 <ul>
                     <li class="select_menu" title="basic">基本情報</li>
-                    <li class="noselect_menu" title="detail">明細</li>
+                    <li class="noselect_menu" title="detail">詳細</li>
                     <li class="noselect_menu" title="history">履歴</li>
                     <li class="noselect_menu" title="aspirations">希望</li>
-                    <li class="noselect_menu" title="introduce">紹介</li>
-                    <li class="noselect_menu" title="contract">連絡</li>
+                    <li class="noselect_menu" title="introduce">紹介物件</li>
+                    <li class="noselect_menu" title="contract">申込・契約</li>
                 </ul>
             </div>
             <div id="client_detail">
@@ -1671,11 +1675,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class='form1'>予約日付　（～から）: </td>
+                                <!--<td class='form1'>予約日付　（～から）: </td>
                                 <td class='form2'>
                                     <input type='text' id="log_date_appointment_to_date" name="log_date_appointment_to_date" value="{$log_date_appointment_to_date}"style="height: 26px; width: 115px;"/>
                                     <input type='text' id="log_date_appointment_to" name="log_date_appointment_to" value="{$log_date_appointment_to}"style="height: 26px; width: 95px;"/>
-                                </td>
+                                </td>-->
                                 <td class='form1'>媒体を選択してください。:</td>
                                 <td class='form2'><select id="source_id" name="source_id" style="height:26px; width: 215px;">
                                         <option value=""></option>
@@ -1684,6 +1688,8 @@
                                         {/foreach}
                                     </select>
                                 </td>
+                                <td class='form1' nowrap></td>
+                                <td class='form2'></td>
                             </tr>
 
                             <tr>
@@ -1735,6 +1741,8 @@
                                         <input type="hidden" id="step" name="step" value="registry"/> 
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                         <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        <input type="hidden" id="log_revisit_arr" name="log_revisit_arr" value="{$log_revisit_arr}"/>
+                                        <input type="hidden" id="log_revisit_bk" name="log_revisit_bk" value="{$log_revisit}"/>
                                     </div>                        
                                 </td>
                             </tr>
