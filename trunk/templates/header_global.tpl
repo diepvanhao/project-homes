@@ -19,7 +19,7 @@
 
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.datepicker.js"></script>
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.datepicker-ja.js"></script>
-        
+
         <script type="text/javascript" src="{$url->url_base}include/js/plugins.js"></script>        
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="{$url->url_base}include/js/jquery.ui.core.js"></script>
@@ -43,30 +43,51 @@
                     <div id="menu_container">
                         <ul class="sf-menu" id="nav">
                             <li><a href="index.php">ホーム</a></li>
-                            <li><a href="user_account.php">登録完了致しました</a></li>
+                                {if isset($user->user_info.user_authorities) }
+                                    {if $user->user_info.user_authorities lt 3}
+                                    <li><a href="user_account.php">アカウント登録</a></li>
+                                    {/if}
+                                {/if}
                             <li><a href="#">作成</a>
                                 <ul>
                                     <li><a href="create_order.php">オーダー</a></li>
-                                    <li><a href="create_agent.php">店舗</a></li>
+                                        {if isset($user->user_info.user_authorities) }
+                                            {if $user->user_info.user_authorities lt 3}
+                                            <li><a href="create_agent.php">店舗</a></li>
+                                            {/if}
+                                        {/if}
                                     <li><a href="create_house.php">物件情報</a></li>
                                     <li><a href="create_source.php">媒体</a></li>
                                     <li><a href="create_broker_company.php">管理会社</a></li>                                   
                                     <li><a href="create_client.php">お客情報</a></li>    
                                     <li><a href="create_room.php">部屋情報</a></li>  
-                                    <li><a href="create_group.php">グループ登録</a></li>  
+                                        {if isset($user->user_info.user_authorities) }
+                                            {if $user->user_info.user_authorities lt 3}
+                                            <li><a href="create_group.php">グループ登録</a></li>  
+                                            {/if}
+                                        {/if}
                                 </ul>
                             </li>
                             <li><a href="#">管理</a>
                                 <ul> 
                                     <li><a href="manage_order.php">オーダー</a> </li>
                                     <li><a href="manage_client.php">お客情報</a></li>
-                                    <li><a href="manage_account.php">アカウント</a></li>                                    
-                                    <li><a href="manage_agent.php">店舗</a></li>
+                                        {if isset($user->user_info.user_authorities) }
+                                            {if $user->user_info.user_authorities lt 3}
+                                            <li><a href="manage_account.php">アカウント</a></li>    
+
+                                            <li><a href="manage_agent.php">店舗</a></li>
+                                            {/if}
+                                        {/if}
                                     <li><a href="manage_house.php">物件情報</a></li>
                                     <li><a href="manage_source.php">媒体</a></li>
                                     <li><a href="manage_room.php">部屋情報</a></li>
                                     <li><a href="manage_broker.php">管理会社</a></li> 
-                                    <li><a href="manage_group.php">グループ管理</a></li> 
+                                        {if isset($user->user_info.user_authorities) }
+                                            {if $user->user_info.user_authorities lt 3}
+                                            <li><a href="manage_group.php">グループ管理</a></li> 
+                                            {/if}
+                                        {/if}
                                 </ul>
                             </li>
                             <li><a href="#">日計表</a>

@@ -57,8 +57,6 @@ if (isset($content[1])) {
 }
 
 
-
-
 if (isset($_POST['filter'])) {
     $filter = $_POST['filter'];
 } elseif (isset($_GET['filter'])) {
@@ -405,6 +403,13 @@ if (isset($_POST['log_revisit'])) {
     $log_revisit = $_GET['log_revisit'];
 } else {
     $log_revisit = "";
+}
+if (isset($_POST['log_revisit_arr'])) {
+    $log_revisit_arr = $_POST['log_revisit_arr'];
+} elseif (isset($_GET['log_revisit_arr'])) {
+    $log_revisit_arr = $_GET['log_revisit_arr'];
+} else {
+    $log_revisit_arr = "";
 }
 if (isset($_POST['source_id'])) {
     $source_id = $_POST['source_id'];
@@ -854,11 +859,11 @@ if (isset($_POST['save'])) {
     if ($task == 'basic') {
         $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
         if ($result) {
-            
+
             if ($result['id'])
                 $client_id = $result['id'];
             else
-                $error[]="アップデートが失敗する";
+                $error[] = "アップデートが失敗する";
 //            $exist = $result['exist'];
 //            if ($exist)
 //                $error[] = "";
@@ -984,7 +989,11 @@ if (isset($_POST['save'])) {
                             $log_introduction = $client_arr['log_introduction'];
                             $log_flyer = $client_arr['log_flyer'];
                             $log_line = $client_arr['log_line'];
-                            $log_revisit = $client_arr['log_revisit'];
+                            //$log_revisit = $client_arr['log_revisit'];
+                            $log_revisit = unserialize($client_arr['log_revisit']);
+                            $log_revisit = count($log_revisit) > 0 ? $log_revisit[0] : "";
+                            $log_revisit_arr = base64_encode(implode(",", unserialize($client_arr['log_revisit'])));
+
                             $source_id = $client_arr['source_id'];
 
                             $aspirations_type_house = $client_arr['aspirations_type_house'];
@@ -1198,7 +1207,14 @@ if (isset($_POST['save'])) {
         $log_introduction = $client_arr['log_introduction'];
         $log_flyer = $client_arr['log_flyer'];
         $log_line = $client_arr['log_line'];
-        $log_revisit = $client_arr['log_revisit'];
+        if ($house->isSerialized($client_arr['log_revisit'])) {
+            $log_revisit = unserialize($client_arr['log_revisit']);
+            $log_revisit = count($log_revisit) > 0 ? $log_revisit[0] : "";
+            $log_revisit_arr = base64_encode(implode(",", unserialize($client_arr['log_revisit'])));
+        } else {
+            $log_revisit = $client_arr['log_revisit'];
+            $log_revisit_arr = "";
+        }
         $source_id = $client_arr['source_id'];
 
         $aspirations_type_house = trim($client_arr['aspirations_type_house']);
@@ -1307,10 +1323,10 @@ if (isset($_POST['save'])) {
 //get source
 //for tag edit room
 include "include/class_detail.php";
-$detail = @HOMEDetail::getRoom($room_id, $house_id,$broker_id);
-if(!empty($detail) && is_array($detail)){
-    $smarty->assign('room_administrative_expense', rtrim($detail['room_administrative_expense'],'円'));
-}else{
+$detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
+if (!empty($detail) && is_array($detail)) {
+    $smarty->assign('room_administrative_expense', rtrim($detail['room_administrative_expense'], '円'));
+} else {
     $smarty->assign('room_administrative_expense', 0);
 }
 $broker = new HOMEBroker();
@@ -1410,6 +1426,7 @@ $smarty->assign('log_introduction', $log_introduction);
 $smarty->assign('log_flyer', $log_flyer);
 $smarty->assign('log_line', $log_line);
 $smarty->assign('log_revisit', $log_revisit);
+$smarty->assign('log_revisit_arr', $log_revisit_arr);
 $smarty->assign('source_id', $source_id);
 $smarty->assign('gender', $gender);
 $smarty->assign('client_address', $client_address);

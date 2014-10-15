@@ -18,10 +18,10 @@ if (!$user->user_exists) {
     exit();
 }
 
-if ($user->user_info['user_authorities'] > 2) {
-    header('Location: ./restrict.php');
-    exit();
-}
+//if ($user->user_info['user_authorities'] > 2) {
+//    header('Location: ./restrict.php');
+//    exit();
+//}
 
 if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');

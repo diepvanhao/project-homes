@@ -337,3 +337,8 @@ ALTER TABLE `home_user`
 
 ALTER TABLE `home_group`   
   ADD COLUMN `group_lock` TINYINT(1) DEFAULT 0  NULL AFTER `group_name`;
+
+
+/*14/10 Hao*/
+ALTER TABLE `home_history_log`   
+  CHANGE `log_revisit` `log_revisit` VARCHAR(128) NULL;

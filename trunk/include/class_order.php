@@ -11,16 +11,16 @@ class HOMEOrder {
 
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         global $database;
-        $room_arr= Array();
-        $room_arr[]=$room_id."_".$house_id."_".$broker_id;
+        $room_arr = Array();
+        $room_arr[] = $room_id . "_" . $house_id . "_" . $broker_id;
         $change_house_array = serialize($room_arr);
         //check house empty
-        $checkExist = $this->checkHouseEmpty($house_id, $room_id);
-        if ($checkExist)
-            return array('error' => $checkExist);
-        else {
+        //$checkExist = $this->checkHouseEmpty($house_id, $room_id);
+        // if ($checkExist)
+        //      return array('error' => $checkExist);
+        //  else {
 
-            $query = "insert into home_order(
+        $query = "insert into home_order(
                 `order_name`,
                 `user_id`,
                 `house_id`,
@@ -51,18 +51,17 @@ class HOMEOrder {
                  0,
                 '{$change_house_array}'
                 )";
-
-            $result = $database->database_query($query);
-            $id = $database->database_insert_id();
-            if ($id) {
-                $houseClass = new HOMEHouse();
-                $room_detail_id = getRoomDetailId($room_id, $house_id);
-                //update room status
-                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
-                $database->database_query($query);
-            }
-            return array('id' => $id);
-        }
+        $result = $database->database_query($query);
+        $id = $database->database_insert_id();
+//            if ($id) {
+//                $houseClass = new HOMEHouse();
+//                $room_detail_id = getRoomDetailId($room_id, $house_id);
+//                //update room status
+//                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
+//                $database->database_query($query);
+//            }
+        return array('id' => $id);
+        // }
     }
 
     function checkHouseEmpty($house_id, $room_id) {
@@ -125,17 +124,17 @@ class HOMEOrder {
             $order['client_id'] = $row['client_id'];
             $order['client_name'] = $row['client_name'];
             $order['order_rent_cost'] = $row['order_rent_cost'];
-            $order['order_day_create'] = date('Y-m-d',$row['order_day_create']);
+            $order['order_day_create'] = date('Y-m-d', $row['order_day_create']);
             $order['order_status'] = $row['order_status'];
             $order['order_comment'] = $row['order_comment'];
-            $order['order_day_update'] = date('Y-m-d',$row['order_day_update']);
+            $order['order_day_update'] = date('Y-m-d', $row['order_day_update']);
             $order['create_id'] = $row['create_id'];
             $order['broker_id'] = $row['broker_id'];
             $order['change'] = $row['change'];
             $order['change_house_array'] = $row['change_house_array'];
             $order_arr[] = $order;
         }
-        
+
         return $order_arr;
     }
 
@@ -240,7 +239,7 @@ class HOMEOrder {
         $client['client_rent'] = $row['client_rent'];
         $client['client_room_type'] = $row['client_room_type'];
         $client['client_room_type_number'] = $row['client_room_type_number'];
-        
+
         $client['history_log_id'] = $row['history_log_id'];
         $client['log_time_call'] = $row['log_time_call'];
         $client['log_time_arrive_company'] = $row['log_time_arrive_company'];
@@ -271,7 +270,7 @@ class HOMEOrder {
         $client['aspirations_area'] = $row['aspirations_area'];
         $client['aspirations_size'] = $row['aspirations_size'];
         $client['aspirations_comment'] = $row['aspirations_comment'];
-        
+
         $client['order_name'] = $row['order_name'];
         $client['order_comment'] = $row['order_comment'];
         $client['order_rent_cost'] = $row['order_rent_cost'];
@@ -384,17 +383,17 @@ class HOMEOrder {
     }
 
     function generate_order_name() {
-        global $database,$user;
+        global $database, $user;
         $query = "select id from home_order order by id DESC limit 1";
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
-        $id=$row['id'] + 1;        
-        return $user->user_info['user_fname']."_".$user->user_info['user_lname']."_".$id;
+        $id = $row['id'] + 1;
+        return $user->user_info['user_fname'] . "_" . $user->user_info['user_lname'] . "_" . $id;
     }
 
     //fetch events for private schedule     
     function fetchEvents($user_id) {
-        global $database,$user;
+        global $database, $user;
         $client = new Client();
         $events = array();
         $query = "select ho.* from home_order as ho          
@@ -510,27 +509,27 @@ class HOMEOrder {
         }
         if (isset($birthday)) {
             $birthday = array_unique($birthday);
-            
-            for ($i = 0; $i < count($birthday); $i++) {                
-                $clients = $client->getClientId($birthday[$i]);                               
+
+            for ($i = 0; $i < count($birthday); $i++) {
+                $clients = $client->getClientId($birthday[$i]);
                 $event['id'] = $clients['id'];
-                 $event['title']="Birthday's"." ".$clients['client_name']; 
+                $event['title'] = "Birthday's" . " " . $clients['client_name'];
                 //$event['title'] = "Birthday";
-                $event['start'] = $event['end'] =  date('Y-m-d', strtotime($clients['client_birthday']));
+                $event['start'] = $event['end'] = date('Y-m-d', strtotime($clients['client_birthday']));
                 $events[] = $event;
             }
         }
-        
+
         //get new event
-        $query="select * from home_event where user_id='{$user->user_info['id']}'";
-        $result=$database->database_query($query);
-        while($row=$database->database_fetch_assoc($result)){
-            $event['id']=$row['id'];
-            $event['title']=$row['event_title'];
-            $event['start']=$row['event_start'];
-            $event['end']=$row['event_end'];
-            $event['url']=$row['event_url'];
-            $events[]=$event;
+        $query = "select * from home_event where user_id='{$user->user_info['id']}'";
+        $result = $database->database_query($query);
+        while ($row = $database->database_fetch_assoc($result)) {
+            $event['id'] = $row['id'];
+            $event['title'] = $row['event_title'];
+            $event['start'] = $row['event_start'];
+            $event['end'] = $row['event_end'];
+            $event['url'] = $row['event_url'];
+            $events[] = $event;
         }
         return json_encode($events);
     }
