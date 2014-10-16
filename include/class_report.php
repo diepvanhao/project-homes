@@ -154,7 +154,7 @@ class Report {
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
-            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status, SUM(log_revisit) AS today_revisit
+            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today}
@@ -163,10 +163,13 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  {$today}");
+        
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
             SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
-            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status, SUM(log_revisit) AS month_revisit
+            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month}
@@ -175,6 +178,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND o.user_id = {$user_id} AND  {$month} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -292,7 +298,7 @@ class Report {
         //track record
         $select = "SELECT SUM(log_shop_sign) AS todaymail_shop_sign, SUM(log_local_sign) AS todaymail_local_sign, SUM(log_introduction) AS todaymail_introduction, SUM(log_tel) AS todaymail_tel, 
             SUM(log_mail) AS todaymail_mail, SUM(log_flyer) AS todaymail_flyer, SUM(log_line) AS todaymail_line, SUM(log_contact_head_office) AS todaymail_contact_head_office,
-            SUM(log_tel_status) AS todaymail_tel_status,SUM(log_mail_status) AS todaymail_mail_status, SUM(log_revisit) AS todaymail_revisit
+            SUM(log_tel_status) AS todaymail_tel_status,SUM(log_mail_status) AS todaymail_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -301,9 +307,13 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
+        
+        //log revisit
+        $return['todaymail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yearmail_shop_sign, SUM(log_local_sign) AS yearmail_local_sign, SUM(log_introduction) AS yearmail_introduction, SUM(log_tel) AS yearmail_tel, 
             SUM(log_mail) AS yearmail_mail, SUM(log_flyer) AS yearmail_flyer, SUM(log_line) AS yearmail_line, SUM(log_contact_head_office) AS yearmail_contact_head_office,
-            SUM(log_tel_status) AS yearmail_tel_status,SUM(log_mail_status) AS yearmail_mail_status, SUM(log_revisit) AS yearmail_revisit
+            SUM(log_tel_status) AS yearmail_tel_status,SUM(log_mail_status) AS yearmail_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -313,6 +323,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yearmail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -398,7 +411,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todayphone_shop_sign, SUM(log_local_sign) AS todayphone_local_sign, SUM(log_introduction) AS todayphone_introduction, SUM(log_tel) AS todayphone_tel, 
             SUM(log_mail) AS todayphone_mail, SUM(log_flyer) AS todayphone_flyer, SUM(log_line) AS todayphone_line, SUM(log_contact_head_office) AS todayphone_contact_head_office,
-            SUM(log_tel_status) AS todayphone_tel_status,SUM(log_mail_status) AS todayphone_mail_status, SUM(log_revisit) AS todayphone_revisit
+            SUM(log_tel_status) AS todayphone_tel_status,SUM(log_mail_status) AS todayphone_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -407,9 +420,13 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
+        
+        //log revisit
+        $return['todayphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yearphone_shop_sign, SUM(log_local_sign) AS yearphone_local_sign, SUM(log_introduction) AS yearphone_introduction, SUM(log_tel) AS yearphone_tel, 
             SUM(log_mail) AS yearphone_mail, SUM(log_flyer) AS yearphone_flyer, SUM(log_line) AS yearphone_line, SUM(log_contact_head_office) AS yearphone_contact_head_office,
-            SUM(log_tel_status) AS yearphone_tel_status,SUM(log_mail_status) AS yearphone_mail_status, SUM(log_revisit) AS yearphone_revisit
+            SUM(log_tel_status) AS yearphone_tel_status,SUM(log_mail_status) AS yearphone_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -419,6 +436,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yearphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -503,7 +523,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todaydiscount_shop_sign, SUM(log_local_sign) AS todaydiscount_local_sign, SUM(log_introduction) AS todaydiscount_introduction, SUM(log_tel) AS todaydiscount_tel, 
             SUM(log_mail) AS todaydiscount_mail, SUM(log_flyer) AS todaydiscount_flyer, SUM(log_line) AS todaydiscount_line, SUM(log_contact_head_office) AS todaydiscount_contact_head_office,
-            SUM(log_tel_status) AS todaydiscount_tel_status,SUM(log_mail_status) AS todaydiscount_mail_status, SUM(log_revisit) AS todaydiscount_revisit
+            SUM(log_tel_status) AS todaydiscount_tel_status,SUM(log_mail_status) AS todaydiscount_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -515,9 +535,12 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['todaydiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yeardiscount_shop_sign, SUM(log_local_sign) AS yeardiscount_local_sign, SUM(log_introduction) AS yeardiscount_introduction, SUM(log_tel) AS yeardiscount_tel, 
             SUM(log_mail) AS yeardiscount_mail, SUM(log_flyer) AS yeardiscount_flyer, SUM(log_line) AS yeardiscount_line, SUM(log_contact_head_office) AS yeardiscount_contact_head_office,
-            SUM(log_tel_status) AS yeardiscount_tel_status,SUM(log_mail_status) AS yeardiscount_mail_status, SUM(log_revisit) AS yeardiscount_revisit
+            SUM(log_tel_status) AS yeardiscount_tel_status,SUM(log_mail_status) AS yeardiscount_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -529,6 +552,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yeardiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -628,7 +654,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todaylocalsign_shop_sign, SUM(log_local_sign) AS todaylocalsign_local_sign, SUM(log_introduction) AS todaylocalsign_introduction, SUM(log_tel) AS todaylocalsign_tel, 
             SUM(log_mail) AS todaylocalsign_mail, SUM(log_flyer) AS todaylocalsign_flyer, SUM(log_line) AS todaylocalsign_line, SUM(log_contact_head_office) AS todaylocalsign_contact_head_office,
-            SUM(log_tel_status) AS todaylocalsign_tel_status,SUM(log_mail_status) AS todaylocalsign_mail_status, SUM(log_revisit) AS todaylocalsign_revisit
+            SUM(log_tel_status) AS todaylocalsign_tel_status,SUM(log_mail_status) AS todaylocalsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -637,10 +663,12 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-
+        //log revisit
+        $return['todaylocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yearlocalsign_shop_sign, SUM(log_local_sign) AS yearlocalsign_local_sign, SUM(log_introduction) AS yearlocalsign_introduction, SUM(log_tel) AS yearlocalsign_tel, 
             SUM(log_mail) AS yearlocalsign_mail, SUM(log_flyer) AS yearlocalsign_flyer, SUM(log_line) AS yearlocalsign_line, SUM(log_contact_head_office) AS yearlocalsign_contact_head_office,
-            SUM(log_tel_status) AS yearlocalsign_tel_status,SUM(log_mail_status) AS yearlocalsign_mail_status, SUM(log_revisit) AS yearlocalsign_revisit
+            SUM(log_tel_status) AS yearlocalsign_tel_status,SUM(log_mail_status) AS yearlocalsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -650,6 +678,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yearlocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -735,7 +766,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todayintroduction_shop_sign, SUM(log_local_sign) AS todayintroduction_local_sign, SUM(log_introduction) AS todayintroduction_introduction, SUM(log_tel) AS todayintroduction_tel, 
             SUM(log_mail) AS todayintroduction_mail, SUM(log_flyer) AS todayintroduction_flyer, SUM(log_line) AS todayintroduction_line, SUM(log_contact_head_office) AS todayintroduction_contact_head_office,
-            SUM(log_tel_status) AS todayintroduction_tel_status,SUM(log_mail_status) AS todayintroduction_mail_status, SUM(log_revisit) AS todayintroduction_revisit
+            SUM(log_tel_status) AS todayintroduction_tel_status,SUM(log_mail_status) AS todayintroduction_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -744,10 +775,12 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
+        //log revisit
+        $return['todayintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
 
         $select = "SELECT SUM(log_shop_sign) AS yearintroduction_shop_sign, SUM(log_local_sign) AS yearintroduction_local_sign, SUM(log_introduction) AS yearintroduction_introduction, SUM(log_tel) AS yearintroduction_tel, 
             SUM(log_mail) AS yearintroduction_mail, SUM(log_flyer) AS yearintroduction_flyer, SUM(log_line) AS yearintroduction_line, SUM(log_contact_head_office) AS yearintroduction_contact_head_office,
-            SUM(log_tel_status) AS yearintroduction_tel_status,SUM(log_mail_status) AS yearintroduction_mail_status, SUM(log_revisit) AS yearintroduction_revisit
+            SUM(log_tel_status) AS yearintroduction_tel_status,SUM(log_mail_status) AS yearintroduction_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -757,6 +790,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yearintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -841,7 +877,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todayshopsign_shop_sign, SUM(log_local_sign) AS todayshopsign_local_sign, SUM(log_introduction) AS todayshopsign_introduction, SUM(log_tel) AS todayshopsign_tel, 
             SUM(log_mail) AS todayshopsign_mail, SUM(log_flyer) AS todayshopsign_flyer, SUM(log_line) AS todayshopsign_line, SUM(log_contact_head_office) AS todayshopsign_contact_head_office,
-            SUM(log_tel_status) AS todayshopsign_tel_status,SUM(log_mail_status) AS todayshopsign_mail_status, SUM(log_revisit) AS todayshopsign_revisit
+            SUM(log_tel_status) AS todayshopsign_tel_status,SUM(log_mail_status) AS todayshopsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -851,9 +887,12 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['todayshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yearshopsign_shop_sign, SUM(log_local_sign) AS yearshopsign_local_sign, SUM(log_introduction) AS yearshopsign_introduction, SUM(log_tel) AS yearshopsign_tel, 
             SUM(log_mail) AS yearshopsign_mail, SUM(log_flyer) AS yearshopsign_flyer, SUM(log_line) AS yearshopsign_line, SUM(log_contact_head_office) AS yearshopsign_contact_head_office,
-            SUM(log_tel_status) AS yearshopsign_tel_status,SUM(log_mail_status) AS yearshopsign_mail_status, SUM(log_revisit) AS yearshopsign_revisit
+            SUM(log_tel_status) AS yearshopsign_tel_status,SUM(log_mail_status) AS yearshopsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -862,7 +901,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-
+        
+        //log revisit
+        $return['yearshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -947,7 +989,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todayflyer_shop_sign, SUM(log_local_sign) AS todayflyer_local_sign, SUM(log_introduction) AS todayflyer_introduction, SUM(log_tel) AS todayflyer_tel, 
             SUM(log_mail) AS todayflyer_mail, SUM(log_flyer) AS todayflyer_flyer, SUM(log_line) AS todayflyer_line, SUM(log_contact_head_office) AS todayflyer_contact_head_office,
-            SUM(log_tel_status) AS todayflyer_tel_status,SUM(log_mail_status) AS todayflyer_mail_status, SUM(log_revisit) AS todayflyer_revisit
+            SUM(log_tel_status) AS todayflyer_tel_status,SUM(log_mail_status) AS todayflyer_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -957,9 +999,12 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['todayflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yearflyer_shop_sign, SUM(log_local_sign) AS yearflyer_local_sign, SUM(log_introduction) AS yearflyer_introduction, SUM(log_tel) AS yearflyer_tel, 
             SUM(log_mail) AS yearflyer_mail, SUM(log_flyer) AS yearflyer_flyer, SUM(log_line) AS yearflyer_line, SUM(log_contact_head_office) AS yearflyer_contact_head_office,
-            SUM(log_tel_status) AS yearflyer_tel_status,SUM(log_mail_status) AS yearflyer_mail_status, SUM(log_revisit) AS yearflyer_revisit
+            SUM(log_tel_status) AS yearflyer_tel_status,SUM(log_mail_status) AS yearflyer_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -969,6 +1014,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yearflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1054,7 +1102,7 @@ class Report {
          */
         $select = "SELECT SUM(log_shop_sign) AS todayline_shop_sign, SUM(log_local_sign) AS todayline_local_sign, SUM(log_introduction) AS todayline_introduction, SUM(log_tel) AS todayline_tel, 
             SUM(log_mail) AS todayline_mail, SUM(log_flyer) AS todayline_flyer, SUM(log_line) AS todayline_line, SUM(log_contact_head_office) AS todayline_contact_head_office,
-            SUM(log_tel_status) AS todayline_tel_status,SUM(log_mail_status) AS todayline_mail_status, SUM(log_revisit) AS todayline_revisit
+            SUM(log_tel_status) AS todayline_tel_status,SUM(log_mail_status) AS todayline_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1064,9 +1112,12 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['todayline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        
         $select = "SELECT SUM(log_shop_sign) AS yearline_shop_sign, SUM(log_local_sign) AS yearline_local_sign, SUM(log_introduction) AS yearline_introduction, SUM(log_tel) AS yearline_tel, 
             SUM(log_mail) AS yearline_mail, SUM(log_flyer) AS yearline_flyer, SUM(log_line) AS yearline_line, SUM(log_contact_head_office) AS yearline_contact_head_office,
-            SUM(log_tel_status) AS yearline_tel_status,SUM(log_mail_status) AS yearline_mail_status, SUM(log_revisit) AS yearline_revisit
+            SUM(log_tel_status) AS yearline_tel_status,SUM(log_mail_status) AS yearline_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1076,6 +1127,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['yearline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1287,33 +1341,39 @@ class Report {
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
-            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status, SUM(log_revisit) AS today_revisit
+            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND  {$today}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  {$today} ");
+        
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
             SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
-            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status, SUM(log_revisit) AS month_revisit
+            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND  {$month}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  {$month} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-            INNER JOIN home_broker_company b  ON o.user_id = b.user_id
+            INNER JOIN home_broker_company b  ON o.broker_id = b.id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND o.order_status = 1 AND b.id = {$company_id}  AND {$today} ";
         $result = $database->database_query($select);
@@ -1322,7 +1382,7 @@ class Report {
 
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id}  AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -1332,7 +1392,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 AND {$today} ";
 
         $result = $database->database_query($select);
@@ -1342,21 +1402,21 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_cancel'] = (int) $row[0];
         //change
         $select = "SELECT SUM(o.change) FROM home_order o
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND {$today} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_change'] = (int) $row[0];
 
         $select = "SELECT SUM(o.change) FROM home_order o
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -1366,7 +1426,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
 
         $result = $database->database_query($select);
@@ -1376,7 +1436,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
             WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$month} ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -1421,7 +1481,7 @@ class Report {
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
-            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status, SUM(log_revisit) AS today_revisit
+            SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND h.source_id = {$source_id} AND  {$today}
@@ -1429,11 +1489,14 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
+        
+        //log revisit
+        $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  {$today} ");
 
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
             SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
-            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status, SUM(log_revisit) AS month_revisit
+            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND h.source_id = {$source_id} AND  {$month}
@@ -1442,6 +1505,9 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        //log revisit
+        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  {$month} ");
+        
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -4054,4 +4120,25 @@ class Report {
         $result = $database->database_query($select);
         return $database->database_fetch_assoc($result);
     }
+     private function getRevisit($where = ''){
+         global $database;
+        //more info on today
+        $select = "SELECT log_revisit AS revisit
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            INNER JOIN home_broker_company c  ON o.broker_id = c.id
+            WHERE $where
+            ";
+        $result = $database->database_query($select);
+        $number = 0;
+        while ($row = $database->database_fetch_assoc($result)) {
+            if(HOMEHouse::isSerialized($row['revisit'])){
+                $number += count(unserialize($row['revisit']));
+            }
+        }
+        return $number;
+     }
 }
