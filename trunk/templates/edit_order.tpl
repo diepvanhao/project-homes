@@ -2,14 +2,14 @@
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー情報編集</div>
 {literal}
     <script type="text/javascript">
-        var checkPrice = function(el){
-            if(isNaN(el.val())){
-                if(isNaN(parseFloat(el.val()))){
+        var checkPrice = function(el) {
+            if (isNaN(el.val())) {
+                if (isNaN(parseFloat(el.val()))) {
                     el.val('');
-                }else{
+                } else {
                     el.val(parseFloat(el.val()));
                 }
-           }
+            }
         }
         var sendmail = 0;
         $(document).ready(function() {
@@ -20,7 +20,7 @@
                 }
             }
             txt.keyup(func).blur(func);
-            
+
             birthday('log_revisit');
             birthday('client_birthday');
             birthday('client_time_change');
@@ -114,7 +114,7 @@
                         $('#error_room').html("入居中です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
                         $("#submit").css('color', 'grey');
-                          $('#order_rent_cost').val(json.room_rent);  
+                        $('#order_rent_cost').val(json.room_rent);
                     } else if (json.status == 2) {
                         $('#error_room').html("未完成です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
@@ -155,7 +155,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -173,7 +173,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_ads_fee').keyup(function(e) {
                 checkPrice($('#contract_ads_fee'));
@@ -198,7 +198,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -216,7 +216,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_broker_fee_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -240,7 +240,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -258,7 +258,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_ads_fee_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -282,7 +282,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -299,7 +299,7 @@
                         plus_money[i] = parseFloat(plus_money[i] * contract_cost);
                     total_plus += parseFloat(plus_money[i]);
                 }
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_key_money_unit').change(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -323,7 +323,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -341,7 +341,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_cost').keyup(function(e) {
                 checkPrice($('#contract_cost'));
@@ -366,7 +366,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -384,7 +384,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#contract_plus_money').keyup(function(e) {
                 var contract_key_money = parseFloat($('#contract_key_money').val());
@@ -408,7 +408,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -426,7 +426,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#calculator').click(function(e) {
 
@@ -452,7 +452,7 @@
                     var plus_money = new Array();
                     var plus_money_unit = new Array();
                     var total_plus = 0;
-                    $("input[name^='contract_lable_money']").each(function() {
+                    $("input[name^='contract_label_money']").each(function() {
                         label.push($(this).val());
                     });
 
@@ -470,7 +470,7 @@
                         total_plus += parseFloat(plus_money[i]);
                     }
 
-                    $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                    $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
                 });
             });
             $('#contract_key_money').keyup(function(e) {
@@ -496,7 +496,7 @@
                 var plus_money = new Array();
                 var plus_money_unit = new Array();
                 var total_plus = 0;
-                $("input[name^='contract_lable_money']").each(function() {
+                $("input[name^='contract_label_money']").each(function() {
                     label.push($(this).val());
                 });
 
@@ -514,7 +514,7 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
 
-                $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
@@ -752,7 +752,7 @@
                             log_tel: log_tel, log_tel_status: log_tel_status, log_mail: log_mail, log_comment: log_comment, log_date_appointment_from: log_date_appointment_from,
                             log_date_appointment_to: log_date_appointment_to, log_date_appointment_from_date: log_date_appointment_from_date, log_date_appointment_to_date: log_date_appointment_to_date,
                             log_mail_status: log_mail_status, log_contact_head_office: log_contact_head_office, log_shop_sign: log_shop_sign, log_local_sign: log_local_sign,
-                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit,log_revisit_arr: log_revisit_arr,log_revisit_bk: log_revisit_bk, source_id: source_id,
+                            log_introduction: log_introduction, log_flyer: log_flyer, log_line: log_line, log_revisit: log_revisit, log_revisit_arr: log_revisit_arr, log_revisit_bk: log_revisit_bk, source_id: source_id,
                             log_status_appointment: log_status_appointment, client_id: client_id, order_id: order_id, action: 'customer', task: 'history'},
                         function(result) {
                             var json = $.parseJSON(result);
@@ -835,6 +835,7 @@
                         var contract_payment_date_to = $('#contract_payment_date_to').val();
                         var partner_id = $('#partner_id').val();
                         var partner_percent = $('#partner_percent').val();
+                        var money_payment = $('#money_payment').val();
                         /*
                          var plus_money_unit = new Array();
                          $("input[name^='contract_plus_money']").each(function() {
@@ -866,6 +867,11 @@
                         else
                             var contract_ambition = 0;
 
+                        if ($('#room_rented').is(':checked'))
+                            var room_rented = 1;
+                        else
+                            var room_rented = 0;
+
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
@@ -881,7 +887,7 @@
                         var label = new Array();
                         var plus_money = new Array();
                         var plus_money_unit = new Array();
-                        $("input[name^='contract_lable_money']").each(function() {
+                        $("input[name^='contract_label_money']").each(function() {
                             label.push($(this).val());
                         });
 
@@ -913,7 +919,8 @@
                             contract_broker_fee: contract_broker_fee, contract_broker_fee_unit: contract_broker_fee_unit, contract_ads_fee: contract_ads_fee, contract_ads_fee_unit: contract_ads_fee_unit,
                             contract_transaction_finish: contract_transaction_finish, contract_payment_date_from: contract_payment_date_from, contract_payment_date_to: contract_payment_date_to,
                             contract_payment_status: contract_payment_status, contract_payment_report: contract_payment_report, partner_id: partner_id, partner_percent: partner_percent,
-                            contract_ambition: contract_ambition, client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
+                            contract_ambition: contract_ambition, money_payment: money_payment, room_rented: room_rented,
+                            client_id: client_id, order_id: order_id, action: 'customer', task: 'contract'},
                         function(result) {
                             var json = $.parseJSON(result);
                             if (json.id != "")
@@ -936,16 +943,16 @@
                 showloadgif();
                 window.location.href = "manage_order.php";
             });
-            $('#contract_deposit_1').keyup(function(){
+            $('#contract_deposit_1').keyup(function() {
                 checkPrice($('#contract_deposit_1'));
             });
-            $('#contract_deposit_2').keyup(function(){
+            $('#contract_deposit_2').keyup(function() {
                 checkPrice($('#contract_deposit_2'));
             });
-            $('#client_income').keyup(function(){
+            $('#client_income').keyup(function() {
                 checkPrice($('#client_income'));
             });
-            $('#client_rent').keyup(function(){
+            $('#client_rent').keyup(function() {
                 checkPrice($('#client_rent'));
             });
         });
@@ -971,7 +978,7 @@
             var plus_money = new Array();
             var plus_money_unit = new Array();
             var total_plus = 0;
-            $("input[name^='contract_lable_money']").each(function() {
+            $("input[name^='contract_label_money']").each(function() {
                 label.push($(this).val());
             });
 
@@ -989,7 +996,7 @@
                 total_plus += parseFloat(plus_money[i]);
             }
 
-            $('#contract_total').val( (contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+            $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
         }
         function getDivClass(title) {
             var flag = false;
@@ -1563,10 +1570,10 @@
                             </tr>
                             <tr>
                                 <td class='form1'>年収:</td>
-                        <td class='form2'>
-                            <input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/>
-                            <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
-                        </td>
+                                <td class='form2'>
+                                    <input type="text" id="client_income" name="client_income" value="{$client_income}" style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
+                                </td>
                                 <td class='form1' nowrap>間取り:</td>
                                 <td class='form2'> 
                                     <input type='text' class='text' name='client_room_type_number' id='client_room_type_number' value="{$client_room_type_number}" style="height:26px; width: 90px;"/>
@@ -1581,10 +1588,10 @@
                             </tr>
                             <tr>
                                 <td class='form1'>現在の賃料:</td>
-                        <td class='form2'>
-                            <input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/>
-                            <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
-                        </td>
+                                <td class='form2'>
+                                    <input type="text" id="client_rent" name="client_rent" value="{$client_rent}"style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
+                                </td>
                                 <td class='form1' nowrap>引越理由:</td>
                                 <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
                             </tr>
@@ -1887,7 +1894,7 @@
                                         <option value="ヵ月">ヵ月</option>
                                     </select>
                                 </td>
-                                <td class='form1'>広告代:</td>
+                                <td class='form1'>広告費:</td>
                                 <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
                                     <select id="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
                                         <option value="円">円</option>
@@ -1896,10 +1903,60 @@
                                 </td>                                           
                             </tr>
                             <tr>                    
-                                <td class='form1' nowrap>条件:</td>
-                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                                <td class='form1' nowrap>評価額:</td>
-                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                                <td class='form1'>敷金・保証金（預かり）:</td>
+                                <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select></td>
+                                <td class='form1' nowrap>敷金・保証金（償却）:</td>
+                                <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
+                                    <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                        <option value="円">円</option>
+                                        <option value="ヵ月">ヵ月</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>管理費:</td>
+                                <td class='form2'>
+                                    <input type="text" disabled="1" name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                                <td class='form1'>申込金:</td>
+                                <td class='form2'>
+                                    <input type="text"  name='money_payment' id='money_payment' value="{$money_payment}" style="height: 26px; width: 215px;">
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>合計:</td>
+                                <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+
+                                <td class='form1'>他決:</td>
+                                <td class='form2'><input type="checkbox"  id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1' nowrap>契約金入金予定日:</td>
+                                <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>入金状況:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>広告費入金予定日: </td>
+                                <td class='form2'>
+                                    <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
+                                </td>
+                                <td class='form1' nowrap>入金状況:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
+                                </td>
                             </tr>
                             <tr>
                                 <td class='form1'>契約日:</td>
@@ -1925,52 +1982,10 @@
                                     <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 95px;"/>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class='form1' nowrap>契約金入金予定日　（～から）:</td>
-                                <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                                <td class='form1' nowrap>入金状況:</td>
-                                <td class='form2'>
-                                    <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
-                                    <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>契約金入金予定日　（～まで）: </td>
-                                <td class='form2'>
-                                    <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
-                                </td>
-                                <td class='form1' nowrap>入金状況:</td>
-                                <td class='form2'>
-                                    <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
-                                    <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>敷金・保証金（預かり）:</td>
-                                <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
-                                    <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                        <option value="円">円</option>
-                                        <option value="ヵ月">ヵ月</option>
-                                    </select></td>
-                                <td class='form1' nowrap>敷金・保証金（償却）:</td>
-                                <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
-                                    <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                        <option value="円">円</option>
-                                        <option value="ヵ月">ヵ月</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>合計:</td>
-                                <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
-                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                                </td>
-                                <td class='form1' nowrap>自社物件</td>
-                                <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
-                            </tr>
+
                             <tr>
                                 <td class='form1'>申込み:</td>
-                                <td class='form2'><input type="checkbox"  onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
                                 <td class='form1' nowrap>申込日:</td>
                                 <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                             </tr>
@@ -2003,21 +2018,24 @@
                                 </td>
                             </tr>
                             <tr>                    
+                                <td class='form1' nowrap>条件:</td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
+                                <td class='form1' nowrap>評価額:</td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                            </tr>
+                            <tr>                    
                                 <td class='form1'></td>
                                 <td class='form2'>
                                     <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
                                 </td>       
-                                <td class='form1'>管理費:</td>
-                                <td class='form2'>
-                                    <input type="text" disabled="1" name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
-                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                                </td>   
+                                <td class='form1' nowrap>自社物件</td>
+                                <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             {foreach from=$plus_money key=k item=money}
                                 <tr>
                                     <td class='form1'>{$k} :</td>
                                     <td class='form2'>
-                                        <input type='hidden' name='contract_lable_money[]' value="{$k}"/>
+                                        <input type='hidden' name='contract_label_money[]' value="{$k}"/>
                                         <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
                                         <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
                                         <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
@@ -2239,7 +2257,7 @@
                     var label = prompt('その他費用を追加する ?', '');
                     if (label != null && label != "" && label != 0) {
                         // fieldCount++;
-                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_lable_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                        $('#contract table tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_label_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
                         if (fieldCount == 1)
                             CalculatorPlus();
                         fieldCount++;

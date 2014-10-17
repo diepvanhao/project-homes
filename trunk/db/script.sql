@@ -342,3 +342,8 @@ ALTER TABLE `home_group`
 /*14/10 Hao*/
 ALTER TABLE `home_history_log`   
   CHANGE `log_revisit` `log_revisit` VARCHAR(128) NULL;
+
+/*17/10 Hao*/
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `money_payment` FLOAT NULL AFTER `contract_ambition`,
+  ADD COLUMN `room_rented` TINYINT(1) NULL AFTER `money_payment`;
