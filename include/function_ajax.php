@@ -1472,6 +1472,21 @@ if ($action == "check_email") {
         } else {
             $contract_total = "";
         }
+        if (isset($_POST['money_payment'])) {
+            $money_payment = $_POST['money_payment'];
+        } elseif (isset($_GET['money_payment'])) {
+            $money_payment = $_GET['money_payment'];
+        } else {
+            $money_payment = "";
+        }
+        if (isset($_POST['room_rented'])) {
+            $room_rented = $_POST['room_rented'];
+        } elseif (isset($_GET['room_rented'])) {
+            $room_rented = $_GET['room_rented'];
+        } else {
+            $room_rented = "";
+        }
+        
         if (isset($_POST['contract_application'])) {
             $contract_application = $_POST['contract_application'];
         } elseif (isset($_GET['contract_application'])) {
@@ -1621,7 +1636,7 @@ if ($action == "check_email") {
         $contract_period_to = $contract_period_to_date . " " . $contract_period_to;
 
 
-        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $client_id, $order_id);
+        $result = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition,$money_payment,$room_rented, $client_id, $order_id);
         echo json_encode($result);
     }
     if ($task == 'selectCustomer') {

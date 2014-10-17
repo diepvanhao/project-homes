@@ -921,6 +921,22 @@ if ($step == 1) {
         $partner_percent = "";
     }
 
+     if (isset($_POST['money_payment'])) {
+        $money_payment = $_POST['money_payment'];
+    } elseif (isset($_GET['money_payment'])) {
+        $money_payment = $_GET['money_payment'];
+    } else {
+        $money_payment = "";
+    }
+    
+     if (isset($_POST['room_rented'])) {
+        $room_rented = $_POST['room_rented'];
+    } elseif (isset($_GET['room_rented'])) {
+        $room_rented = $_GET['room_rented'];
+    } else {
+        $room_rented = "";
+    }
+    
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
     $customer = new HOMECustomer();
@@ -1215,7 +1231,9 @@ if ($step == 1) {
                                 $contract_ads_fee = $client_arr['contract_ads_fee'];
                                 $contract_transaction_finish = $client_arr['contract_transaction_finish'];
                                 $contract_ambition = $client_arr['contract_ambition'];
-
+                                $money_payment = $client_arr['money_payment'];
+                                $room_rented = $client_arr['room_rented'];
+                                
                                 $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
                                 //get partner
                                 $partner = $order->getPartnerId($client_arr['contract_detail_id']);
@@ -1284,6 +1302,8 @@ if ($step == 1) {
     $smarty->assign('contract_ads_fee', $contract_ads_fee);
     $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
     $smarty->assign('contract_ambition', $contract_ambition);
+    $smarty->assign('money_payment', $money_payment);
+    $smarty->assign('room_rented', $room_rented);
 
     $smarty->assign('introduce_house_id', $introduce_house_id);
     $smarty->assign('introduce_room_id', $introduce_room_id);

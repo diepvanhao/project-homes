@@ -307,7 +307,9 @@ class HOMEOrder {
                                 hcd.contract_payment_date_to,
                                 hcd.contract_payment_status,
                                 hcd.contract_payment_report,
-                                hcd.contract_ambition
+                                hcd.contract_ambition,
+                                hcd.money_payment,
+                                hcd.room_rented
                                 
                                 FROM home_order AS ho                                                                                                                               
                                 
@@ -351,6 +353,8 @@ class HOMEOrder {
         $client['contract_ads_fee'] = $row['contract_ads_fee'];
         $client['contract_transaction_finish'] = $row['contract_transaction_finish'];
         $client['contract_ambition'] = $row['contract_ambition'];
+        $client['money_payment'] = $row['money_payment'];
+        $client['room_rented'] = $row['room_rented'];
         // }
         $client_arr = $client;
         return $client_arr;
