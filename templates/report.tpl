@@ -192,8 +192,8 @@
                 <td>{$commission.month_unsigned}</td> <!--未契約-->
                 <td></td>
                 <td>
-                    {abs($info.cost_previous_month - $user_target)}
-                    {$month.cost_previous = $month.cost_previous + abs($info.cost_previous_month - $user_target)}
+                    {abs($info.cost_previous_month)}
+                    {$month.cost_previous = $month.cost_previous + abs($info.cost_previous_month)}
                 </td>
                 <td>
                     {(int)($info.month_shop_sign + $info.month_local_sign)}
