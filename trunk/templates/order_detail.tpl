@@ -170,7 +170,13 @@
                 </li>
                 <li>
                     <strong>年収 : </strong>
-                    <span>{$client.client_income}</span>
+                    <span>
+                        {if $client.client_income > 10000}
+                            {round($client.client_income/10000)}万{($client.client_income%10000)?($client.client_income%10000):''}円
+                        {elseif $client.client_income}
+                            {round($client.client_income)}円
+                        {/if}
+                    </span>
                 </li>
                 <li>
                     <strong>職業  : </strong>

@@ -103,9 +103,12 @@ class HOMEOrder {
     function getOrder($search = "", $offset = 0, $length = 50) {
         global $database;
 
-        $query = "select ho.*,hh.house_name,hc.client_name from home_order as ho
+        $query = "select ho.*,hh.house_name,hc.client_name,l.*,d.* from home_order as ho
                left join home_house as hh on ho.house_id=hh.id   
                left join home_client as hc on ho.client_id=hc.id
+               LEFT JOIN home_history_log AS l ON l.order_id = ho.id
+               LEFT JOIN home_contract AS c ON c.order_id = ho.id
+               LEFT JOIN home_contract_detail AS d ON d.contract_id = c.id
                 ";
         if (!empty($search))
             $query.=" where order_name like '%{$search}%'";
@@ -132,7 +135,7 @@ class HOMEOrder {
             $order['broker_id'] = $row['broker_id'];
             $order['change'] = $row['change'];
             $order['change_house_array'] = $row['change_house_array'];
-            $order_arr[] = $order;
+            $order_arr[] = array_merge($row,$order);
         }
 
         return $order_arr;

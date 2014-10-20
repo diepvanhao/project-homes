@@ -347,3 +347,6 @@ ALTER TABLE `home_history_log`
 ALTER TABLE `home_contract_detail`   
   ADD COLUMN `money_payment` FLOAT NULL AFTER `contract_ambition`,
   ADD COLUMN `room_rented` TINYINT(1) NULL AFTER `money_payment`;
+
+-- mai 20.10
+ALTER TABLE  `home_client` CHANGE  `client_income`  `client_income` FLOAT( 16, 2 ) NULL DEFAULT NULL ;
