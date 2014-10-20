@@ -31,7 +31,14 @@
                         <th>現況</th>                       
                         <th>登録日付</th>
                         <th>お客情報</th>
-                        <th>担当</th>                                                                      
+                        <th>最終連絡日
+                            申込日
+                            申込金
+                            契約日
+                            契約金
+                            広告費入金日
+                            鍵渡日
+                        </th>                                                                      
                         <th>活動</th>
                     </tr>
                 </thead>
@@ -45,15 +52,55 @@
                             <td>{$order.house_name}</td>
                             <td>{$order.room_id}</td>
                             <td>{$order.order_rent_cost}</td>                            
-                            <td>{if $order.order_status eq 1}処理{else} キャンセル{/if}</td>
+                            <!--<td>{if $order.order_status eq 1}処理{else} キャンセル{/if}</td>-->
+                            <td>
+                                {if $order.room_rented}
+                                    他決
+                                {elseif $order.contract_cancel }
+                                    キャンセル
+                                {elseif $order.contract_signature_day }
+                                    契約済
+                                {elseif $order.contract_application}
+                                    申込中
+                                {else}
+                                    追客中
+                                {/if}
+                            </td>
                             <td>{$order.order_day_create}</td>                           
                             <td>{$order.client_name}</td>
-                            <td>{if $order.user_id ne 0}割り当てられた {else} 
+<!--                            <td>{if $order.user_id ne 0}割り当てられた {else} 
                                 <select id="staff_id" name="staff_id" >                                                                       
                                     <option value="{$user->user_info.id}">{$user->user_info.user_lname} {$user->user_info.user_fname} </option>                                           
                                 </select>
-                                {/if}</td>                                                                     
-                                <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.house_id},{$order.broker_id},{$order.room_id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
+                                {/if}
+                            </td>                                                                     -->
+                            <td>
+                                {if !$house->isSerialized($order.log_revisit) && empty($order.contract_application_date)
+                                && empty($order.money_payment) && empty($order.contract_signature_day)
+                                && empty($order.contract_payment_date_from) && empty($order.contract_payment_date_to)
+                                && empty($order.contract_handover_day)}
+                                    -
+                                {else}
+                                    {if $house->isSerialized($order.log_revisit)}
+                                        {end(unserialize($order.log_revisit))}
+                                    {else}
+                                        -
+                                    {/if}
+                                    <br>
+                                    {($order.contract_application_date)?$order.contract_application_date:'-'}
+                                    <br>
+                                    {($order.money_payment)?$order.money_payment:'-'}
+                                    <br>
+                                    {($order.contract_signature_day)?$order.contract_signature_day:'-'}
+                                    <br>
+                                    {($order.contract_payment_date_from)?$order.contract_payment_date_from:'-'}
+                                    <br>
+                                    {($order.contract_payment_date_to)?$order.contract_payment_date_to:'-'}
+                                    <br>
+                                    {($order.contract_handover_day)?$order.contract_handover_day:'-'}
+                                {/if}
+                            </td>
+                            <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.house_id},{$order.broker_id},{$order.room_id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
                             </tr>
                             {/foreach}
                             </tbody> 

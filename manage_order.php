@@ -8,7 +8,7 @@
 
 include "header.php";
 $page = "manage_order";
-
+ date_default_timezone_set("Asia/Bangkok");
 //check user login
 if (!$user->user_exists) {
 
@@ -16,11 +16,6 @@ if (!$user->user_exists) {
 
     exit();
 }
-//var_dump($user);die();
-//if ($user->user_info['user_authorities'] > 2) {
-//    header('Location: ./restrict.php');
-//    exit();
-//}
 
 if($user->user_info['user_locked']){
     header('Location: ./locked.php');
@@ -69,6 +64,7 @@ $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('orders', $orders);
+$smarty->assign('house', new HOMEHouse());
 //$smarty->assign('users',$users);   
 $smarty->assign('user_id',$user_id);
 include "footer.php";
