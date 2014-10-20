@@ -93,7 +93,7 @@
                             <li><a href="#">日計表</a>
                                 <ul>
                                     <li><a href="report.php">店舗 日計表</a></li>
-                                    <li><a href="company_report.php">会社名 日計表</a></li>
+                                    <li><a href="company_report.php">日計表</a></li>
                                     <li><a href="group_report.php">グループ</a></li>
                                 </ul>
                             </li>
