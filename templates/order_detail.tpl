@@ -27,11 +27,11 @@
             </li>
             <li>
                 <strong>登録日付 : </strong>
-                <span>{$order.order_day_create}</span>
+                <span>{date('Y-m-d',$order.order_day_create)}</span>
             </li>
             <li>
                 <strong>引越予定日 : </strong>
-                <span>{$order.order_day_create}</span>
+                <span>{date('Y-m-d',$order.order_day_create)}</span>
             </li>
         </ul>
         {if $room}
