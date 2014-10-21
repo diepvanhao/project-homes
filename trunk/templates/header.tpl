@@ -6,7 +6,7 @@
     <div id="site_content">
         <div id="sidebar_container">
             <div class="sidebar">
-                {if $url_page  ne 'user_login.php' }
+                {if $url_page  ne 'user_login.php'}
                     {if $user->user_exists ne 1}
                         <form action='user_login.php' method='POST' name='login'>
                             <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
@@ -57,7 +57,7 @@
                     {/if}
                 {/if}
             </div>
-            {if $url_page  ne 'user_login.php' }
+            {if $url_page  ne 'user_login.php'}
             <div class="sidebar">
                 <h3>カレンダー</h3>
                 <div id="datepicker"></div>               

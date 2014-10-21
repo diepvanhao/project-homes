@@ -1,7 +1,7 @@
-
+{include file='header_calendar.tpl'}
 {literal}
     <script>
-
+        
         $(document).ready(function() {
             var create_new = $.cookie("create_new");
             $('#create_new').click(function() {
@@ -325,8 +325,8 @@
 </div>-->
 <div id="wrapper">
     <div style="width: 100%;font-size: 1.8em;background-color: #F1F5FE; height: 83px;line-height: 80px;">
-        <a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="82px;"/></span></a>
-        <label style="margin-left: 300px;position: absolute;">カレンダー</label>
+        <!--<a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="82px;"/></span></a>-->
+        <center><label>カレンダー</label></center>
 
     </div>
     <div id="sidebar">
@@ -337,8 +337,8 @@
             <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">入金日</label></li>
             <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">来店日</label></li>
             <li><input type="checkbox" id="other" name="other"/><label for="other">その他</label></li>
-            <li><input type="checkbox" id="period" name="period"/><label for="period">期間</label></li>
-            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">生年月日</label></li>
+            <li><input type="checkbox" id="period" name="period"/><label for="period">契約期間</label></li>
+            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">誕生日</label></li>
             <li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">新規登録</label></li>   
         </ul>
         <div id="schedule_title">ユーザー情報</div>
@@ -354,9 +354,11 @@
 
     </div>
 
-    <div style="width: 100%;text-align: center;font-size: 1.8em;background-color: #F1F5FE; height: 55px;line-height: 55px;color: red;">
+    <!--<div style="width: 100%;text-align: center;font-size: 1.8em;background-color: #F1F5FE; height: 55px;line-height: 55px;color: red;">
 
         <label><p>Copyright &copy; Ambition</p></label>
-    </div>
+    </div>-->
 </div>
+
 <div id="loadgif">Loading...</div>
+{include file='footer_calendar.tpl'}
