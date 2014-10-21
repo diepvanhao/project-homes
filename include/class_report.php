@@ -1615,7 +1615,7 @@ class Report {
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
                     d.contract_signature_day AS signature_date,
-                    d.contract_transaction_finish AS transaction
+                    d.contract_payment_report AS transaction
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -1652,7 +1652,7 @@ class Report {
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
                     d.contract_signature_day AS signature_date,
-                    d.contract_transaction_finish AS transaction,
+                    d.contract_payment_report AS transaction,
                     p.*
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1691,7 +1691,7 @@ class Report {
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
                     d.contract_signature_day AS signature_date,
-                    d.contract_transaction_finish AS transaction
+                    d.contract_payment_report AS transaction
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -1728,7 +1728,7 @@ class Report {
                     d.contract_ads_fee AS ads_fee,  
                     d.contract_application AS application, 
                     d.contract_signature_day AS signature_date,
-                    d.contract_transaction_finish AS transaction,
+                    d.contract_payment_report AS transaction,
                     p.*
             FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
