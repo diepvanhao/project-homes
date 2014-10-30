@@ -103,7 +103,16 @@ class HOMEOrder {
     function getOrder($search = "", $offset = 0, $length = 50) {
         global $database;
 
-        $query = "select ho.*,hh.house_name,hc.client_name,l.*,d.* from home_order as ho
+        $query = "select ho.*,hh.house_name,hc.client_name,
+            l.source_id,l.log_time_call,l.log_time_arrive_company,l.log_comment,l.log_date_appointment_from,
+            l.log_status_appointment,l.log_shop_sign,l.log_local_sign,l.log_introduction,l.log_tel,l.log_mail,
+            l.log_flyer,l.log_line,l.log_contact_head_office,l.log_tel_status,l.log_mail_status,l.log_revisit,l.log_time_mail,l.log_date_appointment_to,
+            d.contract_id,d.contract_cost,d.contract_total,d.contract_signature_day,d.contract_handover_day,d.contract_condition,d.contract_valuation,
+            d.contract_date_create,d.contract_date_update,d.contract_cancel,d.contract_period_from,d.contract_period_to,d.contract_deposit_1,d.contract_deposit_2,
+            d.contract_key_money,d.contract_name,d.contract_application,d.contract_application_date,d.contract_broker_fee,d.contract_ads_fee,d.contract_transaction_finish,
+            d.contract_payment_date_from,d.contract_payment_date_to,d.contract_payment_status,d.contract_payment_report,d.contract_ambition,d.money_payment,d.room_rented
+            
+               from home_order as ho
                left join home_house as hh on ho.house_id=hh.id   
                left join home_client as hc on ho.client_id=hc.id
                LEFT JOIN home_history_log AS l ON l.order_id = ho.id
@@ -114,10 +123,12 @@ class HOMEOrder {
             $query.=" where order_name like '%{$search}%'";
 
         $query.=" limit $offset,$length";
-        //echo $query;
+       // echo $query;
+        
         $result = $database->database_query($query);
         $order_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
+            
             $order['id'] = $row['id'];
             $order['order_name'] = $row['order_name'];
             $order['user_id'] = $row['user_id'];
@@ -137,7 +148,7 @@ class HOMEOrder {
             $order['change_house_array'] = $row['change_house_array'];
             $order_arr[] = array_merge($row,$order);
         }
-
+        
         return $order_arr;
     }
 
@@ -215,7 +226,7 @@ class HOMEOrder {
                                 LEFT JOIN home_history_aspirations AS hha ON ho.id=hha.order_id 
                                 where ho.id={$order_id}                                                             
                                 LIMIT 1";
-
+//echo $query;
         $result = $database->database_query($query);
         $client_arr = array();
         $client = array();

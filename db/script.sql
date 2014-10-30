@@ -350,3 +350,8 @@ ALTER TABLE `home_contract_detail`
 
 -- mai 20.10
 ALTER TABLE  `home_client` CHANGE  `client_income`  `client_income` FLOAT( 16, 2 ) NULL DEFAULT NULL ;
+
+/* 30-10 Hao */
+ALTER TABLE `home_order`   
+  CHANGE `order_day_create` `order_day_create` INT(11) NULL,
+  CHANGE `order_day_update` `order_day_update` INT(11) NULL;
