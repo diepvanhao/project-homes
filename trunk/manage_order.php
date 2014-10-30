@@ -54,6 +54,7 @@ $offset = $page_number * $max - $max;
 $length = $max;
 
 $orders = $orderClass->getOrder($search, $offset, $length);
+//var_dump($orders);
 //get user
 //$user=new HOMEUser();
 //$users=$user->getAllUsers();

@@ -835,12 +835,12 @@
                             var contract_ambition = 1;
                         else
                             var contract_ambition = 0;
-                        
+
                         if ($('#room_rented').is(':checked'))
                             var room_rented = 1;
                         else
                             var room_rented = 0;
-                        
+
                         var contract_total = $('#contract_total').val();
 
                         var client_id = $('#client_id').val();
@@ -854,7 +854,7 @@
                         var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
 
                         var label = new Array();
-                        
+
                         var plus_money = new Array();
                         var plus_money_unit = new Array();
                         $("input[name^='contract_label_money']").each(function() {
@@ -871,7 +871,7 @@
                         $('#contract table tr td').find('#contract_plus_money_unit').each(function(e) {
                             plus_money_unit.push($(this).val());
                         });
-                        
+
                         //validate
                         if (partner_id.length > 0) {
                             if (partner_percent == "") {
@@ -1581,7 +1581,9 @@
         </ul>
     </div>
     <div id="client_detail">
-
+        <div style="padding-top:10px;text-align: right;padding-top: 4%;">
+            <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>
+        </div>
         <div id="basic"class="active">
             <form action="create_order.php" method="post">        
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
@@ -1609,7 +1611,7 @@
                         <td class='form2' colspan="3">
                             <div id="error_validate" class="error"></div>
                             <div style="margin-top:10px;text-align: center;">
-                                <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                {*<input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>*}&nbsp; 
                                 <input type="hidden" id="task" name="task" value="basic"/>
                                 <input type="hidden" id="step" name="step" value="registry"/> 
                                 <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
@@ -2314,11 +2316,11 @@
         <script type="text/javascript">
             function openImport() {
                 $('#export_form').show();
-               // $('#contract_plus').hide();
+                // $('#contract_plus').hide();
             }
             function closeImport() {
                 $('#export_form').hide();
-               // $('#contract_plus').show();
+                // $('#contract_plus').show();
             }
             function sendMail(el) {
                 if (el.checked && confirm("Do you want to send mail?")) {

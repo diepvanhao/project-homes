@@ -43,6 +43,7 @@ if (isset($_POST['url'])) {
 
 $content = base64_decode($content);
 $content = explode('&', $content);
+
 $house = new HOMEHouse();
 if (isset($content[1])) {
     $order_id = $content[1];
@@ -1120,7 +1121,7 @@ if (isset($_POST['save'])) {
 //get client info, history and contact
 
     $client_arr = $order->getClientByOrderId($order_id);
-
+//var_dump($client_arr);
     if (!empty($client_arr)) {
         if ($client_arr['client_id'])
             $client_id = $client_arr['client_id'];
