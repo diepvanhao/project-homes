@@ -150,14 +150,16 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['cost_previous_month'] = (int) abs($row[0]); 
-
+        
+        $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
             SUM(log_tel_status) AS today_tel_status,SUM(log_mail_status) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today}
+            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today_appointment}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
@@ -172,7 +174,7 @@ class Report {
             SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month}
+            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_appointment}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
@@ -1599,8 +1601,8 @@ class Report {
         }
 
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
         $return = array(
             'today_already_recorded' => 0.00,
             'today_unsigned' => 0.00,
