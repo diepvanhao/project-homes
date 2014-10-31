@@ -355,3 +355,16 @@ ALTER TABLE  `home_client` CHANGE  `client_income`  `client_income` FLOAT( 16, 2
 ALTER TABLE `home_order`   
   CHANGE `order_day_create` `order_day_create` INT(11) NULL,
   CHANGE `order_day_update` `order_day_update` INT(11) NULL;
+
+-- Mai 31-10
+ALTER TABLE  `home_history_log` CHANGE  `log_time_call`  `log_time_call` INT( 11 ) UNSIGNED NULL ,
+CHANGE  `log_time_arrive_company`  `log_time_arrive_company` INT( 11 ) UNSIGNED NULL ,
+CHANGE  `log_date_appointment_from`  `log_date_appointment_from` INT( 11 ) UNSIGNED NULL ,
+CHANGE  `log_status_appointment`  `log_status_appointment` TINYINT( 1 ) UNSIGNED NULL ,
+CHANGE  `log_revisit`  `log_revisit` TINYINT( 1 ) UNSIGNED NULL ,
+CHANGE  `log_time_mail`  `log_time_mail` INT( 11 ) UNSIGNED NULL ,
+CHANGE  `log_date_appointment_to`  `log_date_appointment_to` INT( 11 ) UNSIGNED NULL ;
+
+ALTER TABLE  `home_contract_detail` CHANGE  `contract_signature_day`  `contract_signature_day` INT( 11 ) UNSIGNED NULL ,
+CHANGE  `contract_application_date`  `contract_application_date` INT( 11 ) UNSIGNED NULL ,
+CHANGE  `contract_payment_date_to`  `contract_payment_date_to` INT( 11 ) UNSIGNED NULL ;
