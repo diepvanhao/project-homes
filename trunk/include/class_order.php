@@ -323,7 +323,8 @@ class HOMEOrder {
                                 hcd.contract_payment_report,
                                 hcd.contract_ambition,
                                 hcd.money_payment,
-                                hcd.room_rented
+                                hcd.room_rented,
+                                hcd.room_administrative_expense
                                 
                                 FROM home_order AS ho                                                                                                                               
                                 
@@ -369,6 +370,7 @@ class HOMEOrder {
         $client['contract_ambition'] = $row['contract_ambition'];
         $client['money_payment'] = $row['money_payment'];
         $client['room_rented'] = $row['room_rented'];
+        $client['room_administrative_expense'] = $row['room_administrative_expense'];
         // }
         $client_arr = $client;
         return $client_arr;
