@@ -1038,7 +1038,7 @@ if (isset($_POST['save'])) {
         $contract_payment_date_from_temp = strtotime($contract_payment_date_from . ' ' . 'Europe/Berlin');
         $contract_payment_date_to_temp = strtotime($contract_payment_date_to . ' ' . 'Europe/Berlin');
 
-        $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $client_id, $order_id);
+        $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented,$room_administrative_expense, $client_id, $order_id);
 
 
         //update plus money
@@ -1434,6 +1434,7 @@ if (isset($_POST['save'])) {
         $contract_ambition = $client_arr['contract_ambition'];
         $money_payment = $client_arr['money_payment'];
         $room_rented = $client_arr['room_rented'];
+        $room_administrative_expense=$client_arr['room_administrative_expense'];
         //get plus money
         $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
         //get partner
