@@ -39,13 +39,14 @@
             birthday('aspirations_build_time');
             timepicker('contract_signature_day');
             timepicker('contract_handover_day');
-            timepicker('contract_period_from');
-            timepicker('contract_period_to');
+            birthday('contract_period_from');
+            birthday('contract_period_to');
             birthday('contract_signature_day_date');
             birthday('contract_handover_day_date');
             birthday('contract_period_from_date');
-            birthday('contract_period_to_date');
             birthday('contract_application_date');
+            //birthday('contract_period_to_date');
+            //birthday('contract_application_date');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
                 $('#error_house').html("");
@@ -584,7 +585,7 @@
             /*$('#client_detail').find('#client_id').each(function() {
              $(this).val(4);
              });*/
-            $('#client_detail').find('#save').click(function(e) {
+            $('#client_detail').find('#save1').click(function(e) {
                 var cus_id = $('#cus_id').val();
                 if (cus_id == "" && getDivClass('basic') == 0) {
                     alert('基本情報の入力をお願いいたします。 !!!');
@@ -1479,9 +1480,8 @@
                 </ul>
             </div>
             <div id="client_detail">
-
-                <div id="basic"class="active">
-                    <form action="edit_order.php" method="post">        
+                <form action="edit_order.php" method="post">   
+                    <div id="basic"class="active">
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
                                 <td class='form1'>名称:</td>
@@ -1490,7 +1490,7 @@
                                 <td class='form2'> <input type='text' id="client_birthday" name="client_birthday" value="{$client_birthday}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
-                                <td class='form1'>フリガナ?:</td>
+                                <td class='form1'>フリガナ:</td>
                                 <td class='form2'><input type="text" id="client_read_way" name="client_read_way" value="{$client_read_way}"style="height: 26px; width: 215px;"/></td>
                                 <td class='form1'>Ｅメール:</td>
                                 <td class='form2'><input type="text" id="client_email" name="client_email" value="{$client_email}" style="height: 26px; width: 215px;"/></td>
@@ -1507,8 +1507,8 @@
                                 <td class='form2' colspan="3">
                                     <div id="error_validate" class="error"></div>
                                     <div style="margin-top:10px;text-align: center;">
-                                        <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                        <input type="hidden" id="task" name="task" value="basic"/>
+                                        {*<input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>*}&nbsp; 
+                                        {*<input type="hidden" id="task" name="task" value="basic"/>*}
                                         <input type="hidden" id="step" name="step" value="registry"/> 
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
                                         <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
@@ -1516,10 +1516,10 @@
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div id="detail"class="inactive">
-                    <form action="edit_order.php" method="post">        
+                        {*</form>*}
+                    </div>
+                    <div id="detail"class="inactive">
+                        {* <form action="edit_order.php" method="post"> *}       
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
                                 <td class='form1'>性別: </td>
@@ -1612,23 +1612,23 @@
                                 <td class='form2' colspan="3">
                                     <div id="error_validate" class="error"></div>
                                     <div style="margin-top:10px;text-align: center;">
-                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                        <input type="hidden" id="task" name="task" value="detail"/>
-                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; *}
+                                        {*<input type="hidden" id="task" name="task" value="detail"/>*}
+                                        {*<input type="hidden" id="step" name="step" value="registry"/> *}
                                         <input type="hidden" id="city_cus" name="city_cus" value=""/> 
                                         <input type="hidden" id="district_cus" name="district_cus" value=""/> 
                                         <input type="hidden" id="street_cus" name="street_cus" value=""/> 
                                         <input type="hidden" id="ward_cus" name="ward_cus" value=""/> 
-                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        {* <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
                                     </div>                        
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div id="history"class="inactive">
-                    <form action="edit_order.php" method="post">        
+                        {*</form>*}
+                    </div>
+                    <div id="history"class="inactive">
+                        {* <form action="edit_order.php" method="post">  *}      
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
                                 <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
@@ -1655,8 +1655,8 @@
                                     <input type='text' id="log_time_arrive_company_date" name="log_time_arrive_company_date" value="{$log_time_arrive_company_date}"style="height: 26px; width: 115px;"/>
                                     <input type='text' id="log_time_arrive_company" name="log_time_arrive_company" value="{$log_time_arrive_company}"style="height: 26px; width: 95px;"/>
                                 </td>
-                                <td class='form1'>本社反響:</td>
-                                <td class='form2'><input type="checkbox" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>                        
+                                <td class='form1'>{*本社反響:*}</td>
+                                <td class='form2'>{*<input type="checkbox" value="1" id="log_contact_head_office" name="log_contact_head_office" {if $log_contact_head_office eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/>*}</td>                        
 
                                 </td>
                             </tr>
@@ -1701,34 +1701,34 @@
 
                             <tr>
                                 <td class='form1'>TEL:</td>
-                                <td class='form2'><input type="checkbox" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
-                                <td class='form1' nowrap>現況:</td>
-                                <td class='form2'> <input type='checkbox' id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>{*現況:*}</td>
+                                <td class='form2'> {*<input type='checkbox' value="1" id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/>*}</td>
                             </tr>
                             <tr>
                                 <td class='form1'>MAIL:</td>
-                                <td class='form2'><input type="checkbox" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
-                                <td class='form1' nowrap>現況:</td>
-                                <td class='form2'> <input type='checkbox' id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>{*現況:*}</td>
+                                <td class='form2'> {*<input type='checkbox' value="1" id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/>*}</td>
                             </tr>
 
                             <tr>
                                 <td class='form1' nowrap>店頭看板:</td>
-                                <td class='form2'> <input type="checkbox" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'> <input type="checkbox" value="1" id="log_shop_sign" name="log_shop_sign"{if $log_shop_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                                 <td class='form1' nowrap></td>
                                 <td class='form2'></td>
                             </tr>
                             <tr>
                                 <td class='form1'>現地看板:</td>
-                                <td class='form2'><input type="checkbox" id="log_local_sign" name="log_local_sign"{if $log_local_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="log_local_sign" name="log_local_sign"{if $log_local_sign eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                                 <td class='form1' nowrap>紹介:</td>
-                                <td class='form2'> <input type='checkbox' id="log_introduction" name="log_introduction" {if $log_introduction eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'> <input type='checkbox' value="1" id="log_introduction" name="log_introduction" {if $log_introduction eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
                             </tr>
                             <tr>
                                 <td class='form1'>チラシ:</td>
-                                <td class='form2'><input type="checkbox" id="log_flyer" name="log_flyer"{if $log_flyer eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="log_flyer" name="log_flyer"{if $log_flyer eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                                 <td class='form1' nowrap>ＬＩＮＥ:</td>
-                                <td class='form2'> <input type='checkbox' id="log_line" name="log_line"{if $log_line eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                                <td class='form2'> <input type='checkbox' value="1" id="log_line" name="log_line"{if $log_line eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
                             </tr>
                             <tr>
                                 <td class='form1'>再来店: </td>
@@ -1743,21 +1743,21 @@
                                 <td class='form2' colspan="3">
                                     <div id="error_validate" class="error"></div>
                                     <div style="margin-top:10px;text-align: center;">
-                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                         <input type="hidden" id="task" name="task" value="history"/>
                                         <input type="hidden" id="step" name="step" value="registry"/> 
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
                                         <input type="hidden" id="log_revisit_arr" name="log_revisit_arr" value="{$log_revisit_arr}"/>
                                         <input type="hidden" id="log_revisit_bk" name="log_revisit_bk" value="{$log_revisit}"/>
                                     </div>                        
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div id="aspirations" class="inactive">
-                    <form action="edit_order.php" method="post">        
+                        {* </form>*}
+                    </div>
+                    <div id="aspirations" class="inactive">
+                        {*<form action="edit_order.php" method="post">    *}    
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
                                 <td class='form1'>物件種別: </td>
@@ -1806,19 +1806,19 @@
                                 <td class='form2' colspan="3">
                                     <div style="margin-top:10px;text-align: center;">
                                         <div id="error_validate" class="error"></div>
-                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                         <input type="hidden" id="task" name="task" value="aspirations"/>
                                         <input type="hidden" id="step" name="step" value="registry"/> 
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
                                     </div>                        
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div id="introduce" class="inactive">
-                    <form action="edit_order.php" method="post">            
+                        {*</form>*}
+                    </div>
+                    <div id="introduce" class="inactive">
+                        {*<form action="edit_order.php" method="post"> *}           
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
 
                             <tr>
@@ -1858,21 +1858,21 @@
                                 <td class='form2'>
                                     <div id="error_validate" class="error"></div>
                                     <div style="margin-top:10px">
-                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
-                                        <input type="hidden" id="task" name="task" value="introduce"/>
+                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
+                                        <input type="hidden" id="task" name="task" value="introduce"/>*}
                                         <input type="hidden" id="introduce_house" name="introduce_house" />
-                                        <input type="hidden" id="step" name="step" value="registry"/>  
+                                        {*<input type="hidden" id="step" name="step" value="registry"/>  
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
                                     </div>
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div id="contract" class="inactive">
-                    <form action="edit_order.php" method="post">        
-                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="order_table">
+                        {* </form>*}
+                    </div>
+                    <div id="contract" class="inactive">
+                        {*<form action="edit_order.php" method="post">  *}      
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="contract_plus">
                             <tr>
                                 <td class='form1' nowrap>賃料:</td>
                                 <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
@@ -1920,7 +1920,7 @@
                             <tr>
                                 <td class='form1'>管理費:</td>
                                 <td class='form2'>
-                                    <input type="text" disabled="1" name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
+                                    <input type="text"  name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
                                     <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                                 </td>
                                 <td class='form1'>申込金:</td>
@@ -1931,12 +1931,12 @@
                             </tr>
                             <tr>
                                 <td class='form1'>合計:</td>
-                                <td class='form2'><input type="text" id="contract_total" name="contract_total" disabled="1" value="{$contract_total}"style="height: 26px; width: 215px;"/>
+                                <td class='form2'><input type="text" id="contract_total" name="contract_total"  value="{$contract_total}"style="height: 26px; width: 215px;"/>
                                     <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
                                 </td>
 
                                 <td class='form1'>他決:</td>
-                                <td class='form2'><input type="checkbox"  id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             <tr>
                                 <td class='form1' nowrap>契約金入金予定日:</td>
@@ -1973,27 +1973,27 @@
                             <tr>
                                 <td class='form1'>契約始期:</td>
                                 <td class='form2'>
-                                    <input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>
-                                    <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 95px;"/>
+                                    {*<input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>*}
+                                    <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 215px;"/>
                                 </td>
                                 <td class='form1' nowrap>契約終期:</td>
                                 <td class='form2'>
-                                    <input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>
-                                    <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 95px;"/>
+                                    {*<input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>*}
+                                    <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 215px;"/>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class='form1'>申込み:</td>
-                                <td class='form2'><input type="checkbox" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
                                 <td class='form1' nowrap>申込日:</td>
                                 <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>                    
                                 <td class='form1'>売上計上:</td>
-                                <td class='form2'><input type="checkbox" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
                                 <td class='form1' nowrap>キャンセル:</td>
-                                <td class='form2'><input type="checkbox" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             <tr>                    
                                 <td class='form1'>店舗:</td>
@@ -2029,7 +2029,7 @@
                                     <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
                                 </td>       
                                 <td class='form1' nowrap>自社物件</td>
-                                <td class='form2'><input type="checkbox" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
+                                <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             {foreach from=$plus_money key=k item=money}
                                 <tr>
@@ -2049,11 +2049,11 @@
                                 <td class='form2' colspan="3">
                                     <div id="error_validate" class="error"></div>
                                     <div style="margin-top:10px;text-align: center;">
-                                        <input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
                                         <input type="hidden" id="task" name="task" value="contract"/>
                                         <input type="hidden" id="step" name="step" value="registry"/> 
                                         <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
                                         <input type="hidden" id="calculator" name="calculator"/>
                                         <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
                                     </div>                        
@@ -2092,8 +2092,13 @@
                                 </tbody>
                             </table>
                         </div>
-                    </form>
-                </div>
+
+                        {* </form>*}
+                    </div>
+                    <div style="text-align: right;padding-top: 1%;">
+                        <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>
+                    </div>
+                </form>
                 <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
             </div>
         </div>
