@@ -8,7 +8,7 @@ function birthday(val) {
         changeYear: true,
         showButtonPanel: true,
         yearRange: '-90:+50',
-        dateFormat:'mm/dd/yy'
+        dateFormat:'yy/mm/dd'
     });
 }
 function timepicker(val){

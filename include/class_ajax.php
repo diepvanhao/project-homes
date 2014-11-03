@@ -767,10 +767,9 @@ class ajax {
             $row = $database->database_fetch_assoc($result);
             $contract_detail_id = $row['id'];
 
-            if (!empty($label) && !empty($plus_money)) {
+            if ($contract_detail_id) {
                 //1.2 delete
                 $query = "delete from home_plus_money where contract_detail_id={$contract_detail_id}";
-
                 $database->database_query($query);
 
                 //2. Insert new 

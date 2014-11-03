@@ -15,12 +15,12 @@ class HOMEOrder {
         $room_arr[] = $room_id . "_" . $house_id . "_" . $broker_id;
         $change_house_array = serialize($room_arr);
         //check house empty
-        //$checkExist = $this->checkHouseEmpty($house_id, $room_id);
-        // if ($checkExist)
-        //      return array('error' => $checkExist);
-        //  else {
+        $checkExist = $this->checkHouseEmpty($house_id, $room_id);
+        if ($checkExist)
+            return array('error' => $checkExist);
+        else {
 
-        $query = "insert into home_order(
+            $query = "insert into home_order(
                 `order_name`,
                 `user_id`,
                 `house_id`,
@@ -51,8 +51,8 @@ class HOMEOrder {
                  0,
                 '{$change_house_array}'
                 )";
-        $result = $database->database_query($query);
-        $id = $database->database_insert_id();
+            $result = $database->database_query($query);
+            $id = $database->database_insert_id();
 //            if ($id) {
 //                $houseClass = new HOMEHouse();
 //                $room_detail_id = getRoomDetailId($room_id, $house_id);
@@ -60,8 +60,8 @@ class HOMEOrder {
 //                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
 //                $database->database_query($query);
 //            }
-        return array('id' => $id);
-        // }
+            return array('id' => $id);
+        }
     }
 
     function checkHouseEmpty($house_id, $room_id) {
@@ -123,12 +123,12 @@ class HOMEOrder {
             $query.=" where order_name like '%{$search}%'";
 
         $query.=" limit $offset,$length";
-       // echo $query;
-        
+        // echo $query;
+
         $result = $database->database_query($query);
         $order_arr = array();
         while ($row = $database->database_fetch_assoc($result)) {
-            
+
             $order['id'] = $row['id'];
             $order['order_name'] = $row['order_name'];
             $order['user_id'] = $row['user_id'];
@@ -146,9 +146,9 @@ class HOMEOrder {
             $order['broker_id'] = $row['broker_id'];
             $order['change'] = $row['change'];
             $order['change_house_array'] = $row['change_house_array'];
-            $order_arr[] = array_merge($row,$order);
+            $order_arr[] = array_merge($row, $order);
         }
-        
+
         return $order_arr;
     }
 
@@ -384,6 +384,16 @@ class HOMEOrder {
             // $plus_money[]=$money;
         }
         return $plus_money;
+    }
+
+    function getContractDetailId($contract_id) {
+        global $database;
+        $query = "select id from home_contract_detail where  contract_id='{$contract_id}' ";
+
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
+        $contract_detail_id = $row['id'];
+        return $contract_detail_id;
     }
 
     function getPartnerId($contract_detail_id) {

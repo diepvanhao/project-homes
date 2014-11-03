@@ -368,3 +368,16 @@ CHANGE  `log_date_appointment_to`  `log_date_appointment_to` INT( 11 ) UNSIGNED 
 ALTER TABLE  `home_contract_detail` CHANGE  `contract_signature_day`  `contract_signature_day` INT( 11 ) UNSIGNED NULL ,
 CHANGE  `contract_application_date`  `contract_application_date` INT( 11 ) UNSIGNED NULL ,
 CHANGE  `contract_payment_date_to`  `contract_payment_date_to` INT( 11 ) UNSIGNED NULL ;
+
+/*3/11 Hao*/
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `room_administrative_expense` VARCHAR(128) NULL AFTER `room_rented`;
+
+ALTER TABLE `home_contract_detail`   
+  CHANGE `contract_handover_day` `contract_handover_day` INT(11) NULL,
+  CHANGE `contract_date_create` `contract_date_create` INT(11) NULL,
+  CHANGE `contract_date_update` `contract_date_update` INT(11) NULL,
+  CHANGE `contract_period_from` `contract_period_from` INT(11) NULL,
+  CHANGE `contract_period_to` `contract_period_to` INT(11) NULL,
+  CHANGE `contract_payment_date_from` `contract_payment_date_from` INT(11) NULL;
+

@@ -7,6 +7,7 @@
  */
 
 include "header.php";
+include_once 'include/class_ajax.php';
 $page = "edit_order";
 $error = null;
 $result = FALSE;
@@ -538,6 +539,13 @@ if (isset($_POST['contract_key_money'])) {
 } else {
     $contract_key_money = "";
 }
+if (isset($_POST['contract_key_money_unit'])) {
+    $contract_key_money_unit = $_POST['contract_key_money_unit'];
+} elseif (isset($_GET['contract_key_money_unit'])) {
+    $contract_key_money_unit = $_GET['contract_key_money_unit'];
+} else {
+    $contract_key_money_unit = "";
+}
 if (isset($_POST['contract_condition'])) {
     $contract_condition = $_POST['contract_condition'];
 } elseif (isset($_GET['contract_condition'])) {
@@ -615,12 +623,26 @@ if (isset($_POST['contract_deposit_1'])) {
 } else {
     $contract_deposit_1 = "";
 }
+if (isset($_POST['contract_deposit1_money_unit'])) {
+    $contract_deposit1_money_unit = $_POST['contract_deposit1_money_unit'];
+} elseif (isset($_GET['contract_deposit1_money_unit'])) {
+    $contract_deposit1_money_unit = $_GET['contract_deposit1_money_unit'];
+} else {
+    $contract_deposit1_money_unit = "";
+}
 if (isset($_POST['contract_deposit_2'])) {
     $contract_deposit_2 = $_POST['contract_deposit_2'];
 } elseif (isset($_GET['contract_deposit_2'])) {
     $contract_deposit_2 = $_GET['contract_deposit_2'];
 } else {
     $contract_deposit_2 = "";
+}
+if (isset($_POST['contract_deposit2_money_unit'])) {
+    $contract_deposit2_money_unit = $_POST['contract_deposit2_money_unit'];
+} elseif (isset($_GET['contract_deposit2_money_unit'])) {
+    $contract_deposit2_money_unit = $_GET['contract_deposit2_money_unit'];
+} else {
+    $contract_deposit2_money_unit = "";
 }
 if (isset($_POST['contract_cancel'])) {
     $contract_cancel = $_POST['contract_cancel'];
@@ -694,12 +716,26 @@ if (isset($_POST['contract_broker_fee'])) {
 } else {
     $contract_broker_fee = "";
 }
+if (isset($_POST['contract_broker_fee_unit'])) {
+    $contract_broker_fee_unit = $_POST['contract_broker_fee_unit'];
+} elseif (isset($_GET['contract_broker_fee_unit'])) {
+    $contract_broker_fee_unit = $_GET['contract_broker_fee_unit'];
+} else {
+    $contract_broker_fee_unit = "";
+}
 if (isset($_POST['contract_ads_fee'])) {
     $contract_ads_fee = $_POST['contract_ads_fee'];
 } elseif (isset($_GET['contract_ads_fee'])) {
     $contract_ads_fee = $_GET['contract_ads_fee'];
 } else {
     $contract_ads_fee = "";
+}
+if (isset($_POST['contract_ads_fee_unit'])) {
+    $contract_ads_fee_unit = $_POST['contract_ads_fee_unit'];
+} elseif (isset($_GET['contract_ads_fee_unit'])) {
+    $contract_ads_fee_unit = $_GET['contract_ads_fee_unit'];
+} else {
+    $contract_ads_fee_unit = "";
 }
 if (isset($_POST['contract_transaction_finish'])) {
     $contract_transaction_finish = $_POST['contract_transaction_finish'];
@@ -736,6 +772,28 @@ if (isset($_POST['room_rented'])) {
     $room_rented = $_GET['room_rented'];
 } else {
     $room_rented = "";
+}
+if (isset($_POST['room_administrative_expense'])) {
+    $room_administrative_expense = $_POST['room_administrative_expense'];
+} elseif (isset($_GET['room_administrative_expense'])) {
+    $room_administrative_expense = $_GET['room_administrative_expense'];
+} else {
+    $room_ad_ex = 0;
+    if (!empty($room_id) && !empty($house_id) && !empty($broker_id)) {
+        include "include/class_detail.php";
+        $detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
+        if (!empty($detail) && is_array($detail)) {
+            $room_ad_ex = rtrim($detail['room_administrative_expense'], '円');
+        }
+    }
+    $room_administrative_expense = $room_ad_ex;
+}
+if (isset($_POST['contract_total'])) {
+    $contract_total = $_POST['contract_total'];
+} elseif (isset($_GET['contract_total'])) {
+    $contract_total = $_GET['contract_total'];
+} else {
+    $contract_total = "";
 }
 //for edit room
 if (isset($_POST['broker_id'])) {
@@ -818,8 +876,8 @@ for ($i = 0; $i < count($customers); $i++) {
         $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
         $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
         $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
-        $client_address = $house_address_serialize['client_address'];
-        $customers[$i]['client_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $client_address;
+        $house_address = $house_address_serialize['client_address'];
+        $customers[$i]['client_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $house_address;
     } else {
         $customers[$i]['client_address'] = $customers[$i]['client_address'];
     }
@@ -864,257 +922,314 @@ if (!empty($_POST['export'])) {
 //Store client's info
 $order = new HOMEOrder();
 if (isset($_POST['save'])) {
+    //init ajax
+    $ajax = new ajax();
+    $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
+    if ($result) {
+        include 'include/class_mail.php';
+        $report = new Mail();
+        $report->createOrder($order_id);
+        if ($result['id'])
+            $client_id = $result['id'];
+        else
+            $error[] = "アップデートが失敗する";
+//                $exist = $result['exist'];
+//                if ($exist)
+//                    $error[] = "";
+//                else
+//                    $error[] = "";
+        $client_arr = $result['client_arr'];
 
-    if (isset($_POST['task'])) {
-        $task = $_POST['task'];
-    } elseif (isset($_GET['task'])) {
-        $task = $_GET['task'];
-    } else {
-        $task = "";
-    }
-    if ($task == 'basic') {
-        $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
-        if ($result) {
-
-            if ($result['id'])
-                $client_id = $result['id'];
-            else
-                $error[] = "アップデートが失敗する";
-//            $exist = $result['exist'];
-//            if ($exist)
-//                $error[] = "";
-//            else
-//                $error[] = "";
-            $client_arr = $result['client_arr'];
-
-            if (!empty($client_arr)) {
-                $client_name = $client_arr['client_name'];
-                $client_read_way = $client_arr['client_read_way'];
-                $client_birthday = $client_arr['client_birthday'];
-                $client_email = $client_arr['client_email'];
-                $client_phone = $client_arr['client_phone'];
-                $client_fax = $client_arr['client_fax'];
-                $gender = $client_arr['client_gender'];
-                if ($house->isSerialized($client_arr['client_address'])) {
-                    $house_address_serialize = unserialize($client_arr['client_address']);
-                    $city_id = $house_address_serialize['city_id'];
-                    $district_id = $house_address_serialize['district_id'];
-                    $street_id = $house_address_serialize['street_id'];
-                    $ward_id = $house_address_serialize['ward_id'];
-                    $client_address = $house_address_serialize['client_address'];
-                } else {
-                    $client_address = $client_arr['client_address'];
-                }
-                // $client_address = $client_arr['client_address'];
-                $client_occupation = $client_arr['client_occupation'];
-                $client_company = $client_arr['client_company'];
-                $client_income = $client_arr['client_income'];
-                $client_room_type = $client_arr['client_room_type'];
-                $client_room_type_number = $client_arr['client_room_type_number'];
-                $client_rent = $client_arr['client_rent'];
-                $client_reason_change = $client_arr['client_reason_change'];
-                $client_time_change = $client_arr['client_time_change'];
-                $client_resident_name = $client_arr['client_resident_name'];
-                $client_resident_phone = $client_arr['client_resident_phone'];
-
-                // if ($user->user_info['id'] == $client_arr['user_id']) {
-                //fetch introduce
-                if (1) {
-                    $result = $customer->getCustomerIntroduce($order_id, $client_id);
-
-                    if ($result) {
-                        $client_arr = $result['client_arr'];
-                        $introduce_house_id = $client_arr['introduce_house_id'];
-                        $introduce_room_id = $client_arr['introduce_room_id'];
-                        $introduce_house_content = $client_arr['introduce_house_content'];
-                    }
-
-                    //fetch aspirations,contract and history
-                    $result = $customer->getCustomersOrder($order_id, $client_id);
-                    if ($result) {
-                        $client_arr = $result['client_arr'];
-                        if (!empty($client_arr)) {
-                            $log_time_call = $client_arr['log_time_call'];
-                            $log_time_call_date = explode(" ", $log_time_call);
-
-                            if (isset($log_time_call_date[1])) {
-                                $log_time_call = $log_time_call_date[1];
-                                $log_time_call_date = $log_time_call_date[0];
-                            } elseif (isset($log_time_call_date[0])) {
-                                $log_time_call_date = $log_time_call_date[0];
-                                $log_time_call = "";
-                            } else {
-                                $log_time_call = $log_time_call_date = "";
-                            }
-                            $log_time_arrive_company = $client_arr['log_time_arrive_company'];
-                            $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
-                            if (isset($log_time_arrive_company_date[1])) {
-                                $log_time_arrive_company = $log_time_arrive_company_date[1];
-                                $log_time_arrive_company_date = $log_time_arrive_company_date[0];
-                            } elseif (isset($log_time_arrive_company_date[0])) {
-                                $log_time_arrive_company_date = $log_time_arrive_company_date[0];
-                                $log_time_arrive_company = "";
-                            } else {
-                                $log_time_arrive_company = $log_time_arrive_company_date = "";
-                            }
-                            $log_time_mail = $client_arr['log_time_mail'];
-                            $log_time_mail_date = explode(" ", $log_time_mail);
-                            if (isset($log_time_mail_date[1])) {
-                                $log_time_mail = $log_time_mail_date[1];
-                                $log_time_mail_date = $log_time_mail_date[0];
-                            } elseif (isset($log_time_mail_date[0])) {
-                                $log_time_mail_date = $log_time_mail_date[0];
-                                $log_time_mail = "";
-                            } else {
-                                $log_time_mail = $log_time_mail_date = "";
-                            }
-
-                            $log_comment = $client_arr['log_comment'];
-                            $log_date_appointment_from = $client_arr['log_date_appointment_from'];
-                            $log_date_appointment_from_date = explode(" ", $log_date_appointment_from);
-
-                            if (isset($log_date_appointment_from_date[1])) {
-                                $log_date_appointment_from = $log_date_appointment_from_date[1];
-                                $log_date_appointment_from_date = $log_date_appointment_from_date[0];
-                            } elseif (isset($log_date_appointment_from_date[0])) {
-                                $log_date_appointment_from_date = $log_date_appointment_from_date[0];
-                                $log_date_appointment_from = "";
-                            } else {
-                                $log_date_appointment_from = $log_date_appointment_from_date = "";
-                            }
-                            $log_date_appointment_to = $client_arr['log_date_appointment_to'];
-                            $log_date_appointment_to_date = explode(" ", $log_date_appointment_to);
-
-                            if (isset($log_date_appointment_to_date[1])) {
-                                $log_date_appointment_to = $log_date_appointment_to_date[1];
-                                $log_date_appointment_to_date = $log_date_appointment_to_date[0];
-                            } elseif (isset($log_date_appointment_to_date[0])) {
-                                $log_date_appointment_to_date = $log_date_appointment_to_date[0];
-                                $log_date_appointment_to = "";
-                            } else {
-                                $log_date_appointment_to = $log_date_appointment_to_date = "";
-                            }
-                            $log_status_appointment = $client_arr['log_status_appointment'];
-                            $log_tel = $client_arr['log_tel'];
-                            $log_tel_status = $client_arr['log_tel_status'];
-                            $log_mail = $client_arr['log_mail'];
-                            $log_mail_status = $client_arr['log_mail_status'];
-                            $log_contact_head_office = $client_arr['log_contact_head_office'];
-                            $log_shop_sign = $client_arr['log_shop_sign'];
-                            $log_local_sign = $client_arr['log_local_sign'];
-                            $log_introduction = $client_arr['log_introduction'];
-                            $log_flyer = $client_arr['log_flyer'];
-                            $log_line = $client_arr['log_line'];
-                            //$log_revisit = $client_arr['log_revisit'];
-                            $log_revisit = unserialize($client_arr['log_revisit']);
-                            $log_revisit = count($log_revisit) > 0 ? $log_revisit[0] : "";
-                            $log_revisit_arr = base64_encode(implode(",", unserialize($client_arr['log_revisit'])));
-
-                            $source_id = $client_arr['source_id'];
-
-                            $aspirations_type_house = $client_arr['aspirations_type_house'];
-                            $aspirations_type_room = $client_arr['aspirations_type_room'];
-                            $aspirations_type_room_number = $client_arr['aspirations_type_room_number'];
-                            $aspirations_build_time = $client_arr['aspirations_build_time'];
-                            $aspirations_area = $client_arr['aspirations_area'];
-                            $aspirations_size = $client_arr['aspirations_size'];
-                            $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
-                            $aspirations_comment = $client_arr['aspirations_comment'];
-
-                            $contract_name = $client_arr['contract_name'];
-                            $contract_cost = $client_arr['contract_cost'];
-                            $contract_key_money = $client_arr['contract_key_money'];
-                            $contract_condition = $client_arr['contract_condition'];
-                            $contract_valuation = $client_arr['contract_valuation'];
-                            $contract_signature_day = $client_arr['contract_signature_day'];
-                            $contract_signature_day_date = explode(" ", $contract_signature_day);
-
-                            if (isset($contract_signature_day_date[1])) {
-                                $contract_signature_day = $contract_signature_day_date[1];
-                                $contract_signature_day_date = $contract_signature_day_date[0];
-                            } elseif (isset($contract_signature_day_date[0])) {
-                                $contract_signature_day_date = $contract_signature_day_date[0];
-                                $contract_signature_day = "";
-                            } else {
-                                $contract_signature_day = $contract_signature_day_date = "";
-                            }
-                            $contract_handover_day = $client_arr['contract_handover_day'];
-                            $contract_handover_day_date = explode(" ", $contract_handover_day);
-
-                            if (isset($contract_handover_day_date[1])) {
-                                $contract_handover_day = $contract_handover_day_date[1];
-                                $contract_handover_day_date = $contract_handover_day_date[0];
-                            } elseif (isset($contract_handover_day_date[0])) {
-                                $contract_handover_day_date = $contract_handover_day_date[0];
-                                $contract_handover_day = "";
-                            } else {
-                                $contract_handover_day = $contract_handover_day_date = "";
-                            }
-                            $contract_period_from = $client_arr['contract_period_from'];
-                            $contract_period_from_date = explode(" ", $contract_period_from);
-
-                            if (isset($contract_period_from_date[1])) {
-                                $contract_period_from = $contract_period_from_date[1];
-                                $contract_period_from_date = $contract_period_from_date[0];
-                            } elseif (isset($contract_period_from_date[0])) {
-                                $contract_period_from_date = $contract_period_from_date[0];
-                                $contract_period_from = "";
-                            } else {
-                                $contract_period_from = $contract_period_from_date = "";
-                            }
-                            $contract_period_to = $client_arr['contract_period_to'];
-                            $contract_period_to_date = explode(" ", $contract_period_to);
-
-                            if (isset($contract_period_to_date[1])) {
-                                $contract_period_to = $contract_period_to_date[1];
-                                $contract_period_to_date = $contract_period_to_date[0];
-                            } elseif (isset($contract_period_to_date[0])) {
-                                $contract_period_to_date = $contract_period_to_date[0];
-                                $contract_period_to = "";
-                            } else {
-                                $contract_period_to = $contract_period_to_date = "";
-                            }
-                            $contract_deposit_1 = $client_arr['contract_deposit_1'];
-                            $contract_deposit_2 = $client_arr['contract_deposit_2'];
-                            $contract_cancel = $client_arr['contract_cancel'];
-                            $contract_total = $client_arr['contract_total'];
-                            $contract_application = $client_arr['contract_application'];
-                            $contract_application_date = $client_arr['contract_application_date'];
-                            $contract_payment_date_from = $client_arr['contract_payment_date_from'];
-                            $contract_payment_date_to = $client_arr['contract_payment_date_to'];
-                            $contract_payment_status = $client_arr['contract_payment_status'];
-                            $contract_payment_report = $client_arr['contract_payment_report'];
-                            $contract_broker_fee = $client_arr['contract_broker_fee'];
-                            $contract_ads_fee = $client_arr['contract_ads_fee'];
-                            $contract_transaction_finish = $client_arr['contract_transaction_finish'];
-                            $contract_ambition = $client_arr['contract_ambition'];
-                            $money_payment = $client_arr['money_payment'];
-                            $room_rented = $client_arr['room_rented'];
-
-                            $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
-                            //get partner
-                            $partner = $order->getPartnerId($client_arr['contract_detail_id']);
-                            if (!empty($partner)) {
-                                $partner_id = $partner[0]['partner_id'];
-                                $partner_percent = $partner[0]['partner_percent'];
-                            }
-                        }
-                    }
-                }
+        if (!empty($client_arr)) {
+            $client_name = $client_arr['client_name'];
+            $client_read_way = $client_arr['client_read_way'];
+            $client_birthday = $client_arr['client_birthday'];
+            $client_email = $client_arr['client_email'];
+            $client_phone = $client_arr['client_phone'];
+            $client_fax = $client_arr['client_fax'];
+            $gender = $client_arr['client_gender'];
+            if ($house->isSerialized($client_arr['client_address'])) {
+                $house_address_serialize = unserialize($client_arr['client_address']);
+                $city_id = $house_address_serialize['city_id'];
+                $district_id = $house_address_serialize['district_id'];
+                $street_id = $house_address_serialize['street_id'];
+                $ward_id = $house_address_serialize['ward_id'];
+                $client_address = $house_address_serialize['client_address'];
+            } else {
+                $client_address = $client_arr['client_address'];
             }
+            // $client_address = $client_arr['client_address'];
+            $client_occupation = $client_arr['client_occupation'];
+            $client_company = $client_arr['client_company'];
+            $client_income = $client_arr['client_income'];
+            $client_room_type = $client_arr['client_room_type'];
+            $client_room_type_number = $client_arr['client_room_type_number'];
+            $client_rent = $client_arr['client_rent'];
+            $client_reason_change = $client_arr['client_reason_change'];
+            $client_time_change = $client_arr['client_time_change'];
+            $client_resident_name = $client_arr['client_resident_name'];
+            $client_resident_phone = $client_arr['client_resident_phone'];
         }
-    } elseif ($task == 'detail') {
-        $result = $customer->update_customer($gender, $client_address, $client_occupation, $client_company, $client_income, $client_room_type, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id);
-        if ($result)
-            $errorHouseExist = " success !!!";
-    } elseif ($task == 'history') {
-        
-    } elseif ($task == 'aspirations') {
-        
-    } elseif ($task == 'introduce') {
-        
-    } elseif ($task == 'contract') {
-        
+        //update detail           
+
+        $house_address_serialize['city_id'] = $city_id;
+        $house_address_serialize['district_id'] = $district_id;
+        $house_address_serialize['street_id'] = $street_id;
+        $house_address_serialize['ward_id'] = $ward_id;
+
+        $house_address_serialize['client_address'] = $client_address;
+
+        $house_address_serialize = serialize($house_address_serialize);
+        //get info search
+        $house_city_search = $house->getNameCity($city_id);
+        $house_district_search = $house->getNameDistrict($district_id);
+        $house_street_search = $house->getNameStreet($street_id);
+        $house_ward_search = $house->getNameWard($ward_id);
+        $house_address = $client_address;
+        $house_search = $house_city_search . $house_district_search . $house_street_search . $house_ward_search . $house_address;
+
+        $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id, $house_search);
+        //update hisotry
+
+        $log_time_call_temp = strtotime($log_time_call_date . " " . $log_time_call . ' ' . 'Europe/Berlin');
+        $log_time_arrive_company_temp = strtotime($log_time_arrive_company_date . " " . $log_time_arrive_company . ' ' . 'Europe/Berlin');
+        $log_time_mail_temp = strtotime($log_time_mail_date . " " . $log_time_mail . ' ' . 'Europe/Berlin');
+        $log_date_appointment_to_temp = strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to . ' ' . 'Europe/Berlin');
+        $log_date_appointment_from_temp = strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from . ' ' . 'Europe/Berlin');
+
+        $ajax->update_history_create($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
+        //update introduce            
+
+        $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
+        //update aspirations                        
+
+        $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
+        //update contract
+
+        if (isset($_POST['contract_label_money'])) {
+            $label = $_POST['contract_label_money'];
+        } elseif (isset($_GET['contract_label_money'])) {
+            $label = $_GET['contract_label_money'];
+        } else {
+            $label = "";
+        }
+        if (isset($_POST['contract_plus_money'])) {
+            $contract_plus_money = $_POST['contract_plus_money'];
+        } elseif (isset($_GET['contract_plus_money'])) {
+            $contract_plus_money = $_GET['contract_plus_money'];
+        } else {
+            $contract_plus_money = NULL;
+        }
+
+        if (isset($_POST['contract_plus_money_unit'])) {
+            $plus_money_unit = $_POST['contract_plus_money_unit'];
+        } elseif (isset($_GET['contract_plus_money_unit'])) {
+            $plus_money_unit = $_GET['contract_plus_money_unit'];
+        } else {
+            $plus_money_unit = NULL;
+        }
+
+        //update time
+        $contract_signature_day_temp = strtotime($contract_signature_day_date . " " . $contract_signature_day . ' ' . 'Europe/Berlin');
+        $contract_handover_day_temp = strtotime($contract_handover_day_date . " " . $contract_handover_day . ' ' . 'Europe/Berlin');
+        $contract_period_from_temp = strtotime($contract_period_from . ' ' . 'Europe/Berlin');
+        $contract_period_to_temp = strtotime($contract_period_to . ' ' . 'Europe/Berlin');
+        $contract_application_date_temp = strtotime($contract_application_date . ' ' . 'Europe/Berlin');
+        $contract_payment_date_from_temp = strtotime($contract_payment_date_from . ' ' . 'Europe/Berlin');
+        $contract_payment_date_to_temp = strtotime($contract_payment_date_to . ' ' . 'Europe/Berlin');
+
+        $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $client_id, $order_id);
+
+
+        //update plus money
+        if ($result_contract) {
+            //1. get contract detail id
+            $contract_id = checkExistContract($user->user_info['id'], $order_id);
+            $contract_detail_id = $order->getContractDetailId($contract_id);
+            //1. get plus money
+            $plus_money = $order->getPlusMoney($contract_detail_id);
+        }
+        // if ($user->user_info['id'] == $client_arr['user_id']) {
+        //fetch introduce
+        /* if (1) {
+          $result = $customer->getCustomerIntroduce($order_id, $client_id);
+
+          if ($result) {
+          $client_arr = $result['client_arr'];
+          $introduce_house_id = $client_arr['introduce_house_id'];
+          $introduce_room_id = $client_arr['introduce_room_id'];
+          $introduce_house_content = $client_arr['introduce_house_content'];
+          }
+
+          //fetch aspirations,contract and history
+          $result = $customer->getCustomersOrder($order_id, $client_id);
+          if ($result) {
+          $client_arr = $result['client_arr'];
+          if (!empty($client_arr)) {
+          $log_time_call = $client_arr['log_time_call'];
+          $log_time_call_date = explode(" ", $log_time_call);
+
+          if (isset($log_time_call_date[1])) {
+          $log_time_call = $log_time_call_date[1];
+          $log_time_call_date = $log_time_call_date[0];
+          } elseif (isset($log_time_call_date[0])) {
+          $log_time_call_date = $log_time_call_date[0];
+          $log_time_call = "";
+          } else {
+          $log_time_call = $log_time_call_date = "";
+          }
+          $log_time_arrive_company = $client_arr['log_time_arrive_company'];
+          $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
+          if (isset($log_time_arrive_company_date[1])) {
+          $log_time_arrive_company = $log_time_arrive_company_date[1];
+          $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+          } elseif (isset($log_time_arrive_company_date[0])) {
+          $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+          $log_time_arrive_company = "";
+          } else {
+          $log_time_arrive_company = $log_time_arrive_company_date = "";
+          }
+          $log_time_mail = $client_arr['log_time_mail'];
+          $log_time_mail_date = explode(" ", $log_time_mail);
+          if (isset($log_time_mail_date[1])) {
+          $log_time_mail = $log_time_mail_date[1];
+          $log_time_mail_date = $log_time_mail_date[0];
+          } elseif (isset($log_time_mail_date[0])) {
+          $log_time_mail_date = $log_time_mail_date[0];
+          $log_time_mail = "";
+          } else {
+          $log_time_mail = $log_time_mail_date = "";
+          }
+
+          $log_comment = $client_arr['log_comment'];
+          $log_date_appointment_from = $client_arr['log_date_appointment_from'];
+          $log_date_appointment_from_date = explode(" ", $log_date_appointment_from);
+
+          if (isset($log_date_appointment_from_date[1])) {
+          $log_date_appointment_from = $log_date_appointment_from_date[1];
+          $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+          } elseif (isset($log_date_appointment_from_date[0])) {
+          $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+          $log_date_appointment_from = "";
+          } else {
+          $log_date_appointment_from = $log_date_appointment_from_date = "";
+          }
+          $log_date_appointment_to = $client_arr['log_date_appointment_to'];
+          $log_date_appointment_to_date = explode(" ", $log_date_appointment_to);
+
+          if (isset($log_date_appointment_to_date[1])) {
+          $log_date_appointment_to = $log_date_appointment_to_date[1];
+          $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+          } elseif (isset($log_date_appointment_to_date[0])) {
+          $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+          $log_date_appointment_to = "";
+          } else {
+          $log_date_appointment_to = $log_date_appointment_to_date = "";
+          }
+          $log_status_appointment = $client_arr['log_status_appointment'];
+          $log_tel = $client_arr['log_tel'];
+          $log_tel_status = $client_arr['log_tel_status'];
+          $log_mail = $client_arr['log_mail'];
+          $log_mail_status = $client_arr['log_mail_status'];
+          $log_contact_head_office = $client_arr['log_contact_head_office'];
+          $log_shop_sign = $client_arr['log_shop_sign'];
+          $log_local_sign = $client_arr['log_local_sign'];
+          $log_introduction = $client_arr['log_introduction'];
+          $log_flyer = $client_arr['log_flyer'];
+          $log_line = $client_arr['log_line'];
+          $log_revisit = $client_arr['log_revisit'];
+          $source_id = $client_arr['source_id'];
+
+          $aspirations_type_house = $client_arr['aspirations_type_house'];
+          $aspirations_type_room = $client_arr['aspirations_type_room'];
+          $aspirations_type_room_number = $client_arr['aspirations_type_room_number'];
+          $aspirations_build_time = $client_arr['aspirations_build_time'];
+          $aspirations_area = $client_arr['aspirations_area'];
+          $aspirations_size = $client_arr['aspirations_size'];
+          $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
+          $aspirations_comment = $client_arr['aspirations_comment'];
+
+          $contract_name = $client_arr['contract_name'];
+          $contract_cost = $client_arr['contract_cost'];
+          $contract_key_money = $client_arr['contract_key_money'];
+          $contract_condition = $client_arr['contract_condition'];
+          $contract_valuation = $client_arr['contract_valuation'];
+          $contract_signature_day = $client_arr['contract_signature_day'];
+          $contract_signature_day_date = explode(" ", $contract_signature_day);
+
+          if (isset($contract_signature_day_date[1])) {
+          $contract_signature_day = $contract_signature_day_date[1];
+          $contract_signature_day_date = $contract_signature_day_date[0];
+          } elseif (isset($contract_signature_day_date[0])) {
+          $contract_signature_day_date = $contract_signature_day_date[0];
+          $contract_signature_day = "";
+          } else {
+          $contract_signature_day = $contract_signature_day_date = "";
+          }
+          $contract_handover_day = $client_arr['contract_handover_day'];
+          $contract_handover_day_date = explode(" ", $contract_handover_day);
+
+          if (isset($contract_handover_day_date[1])) {
+          $contract_handover_day = $contract_handover_day_date[1];
+          $contract_handover_day_date = $contract_handover_day_date[0];
+          } elseif (isset($contract_handover_day_date[0])) {
+          $contract_handover_day_date = $contract_handover_day_date[0];
+          $contract_handover_day = "";
+          } else {
+          $contract_handover_day = $contract_handover_day_date = "";
+          }
+          $contract_period_from = $client_arr['contract_period_from'];
+          $contract_period_from_date = explode(" ", $contract_period_from);
+
+          if (isset($contract_period_from_date[1])) {
+          $contract_period_from = $contract_period_from_date[1];
+          $contract_period_from_date = $contract_period_from_date[0];
+          } elseif (isset($contract_period_from_date[0])) {
+          $contract_period_from_date = $contract_period_from_date[0];
+          $contract_period_from = "";
+          } else {
+          $contract_period_from = $contract_period_from_date = "";
+          }
+          $contract_period_to = $client_arr['contract_period_to'];
+          $contract_period_to_date = explode(" ", $contract_period_to);
+
+          if (isset($contract_period_to_date[1])) {
+          $contract_period_to = $contract_period_to_date[1];
+          $contract_period_to_date = $contract_period_to_date[0];
+          } elseif (isset($contract_period_to_date[0])) {
+          $contract_period_to_date = $contract_period_to_date[0];
+          $contract_period_to = "";
+          } else {
+          $contract_period_to = $contract_period_to_date = "";
+          }
+          $contract_deposit_1 = $client_arr['contract_deposit_1'];
+          $contract_deposit_2 = $client_arr['contract_deposit_2'];
+          $contract_cancel = $client_arr['contract_cancel'];
+          $contract_total = $client_arr['contract_total'];
+          $contract_application = $client_arr['contract_application'];
+          $contract_application_date = $client_arr['contract_application_date'];
+          $contract_payment_date_from = $client_arr['contract_payment_date_from'];
+          $contract_payment_date_to = $client_arr['contract_payment_date_to'];
+          $contract_payment_status = $client_arr['contract_payment_status'];
+          $contract_payment_report = $client_arr['contract_payment_report'];
+          $contract_broker_fee = $client_arr['contract_broker_fee'];
+          $contract_ads_fee = $client_arr['contract_ads_fee'];
+          $contract_transaction_finish = $client_arr['contract_transaction_finish'];
+          $contract_ambition = $client_arr['contract_ambition'];
+          $money_payment = $client_arr['money_payment'];
+          $room_rented = $client_arr['room_rented'];
+
+          $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
+          //get partner
+          $partner = $order->getPartnerId($client_arr['contract_detail_id']);
+          if (!empty($partner)) {
+          $partner_id = $partner[0]['partner_id'];
+          $partner_percent = $partner[0]['partner_percent'];
+          }
+          }
+          }
+          } */
+        //  }
     }
 } elseif ($content[0] == 'edit') {
 //get information for order 
@@ -1154,65 +1269,65 @@ if (isset($_POST['save'])) {
         $client_resident_name = $client_arr['client_resident_name'];
         $client_resident_phone = $client_arr['client_resident_phone'];
 
-        $log_time_call = $client_arr['log_time_call'];
-        $log_time_call_date = explode(" ", $log_time_call);
+        $log_time_call = date('H:i', $client_arr['log_time_call']);
+        $log_time_call_date = date('Y/m/d', $client_arr['log_time_call']);
 
-        if (isset($log_time_call_date[1])) {
-            $log_time_call = $log_time_call_date[1];
-            $log_time_call_date = $log_time_call_date[0];
-        } elseif (isset($log_time_call_date[0])) {
-            $log_time_call_date = $log_time_call_date[0];
-            $log_time_call = "";
-        } else {
-            $log_time_call = $log_time_call_date = "";
-        }
-        $log_time_arrive_company = $client_arr['log_time_arrive_company'];
-        $log_time_arrive_company_date = explode(" ", $log_time_arrive_company);
-        if (isset($log_time_arrive_company_date[1])) {
-            $log_time_arrive_company = $log_time_arrive_company_date[1];
-            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
-        } elseif (isset($log_time_arrive_company_date[0])) {
-            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
-            $log_time_arrive_company = "";
-        } else {
-            $log_time_arrive_company = $log_time_arrive_company_date = "";
-        }
-        $log_time_mail = $client_arr['log_time_mail'];
-        $log_time_mail_date = explode(" ", $log_time_mail);
-        if (isset($log_time_mail_date[1])) {
-            $log_time_mail = $log_time_mail_date[1];
-            $log_time_mail_date = $log_time_mail_date[0];
-        } elseif (isset($log_time_mail_date[0])) {
-            $log_time_mail_date = $log_time_mail_date[0];
-            $log_time_mail = "";
-        } else {
-            $log_time_mail = $log_time_mail_date = "";
-        }
+//        if (isset($log_time_call_date[1])) {
+//            $log_time_call = $log_time_call_date[1];
+//            $log_time_call_date = $log_time_call_date[0];
+//        } elseif (isset($log_time_call_date[0])) {
+//            $log_time_call_date = $log_time_call_date[0];
+//            $log_time_call = "";
+//        } else {
+//            $log_time_call = $log_time_call_date = "";
+//        }
+        $log_time_arrive_company = date('H:i', $client_arr['log_time_arrive_company']);
+        $log_time_arrive_company_date = date('Y/m/d', $client_arr['log_time_arrive_company']);
+//        if (isset($log_time_arrive_company_date[1])) {
+//            $log_time_arrive_company = $log_time_arrive_company_date[1];
+//            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+//        } elseif (isset($log_time_arrive_company_date[0])) {
+//            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
+//            $log_time_arrive_company = "";
+//        } else {
+//            $log_time_arrive_company = $log_time_arrive_company_date = "";
+//        }
+        $log_time_mail = date('H:i', $client_arr['log_time_mail']);
+        $log_time_mail_date = date('Y/m/d', $client_arr['log_time_mail']);
+//        if (isset($log_time_mail_date[1])) {
+//            $log_time_mail = $log_time_mail_date[1];
+//            $log_time_mail_date = $log_time_mail_date[0];
+//        } elseif (isset($log_time_mail_date[0])) {
+//            $log_time_mail_date = $log_time_mail_date[0];
+//            $log_time_mail = "";
+//        } else {
+//            $log_time_mail = $log_time_mail_date = "";
+//        }
         $log_comment = $client_arr['log_comment'];
-        $log_date_appointment_from = $client_arr['log_date_appointment_from'];
-        $log_date_appointment_from_date = explode(" ", $log_date_appointment_from);
+        $log_date_appointment_from = date('H:i', $client_arr['log_date_appointment_from']);
+        $log_date_appointment_from_date = date('Y/m/d', $client_arr['log_date_appointment_from']);
 
-        if (isset($log_date_appointment_from_date[1])) {
-            $log_date_appointment_from = $log_date_appointment_from_date[1];
-            $log_date_appointment_from_date = $log_date_appointment_from_date[0];
-        } elseif (isset($log_date_appointment_from_date[0])) {
-            $log_date_appointment_from_date = $log_date_appointment_from_date[0];
-            $log_date_appointment_from = "";
-        } else {
-            $log_date_appointment_from = $log_date_appointment_from_date = "";
-        }
-        $log_date_appointment_to = $client_arr['log_date_appointment_to'];
-        $log_date_appointment_to_date = explode(" ", $log_date_appointment_to);
+//        if (isset($log_date_appointment_from_date[1])) {
+//            $log_date_appointment_from = $log_date_appointment_from_date[1];
+//            $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+//        } elseif (isset($log_date_appointment_from_date[0])) {
+//            $log_date_appointment_from_date = $log_date_appointment_from_date[0];
+//            $log_date_appointment_from = "";
+//        } else {
+//            $log_date_appointment_from = $log_date_appointment_from_date = "";
+//        }
+        $log_date_appointment_to = date('H:i', $client_arr['log_date_appointment_to']);
+        $log_date_appointment_to_date = date('Y/m/d', $client_arr['log_date_appointment_to']);
 
-        if (isset($log_date_appointment_to_date[1])) {
-            $log_date_appointment_to = $log_date_appointment_to_date[1];
-            $log_date_appointment_to_date = $log_date_appointment_to_date[0];
-        } elseif (isset($log_date_appointment_to_date[0])) {
-            $log_date_appointment_to_date = $log_date_appointment_to_date[0];
-            $log_date_appointment_to = "";
-        } else {
-            $log_date_appointment_to = $log_date_appointment_to_date = "";
-        }
+//        if (isset($log_date_appointment_to_date[1])) {
+//            $log_date_appointment_to = $log_date_appointment_to_date[1];
+//            $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+//        } elseif (isset($log_date_appointment_to_date[0])) {
+//            $log_date_appointment_to_date = $log_date_appointment_to_date[0];
+//            $log_date_appointment_to = "";
+//        } else {
+//            $log_date_appointment_to = $log_date_appointment_to_date = "";
+//        }
 
         $log_status_appointment = $client_arr['log_status_appointment'];
         $log_tel = $client_arr['log_tel'];
@@ -1257,62 +1372,60 @@ if (isset($_POST['save'])) {
         $contract_key_money = $client_arr['contract_key_money'];
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
-        $contract_signature_day = $client_arr['contract_signature_day'];
-        $contract_signature_day_date = explode(" ", $contract_signature_day);
+        $contract_signature_day = date('H:i', $client_arr['contract_signature_day']);
+        $contract_signature_day_date = date('Y/m/d', $client_arr['contract_signature_day']);
 
-        if (isset($contract_signature_day_date[1])) {
-            $contract_signature_day = $contract_signature_day_date[1];
-            $contract_signature_day_date = $contract_signature_day_date[0];
-        } elseif (isset($contract_signature_day_date[0])) {
-            $contract_signature_day_date = $contract_signature_day_date[0];
-            $contract_signature_day = "";
-        } else {
-            $contract_signature_day = $contract_signature_day_date = "";
-        }
-        $contract_handover_day = $client_arr['contract_handover_day'];
-        $contract_handover_day_date = explode(" ", $contract_handover_day);
+//        if (isset($contract_signature_day_date[1])) {
+//            $contract_signature_day = $contract_signature_day_date[1];
+//            $contract_signature_day_date = $contract_signature_day_date[0];
+//        } elseif (isset($contract_signature_day_date[0])) {
+//            $contract_signature_day_date = $contract_signature_day_date[0];
+//            $contract_signature_day = "";
+//        } else {
+//            $contract_signature_day = $contract_signature_day_date = "";
+//        }
+        $contract_handover_day = date('H:i', $client_arr['contract_handover_day']);
+        $contract_handover_day_date = date('Y/m/d', $client_arr['contract_handover_day']);
 
-        if (isset($contract_handover_day_date[1])) {
-            $contract_handover_day = $contract_handover_day_date[1];
-            $contract_handover_day_date = $contract_handover_day_date[0];
-        } elseif (isset($contract_handover_day_date[0])) {
-            $contract_handover_day_date = $contract_handover_day_date[0];
-            $contract_handover_day = "";
-        } else {
-            $contract_handover_day = $contract_handover_day_date = "";
-        }
-        $contract_period_from = $client_arr['contract_period_from'];
-        $contract_period_from_date = explode(" ", $contract_period_from);
-
-        if (isset($contract_period_from_date[1])) {
-            $contract_period_from = $contract_period_from_date[1];
-            $contract_period_from_date = $contract_period_from_date[0];
-        } elseif (isset($contract_period_from_date[0])) {
-            $contract_period_from_date = $contract_period_from_date[0];
-            $contract_period_from = "";
-        } else {
-            $contract_period_from = $contract_period_from_date = "";
-        }
-        $contract_period_to = $client_arr['contract_period_to'];
-        $contract_period_to_date = explode(" ", $contract_period_to);
-
-        if (isset($contract_period_to_date[1])) {
-            $contract_period_to = $contract_period_to_date[1];
-            $contract_period_to_date = $contract_period_to_date[0];
-        } elseif (isset($contract_period_to_date[0])) {
-            $contract_period_to_date = $contract_period_to_date[0];
-            $contract_period_to = "";
-        } else {
-            $contract_period_to = $contract_period_to_date = "";
-        }
+//        if (isset($contract_handover_day_date[1])) {
+//            $contract_handover_day = $contract_handover_day_date[1];
+//            $contract_handover_day_date = $contract_handover_day_date[0];
+//        } elseif (isset($contract_handover_day_date[0])) {
+//            $contract_handover_day_date = $contract_handover_day_date[0];
+//            $contract_handover_day = "";
+//        } else {
+//            $contract_handover_day = $contract_handover_day_date = "";
+//        }
+        $contract_period_from = date('Y/m/d', $client_arr['contract_period_from']);
+        //$contract_period_from_date = date('Y/m/d', $client_arr['contract_period_from']);
+//        if (isset($contract_period_from_date[1])) {
+//            $contract_period_from = $contract_period_from_date[1];
+//            $contract_period_from_date = $contract_period_from_date[0];
+//        } elseif (isset($contract_period_from_date[0])) {
+//            $contract_period_from_date = $contract_period_from_date[0];
+//            $contract_period_from = "";
+//        } else {
+//            $contract_period_from = $contract_period_from_date = "";
+//        }
+        $contract_period_to = date('Y/m/d', $client_arr['contract_period_to']);
+        //$contract_period_to_date = date('Y/m/d', $client_arr['contract_period_to']);
+//        if (isset($contract_period_to_date[1])) {
+//            $contract_period_to = $contract_period_to_date[1];
+//            $contract_period_to_date = $contract_period_to_date[0];
+//        } elseif (isset($contract_period_to_date[0])) {
+//            $contract_period_to_date = $contract_period_to_date[0];
+//            $contract_period_to = "";
+//        } else {
+//            $contract_period_to = $contract_period_to_date = "";
+//        }
         $contract_deposit_1 = $client_arr['contract_deposit_1'];
         $contract_deposit_2 = $client_arr['contract_deposit_2'];
         $contract_cancel = $client_arr['contract_cancel'];
         $contract_total = $client_arr['contract_total'];
         $contract_application = $client_arr['contract_application'];
-        $contract_application_date = $client_arr['contract_application_date'];
-        $contract_payment_date_from = $client_arr['contract_payment_date_from'];
-        $contract_payment_date_to = $client_arr['contract_payment_date_to'];
+        $contract_application_date = date('Y/m/d', $client_arr['contract_application_date']);
+        $contract_payment_date_from = date('Y/m/d', $client_arr['contract_payment_date_from']);
+        $contract_payment_date_to = date('Y/m/d', $client_arr['contract_payment_date_to']);
         $contract_payment_status = $client_arr['contract_payment_status'];
         $contract_payment_report = $client_arr['contract_payment_report'];
         $contract_broker_fee = $client_arr['contract_broker_fee'];
@@ -1341,14 +1454,7 @@ if (isset($_POST['save'])) {
     }
 }
 //get source
-//for tag edit room
-include "include/class_detail.php";
-$detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
-if (!empty($detail) && is_array($detail)) {
-    $smarty->assign('room_administrative_expense', rtrim($detail['room_administrative_expense'], '円'));
-} else {
-    $smarty->assign('room_administrative_expense', 0);
-}
+
 $broker = new HOMEBroker();
 $brokers = $broker->getAllBroker();
 $smarty->assign('order_name', $order_name);
@@ -1405,6 +1511,8 @@ $smarty->assign('contract_transaction_finish', $contract_transaction_finish);
 $smarty->assign('contract_ambition', $contract_ambition);
 $smarty->assign('money_payment', $money_payment);
 $smarty->assign('room_rented', $room_rented);
+$smarty->assign('room_administrative_expense', $room_administrative_expense);
+$smarty->assign('contract_total', $contract_total);
 
 $smarty->assign('introduce_house_id', $introduce_house_id);
 $smarty->assign('introduce_room_id', $introduce_room_id);

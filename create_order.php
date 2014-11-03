@@ -2,6 +2,7 @@
 
 include "header.php";
 include_once 'include/class_ajax.php';
+
 $page = "create_order";
 $error = null;
 $exist = "";
@@ -737,6 +738,13 @@ if ($step == 1) {
     } else {
         $contract_key_money = "";
     }
+    if (isset($_POST['contract_key_money_unit'])) {
+        $contract_key_money_unit = $_POST['contract_key_money_unit'];
+    } elseif (isset($_GET['contract_key_money_unit'])) {
+        $contract_key_money_unit = $_GET['contract_key_money_unit'];
+    } else {
+        $contract_key_money_unit = "";
+    }
     if (isset($_POST['contract_condition'])) {
         $contract_condition = $_POST['contract_condition'];
     } elseif (isset($_GET['contract_condition'])) {
@@ -807,6 +815,7 @@ if ($step == 1) {
     } else {
         $contract_period_to_date = "";
     }
+    
     if (isset($_POST['contract_deposit_1'])) {
         $contract_deposit_1 = $_POST['contract_deposit_1'];
     } elseif (isset($_GET['contract_deposit_1'])) {
@@ -814,12 +823,26 @@ if ($step == 1) {
     } else {
         $contract_deposit_1 = "";
     }
+    if (isset($_POST['contract_deposit1_money_unit'])) {
+        $contract_deposit1_money_unit = $_POST['contract_deposit1_money_unit'];
+    } elseif (isset($_GET['contract_deposit1_money_unit'])) {
+        $contract_deposit1_money_unit = $_GET['contract_deposit1_money_unit'];
+    } else {
+        $contract_deposit1_money_unit = "";
+    }
     if (isset($_POST['contract_deposit_2'])) {
         $contract_deposit_2 = $_POST['contract_deposit_2'];
     } elseif (isset($_GET['contract_deposit_2'])) {
         $contract_deposit_2 = $_GET['contract_deposit_2'];
     } else {
         $contract_deposit_2 = "";
+    }
+    if (isset($_POST['contract_deposit2_money_unit'])) {
+        $contract_deposit2_money_unit = $_POST['contract_deposit2_money_unit'];
+    } elseif (isset($_GET['contract_deposit2_money_unit'])) {
+        $contract_deposit2_money_unit = $_GET['contract_deposit2_money_unit'];
+    } else {
+        $contract_deposit2_money_unit = "";
     }
     if (isset($_POST['contract_cancel'])) {
         $contract_cancel = $_POST['contract_cancel'];
@@ -893,12 +916,26 @@ if ($step == 1) {
     } else {
         $contract_broker_fee = "";
     }
+    if (isset($_POST['contract_broker_fee_unit'])) {
+        $contract_broker_fee_unit = $_POST['contract_broker_fee_unit'];
+    } elseif (isset($_GET['contract_broker_fee_unit'])) {
+        $contract_broker_fee_unit = $_GET['contract_broker_fee_unit'];
+    } else {
+        $contract_broker_fee_unit = "";
+    }
     if (isset($_POST['contract_ads_fee'])) {
         $contract_ads_fee = $_POST['contract_ads_fee'];
     } elseif (isset($_GET['contract_ads_fee'])) {
         $contract_ads_fee = $_GET['contract_ads_fee'];
     } else {
         $contract_ads_fee = "";
+    }
+    if (isset($_POST['contract_ads_fee_unit'])) {
+        $contract_ads_fee_unit = $_POST['contract_ads_fee_unit'];
+    } elseif (isset($_GET['contract_ads_fee_unit'])) {
+        $contract_ads_fee_unit = $_GET['contract_ads_fee_unit'];
+    } else {
+        $contract_ads_fee_unit = "";
     }
     if (isset($_POST['contract_transaction_finish'])) {
         $contract_transaction_finish = $_POST['contract_transaction_finish'];
@@ -937,7 +974,28 @@ if ($step == 1) {
     } else {
         $room_rented = "";
     }
-
+    if (isset($_POST['room_administrative_expense'])) {
+        $room_administrative_expense = $_POST['room_administrative_expense'];
+    } elseif (isset($_GET['room_administrative_expense'])) {
+        $room_administrative_expense = $_GET['room_administrative_expense'];
+    } else {
+        $room_ad_ex = 0;
+        if (!empty($room_id) && !empty($house_id) && !empty($broker_id)) {
+            include "include/class_detail.php";
+            $detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
+            if (!empty($detail) && is_array($detail)) {
+                $room_ad_ex = rtrim($detail['room_administrative_expense'], '円');
+            }
+        }
+        $room_administrative_expense=$room_ad_ex;
+    }
+    if (isset($_POST['contract_total'])) {
+        $contract_total = $_POST['contract_total'];
+    } elseif (isset($_GET['contract_total'])) {
+        $contract_total = $_GET['contract_total'];
+    } else {
+        $contract_total = "";
+    }
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
     $customer = new HOMECustomer();
@@ -1076,19 +1134,68 @@ if ($step == 1) {
             $house_address = $client_address;
             $house_search = $house_city_search . $house_district_search . $house_street_search . $house_ward_search . $house_address;
 
-            $result = $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id, $house_search);
+            $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id, $house_search);
             //update hisotry
-                                    
-            $log_time_call = $log_time_call_date . " " . $log_time_call;
-            $log_time_arrive_company = $log_time_arrive_company_date . " " . $log_time_arrive_company;
-            $log_time_mail = $log_time_mail_date . " " . $log_time_mail;
-            $log_date_appointment_to = $log_date_appointment_to_date . " " . $log_date_appointment_to;
-            $log_date_appointment_from = $log_date_appointment_from_date . " " . $log_date_appointment_from;
 
-            $result = $ajax->update_history_create($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
-            //update introduce
-            //update aspirations
+            $log_time_call_temp = strtotime($log_time_call_date . " " . $log_time_call.' '.'Europe/Berlin');
+            $log_time_arrive_company_temp = strtotime($log_time_arrive_company_date . " " . $log_time_arrive_company.' '.'Europe/Berlin');
+            $log_time_mail_temp = strtotime($log_time_mail_date . " " . $log_time_mail.' '.'Europe/Berlin');
+            $log_date_appointment_to_temp = strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to.' '.'Europe/Berlin');
+            $log_date_appointment_from_temp = strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from.' '.'Europe/Berlin');
+
+            $ajax->update_history_create($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
+            //update introduce            
+
+            $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
+            //update aspirations                        
+
+            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
             //update contract
+
+            if (isset($_POST['contract_label_money'])) {
+                $label = $_POST['contract_label_money'];
+            } elseif (isset($_GET['contract_label_money'])) {
+                $label = $_GET['contract_label_money'];
+            } else {
+                $label = "";
+            }
+            if (isset($_POST['contract_plus_money'])) {
+                $contract_plus_money = $_POST['contract_plus_money'];
+            } elseif (isset($_GET['contract_plus_money'])) {
+                $contract_plus_money = $_GET['contract_plus_money'];
+            } else {
+                $contract_plus_money = NULL;
+            }
+
+            if (isset($_POST['contract_plus_money_unit'])) {
+                $plus_money_unit = $_POST['contract_plus_money_unit'];
+            } elseif (isset($_GET['contract_plus_money_unit'])) {
+                $plus_money_unit = $_GET['contract_plus_money_unit'];
+            } else {
+                $plus_money_unit = NULL;
+            }
+
+            //update time
+            
+            $contract_signature_day_temp = strtotime($contract_signature_day_date . " " . $contract_signature_day.' '.'Europe/Berlin');
+            $contract_handover_day_temp = strtotime($contract_handover_day_date . " " . $contract_handover_day.' '.'Europe/Berlin');
+            $contract_period_from_temp = strtotime($contract_period_from.' '.'Europe/Berlin');
+            $contract_period_to_temp = strtotime($contract_period_to.' '.'Europe/Berlin');
+            $contract_application_date_temp = strtotime($contract_application_date.' '.'Europe/Berlin');
+            $contract_payment_date_from_temp = strtotime($contract_payment_date_from.' '.'Europe/Berlin');
+            $contract_payment_date_to_temp = strtotime($contract_payment_date_to.' '.'Europe/Berlin');
+                     
+            $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $client_id, $order_id);
+
+
+            //update plus money
+            if ($result_contract) {
+                //1. get contract detail id
+                $contract_id = checkExistContract($user->user_info['id'], $order_id);
+                $contract_detail_id = $order->getContractDetailId($contract_id);
+                //1. get plus money
+                $plus_money = $order->getPlusMoney($contract_detail_id);
+            }
             // if ($user->user_info['id'] == $client_arr['user_id']) {
             //fetch introduce
             /* if (1) {
@@ -1316,6 +1423,8 @@ if ($step == 1) {
     $smarty->assign('contract_ambition', $contract_ambition);
     $smarty->assign('money_payment', $money_payment);
     $smarty->assign('room_rented', $room_rented);
+    $smarty->assign('room_administrative_expense', $room_administrative_expense);
+    $smarty->assign('contract_total', $contract_total);
 
     $smarty->assign('introduce_house_id', $introduce_house_id);
     $smarty->assign('introduce_room_id', $introduce_room_id);
@@ -1403,14 +1512,6 @@ $smarty->assign('cities', $cities);
 $smarty->assign('broker_id', $broker_id);
 $smarty->assign('step', $step);
 $smarty->assign('error', $error);
-$room_ad_ex = 0;
-if (!empty($room_id) && !empty($house_id) && !empty($broker_id)) {
-    include "include/class_detail.php";
-    $detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
-    if (!empty($detail) && is_array($detail)) {
-        $room_ad_ex = rtrim($detail['room_administrative_expense'], '円');
-    }
-}
-$smarty->assign('room_administrative_expense', $room_ad_ex);
+
 
 include "footer.php";
