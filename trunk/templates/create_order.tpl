@@ -112,19 +112,21 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-                        $('#error_room').html("入居中です。別の部屋を選択してください。");
+                       /* $('#error_room').html("入居中です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+                        $("#submit").css('color', 'grey');*/
                         $('#order_rent_cost').val(json.room_rent);
                     } else if (json.status == 2) {
-                        $('#error_room').html("未完成です。別の部屋を選択してください。");
+                        /*$('#error_room').html("未完成です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+                        $("#submit").css('color', 'grey');*/
+                        $('#order_rent_cost').val(json.room_rent);
                     } else {
                         if (json.flag == 'false') {
                             $('#error_room').html("この部屋は、選択した管理会社の管理ではありません。");
                             $('#submit').attr('disabled', true);
                             $("#submit").css('color', 'grey');
+                            
                         } else {
                             $('#order_rent_cost').val(json.room_rent);
                             $('#submit').attr('disabled', false);
