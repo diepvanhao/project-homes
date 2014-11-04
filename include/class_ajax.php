@@ -1100,12 +1100,14 @@ class ajax {
                 if (trim($contract['contract_signature_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "契約日";
-                    $start = explode(" ", $contract['contract_signature_day']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
+                    $event['time']=date('H:i',$contract['contract_signature_day']);
+                    $event['start'] = date('Y/m/d',$contract['contract_signature_day']);
+//                    $start = explode(" ", $contract['contract_signature_day']);
+//                    if (isset($start[1]))
+//                        $event['time'] = $start[1];
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = $start[0];
                     $event['end'] = "";
                     //$event['time']="";
                     //fetch agent, user info.      
@@ -1134,12 +1136,14 @@ class ajax {
                 if (trim($contract['contract_handover_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "鍵渡し日";
-                    $start = explode(" ", $contract['contract_handover_day']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
+                    $event['time']=date('H:i',$contract['contract_handover_day']);
+                    $event['start'] = date('Y/m/d',$contract['contract_handover_day']);
+//                    $start = explode(" ", $contract['contract_handover_day']);
+//                    if (isset($start[1]))
+//                        $event['time'] = $start[1];
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = $start[0];
                     $event['end'] = "";
 
                     //fetch agent, user info.      
@@ -1167,17 +1171,19 @@ class ajax {
                 if (trim($contract['contract_payment_date_from'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "入金日";
-                    $start = explode(" ", $contract['contract_payment_date_from']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
-
-                    $end = explode(" ", $contract['contract_payment_date_to']);
-                    if (isset($end[0]))
-                        $event['end'] = $end[0];
-                    else
+                    $event['time']="";
+                    $event['start'] = date('Y/m/d',$contract['contract_payment_date_from']);
+//                    $start = explode(" ", $contract['contract_payment_date_from']);
+//                    if (isset($start[1]))
+//                        $event['time'] = $start[1];
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = $start[0];
+//
+//                    $end = explode(" ", $contract['contract_payment_date_to']);
+//                    if (isset($end[0]))
+//                        $event['end'] = $end[0];
+//                    else
                         $event['end'] = "";
                     //fetch agent, user info.      
                     $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
@@ -1204,18 +1210,20 @@ class ajax {
                 if (trim($contract['contract_period_from'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "期間";
-                    $start = explode(" ", $contract['contract_period_from']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
-
-                    $end = explode(" ", $contract['contract_period_to']);
-                    if (isset($end[0]))
-                        $event['end'] = $end[0];
-                    else
-                        $event['end'] = "";
+                    $event['time']="";
+                    $event['start'] = date('Y/m/d',$contract['contract_period_from']);
+//                    $start = explode(" ", $contract['contract_period_from']);
+//                    if (isset($start[1]))
+//                        $event['time'] = $start[1];
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = $start[0];
+                    $event['end'] = date('Y/m/d',$contract['contract_period_to']);
+//                    $end = explode(" ", $contract['contract_period_to']);
+//                    if (isset($end[0]))
+//                        $event['end'] = $end[0];
+//                    else
+//                        $event['end'] = "";
                     //fetch agent, user info.      
                     $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                     if ($agent_info)
@@ -1296,19 +1304,21 @@ class ajax {
             if (trim($history['log_date_appointment_from'])) {
                 $event['id'] = $row['id'];
                 $event['title'] = "来店日";
-
-                $start = explode(" ", $history['log_date_appointment_from']);
-                if (isset($start[1]))
-                    $event['time'] = $start[1];
-                else
-                    $event['time'] = "";
-                $event['start'] = $start[0];
-
-                $end = explode(" ", $history['log_date_appointment_to']);
-                if (isset($end[0]))
-                    $event['end'] = $end[0];
-                else
-                    $event['end'] = "";
+                $event['time']=date('H:i',$history['log_date_appointment_from']);
+                $event['start'] = date('Y/m/d',$history['log_date_appointment_from']);
+                $event['end'] = "";
+//                $start = explode(" ", $history['log_date_appointment_from']);
+//                if (isset($start[1]))
+//                    $event['time'] = $start[1];
+//                else
+//                    $event['time'] = "";
+//                $event['start'] = $start[0];
+//
+//                $end = explode(" ", $history['log_date_appointment_to']);
+//                if (isset($end[0]))
+//                    $event['end'] = $end[0];
+//                else
+//                    $event['end'] = "";
                 //fetch agent, user info.      
                 $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                 if ($agent_info)
@@ -1434,15 +1444,16 @@ class ajax {
             if ($result) {
                 //set for rent for room edited
                 //fetch room_detail_id
-                $room_detail_id = getRoomDetailIdEdit($room_id, $house_id, $broker_id);
-                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
-                $database->database_query($query);
-
-                //update empty status for room
-                //fetch room_detail_id
-                $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
-                $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
-                return $database->database_query($query);
+//                $room_detail_id = getRoomDetailIdEdit($room_id, $house_id, $broker_id);
+//                $query = "update home_room_detail set room_status=1 where id='{$room_detail_id}'";
+//                $database->database_query($query);
+//
+//                //update empty status for room
+//                //fetch room_detail_id
+//                $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
+//                $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
+               // return $database->database_query($query);
+                return $result;
             } else {
                 return false;
             }

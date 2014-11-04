@@ -1194,10 +1194,10 @@
                             <div id="error_broker" class="error"></div>
                         </td>
                     </tr> 
-                    <tr> 
+                    {*<tr> 
                         {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
                         <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
-                    </tr>            
+                    </tr>   *}         
                     <!-- <tr>
                          <td class="form1">
                              担当
@@ -1235,9 +1235,9 @@
                         <td class='form1'>物件備考: </td>
                         <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
                     </tr>
-                    <tr>            
+                   {* <tr>            
                         <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
-                    </tr>
+                    </tr>*}
 
                     <tr>            
                         <td class='form1'>部屋選択: </td>
@@ -1247,9 +1247,9 @@
                             </select><div id="error_room" class="error"></div>
                         </td>
                     </tr>
-                    <tr>            
+                   {* <tr>            
                         <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
-                    </tr>
+                    </tr>*}
                     <!--order part-->
                     <tr>            
                         <td class='form1'>オーダーID: </td>

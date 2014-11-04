@@ -86,18 +86,18 @@
                                     {else}
                                         -
                                     {/if}
-                                    <br>
-                                    {($order.contract_application_date)?$order.contract_application_date:'-'}
-                                    <br>
+                                    
+                                    {($order.contract_application_date)?date('Y/m/d',$order.contract_application_date):'-'}
+                                    
                                     {($order.money_payment)?$order.money_payment:'-'}
-                                    <br>
-                                    {($order.contract_signature_day)?$order.contract_signature_day:'-'}
-                                    <br>
-                                    {($order.contract_payment_date_from)?$order.contract_payment_date_from:'-'}
-                                    <br>
-                                    {($order.contract_payment_date_to)?$order.contract_payment_date_to:'-'}
-                                    <br>
-                                    {($order.contract_handover_day)?$order.contract_handover_day:'-'}
+                                    
+                                    {($order.contract_signature_day)?date('Y/m/d H:i',$order.contract_signature_day):'-'}
+                                    
+                                    {($order.contract_payment_date_from)?date('Y/m/d',$order.contract_payment_date_from):'-'}
+                                    
+                                    {($order.contract_payment_date_to)?date('Y/m/d',$order.contract_payment_date_to):'-'}
+                                    
+                                    {($order.contract_handover_day)?date('Y/m/d H:i',$order.contract_handover_day):'-'}
                                 {/if}
                             </td>
                             <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.house_id},{$order.broker_id},{$order.room_id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>

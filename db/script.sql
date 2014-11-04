@@ -381,3 +381,5 @@ ALTER TABLE `home_contract_detail`
   CHANGE `contract_period_to` `contract_period_to` INT(11) NULL,
   CHANGE `contract_payment_date_from` `contract_payment_date_from` INT(11) NULL;
 
+ALTER TABLE `home_history_log`   
+  CHANGE `log_revisit` `log_revisit` VARCHAR(128) NULL;

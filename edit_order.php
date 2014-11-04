@@ -406,6 +406,13 @@ if (isset($_POST['log_revisit'])) {
 } else {
     $log_revisit = "";
 }
+if (isset($_POST['log_revisit_bk'])) {
+    $log_revisit_bk = $_POST['log_revisit_bk'];
+} elseif (isset($_GET['log_revisit_bk'])) {
+    $log_revisit_bk = $_GET['log_revisit_bk'];
+} else {
+    $log_revisit_bk = "";
+}
 if (isset($_POST['log_revisit_arr'])) {
     $log_revisit_arr = $_POST['log_revisit_arr'];
 } elseif (isset($_GET['log_revisit_arr'])) {
@@ -997,7 +1004,7 @@ if (isset($_POST['save'])) {
         $log_date_appointment_to_temp = strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to . ' ' . 'Europe/Berlin');
         $log_date_appointment_from_temp = strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from . ' ' . 'Europe/Berlin');
 
-        $ajax->update_history_create($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
+        $ajax->update_history($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_revisit_arr, $log_revisit_bk, $source_id, $log_status_appointment, $client_id, $order_id);
         //update introduce            
 
         $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);

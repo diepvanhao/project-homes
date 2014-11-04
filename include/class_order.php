@@ -441,69 +441,69 @@ class HOMEOrder {
                 if ($schedule['contract_signature_day']) {
                     $event['id'] = $schedule['id'];
                     $event['title'] = "Signature date";
-                    $temp = explode(" ", $schedule['contract_signature_day']);
-                    if (isset($temp[1])) {
-                        $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
-                        $start.='T' . date('H:i:s', strtotime($schedule['contract_signature_day']));
-                    } else {
-                        $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
-                    }
+                    //$temp = explode(" ", $schedule['contract_signature_day']);
+                    //if (isset($temp[1])) {
+                        $start = date('Y-m-d', $schedule['contract_signature_day']);
+                        $start.='T' . date('H:i:s', $schedule['contract_signature_day']);
+                   // } else {
+                    //    $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
+                    //}
                     $event['start'] = $start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_handover_day']) {
                     $event['id'] = $schedule['id'];
                     $event['title'] = "Handover day";
-                    $temp = explode(" ", $schedule['contract_handover_day']);
-                    if (isset($temp[1])) {
-                        $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
-                        $start.='T' . date('H:i:s', strtotime($schedule['contract_handover_day']));
-                    } else {
-                        $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
-                    }
+                    //$temp = explode(" ", $schedule['contract_handover_day']);
+                    //if (isset($temp[1])) {
+                        $start = date('Y-m-d', $schedule['contract_handover_day']);
+                        $start.='T' . date('H:i:s', $schedule['contract_handover_day']);
+                   // } else {
+                    //    $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
+                   // }
                     $event['start'] = $start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_payment_date_from']) {
                     $event['id'] = $schedule['id'];
                     $event['title'] = "Payment day";
-                    $temp = explode(" ", $schedule['contract_payment_date_from']);
-                    if (isset($temp[1])) {
-                        $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
-                        $start.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_from']));
-                    } else {
-                        $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
-                    }
+                   // $temp = explode(" ", $schedule['contract_payment_date_from']);
+                   // if (isset($temp[1])) {
+                       // $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
+                       // $start.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_from']));
+                  //  } else {
+                        $start = date('Y-m-d', $schedule['contract_payment_date_from']);
+                   // }
                     $event['start'] = $start;
 
-                    $temp = explode(" ", $schedule['contract_payment_date_to']);
-                    if (isset($temp[1])) {
-                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
-                        $end.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_to']));
-                    } else {
-                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
-                    }
-                    $event['end'] = $end;
+//                    $temp = explode(" ", $schedule['contract_payment_date_to']);
+//                    if (isset($temp[1])) {
+//                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
+//                        $end.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_to']));
+//                    } else {
+//                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
+//                    }
+//                    $event['end'] = $end;
                     $events[] = $event;
                 }
                 if ($schedule['contract_period_from']) {
                     $event['id'] = $schedule['id'];
                     $event['title'] = "Period time";
-                    $temp = explode(" ", $schedule['contract_period_from']);
-                    if (isset($temp[1])) {
-                        $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
-                        $start.='T' . date('H:i:s', strtotime($schedule['contract_period_from']));
-                    } else {
-                        $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
-                    }
+                    //$temp = explode(" ", $schedule['contract_period_from']);
+                    //if (isset($temp[1])) {
+                     //   $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
+                    //    $start.='T' . date('H:i:s', strtotime($schedule['contract_period_from']));
+                    //} else {
+                        $start = date('Y-m-d', $schedule['contract_period_from']);
+                   // }
                     $event['start'] = $start;
-                    $temp = explode(" ", $schedule['contract_period_to']);
-                    if (isset($temp[1])) {
-                        $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
-                        $end.='T' . date('H:i:s', strtotime($schedule['contract_period_to']));
-                    } else {
-                        $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
-                    }
+                    //$temp = explode(" ", $schedule['contract_period_to']);
+                   // if (isset($temp[1])) {
+                     //   $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
+                    //    $end.='T' . date('H:i:s', strtotime($schedule['contract_period_to']));
+                    //} else {
+                        $end = date('Y-m-d', $schedule['contract_period_to']);
+                  //  }
                     $event['end'] = $end;
                     $events[] = $event;
                 }
@@ -516,22 +516,22 @@ class HOMEOrder {
                 if ($history_schedule['log_date_appointment_from']) {
                     $event['id'] = $history_schedule['id'];
                     $event['title'] = "Appointment day";
-                    $temp = explode(" ", $history_schedule['log_date_appointment_from']);
-                    if (isset($temp[1])) {
-                        $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
-                        $start.='T' . date('H:i:s', strtotime($history_schedule['log_date_appointment_from']));
-                    } else {
-                        $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
-                    }
+                    //$temp = explode(" ", $history_schedule['log_date_appointment_from']);
+                    //if (isset($temp[1])) {
+                        $start = date('Y-m-d', $history_schedule['log_date_appointment_from']);
+                        $start.='T' . date('H:i:s', $history_schedule['log_date_appointment_from']);
+                   // } else {
+                     //   $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
+                   // }
                     $event['start'] = $start;
-                    $temp = explode(" ", $history_schedule['log_date_appointment_to']);
-                    if (isset($temp[1])) {
-                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
-                        $end.='T' . date('H:i:s', strtotime($history_schedule['log_date_appointment_to']));
-                    } else {
-                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
-                    }
-                    $event['end'] = $end;
+//                    $temp = explode(" ", $history_schedule['log_date_appointment_to']);
+//                    if (isset($temp[1])) {
+//                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
+//                        $end.='T' . date('H:i:s', strtotime($history_schedule['log_date_appointment_to']));
+//                    } else {
+//                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
+//                    }
+//                    $event['end'] = $end;
                     $events[] = $event;
                 }
             }

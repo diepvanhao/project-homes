@@ -815,7 +815,7 @@ if ($step == 1) {
     } else {
         $contract_period_to_date = "";
     }
-    
+
     if (isset($_POST['contract_deposit_1'])) {
         $contract_deposit_1 = $_POST['contract_deposit_1'];
     } elseif (isset($_GET['contract_deposit_1'])) {
@@ -987,7 +987,7 @@ if ($step == 1) {
                 $room_ad_ex = rtrim($detail['room_administrative_expense'], '円');
             }
         }
-        $room_administrative_expense=$room_ad_ex;
+        $room_administrative_expense = $room_ad_ex;
     }
     if (isset($_POST['contract_total'])) {
         $contract_total = $_POST['contract_total'];
@@ -1137,16 +1137,16 @@ if ($step == 1) {
             $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id, $house_search);
             //update hisotry
 
-            $log_time_call_temp = strtotime($log_time_call_date . " " . $log_time_call.' '.'Europe/Berlin');
-            $log_time_arrive_company_temp = strtotime($log_time_arrive_company_date . " " . $log_time_arrive_company.' '.'Europe/Berlin');
-            $log_time_mail_temp = strtotime($log_time_mail_date . " " . $log_time_mail.' '.'Europe/Berlin');
-            $log_date_appointment_to_temp = strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to.' '.'Europe/Berlin');
-            $log_date_appointment_from_temp = strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from.' '.'Europe/Berlin');
+            $log_time_call_temp = trim($log_time_call_date) != "" ? strtotime($log_time_call_date . " " . $log_time_call . ' ' . 'Europe/Berlin') : null;
+            $log_time_arrive_company_temp = trim($log_time_arrive_company_date) != "" ? strtotime($log_time_arrive_company_date . " " . $log_time_arrive_company . ' ' . 'Europe/Berlin') : null;
+            $log_time_mail_temp = trim($log_time_mail_date) != "" ? strtotime($log_time_mail_date . " " . $log_time_mail . ' ' . 'Europe/Berlin') : null;
+            $log_date_appointment_to_temp = trim($log_date_appointment_to_date) != "" ? strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to . ' ' . 'Europe/Berlin') : null;
+            $log_date_appointment_from_temp = trim($log_date_appointment_from_date) != "" ? strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from . ' ' . 'Europe/Berlin') : null;
 
             $ajax->update_history_create($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id);
             //update introduce            
-
-            $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
+            if (($introduce_room_id != 0 && $introduce_house_id != 0) || ($introduce_room_id != null && $introduce_house_id != null))
+                $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
             //update aspirations                        
 
             $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
@@ -1157,7 +1157,7 @@ if ($step == 1) {
             } elseif (isset($_GET['contract_label_money'])) {
                 $label = $_GET['contract_label_money'];
             } else {
-                $label = "";
+                $label = null;
             }
             if (isset($_POST['contract_plus_money'])) {
                 $contract_plus_money = $_POST['contract_plus_money'];
@@ -1176,16 +1176,16 @@ if ($step == 1) {
             }
 
             //update time
-            
-            $contract_signature_day_temp = strtotime($contract_signature_day_date . " " . $contract_signature_day.' '.'Europe/Berlin');
-            $contract_handover_day_temp = strtotime($contract_handover_day_date . " " . $contract_handover_day.' '.'Europe/Berlin');
-            $contract_period_from_temp = strtotime($contract_period_from.' '.'Europe/Berlin');
-            $contract_period_to_temp = strtotime($contract_period_to.' '.'Europe/Berlin');
-            $contract_application_date_temp = strtotime($contract_application_date.' '.'Europe/Berlin');
-            $contract_payment_date_from_temp = strtotime($contract_payment_date_from.' '.'Europe/Berlin');
-            $contract_payment_date_to_temp = strtotime($contract_payment_date_to.' '.'Europe/Berlin');
-                     
-            $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented,$room_administrative_expense, $client_id, $order_id);
+
+            $contract_signature_day_temp = trim($contract_signature_day_date) != "" ? strtotime($contract_signature_day_date . " " . $contract_signature_day . ' ' . 'Europe/Berlin') : null;
+            $contract_handover_day_temp = trim($contract_handover_day_date) != "" ? strtotime($contract_handover_day_date . " " . $contract_handover_day . ' ' . 'Europe/Berlin') : null;
+            $contract_period_from_temp = trim($contract_period_from) != "" ? strtotime($contract_period_from . ' ' . 'Europe/Berlin') : null;
+            $contract_period_to_temp = trim($contract_period_to) != "" ? strtotime($contract_period_to . ' ' . 'Europe/Berlin') : null;
+            $contract_application_date_temp = trim($contract_application_date) != "" ? strtotime($contract_application_date . ' ' . 'Europe/Berlin') : null;
+            $contract_payment_date_from_temp = trim($contract_payment_date_from) != "" ? strtotime($contract_payment_date_from . ' ' . 'Europe/Berlin') : null;
+            $contract_payment_date_to_temp = trim($contract_payment_date_to) != "" ? strtotime($contract_payment_date_to . ' ' . 'Europe/Berlin') : null;
+
+            $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
 
 
             //update plus money
