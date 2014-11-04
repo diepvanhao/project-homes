@@ -46,7 +46,7 @@ class HOMECustomer {
         $exits = FALSE;
         if ($client_id) {
             $exits = true;
-        } elseif ($this->checkExistClient($client_name, $client_phone)) {
+        } elseif ($this->checkExistClient($client_name, $client_phone,$client_email)) {
             $exits = true;
         }
         if (!$exits) {
@@ -416,12 +416,13 @@ class HOMECustomer {
         return $database->database_query($query);
     }
 
-    function checkExistClient($client_name, $client_phone) {
+    function checkExistClient($client_name, $client_phone,$client_email) {
         global $database;
         $client_name = trim($client_name);
         $client_phone = trim($client_phone);
-
-        $query = "select * from home_client where client_phone='{$client_phone}' and  client_name='{$client_name}'";
+        $client_email=trim($client_email);
+        $query = "select * from home_client where (client_phone='{$client_phone}' and  client_name='{$client_name}')"
+        . "or (client_mail='{$client_email}' and  client_name='{$client_name}')";
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         if ($row >= 1)

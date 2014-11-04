@@ -26,15 +26,20 @@ class HOMEEvent {
         $staff = new HOMEUser();
         $client = new Client();
         $events = Array();
+                
         //get order list
         $query = "select ho.* from home_order as ho where "
                 . "ho.order_status=1 ";
-        if ($date_from)
+        if ($date_from){
+            $date_from=strtotime($date_from. ' ' . 'Europe/Berlin');
             $query.=" and ho.order_day_update >='{$date_from}'";
-        if ($date_to)
+        }
+        if ($date_to){
+            $date_to=strtotime($date_to. ' ' . 'Europe/Berlin');
             $query.=" and ho.order_day_update <='{$date_to}'";
+        }
         $query.=" order by ho.order_day_update ASC";
-//echo $query;die();
+
         $result_order = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result_order)) {
             //get transaction info
@@ -48,12 +53,14 @@ class HOMEEvent {
                 if (trim($contract['contract_signature_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "契約日";
-                    $start = explode(" ", $contract['contract_signature_day']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
+                    $event['time']=date('H:i',$contract['contract_signature_day']);
+                    $event['start'] = date('Y/m/d',$contract['contract_signature_day']);
+//                    $start = explode(" ", $contract['contract_signature_day']);
+//                    if (isset($start[1]))
+//                        $event['time'] = date('H:i',$start[1]);
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = date('Y/m/d',$start[0]);
                     $event['end'] = "";
                     //$event['time']="";
                     //fetch agent, user info.      
@@ -80,12 +87,14 @@ class HOMEEvent {
                 if (trim($contract['contract_handover_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "鍵渡し日";
-                    $start = explode(" ", $contract['contract_handover_day']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
+                    $event['time']=date('H:i',$contract['contract_handover_day']);
+                    $event['start'] = date('Y/m/d',$contract['contract_handover_day']);
+//                    $start = explode(" ", $contract['contract_handover_day']);
+//                    if (isset($start[1]))
+//                        $event['time'] = date('H:i',$start[1]);
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = date('Y/m/d',$start[0]);
                     $event['end'] = "";
 
                     //fetch agent, user info.      
@@ -112,18 +121,20 @@ class HOMEEvent {
                 if (trim($contract['contract_payment_date_from'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "入金日";
-                    $start = explode(" ", $contract['contract_payment_date_from']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
-
-                    $end = explode(" ", $contract['contract_payment_date_to']);
-                    if (isset($end[0]))
-                        $event['end'] = $end[0];
-                    else
-                        $event['end'] = "";
+                    $event['time']="";
+                    $event['start'] = date('Y/m/d',$contract['contract_payment_date_from']);
+//                    $start = explode(" ", $contract['contract_payment_date_from']);
+//                    if (isset($start[1]))
+//                        $event['time'] = date('H:i',$start[1]);
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = date('Y/m/d',$start[0]);
+                    $event['end'] = "";
+//                    $end = explode(" ", $contract['contract_payment_date_to']);
+//                    if (isset($end[0]))
+//                        $event['end'] = date('Y/m/d',$end[0]);
+//                    else
+//                        $event['end'] = "";
                     //fetch agent, user info.      
                     $agent_info = $agent->getAgentByUserId($row['user_id']);
                     if ($agent_info)
@@ -148,18 +159,20 @@ class HOMEEvent {
                 if (trim($contract['contract_period_from'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "期間";
-                    $start = explode(" ", $contract['contract_period_from']);
-                    if (isset($start[1]))
-                        $event['time'] = $start[1];
-                    else
-                        $event['time'] = "";
-                    $event['start'] = $start[0];
-
-                    $end = explode(" ", $contract['contract_period_to']);
-                    if (isset($end[0]))
-                        $event['end'] = $end[0];
-                    else
-                        $event['end'] = "";
+                    $event['time']="";
+                    $event['start'] = date('Y/m/d',$contract['contract_period_from']);
+//                    $start = explode(" ", $contract['contract_period_from']);
+//                    if (isset($start[1]))
+//                        $event['time'] = $start[1];
+//                    else
+//                        $event['time'] = "";
+//                    $event['start'] = $start[0];
+                    $event['end'] = date('Y/m/d',$contract['contract_period_to']);
+//                    $end = explode(" ", $contract['contract_period_to']);
+//                    if (isset($end[0]))
+//                        $event['end'] = $end[0];
+//                    else
+//                        $event['end'] = "";
                     //fetch agent, user info.      
                     $agent_info = $agent->getAgentByUserId($row['user_id']);
                     if ($agent_info)
@@ -220,19 +233,21 @@ class HOMEEvent {
             if (trim($history['log_date_appointment_from'])) {
                 $event['id'] = $row['id'];
                 $event['title'] = "来店日";
+                $event['time']=date('H:i',$history['log_date_appointment_from']);
+                $event['start'] = date('Y/m/d',$history['log_date_appointment_from']);
+                $event['end'] = "";
+//                $start = explode(" ", $history['log_date_appointment_from']);
+//                if (isset($start[1]))
+//                    $event['time'] = $start[1];
+//                else
+//                    $event['time'] = "";
+//                $event['start'] = $start[0];
 
-                $start = explode(" ", $history['log_date_appointment_from']);
-                if (isset($start[1]))
-                    $event['time'] = $start[1];
-                else
-                    $event['time'] = "";
-                $event['start'] = $start[0];
-
-                $end = explode(" ", $history['log_date_appointment_to']);
-                if (isset($end[0]))
-                    $event['end'] = $end[0];
-                else
-                    $event['end'] = "";
+//                $end = explode(" ", $history['log_date_appointment_to']);
+//                if (isset($end[0]))
+//                    $event['end'] = $end[0];
+//                else
+//                    $event['end'] = "";
                 //fetch agent, user info.      
                 $agent_info = $agent->getAgentByUserId($row['user_id']);
                 if ($agent_info)
