@@ -112,14 +112,15 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-                        $('#error_room').html("入居中です。別の部屋を選択してください。");
+                        /*$('#error_room').html("入居中です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+                        $("#submit").css('color', 'grey');*/
                         $('#order_rent_cost').val(json.room_rent);
                     } else if (json.status == 2) {
-                        $('#error_room').html("未完成です。別の部屋を選択してください。");
+                        /*$('#error_room').html("未完成です。別の部屋を選択してください。");
                         $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');
+                        $("#submit").css('color', 'grey');*/
+                        $('#order_rent_cost').val(json.room_rent);
                     } else {
                         if (json.flag == 'false') {
                             $('#error_room').html("この部屋は、選択した管理会社の管理ではありません。");
@@ -585,6 +586,20 @@
             /*$('#client_detail').find('#client_id').each(function() {
              $(this).val(4);
              });*/
+            $('#client_detail').find('#save').click(function(e) {
+                var client_name = $('#client_name').val();
+                var client_email = $('#client_email').val();
+                var client_phone = $('#client_phone').val();
+                if ((client_name == "" || client_phone == "")&&(client_name == "" || client_email == "")) {
+                    alert(' 注意：　名称と電話番号をご入力ください。 !!!');
+                    $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
+                    $('#client_info ul li').first().click();
+                    e.preventDefault();
+
+                }else{
+                    $('#transaction').submit();
+                }
+            });
             $('#client_detail').find('#save1').click(function(e) {
                 var cus_id = $('#cus_id').val();
                 if (cus_id == "" && getDivClass('basic') == 0) {
@@ -1480,7 +1495,7 @@
                 </ul>
             </div>
             <div id="client_detail">
-                <form action="edit_order.php" method="post">   
+                <form action="edit_order.php" method="post" id="transaction">   
                     <div id="basic"class="active">
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
