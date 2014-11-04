@@ -59,13 +59,13 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $todate);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
         $select = "SELECT SUM(t.target) as sum FROM home_user_target AS t 
                  WHERE t.user_id = {$user_id} AND DATE_FORMAT(  t.create_date ,'%Y-%m') <= '" . date('Y-m', $time) . "' AND DATE_FORMAT( t.create_date ,'%Y-%m') >= '" . date('Y-m', $fromtime) . "'";
@@ -109,13 +109,13 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
         $return = array();
 
@@ -279,18 +279,18 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $year = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
 //        $year = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y')= '" . date('Y') . "'";
@@ -1231,13 +1231,13 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
         $return = array();
 
@@ -1323,19 +1323,19 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
 
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
         $return = array();
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
 //        
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
@@ -1467,19 +1467,19 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
 
-        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $today = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
 
-
+ 
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_tel) AS today_tel, 
             SUM(log_mail) AS today_mail, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line, SUM(log_contact_head_office) AS today_contact_head_office,
@@ -1591,13 +1591,13 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
 
 
@@ -1761,7 +1761,12 @@ class Report {
                 $return['month_unsigned'] = $return['month_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
             }
         }
-        return $return;
+        return  array(
+            'today_already_recorded' => round($return['today_already_recorded']/1.08,2),
+            'today_unsigned' => round($return['today_unsigned']/1.08,2),
+            'month_already_recorded' => round($return['month_already_recorded']/1.08,2),
+            'month_unsigned' => round($return['month_unsigned']/1.08,2),
+        );;
     }
 
     public function getChartInfo($agent_id = 0, $date = null, $fromdate = null) {
@@ -1774,13 +1779,13 @@ class Report {
             $time = time();
         } else {
             $arr = explode('/', $date);
-            $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+            $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if (empty($fromdate)) {
             $fromtime = time();
         } else {
             $arr = explode('/', $fromdate);
-            $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+            $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
         $return = array();
 
@@ -2114,6 +2119,15 @@ class Report {
             $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
             $house_address = @$house_address_serialize['broker_company_address'];
             $row['broker_company_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
+        }
+        if ($house->isSerialized($row['house_address'])) {
+            $house_address_serialize = unserialize($row['house_address']);
+            $city_id_filter = $house->getNameCity($house_address_serialize['city_id']);
+            $district_id_filter = $house->getNameDistrict($house_address_serialize['district_id']);
+            $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
+            $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
+            $house_address = @$house_address_serialize['house_address'];
+            $row['house_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
         }
         $index = $plus + 1;
         $plus = $index + 1;
@@ -2884,13 +2898,11 @@ class Report {
         }
         //Values
         //date time
-        $date = date_create_from_format('m/d/Y', trim((string)$row['contract_signature_day']));
-        $date2 = strtotime('+1 month', strtotime(date_format($date,'Y-m-d'))) ;
-        
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')) -  date_format($date,'d') + 1;
+        $date2 = strtotime('+1 month', $row['contract_signature_day']) ;
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_signature_day']), date('Y',$row['contract_signature_day'])) -  date('d',$row['contract_signature_day']) + 1;
         $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
 
-        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
+        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_signature_day']), date('Y',$row['contract_signature_day'])));
         $fee1 = 0;//round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
         $cost2 = $row['contract_cost'];
         $fee2 = 0;
@@ -2928,11 +2940,11 @@ class Report {
                 ->setCellValue("I13", $daysleft1) //
                 ->setCellValue("A14", "保　証　金")
                 ->setCellValue("C14", '¥'.number_format($row['contract_deposit_2'])) //
-                ->setCellValue("F14", '※'.(date_format($date,'Y') - 1988).'年'.date_format($date,'m').'月'.date_format($date,'d').'日より、契約開始') //
-                ->setCellValue("A15", date_format($date,'m'))
+                ->setCellValue("F14", '※'.(date('Y',$row['contract_signature_day'])).'年'.date('m',$row['contract_signature_day']).'月'.date('d',$row['contract_signature_day']).'日より、契約開始') //
+                ->setCellValue("A15", date('m',$row['contract_signature_day']))
                 ->setCellValue("B15", "月分 日割家賃")
                 ->setCellValue("C15", '¥'.number_format($cost1))
-                ->setCellValue("A16", date_format($date,'m'))
+                ->setCellValue("A16", date('m',$row['contract_signature_day']))
                 ->setCellValue("B16", "月分 日割共益費")
                 ->setCellValue("C16", '¥'.number_format($fee1))
                 ->setCellValue("A17", date('m',$date2))
@@ -3210,13 +3222,13 @@ class Report {
         }
         //Values
         //date time
-        $date = date_create_from_format('m/d/Y', trim((string)$row['contract_signature_day']));
-        $date2 = strtotime('+1 month', strtotime(date_format($date,'Y-m-d'))) ;
+        $date = $row['contract_signature_day'];
+        $date2 = strtotime('+1 month', $date) ;
         
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')) -  date_format($date,'d') + 1;
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
         $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
 
-        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
+        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)));
         $fee1 = 0;//round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
         $cost2 = $row['contract_cost'];
         $fee2 = 0;
@@ -3254,11 +3266,11 @@ class Report {
                 ->setCellValue("I13", $daysleft1) //
                 ->setCellValue("A14", "礼 金")
                 ->setCellValue("C14", '¥'.number_format($row['contract_deposit_2'])) //
-                ->setCellValue("F14", '※'.(date_format($date,'Y') - 1988).'年'.date_format($date,'m').'月'.date_format($date,'d').'日より、契約開始') //
-                ->setCellValue("A15", date_format($date,'m'))
+                ->setCellValue("F14", '※'.(date('Y',$date)).'年'.date('m',$date).'月'.date('d',$date).'日より、契約開始') //
+                ->setCellValue("A15", date('m',$date))
                 ->setCellValue("B15", "月分 日割家賃")
                 ->setCellValue("C15", '¥'.number_format($cost1))
-                ->setCellValue("A16", date_format($date,'m'))
+                ->setCellValue("A16", date('m',$date))
                 ->setCellValue("B16", "月分 日割共益費")
                 ->setCellValue("C16", '¥'.number_format($fee1))
                 ->setCellValue("A17", date('m',$date2))
@@ -3302,7 +3314,7 @@ class Report {
                 ->setCellValue("A30", "申込金、契約金のお振込先")//
                 ->setCellValue("F30", "※お振込期限をご確認ください。")
                 ->setCellValue("A31", "")
-                ->setCellValue("F31", date_format($date,'Y\年m\月d\日\ま\で'))
+                ->setCellValue("F31", date('Y\年m\月d\日\ま\で',$date))
                 ->setCellValue("A32", "")
                 ->setCellValue("F32", "※弊社は事故防止のため、現金でのお預かりは固くお断り申し上げます。")
                 ->setCellValue("A33", "")
@@ -3455,16 +3467,16 @@ class Report {
 
         ;
         //Value
-        $date = date_create_from_format('m/d/Y', trim((string)$row['contract_signature_day']));
-        $date2 = strtotime('+1 month', strtotime(date_format($date,'Y-m-d'))) ;
+        $date = $row['contract_signature_day'];
+        $date2 = strtotime('+1 month', $date) ;
         
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')) -  date_format($date,'d') + 1;
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
         $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "入居者対応補助業務発注申込書")
                 ->setCellValue("F3", "申込日")
-                ->setCellValue("G3",(date('Y') - 1988).'年')//
+                ->setCellValue("G3",date('Y').'年')//
                 ->setCellValue("H3",date('m\月'))//
                 ->setCellValue("I3",date('d\日'))//
                 ->setCellValue("A5", "株式会社アンビション・ルームピア 御中")
@@ -3478,7 +3490,7 @@ class Report {
                 ->setCellValue("G11", '住居番号')
                 ->setCellValue("H11", $row['room_number'])//
                 ->setCellValue("A13", '本業務実施機関（２）')
-                ->setCellValue("C13", (date_format($date,'Y') - 1988).date_format($date,'\年 m\月 d\日\(\対\象\物\件\の\契\約\開\始\日\）'))//
+                ->setCellValue("C13", date('Y',$date).date('\年 m\月 d\日\(\対\象\物\件\の\契\約\開\始\日\）',$date))//
                 ->setCellValue("A14", '本業務手数料（３）')
                 ->setCellValue("C14", '報酬額')
                 ->setCellValue("F14", '支払予定日')
@@ -3678,16 +3690,16 @@ class Report {
                 ->mergeCells("F52:H52")
         ;
         //Value
-        $date = date_create_from_format('m/d/Y', trim((string)$row['contract_signature_day']));
-        $date2 = strtotime('+1 month', strtotime(date_format($date,'Y-m-d'))) ;
+        $date = $row['contract_signature_day'];
+        $date2 = strtotime('+1 month', $date) ;
         
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')) -  date_format($date,'d') + 1;
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
         $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "請求書")
                 ->setCellValue("F3", "発行日")
-                ->setCellValue("G3",(date('Y') - 1988).'年')//
+                ->setCellValue("G3",(date('Y')).'年')//
                 ->setCellValue("H3",date('m\月'))//
                 ->setCellValue("I3",date('d\日'))//
                 ->setCellValue("A4", $row['broker_company_name'])
@@ -3850,12 +3862,12 @@ class Report {
                 
         ;
         //Value
-        $date = date_create_from_format('m/d/Y', trim((string)$row['contract_signature_day']));
+        $date = $row['contract_signature_day'];
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "広告宣伝費支払承諾書")
                 ->setCellValue("F3", "申込日")
-                ->setCellValue("G3",(date('Y') - 1988).'年')//
+                ->setCellValue("G3",date('Y').'年')//
                 ->setCellValue("H3",date('m\月'))//
                 ->setCellValue("I3",date('d\日'))//
                 ->setCellValue("A5", '株式会社アンビション・ルームピア 御中')
@@ -3871,7 +3883,7 @@ class Report {
                 ->setCellValue("B20", '広告宣伝費')
                 ->setCellValue("C20", $row['contract_ads_fee'])
                 ->setCellValue("B23", '支払予定日')
-                ->setCellValue("C23", date_format($date,'m\月   d\日'))//
+                ->setCellValue("C23", date('m\月   d\日',$date))//
                 ->setCellValue("B32", '社名')
                 ->setCellValue("C32", $row['broker_company_name'])//
                 ->setCellValue("B35", '住所')
@@ -4011,12 +4023,12 @@ class Report {
                 
         ;
         //Value
-        $date = date_create_from_format('m/d/Y', trim((string)$row['contract_signature_day']));
+        $date = $row['contract_signature_day'];
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "広告料支払承諾書")
                 ->setCellValue("F3", "申込日")
-                ->setCellValue("G3",(date('Y') - 1988).'年')//
+                ->setCellValue("G3",date('Y').'年')//
                 ->setCellValue("H3",date('m\月'))//
                 ->setCellValue("I3",date('d\日'))//
                 ->setCellValue("A5", '株式会社アンビション・ルームピア御中')
@@ -4032,7 +4044,7 @@ class Report {
                 ->setCellValue("B20", '広告料')
                 ->setCellValue("C20", $row['contract_ads_fee'])
                 ->setCellValue("B23", '支払予定日')
-                ->setCellValue("C23", date_format($date,'m\月   d\日'))//
+                ->setCellValue("C23", date('m\月   d\日',$date))//
                 ->setCellValue("B32", '社名')
                 ->setCellValue("C32", $row['broker_company_name'])//
                 ->setCellValue("B35", '住所')
