@@ -1826,8 +1826,8 @@ class Report {
         }
         date_default_timezone_set("Asia/Bangkok");
 
-        $date = date('d/m/Y');
-        $order_date = date('d/m/Y', $row['order_day_create']);
+        $date = @date('d/m/Y');
+        $order_date = @date('d/m/Y', $row['order_day_create']);
 
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
@@ -1934,7 +1934,7 @@ class Report {
                 ->setCellValue("L{$plus}", "成立年月日")
         ;
 
-        $signdate = $row['contract_signature_day'];
+        $signdate = @date('d/m/Y',$row['contract_signature_day']);
         $index = $plus + 1;
         $plus = $index + 1;
 
@@ -2282,7 +2282,7 @@ class Report {
                 ->setCellValue("K{$index}", "$k")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", "{$row['contract_period_from']}")
+                ->setCellValue("P{$index}", @date('d/m/Y',$row['contract_period_from']))
                 ->setCellValue("T{$index}", "～")
         ;
 
@@ -2315,7 +2315,7 @@ class Report {
                 ->setCellValue("K{$index}", "")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", "{$row['contract_period_to']}")
+                ->setCellValue("P{$index}", @date('d/m/Y',$row['contract_period_to']))
                 ->setCellValue("T{$index}", "迄")
         ;
 
@@ -2523,8 +2523,8 @@ class Report {
         }
         date_default_timezone_set("Asia/Bangkok");
 
-        $date = date('d/m/Y');
-        $order_date = date('d/m/Y', $row['order_day_create']);
+        $date = @date('d/m/Y');
+        $order_date = @date('d/m/Y', $row['order_day_create']);
 
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
@@ -2646,9 +2646,9 @@ class Report {
                 ->setCellValue("C6", $row['client_phone']) //
                 //**************
                 ->setCellValue("A8", "申込年月日")
-                ->setCellValue("C8", $row['contract_application_date']) //
+                ->setCellValue("C8", @date('d/m/Y',$row['contract_application_date'])) //
                 ->setCellValue("A10", "契約予定日")
-                ->setCellValue("C10", $row['contract_signature_day']) //
+                ->setCellValue("C10", @date('d/m/Y',$row['contract_signature_day'])) //
                 ->setCellValue("A12", "元付業者")
                 ->setCellValue("C12", $row['broker_company_name']) //
                 ->setCellValue("G12", "担当者")
@@ -2844,9 +2844,10 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("B15:B18")->getFont()->setSize(8);
         
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getDefaultColumnDimension()->setWidth(8.25);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
         
         $objPHPExcel->getActiveSheet()->getStyle("A13:D28")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("F17:I28")->applyFromArray($border);
@@ -2898,11 +2899,11 @@ class Report {
         }
         //Values
         //date time
-        $date2 = strtotime('+1 month', $row['contract_signature_day']) ;
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_signature_day']), date('Y',$row['contract_signature_day'])) -  date('d',$row['contract_signature_day']) + 1;
+        $date2 = strtotime('+1 month', $row['contract_period_from']) ;
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_period_from']), date('Y',$row['contract_period_from'])) -  date('d',$row['contract_period_from']) + 1;
         $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
 
-        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_signature_day']), date('Y',$row['contract_signature_day'])));
+        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_period_from']), date('Y',$row['contract_period_from'])));
         $fee1 = 0;//round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
         $cost2 = $row['contract_cost'];
         $fee2 = 0;
@@ -2912,9 +2913,9 @@ class Report {
                 ->setCellValue("I1", "貸主様用")
                 ->setCellValue("F2", "【契約予定日】")
                 //**************
-                ->setCellValue("A2", "佐々木 成子")
+                ->setCellValue("A2", $row['broker_company_name'])
                 ->setCellValue("D3", "様")
-                ->setCellValue("F3", $row['contract_signature_day'])//
+                ->setCellValue("F3", @date('d/m/Y',$row['contract_signature_day']))//
                 //**************
                 ->setCellValue("A5", "物件名")
                 ->setCellValue("B5", $row['house_name']) //
@@ -2923,13 +2924,13 @@ class Report {
                 ->setCellValue("A8", "月額賃料")
                 ->setCellValue("B8", '¥'.number_format($row['contract_cost'])) //
                 ->setCellValue("E8", "共益（管理）費")
-                ->setCellValue("F8", '¥'.number_format((float)$row['contract_ads_fee'])) //
+                ->setCellValue("F8", '¥'.number_format((float)$row['room_administrative_expense'])) //
                 ->setCellValue("G8", "駐車場")
                 ->setCellValue("H8", '無') //select box
                 ->setCellValue("A11", "敷金（ヶ月）")
                 ->setCellValue("C11", (float)($row['contract_deposit_1']/$row['contract_cost'])) //
                 ->setCellValue("D11", "礼金（ヶ月）")
-                ->setCellValue("F11", 0) //
+                ->setCellValue("F11", '¥'.number_format((float)$row['contract_key_money'])) //
                 ->setCellValue("G11", "保証金")
                 ->setCellValue("I11", (float)($row['contract_deposit_2']/$row['contract_cost'])) //
                 ->setCellValue("A13", "敷 金")
@@ -2940,11 +2941,11 @@ class Report {
                 ->setCellValue("I13", $daysleft1) //
                 ->setCellValue("A14", "保　証　金")
                 ->setCellValue("C14", '¥'.number_format($row['contract_deposit_2'])) //
-                ->setCellValue("F14", '※'.(date('Y',$row['contract_signature_day'])).'年'.date('m',$row['contract_signature_day']).'月'.date('d',$row['contract_signature_day']).'日より、契約開始') //
-                ->setCellValue("A15", date('m',$row['contract_signature_day']))
+                ->setCellValue("F14", '※'.(date('Y',$row['contract_period_from'])).'年'.date('m',$row['contract_period_from']).'月'.date('d',$row['contract_period_from']).'日より、契約開始') //
+                ->setCellValue("A15", date('m',$row['contract_period_from']))
                 ->setCellValue("B15", "月分 日割家賃")
                 ->setCellValue("C15", '¥'.number_format($cost1))
-                ->setCellValue("A16", date('m',$row['contract_signature_day']))
+                ->setCellValue("A16", date('m',$row['contract_period_from']))
                 ->setCellValue("B16", "月分 日割共益費")
                 ->setCellValue("C16", '¥'.number_format($fee1))
                 ->setCellValue("A17", date('m',$date2))
@@ -2992,6 +2993,9 @@ class Report {
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("F36:I36")
                 ->mergeCells("G37:I37")
+                ->mergeCells("G39:G41")
+                ->mergeCells("H39:H41")
+                ->mergeCells("I39:I41")
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("F36", "（ＴＥＬ）{$row['agent_phone']}")//
@@ -3166,9 +3170,10 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("B15:B18")->getFont()->setSize(8);
         
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+        $objPHPExcel->getActiveSheet()->getDefaultColumnDimension()->setWidth(8.20);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
         
         $objPHPExcel->getActiveSheet()->getStyle("A13:D28")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("F17:I28")->applyFromArray($border);
@@ -3222,7 +3227,7 @@ class Report {
         }
         //Values
         //date time
-        $date = $row['contract_signature_day'];
+        $date = $row['contract_period_from'];
         $date2 = strtotime('+1 month', $date) ;
         
         $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
@@ -3238,9 +3243,9 @@ class Report {
                 ->setCellValue("I1", "契約者様用")
                 ->setCellValue("F2", "【契約予定日】")
                 //**************
-                ->setCellValue("A2", "陳 世琳")
+                ->setCellValue("A2", $row['user_lname'].' '.$row['user_fname'])
                 ->setCellValue("D3", "様")
-                ->setCellValue("F3", $row['contract_signature_day'])//
+                ->setCellValue("F3", date('d/m/Y',$row['contract_signature_day']))//
                 //**************
                 ->setCellValue("A5", "物件名")
                 ->setCellValue("B5", $row['house_name']) //
@@ -3249,13 +3254,13 @@ class Report {
                 ->setCellValue("A8", "月額賃料")
                 ->setCellValue("B8", '¥'.number_format($row['contract_cost'])) //
                 ->setCellValue("E8", "共益（管理）費")
-                ->setCellValue("F8", '¥'.number_format((float)$row['contract_ads_fee'])) //
+                ->setCellValue("F8", '¥'.number_format((float)$row['room_administrative_expense'])) //
                 ->setCellValue("G8", " ")
                 ->setCellValue("H8", ' ') 
                 ->setCellValue("A11", "敷金(ヶ月)")
                 ->setCellValue("C11", (float)($row['contract_deposit_1']/$row['contract_cost'])) //
                 ->setCellValue("D11", "礼金(ヶ月)")
-                ->setCellValue("F11", 0) //
+                ->setCellValue("F11", '¥'.number_format((float)$row['contract_key_money'])) //
                 ->setCellValue("G11", "保証金(ヶ月)")
                 ->setCellValue("I11", (float)($row['contract_deposit_2']/$row['contract_cost'])) //
                 ->setCellValue("A13", "敷 金")
@@ -3309,6 +3314,9 @@ class Report {
                 ->mergeCells("F36:I36")
                 ->mergeCells("F37:I38")
                 ->mergeCells("F39:I39")
+                ->mergeCells("G41:G43")
+                ->mergeCells("H41:H43")
+                ->mergeCells("I41:I43")
         ;
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A30", "申込金、契約金のお振込先")//
@@ -3409,15 +3417,15 @@ class Report {
         
         $objPHPExcel->getActiveSheet()->getStyle("A1:I15")->applyFromArray($style);
         
-        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(12);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(11);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(11);
         
         
         //Top
@@ -3467,7 +3475,7 @@ class Report {
 
         ;
         //Value
-        $date = $row['contract_signature_day'];
+        $date = $row['contract_period_from'];
         $date2 = strtotime('+1 month', $date) ;
         
         $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
@@ -3495,7 +3503,7 @@ class Report {
                 ->setCellValue("C14", '報酬額')
                 ->setCellValue("F14", '支払予定日')
                 ->setCellValue("C15", '¥'.number_format($row['contract_ads_fee']))
-                ->setCellValue("F15", '')//
+                ->setCellValue("F15", @date('d/m/Y',$row['contract_payment_date_to']))//
                 //**************
                 ->setCellValue("A20", "発注内容")
                 ->setCellValue("A21", '１．本業務実施期間について')
@@ -3648,7 +3656,7 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("A4:F5")->applyFromArray($border_bold);
         $objPHPExcel->getActiveSheet()->getStyle("A15:G19")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("A20:G20")->applyFromArray($border_bold);
-        $objPHPExcel->getActiveSheet()->getStyle("F23:I23")->applyFromArray($border_bold);
+        $objPHPExcel->getActiveSheet()->getStyle("E23:H23")->applyFromArray($border_bold);
 //        $objPHPExcel->getActiveSheet()->getStyle("B28:E32")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("F53:H56")->applyFromArray($border);
 
@@ -3678,8 +3686,8 @@ class Report {
                 ->mergeCells("D20:E20")
                 ->mergeCells("F20:G20")
                 ->mergeCells("A21:C22")
-                ->mergeCells("F23:I23")
-                ->mergeCells("D23:E23")
+                ->mergeCells("E23:H23")
+                ->mergeCells("C23:D23")
                 
                 ->mergeCells("C31:D31")
                 
@@ -3688,6 +3696,9 @@ class Report {
                 ->mergeCells("F48:I48")
                 ->mergeCells("F50:I50")
                 ->mergeCells("F52:H52")
+                ->mergeCells("F54:F56")
+                ->mergeCells("G54:G56")
+                ->mergeCells("H54:H56")
         ;
         //Value
         $date = $row['contract_signature_day'];
@@ -3698,10 +3709,10 @@ class Report {
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "請求書")
-                ->setCellValue("F3", "発行日")
-                ->setCellValue("G3",(date('Y')).'年')//
-                ->setCellValue("H3",date('m\月'))//
-                ->setCellValue("I3",date('d\日'))//
+                ->setCellValue("E3", "発行日")
+                ->setCellValue("F3",(date('Y')).'年')//
+                ->setCellValue("G3",date('m\月'))//
+                ->setCellValue("H3",date('d\日'))//
                 ->setCellValue("A4", $row['broker_company_name'])
                 ->setCellValue("A8", '下記の通りご請求申し上げます。')
                 ->setCellValue("B10", "物件名・号室")
@@ -3717,11 +3728,11 @@ class Report {
                 ->setCellValue("A20", '合計')
                 ->setCellValue("D20", '¥'.number_format($row['contract_ads_fee']))
                 //**************
-                ->setCellValue("D23", "ご請求金額")
-                ->setCellValue("F23", '¥'.number_format($row['contract_ads_fee']))
+                ->setCellValue("C23", "ご請求金額")
+                ->setCellValue("E23", '¥'.number_format($row['contract_ads_fee']))
                 ->setCellValue("B28", "振込先")
                 ->setCellValue("C30", '普通口座')
-                ->setCellValue("C31", $row['agent_name'])
+                ->setCellValue("C31", '')
                 
                 ->setCellValue("E44", '住所')
                 ->setCellValue("F44", $row['agent_address'])
@@ -3730,7 +3741,7 @@ class Report {
                 ->setCellValue("E48", '電話番号')
                 ->setCellValue("F48", $row['agent_phone'])
                 ->setCellValue("E50",'担当者')
-                ->setCellValue("F50",$row['user_fname'].' '.$row['user_fname'])//
+                ->setCellValue("F50",$row['user_lname'].' '.$row['user_fname'])//
                 
                 ->setCellValue("F52", '*検印なきものは無効。')
                 ->setCellValue("F53", '店長')
