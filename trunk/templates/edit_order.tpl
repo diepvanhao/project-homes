@@ -113,13 +113,13 @@
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
                         /*$('#error_room').html("入居中です。別の部屋を選択してください。");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');*/
+                         $('#submit').attr('disabled', true);
+                         $("#submit").css('color', 'grey');*/
                         $('#order_rent_cost').val(json.room_rent);
                     } else if (json.status == 2) {
                         /*$('#error_room').html("未完成です。別の部屋を選択してください。");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');*/
+                         $('#submit').attr('disabled', true);
+                         $("#submit").css('color', 'grey');*/
                         $('#order_rent_cost').val(json.room_rent);
                     } else {
                         if (json.flag == 'false') {
@@ -590,13 +590,13 @@
                 var client_name = $('#client_name').val();
                 var client_email = $('#client_email').val();
                 var client_phone = $('#client_phone').val();
-                if ((client_name == "" || client_phone == "")&&(client_name == "" || client_email == "")) {
+                if ((client_name == "" || client_phone == "") && (client_name == "" || client_email == "")) {
                     alert(' 注意：　名称と電話番号をご入力ください。 !!!');
                     $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
                     $('#client_info ul li').first().click();
                     e.preventDefault();
 
-                }else{
+                } else {
                     $('#transaction').submit();
                 }
             });
@@ -1210,8 +1210,8 @@
                         </td>
                     </tr> 
                     {*<tr> 
-                        {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
-                        <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
+                    {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                    <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
                     </tr>   *}         
                     <!-- <tr>
                          <td class="form1">
@@ -1250,8 +1250,8 @@
                         <td class='form1'>物件備考: </td>
                         <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
                     </tr>
-                   {* <tr>            
-                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
+                    {* <tr>            
+                    <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
                     </tr>*}
 
                     <tr>            
@@ -1262,8 +1262,8 @@
                             </select><div id="error_room" class="error"></div>
                         </td>
                     </tr>
-                   {* <tr>            
-                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
+                    {* <tr>            
+                    <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
                     </tr>*}
                     <!--order part-->
                     <tr>            
@@ -1999,8 +1999,11 @@
                             </tr>
 
                             <tr>
-                                <td class='form1'>申込み:</td>
-                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                                <td class='form1'>申込金:</td>
+                                <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
+                                    <input type='radio' id="contract_application_yes" onClick="javascript:sendMail(this);" name="contract_application" value="1" {if $contract_application eq '1'}checked="checked" {/if}/><label for="contract_application_yes">有</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_application_no" name="contract_application" value="0" {if $contract_application eq '0'}checked="checked" {/if}/><label for="contract_application_no">無</label>
+                                </td>
                                 <td class='form1' nowrap>申込日:</td>
                                 <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                             </tr>
