@@ -112,21 +112,21 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.status == 1) {
-                       /* $('#error_room').html("入居中です。別の部屋を選択してください。");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');*/
+                        /* $('#error_room').html("入居中です。別の部屋を選択してください。");
+                         $('#submit').attr('disabled', true);
+                         $("#submit").css('color', 'grey');*/
                         $('#order_rent_cost').val(json.room_rent);
                     } else if (json.status == 2) {
                         /*$('#error_room').html("未完成です。別の部屋を選択してください。");
-                        $('#submit').attr('disabled', true);
-                        $("#submit").css('color', 'grey');*/
+                         $('#submit').attr('disabled', true);
+                         $("#submit").css('color', 'grey');*/
                         $('#order_rent_cost').val(json.room_rent);
                     } else {
                         if (json.flag == 'false') {
                             $('#error_room').html("この部屋は、選択した管理会社の管理ではありません。");
                             $('#submit').attr('disabled', true);
                             $("#submit").css('color', 'grey');
-                            
+
                         } else {
                             $('#order_rent_cost').val(json.room_rent);
                             $('#submit').attr('disabled', false);
@@ -563,13 +563,13 @@
                 var client_name = $('#client_name').val();
                 var client_email = $('#client_email').val();
                 var client_phone = $('#client_phone').val();
-                if ((client_name == "" || client_phone == "")&&(client_name == "" || client_email == "")) {
+                if ((client_name == "" || client_phone == "") && (client_name == "" || client_email == "")) {
                     alert(' 注意：　名称と電話番号をご入力ください。 !!!');
                     $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
                     $('#client_info ul li').first().click();
                     e.preventDefault();
 
-                }else{
+                } else {
                     $('#transaction').submit();
                 }
             });
@@ -2101,8 +2101,11 @@
                     </tr>                    
 
                     <tr>
-                        <td class='form1'>申込み:</td>
-                        <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1'>申込金:</td>
+                        <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
+                            <input type='radio' id="contract_application_yes" onClick="javascript:sendMail(this);" name="contract_application" value="1" {if $contract_application eq '1'}checked="checked" {/if}/><label for="contract_application_yes">有</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_application_no" name="contract_application" value="0" {if $contract_application eq '0'}checked="checked" {/if}/><label for="contract_application_no">無</label>
+                        </td>
                         <td class='form1' nowrap>申込日:</td>
                         <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                     </tr>

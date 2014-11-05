@@ -719,8 +719,8 @@ class ajax {
             //update history exist
             $query = "update home_contract_detail set 
                   
-                    contract_cost={$contract_cost},
-                    contract_total={$contract_total},
+                    contract_cost='{$contract_cost}',
+                    contract_total='{$contract_total}',
                     contract_signature_day='{$contract_signature_day}',
                     contract_handover_day='{$contract_handover_day}',
                     contract_condition='{$contract_condition}',
@@ -749,7 +749,6 @@ class ajax {
                     room_administrative_expense='{$room_administrative_expense}'
                      where contract_id='{$contract_id}'    
                     ";
-
             $update = $database->database_query($query);
             //update order status
             if ($contract_cancel) {

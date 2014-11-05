@@ -383,3 +383,7 @@ ALTER TABLE `home_contract_detail`
 
 ALTER TABLE `home_history_log`   
   CHANGE `log_revisit` `log_revisit` VARCHAR(128) NULL;
+
+/*5/11Hao*/
+ALTER TABLE `home_client`   
+  CHANGE `client_rent` `client_rent` FLOAT(16,2) NULL;
