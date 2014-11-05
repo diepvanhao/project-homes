@@ -49,7 +49,7 @@
             //birthday('contract_application_date');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
-                $('#error_house').html("");
+                $('#error_house').css("color",'#ddd');
                 //    showloadgif();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
                 function(result) {
@@ -63,6 +63,7 @@
                         $('#room_id').empty();
                         $('#house_description').html("");
                         $('#error_house').html("物件名が見つかりませんでした。");
+                        $('#error_house').css("color",'');
                         //     hideloadgif();
                     }
                 });
@@ -106,7 +107,7 @@
                 var room_id = $('#room_id').val();
                 var broker_id = $('#broker_id').val();
                 var house_id = $('#house_id').val();
-                $('#error_room').html("");
+                $('#error_room').css("color",'#ddd');
                 $('#order_rent_cost').val("");
                 $.post('include/function_ajax.php', {house_id: house_id, room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
                 function(result) {
@@ -126,6 +127,8 @@
                             $('#error_room').html("この部屋は、選択した管理会社の管理ではありません。");
                             $('#submit').attr('disabled', true);
                             $("#submit").css('color', 'grey');
+                            $('#error_room').css("color",'');
+
                         } else {
                             $('#order_rent_cost').val(json.room_rent);
                             $('#submit').attr('disabled', false);
@@ -1304,7 +1307,7 @@
                         $('#order_name').attr('disabled', 'disabled');
                         $('#filter_broker').keyup(function(e) {
                             var filter = $('#filter_broker').val();
-                            $('#error_broker').html("");
+                            $('#error_broker').css("color",'#ddd');
                             //showloadgif();
                             $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
                             function(result) {
@@ -1319,6 +1322,7 @@
                                     // $('#house_id').empty();
                                     //$('#house_description').html("");                                    
                                     $('#error_broker').html("仲介会社が見つかりませんでした。");
+                                    $('#error_broker').css("color",'');
                                 }
                             });
                         });
@@ -1997,7 +2001,6 @@
                                     <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 215px;"/>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td class='form1'>申込金:</td>
                                 <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
@@ -2007,12 +2010,7 @@
                                 <td class='form1' nowrap>申込日:</td>
                                 <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                             </tr>
-                            <tr>                    
-                                <td class='form1'>売上計上:</td>
-                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
-                                <td class='form1' nowrap>キャンセル:</td>
-                                <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
-                            </tr>
+                            
                             <tr>                    
                                 <td class='form1'>店舗:</td>
                                 <td class='form2'>
@@ -2040,6 +2038,12 @@
                                 <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
                                 <td class='form1' nowrap>評価額:</td>
                                 <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>売上計上:</td>
+                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                                <td class='form1' nowrap>キャンセル:</td>
+                                <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
                             </tr>
                             <tr>                    
                                 <td class='form1'></td>

@@ -418,7 +418,7 @@ class HOMEOrder {
         $result = $database->database_query($query);
         $row = $database->database_fetch_assoc($result);
         $id = $row['id'] + 1;
-        return $user->user_info['user_fname'] . "_" . $user->user_info['user_lname'] . "_" . $id;
+        return $user->user_info['user_lname'] . "_" . $user->user_info['user_fname'] . "_" . $id;
     }
 
     //fetch events for private schedule     
