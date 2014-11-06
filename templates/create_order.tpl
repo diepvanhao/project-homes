@@ -49,7 +49,7 @@
             //birthday('contract_application_date');
             $('#search').keyup(function(e) {
                 var search = $('#search').val();
-                $('#error_house').css("color",'#ddd');
+                $('#error_house').css("color", '#ddd');
                 //    showloadgif();
                 $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
                 function(result) {
@@ -63,7 +63,7 @@
                         $('#room_id').empty();
                         $('#house_description').html("");
                         $('#error_house').html("物件名が見つかりませんでした。");
-                        $('#error_house').css("color",'');
+                        $('#error_house').css("color", '');
                         //     hideloadgif();
                     }
                 });
@@ -107,7 +107,7 @@
                 var room_id = $('#room_id').val();
                 var broker_id = $('#broker_id').val();
                 var house_id = $('#house_id').val();
-                $('#error_room').css("color",'#ddd');
+                $('#error_room').css("color", '#ddd');
                 $('#order_rent_cost').val("");
                 $.post('include/function_ajax.php', {house_id: house_id, room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
                 function(result) {
@@ -127,7 +127,7 @@
                             $('#error_room').html("この部屋は、選択した管理会社の管理ではありません。");
                             $('#submit').attr('disabled', true);
                             $("#submit").css('color', 'grey');
-                            $('#error_room').css("color",'');
+                            $('#error_room').css("color", '');
 
                         } else {
                             $('#order_rent_cost').val(json.room_rent);
@@ -1212,7 +1212,7 @@
             </tr> 
             <tr> 
                 {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
-                <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
+                <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="javascript:createBroker();">{*<a href="./create_broker_company.php">*}管理会社登録</a></div></td>
             </tr>            
             <tr>
                 <td class="form1">
@@ -1252,7 +1252,7 @@
                 <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description">{$house_description}</textarea></td>
             </tr>
             <tr>            
-                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
+                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="javascript:createHouse();">{*<a href="./create_house.php">*}物件登録</a></div></td>
             </tr>
 
             <tr>            
@@ -1312,10 +1312,30 @@
                 }
                 window.location = "create_room.php?return_url=create_order.php" + params;
             }
+            function createBroker() {
+                var params = '';
+                if ($('#broker_id').val()) {
+                    params += '&broker_id=' + $('#broker_id').val();
+                }
+                if ($('#staff_id').val()) {
+                    params += '&staff_id=' + $('#staff_id').val();
+                }
+                window.location = "create_broker_company.php?return_url=create_order.php" + params;
+            }
+            function createHouse(){
+                var params = '';
+                if ($('#broker_id').val()) {
+                    params += '&broker_id=' + $('#broker_id').val();
+                }
+                if ($('#staff_id').val()) {
+                    params += '&staff_id=' + $('#staff_id').val();
+                }                                
+                window.location = "create_house.php?return_url=create_order.php" + params;
+            }
             $(document).ready(function() {
                 $('#filter_broker').keyup(function(e) {
                     var filter = $('#filter_broker').val();
-                    $('#error_broker').css("color","#ddd");
+                    $('#error_broker').css("color", "#ddd");
                     //showloadgif();
                     $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
                     function(result) {
@@ -1330,13 +1350,13 @@
                             $('#broker_id').empty();
                             $('#broker_id').empty();
                             //$('#house_description').html("");
-                          /*  $('table').find('tr').css('display', 'none');
-                            $('table').find('tr:first-child').css('display', '');
-                            $('table').find('tr:nth-child(2)').css('display', '');
-                            $('table').find('tr:nth-child(3)').css('display', '');
-                            $('table').find('tr:last-child').css('display', '');*/
+                            /*  $('table').find('tr').css('display', 'none');
+                             $('table').find('tr:first-child').css('display', '');
+                             $('table').find('tr:nth-child(2)').css('display', '');
+                             $('table').find('tr:nth-child(3)').css('display', '');
+                             $('table').find('tr:last-child').css('display', '');*/
                             $('#error_broker').html("仲介会社名が見つかりませんでした。");
-                             $('#error_broker').css("color","");
+                            $('#error_broker').css("color", "");
                         }
                     });
                 });
@@ -1405,25 +1425,25 @@
                     $('#error_house').html("");
                     var broker_id = $('#broker_id').val();
                     if (broker_id) {
-                       // $('table').find('tr').css('display', '');
+                        // $('table').find('tr').css('display', '');
                         $('#yoke_muscle').click();
                     } else {
-                       /* $('table').find('tr').css('display', 'none');
-                        $('table').find('tr:first-child').css('display', '');
-                        $('table').find('tr:nth-child(2)').css('display', '');
-                        $('table').find('tr:nth-child(3)').css('display', '');
-                        $('table').find('tr:last-child').css('display', '');*/
+                        /* $('table').find('tr').css('display', 'none');
+                         $('table').find('tr:first-child').css('display', '');
+                         $('table').find('tr:nth-child(2)').css('display', '');
+                         $('table').find('tr:nth-child(3)').css('display', '');
+                         $('table').find('tr:last-child').css('display', '');*/
                     }
                 });
                 var broker_id = $('#broker_id').val();
                 if (broker_id) {
-                   // $('table').find('tr').css('display', '');
+                    // $('table').find('tr').css('display', '');
                 } else {
                     /*$('table').find('tr').css('display', 'none');
-                    $('table').find('tr:first-child').css('display', '');
-                    $('table').find('tr:nth-child(2)').css('display', '');
-                    $('table').find('tr:nth-child(3)').css('display', '');
-                    $('table').find('tr:last-child').css('display', '');*/
+                     $('table').find('tr:first-child').css('display', '');
+                     $('table').find('tr:nth-child(2)').css('display', '');
+                     $('table').find('tr:nth-child(3)').css('display', '');
+                     $('table').find('tr:last-child').css('display', '');*/
                 }
                 var house_id = $('#house_id').val();
 
@@ -1440,6 +1460,24 @@
             });
         </script>
     {/literal}
+    {if $brokerClick eq '1'}
+        {literal}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#broker_id').change();
+                });
+            </script>
+        {/literal}
+    {/if}
+    {if $houseClick eq '1'}
+        {literal}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#house_id').change();
+                });
+            </script>
+        {/literal}
+    {/if}
 {/if}
 
 {*step verify*}
@@ -1817,8 +1855,8 @@
                                 {/foreach}
                             </select>
                         </td>
-                        <td></td>
-                        <td></td>
+                        <td class='form1'></td>
+                        <td class='form2'></td>
                     </tr>
 
                     <tr>
@@ -2112,7 +2150,7 @@
                         <td class='form1' nowrap>申込日:</td>
                         <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                     </tr>
-                    
+
                     <tr>
                         <td class='form1'>店舗:</td>
                         <td class='form2'>
@@ -2641,7 +2679,7 @@
                 });
             </script>
         {/literal}
-    {/if}
+    {/if}    
 {/if}
 <div id="loadgif">Loading...</div>
 

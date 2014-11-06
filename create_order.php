@@ -48,6 +48,20 @@ if ($step == 1) {
 //        $smarty->assign('brokers', $brokers);
 //    }
     // valude for to back
+    if (isset($_POST['brokerClick'])) {
+        $brokerClick = $_POST['brokerClick'];
+    } elseif (isset($_GET['brokerClick'])) {
+        $brokerClick = $_GET['brokerClick'];
+    } else {
+        $brokerClick = "";
+    }
+    if (isset($_POST['houseClick'])) {
+        $houseClick = $_POST['houseClick'];
+    } elseif (isset($_GET['houseClick'])) {
+        $houseClick = $_GET['houseClick'];
+    } else {
+        $houseClick = "";
+    }
     if (isset($_POST['staff_id'])) {
         $staff_id = $_POST['staff_id'];
     } elseif (isset($_GET['staff_id'])) {
@@ -111,6 +125,8 @@ if ($step == 1) {
     $smarty->assign('room_id', $room_id);
     $smarty->assign('house_id', $house_id);
     $smarty->assign('broker_id', $broker_id);
+    $smarty->assign('brokerClick',$brokerClick);
+    $smarty->assign('houseClick',$houseClick);
     //end
     //$house = new HOMEHouse();
     $houses = $house->getHouses();
@@ -171,7 +187,6 @@ if ($step == 1) {
     } else {
         $room_id = 0;
     }
-
     $broker = new HOMEBroker();
     $brokers = $broker->getBrokerById($broker_id);
     //$house = new HOMEHouse();
@@ -186,6 +201,7 @@ if ($step == 1) {
     $smarty->assign('houses', $houses);
     $smarty->assign('staffs', $staffs);
     $smarty->assign('room_id', $room_id);
+    
 } elseif ($step == 'registry') {
 
     $errorHouseExist = "";

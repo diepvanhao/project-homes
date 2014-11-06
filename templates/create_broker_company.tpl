@@ -139,7 +139,9 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='登録' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-signup' value='登録' id="submit" name="submit"/>&nbsp;  
+                        <input type='hidden' value='{$return_url}' name="return_url"/>
+                        <input type='hidden' value='{$staff_id}' name="staff_id"/>
                     </div>
                 </td>
             </tr>
