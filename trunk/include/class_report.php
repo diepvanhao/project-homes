@@ -2503,9 +2503,10 @@ class Report {
 
         global $database;
 
-        $select = " SELECT o.*, c.*, u.*,d.*,h.*,ho.*,bk.*,r.*,rd.*,rt.* FROM home_order AS o 
+        $select = " SELECT o.*, c.*, u.*,d.*,h.*,ho.*,bk.*,r.*,rd.*,rt.*,ag.* FROM home_order AS o 
                     LEFT JOIN home_client AS c ON c.id = o.client_id
                     LEFT JOIN home_user AS u ON u.id = o.user_id
+                    LEFT JOIN home_agent AS ag ON ag.id = u.agent_id
                     LEFT JOIN home_contract AS t ON o.id = t.order_id
                     LEFT JOIN home_contract_detail AS d ON t.id = d.contract_id
                     LEFT JOIN home_house AS h ON h.id = o.house_id
@@ -2559,9 +2560,10 @@ class Report {
         
         //Top
         $objPHPExcel->getActiveSheet()->getStyle("A2:I35")->applyFromArray($border);
-        $objPHPExcel->getActiveSheet()->getStyle("A37:D38")->applyFromArray($border);
+        $objPHPExcel->getActiveSheet()->getStyle("A37:D42")->applyFromArray($border);
 
         $objPHPExcel->getActiveSheet()
+                ->mergeCells("A1:C1")
                 ->mergeCells("G1:H1")
                 ->mergeCells("A2:A7")
                 
@@ -2612,6 +2614,10 @@ class Report {
                 ->mergeCells("B37:B38")
                 ->mergeCells("C37:C38")
                 ->mergeCells("D37:D38")
+                ->mergeCells("A39:A42")
+                ->mergeCells("B39:B42")
+                ->mergeCells("C39:C42")
+                ->mergeCells("D39:D42")
         ;
         $house = new HOMEHouse();
         if ($house->isSerialized($row['client_address'])) {
@@ -2633,9 +2639,10 @@ class Report {
             $row['house_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
         }
         $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue("A1", $row['agent_name'])
                 ->setCellValue("D1", "店")
                 ->setCellValue("F1", "担当者")
-                ->setCellValue("G1", $row['user_fname'].' '.$row['user_lname'])//
+                ->setCellValue("G1", $row['user_lname'].' '.$row['user_fname'])//
                 //**************
                 ->setCellValue("A2", "借主")
                 ->setCellValue("B2", "契約者")
@@ -2666,7 +2673,7 @@ class Report {
                 ->setCellValue("B20", "賃料")
                 ->setCellValue("D20", $row['contract_cost'].' 円') //
                 ->setCellValue("B22", "管理費")
-                ->setCellValue("D22", $row['contract_ads_fee'].' 円') //
+                ->setCellValue("D22", rtrim($row['room_administrative_expense'],'円').' 円') //
                 ->setCellValue("B24", "保証金")
                 ->setCellValue("D24", $row['contract_deposit_1'].' 円') //
                 ->setCellValue("B26", "償却")
@@ -3243,7 +3250,7 @@ class Report {
                 ->setCellValue("I1", "契約者様用")
                 ->setCellValue("F2", "【契約予定日】")
                 //**************
-                ->setCellValue("A2", $row['user_lname'].' '.$row['user_fname'])
+                ->setCellValue("A2", $row['client_name'])
                 ->setCellValue("D3", "様")
                 ->setCellValue("F3", date('d/m/Y',$row['contract_signature_day']))//
                 //**************
@@ -3877,10 +3884,10 @@ class Report {
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "広告宣伝費支払承諾書")
-                ->setCellValue("F3", "申込日")
-                ->setCellValue("G3",date('Y').'年')//
-                ->setCellValue("H3",date('m\月'))//
-                ->setCellValue("I3",date('d\日'))//
+                ->setCellValue("E3", "申込日")
+                ->setCellValue("F3",date('Y').'年')//
+                ->setCellValue("G3",date('m\月'))//
+                ->setCellValue("H3",date('d\日'))//
                 ->setCellValue("A5", '株式会社アンビション・ルームピア 御中')
                 ->setCellValue("A7", '弊社はこの申込書により、以下に記載する対象建物物件について、本書に定める')
                 ->setCellValue("A8", "広告宣伝費を支払う事を承諾致します。")
@@ -3900,13 +3907,14 @@ class Report {
                 ->setCellValue("B35", '住所')
                 ->setCellValue("C35", $row['broker_company_address'])//
                 ->setCellValue("B38", '担当者名')
-                ->setCellValue("C38", $row['user_fname'].' '.$row['user_lname'])//
+                ->setCellValue("C38", $row['broker_company_undertake'])//
+//                ->setCellValue("C38", $row['user_lname'].' '.$row['user_fname'])//
 
                 //**************
-                ->setCellValue("I34", "ご署名")
-                ->setCellValue("I35", "ご捺印の上")
-                ->setCellValue("I36", "ＦＡＸ")
-                ->setCellValue("I37", "お願いします")
+                ->setCellValue("H34", "ご署名")
+                ->setCellValue("H35", "ご捺印の上")
+                ->setCellValue("H36", "ＦＡＸ")
+                ->setCellValue("H37", "お願いします")
 
         ;
 
@@ -4038,10 +4046,10 @@ class Report {
         
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "広告料支払承諾書")
-                ->setCellValue("F3", "申込日")
-                ->setCellValue("G3",date('Y').'年')//
-                ->setCellValue("H3",date('m\月'))//
-                ->setCellValue("I3",date('d\日'))//
+                ->setCellValue("E3", "申込日")
+                ->setCellValue("F3",date('Y').'年')//
+                ->setCellValue("G3",date('m\月'))//
+                ->setCellValue("H3",date('d\日'))//
                 ->setCellValue("A5", '株式会社アンビション・ルームピア御中')
                 ->setCellValue("A7", '弊社はこの申込書により、以下に記載する対象建物物件について、本書に定める')
                 ->setCellValue("A8", "広告料を支払う事を承諾致します。")
@@ -4061,13 +4069,13 @@ class Report {
                 ->setCellValue("B35", '住所')
                 ->setCellValue("C35", $row['broker_company_address'])//
                 ->setCellValue("B38", '担当者名')
-                ->setCellValue("C38", $row['user_fname'].' '.$row['user_lname'])//
+                ->setCellValue("C38", $row['user_lname'].' '.$row['user_fname'])//
 
                 //**************
-                ->setCellValue("I34", "ご署名")
-                ->setCellValue("I35", "ご捺印の上")
-                ->setCellValue("I36", "ＦＡＸ")
-                ->setCellValue("I37", "お願いします")
+                ->setCellValue("H34", "ご署名")
+                ->setCellValue("H35", "ご捺印の上")
+                ->setCellValue("H36", "ＦＡＸ")
+                ->setCellValue("H37", "お願いします")
 
         ;
 
