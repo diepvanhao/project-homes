@@ -307,7 +307,10 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
             <center style="margin-right: 8%;">
-                <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;                     
+                <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;    
+                <input type='hidden' value='{$return_url}' name="return_url"/>
+                <input type='hidden' value='{$staff_id}' name="staff_id"/>                
+                <input type='hidden' value='{$broker_id}' name="broker_id"/>
             </center>
             </td>
             </tr>

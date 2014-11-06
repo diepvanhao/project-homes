@@ -107,6 +107,31 @@ if (isset($_POST['ward_id'])) {
 } else {
     $ward_id = 0;
 }
+//////////for return create order ////////////////////
+if (isset($_POST['broker_id'])) {
+    $broker_id = $_POST['broker_id'];
+} elseif (isset($_GET['broker_id'])) {
+    $broker_id = $_GET['broker_id'];
+} else {
+    $broker_id = "";
+}
+if (isset($_POST['return_url'])) {
+    $return_url = $_POST['return_url'];
+} elseif (isset($_GET['return_url'])) {
+    $return_url = $_GET['return_url'];
+} else {
+    $return_url = "";
+}
+
+if (isset($_POST['staff_id'])) {
+    $staff_id = $_POST['staff_id'];
+} elseif (isset($_GET['staff_id'])) {
+    $staff_id = $_GET['staff_id'];
+} else {
+    $staff_id = "";
+}
+
+/////////////////////////////////////////////////////
 $house_address_serialize['city_id'] = $city_id;
 $house_address_serialize['district_id'] = $district_id;
 $house_address_serialize['street_id'] = $street_id;
@@ -231,6 +256,10 @@ if (isset($_POST['submit'])) {
         $result = $house->create(
                 $house_name, $house_address_serialize, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address_serialize, $house_owner_phone, $house_owner_fax, $house_owner_email,$house_search,$house_owner_search
         );
+         if (!empty($return_url)) {
+            header("Location: $return_url?house_id={$result}&broker_id={$broker_id}&staff_id={$staff_id}&houseClick=1");
+            exit();
+        } 
         if ($result) {
             header("Location: notify_create_house.php?content=登録完了致しましたは成功に作成されました。!!!&url_return=create_room.php");
         }
@@ -271,7 +300,10 @@ $smarty->assign('house_owner_email', $house_owner_email);
 $smarty->assign('owner', $owner);
 $smarty->assign('houseTypes', $houseTypes);
 $smarty->assign('houseStructures', $houseStructures);
+$smarty->assign('return_url', $return_url);
+$smarty->assign('staff_id', $staff_id);
 
+$smarty->assign('broker_id', $broker_id);
 $smarty->assign('error', $error);
 
 include 'footer.php';

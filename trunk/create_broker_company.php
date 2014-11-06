@@ -99,6 +99,24 @@ if (isset($_POST['ward_id'])) {
 } else {
     $ward_id = 0;
 }
+////////////for return create order ///////////////////////////////
+if (isset($_POST['return_url'])) {
+    $return_url = $_POST['return_url'];
+} elseif (isset($_GET['return_url'])) {
+    $return_url = $_GET['return_url'];
+} else {
+    $return_url = "";
+}
+
+if (isset($_POST['staff_id'])) {
+    $staff_id = $_POST['staff_id'];
+} elseif (isset($_GET['staff_id'])) {
+    $staff_id = $_GET['staff_id'];
+} else {
+    $staff_id = "";
+}
+
+////////////////////////////////////////////////////////////////
 $house_address_serialize['city_id'] = $city_id;
 $house_address_serialize['district_id'] = $district_id;
 $house_address_serialize['street_id'] = $street_id;
@@ -131,6 +149,10 @@ if (isset($_POST['submit'])) {
     if (empty($error)) {
         $broker = new HOMEBroker();
         $result = $broker->create($broker_company_name, $house_address_serialize, $broker_company_phone, $broker_company_email, $broker_company_fax, $broker_company_undertake,$house_search);
+        if (!empty($return_url)) {
+            header("Location: $return_url?broker_id={$result}&staff_id={$staff_id}&brokerClick=1");
+            exit();
+        } 
         if ($result) {
             header("Location: notify.php?content=管理会社～は成功に作成されました。!!!&url_return=create_broker_company.php");
         }else{
@@ -146,6 +168,9 @@ $smarty->assign('city_id', $city_id);
 $smarty->assign('district_id', $district_id);
 $smarty->assign('street_id', $street_id);
 $smarty->assign('ward_id', $ward_id);
+
+$smarty->assign('return_url', $return_url);
+$smarty->assign('staff_id', $staff_id);
 
 $smarty->assign('broker_company_name', $broker_company_name);
 $smarty->assign('broker_company_address', $broker_company_address);

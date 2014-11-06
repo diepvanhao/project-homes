@@ -66,10 +66,11 @@ class HOMEHouse {
                 if ($id) {
                     //update house
                     $query = "update home_house set house_owner_id={$id} where id={$house_id} ";
-                    return $database->database_query($query);
+                    $database->database_query($query);
+                    return $house_id;
                 }
             } else {
-                return TRUE;
+                return $house_id;
             }
         } else {
             return FALSE;

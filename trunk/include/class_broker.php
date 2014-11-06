@@ -58,7 +58,7 @@ class HOMEBroker {
             $broker_id = $database->database_insert_id();
 
             if ($broker_id)
-                $result = TRUE;
+                $result = $broker_id;
             else
                 $result = FALSE;
 

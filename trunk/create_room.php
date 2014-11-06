@@ -192,7 +192,7 @@ if (isset($_POST['submit'])) {
                 $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense . $room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number
         );
         if (!empty($return_url)) {
-            header("Location: $return_url?room_id={$room_number}&broker_id={$broker_id}&staff_id={$staff_id}&house_id={$house_id}&house_description={$house_description}&staff_id={$staff_id}&order_rent_cost={$room_rent}");
+            header("Location: $return_url?room_id={$room_number}&broker_id={$broker_id}&staff_id={$staff_id}&house_id={$house_id}&house_description={$house_description}&order_rent_cost={$room_rent}");
             exit();
         } 
         if ($result['flag']) {
