@@ -165,6 +165,15 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS today_tel_status,SUM(log_mail) AS today_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$today_appointment}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
         $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  {$today}");
         
@@ -179,7 +188,16 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-
+        
+        $select = "SELECT SUM(log_tel) AS today_tel_status,SUM(log_mail) AS today_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$month_appointment}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
         $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND o.user_id = {$user_id} AND  {$month} ");
         
