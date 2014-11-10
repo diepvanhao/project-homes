@@ -367,15 +367,18 @@ table {
 }
 
 table tr th, table tr td { 
-    background: #555;
-    color: #FFF;
+    //background: #555;
+   // color: #FFF;
+    background: #F4F5F7;
+    color: black;
     padding: 7px 4px;
     text-align: left;
     text-shadow: none;
 }
 
 table tr td { 
-    background: #DDD;
+    //background: #DDD;
+    background: #F4F5F7;
     color: #47433F;
     border-top: 1px solid #FFF;
 }
