@@ -918,13 +918,13 @@
                             else if (json.id == "")
                                 alert("更新が完了しました。");
 
-                            if (sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))) {
-                                $.post("include/mail_ajax.php", {application: $('#contract_application').attr('checked'), transaction: $('#contract_transaction_finish').attr('checked'), order_id: $('#order_id').val()},
-                                function(result) {
-                                    //                            alert(result);
-                                }
-                                );
-                            }
+//                            if (sendmail && ($('#contract_application').attr('checked') || $('#contract_transaction_finish').attr('checked'))) {
+//                                $.post("include/mail_ajax.php", {application: $('#contract_application').attr('checked'), transaction: $('#contract_transaction_finish').attr('checked'), order_id: $('#order_id').val()},
+//                                function(result) {
+//                                    //                            alert(result);
+//                                }
+//                                );
+//                            }
                         });
                     }
                 });
@@ -2387,9 +2387,9 @@
                 // $('#contract_plus').show();
             }
             function sendMail(el) {
-                if (el.checked && confirm("Do you want to send mail?")) {
-                    sendmail = 1;
-                }
+//                if (el.checked && confirm("Do you want to send mail?")) {
+//                    sendmail = 1;
+//                }
             }
             $(document).ready(function() {
                 $('#sidebar_container').css('display', 'none');

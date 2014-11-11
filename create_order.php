@@ -1089,8 +1089,8 @@ if ($step == 1) {
         $result = $customer->create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way);
         if ($result) {
             include 'include/class_mail.php';
-            $report = new Mail();
-            $report->createOrder($order_id);
+            $mail = new Mail();
+            @$mail->createOrder($order_id);
             if ($result['id'])
                 $client_id = $result['id'];
             else
@@ -1211,6 +1211,10 @@ if ($step == 1) {
                 $contract_detail_id = $order->getContractDetailId($contract_id);
                 //1. get plus money
                 $plus_money = $order->getPlusMoney($contract_detail_id);
+            }
+                //send mail
+            if(!empty($contract_application_date_temp)){
+                @$mail->order($order_id);
             }
             // if ($user->user_info['id'] == $client_arr['user_id']) {
             //fetch introduce
