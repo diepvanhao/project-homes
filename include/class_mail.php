@@ -10,8 +10,7 @@ class Mail {
 
     private function _config($smtp = false) {
 
-        date_default_timezone_set("Asia/Bangkok");
-        include 'PHPMailer/PHPMailerAutoload.php';
+        include_once 'PHPMailer/PHPMailerAutoload.php';
         
 //        mb_language("japanese");           //言語(日本語)
 //        mb_internal_encoding("UTF-8");
@@ -24,7 +23,7 @@ class Mail {
         // 0 = off (for production use)
         // 1 = client messages
         // 2 = client and server messages
-        $mail->SMTPDebug = 2;
+        $mail->SMTPDebug = 0;
         //Ask for HTML-friendly debug output
         $mail->Debugoutput = 'html';
         //Set the hostname of the mail server
@@ -76,7 +75,7 @@ class Mail {
         }
         global $user;
 
-        include('class_detail.php');
+        include_once 'class_detail.php';
         $detail = new HOMEDetail();
         $order = $detail->getOrder($order_id);
         $agent = HOMEAgent::getAgentByUserId($order['user_id']);
@@ -158,7 +157,6 @@ class Mail {
         if (empty($order_id)) {
             return null;
         }
-        date_default_timezone_set("Asia/Bangkok");
         
         global $database,$user;
         $user_id = $user->user_info['id'];
@@ -247,7 +245,7 @@ class Mail {
         try{
             global $user;
 
-            include('class_detail.php');
+            include_once 'class_detail.php';
             $detail = new HOMEDetail();
             $order = $detail->getOrder($order_id);
             $order_detail = $this->_getOrderDetail($order_id);
