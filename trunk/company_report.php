@@ -3,7 +3,7 @@
 include 'header.php';
 $page = 'company_report';
 
-date_default_timezone_set("Asia/Bangkok");
+//date_default_timezone_set("Asia/Bangkok");
 include 'include/class_company_report.php';
 $report = new CompanyReport();
 if (!$user->user_exists) {

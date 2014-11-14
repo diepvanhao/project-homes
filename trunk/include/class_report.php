@@ -1842,7 +1842,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = @date('d/m/Y');
         $order_date = @date('d/m/Y', $row['order_day_create']);
@@ -2540,7 +2540,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = @date('d/m/Y');
         $order_date = @date('d/m/Y', $row['order_day_create']);
@@ -2754,7 +2754,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = date('d/m/Y');
         $order_date = date('d/m/Y', $row['order_day_create']);
@@ -3079,7 +3079,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = date('d/m/Y');
         $order_date = date('d/m/Y', $row['order_day_create']);
@@ -3403,7 +3403,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = date('d/m/Y');
         $order_date = date('d/m/Y', $row['order_day_create']);
@@ -3607,7 +3607,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = date('d/m/Y');
         $order_date = date('d/m/Y', $row['order_day_create']);
@@ -3816,7 +3816,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = date('d/m/Y');
         $order_date = date('d/m/Y', $row['order_day_create']);
@@ -3978,7 +3978,7 @@ class Report {
         if (empty($row)) {
             return 0;
         }
-        date_default_timezone_set("Asia/Bangkok");
+        //date_default_timezone_set("Asia/Bangkok");
 
         $date = date('d/m/Y');
         $order_date = date('d/m/Y', $row['order_day_create']);
