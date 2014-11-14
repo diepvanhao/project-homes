@@ -1057,9 +1057,9 @@ if (isset($_POST['save'])) {
             $plus_money = $order->getPlusMoney($contract_detail_id);
         }
         //send mail
-//        if(!empty($contract_application_date_temp)){
-   //         @$mail->order($order_id);
-  //      }
+        if(!empty($contract_application_date)){
+            $mail->order($order_id);
+        }
         // if ($user->user_info['id'] == $client_arr['user_id']) {
         //fetch introduce
         /* if (1) {
