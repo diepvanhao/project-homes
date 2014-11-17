@@ -1445,6 +1445,11 @@ if ($step == 1) {
     $smarty->assign('room_rented', $room_rented);
     $smarty->assign('room_administrative_expense', $room_administrative_expense);
     $smarty->assign('contract_total', $contract_total);
+    $smarty->assign('contract_broker_fee_unit', $contract_broker_fee_unit);
+    $smarty->assign('contract_deposit1_money_unit', $contract_deposit1_money_unit);
+    $smarty->assign('contract_key_money_unit', $contract_key_money_unit);
+    $smarty->assign('contract_ads_fee_unit', $contract_ads_fee_unit);
+    $smarty->assign('contract_deposit2_money_unit', $contract_deposit2_money_unit);
 
     $smarty->assign('introduce_house_id', $introduce_house_id);
     $smarty->assign('introduce_room_id', $introduce_room_id);
