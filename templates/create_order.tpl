@@ -1020,16 +1020,16 @@
                     $('#street_cus').val('');
                     $('#ward_cus').val('');
                     $('#city_id').each(function() {
-                        $('option').removeAttr('selected');
+                        $('#city_id option').removeAttr('selected');
                     });
                     $('#district').each(function() {
-                        $('option').removeAttr('selected');
+                        $('#district option').removeAttr('selected');
                     });
                     $('#street').each(function() {
-                        $('option').removeAttr('selected');
+                        $('#street option').removeAttr('selected');
                     });
                     $('#ward').each(function() {
-                        $('option').removeAttr('selected');
+                        $('#ward option').removeAttr('selected');
                     });
 
                     $('#client_occupation').val("");
@@ -1037,7 +1037,7 @@
                     $('#client_income').val("");
                     //$('#client_room_type').val(json.client_room_type);
                     $('#client_room_type').each(function() {
-                        $('option').removeAttr('selected');
+                        $('#client_room_type option').removeAttr('selected');
                     });
                     $('#client_rent').val("");
                     $('#client_reason_change').val("");
@@ -1322,14 +1322,14 @@
                 }
                 window.location = "create_broker_company.php?return_url=create_order.php" + params;
             }
-            function createHouse(){
+            function createHouse() {
                 var params = '';
                 if ($('#broker_id').val()) {
                     params += '&broker_id=' + $('#broker_id').val();
                 }
                 if ($('#staff_id').val()) {
                     params += '&staff_id=' + $('#staff_id').val();
-                }                                
+                }
                 window.location = "create_house.php?return_url=create_order.php" + params;
             }
             $(document).ready(function() {
@@ -2038,40 +2038,40 @@
                         </td>
                         <td class='form1'>礼金:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
+                            <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_key_money_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_key_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
                         </td>
                     </tr>                                        
                     <tr>                    
                         <td class='form1'>仲介手数料:</td>
                         <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
+                            <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_broker_fee_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月" {if $contract_broker_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
                         </td>
                         <td class='form1'>広告費:</td>
                         <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
+                            <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_ads_fee_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_ads_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
                         </td>                                           
                     </tr>
                     <tr>
                         <td class='form1'>敷金・保証金（預かり）:</td>
                         <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
+                            <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_deposit1_money_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_deposit1_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select></td>
                         <td class='form1' nowrap>敷金・保証金（償却）:</td>
                         <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
-                                <option value="円">円</option>
-                                <option value="ヵ月">ヵ月</option>
+                            <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_deposit2_money_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_deposit2_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
                         </td>
                     </tr>
