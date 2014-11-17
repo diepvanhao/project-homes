@@ -1627,158 +1627,86 @@ class Report {
             'month_already_recorded' => 0.00,
             'month_unsigned' => 0.00,
         );
-        //fee today
-        $select = "SELECT o.id AS order_id, 
-                    o.user_id AS user_id, 
-                    d.id AS detail_id,
-                    d.contract_broker_fee AS broker_fee, 
-                    d.contract_ads_fee AS ads_fee,  
-                    d.contract_application AS application, 
-                    d.contract_signature_day AS signature_date,
-                    d.contract_payment_report AS transaction
-            FROM home_order o
+        //Unsigned_broker_fee_today
+        $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today}";
-
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today} 
+                  AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <> '" . date('Y-d-m', $time) . "'";
         $result = $database->database_query($select);
-        //++
-        while ($row = $database->database_fetch_assoc($result)) {
-            if (empty($row['application'])) {
-                continue;
-            }
-            $select_partner = "SELECT SUM(p.partner_percent) as percent FROM home_contract_partner AS p
-                WHERE p.contract_detail_id = '{$row['detail_id']}'";
-            $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
-            if (!empty($tmp['percent']) && $tmp['percent'] < 100 && $tmp['percent'] > 0) {
-                $row['broker_fee'] = $row['broker_fee'] * ((100 - $tmp['percent']) / 100);
-                $row['ads_fee'] = $row['ads_fee'] * ((100 - $tmp['percent']) / 100);
-            }
-            
-            if (!empty($row['transaction'])) {
-                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
-            } elseif (!empty($row['signature_date'])) {
-                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'];
-                $return['today_unsigned'] = $return['today_unsigned'] + $row['ads_fee'];
-            } else {
-                $return['today_unsigned'] = $return['today_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
-            }
-        }
+        $row = $database->database_fetch_array($result);
+        $return['today_unsigned'] += (float) $row[0];      
         
-        $select = "SELECT o.id AS order_id, 
-                    o.user_id AS user_id, 
-                    d.id AS detail_id,
-                    d.contract_broker_fee AS broker_fee, 
-                    d.contract_ads_fee AS ads_fee,  
-                    d.contract_application AS application, 
-                    d.contract_signature_day AS signature_date,
-                    d.contract_payment_report AS transaction,
-                    p.*
-            FROM home_order o
+        //Unsigned_broker_fee_month
+        $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            INNER JOIN home_contract_partner p  ON p.contract_detail_id = d.id
-            WHERE p.partner_id = {$user_id} AND o.order_status = 1 AND  {$today}";
-
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today} 
+                  AND (d.contract_signature_day > {$time} OR d.contract_signature_day < {$fromtime} OR  d.contract_signature_day IS NULL) ";
         $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_unsigned'] += (float) $row[0]; 
 
-        while ($row = $database->database_fetch_assoc($result)) {
-            if (empty($row['application'])) {
-                continue;
-            }
-            
-            if (!empty($row['partner_percent']) && $row['partner_percent'] < 100 && $row['partner_percent'] > 0) {
-                $row['broker_fee'] = $row['broker_fee'] * ($row['partner_percent'] / 100);
-                $row['ads_fee'] = $row['ads_fee'] * ( $row['partner_percent'] / 100);
-            }else{
-                continue;
-            }
-
-            if (!empty($row['transaction'])) {
-                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
-            } elseif (!empty($row['signature_date'])) {
-                $return['today_already_recorded'] = $return['today_already_recorded'] + $row['broker_fee'];
-                $return['today_unsigned'] = $return['today_unsigned'] + $row['ads_fee'];
-            } else {
-                $return['today_unsigned'] = $return['today_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
-            }
-        }
-        //fee of month
-        $select = "SELECT o.id AS order_id, 
-                    o.user_id AS user_id, 
-                    d.id AS detail_id,
-                    d.contract_broker_fee AS broker_fee, 
-                    d.contract_ads_fee AS ads_fee,  
-                    d.contract_application AS application, 
-                    d.contract_signature_day AS signature_date,
-                    d.contract_payment_report AS transaction
-            FROM home_order o
+        //Unsigned_ads_fee_today
+        $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month}";
-
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today} 
+                  AND  (d.contract_payment_report <> 1 OR DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%d-%m') <> '" . date('Y-d-m', $time) . "')";
         $result = $database->database_query($select);
-
-        while ($row = $database->database_fetch_assoc($result)) {
-            if (empty($row['application'])) {
-                continue;
-            }
-            $select_partner = "SELECT SUM(p.partner_percent) as percent FROM home_contract_partner AS p
-                WHERE p.contract_detail_id = '{$row['detail_id']}'";
-            $tmp = $database->database_fetch_assoc($database->database_query($select_partner));
-            if (!empty($tmp['percent']) && $tmp['percent'] < 100 && $tmp['percent'] > 0) {
-                $row['broker_fee'] = $row['broker_fee'] * ((100 - $tmp['percent']) / 100);
-                $row['ads_fee'] = $row['ads_fee'] * ((100 - $tmp['percent']) / 100);
-            }
-            
-            if (!empty($row['transaction'])) {
-                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
-            } elseif (!empty($row['signature_date'])) {
-                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'];
-                $return['month_unsigned'] = $return['month_unsigned'] + $row['ads_fee'];
-            } else {
-                $return['month_unsigned'] = $return['month_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
-            }
-        }
+        $row = $database->database_fetch_array($result);
+        $return['today_unsigned'] += (float) $row[0]; 
         
-        $select = "SELECT o.id AS order_id, 
-                    o.user_id AS user_id, 
-                    d.id AS detail_id,
-                    d.contract_broker_fee AS broker_fee, 
-                    d.contract_ads_fee AS ads_fee,  
-                    d.contract_application AS application, 
-                    d.contract_signature_day AS signature_date,
-                    d.contract_payment_report AS transaction,
-                    p.*
-            FROM home_order o
+        //Unsigned_ads_fee_month
+        $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            INNER JOIN home_contract_partner p  ON p.contract_detail_id = d.id
-            WHERE p.partner_id = {$user_id} AND o.order_status = 1 AND  {$month}";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month} 
+                  AND (d.contract_payment_date_to > {$time} OR d.contract_payment_date_to < {$fromtime} OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)";
         $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_unsigned'] += (float) $row[0];        
+        
+        //***recorded_broker_fee_today
+        $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 
+                  AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') = '" . date('Y-d-m', $time) . "'";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_already_recorded'] += (float) $row[0];
 
-        while ($row = $database->database_fetch_assoc($result)) {
-            if (empty($row['application'])) {
-                continue;
-            }
-            
-            if (!empty($row['partner_percent']) && $row['partner_percent'] < 100 && $row['partner_percent'] > 0) {
-                $row['broker_fee'] = $row['broker_fee'] * ($row['partner_percent'] / 100);
-                $row['ads_fee'] = $row['ads_fee'] * ( $row['partner_percent'] / 100);
-            }else {
-                continue;
-            }
-                
-
-            if (!empty($row['transaction'])) {
-                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'] + $row['ads_fee'];
-            } elseif (!empty($row['signature_date'])) {
-                $return['month_already_recorded'] = $return['month_already_recorded'] + $row['broker_fee'];
-                $return['month_unsigned'] = $return['month_unsigned'] + $row['ads_fee'];
-            } else {
-                $return['month_unsigned'] = $return['month_unsigned'] + $row['broker_fee'] + $row['ads_fee'];
-            }
-        }
+        //***recorded_broker_fee_month
+        $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 
+                  AND (d.contract_signature_day <= {$time} AND d.contract_signature_day >= {$fromtime})";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_already_recorded'] += (float) $row[0];
+        
+        //Already_ads_fee_today
+        $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 
+                  AND  d.contract_payment_report = 1 AND DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%d-%m') = '" . date('Y-d-m', $time) . "'";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_already_recorded'] += (float) $row[0]; 
+        //Already_ads_fee_month
+        $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1
+                  AND d.contract_payment_date_to <= {$time} AND d.contract_payment_date_to >= {$fromtime} 
+                  AND  d.contract_payment_report = 1";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_already_recorded'] += (float) $row[0];   
+        
         return  array(
             'today_already_recorded' => round($return['today_already_recorded']/1.08,2),
             'today_unsigned' => round($return['today_unsigned']/1.08,2),
