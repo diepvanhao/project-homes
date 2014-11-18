@@ -143,13 +143,32 @@ class Report {
 
 
         //previous month
-        $select = "SELECT SUM(d.contract_total) FROM home_order o
+//        $select = "SELECT SUM(d.contract_total) FROM home_order o
+//            INNER JOIN home_contract c  ON o.id = c.order_id
+//            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+//            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
+//        $result = $database->database_query($select);
+//        $row = $database->database_fetch_array($result);
+        $return['cost_previous_month'] = 0.00; 
+       //Unsigned_broker_fee_today
+        $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'
+                  AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        $return['cost_previous_month'] = (int) abs($row[0]); 
+        $return['cost_previous_month'] += (float) $row[0];      
+        //Unsigned_ads_fee_today
+        $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'
+                  AND  (d.contract_payment_report <> 1 OR DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "')";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['cost_previous_month'] += (float) $row[0]; 
+        
         
         $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
