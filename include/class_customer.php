@@ -422,7 +422,7 @@ class HOMECustomer {
         $client_phone = trim($client_phone);
         $client_email=trim($client_email);
         $query = "select * from home_client where (client_phone='{$client_phone}' and  client_name='{$client_name}')"
-        . "or (client_mail='{$client_email}' and  client_name='{$client_name}')";
+        . "or (client_email='{$client_email}' and  client_name='{$client_name}')";
         
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
