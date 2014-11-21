@@ -998,11 +998,11 @@ if (isset($_POST['save'])) {
         $ajax->update_customer($gender, $house_address_serialize, $client_occupation, $client_company, $client_income, $client_room_type, $client_room_type_number, $client_rent, $client_reason_change, $client_time_change, $client_resident_name, $client_resident_phone, $client_id, $order_id, $house_search);
         //update hisotry
 
-        $log_time_call_temp = trim($log_time_call_date) != "" ? strtotime($log_time_call_date . " " . $log_time_call . ' ' . 'Europe/Berlin') : null;
-        $log_time_arrive_company_temp = trim($log_time_arrive_company_date) != "" ? strtotime($log_time_arrive_company_date . " " . $log_time_arrive_company . ' ' . 'Europe/Berlin') : null;
-        $log_time_mail_temp = trim($log_time_mail_date) != "" ? strtotime($log_time_mail_date . " " . $log_time_mail . ' ' . 'Europe/Berlin') : null;
-        $log_date_appointment_to_temp = trim($log_date_appointment_to_date) != "" ? strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to . ' ' . 'Europe/Berlin') : null;
-        $log_date_appointment_from_temp = trim($log_date_appointment_from_date) != "" ? strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from . ' ' . 'Europe/Berlin') : null;
+        $log_time_call_temp = trim($log_time_call_date) != "" ? strtotime($log_time_call_date . " " . $log_time_call) : null;
+        $log_time_arrive_company_temp = trim($log_time_arrive_company_date) != "" ? strtotime($log_time_arrive_company_date . " " . $log_time_arrive_company) : null;
+        $log_time_mail_temp = trim($log_time_mail_date) != "" ? strtotime($log_time_mail_date . " " . $log_time_mail) : null;
+        $log_date_appointment_to_temp = trim($log_date_appointment_to_date) != "" ? strtotime($log_date_appointment_to_date . " " . $log_date_appointment_to) : null;
+        $log_date_appointment_from_temp = trim($log_date_appointment_from_date) != "" ? strtotime($log_date_appointment_from_date . " " . $log_date_appointment_from) : null;
 
         $ajax->update_history($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_revisit_arr, $log_revisit_bk, $source_id, $log_status_appointment, $client_id, $order_id);
         //update introduce            
@@ -1037,13 +1037,13 @@ if (isset($_POST['save'])) {
         }
 
         //update time
-        $contract_signature_day_temp = trim($contract_signature_day_date) != "" ? strtotime($contract_signature_day_date . " " . $contract_signature_day . ' ' . 'Europe/Berlin') : null;
-        $contract_handover_day_temp = trim($contract_handover_day_date) != "" ? strtotime($contract_handover_day_date . " " . $contract_handover_day . ' ' . 'Europe/Berlin') : null;
-        $contract_period_from_temp = trim($contract_period_from) != "" ? strtotime($contract_period_from . ' ' . 'Europe/Berlin') : null;
-        $contract_period_to_temp = trim($contract_period_to) != "" ? strtotime($contract_period_to . ' ' . 'Europe/Berlin') : null;
-        $contract_application_date_temp = trim($contract_application_date) != "" ? strtotime($contract_application_date . ' ' . 'Europe/Berlin') : null;
-        $contract_payment_date_from_temp = trim($contract_payment_date_from) != "" ? strtotime($contract_payment_date_from . ' ' . 'Europe/Berlin') : null;
-        $contract_payment_date_to_temp = trim($contract_payment_date_to) != "" ? strtotime($contract_payment_date_to . ' ' . 'Europe/Berlin') : null;
+        $contract_signature_day_temp = trim($contract_signature_day_date) != "" ? strtotime($contract_signature_day_date . " " . $contract_signature_day) : null;
+        $contract_handover_day_temp = trim($contract_handover_day_date) != "" ? strtotime($contract_handover_day_date . " " . $contract_handover_day) : null;
+        $contract_period_from_temp = trim($contract_period_from) != "" ? strtotime($contract_period_from) : null;
+        $contract_period_to_temp = trim($contract_period_to) != "" ? strtotime($contract_period_to) : null;
+        $contract_application_date_temp = trim($contract_application_date) != "" ? strtotime($contract_application_date) : null;
+        $contract_payment_date_from_temp = trim($contract_payment_date_from) != "" ? strtotime($contract_payment_date_from) : null;
+        $contract_payment_date_to_temp = trim($contract_payment_date_to) != "" ? strtotime($contract_payment_date_to) : null;
 
         $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
 
