@@ -198,8 +198,7 @@ class Report {
         
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
-            SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
-            SUM(log_tel_status) AS month_tel_status,SUM(log_mail_status) AS month_mail_status
+            SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_appointment}
@@ -208,7 +207,7 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
         
-        $select = "SELECT SUM(log_tel) AS today_tel_status,SUM(log_mail) AS today_mail_status
+        $select = "SELECT SUM(log_tel) AS month_tel_status,SUM(log_mail) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$month_appointment}
@@ -220,11 +219,12 @@ class Report {
         //log revisit
         $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND o.user_id = {$user_id} AND  {$month} ");
         
-        //Application
+        //Application      
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_application'] = (int) $row[0];
@@ -232,7 +232,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 AND {$month} ";
+            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 
+                AND d.contract_application_date  <= $time AND d.contract_application_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_application'] = (int) $row[0];
@@ -271,8 +272,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
-
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'  ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_agreement'] = (int) $row[0];
@@ -280,7 +281,9 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$month} ";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND d.contract_signature_day  <= $time AND d.contract_signature_day >= $fromtime  ";
+
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_agreement'] = (int) $row[0];
