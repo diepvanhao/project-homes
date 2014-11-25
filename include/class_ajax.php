@@ -398,11 +398,35 @@ class ajax {
         //serialize revisit
         if (!empty($log_revisit)) {
             $revisit[] = $log_revisit;
-            $log_revisit = serialize($revisit);
+            $log_revisit_serialize = serialize($revisit);
         }
         //check order exist
-
-        if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
+        $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);
+        if ($history_id) {
+            //update revisit
+            if (!empty($log_revisit)) {
+                $log_revisit_milisection = strtotime($log_revisit);
+                $query_revisit = "select id from home_history_revisit where history_id='{$history_id}'";
+                $result = $database->database_query($query_revisit);
+                $row = $database->database_fetch_assoc($result);
+                $revisit_id = $row['id'];
+                if ($revisit_id) {
+                    $query_update_revisit = "update home_history_revisit set
+                                     revisit_date='{$log_revisit_milisection}'
+                                     where id='{$revisit_id}'    
+                                     ";
+                    $database->database_query($query_update_revisit);
+                } else {
+                    $query_history_revisit = "insert into home_history_revisit ("
+                            . "history_id,"
+                            . "revisit_date"
+                            . ")values("
+                            . "'{$history_id}',"
+                            . "'{$log_revisit_milisection}'"
+                            . ")";
+                    $database->database_query($query_history_revisit);
+                }
+            }
             //update history exist
             $query = "update home_history_log set 
                     source_id='{$source_id}',
@@ -421,7 +445,7 @@ class ajax {
                     log_contact_head_office='{$log_contact_head_office}',
                     log_tel_status='{$log_tel_status}',
                     log_mail_status='{$log_mail_status}',
-                    log_revisit='{$log_revisit}',
+                    log_revisit='{$log_revisit_serialize}',
                     log_time_mail='{$log_time_mail}',
                     log_date_appointment_to='{$log_date_appointment_to}'
                     
@@ -473,12 +497,27 @@ class ajax {
                     . "'{$log_contact_head_office}',"
                     . "'{$log_tel_status}',"
                     . "'{$log_mail_status}',"
-                    . "'{$log_revisit}',"
+                    . "'{$log_revisit_serialize}',"
                     . "'{$log_time_mail}',"
                     . "'{$log_date_appointment_to}'"
                     . ")";
             $result = $database->database_query($query);
-            return array('id' => $database->database_insert_id());
+            $history_id = $database->database_insert_id();
+            //insert history revisit
+            if (!empty($log_revisit)) {
+                if ($history_id) {
+                    $log_revisit_milisection = strtotime($log_revisit);
+                    $query_history_revisit = "insert into home_history_revisit ("
+                            . "history_id,"
+                            . "revisit_date"
+                            . ")values("
+                            . "'{$history_id}',"
+                            . "'{$log_revisit_milisection}'"
+                            . ")";
+                    $database->database_query($query_history_revisit);
+                }
+            }
+            return array('id' => $history_id);
         }
     }
 
@@ -500,7 +539,8 @@ class ajax {
         }else {
             $log_revisit_array_edit = "";
         }
-        if (checkExistHistory($user->user_info['id'], $client_id, $order_id)) {
+        $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);
+        if ($history_id) {
             //update history exist
             if (trim($log_revisit) == trim($log_revisit_bk)) {
                 $query = "update home_history_log set 
@@ -529,6 +569,34 @@ class ajax {
 
                 return array('id' => "", 'update' => $database->database_query($query));
             } else {
+                //update revisit
+                if (!empty($log_revisit)) {
+                    $log_revisit_milisection = strtotime($log_revisit);
+                    $query_revisit = "select id from home_history_revisit where history_id='{$history_id}' and revisit_date='{$log_revisit_milisection}' order by id DESC limit 1";
+                    //echo $query_revisit;die();
+                    $result = $database->database_query($query_revisit);
+                    $row = $database->database_fetch_assoc($result);
+                    $revisit_id = $row['id'];
+                    if ($revisit_id) {
+                        $query_update_revisit = "update home_history_revisit set
+                                     revisit_date='{$log_revisit_milisection}'
+                                     where id='{$revisit_id}'    
+                                     ";
+                        $database->database_query($query_update_revisit);
+                    } else {
+                        $query_history_revisit = "insert into home_history_revisit ("
+                                . "history_id,"
+                                . "revisit_date"
+                                . ")values("
+                                . "'{$history_id}',"
+                                . "'{$log_revisit_milisection}'"
+                                . ")";
+                                
+                        $database->database_query($query_history_revisit);
+                    }
+                }
+
+//update history exist
                 $query = "update home_history_log set 
                     source_id='{$source_id}',
                     log_time_call='{$log_time_call}',
@@ -604,6 +672,22 @@ class ajax {
                     . "'{$log_date_appointment_to}'"
                     . ")";
             $result = $database->database_query($query);
+            $history_id = $database->database_insert_id();
+            //insert history revisit
+            if (!empty($log_revisit)) {
+                if ($history_id) {
+                    $log_revisit_milisection = strtotime($log_revisit);
+                    $query_history_revisit = "insert into home_history_revisit ("
+                            . "history_id,"
+                            . "revisit_date"
+                            . ")values("
+                            . "'{$history_id}',"
+                            . "'{$log_revisit_milisection}'"
+                            . ")";
+                            
+                    $database->database_query($query_history_revisit);
+                }
+            }
             return array('id' => $database->database_insert_id());
         }
     }
@@ -689,7 +773,7 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented,$room_administrative_expense, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id) {
         global $database, $user;
         //calculator fee
         $total = 0;
@@ -853,7 +937,7 @@ class ajax {
                         . "contract_ambition,"
                         . "money_payment,"
                         . "room_rented,"
-                        ."room_administrative_expense"
+                        . "room_administrative_expense"
                         . ") values("
                         . "'{$contract_id}',"
                         . "'{$contract_cost}',"
@@ -883,7 +967,7 @@ class ajax {
                         . "'{$contract_ambition}',"
                         . "'{$money_payment}',"
                         . "'{$room_rented}',"
-                        ."'{$room_administrative_expense}'"
+                        . "'{$room_administrative_expense}'"
                         . ")";
                 //   echo $query;die();
                 $result = $database->database_query($query);
@@ -1099,8 +1183,8 @@ class ajax {
                 if (trim($contract['contract_signature_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "契約日";
-                    $event['time']=date('H:i',$contract['contract_signature_day']);
-                    $event['start'] = date('Y/m/d',$contract['contract_signature_day']);
+                    $event['time'] = date('H:i', $contract['contract_signature_day']);
+                    $event['start'] = date('Y/m/d', $contract['contract_signature_day']);
 //                    $start = explode(" ", $contract['contract_signature_day']);
 //                    if (isset($start[1]))
 //                        $event['time'] = $start[1];
@@ -1135,8 +1219,8 @@ class ajax {
                 if (trim($contract['contract_handover_day'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "鍵渡し日";
-                    $event['time']=date('H:i',$contract['contract_handover_day']);
-                    $event['start'] = date('Y/m/d',$contract['contract_handover_day']);
+                    $event['time'] = date('H:i', $contract['contract_handover_day']);
+                    $event['start'] = date('Y/m/d', $contract['contract_handover_day']);
 //                    $start = explode(" ", $contract['contract_handover_day']);
 //                    if (isset($start[1]))
 //                        $event['time'] = $start[1];
@@ -1170,8 +1254,8 @@ class ajax {
                 if (trim($contract['contract_payment_date_from'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "入金日";
-                    $event['time']="";
-                    $event['start'] = date('Y/m/d',$contract['contract_payment_date_from']);
+                    $event['time'] = "";
+                    $event['start'] = date('Y/m/d', $contract['contract_payment_date_from']);
 //                    $start = explode(" ", $contract['contract_payment_date_from']);
 //                    if (isset($start[1]))
 //                        $event['time'] = $start[1];
@@ -1183,7 +1267,7 @@ class ajax {
 //                    if (isset($end[0]))
 //                        $event['end'] = $end[0];
 //                    else
-                        $event['end'] = "";
+                    $event['end'] = "";
                     //fetch agent, user info.      
                     $agent_info = $agent->getAgentByUserId($row['user_id'], $agent_id);
                     if ($agent_info)
@@ -1209,15 +1293,15 @@ class ajax {
                 if (trim($contract['contract_period_from'])) {
                     $event['id'] = $row['id'];
                     $event['title'] = "期間";
-                    $event['time']="";
-                    $event['start'] = date('Y/m/d',$contract['contract_period_from']);
+                    $event['time'] = "";
+                    $event['start'] = date('Y/m/d', $contract['contract_period_from']);
 //                    $start = explode(" ", $contract['contract_period_from']);
 //                    if (isset($start[1]))
 //                        $event['time'] = $start[1];
 //                    else
 //                        $event['time'] = "";
 //                    $event['start'] = $start[0];
-                    $event['end'] = date('Y/m/d',$contract['contract_period_to']);
+                    $event['end'] = date('Y/m/d', $contract['contract_period_to']);
 //                    $end = explode(" ", $contract['contract_period_to']);
 //                    if (isset($end[0]))
 //                        $event['end'] = $end[0];
@@ -1303,8 +1387,8 @@ class ajax {
             if (trim($history['log_date_appointment_from'])) {
                 $event['id'] = $row['id'];
                 $event['title'] = "来店日";
-                $event['time']=date('H:i',$history['log_date_appointment_from']);
-                $event['start'] = date('Y/m/d',$history['log_date_appointment_from']);
+                $event['time'] = date('H:i', $history['log_date_appointment_from']);
+                $event['start'] = date('Y/m/d', $history['log_date_appointment_from']);
                 $event['end'] = "";
 //                $start = explode(" ", $history['log_date_appointment_from']);
 //                if (isset($start[1]))
@@ -1451,7 +1535,7 @@ class ajax {
 //                //fetch room_detail_id
 //                $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
 //                $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
-               // return $database->database_query($query);
+                // return $database->database_query($query);
                 return $result;
             } else {
                 return false;
@@ -1589,7 +1673,10 @@ function checkExistHistory($user_id, $client_id, $order_id) {
     $result = $database->database_query($query);
     $row = $database->database_num_rows($result);
     if ($row >= 1) {
-        return TRUE;
+        //get contract id
+        $info = $database->database_fetch_assoc($result);
+        return $info['id'];
+        // return TRUE;
     } else {
         return FALSE;
     }

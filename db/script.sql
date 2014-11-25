@@ -387,3 +387,12 @@ ALTER TABLE `home_history_log`
 /*5/11Hao*/
 ALTER TABLE `home_client`   
   CHANGE `client_rent` `client_rent` FLOAT(16,2) NULL;
+
+/*25/11 Hao*/
+
+CREATE TABLE `home_history_revisit`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `history_id` INT(11),
+  `revisit_date` INT(11),
+  PRIMARY KEY (`id`)
+);
