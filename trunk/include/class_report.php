@@ -194,7 +194,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  {$today}");
+        $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'");
         
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
@@ -217,7 +217,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND o.user_id = {$user_id} AND  {$month} ");
+        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND o.user_id = {$user_id} AND  rv.revisit_date  <= $time AND rv.revisit_date  >= $fromtime  ");
         
         //Application      
         $select = "SELECT COUNT(*) FROM home_order o
@@ -339,8 +339,7 @@ class Report {
          */
         //track record
         $select = "SELECT SUM(log_shop_sign) AS todaymail_shop_sign, SUM(log_local_sign) AS todaymail_local_sign, SUM(log_introduction) AS todaymail_introduction, SUM(log_tel) AS todaymail_tel, 
-            SUM(log_mail) AS todaymail_mail, SUM(log_flyer) AS todaymail_flyer, SUM(log_line) AS todaymail_line, SUM(log_contact_head_office) AS todaymail_contact_head_office,
-            SUM(log_tel_status) AS todaymail_tel_status,SUM(log_mail_status) AS todaymail_mail_status
+            SUM(log_mail) AS todaymail_mail, SUM(log_flyer) AS todaymail_flyer, SUM(log_line) AS todaymail_line, SUM(log_contact_head_office) AS todaymail_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -350,12 +349,21 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
         
+        $select = "SELECT SUM(log_tel) AS todaymail_tel_status,SUM(log_mail) AS todaymail_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todaymail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todaymail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yearmail_shop_sign, SUM(log_local_sign) AS yearmail_local_sign, SUM(log_introduction) AS yearmail_introduction, SUM(log_tel) AS yearmail_tel, 
-            SUM(log_mail) AS yearmail_mail, SUM(log_flyer) AS yearmail_flyer, SUM(log_line) AS yearmail_line, SUM(log_contact_head_office) AS yearmail_contact_head_office,
-            SUM(log_tel_status) AS yearmail_tel_status,SUM(log_mail_status) AS yearmail_mail_status
+            SUM(log_mail) AS yearmail_mail, SUM(log_flyer) AS yearmail_flyer, SUM(log_line) AS yearmail_line, SUM(log_contact_head_office) AS yearmail_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -365,8 +373,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yearmail_tel_status,SUM(log_mail) AS yearmail_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearmail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearmail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -374,7 +392,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_application'] = (int) $row[0];
@@ -384,7 +403,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_application'] = (int) $row[0];
@@ -433,7 +453,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_agreement'] = (int) $row[0];
@@ -443,7 +464,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_agreement'] = (int) $row[0];
@@ -452,8 +474,7 @@ class Report {
          * Phone report
          */
         $select = "SELECT SUM(log_shop_sign) AS todayphone_shop_sign, SUM(log_local_sign) AS todayphone_local_sign, SUM(log_introduction) AS todayphone_introduction, SUM(log_tel) AS todayphone_tel, 
-            SUM(log_mail) AS todayphone_mail, SUM(log_flyer) AS todayphone_flyer, SUM(log_line) AS todayphone_line, SUM(log_contact_head_office) AS todayphone_contact_head_office,
-            SUM(log_tel_status) AS todayphone_tel_status,SUM(log_mail_status) AS todayphone_mail_status
+            SUM(log_mail) AS todayphone_mail, SUM(log_flyer) AS todayphone_flyer, SUM(log_line) AS todayphone_line, SUM(log_contact_head_office) AS todayphone_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -463,12 +484,21 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
         
+        $select = "SELECT SUM(log_tel) AS todayphone_tel_status,SUM(log_mail) AS todayphone_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todayphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todayphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yearphone_shop_sign, SUM(log_local_sign) AS yearphone_local_sign, SUM(log_introduction) AS yearphone_introduction, SUM(log_tel) AS yearphone_tel, 
-            SUM(log_mail) AS yearphone_mail, SUM(log_flyer) AS yearphone_flyer, SUM(log_line) AS yearphone_line, SUM(log_contact_head_office) AS yearphone_contact_head_office,
-            SUM(log_tel_status) AS yearphone_tel_status,SUM(log_mail_status) AS yearphone_mail_status
+            SUM(log_mail) AS yearphone_mail, SUM(log_flyer) AS yearphone_flyer, SUM(log_line) AS yearphone_line, SUM(log_contact_head_office) AS yearphone_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -478,8 +508,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yearphone_tel_status,SUM(log_mail) AS yearphone_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -487,7 +527,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayphone_application'] = (int) $row[0];
@@ -497,7 +538,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_application'] = (int) $row[0];
@@ -546,7 +588,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayphone_agreement'] = (int) $row[0];
@@ -556,7 +599,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_agreement'] = (int) $row[0];
@@ -564,8 +608,7 @@ class Report {
          * house discount
          */
         $select = "SELECT SUM(log_shop_sign) AS todaydiscount_shop_sign, SUM(log_local_sign) AS todaydiscount_local_sign, SUM(log_introduction) AS todaydiscount_introduction, SUM(log_tel) AS todaydiscount_tel, 
-            SUM(log_mail) AS todaydiscount_mail, SUM(log_flyer) AS todaydiscount_flyer, SUM(log_line) AS todaydiscount_line, SUM(log_contact_head_office) AS todaydiscount_contact_head_office,
-            SUM(log_tel_status) AS todaydiscount_tel_status,SUM(log_mail_status) AS todaydiscount_mail_status
+            SUM(log_mail) AS todaydiscount_mail, SUM(log_flyer) AS todaydiscount_flyer, SUM(log_line) AS todaydiscount_line, SUM(log_contact_head_office) AS todaydiscount_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -577,12 +620,23 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS todaydiscount_tel_status ,SUM(log_mail) AS todaydiscount_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todaydiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todaydiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yeardiscount_shop_sign, SUM(log_local_sign) AS yeardiscount_local_sign, SUM(log_introduction) AS yeardiscount_introduction, SUM(log_tel) AS yeardiscount_tel, 
-            SUM(log_mail) AS yeardiscount_mail, SUM(log_flyer) AS yeardiscount_flyer, SUM(log_line) AS yeardiscount_line, SUM(log_contact_head_office) AS yeardiscount_contact_head_office,
-            SUM(log_tel_status) AS yeardiscount_tel_status,SUM(log_mail_status) AS yeardiscount_mail_status
+            SUM(log_mail) AS yeardiscount_mail, SUM(log_flyer) AS yeardiscount_flyer, SUM(log_line) AS yeardiscount_line, SUM(log_contact_head_office) AS yeardiscount_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -594,8 +648,21 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yeardiscount_tel_status ,SUM(log_mail) AS yeardiscount_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            WHERE d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+            
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yeardiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yeardiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -605,7 +672,8 @@ class Report {
             INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_application'] = (int) $row[0];
@@ -617,7 +685,8 @@ class Report {
             INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_application'] = (int) $row[0];
@@ -676,7 +745,8 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
-            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_agreement'] = (int) $row[0];
@@ -687,7 +757,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_house hh  ON hh.id = o.house_id
-            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_agreement'] = (int) $row[0];
@@ -695,8 +766,7 @@ class Report {
          * Local sign
          */
         $select = "SELECT SUM(log_shop_sign) AS todaylocalsign_shop_sign, SUM(log_local_sign) AS todaylocalsign_local_sign, SUM(log_introduction) AS todaylocalsign_introduction, SUM(log_tel) AS todaylocalsign_tel, 
-            SUM(log_mail) AS todaylocalsign_mail, SUM(log_flyer) AS todaylocalsign_flyer, SUM(log_line) AS todaylocalsign_line, SUM(log_contact_head_office) AS todaylocalsign_contact_head_office,
-            SUM(log_tel_status) AS todaylocalsign_tel_status,SUM(log_mail_status) AS todaylocalsign_mail_status
+            SUM(log_mail) AS todaylocalsign_mail, SUM(log_flyer) AS todaylocalsign_flyer, SUM(log_line) AS todaylocalsign_line, SUM(log_contact_head_office) AS todaylocalsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -705,12 +775,22 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
+        
+        $select = "SELECT SUM(log_tel) AS todaylocalsign_tel_status ,SUM(log_mail) AS todaylocalsign_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todaylocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todaylocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yearlocalsign_shop_sign, SUM(log_local_sign) AS yearlocalsign_local_sign, SUM(log_introduction) AS yearlocalsign_introduction, SUM(log_tel) AS yearlocalsign_tel, 
-            SUM(log_mail) AS yearlocalsign_mail, SUM(log_flyer) AS yearlocalsign_flyer, SUM(log_line) AS yearlocalsign_line, SUM(log_contact_head_office) AS yearlocalsign_contact_head_office,
-            SUM(log_tel_status) AS yearlocalsign_tel_status,SUM(log_mail_status) AS yearlocalsign_mail_status
+            SUM(log_mail) AS yearlocalsign_mail, SUM(log_flyer) AS yearlocalsign_flyer, SUM(log_line) AS yearlocalsign_line, SUM(log_contact_head_office) AS yearlocalsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -720,8 +800,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yearlocalsign_tel_status ,SUM(log_mail) AS yearlocalsign_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearlocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearlocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -729,7 +819,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaylocalsign_application'] = (int) $row[0];
@@ -739,7 +830,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_application'] = (int) $row[0];
@@ -788,7 +880,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaylocalsign_agreement'] = (int) $row[0];
@@ -798,7 +891,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_agreement'] = (int) $row[0];
@@ -807,8 +901,7 @@ class Report {
          * Introduction
          */
         $select = "SELECT SUM(log_shop_sign) AS todayintroduction_shop_sign, SUM(log_local_sign) AS todayintroduction_local_sign, SUM(log_introduction) AS todayintroduction_introduction, SUM(log_tel) AS todayintroduction_tel, 
-            SUM(log_mail) AS todayintroduction_mail, SUM(log_flyer) AS todayintroduction_flyer, SUM(log_line) AS todayintroduction_line, SUM(log_contact_head_office) AS todayintroduction_contact_head_office,
-            SUM(log_tel_status) AS todayintroduction_tel_status,SUM(log_mail_status) AS todayintroduction_mail_status
+            SUM(log_mail) AS todayintroduction_mail, SUM(log_flyer) AS todayintroduction_flyer, SUM(log_line) AS todayintroduction_line, SUM(log_contact_head_office) AS todayintroduction_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -817,12 +910,22 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
+        
+        $select = "SELECT SUM(log_tel) AS todayintroduction_tel_status ,SUM(log_mail) AS todayintroduction_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todayintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todayintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
 
         $select = "SELECT SUM(log_shop_sign) AS yearintroduction_shop_sign, SUM(log_local_sign) AS yearintroduction_local_sign, SUM(log_introduction) AS yearintroduction_introduction, SUM(log_tel) AS yearintroduction_tel, 
-            SUM(log_mail) AS yearintroduction_mail, SUM(log_flyer) AS yearintroduction_flyer, SUM(log_line) AS yearintroduction_line, SUM(log_contact_head_office) AS yearintroduction_contact_head_office,
-            SUM(log_tel_status) AS yearintroduction_tel_status,SUM(log_mail_status) AS yearintroduction_mail_status
+            SUM(log_mail) AS yearintroduction_mail, SUM(log_flyer) AS yearintroduction_flyer, SUM(log_line) AS yearintroduction_line, SUM(log_contact_head_office) AS yearintroduction_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -832,8 +935,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yearintroduction_tel_status ,SUM(log_mail) AS yearintroduction_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -841,7 +954,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayintroduction_application'] = (int) $row[0];
@@ -851,7 +965,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_application'] = (int) $row[0];
@@ -900,7 +1015,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayintroduction_agreement'] = (int) $row[0];
@@ -910,7 +1026,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_agreement'] = (int) $row[0];
@@ -918,8 +1035,7 @@ class Report {
          * Shop sign
          */
         $select = "SELECT SUM(log_shop_sign) AS todayshopsign_shop_sign, SUM(log_local_sign) AS todayshopsign_local_sign, SUM(log_introduction) AS todayshopsign_introduction, SUM(log_tel) AS todayshopsign_tel, 
-            SUM(log_mail) AS todayshopsign_mail, SUM(log_flyer) AS todayshopsign_flyer, SUM(log_line) AS todayshopsign_line, SUM(log_contact_head_office) AS todayshopsign_contact_head_office,
-            SUM(log_tel_status) AS todayshopsign_tel_status,SUM(log_mail_status) AS todayshopsign_mail_status
+            SUM(log_mail) AS todayshopsign_mail, SUM(log_flyer) AS todayshopsign_flyer, SUM(log_line) AS todayshopsign_line, SUM(log_contact_head_office) AS todayshopsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -929,12 +1045,21 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS todayshopsign_tel_status ,SUM(log_mail) AS todayshopsign_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todayshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todayshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yearshopsign_shop_sign, SUM(log_local_sign) AS yearshopsign_local_sign, SUM(log_introduction) AS yearshopsign_introduction, SUM(log_tel) AS yearshopsign_tel, 
-            SUM(log_mail) AS yearshopsign_mail, SUM(log_flyer) AS yearshopsign_flyer, SUM(log_line) AS yearshopsign_line, SUM(log_contact_head_office) AS yearshopsign_contact_head_office,
-            SUM(log_tel_status) AS yearshopsign_tel_status,SUM(log_mail_status) AS yearshopsign_mail_status
+            SUM(log_mail) AS yearshopsign_mail, SUM(log_flyer) AS yearshopsign_flyer, SUM(log_line) AS yearshopsign_line, SUM(log_contact_head_office) AS yearshopsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -944,8 +1069,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
         
+         $select = "SELECT SUM(log_tel) AS yearshopsign_tel_status ,SUM(log_mail) AS yearshopsign_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -953,7 +1088,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayshopsign_application'] = (int) $row[0];
@@ -963,7 +1099,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_application'] = (int) $row[0];
@@ -1012,7 +1149,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayshopsign_agreement'] = (int) $row[0];
@@ -1022,7 +1160,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL  AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL  AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_agreement'] = (int) $row[0];
@@ -1030,8 +1169,7 @@ class Report {
          * Log Flyer
          */
         $select = "SELECT SUM(log_shop_sign) AS todayflyer_shop_sign, SUM(log_local_sign) AS todayflyer_local_sign, SUM(log_introduction) AS todayflyer_introduction, SUM(log_tel) AS todayflyer_tel, 
-            SUM(log_mail) AS todayflyer_mail, SUM(log_flyer) AS todayflyer_flyer, SUM(log_line) AS todayflyer_line, SUM(log_contact_head_office) AS todayflyer_contact_head_office,
-            SUM(log_tel_status) AS todayflyer_tel_status,SUM(log_mail_status) AS todayflyer_mail_status
+            SUM(log_mail) AS todayflyer_mail, SUM(log_flyer) AS todayflyer_flyer, SUM(log_line) AS todayflyer_line, SUM(log_contact_head_office) AS todayflyer_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1041,12 +1179,21 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS todayflyer_tel_status ,SUM(log_mail) AS todayflyer_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todayflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todayflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yearflyer_shop_sign, SUM(log_local_sign) AS yearflyer_local_sign, SUM(log_introduction) AS yearflyer_introduction, SUM(log_tel) AS yearflyer_tel, 
-            SUM(log_mail) AS yearflyer_mail, SUM(log_flyer) AS yearflyer_flyer, SUM(log_line) AS yearflyer_line, SUM(log_contact_head_office) AS yearflyer_contact_head_office,
-            SUM(log_tel_status) AS yearflyer_tel_status,SUM(log_mail_status) AS yearflyer_mail_status
+            SUM(log_mail) AS yearflyer_mail, SUM(log_flyer) AS yearflyer_flyer, SUM(log_line) AS yearflyer_line, SUM(log_contact_head_office) AS yearflyer_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1056,8 +1203,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yearflyer_tel_status ,SUM(log_mail) AS yearflyer_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1065,7 +1222,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayflyer_application'] = (int) $row[0];
@@ -1075,7 +1233,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_application'] = (int) $row[0];
@@ -1124,7 +1283,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayflyer_agreement'] = (int) $row[0];
@@ -1134,7 +1294,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$year} ";
+            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+               AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_agreement'] = (int) $row[0];
@@ -1143,8 +1304,7 @@ class Report {
          * Line
          */
         $select = "SELECT SUM(log_shop_sign) AS todayline_shop_sign, SUM(log_local_sign) AS todayline_local_sign, SUM(log_introduction) AS todayline_introduction, SUM(log_tel) AS todayline_tel, 
-            SUM(log_mail) AS todayline_mail, SUM(log_flyer) AS todayline_flyer, SUM(log_line) AS todayline_line, SUM(log_contact_head_office) AS todayline_contact_head_office,
-            SUM(log_tel_status) AS todayline_tel_status,SUM(log_mail_status) AS todayline_mail_status
+            SUM(log_mail) AS todayline_mail, SUM(log_flyer) AS todayline_flyer, SUM(log_line) AS todayline_line, SUM(log_contact_head_office) AS todayline_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1154,12 +1314,21 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS todayline_tel_status ,SUM(log_mail) AS todayline_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$today}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['todayline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$today} ");
+        $return['todayline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         $select = "SELECT SUM(log_shop_sign) AS yearline_shop_sign, SUM(log_local_sign) AS yearline_local_sign, SUM(log_introduction) AS yearline_introduction, SUM(log_tel) AS yearline_tel, 
-            SUM(log_mail) AS yearline_mail, SUM(log_flyer) AS yearline_flyer, SUM(log_line) AS yearline_line, SUM(log_contact_head_office) AS yearline_contact_head_office,
-            SUM(log_tel_status) AS yearline_tel_status,SUM(log_mail_status) AS yearline_mail_status
+            SUM(log_mail) AS yearline_mail, SUM(log_flyer) AS yearline_flyer, SUM(log_line) AS yearline_line, SUM(log_contact_head_office) AS yearline_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1169,8 +1338,18 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
+        $select = "SELECT SUM(log_tel) AS yearline_tel_status ,SUM(log_mail) AS yearline_mail_status
+            FROM home_history_log h
+            INNER JOIN home_order o  ON o.id = h.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            WHERE h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year}
+            ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_assoc($result);
+        $return = array_merge($return, $row);
+        
         //log revisit
-        $return['yearline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  {$year} ");
+        $return['yearline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1178,7 +1357,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$today} ";
+            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'  ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayline_application'] = (int) $row[0];
@@ -1188,7 +1368,8 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND {$year} ";
+            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
+               AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_application'] = (int) $row[0];
@@ -1237,7 +1418,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayline_agreement'] = (int) $row[0];
@@ -1247,7 +1429,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND  {$year} ";
+            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_agreement'] = (int) $row[0];
@@ -1394,7 +1577,7 @@ class Report {
         $return = array_merge($return, $row);
 
         //log revisit
-        $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  {$today} ");
+        $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
         
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
@@ -1410,7 +1593,7 @@ class Report {
         $return = array_merge($return, $row);
 
         //log revisit
-        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  {$month} ");
+        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  rv.revisit_date  <= $time AND rv.revisit_date  >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1533,7 +1716,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  {$today} ");
+        $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
 
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
@@ -1548,7 +1731,7 @@ class Report {
         $return = array_merge($return, $row);
 
         //log revisit
-        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  {$month} ");
+        $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  rv.revisit_date  <= $time AND rv.revisit_date  >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -4124,22 +4307,19 @@ class Report {
      private function getRevisit($where = ''){
          global $database;
         //more info on today
-        $select = "SELECT log_revisit AS revisit
+        $select = "SELECT count(*) AS revisit
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
             INNER JOIN home_broker_company c  ON o.broker_id = c.id
+            INNER JOIN home_history_revisit rv  ON rv.history_id = h.id
             WHERE $where
             ";
         $result = $database->database_query($select);
-        $number = 0;
-        while ($row = $database->database_fetch_assoc($result)) {
-            if(HOMEHouse::isSerialized($row['revisit'])){
-                $number += count(unserialize($row['revisit']));
-            }
-        }
-        return $number;
+        $row = $database->database_fetch_array($result);
+        return $row[0];
+        
      }
 }
