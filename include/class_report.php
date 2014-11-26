@@ -2026,7 +2026,7 @@ class Report {
         $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today} 
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$month} 
                   AND (d.contract_signature_day > {$time} OR d.contract_signature_day < {$fromtime} OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
