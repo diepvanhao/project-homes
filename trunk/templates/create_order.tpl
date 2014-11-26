@@ -2584,7 +2584,7 @@
                                                         $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     }
-                                                    if ($('#log_time_mail_type').is(':checked')) {alert('a');
+                                                    if ($('#log_time_mail_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(4)').css('display', '');
