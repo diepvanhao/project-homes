@@ -2028,7 +2028,6 @@ class Report {
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$today} 
                   AND (d.contract_signature_day > {$time} OR d.contract_signature_day < {$fromtime} OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) ";
-                  echo $select;
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_unsigned'] += (float) $row[0]; 
