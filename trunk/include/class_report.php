@@ -369,7 +369,7 @@ class Report {
         $return = array();
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $year = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $year = " h.log_date_appointment_from  <= $time AND h.log_date_appointment_from >= $fromtime ";
 
         $today_log_time_call = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_call ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $year_log_time_call = " h.log_time_call <=  $time AND h.log_time_call >= $fromtime ";
@@ -467,7 +467,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearmail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
+        $return['yearmail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1  AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -548,7 +548,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_agreement'] = (int) $row[0];
@@ -721,7 +721,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_agreement'] = (int) $row[0];
@@ -927,7 +927,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_house hh  ON hh.id = o.house_id
             WHERE hh.house_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_agreement'] = (int) $row[0];
@@ -1100,7 +1100,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_agreement'] = (int) $row[0];
@@ -1273,7 +1273,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_agreement'] = (int) $row[0];
@@ -1621,7 +1621,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-               AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+               AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_agreement'] = (int) $row[0];
@@ -1796,7 +1796,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND  d.contract_signature_day <=  $time AND  d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_agreement'] = (int) $row[0];
