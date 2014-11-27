@@ -487,7 +487,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_application'] = (int) $row[0];
@@ -660,7 +660,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_application'] = (int) $row[0];
@@ -855,7 +855,7 @@ class Report {
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_application'] = (int) $row[0];
@@ -1039,7 +1039,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_application'] = (int) $row[0];
@@ -1212,7 +1212,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_application'] = (int) $row[0];
@@ -1386,7 +1386,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_application'] = (int) $row[0];
@@ -1560,7 +1560,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-                AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_application'] = (int) $row[0];
@@ -1735,7 +1735,7 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
             WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 
-               AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+               AND h.contract_application_date <= $time AND h.contract_application_date  >=  $fromtime";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_application'] = (int) $row[0];
