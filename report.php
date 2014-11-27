@@ -39,9 +39,9 @@ if(!empty($post)){
         $error[] = "「日から」は「日まで」より大きくすることは禁止です。"; 
     }else{
         $arr = explode('/',$date);
-        $time = mktime(23, 59, 59, $arr[0], $arr[1], $arr[2]);
+        $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         $arr = explode('/',$fromdate);
-        $fromtime = mktime(0, 0, 0, $arr[0], $arr[1], $arr[2]);
+        $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         if($fromtime > $time){
             $error[] = "「日から」と「日まで」には空にすることは禁止です。"; 
         }
