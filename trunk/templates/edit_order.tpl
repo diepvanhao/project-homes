@@ -1658,7 +1658,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class='form1'>通話時刻: </td>
+                        <td class='form1' id="contact_method">通話時刻: </td>
                                 <td class='form2'>
                                     <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                                     <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
@@ -2488,11 +2488,11 @@
                                                         $('#log_mail').removeAttr('checked');
                                                         $('#log_mail_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
-
+                                                        $('#contact_method').html('通話時刻:');        
                                                     });
                                                     $('#log_time_mail_type').click(function() {
-                                                        $('#history table').find('tr:nth-child(4)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                        //$('#history table').find('tr:nth-child(4)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', '');
@@ -2503,6 +2503,7 @@
                                                         $('#log_tel').removeAttr('checked');
                                                         $('#log_tel_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
+                                                        $('#contact_method').html('メール送信時刻:');
                                                     });
                                                     $('#log_time_arrive_company_type').click(function() {
                                                         $('#history table').find('tr:nth-child(3)').css('display', '');
