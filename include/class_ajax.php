@@ -399,6 +399,8 @@ class ajax {
         if (!empty($log_revisit)) {
             $revisit[] = $log_revisit;
             $log_revisit_serialize = serialize($revisit);
+        }else{
+            $log_revisit_serialize="";
         }
         //check order exist
         $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);

@@ -1586,7 +1586,7 @@
 
     {/if}
     <form action="create_order.php" method="post">
-        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="">
+        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' >
             <tr>
                 <td>顧客検索</td>
                 <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 215px;" placeholder="顧客名を入力"/>
@@ -1792,13 +1792,13 @@
                     <tr>
                         <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
                         <td colspan="2">
-                            <input type="radio" {if $log_time_call_date ne "" or $log_tel eq '1'}checked="checked"{/if} id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
-                            <input type="radio" {if $log_time_mail_date ne "" or $log_mail eq '1'}checked="checked"{/if} id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
-                            <input type="radio"{if $log_time_arrive_company_date ne ""}checked="checked"{/if} id="log_time_arrive_company_type" name="choose_contact_type"/><label for="log_time_arrive_company_type">来店</label>
+                            <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
+                            <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
+                            <input type="radio" id="log_time_arrive_company_type" name="choose_contact_type"/><label for="log_time_arrive_company_type">来店</label>
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>通話時刻: </td>
+                        <td class='form1' id="contact_method">通話時刻: </td>
                         <td class='form2'>
                             <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
@@ -2581,21 +2581,13 @@
                                                     $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                     if ($('#log_time_call_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     }
                                                     if ($('#log_time_mail_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     }
                                                     if ($('#log_time_arrive_company_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                     }
                                                     $('#log_time_call_type').click(function() {
                                                         $('#history table').find('tr:nth-child(2)').css('display', '');
@@ -2610,11 +2602,11 @@
                                                         $('#log_mail').removeAttr('checked');
                                                         $('#log_mail_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
-
+                                                        $('#contact_method').html('通話時刻:');        
                                                     });
                                                     $('#log_time_mail_type').click(function() {
-                                                        $('#history table').find('tr:nth-child(4)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                        //$('#history table').find('tr:nth-child(4)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', '');
@@ -2625,6 +2617,7 @@
                                                         $('#log_tel').removeAttr('checked');
                                                         $('#log_tel_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
+                                                        $('#contact_method').html('メール送信時刻:');
                                                     });
                                                     $('#log_time_arrive_company_type').click(function() {
                                                         $('#history table').find('tr:nth-child(3)').css('display', '');
@@ -2641,6 +2634,15 @@
                                                         $('#log_tel').removeAttr('checked');
                                                         $('#log_tel_status').removeAttr('checked');
                                                     });
+                                                    if ($('#log_time_call').val() != "" || $('#log_time_call_date').val() != "") {
+                                                        $('#log_time_call_type').click();
+                                                    }
+                                                    if ($('#log_time_mail').val() != "" || $('#log_time_mail_date').val() != "") {
+                                                        $('#log_time_mail_type').click();
+                                                    }
+                                                    if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
+                                                        $('#log_time_arrive_company_type').click();
+                                                    }
                                                 });
                                                 function get_introduce_room(house_id, room_id) {
                                                     $('#error_introduce_room_id').html("");
