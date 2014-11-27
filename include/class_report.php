@@ -640,7 +640,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
+        $return['yearphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id}  AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -831,7 +831,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yeardiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
+        $return['yeardiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1019,7 +1019,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearlocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
+        $return['yearlocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1192,7 +1192,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
+        $return['yearintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1366,7 +1366,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
+        $return['yearshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1540,7 +1540,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
+        $return['yearflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1715,7 +1715,7 @@ class Report {
         $return = array_merge($return, $row);
         
         //log revisit
-        $return['yearline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y')= '" . date('Y', $time) . "' AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
+        $return['yearline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
         
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
