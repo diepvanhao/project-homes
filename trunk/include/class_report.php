@@ -311,7 +311,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0  
                 AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'  ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -320,7 +320,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 0 
                 AND d.contract_signature_day  <= $time AND d.contract_signature_day >= $fromtime  ";
 
         $result = $database->database_query($select);
@@ -530,6 +530,29 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yearmail_change'] = (int) $row[0];
 
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todaymail_ambition'] = (int) $row[0];
+        
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearmail_ambition'] = (int) $row[0];
+        
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -702,6 +725,29 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_change'] = (int) $row[0];
+        
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todayphone_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearphone_ambition'] = (int) $row[0];
 
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
@@ -906,6 +952,32 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_change'] = (int) $row[0];
 
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todaydiscount_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
+            INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yeardiscount_ambition'] = (int) $row[0];
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1082,6 +1154,28 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_change'] = (int) $row[0];
 
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todaylocalsign_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearlocalsign_ambition'] = (int) $row[0];
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1255,6 +1349,29 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_change'] = (int) $row[0];
 
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todayintroduction_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearintroduction_ambition'] = (int) $row[0];
+        
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1428,6 +1545,29 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_change'] = (int) $row[0];
+
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todayshopsign_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearshopsign_ambition'] = (int) $row[0];
 
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
@@ -1603,6 +1743,29 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yearflyer_change'] = (int) $row[0];
 
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todayflyer_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearflyer_ambition'] = (int) $row[0];
+        
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1778,6 +1941,29 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yearline_change'] = (int) $row[0];
 
+        //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'  ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['todayline_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_user u  ON o.user_id = u.id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d ON c.id = d.contract_id
+            WHERE d.contract_application = 1 AND h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_ambition = 1
+               AND d.contract_application_date <= $time AND d.contract_application_date  >=  $fromtime";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['yearline_ambition'] = (int) $row[0];
+        
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2017,8 +2203,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.broker_id = c.id
-            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND {$today} ";
 
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -2027,8 +2213,9 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.broker_id = c.id
-            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$month} ";
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 0 
+                AND d.contract_signature_day  <= $time AND d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_agreement'] = (int) $row[0];
@@ -2162,6 +2349,7 @@ class Report {
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             WHERE o.order_status = 1 AND h.source_id = {$source_id}  AND d.contract_application = 1 
                 AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
@@ -2171,6 +2359,7 @@ class Report {
 
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             WHERE o.order_status = 1 AND h.source_id = {$source_id}  AND d.contract_application = 1  
                 AND d.contract_application_date  <= $time AND d.contract_application_date >= $fromtime ";
@@ -2210,14 +2399,34 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['month_change'] = (int) $row[0];
 
+         //Ambition
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id}  AND d.contract_application = 1 AND d.contract_ambition = 1
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['today_ambition'] = (int) $row[0];
+
+        $select = "SELECT COUNT(*) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            INNER JOIN home_contract_detail d  ON d.contract_id = c.id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id}  AND d.contract_application = 1  AND d.contract_ambition = 1
+                AND d.contract_application_date  <= $time AND d.contract_application_date >= $fromtime ";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['month_ambition'] = (int) $row[0];
+        
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
-            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 0 
                 AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
-
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_agreement'] = (int) $row[0];
@@ -2225,8 +2434,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            INNER JOIN home_broker_company c  ON o.user_id = c.user_id
-            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' 
+            INNER JOIN home_history_log h  ON o.id = h.order_id
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 0 
                 AND d.contract_signature_day  <= $time AND d.contract_signature_day >= $fromtime  ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);

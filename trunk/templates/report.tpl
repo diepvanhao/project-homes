@@ -383,7 +383,7 @@
                     <td>{(int) $yearReport.todaymail_revisit}</td>
                     <td>{(int) $yearReport.todaymail_application}</td>
                     <td>{$yearReport.todaymail_cancel}</td>
-                    <td>{$yearReport.todaymail_change}</td>
+                    <td>{$yearReport.todaymail_ambition}</td>
                     <td>{$yearReport.todaymail_agreement}</td>
                 </tr>
                 <tr>
@@ -394,7 +394,7 @@
                     <td>{(int) $yearReport.yearmail_revisit}</td>
                     <td>{(int) $yearReport.yearmail_application}</td>
                     <td>{$yearReport.yearmail_cancel}</td>
-                    <td>{$yearReport.yearmail_change}</td>
+                    <td>{$yearReport.yearmail_ambition}</td>
                     <td>{$yearReport.yearmail_agreement}</td>
                 </tr>
                 <tr>
@@ -411,7 +411,7 @@
                     <td>{(int) $yearReport.todayphone_revisit}</td>
                     <td>{(int) $yearReport.todayphone_application}</td>
                     <td>{$yearReport.todayphone_cancel}</td>
-                    <td>{$yearReport.todayphone_change}</td>
+                    <td>{$yearReport.todayphone_ambition}</td>
                     <td>{$yearReport.todayphone_agreement}</td>
                 </tr>
                 <tr>
@@ -422,7 +422,7 @@
                     <td>{(int) $yearReport.yearphone_revisit}</td>
                     <td>{(int) $yearReport.yearphone_application}</td>
                     <td>{$yearReport.yearphone_cancel}</td>
-                    <td>{$yearReport.yearphone_change}</td>
+                    <td>{$yearReport.yearphone_ambition}</td>
                     <td>{$yearReport.yearphone_agreement}</td>
                 </tr>
                 <tr>
@@ -439,7 +439,7 @@
                     <td>{(int) $yearReport.todaydiscount_revisit}</td>
                     <td>{(int) $yearReport.todaydiscount_application}</td>
                     <td>{$yearReport.todaydiscount_cancel}</td>
-                    <td>{$yearReport.todaydiscount_change}</td>
+                    <td>{$yearReport.todaydiscount_ambition}</td>
                     <td>{$yearReport.todaydiscount_agreement}</td>
                 </tr>
                 <tr>
@@ -450,7 +450,7 @@
                     <td>{(int) $yearReport.yeardiscount_revisit}</td>
                     <td>{(int) $yearReport.yeardiscount_application}</td>
                     <td>{$yearReport.yeardiscount_cancel}</td>
-                    <td>{$yearReport.yeardiscount_change}</td>
+                    <td>{$yearReport.yeardiscount_ambition}</td>
                     <td>{$yearReport.yeardiscount_agreement}</td>
                 </tr>
                 <tr>
@@ -467,7 +467,7 @@
                     <td>{(int) $yearReport.todaylocalsign_revisit}</td>
                     <td>{(int) $yearReport.todaylocalsign_application}</td>
                     <td>{$yearReport.todaylocalsign_cancel}</td>
-                    <td>{$yearReport.todaylocalsign_change}</td>
+                    <td>{$yearReport.todaylocalsign_ambition}</td>
                     <td>{$yearReport.todaylocalsign_agreement}</td>
                 </tr>
                 <tr>
@@ -478,7 +478,7 @@
                     <td>{(int) $yearReport.yearlocalsign_revisit}</td>
                     <td>{(int) $yearReport.yearlocalsign_application}</td>
                     <td>{$yearReport.yearlocalsign_cancel}</td>
-                    <td>{$yearReport.yearlocalsign_change}</td>
+                    <td>{$yearReport.yearlocalsign_ambition}</td>
                     <td>{$yearReport.yearlocalsign_agreement}</td>
                 </tr>
                 <tr>
@@ -495,7 +495,7 @@
                     <td>{(int) $yearReport.todayintroduction_revisit}</td>
                     <td>{(int) $yearReport.todayintroduction_application}</td>
                     <td>{$yearReport.todayintroduction_cancel}</td>
-                    <td>{$yearReport.todayintroduction_change}</td>
+                    <td>{$yearReport.todayintroduction_ambition}</td>
                     <td>{$yearReport.todayintroduction_agreement}</td>
                 </tr>
                 <tr>
@@ -506,7 +506,7 @@
                     <td>{(int) $yearReport.yearintroduction_revisit}</td>
                     <td>{(int) $yearReport.yearintroduction_application}</td>
                     <td>{$yearReport.yearintroduction_cancel}</td>
-                    <td>{$yearReport.yearintroduction_change}</td>
+                    <td>{$yearReport.yearintroduction_ambition}</td>
                     <td>{$yearReport.yearintroduction_agreement}</td>
                 </tr>
                 <tr>
@@ -523,7 +523,7 @@
                     <td>{(int) $yearReport.todayshopsign_revisit}</td>
                     <td>{(int) $yearReport.todayshopsign_application}</td>
                     <td>{$yearReport.todayshopsign_cancel}</td>
-                    <td>{$yearReport.todayshopsign_change}</td>
+                    <td>{$yearReport.todayshopsign_ambition}</td>
                     <td>{$yearReport.todayshopsign_agreement}</td>
                 </tr>
                 <tr>
@@ -534,7 +534,7 @@
                     <td>{(int) $yearReport.yearshopsign_revisit}</td>
                     <td>{(int) $yearReport.yearshopsign_application}</td>
                     <td>{$yearReport.yearshopsign_cancel}</td>
-                    <td>{$yearReport.yearshopsign_change}</td>
+                    <td>{$yearReport.yearshopsign_ambition}</td>
                     <td>{$yearReport.yearshopsign_agreement}</td>
                 </tr>
                 <tr>
@@ -551,7 +551,7 @@
                     <td>{(int) $yearReport.todayflyer_revisit}</td>
                     <td>{(int) $yearReport.todayflyer_application}</td>
                     <td>{$yearReport.todayflyer_cancel}</td>
-                    <td>{$yearReport.todayflyer_change}</td>
+                    <td>{$yearReport.todayflyer_ambition}</td>
                     <td>{$yearReport.todayflyer_agreement}</td>
                 </tr>
                 <tr>
@@ -562,7 +562,7 @@
                     <td>{(int) $yearReport.yearflyer_revisit}</td>
                     <td>{(int) $yearReport.yearflyer_application}</td>
                     <td>{$yearReport.yearflyer_cancel}</td>
-                    <td>{$yearReport.yearflyer_change}</td>
+                    <td>{$yearReport.yearflyer_ambition}</td>
                     <td>{$yearReport.yearflyer_agreement}</td>
                 </tr>
                 <tr>
@@ -579,7 +579,7 @@
                     <td>{(int) $yearReport.todayline_revisit}</td>
                     <td>{(int) $yearReport.todayline_application}</td>
                     <td>{$yearReport.todayline_cancel}</td>
-                    <td>{$yearReport.todayline_change}</td>
+                    <td>{$yearReport.todayline_ambition}</td>
                     <td>{$yearReport.todayline_agreement}</td>
                 </tr>
                 <tr>
@@ -590,7 +590,7 @@
                     <td>{(int) $yearReport.yearline_revisit}</td>
                     <td>{(int) $yearReport.yearline_application}</td>
                     <td>{$yearReport.yearline_cancel}</td>
-                    <td>{$yearReport.yearline_change}</td>
+                    <td>{$yearReport.yearline_ambition}</td>
                     <td>{$yearReport.yearline_agreement}</td>
                 </tr>
             </tbody>
@@ -627,7 +627,7 @@
                     <td>{(int) $com_info.today_revisit}</td>
                     <td>{(int) $com_info.today_application}</td>
                     <td>{$com_info.today_cancel}</td>
-                    <td>{$com_info.today_change}</td>
+                    <td>{$com_info.today_ambition}</td>
                     <td>{$com_info.today_agreement}</td>
                 </tr>
                 <tr>
@@ -638,7 +638,7 @@
                     <td>{(int) $com_info.month_revisit}</td>
                     <td>{(int) $com_info.month_application}</td>
                     <td>{$com_info.month_cancel}</td>
-                    <td>{$com_info.month_change}</td>
+                    <td>{$com_info.month_ambition}</td>
                     <td>{$com_info.month_agreement}</td>
                 </tr>
                 {/foreach}
