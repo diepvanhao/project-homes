@@ -171,7 +171,7 @@ class Report {
         
         
         $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month_appointment = "h.log_date_appointment_from  <= $time AND  h.log_date_appointment_from  >= $fromtime";
         
         $today_log_time_call = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_call ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_call = "h.log_time_call  <=  $time AND  h.log_time_call >=  $fromtime ";
@@ -1587,7 +1587,7 @@ class Report {
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
             WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 0 AND  d.contract_signature_day IS NOT NULL  AND  d.contract_signature_day <> '' 
-                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y')= '" . date('Y', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "' ";
+                AND d.contract_signature_day  <=  $time AND d.contract_signature_day >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_agreement'] = (int) $row[0];
@@ -2110,7 +2110,7 @@ class Report {
         $return = array();
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month = "h.log_date_appointment_from <= $time AND h.log_date_appointment_from  >= $fromtime ";
 
 //        
 //        $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_create ) ,'%Y-%d-%m')= '" . date('Y-d-m') . "'";
@@ -2253,7 +2253,7 @@ class Report {
         }
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month = " h.log_date_appointment_from  <= $time  AND h.log_date_appointment_from  >=  $fromtime ";
 
         $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_appointment = " h.log_date_appointment_from <= $time AND h.log_date_appointment_from >= $fromtime ";
