@@ -2464,7 +2464,7 @@ class Report {
 
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month = " d.contract_application_date <= $time AND  d.contract_application_date >=  $fromtime ";
         $return = array(
             'today_already_recorded' => 0.00,
             'today_unsigned' => 0.00,
