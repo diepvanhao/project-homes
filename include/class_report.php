@@ -120,7 +120,7 @@ class Report {
         $return = array();
 
         $today = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
-        $month = "DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') <= '" . date('Y-d-m', $time) . "' AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%d-%m') >= '" . date('Y-d-m', $fromtime) . "'";
+        $month = " o.order_day_update  <= $time AND o.order_day_update  >= $fromtime ";
         //cost today
         $select = "SELECT SUM(d.contract_total) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
