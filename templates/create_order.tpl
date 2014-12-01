@@ -2038,7 +2038,7 @@
                         </td>
                         <td class='form1'>礼金:</td>
                         <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                            <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
                                 <option value="円"{if $contract_key_money_unit eq "円"} selected{/if}>円</option>
                                 <option value="ヵ月"{if $contract_key_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
@@ -2047,14 +2047,14 @@
                     <tr>                    
                         <td class='form1'>仲介手数料:</td>
                         <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                            <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
                                 <option value="円"{if $contract_broker_fee_unit eq "円"} selected{/if}>円</option>
                                 <option value="ヵ月" {if $contract_broker_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
                         </td>
                         <td class='form1'>広告費:</td>
                         <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                            <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
                                 <option value="円"{if $contract_ads_fee_unit eq "円"} selected{/if}>円</option>
                                 <option value="ヵ月"{if $contract_ads_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
@@ -2063,13 +2063,13 @@
                     <tr>
                         <td class='form1'>敷金・保証金（預かり）:</td>
                         <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                            <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
                                 <option value="円"{if $contract_deposit1_money_unit eq "円"} selected{/if}>円</option>
                                 <option value="ヵ月"{if $contract_deposit1_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select></td>
                         <td class='form1' nowrap>敷金・保証金（償却）:</td>
                         <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 15%;padding: 1% 0px 1% 0%;">
+                            <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
                                 <option value="円"{if $contract_deposit2_money_unit eq "円"} selected{/if}>円</option>
                                 <option value="ヵ月"{if $contract_deposit2_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
                             </select>
@@ -2610,8 +2610,8 @@
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', '');
-                                                        $('#log_time_call').val('');
-                                                        $('#log_time_call_date').val('');
+                                                        //$('#log_time_call').val('');
+                                                       // $('#log_time_call_date').val('');
                                                         $('#log_time_arrive_company').val('');
                                                         $('#log_time_arrive_company_date').val('');
                                                         $('#log_tel').removeAttr('checked');
@@ -2634,13 +2634,12 @@
                                                         $('#log_tel').removeAttr('checked');
                                                         $('#log_tel_status').removeAttr('checked');
                                                     });
-                                                    if ($('#log_time_call').val() != "" || $('#log_time_call_date').val() != "") {
+                                                    if ($('#log_tel').is(':checked')) {
                                                         $('#log_time_call_type').click();
                                                     }
-                                                    if ($('#log_time_mail').val() != "" || $('#log_time_mail_date').val() != "") {
+                                                    else if ($('#log_mail').is(':checked')){
                                                         $('#log_time_mail_type').click();
-                                                    }
-                                                    if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
+                                                    }else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
                                                         $('#log_time_arrive_company_type').click();
                                                     }
                                                 });
