@@ -15,10 +15,8 @@
             <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
                 <tbody>
                     <tr>
-                        <td class="form1">
+                        <td>
                             店舗を選択します:
-                        </td>
-                        <td class="form2">
                             <select id="agent_id" name="agent_id" style="height:26px; width: 251px;">
                                 <option value=""></option>
                                 {foreach from=$agents key=k item=agent}
@@ -28,20 +26,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1'>日付～: </td>
-                        <td class='form2'><input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly></td>
+                        <td>
+                            日付～: <input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly>
+                            ～日付: <input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly>
+                        </td>
                     </tr>
                     <tr>
-                        <td class='form1'>～日付: </td>
-                        <td class='form2'><input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly></td>
-                    </tr>
-                    <tr>
-                        <td class="form1">&nbsp;</td>
-                        <td class="form2">
-                            <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 150px;" onclick="showloadgif()">&nbsp;  
-                                <input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 150px;" onclick="showloadgif()">&nbsp;  
-                            </div>
+                        <td>
+                            <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 150px;" onclick="showloadgif()">&nbsp;  
+                            <input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 150px;" onclick="showloadgif()">&nbsp;  
                         </td>
                     </tr>
                 </tbody>

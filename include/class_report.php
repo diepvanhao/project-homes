@@ -209,7 +209,7 @@ class Report {
         $select = "SELECT SUM(log_tel) AS today_tel_status,SUM(log_mail) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$today_log_time_call}
+            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$today_appointment}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
@@ -249,7 +249,7 @@ class Report {
         $select = "SELECT SUM(log_tel) AS month_tel_status,SUM(log_mail) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$month_log_time_call}
+            WHERE o.order_status = 1 AND o.user_id = {$user_id} AND h.log_status_appointment = 1 AND {$month_appointment}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
@@ -262,7 +262,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 
                 AND DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -271,7 +271,7 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
-            WHERE d.contract_application = 1 AND o.user_id = {$user_id} AND o.order_status = 1 
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 
                 AND d.contract_application_date  <= $time AND d.contract_application_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);

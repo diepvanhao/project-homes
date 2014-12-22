@@ -73,3 +73,7 @@ ul.detail-list-items > li{
 #main .report-content table {
     width: 100%;
 }
+.report-filter > form > table  tr > td{
+    text-align: center;
+    font-weight: bold;
+}
