@@ -15,20 +15,14 @@
             <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
                 <tbody>
                     <tr>
-                        <td class='form1'>この日付から: </td>
-                        <td class='form2'><input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly></td>
+                        <td>
+                            この日付から: <input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly>
+                            この日付まで: <input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly>
+                        </td>
                     </tr>
                     <tr>
-                        <td class='form1'>この日付まで: </td>
-                        <td class='form2'><input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly></td>
-                    </tr>
-                    <tr>
-                        <td class="form1">&nbsp;</td>
-                        <td class="form2">
-                            <div style="margin-top:10px">
-                                <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 100px;" onclick="showloadgif()">&nbsp;  
-                                <!--<input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 100px;" onclick="showloadgif()">&nbsp;-->  
-                            </div>
+                        <td >
+                            <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 150px;" onclick="showloadgif()">&nbsp;  
                         </td>
                     </tr>
                 </tbody>
