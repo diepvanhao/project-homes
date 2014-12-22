@@ -802,6 +802,15 @@ if (isset($_POST['contract_total'])) {
 } else {
     $contract_total = "";
 }
+//active field when submit
+if (isset($_POST['keep_active_tab'])) {
+    $keep_active_tab = $_POST['keep_active_tab'];
+} elseif (isset($_GET['keep_active_tab'])) {
+    $keep_active_tab = $_GET['keep_active_tab'];
+} else {
+    $keep_active_tab = "";
+}
+//end active field
 //for edit room
 if (isset($_POST['broker_id'])) {
     $broker_id = $_POST['broker_id'];
@@ -1057,7 +1066,7 @@ if (isset($_POST['save'])) {
             $plus_money = $order->getPlusMoney($contract_detail_id);
         }
         //send mail
-        if(!empty($contract_application_date)){
+        if (!empty($contract_application_date)) {
             $mail->order($order_id);
         }
         // if ($user->user_info['id'] == $client_arr['user_id']) {
@@ -1280,8 +1289,8 @@ if (isset($_POST['save'])) {
         $client_resident_name = $client_arr['client_resident_name'];
         $client_resident_phone = $client_arr['client_resident_phone'];
 
-        $log_time_call = $client_arr['log_time_call']!=0?date('H:i', $client_arr['log_time_call']):"";
-        $log_time_call_date = $client_arr['log_time_call']!=0?date('Y/m/d', $client_arr['log_time_call']):"";
+        $log_time_call = $client_arr['log_time_call'] != 0 ? date('H:i', $client_arr['log_time_call']) : "";
+        $log_time_call_date = $client_arr['log_time_call'] != 0 ? date('Y/m/d', $client_arr['log_time_call']) : "";
 
 //        if (isset($log_time_call_date[1])) {
 //            $log_time_call = $log_time_call_date[1];
@@ -1292,8 +1301,8 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $log_time_call = $log_time_call_date = "";
 //        }
-        $log_time_arrive_company = $client_arr['log_time_arrive_company']!=0?date('H:i', $client_arr['log_time_arrive_company']):"";
-        $log_time_arrive_company_date = $client_arr['log_time_arrive_company']!=0?date('Y/m/d', $client_arr['log_time_arrive_company']):"";
+        $log_time_arrive_company = $client_arr['log_time_arrive_company'] != 0 ? date('H:i', $client_arr['log_time_arrive_company']) : "";
+        $log_time_arrive_company_date = $client_arr['log_time_arrive_company'] != 0 ? date('Y/m/d', $client_arr['log_time_arrive_company']) : "";
 //        if (isset($log_time_arrive_company_date[1])) {
 //            $log_time_arrive_company = $log_time_arrive_company_date[1];
 //            $log_time_arrive_company_date = $log_time_arrive_company_date[0];
@@ -1303,8 +1312,8 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $log_time_arrive_company = $log_time_arrive_company_date = "";
 //        }
-        $log_time_mail = $client_arr['log_time_mail']!=0?date('H:i', $client_arr['log_time_mail']):"";
-        $log_time_mail_date = $client_arr['log_time_mail']!=0?date('Y/m/d', $client_arr['log_time_mail']):"";
+        $log_time_mail = $client_arr['log_time_mail'] != 0 ? date('H:i', $client_arr['log_time_mail']) : "";
+        $log_time_mail_date = $client_arr['log_time_mail'] != 0 ? date('Y/m/d', $client_arr['log_time_mail']) : "";
 //        if (isset($log_time_mail_date[1])) {
 //            $log_time_mail = $log_time_mail_date[1];
 //            $log_time_mail_date = $log_time_mail_date[0];
@@ -1315,8 +1324,8 @@ if (isset($_POST['save'])) {
 //            $log_time_mail = $log_time_mail_date = "";
 //        }
         $log_comment = $client_arr['log_comment'];
-        $log_date_appointment_from = $client_arr['log_date_appointment_from']!=0?date('H:i', $client_arr['log_date_appointment_from']):"";
-        $log_date_appointment_from_date = $client_arr['log_date_appointment_from']!=0?date('Y/m/d', $client_arr['log_date_appointment_from']):"";
+        $log_date_appointment_from = $client_arr['log_date_appointment_from'] != 0 ? date('H:i', $client_arr['log_date_appointment_from']) : "";
+        $log_date_appointment_from_date = $client_arr['log_date_appointment_from'] != 0 ? date('Y/m/d', $client_arr['log_date_appointment_from']) : "";
 
 //        if (isset($log_date_appointment_from_date[1])) {
 //            $log_date_appointment_from = $log_date_appointment_from_date[1];
@@ -1327,8 +1336,8 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $log_date_appointment_from = $log_date_appointment_from_date = "";
 //        }
-        $log_date_appointment_to = $client_arr['log_date_appointment_to']!=0?date('H:i', $client_arr['log_date_appointment_to']):"";
-        $log_date_appointment_to_date = $client_arr['log_date_appointment_to']!=0?date('Y/m/d', $client_arr['log_date_appointment_to']):"";
+        $log_date_appointment_to = $client_arr['log_date_appointment_to'] != 0 ? date('H:i', $client_arr['log_date_appointment_to']) : "";
+        $log_date_appointment_to_date = $client_arr['log_date_appointment_to'] != 0 ? date('Y/m/d', $client_arr['log_date_appointment_to']) : "";
 
 //        if (isset($log_date_appointment_to_date[1])) {
 //            $log_date_appointment_to = $log_date_appointment_to_date[1];
@@ -1383,8 +1392,8 @@ if (isset($_POST['save'])) {
         $contract_key_money = $client_arr['contract_key_money'];
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
-        $contract_signature_day = $client_arr['contract_signature_day']!=0?date('H:i', $client_arr['contract_signature_day']):"";
-        $contract_signature_day_date = $client_arr['contract_signature_day']!=0?date('Y/m/d', $client_arr['contract_signature_day']):"";
+        $contract_signature_day = $client_arr['contract_signature_day'] != 0 ? date('H:i', $client_arr['contract_signature_day']) : "";
+        $contract_signature_day_date = $client_arr['contract_signature_day'] != 0 ? date('Y/m/d', $client_arr['contract_signature_day']) : "";
 
 //        if (isset($contract_signature_day_date[1])) {
 //            $contract_signature_day = $contract_signature_day_date[1];
@@ -1395,8 +1404,8 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $contract_signature_day = $contract_signature_day_date = "";
 //        }
-        $contract_handover_day = $client_arr['contract_handover_day']!=0?date('H:i', $client_arr['contract_handover_day']):"";
-        $contract_handover_day_date = $client_arr['contract_handover_day']!=0?date('Y/m/d', $client_arr['contract_handover_day']):"";
+        $contract_handover_day = $client_arr['contract_handover_day'] != 0 ? date('H:i', $client_arr['contract_handover_day']) : "";
+        $contract_handover_day_date = $client_arr['contract_handover_day'] != 0 ? date('Y/m/d', $client_arr['contract_handover_day']) : "";
 
 //        if (isset($contract_handover_day_date[1])) {
 //            $contract_handover_day = $contract_handover_day_date[1];
@@ -1407,7 +1416,7 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $contract_handover_day = $contract_handover_day_date = "";
 //        }
-        $contract_period_from = $client_arr['contract_period_from']!=0?date('Y/m/d', $client_arr['contract_period_from']):"";
+        $contract_period_from = $client_arr['contract_period_from'] != 0 ? date('Y/m/d', $client_arr['contract_period_from']) : "";
         //$contract_period_from_date = date('Y/m/d', $client_arr['contract_period_from']);
 //        if (isset($contract_period_from_date[1])) {
 //            $contract_period_from = $contract_period_from_date[1];
@@ -1418,7 +1427,7 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $contract_period_from = $contract_period_from_date = "";
 //        }
-        $contract_period_to = $client_arr['contract_period_to']!=0?date('Y/m/d', $client_arr['contract_period_to']):"";
+        $contract_period_to = $client_arr['contract_period_to'] != 0 ? date('Y/m/d', $client_arr['contract_period_to']) : "";
         //$contract_period_to_date = date('Y/m/d', $client_arr['contract_period_to']);
 //        if (isset($contract_period_to_date[1])) {
 //            $contract_period_to = $contract_period_to_date[1];
@@ -1434,9 +1443,9 @@ if (isset($_POST['save'])) {
         $contract_cancel = $client_arr['contract_cancel'];
         $contract_total = $client_arr['contract_total'];
         $contract_application = $client_arr['contract_application'];
-        $contract_application_date = $client_arr['contract_application_date']!=0?date('Y/m/d', $client_arr['contract_application_date']):"";
-        $contract_payment_date_from = $client_arr['contract_payment_date_from']!=0?date('Y/m/d', $client_arr['contract_payment_date_from']):"";
-        $contract_payment_date_to = $client_arr['contract_payment_date_to']!=0?date('Y/m/d', $client_arr['contract_payment_date_to']):"";
+        $contract_application_date = $client_arr['contract_application_date'] != 0 ? date('Y/m/d', $client_arr['contract_application_date']) : "";
+        $contract_payment_date_from = $client_arr['contract_payment_date_from'] != 0 ? date('Y/m/d', $client_arr['contract_payment_date_from']) : "";
+        $contract_payment_date_to = $client_arr['contract_payment_date_to'] != 0 ? date('Y/m/d', $client_arr['contract_payment_date_to']) : "";
         $contract_payment_status = $client_arr['contract_payment_status'];
         $contract_payment_report = $client_arr['contract_payment_report'];
         $contract_broker_fee = $client_arr['contract_broker_fee'];
@@ -1513,6 +1522,8 @@ $smarty->assign('contract_total', $contract_total);
 $smarty->assign('contract_application', $contract_application);
 $smarty->assign('contract_application_date', $contract_application_date);
 
+$smarty->assign('keep_active_tab', $keep_active_tab);
+
 $smarty->assign('contract_payment_date_from', $contract_payment_date_from);
 $smarty->assign('contract_payment_date_to', $contract_payment_date_to);
 $smarty->assign('contract_payment_status', $contract_payment_status);
@@ -1525,11 +1536,11 @@ $smarty->assign('money_payment', $money_payment);
 $smarty->assign('room_rented', $room_rented);
 $smarty->assign('room_administrative_expense', $room_administrative_expense);
 $smarty->assign('contract_total', $contract_total);
-    $smarty->assign('contract_broker_fee_unit', $contract_broker_fee_unit);
-    $smarty->assign('contract_deposit1_money_unit', $contract_deposit1_money_unit);
-    $smarty->assign('contract_key_money_unit', $contract_key_money_unit);
-    $smarty->assign('contract_ads_fee_unit', $contract_ads_fee_unit);
-    $smarty->assign('contract_deposit2_money_unit', $contract_deposit2_money_unit);
+$smarty->assign('contract_broker_fee_unit', $contract_broker_fee_unit);
+$smarty->assign('contract_deposit1_money_unit', $contract_deposit1_money_unit);
+$smarty->assign('contract_key_money_unit', $contract_key_money_unit);
+$smarty->assign('contract_ads_fee_unit', $contract_ads_fee_unit);
+$smarty->assign('contract_deposit2_money_unit', $contract_deposit2_money_unit);
 
 $smarty->assign('introduce_house_id', $introduce_house_id);
 $smarty->assign('introduce_room_id', $introduce_room_id);

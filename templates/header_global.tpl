@@ -92,9 +92,9 @@
                             </li>
                             <li><a href="#">日計表</a>
                                 <ul>
-                                    <li><a href="report.php">店舗 日計表</a></li>
-                                    <li><a href="company_report.php">日計表</a></li>
-                                    <li><a href="group_report.php">グループ</a></li>
+                                    <li><a href="report.php">店舗日計表</a></li>
+                                    <li><a href="company_report.php">全店日計表</a></li>
+                                    <li><a href="group_report.php">グループ日計表</a></li>
                                 </ul>
                             </li>
                             {if isset($user->user_info.user_authorities) }

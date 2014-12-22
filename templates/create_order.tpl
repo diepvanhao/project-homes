@@ -554,6 +554,7 @@
                     if ($(this).attr('id') == id) {
                         $(this).removeClass('inactive');
                         $(this).addClass('active');
+                        $('#keep_active_tab').val(id);
                     }
                 });
 
@@ -1798,7 +1799,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class='form1' id="contact_method">通話時刻: </td>
+                        <td class='form1' id="contact_method">通話日時: </td>
                         <td class='form2'>
                             <input type='text' id="log_time_call_date" name="log_time_call_date" value="{$log_time_call_date}"style="height: 26px; width: 115px;"/>
                             <input type='text' id="log_time_call" name="log_time_call" value="{$log_time_call}"style="height: 26px; width: 95px;"/>
@@ -1829,7 +1830,7 @@
                         <td class='form2'></td>
                     </tr>
                     <tr>
-                        <td class='form1'nowrap>予約日付　（～まで）:</td>
+                        <td class='form1'nowrap>予約日付:</td>
                         <td class='form2'>
                             <input type="text" id="log_date_appointment_from_date" name="log_date_appointment_from_date" value="{$log_date_appointment_from_date}"style="height: 26px; width: 115px;"/>
                             <input type="text" id="log_date_appointment_from" name="log_date_appointment_from" value="{$log_date_appointment_from}"style="height: 26px; width: 95px;"/>
@@ -2259,6 +2260,7 @@
             </div>
             <div style="text-align: right;padding-top: 1%;">
                 <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>
+                <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
             </div>
         </form>
         <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
@@ -2392,6 +2394,30 @@
 //                }
             }
             $(document).ready(function() {
+                //active for field selected
+                var kept_active = $('#keep_active_tab').val();
+                if (kept_active != "") {
+                    //set li click
+                    $('#client_info ul li').each(function() {
+                        if ($(this).attr('class') == 'select_menu') {
+                            $(this).removeClass('select_menu');
+                            $(this).addClass('noselect_menu');
+                        }
+                    });
+                    $('#client_info ul li').each(function() {
+                        if ($(this).attr('title') == kept_active) {
+                            $(this).removeClass('noselect_menu');
+                            $(this).addClass('select_menu');
+                        }
+                    });
+                    //end li click
+                    $('#basic').removeClass('active');
+                    $('#basic').addClass('inactive');
+
+                    $('#' + kept_active).removeClass('inactive');
+                    $('#' + kept_active).addClass('active');
+                }
+                //end active field        
                 $('#sidebar_container').css('display', 'none');
                 var fieldCount = 1;
                 $('#add').click(function() {
@@ -2579,6 +2605,7 @@
                                                     // $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    $('#log_tel').attr('checked', "checked");
                                                     if ($('#log_time_call_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
                                                     }
@@ -2595,6 +2622,7 @@
                                                         $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(7)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(5)').css('display', '');
                                                         $('#log_time_mail').val('');
                                                         $('#log_time_mail_date').val('');
                                                         $('#log_time_arrive_company').val('');
@@ -2602,7 +2630,10 @@
                                                         $('#log_mail').removeAttr('checked');
                                                         $('#log_mail_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
-                                                        $('#contact_method').html('通話時刻:');        
+                                                        $('#contact_method').html('通話時刻:');
+                                                        $('#log_tel').attr('checked', "checked");
+                                                        //$('#log_mail').attr('checked', "");
+                                                         $('#log_mail').removeAttr('checked');
                                                     });
                                                     $('#log_time_mail_type').click(function() {
                                                         //$('#history table').find('tr:nth-child(4)').css('display', '');
@@ -2610,14 +2641,18 @@
                                                         $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', '');
+                                                        $('#history table').find('tr:nth-child(5)').css('display', '');
                                                         //$('#log_time_call').val('');
-                                                       // $('#log_time_call_date').val('');
+                                                        // $('#log_time_call_date').val('');
                                                         $('#log_time_arrive_company').val('');
                                                         $('#log_time_arrive_company_date').val('');
                                                         $('#log_tel').removeAttr('checked');
                                                         $('#log_tel_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
                                                         $('#contact_method').html('メール送信時刻:');
+                                                        $('#log_mail').attr('checked', "checked");
+                                                       // $('#log_tel').attr('checked', "");
+                                                        $('#log_tel').removeAttr('checked');
                                                     });
                                                     $('#log_time_arrive_company_type').click(function() {
                                                         $('#history table').find('tr:nth-child(3)').css('display', '');
@@ -2625,6 +2660,9 @@
                                                         $('#history table').find('tr:nth-child(4)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(7)').css('display', 'none');
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                        $('#history table').find('tr:nth-child(5)').css('display', 'none');
+                                                        $('#log_date_appointment_from_date').val('');
+                                                        $('#log_date_appointment_from').val('');
                                                         $('#log_time_mail').val('');
                                                         $('#log_time_mail_date').val('');
                                                         $('#log_time_call').val('');
@@ -2637,9 +2675,9 @@
                                                     if ($('#log_tel').is(':checked')) {
                                                         $('#log_time_call_type').click();
                                                     }
-                                                    else if ($('#log_mail').is(':checked')){
+                                                    else if ($('#log_mail').is(':checked')) {
                                                         $('#log_time_mail_type').click();
-                                                    }else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
+                                                    } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
                                                         $('#log_time_arrive_company_type').click();
                                                     }
                                                 });

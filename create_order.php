@@ -1012,6 +1012,15 @@ if ($step == 1) {
     } else {
         $contract_total = "";
     }
+    //active field when submit
+    if (isset($_POST['keep_active_tab'])) {
+        $keep_active_tab = $_POST['keep_active_tab'];
+    } elseif (isset($_GET['keep_active_tab'])) {
+        $keep_active_tab = $_GET['keep_active_tab'];
+    } else {
+        $keep_active_tab = "";
+    }
+    //end active field
     $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
     $customer = new HOMECustomer();
@@ -1433,6 +1442,8 @@ if ($step == 1) {
     $smarty->assign('contract_application', $contract_application);
     $smarty->assign('contract_application_date', $contract_application_date);
 
+    $smarty->assign('keep_active_tab', $keep_active_tab);
+    
     $smarty->assign('contract_payment_date_from', $contract_payment_date_from);
     $smarty->assign('contract_payment_date_to', $contract_payment_date_to);
     $smarty->assign('contract_payment_status', $contract_payment_status);
