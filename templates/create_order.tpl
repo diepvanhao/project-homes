@@ -2630,7 +2630,7 @@
                                                         $('#log_mail').removeAttr('checked');
                                                         $('#log_mail_status').removeAttr('checked');
                                                         $('#log_contact_head_office').removeAttr('checked');
-                                                        $('#contact_method').html('通話時刻:');
+                                                        $('#contact_method').html('通話日時:');
                                                         $('#log_tel').attr('checked', "checked");
                                                         //$('#log_mail').attr('checked', "");
                                                          $('#log_mail').removeAttr('checked');
