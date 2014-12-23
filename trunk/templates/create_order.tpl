@@ -2417,7 +2417,12 @@
                     $('#' + kept_active).removeClass('inactive');
                     $('#' + kept_active).addClass('active');
                 }
-                //end active field        
+                //end active field   
+                //$('#contract_period_from').mousemove(function(){
+               //     $('#contract_period_to').val($('#contract_period_from').val());
+               // });
+                
+                
                 $('#sidebar_container').css('display', 'none');
                 var fieldCount = 1;
                 $('#add').click(function() {
