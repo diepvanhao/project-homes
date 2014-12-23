@@ -8,7 +8,18 @@ function birthday(val) {
         changeYear: true,
         showButtonPanel: true,
         yearRange: '-90:+50',
-        dateFormat:'yy/mm/dd'
+        dateFormat:'yy/mm/dd',
+        onSelect:function(selectedDate){
+            if(this.id=='contract_period_from'){
+                 var str = $("#contract_period_from").val();
+                 var parts = str.split("/");
+                 var year = parts[0] && parseInt( parts[0], 10 );
+                 var day = parts[2] && parseInt( parts[2], 10 );
+                 var month = parts[1] && parseInt( parts[1], 10 );
+                 var yearEnd=year+2;
+                $('#contract_period_to').val( yearEnd + "/" + month + "/" + day );
+            }
+        }
     });
 }
 function timepicker(val){
