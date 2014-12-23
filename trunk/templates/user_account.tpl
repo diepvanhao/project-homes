@@ -175,13 +175,13 @@
                 <td class='form2'><input type='text' class='text' name='username' id='username' value="{$username}"   style="height:26px; width: 351px;"><div id="username_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>名前: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='firstname' id='firstname' value="{$firstname}"  style="height:26px; width: 351px;"></td>
-            </tr>
-            <tr>
                 <td class='form1'>名字: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='lastname' id='lastname' value="{$lastname}"   style="height:26px; width: 351px;"></td>
             </tr>
+            <tr>
+                <td class='form1'>名前: <span class="required">*</span></td>
+                <td class='form2'><input type='text' class='text' name='firstname' id='firstname' value="{$firstname}"  style="height:26px; width: 351px;"></td>
+            </tr>            
             <tr>
                 <td class='form1'>都道府県:  <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
