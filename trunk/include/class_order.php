@@ -471,6 +471,7 @@ class HOMEOrder {
                     //    $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
                     //}
                     $event['start'] = $start;
+                    $event['end']=$start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_handover_day']) {
@@ -484,6 +485,7 @@ class HOMEOrder {
                     //    $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
                    // }
                     $event['start'] = $start;
+                    $event['end']=$start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_payment_date_from']) {
@@ -506,6 +508,7 @@ class HOMEOrder {
 //                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
 //                    }
 //                    $event['end'] = $end;
+                    $event['end']=$start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_period_from']) {
@@ -554,6 +557,7 @@ class HOMEOrder {
 //                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
 //                    }
 //                    $event['end'] = $end;
+                    $event['end']=$start;
                     $events[] = $event;
                 }
             }
@@ -583,6 +587,7 @@ class HOMEOrder {
             $event['url'] = $row['event_url'];
             $events[] = $event;
         }
+        //var_dump($events);
         return json_encode($events);
     }
 
