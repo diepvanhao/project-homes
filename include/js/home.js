@@ -19,6 +19,18 @@ function birthday(val) {
                  var yearEnd=year+2;
                 $('#contract_period_to').val( yearEnd + "/" + month + "/" + day );
             }
+            if(this.id=='date_from'){
+                selectDate();
+            }
+            if(this.id=='date_to'){
+                selectDate();
+            }
+            if(this.id=='expire_from'){
+                selectDate();
+            }
+            if(this.id=='expire_to'){
+                selectDate();
+            }
         }
     });
 }
