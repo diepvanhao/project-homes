@@ -645,3 +645,30 @@ input.smt_btn, input.button{background-color:#1882D9; border:1px solid #C8E6F9; 
     border-radius: 15px;
     // border:#7580a8 solid 1px;
 }
+div.filter_order {
+    float: left;
+    /*width: 210px;*/
+    height: 51px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+div.filter_order > label{
+    display: block;
+}
+div.filter_order > span{
+    display: none;
+}
+div.filter_order > button.button-success{
+    margin-top: 13px;
+    width: 100px;
+    height: 35px;
+}
+div.filter_order input,
+div.filter_order select{
+    padding: 5px;
+    width: 90px;
+}
+#filter_order{
+    width: 700px;
+    clear: both;
+}

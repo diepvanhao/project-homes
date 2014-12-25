@@ -1,22 +1,92 @@
 {include file="header_global.tpl"}
+{literal}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            birthday('order_day_create');
+            birthday('log_revisit');
+            birthday('contract_application_date');
+            birthday('contract_signature_day');
+            birthday('contract_payment_date_from');
+            birthday('contract_payment_date_to');
+            birthday('contract_handover_day');
+        });
+    </script>
+{/literal}
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">オーダー管理</div>
 <center>
     <div style="width: 100%;">
-        <div>
+        <div id="filter_order">
             <form action="manage_order.php" method="post">
-                <table style="">
-                    <tr>
-                        <td  style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="" style="height:26px; width: 248px;"/>
-                            <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
-                            </span>
-                            <span>
-                                <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>                   
-                            </span>
-                        </td>
-                    </tr>
-                </table>
+                <div class="filter_order">
+                    <label>名称</label>
+                    <input type="text" name="order_name"id="order_name" value="{$order_name}"/>
+                </div>
+                <div class="filter_order">
+                    <label>物件情報</label>
+                    <input type="text" name="house_name"id="house_name" value="{$house_name}"/>
+                </div>
+                <div class="filter_order">
+                    <label>部屋情報</label>
+                    <input type="text" name="room_id"id="room_id" value="{$room_id}"/>
+                </div>
+                <div class="filter_order">
+                    <label>賃料</label>
+                    <input type="text" name="order_rent_cost"id="order_rent_cost" value="{$order_rent_cost}"/>
+                </div>
+                <div class="filter_order">
+                    <label>現況</label>
+                    <select name="order_status" id="order_status">
+                                    <option value="0" {if $order_status eq '0'}selected {/if}>  </option>                                    
+                                    <option value="1"{if $order_status eq '1'}selected {/if}>他決</option>
+                                    <option value="2"{if $order_status eq '2'}selected {/if}>キャンセル</option>
+                                    <option value="3"{if $order_status eq '3'}selected {/if}>契約済</option>
+                                    <option value="4"{if $order_status eq '4'}selected {/if}>申込中</option>
+                                    <option value="5"{if $order_status eq '5'}selected {/if}>追客中</option>
+                    </select>
+                    {*<input type="text" name="order_status"id="order_status" value="{$order_status}"/>*}
+                </div>
+                <div class="filter_order">
+                    <label>登録日付</label>
+                    <input type="text" name="order_day_create"id="order_day_create" value="{$order_day_create}"/>
+                </div>
+                <div class="filter_order">
+                    <label>お客情報</label>
+                    <input type="text" name="client_name"id="client_name" value="{$client_name}"/>
+                </div>
+                <div class="filter_order">
+                    <label>最終連絡日</label>
+                    <input type="text" name="log_revisit"id="log_revisit" value="{$log_revisit}"/>
+                </div>
+                <div class="filter_order">
+                    <label>申込日</label>
+                    <input type="text" name="contract_application_date"id="contract_application_date" value="{$contract_application_date}"/>
+                </div>
+                <div class="filter_order">
+                    <label>申込金</label>
+                    <input type="text" name="money_payment"id="money_payment" value="{$money_payment}"/>
+                </div>
+                <div class="filter_order">
+                    <label>契約日</label>
+                    <input type="text" name="contract_signature_day"id="contract_signature_day" value="{$contract_signature_day}"/>
+                </div>
+                <div class="filter_order">
+                    <label>契約金</label>
+                    <input type="text" name="contract_payment_date_from"id="contract_payment_date_from" value="{$contract_payment_date_from}"/>
+                </div>
+                <div class="filter_order">
+                    <label>広告費入金日</label>
+                    <input type="text" name="contract_payment_date_to"id="contract_payment_date_to" value="{$contract_payment_date_to}"/>
+                </div>
+                <div class="filter_order">
+                    <label>鍵渡日</label>
+                    <input type="text" name="contract_handover_day"id="contract_handover_day" value="{$contract_handover_day}"/>
+                </div>
+                <div class="filter_order">
+                    <label style="margin:10px 0px 0px 0px;"></label>
+                    <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                    <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>                   
+                </div>
+
             </form>   
         </div>
         <div>
@@ -99,7 +169,7 @@
 
                                     <td><span style="color: #9D000A;">{($order.contract_handover_day)?date('Y/m/d H:i',$order.contract_handover_day):'-'}</span></td>
                                         {/if}
-                                        
+
                                         <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.house_id},{$order.broker_id},{$order.room_id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
                                     </tr>
                                     {/foreach}

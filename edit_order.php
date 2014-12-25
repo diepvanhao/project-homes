@@ -977,10 +977,10 @@ if (isset($_POST['save'])) {
             // $client_address = $client_arr['client_address'];
             $client_occupation = $client_arr['client_occupation'];
             $client_company = $client_arr['client_company'];
-            $client_income = $client_arr['client_income'];
+            $client_income = number_format($client_arr['client_income'],0,'',',');
             $client_room_type = $client_arr['client_room_type'];
             $client_room_type_number = $client_arr['client_room_type_number'];
-            $client_rent = $client_arr['client_rent'];
+            $client_rent = number_format($client_arr['client_rent'],0,'',',');
             $client_reason_change = $client_arr['client_reason_change'];
             $client_time_change = $client_arr['client_time_change'];
             $client_resident_name = $client_arr['client_resident_name'];
@@ -1280,10 +1280,10 @@ if (isset($_POST['save'])) {
         // $client_address = $client_arr['client_address'];
         $client_occupation = $client_arr['client_occupation'];
         $client_company = $client_arr['client_company'];
-        $client_income = $client_arr['client_income'];
+        $client_income = number_format($client_arr['client_income'], 0, '', ',');
         $client_room_type = $client_arr['client_room_type'];
         $client_room_type_number = $client_arr['client_room_type_number'];
-        $client_rent = $client_arr['client_rent'];
+        $client_rent = number_format($client_arr['client_rent'], 0, '', ',');
         $client_reason_change = $client_arr['client_reason_change'];
         $client_time_change = $client_arr['client_time_change'];
         $client_resident_name = $client_arr['client_resident_name'];

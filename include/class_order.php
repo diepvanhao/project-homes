@@ -109,11 +109,89 @@ class HOMEOrder {
                LEFT JOIN home_contract AS c ON c.order_id = ho.id
                LEFT JOIN home_contract_detail AS d ON d.contract_id = c.id
                 ";
-        if (!empty($search))
-            $query.=" where ho.order_name like '%{$search}%' "
-            . "or hh.house_name like '%{$search}%' "
-            . "or ho.room_id like '%{$search}%' "
-            . "or hc.client_name like '%{$search}%' ";
+        if ($search['order_name'] ||
+                $search['house_name'] ||
+                $search['room_id'] ||
+                $search['order_rent_cost'] ||
+                $search['order_status'] ||
+                $search['order_day_create'] ||
+                $search['client_name'] ||
+                $search['log_revisit'] ||
+                $search['contract_application_date'] ||
+                $search['money_payment'] ||
+                $search['contract_signature_day'] ||
+                $search['contract_payment_date_from'] ||
+                $search['contract_payment_date_to'] ||
+                $search['contract_handover_day']
+        ) {
+            $query.=" where";
+            if ($search['order_name'])
+                $query.=" ho.order_name like '%{$search['order_name']}%'";
+            if ($search['house_name'])
+                $query.=" and hh.house_name like '%{$search['house_name']}%'";
+            if ($search['room_id'])
+                $query.=" and ho.room_id = '{$search['room_id']}'";
+            if ($search['order_rent_cost'])
+                $query.=" and ho.order_rent_cost = '{$search['order_rent_cost']}'";
+             if ($search['order_status']) {
+                switch ($search['order_status']) {
+                    case 1:
+                        $query.=" and d.room_rented = '1'";
+                        break;
+                    case 2:
+                        $query.=" and d.contract_cancel = '1'";
+                        break;
+                    case 3:
+                        $query.=" and d.contract_signature_day !=''";
+                        break;
+                    case 4:
+                        $query.=" and d.contract_application != ''";
+                        break;
+                    case 5:
+                        //$query.=" and ho.order_status = '{$search['order_status']}'";
+                        break;
+                    default :
+                        //$query.=" and ho.order_status = '{$search['order_status']}'";
+                }
+            }
+            if ($search['order_day_create']) {
+                $min = strtotime($search['order_day_create'] . ' ' . '00:00');
+                $max = strtotime($search['order_day_create'] . ' ' . '23:59');
+                $search['order_day_create'] = strtotime($search['order_day_create']);
+                $query.=" and ho.order_day_create >'{$min}' and ho.order_day_create < '{$max}'";
+            }
+            if ($search['client_name'])
+                $query.=" and hc.client_name like '%{$search['client_name']}%'";
+            if ($search['log_revisit'])
+                $query.=" and l.log_revisit like '%{$search['log_revisit']}%'";
+            if ($search['contract_application_date']) {
+                $search['contract_application_date'] = strtotime($search['contract_application_date']);
+                $query.=" and d.contract_application_date = '{$search['contract_application_date']}'";
+            }
+            if ($search['money_payment'])
+                $query.=" and d.money_payment = '{$search['money_payment']}'";
+            if ($search['contract_signature_day']) {
+                $min = strtotime($search['contract_signature_day'] . ' ' . '00:00');
+                $max = strtotime($search['contract_signature_day'] . ' ' . '23:59');
+                $search['contract_signature_day'] = strtotime($search['contract_signature_day']);
+                $query.=" and d.contract_signature_day > '{$min}' and d.contract_signature_day < '{$max}'";
+            }
+            if ($search['contract_payment_date_from']) {
+                $search['contract_payment_date_from'] = strtotime($search['contract_payment_date_from']);
+                $query.=" and d.contract_payment_date_from = '{$search['contract_payment_date_from']}'";
+            }
+            if ($search['contract_payment_date_to']) {
+                $search['contract_payment_date_to'] = strtotime($search['contract_payment_date_to']);
+                $query.=" and d.contract_payment_date_to = '{$search['contract_payment_date_to']}'";
+            }
+            if ($search['contract_handover_day']) {
+                $min = strtotime($search['contract_handover_day'] . ' ' . '00:00');
+                $max = strtotime($search['contract_handover_day'] . ' ' . '23:59');
+                $search['contract_handover_day'] = strtotime($search['contract_handover_day']);
+                $query.=" and d.contract_handover_day > '{$min}' and d.contract_handover_day < '{$max}'";
+            }
+        }
+        $query = str_replace("where and", "where", $query);
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
@@ -138,14 +216,91 @@ class HOMEOrder {
                LEFT JOIN home_contract AS c ON c.order_id = ho.id
                LEFT JOIN home_contract_detail AS d ON d.contract_id = c.id
                 ";
-        if (!empty($search))
-            $query.=" where ho.order_name like '%{$search}%' "
-            . "or hh.house_name like '%{$search}%' "
-            . "or ho.room_id like '%{$search}%' "
-            . "or hc.client_name like '%{$search}%' ";
-
+        if ($search['order_name'] ||
+                $search['house_name'] ||
+                $search['room_id'] ||
+                $search['order_rent_cost'] ||
+                $search['order_status'] ||
+                $search['order_day_create'] ||
+                $search['client_name'] ||
+                $search['log_revisit'] ||
+                $search['contract_application_date'] ||
+                $search['money_payment'] ||
+                $search['contract_signature_day'] ||
+                $search['contract_payment_date_from'] ||
+                $search['contract_payment_date_to'] ||
+                $search['contract_handover_day']
+        ) {
+            $query.=" where";
+            if ($search['order_name'])
+                $query.=" ho.order_name like '%{$search['order_name']}%'";
+            if ($search['house_name'])
+                $query.=" and hh.house_name like '%{$search['house_name']}%'";
+            if ($search['room_id'])
+                $query.=" and ho.room_id = '{$search['room_id']}'";
+            if ($search['order_rent_cost'])
+                $query.=" and ho.order_rent_cost = '{$search['order_rent_cost']}'";
+            if ($search['order_status']) {
+                switch ($search['order_status']) {
+                    case 1:
+                        $query.=" and d.room_rented = '1'";
+                        break;
+                    case 2:
+                        $query.=" and d.contract_cancel = '1'";
+                        break;
+                    case 3:
+                        $query.=" and (d.contract_signature_day !='' or d.contract_signature_day !='0')";
+                        break;
+                    case 4:
+                        $query.=" and (d.contract_application != '' or d.contract_application !='0')";
+                        break;
+                    case 5:
+                        //$query.=" and ho.order_status = '{$search['order_status']}'";
+                        break;
+                    default :
+                        //$query.=" and ho.order_status = '{$search['order_status']}'";
+                }
+            }
+            if ($search['order_day_create']) {
+                $min = strtotime($search['order_day_create'] . ' ' . '00:00');
+                $max = strtotime($search['order_day_create'] . ' ' . '23:59');
+                $search['order_day_create'] = strtotime($search['order_day_create']);
+                $query.=" and ho.order_day_create >'{$min}' and ho.order_day_create < '{$max}'";
+            }
+            if ($search['client_name'])
+                $query.=" and hc.client_name like '%{$search['client_name']}%'";
+            if ($search['log_revisit'])
+                $query.=" and l.log_revisit like '%{$search['log_revisit']}%'";
+            if ($search['contract_application_date']) {
+                $search['contract_application_date'] = strtotime($search['contract_application_date']);
+                $query.=" and d.contract_application_date = '{$search['contract_application_date']}'";
+            }
+            if ($search['money_payment'])
+                $query.=" and d.money_payment = '{$search['money_payment']}'";
+            if ($search['contract_signature_day']) {
+                $min = strtotime($search['contract_signature_day'] . ' ' . '00:00');
+                $max = strtotime($search['contract_signature_day'] . ' ' . '23:59');
+                $search['contract_signature_day'] = strtotime($search['contract_signature_day']);
+                $query.=" and d.contract_signature_day > '{$min}' and d.contract_signature_day < '{$max}'";
+            }
+            if ($search['contract_payment_date_from']) {
+                $search['contract_payment_date_from'] = strtotime($search['contract_payment_date_from']);
+                $query.=" and d.contract_payment_date_from = '{$search['contract_payment_date_from']}'";
+            }
+            if ($search['contract_payment_date_to']) {
+                $search['contract_payment_date_to'] = strtotime($search['contract_payment_date_to']);
+                $query.=" and d.contract_payment_date_to = '{$search['contract_payment_date_to']}'";
+            }
+            if ($search['contract_handover_day']) {
+                $min = strtotime($search['contract_handover_day'] . ' ' . '00:00');
+                $max = strtotime($search['contract_handover_day'] . ' ' . '23:59');
+                $search['contract_handover_day'] = strtotime($search['contract_handover_day']);
+                $query.=" and d.contract_handover_day > '{$min}' and d.contract_handover_day < '{$max}'";
+            }
+        }
         $query.=" limit $offset,$length";
-        // echo $query;
+        $query = str_replace("where and", "where", $query);
+
 
         $result = $database->database_query($query);
         $order_arr = array();
@@ -465,13 +620,13 @@ class HOMEOrder {
                     $event['title'] = "Signature date";
                     //$temp = explode(" ", $schedule['contract_signature_day']);
                     //if (isset($temp[1])) {
-                        $start = date('Y-m-d', $schedule['contract_signature_day']);
-                        $start.='T' . date('H:i:s', $schedule['contract_signature_day']);
-                   // } else {
+                    $start = date('Y-m-d', $schedule['contract_signature_day']);
+                    $start.='T' . date('H:i:s', $schedule['contract_signature_day']);
+                    // } else {
                     //    $start = date('Y-m-d', strtotime($schedule['contract_signature_day']));
                     //}
                     $event['start'] = $start;
-                    $event['end']=$start;
+                    $event['end'] = $start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_handover_day']) {
@@ -479,25 +634,25 @@ class HOMEOrder {
                     $event['title'] = "Handover day";
                     //$temp = explode(" ", $schedule['contract_handover_day']);
                     //if (isset($temp[1])) {
-                        $start = date('Y-m-d', $schedule['contract_handover_day']);
-                        $start.='T' . date('H:i:s', $schedule['contract_handover_day']);
-                   // } else {
+                    $start = date('Y-m-d', $schedule['contract_handover_day']);
+                    $start.='T' . date('H:i:s', $schedule['contract_handover_day']);
+                    // } else {
                     //    $start = date('Y-m-d', strtotime($schedule['contract_handover_day']));
-                   // }
+                    // }
                     $event['start'] = $start;
-                    $event['end']=$start;
+                    $event['end'] = $start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_payment_date_from']) {
                     $event['id'] = $schedule['id'];
                     $event['title'] = "Payment day";
-                   // $temp = explode(" ", $schedule['contract_payment_date_from']);
-                   // if (isset($temp[1])) {
-                       // $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
-                       // $start.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_from']));
-                  //  } else {
-                        $start = date('Y-m-d', $schedule['contract_payment_date_from']);
-                   // }
+                    // $temp = explode(" ", $schedule['contract_payment_date_from']);
+                    // if (isset($temp[1])) {
+                    // $start = date('Y-m-d', strtotime($schedule['contract_payment_date_from']));
+                    // $start.='T' . date('H:i:s', strtotime($schedule['contract_payment_date_from']));
+                    //  } else {
+                    $start = date('Y-m-d', $schedule['contract_payment_date_from']);
+                    // }
                     $event['start'] = $start;
 
 //                    $temp = explode(" ", $schedule['contract_payment_date_to']);
@@ -508,7 +663,7 @@ class HOMEOrder {
 //                        $end = date('Y-m-d', strtotime($schedule['contract_payment_date_to']));
 //                    }
 //                    $event['end'] = $end;
-                    $event['end']=$start;
+                    $event['end'] = $start;
                     $events[] = $event;
                 }
                 if ($schedule['contract_period_from']) {
@@ -516,19 +671,19 @@ class HOMEOrder {
                     $event['title'] = "Period time";
                     //$temp = explode(" ", $schedule['contract_period_from']);
                     //if (isset($temp[1])) {
-                     //   $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
+                    //   $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
                     //    $start.='T' . date('H:i:s', strtotime($schedule['contract_period_from']));
                     //} else {
-                        $start = date('Y-m-d', $schedule['contract_period_from']);
-                   // }
+                    $start = date('Y-m-d', $schedule['contract_period_from']);
+                    // }
                     $event['start'] = $start;
                     //$temp = explode(" ", $schedule['contract_period_to']);
-                   // if (isset($temp[1])) {
-                     //   $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
+                    // if (isset($temp[1])) {
+                    //   $end = date('Y-m-d', strtotime($schedule['contract_period_to']));
                     //    $end.='T' . date('H:i:s', strtotime($schedule['contract_period_to']));
                     //} else {
-                        $end = date('Y-m-d', $schedule['contract_period_to']);
-                  //  }
+                    $end = date('Y-m-d', $schedule['contract_period_to']);
+                    //  }
                     $event['end'] = $end;
                     $events[] = $event;
                 }
@@ -543,11 +698,11 @@ class HOMEOrder {
                     $event['title'] = "Appointment day";
                     //$temp = explode(" ", $history_schedule['log_date_appointment_from']);
                     //if (isset($temp[1])) {
-                        $start = date('Y-m-d', $history_schedule['log_date_appointment_from']);
-                        $start.='T' . date('H:i:s', $history_schedule['log_date_appointment_from']);
-                   // } else {
-                     //   $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
-                   // }
+                    $start = date('Y-m-d', $history_schedule['log_date_appointment_from']);
+                    $start.='T' . date('H:i:s', $history_schedule['log_date_appointment_from']);
+                    // } else {
+                    //   $start = date('Y-m-d', strtotime($history_schedule['log_date_appointment_from']));
+                    // }
                     $event['start'] = $start;
 //                    $temp = explode(" ", $history_schedule['log_date_appointment_to']);
 //                    if (isset($temp[1])) {
@@ -557,7 +712,7 @@ class HOMEOrder {
 //                        $end = date('Y-m-d', strtotime($history_schedule['log_date_appointment_to']));
 //                    }
 //                    $event['end'] = $end;
-                    $event['end']=$start;
+                    $event['end'] = $start;
                     $events[] = $event;
                 }
             }
