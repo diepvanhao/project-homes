@@ -133,7 +133,7 @@ class HOMEOrder {
                 $query.=" and ho.room_id = '{$search['room_id']}'";
             if ($search['order_rent_cost'])
                 $query.=" and ho.order_rent_cost = '{$search['order_rent_cost']}'";
-             if ($search['order_status']) {
+            if ($search['order_status']) {
                 switch ($search['order_status']) {
                     case 1:
                         $query.=" and d.room_rented = '1'";
@@ -142,53 +142,81 @@ class HOMEOrder {
                         $query.=" and d.contract_cancel = '1'";
                         break;
                     case 3:
-                        $query.=" and d.contract_signature_day !=''";
+                        $query.=" and (d.contract_signature_day !='' or d.contract_signature_day !='0')";
                         break;
                     case 4:
-                        $query.=" and d.contract_application != ''";
+                        $query.=" and (d.contract_application != '' or d.contract_application !='0')";
                         break;
                     case 5:
                         //$query.=" and ho.order_status = '{$search['order_status']}'";
                         break;
                     default :
-                        //$query.=" and ho.order_status = '{$search['order_status']}'";
+                    //$query.=" and ho.order_status = '{$search['order_status']}'";
                 }
             }
             if ($search['order_day_create']) {
-                $min = strtotime($search['order_day_create'] . ' ' . '00:00');
-                $max = strtotime($search['order_day_create'] . ' ' . '23:59');
-                $search['order_day_create'] = strtotime($search['order_day_create']);
-                $query.=" and ho.order_day_create >'{$min}' and ho.order_day_create < '{$max}'";
+                if (strpos($search['order_day_create'], '/')) {
+                    $min = strtotime($search['order_day_create'] . ' ' . '00:00');
+                    $max = strtotime($search['order_day_create'] . ' ' . '23:59');
+                    $search['order_day_create'] = strtotime($search['order_day_create']);
+                    $query.=" and ho.order_day_create >'{$min}' and ho.order_day_create < '{$max}'";
+                } else {
+                    $query.=" and (ho.order_day_create ='' or ho.order_day_create ='0')";
+                }
             }
             if ($search['client_name'])
                 $query.=" and hc.client_name like '%{$search['client_name']}%'";
-            if ($search['log_revisit'])
-                $query.=" and l.log_revisit like '%{$search['log_revisit']}%'";
+            if ($search['log_revisit']) {
+                if (strpos($search['log_revisit'], '/'))
+                    $query.=" and l.log_revisit like '%{$search['log_revisit']}%'";
+                else
+                    $query.=" and (l.log_revisit = '' or l.log_revisit='0')";
+            }
             if ($search['contract_application_date']) {
-                $search['contract_application_date'] = strtotime($search['contract_application_date']);
-                $query.=" and d.contract_application_date = '{$search['contract_application_date']}'";
+                if (strpos($search['contract_application_date'], '/')) {
+                    $search['contract_application_date'] = strtotime($search['contract_application_date']);
+                    $query.=" and d.contract_application_date = '{$search['contract_application_date']}'";
+                } else {
+                    $query.=" and (d.contract_application_date = '' or d.contract_application_date = '0')";
+                }
             }
             if ($search['money_payment'])
                 $query.=" and d.money_payment = '{$search['money_payment']}'";
             if ($search['contract_signature_day']) {
-                $min = strtotime($search['contract_signature_day'] . ' ' . '00:00');
-                $max = strtotime($search['contract_signature_day'] . ' ' . '23:59');
-                $search['contract_signature_day'] = strtotime($search['contract_signature_day']);
-                $query.=" and d.contract_signature_day > '{$min}' and d.contract_signature_day < '{$max}'";
+                if (strpos($search['contract_signature_day'], '/')) {
+                    $min = strtotime($search['contract_signature_day'] . ' ' . '00:00');
+                    $max = strtotime($search['contract_signature_day'] . ' ' . '23:59');
+                    $search['contract_signature_day'] = strtotime($search['contract_signature_day']);
+                    $query.=" and d.contract_signature_day > '{$min}' and d.contract_signature_day < '{$max}'";
+                } else {
+                    $query.=" and (d.contract_signature_day = '' or d.contract_signature_day ='0')";
+                }
             }
             if ($search['contract_payment_date_from']) {
-                $search['contract_payment_date_from'] = strtotime($search['contract_payment_date_from']);
-                $query.=" and d.contract_payment_date_from = '{$search['contract_payment_date_from']}'";
+                if (strpos($search['contract_payment_date_from'], '/')) {
+                    $search['contract_payment_date_from'] = strtotime($search['contract_payment_date_from']);
+                    $query.=" and d.contract_payment_date_from = '{$search['contract_payment_date_from']}'";
+                } else {
+                    $query.=" and (d.contract_payment_date_from = '' or d.contract_payment_date_from = '0')";
+                }
             }
             if ($search['contract_payment_date_to']) {
-                $search['contract_payment_date_to'] = strtotime($search['contract_payment_date_to']);
-                $query.=" and d.contract_payment_date_to = '{$search['contract_payment_date_to']}'";
+                if (strpos($search['contract_payment_date_to'], '/')) {
+                    $search['contract_payment_date_to'] = strtotime($search['contract_payment_date_to']);
+                    $query.=" and d.contract_payment_date_to = '{$search['contract_payment_date_to']}'";
+                } else {
+                    $query.=" and (d.contract_payment_date_to = '' or d.contract_payment_date_to = '0')";
+                }
             }
             if ($search['contract_handover_day']) {
-                $min = strtotime($search['contract_handover_day'] . ' ' . '00:00');
-                $max = strtotime($search['contract_handover_day'] . ' ' . '23:59');
-                $search['contract_handover_day'] = strtotime($search['contract_handover_day']);
-                $query.=" and d.contract_handover_day > '{$min}' and d.contract_handover_day < '{$max}'";
+                if (strpos($search['contract_handover_day'], '/')) {
+                    $min = strtotime($search['contract_handover_day'] . ' ' . '00:00');
+                    $max = strtotime($search['contract_handover_day'] . ' ' . '23:59');
+                    $search['contract_handover_day'] = strtotime($search['contract_handover_day']);
+                    $query.=" and d.contract_handover_day > '{$min}' and d.contract_handover_day < '{$max}'";
+                } else {
+                    $query.=" and (d.contract_handover_day = '' or d.contract_handover_day = '0')";
+                }
             }
         }
         $query = str_replace("where and", "where", $query);
@@ -258,44 +286,72 @@ class HOMEOrder {
                         //$query.=" and ho.order_status = '{$search['order_status']}'";
                         break;
                     default :
-                        //$query.=" and ho.order_status = '{$search['order_status']}'";
+                    //$query.=" and ho.order_status = '{$search['order_status']}'";
                 }
             }
             if ($search['order_day_create']) {
-                $min = strtotime($search['order_day_create'] . ' ' . '00:00');
-                $max = strtotime($search['order_day_create'] . ' ' . '23:59');
-                $search['order_day_create'] = strtotime($search['order_day_create']);
-                $query.=" and ho.order_day_create >'{$min}' and ho.order_day_create < '{$max}'";
+                if (strpos($search['order_day_create'], '/')) {
+                    $min = strtotime($search['order_day_create'] . ' ' . '00:00');
+                    $max = strtotime($search['order_day_create'] . ' ' . '23:59');
+                    $search['order_day_create'] = strtotime($search['order_day_create']);
+                    $query.=" and ho.order_day_create >'{$min}' and ho.order_day_create < '{$max}'";
+                } else {
+                    $query.=" and (ho.order_day_create ='' or ho.order_day_create ='0')";
+                }
             }
             if ($search['client_name'])
                 $query.=" and hc.client_name like '%{$search['client_name']}%'";
-            if ($search['log_revisit'])
-                $query.=" and l.log_revisit like '%{$search['log_revisit']}%'";
+            if ($search['log_revisit']) {
+                if (strpos($search['log_revisit'], '/'))
+                    $query.=" and l.log_revisit like '%{$search['log_revisit']}%'";
+                else
+                    $query.=" and (l.log_revisit = '' or l.log_revisit='0')";
+            }
             if ($search['contract_application_date']) {
-                $search['contract_application_date'] = strtotime($search['contract_application_date']);
-                $query.=" and d.contract_application_date = '{$search['contract_application_date']}'";
+                if (strpos($search['contract_application_date'], '/')) {
+                    $search['contract_application_date'] = strtotime($search['contract_application_date']);
+                    $query.=" and d.contract_application_date = '{$search['contract_application_date']}'";
+                } else {
+                    $query.=" and (d.contract_application_date = '' or d.contract_application_date = '0')";
+                }
             }
             if ($search['money_payment'])
                 $query.=" and d.money_payment = '{$search['money_payment']}'";
             if ($search['contract_signature_day']) {
-                $min = strtotime($search['contract_signature_day'] . ' ' . '00:00');
-                $max = strtotime($search['contract_signature_day'] . ' ' . '23:59');
-                $search['contract_signature_day'] = strtotime($search['contract_signature_day']);
-                $query.=" and d.contract_signature_day > '{$min}' and d.contract_signature_day < '{$max}'";
+                if (strpos($search['contract_signature_day'], '/')) {
+                    $min = strtotime($search['contract_signature_day'] . ' ' . '00:00');
+                    $max = strtotime($search['contract_signature_day'] . ' ' . '23:59');
+                    $search['contract_signature_day'] = strtotime($search['contract_signature_day']);
+                    $query.=" and d.contract_signature_day > '{$min}' and d.contract_signature_day < '{$max}'";
+                } else {
+                    $query.=" and (d.contract_signature_day = '' or d.contract_signature_day ='0')";
+                }
             }
             if ($search['contract_payment_date_from']) {
-                $search['contract_payment_date_from'] = strtotime($search['contract_payment_date_from']);
-                $query.=" and d.contract_payment_date_from = '{$search['contract_payment_date_from']}'";
+                if (strpos($search['contract_payment_date_from'], '/')) {
+                    $search['contract_payment_date_from'] = strtotime($search['contract_payment_date_from']);
+                    $query.=" and d.contract_payment_date_from = '{$search['contract_payment_date_from']}'";
+                } else {
+                    $query.=" and (d.contract_payment_date_from = '' or d.contract_payment_date_from = '0')";
+                }
             }
             if ($search['contract_payment_date_to']) {
-                $search['contract_payment_date_to'] = strtotime($search['contract_payment_date_to']);
-                $query.=" and d.contract_payment_date_to = '{$search['contract_payment_date_to']}'";
+                if (strpos($search['contract_payment_date_to'], '/')) {
+                    $search['contract_payment_date_to'] = strtotime($search['contract_payment_date_to']);
+                    $query.=" and d.contract_payment_date_to = '{$search['contract_payment_date_to']}'";
+                } else {
+                    $query.=" and (d.contract_payment_date_to = '' or d.contract_payment_date_to = '0')";
+                }
             }
             if ($search['contract_handover_day']) {
-                $min = strtotime($search['contract_handover_day'] . ' ' . '00:00');
-                $max = strtotime($search['contract_handover_day'] . ' ' . '23:59');
-                $search['contract_handover_day'] = strtotime($search['contract_handover_day']);
-                $query.=" and d.contract_handover_day > '{$min}' and d.contract_handover_day < '{$max}'";
+                if (strpos($search['contract_handover_day'], '/')) {
+                    $min = strtotime($search['contract_handover_day'] . ' ' . '00:00');
+                    $max = strtotime($search['contract_handover_day'] . ' ' . '23:59');
+                    $search['contract_handover_day'] = strtotime($search['contract_handover_day']);
+                    $query.=" and d.contract_handover_day > '{$min}' and d.contract_handover_day < '{$max}'";
+                } else {
+                    $query.=" and (d.contract_handover_day = '' or d.contract_handover_day = '0')";
+                }
             }
         }
         $query.=" limit $offset,$length";

@@ -9,6 +9,7 @@ function birthday(val) {
         showButtonPanel: true,
         yearRange: '-90:+50',
         dateFormat:'yy/mm/dd',
+        constrainInput: false,
         onSelect:function(selectedDate){
             if(this.id=='contract_period_from'){
                  var str = $("#contract_period_from").val();

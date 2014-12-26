@@ -1388,8 +1388,11 @@ if (isset($_POST['save'])) {
         $change_house_array = base64_encode(implode(",", unserialize($client_arr['change_house_array'])));
 
         $contract_name = $client_arr['contract_name'];
+        //$contract_cost = number_format($client_arr['contract_cost'],0,'',',');
         $contract_cost = $client_arr['contract_cost'];
+        //$contract_key_money = number_format($client_arr['contract_key_money'],0,'',',');
         $contract_key_money = $client_arr['contract_key_money'];
+        
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
         $contract_signature_day = $client_arr['contract_signature_day'] != 0 ? date('H:i', $client_arr['contract_signature_day']) : "";
@@ -1438,21 +1441,31 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $contract_period_to = $contract_period_to_date = "";
 //        }
-        $contract_deposit_1 = $client_arr['contract_deposit_1'];
+       // $contract_deposit_1 = number_format($client_arr['contract_deposit_1'],0,'',',');
+       // $contract_deposit_2 = number_format($client_arr['contract_deposit_2'],0,'',',');
+        $contract_deposit_1 =$client_arr['contract_deposit_1'];
         $contract_deposit_2 = $client_arr['contract_deposit_2'];
+        
         $contract_cancel = $client_arr['contract_cancel'];
+        //$contract_total = number_format($client_arr['contract_total'],0,'',',');
         $contract_total = $client_arr['contract_total'];
+        
         $contract_application = $client_arr['contract_application'];
         $contract_application_date = $client_arr['contract_application_date'] != 0 ? date('Y/m/d', $client_arr['contract_application_date']) : "";
         $contract_payment_date_from = $client_arr['contract_payment_date_from'] != 0 ? date('Y/m/d', $client_arr['contract_payment_date_from']) : "";
         $contract_payment_date_to = $client_arr['contract_payment_date_to'] != 0 ? date('Y/m/d', $client_arr['contract_payment_date_to']) : "";
         $contract_payment_status = $client_arr['contract_payment_status'];
         $contract_payment_report = $client_arr['contract_payment_report'];
+        //$contract_broker_fee = number_format($client_arr['contract_broker_fee'],0,'',',');
+        //$contract_ads_fee = number_format($client_arr['contract_ads_fee'],0,'',',');
         $contract_broker_fee = $client_arr['contract_broker_fee'];
-        $contract_ads_fee = $client_arr['contract_ads_fee'];
+        $contract_ads_fee =$client_arr['contract_ads_fee'];
+        
         $contract_transaction_finish = $client_arr['contract_transaction_finish'];
-        $contract_ambition = $client_arr['contract_ambition'];
+        $contract_ambition = $client_arr['contract_ambition'];        
+        //$money_payment = number_format($client_arr['money_payment'],0,'',',');
         $money_payment = $client_arr['money_payment'];
+        
         $room_rented = $client_arr['room_rented'];
         $room_administrative_expense = $client_arr['room_administrative_expense'];
         //get plus money
