@@ -85,7 +85,7 @@
                 <td class='form2'><input type='text' class='text' name='client_name' id='client_name' value="{$data.client_name}"  style="height:26px; width: 351px;"><div id="client_name_error"class="error"></div></td>
             </tr>            
             <tr>
-                <td class='form1'>フリガナ?:</td>
+                <td class='form1'>フリガナ:</td>
                 <td class='form2'><input type='text' class='text' name='client_read_way' id='client_read_way' value="{$data.client_read_way}"  style="height:26px; width: 351px;"></td>
             </tr>
             <tr>

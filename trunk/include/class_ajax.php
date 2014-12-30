@@ -399,8 +399,8 @@ class ajax {
         if (!empty($log_revisit)) {
             $revisit[] = $log_revisit;
             $log_revisit_serialize = serialize($revisit);
-        }else{
-            $log_revisit_serialize="";
+        } else {
+            $log_revisit_serialize = "";
         }
         //check order exist
         $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);
@@ -428,6 +428,9 @@ class ajax {
                             . ")";
                     $database->database_query($query_history_revisit);
                 }
+            } else {
+                $query_update_revisit = "delete from home_history_revisit where history_id='{$history_id}'";
+                $database->database_query($query_update_revisit);
             }
             //update history exist
             $query = "update home_history_log set 
@@ -593,9 +596,21 @@ class ajax {
                                 . "'{$history_id}',"
                                 . "'{$log_revisit_milisection}'"
                                 . ")";
-                                
+
                         $database->database_query($query_history_revisit);
                     }
+                } else {
+                    /*$query_revisit = "select id from home_history_revisit where history_id='{$history_id}' order by id DESC limit 1";
+                    $result = $database->database_query($query_revisit);
+                    $row = $database->database_fetch_assoc($result);
+                    $revisit_id = $row['id'];
+                    if ($revisit_id) {*/
+                        $query_update_revisit = "delete from home_history_revisit
+                                    where history_id='{$history_id}'    
+                                     ";
+                                     
+                        $database->database_query($query_update_revisit);
+                  //  }
                 }
 
 //update history exist
@@ -686,7 +701,7 @@ class ajax {
                             . "'{$history_id}',"
                             . "'{$log_revisit_milisection}'"
                             . ")";
-                            
+
                     $database->database_query($query_history_revisit);
                 }
             }

@@ -1004,6 +1004,13 @@ if ($step == 1) {
             }
         }
         $room_administrative_expense = $room_ad_ex;
+         //change 万 into 円
+       // $room_administrative_expense=  str_replace("円", "", $room_administrative_expense);
+        if(strpos($room_administrative_expense,'万')){
+            $room_exp=  explode("万", $room_administrative_expense);            
+            $room_administrative_expense=((int)$room_exp[0]*10000 + ($room_exp[1]!=""?$room_exp[1]:0));
+        }
+        $room_administrative_expense=  number_format($room_administrative_expense,0,'',',');
     }
     if (isset($_POST['contract_total'])) {
         $contract_total = $_POST['contract_total'];
@@ -1210,9 +1217,31 @@ if ($step == 1) {
             $contract_payment_date_from_temp = trim($contract_payment_date_from) != "" ? strtotime($contract_payment_date_from) : null;
             $contract_payment_date_to_temp = trim($contract_payment_date_to) != "" ? strtotime($contract_payment_date_to) : null;
 
+        //parse cost valid
+        $contract_cost=  str_replace(",", "", $contract_cost);
+        $contract_key_money=  str_replace(",", "", $contract_key_money);
+        $contract_broker_fee=  str_replace(",", "", $contract_broker_fee);
+        $contract_ads_fee=  str_replace(",", "", $contract_ads_fee);
+        $contract_deposit_1=  str_replace(",", "", $contract_deposit_1);
+        $contract_deposit_2=  str_replace(",", "", $contract_deposit_2);
+        $money_payment=  str_replace(",", "", $money_payment);
+        $contract_total=  str_replace(",", "", $contract_total);
+        $room_administrative_expense=  str_replace(",", "", $room_administrative_expense);
+        //end parse cost valid
             $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
 
-
+        //parse cost display
+        $contract_cost= number_format($contract_cost,0,'',',');
+        $contract_key_money= number_format($contract_key_money,0,'',',');
+        $contract_broker_fee=  number_format($contract_broker_fee,0,'',',');
+        $contract_ads_fee=  number_format($contract_ads_fee,0,'',',');
+        $contract_deposit_1=  number_format($contract_deposit_1,0,'',',');
+        $contract_deposit_2=  number_format($contract_deposit_2,0,'',',');
+        $money_payment=  number_format($money_payment,0,'',',');
+        $contract_total=  number_format($contract_total,0,'',',');
+        $room_administrative_expense=number_format($room_administrative_expense,0,'',',');
+        //end parse cost display
+        //
             //update plus money
             if ($result_contract) {
                 //1. get contract detail id

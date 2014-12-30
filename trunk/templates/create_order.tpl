@@ -11,6 +11,9 @@
                 }
             }
         }
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+        }
         var sendmail = 0;
         $(document).ready(function() {
             var txt = $("input#client_phone");
@@ -137,10 +140,11 @@
                     }
                 });
             });
-            $('#contract_broker_fee').keyup(function(e) {
+            $('#contract_broker_fee').change(function(e) {
+                $('#contract_broker_fee').val($('#contract_broker_fee').val().replace(",", ""));
                 checkPrice($('#contract_broker_fee'));
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
@@ -150,7 +154,7 @@
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -179,16 +183,19 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
+                $('#contract_broker_fee').val(formatNumber($('#contract_broker_fee').val()));
             });
-            $('#contract_ads_fee').keyup(function(e) {
+            $('#contract_ads_fee').change(function(e) {
+                $('#contract_ads_fee').val($('#contract_ads_fee').val().replace(",", ""));
                 checkPrice($('#contract_ads_fee'));
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
@@ -222,20 +229,22 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_ads_fee').val(formatNumber($('#contract_ads_fee').val()));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
             });
             $('#contract_broker_fee_unit').change(function(e) {
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -264,20 +273,21 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
             });
             $('#contract_ads_fee_unit').change(function(e) {
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -305,20 +315,21 @@
                     total_plus += parseFloat(plus_money[i]);
                 }
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
             });
             $('#contract_key_money_unit').change(function(e) {
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -347,21 +358,23 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
             });
-            $('#contract_cost').keyup(function(e) {
+            $('#contract_cost').change(function(e) {
+                $('#contract_cost').val($('#contract_cost').val().replace(",", ""));
                 checkPrice($('#contract_cost'));
-                var contract_key_money = parseFloat($('#contract_key_money').val());
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
                 var contract_cost = parseFloat($('#contract_cost').val());
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -390,20 +403,22 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
+                $('#contract_cost').val(formatNumber($('#contract_cost').val()));
             });
-            $('#contract_plus_money').keyup(function(e) {
-                var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+            $('#contract_plus_money').change(function(e) {
+                var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -432,22 +447,23 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
             });
             $('#calculator').click(function(e) {
 
                 $("input[name^='contract_plus_money[]']").keyup(function(e) {
-                    var contract_key_money = parseFloat($('#contract_key_money').val());
-                    var contract_cost = parseFloat($('#contract_cost').val());
+                    var contract_key_money = parseFloat($('#contract_key_money').val().replace(",", ""));
+                    var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                     var contract_key_money_unit = $('#contract_key_money_unit').val();
                     if (contract_key_money_unit == 'ヵ月') {
                         contract_key_money = contract_key_money * contract_cost;
                     }
-                    var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                    var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                     var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                     if (contract_broker_fee_unit == 'ヵ月') {
                         contract_broker_fee = contract_broker_fee * contract_cost;
                     }
-                    var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                    var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                     var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                     if (contract_ads_fee_unit == 'ヵ月') {
                         contract_ads_fee = contract_ads_fee * contract_cost;
@@ -476,22 +492,24 @@
                     }
 
                     $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                    $('#contract_total').val(formatNumber($('#contract_total').val()));
                 });
             });
-            $('#contract_key_money').keyup(function(e) {
+            $('#contract_key_money').change(function(e) {
+                $('#contract_key_money').val($('#contract_key_money').val().replace(",", ""));
                 checkPrice($('#contract_key_money'));
                 var contract_key_money = parseFloat($('#contract_key_money').val());
-                var contract_cost = parseFloat($('#contract_cost').val());
+                var contract_cost = parseFloat($('#contract_cost').val().replace(",", ""));
                 var contract_key_money_unit = $('#contract_key_money_unit').val();
                 if (contract_key_money_unit == 'ヵ月') {
                     contract_key_money = contract_key_money * contract_cost;
                 }
-                var contract_broker_fee = parseFloat($('#contract_broker_fee').val());
+                var contract_broker_fee = parseFloat($('#contract_broker_fee').val().replace(",", ""));
                 var contract_broker_fee_unit = $('#contract_broker_fee_unit').val();
                 if (contract_broker_fee_unit == 'ヵ月') {
                     contract_broker_fee = contract_broker_fee * contract_cost;
                 }
-                var contract_ads_fee = parseFloat($('#contract_ads_fee').val());
+                var contract_ads_fee = parseFloat($('#contract_ads_fee').val().replace(",", ""));
                 var contract_ads_fee_unit = $('#contract_ads_fee_unit').val();
                 if (contract_ads_fee_unit == 'ヵ月') {
                     contract_ads_fee = contract_ads_fee * contract_cost;
@@ -520,6 +538,8 @@
                 }
 
                 $('#contract_total').val((contract_key_money > 0 ? contract_key_money : 0) + (contract_cost > 0 ? contract_cost : 0) + (contract_broker_fee > 0 ? contract_broker_fee : 0));
+                $('#contract_key_money').val(formatNumber($('#contract_key_money').val()));
+                $('#contract_total').val(formatNumber($('#contract_total').val()));
             });
             $('#back').click(function() {
                 var broker_id = $('#broker_id').val();
@@ -934,17 +954,25 @@
                 showloadgif();
                 window.location.href = "create_order.php";
             });
-            $('#contract_deposit_1').keyup(function() {
+            $('#contract_deposit_1').change(function() {
+                $('#contract_deposit_1').val($('#contract_deposit_1').val().replace(",", ""));
                 checkPrice($('#contract_deposit_1'));
+                $('#contract_deposit_1').val(formatNumber($('#contract_deposit_1').val()));
             });
-            $('#contract_deposit_2').keyup(function() {
+            $('#contract_deposit_2').change(function() {
+                $('#contract_deposit_2').val($('#contract_deposit_2').val().replace(",", ""));
                 checkPrice($('#contract_deposit_2'));
+                $('#contract_deposit_2').val(formatNumber($('#contract_deposit_2').val()));
             });
-            $('#client_income').keyup(function() {
+            $('#client_income').change(function() {
+                $('#client_income').val($('#client_income').val().replace(",", ""));
                 checkPrice($('#client_income'));
+                $('#client_income').val(formatNumber($('#client_income').val()));
             });
-            $('#client_rent').keyup(function() {
+            $('#client_rent').change(function() {
+                $('#client_rent').val($('#client_rent').val().replace(",", ""));
                 checkPrice($('#client_rent'));
+                $('#client_rent').val(formatNumber($('#client_rent').val()));
             });
         });
         function CalculatorPlus() {

@@ -117,7 +117,7 @@
                     $('a').find('#img_edit').css('display', "none");
                 });
             });
-            $('#cancel').click(function(e){
+            $('#cancel').click(function(e) {
                 window.location.reload(true);
             });
             //edit name
@@ -134,25 +134,25 @@
                 return false;
                 e.preventDefault();
             });
-            $('#cancel_name').click(function(e){
-                  $("#cancel").click();
-                  e.preventDefault();
+            $('#cancel_name').click(function(e) {
+                $("#cancel").click();
+                e.preventDefault();
             });
-            $('#cancel_username').click(function(e){
-                  $("#cancel").click();
-                  e.preventDefault();
+            $('#cancel_username').click(function(e) {
+                $("#cancel").click();
+                e.preventDefault();
             });
-            $('#cancel_email').click(function(e){
-                  $("#cancel").click();
-                  e.preventDefault();
+            $('#cancel_email').click(function(e) {
+                $("#cancel").click();
+                e.preventDefault();
             });
-            $('#cancel_password').click(function(e){
-                  $("#cancel").click();
-                  e.preventDefault();
+            $('#cancel_password').click(function(e) {
+                $("#cancel").click();
+                e.preventDefault();
             });
-            $('#cancel_photo').click(function(e){
-                  $("#cancel").click();
-                  e.preventDefault();
+            $('#cancel_photo').click(function(e) {
+                $("#cancel").click();
+                e.preventDefault();
             });
             $("#edit_name_sub").click(function(e) {
                 e.preventDefault();
@@ -247,7 +247,7 @@
                 function(result) {
                     var json = $.parseJSON(result);
                     if (json.password)
-                        $('#error_password_photo').html(json.password);                    
+                        $('#error_password_photo').html(json.password);
                     else
                         $('#submit').click();
                 });
@@ -308,7 +308,7 @@
         function show() {
             alert($('#photo').val());
         }
-        
+
     </script>
 {/literal}
 {nocache}
@@ -326,14 +326,14 @@
                         <div id="name_panel"><strong>名称</strong></div>
                         <center>
                             <div>
-                                <table>
-                                    <tr>
-                                        <td>名前</td>
-                                        <td><input type="text" id="firstname" name="firstname" value="{$user->user_info.user_fname}" onkeyup="removeDisabledName();"style="height:26px; width: 151px;"/></td>
-                                    </tr>
+                                <table>                                   
                                     <tr>
                                         <td>名字</td>
                                         <td><input type="text" id="lastname" name="lastname" value="{$user->user_info.user_lname}"onkeyup="removeDisabledName();"style="height:26px; width: 151px;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>名前</td>
+                                        <td><input type="text" id="firstname" name="firstname" value="{$user->user_info.user_fname}" onkeyup="removeDisabledName();"style="height:26px; width: 151px;"/></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><div>設定を保存するには、パスワードを入力してください。</div></td>

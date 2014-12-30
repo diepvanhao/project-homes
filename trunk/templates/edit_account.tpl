@@ -29,11 +29,12 @@
             </tr>
             <tr>
                 <td class='form1'>名字: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='firstname' id='firstname' value="{$firstname}"  style="height:26px; width: 351px;"></td>
+                <td class='form2'><input type='text' class='text' name='lastname' id='lastname' value="{$lastname}"   style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
                 <td class='form1'>名前: <span class="required">*</span></td>
-                <td class='form2'><input type='text' class='text' name='lastname' id='lastname' value="{$lastname}"   style="height:26px; width: 351px;"></td>
+
+                <td class='form2'><input type='text' class='text' name='firstname' id='firstname' value="{$firstname}"  style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
                 <td class='form1'>都道府県:  <span class="required">*</span></td>
@@ -194,49 +195,49 @@
 {/nocache}
 {literal}
     <script type="text/javascript">
-        var checkPrice = function(el){
-            if(isNaN(el.val())){
-                if(isNaN(parseFloat(el.val()))){
+        var checkPrice = function(el) {
+            if (isNaN(el.val())) {
+                if (isNaN(parseFloat(el.val()))) {
                     el.val('');
-                }else{
+                } else {
                     el.val(parseFloat(el.val()));
                 }
-           }
+            }
         }
-        $('#target_1').keyup(function(){
+        $('#target_1').keyup(function() {
             checkPrice($('#target_1'));
         });
-         $('#target_2').keyup(function(){
+        $('#target_2').keyup(function() {
             checkPrice($('#target_2'));
         });
-        $('#target_3').keyup(function(){
+        $('#target_3').keyup(function() {
             checkPrice($('#target_3'));
         });
-        $('#target_4').keyup(function(){
+        $('#target_4').keyup(function() {
             checkPrice($('#target_4'));
         });
-        $('#target_5').keyup(function(){
+        $('#target_5').keyup(function() {
             checkPrice($('#target_5'));
         });
-        $('#target_6').keyup(function(){
+        $('#target_6').keyup(function() {
             checkPrice($('#target_6'));
         });
-        $('#target_7').keyup(function(){
+        $('#target_7').keyup(function() {
             checkPrice($('#target_7'));
         });
-        $('#target_8').keyup(function(){
+        $('#target_8').keyup(function() {
             checkPrice($('#target_8'));
         });
-        $('#target_9').keyup(function(){
+        $('#target_9').keyup(function() {
             checkPrice($('#target_9'));
         });
-        $('#target_10').keyup(function(){
+        $('#target_10').keyup(function() {
             checkPrice($('#target_10'));
         });
-        $('#target_11').keyup(function(){
+        $('#target_11').keyup(function() {
             checkPrice($('#target_11'));
         });
-        $('#target_12').keyup(function(){
+        $('#target_12').keyup(function() {
             checkPrice($('#target_12'));
         });
         $(document).ready(function() {
