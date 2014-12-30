@@ -1222,8 +1222,9 @@ if ($step == 1) {
                 $plus_money = $order->getPlusMoney($contract_detail_id);
             }
                 //send mail
-            if(!empty($contract_application_date)){
-                @$mail->order($order_id);
+            if (!empty($contract_application_date) && (!isset($_SESSION['send_'.$order_id]) || !$_SESSION['send_'.$order_id] )) {
+                $mail->order($order_id);
+                $_SESSION['send_'.$order_id] = true;
             }
             // if ($user->user_info['id'] == $client_arr['user_id']) {
             //fetch introduce
