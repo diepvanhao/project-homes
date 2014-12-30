@@ -15,11 +15,11 @@
             </li>
             <li>
                 <strong>名字 : </strong>
-                <span>{$account.user_fname}</span>
+                <span>{$account.user_lname}</span>
             </li>
             <li>
                 <strong>名前 : </strong>
-                <span>{$account.user_lname}</span>
+                <span>{$account.user_fname}</span>
             </li>
             <li>
                 <strong>Ｅメール : </strong>

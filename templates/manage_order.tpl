@@ -145,12 +145,12 @@
                             {/if}
                         </td>                                                                     -->
                                 <td>
-                                    {if !$house->isSerialized($order.log_revisit) && empty($order.contract_application_date)
+                                 {*   {if !$house->isSerialized($order.log_revisit) && empty($order.contract_application_date)
                                 && empty($order.money_payment) && empty($order.contract_signature_day)
                                 && empty($order.contract_payment_date_from) && empty($order.contract_payment_date_to)
                                 && empty($order.contract_handover_day)}
                                     -
-                                    {else}
+                                    {else}*}
                                         {if $house->isSerialized($order.log_revisit)}
                                             <span style="color: #1166E7;">{end(unserialize($order.log_revisit))}</span>
                                         {else}
@@ -168,7 +168,7 @@
                                     <td><span style="color: #628DB6;">{($order.contract_payment_date_to)?date('Y/m/d',$order.contract_payment_date_to):'-'}</span></td>
 
                                     <td><span style="color: #9D000A;">{($order.contract_handover_day)?date('Y/m/d H:i',$order.contract_handover_day):'-'}</span></td>
-                                        {/if}
+                                     {*   {/if}*}
 
                                         <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.house_id},{$order.broker_id},{$order.room_id})" style="margin-right: 10px;">削除</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
                                     </tr>
