@@ -169,6 +169,25 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['cost_previous_month'] += (float) $row[0]; 
         
+        $return['cost_next_month'] = 0.00; 
+       //Unsigned_broker_fee_today
+        $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'
+                  AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " +1 months")) . "'";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['cost_next_month'] += (float) $row[0];      
+        //Unsigned_ads_fee_today
+        $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'
+                  AND  (d.contract_payment_report <> 1 OR DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " +1 months")) . "')";
+        $result = $database->database_query($select);
+        $row = $database->database_fetch_array($result);
+        $return['cost_next_month'] += (float) $row[0]; 
         
         $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_appointment = "h.log_date_appointment_from  <= $time AND  h.log_date_appointment_from  >= $fromtime";
@@ -2553,10 +2572,10 @@ class Report {
         $return['month_already_recorded'] += (float) $row[0];   
         
         return  array(
-            'today_already_recorded' => round($return['today_already_recorded']/1.08,2),
-            'today_unsigned' => round($return['today_unsigned']/1.08,2),
-            'month_already_recorded' => round($return['month_already_recorded']/1.08,2),
-            'month_unsigned' => round($return['month_unsigned']/1.08,2),
+            'today_already_recorded' => round($return['today_already_recorded']/1.08),
+            'today_unsigned' => round($return['today_unsigned']/1.08),
+            'month_already_recorded' => round($return['month_already_recorded']/1.08),
+            'month_unsigned' => round($return['month_unsigned']/1.08),
         );;
     }
 
@@ -2618,7 +2637,7 @@ class Report {
         //date_default_timezone_set("Asia/Bangkok");
 
         $date = @date('d/m/Y');
-        $order_date = @date('d/m/Y', $row['order_day_create']);
+        $order_date = empty($row['order_day_create'])?'':@date('d/m/Y',$row['order_day_create']);
 
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
@@ -2725,7 +2744,7 @@ class Report {
                 ->setCellValue("L{$plus}", "成立年月日")
         ;
 
-        $signdate = @date('d/m/Y',$row['contract_signature_day']);
+        $signdate = empty($row['contract_signature_day'])?'':@date('d/m/Y',$row['contract_signature_day']);
         $index = $plus + 1;
         $plus = $index + 1;
 
@@ -3073,7 +3092,7 @@ class Report {
                 ->setCellValue("K{$index}", "$k")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", @date('d/m/Y',$row['contract_period_from']))
+                ->setCellValue("P{$index}", empty($row['contract_period_from'])?'':@date('d/m/Y',$row['contract_period_from']))
                 ->setCellValue("T{$index}", "～")
         ;
 
@@ -3106,7 +3125,7 @@ class Report {
                 ->setCellValue("K{$index}", "")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", @date('d/m/Y',$row['contract_period_to']))
+                ->setCellValue("P{$index}", empty($row['contract_period_to'])?'':@date('d/m/Y',$row['contract_period_to']))
                 ->setCellValue("T{$index}", "迄")
         ;
 
@@ -3316,7 +3335,7 @@ class Report {
         //date_default_timezone_set("Asia/Bangkok");
 
         $date = @date('d/m/Y');
-        $order_date = @date('d/m/Y', $row['order_day_create']);
+        $order_date = empty($row['order_day_create'])?'':@date('d/m/Y',$row['order_day_create']);
 
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
@@ -3444,9 +3463,9 @@ class Report {
                 ->setCellValue("C6", $row['client_phone']) //
                 //**************
                 ->setCellValue("A8", "申込年月日")
-                ->setCellValue("C8", @date('d/m/Y',$row['contract_application_date'])) //
+                ->setCellValue("C8", empty($row['contract_application_date'])?'':@date('d/m/Y',$row['contract_application_date'])) //
                 ->setCellValue("A10", "契約予定日")
-                ->setCellValue("C10", @date('d/m/Y',$row['contract_signature_day'])) //
+                ->setCellValue("C10", empty($row['contract_signature_day'])?'':@date('d/m/Y',$row['contract_signature_day'])) //
                 ->setCellValue("A12", "元付業者")
                 ->setCellValue("C12", $row['broker_company_name']) //
                 ->setCellValue("G12", "担当者")
@@ -3713,7 +3732,7 @@ class Report {
                 //**************
                 ->setCellValue("A2", $row['broker_company_name'])
                 ->setCellValue("D3", "様")
-                ->setCellValue("F3", @date('d/m/Y',$row['contract_signature_day']))//
+                ->setCellValue("F3", empty($row['contract_signature_day'])?'':@date('d/m/Y',$row['contract_signature_day']))//
                 //**************
                 ->setCellValue("A5", "物件名")
                 ->setCellValue("B5", $row['house_name']) //
@@ -4301,7 +4320,7 @@ class Report {
                 ->setCellValue("C14", '報酬額')
                 ->setCellValue("F14", '支払予定日')
                 ->setCellValue("C15", '¥'.number_format($row['contract_ads_fee']))
-                ->setCellValue("F15", @date('d/m/Y',$row['contract_payment_date_to']))//
+                ->setCellValue("F15", empty($row['contract_payment_date_to'])?'':@date('d/m/Y',$row['contract_payment_date_to']))//
                 //**************
                 ->setCellValue("A20", "発注内容")
                 ->setCellValue("A21", '１．本業務実施期間について')
