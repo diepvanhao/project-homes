@@ -977,10 +977,10 @@ if (isset($_POST['save'])) {
             // $client_address = $client_arr['client_address'];
             $client_occupation = $client_arr['client_occupation'];
             $client_company = $client_arr['client_company'];
-            $client_income = number_format($client_arr['client_income'],0,'',',');
+            $client_income = number_format($client_arr['client_income'], 0, '', ',');
             $client_room_type = $client_arr['client_room_type'];
             $client_room_type_number = $client_arr['client_room_type_number'];
-            $client_rent = number_format($client_arr['client_rent'],0,'',',');
+            $client_rent = number_format($client_arr['client_rent'], 0, '', ',');
             $client_reason_change = $client_arr['client_reason_change'];
             $client_time_change = $client_arr['client_time_change'];
             $client_resident_name = $client_arr['client_resident_name'];
@@ -1055,28 +1055,28 @@ if (isset($_POST['save'])) {
         $contract_payment_date_to_temp = trim($contract_payment_date_to) != "" ? strtotime($contract_payment_date_to) : null;
 
         //parse cost valid
-        $contract_cost=  str_replace(",", "", $contract_cost);
-        $contract_key_money=  str_replace(",", "", $contract_key_money);
-        $contract_broker_fee=  str_replace(",", "", $contract_broker_fee);
-        $contract_ads_fee=  str_replace(",", "", $contract_ads_fee);
-        $contract_deposit_1=  str_replace(",", "", $contract_deposit_1);
-        $contract_deposit_2=  str_replace(",", "", $contract_deposit_2);
-        $money_payment=  str_replace(",", "", $money_payment);
-        $contract_total=  str_replace(",", "", $contract_total);
-        $room_administrative_expense=  str_replace(",", "", $room_administrative_expense);
+        $contract_cost = str_replace(",", "", $contract_cost);
+        $contract_key_money = str_replace(",", "", $contract_key_money);
+        $contract_broker_fee = str_replace(",", "", $contract_broker_fee);
+        $contract_ads_fee = str_replace(",", "", $contract_ads_fee);
+        $contract_deposit_1 = str_replace(",", "", $contract_deposit_1);
+        $contract_deposit_2 = str_replace(",", "", $contract_deposit_2);
+        $money_payment = str_replace(",", "", $money_payment);
+        $contract_total = str_replace(",", "", $contract_total);
+        $room_administrative_expense = str_replace(",", "", $room_administrative_expense);
         //end parse cost valid
         $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
 
         //parse cost display
-        $contract_cost= $contract_cost!=""?number_format($contract_cost,0,'',','):$contract_cost;
-        $contract_key_money= $contract_key_money!=""?number_format($contract_key_money,0,'',','):$contract_key_money;
-        $contract_broker_fee=  $contract_broker_fee!=""?number_format($contract_broker_fee,0,'',','):$contract_broker_fee;
-        $contract_ads_fee=  $contract_ads_fee!=""?number_format($contract_ads_fee,0,'',','):$contract_ads_fee;
-        $contract_deposit_1=  $contract_deposit_1!=""?number_format($contract_deposit_1,0,'',','):$contract_deposit_1;
-        $contract_deposit_2=  $contract_deposit_2!=""?number_format($contract_deposit_2,0,'',','):$contract_deposit_2;
-        $money_payment=  $money_payment!=""?number_format($money_payment,0,'',','):$money_payment;
-        $contract_total=  $contract_total!=""?number_format($contract_total,0,'',','):$contract_total;
-        $room_administrative_expense=$room_administrative_expense!=""?number_format($room_administrative_expense,0,'',','):$room_administrative_expense;
+        $contract_cost = $contract_cost != "" ? number_format($contract_cost, 0, '', ',') : $contract_cost;
+        $contract_key_money = $contract_key_money != "" ? number_format($contract_key_money, 0, '', ',') : $contract_key_money;
+        $contract_broker_fee = $contract_broker_fee != "" ? number_format($contract_broker_fee, 0, '', ',') : $contract_broker_fee;
+        $contract_ads_fee = $contract_ads_fee != "" ? number_format($contract_ads_fee, 0, '', ',') : $contract_ads_fee;
+        $contract_deposit_1 = $contract_deposit_1 != "" ? number_format($contract_deposit_1, 0, '', ',') : $contract_deposit_1;
+        $contract_deposit_2 = $contract_deposit_2 != "" ? number_format($contract_deposit_2, 0, '', ',') : $contract_deposit_2;
+        $money_payment = $money_payment != "" ? number_format($money_payment, 0, '', ',') : $money_payment;
+        $contract_total = $contract_total != "" ? number_format($contract_total, 0, '', ',') : $contract_total;
+        $room_administrative_expense = $room_administrative_expense != "" ? number_format($room_administrative_expense, 0, '', ',') : $room_administrative_expense;
         //end parse cost display
         //
         //update plus money
@@ -1088,9 +1088,9 @@ if (isset($_POST['save'])) {
             $plus_money = $order->getPlusMoney($contract_detail_id);
         }
         //send mail
-        if (!empty($contract_application_date) && (!isset($_SESSION['send_'.$order_id]) || !$_SESSION['send_'.$order_id] )) {
+        if (!empty($contract_application_date) && (!isset($_SESSION['send_' . $order_id]) || !$_SESSION['send_' . $order_id] )) {
             $mail->order($order_id);
-            $_SESSION['send_'.$order_id] = true;
+            $_SESSION['send_' . $order_id] = true;
         }
         // if ($user->user_info['id'] == $client_arr['user_id']) {
         //fetch introduce
@@ -1303,10 +1303,10 @@ if (isset($_POST['save'])) {
         // $client_address = $client_arr['client_address'];
         $client_occupation = $client_arr['client_occupation'];
         $client_company = $client_arr['client_company'];
-        $client_income = number_format($client_arr['client_income'], 0, '', ',');
+        $client_income = $client_arr['client_income'] != "" ? number_format($client_arr['client_income'], 0, '', ',') : $client_arr['client_income'];
         $client_room_type = $client_arr['client_room_type'];
         $client_room_type_number = $client_arr['client_room_type_number'];
-        $client_rent = number_format($client_arr['client_rent'], 0, '', ',');
+        $client_rent = $client_arr['client_rent'] != "" ? number_format($client_arr['client_rent'], 0, '', ',') : $client_arr['client_rent'];
         $client_reason_change = $client_arr['client_reason_change'];
         $client_time_change = $client_arr['client_time_change'];
         $client_resident_name = $client_arr['client_resident_name'];
@@ -1411,11 +1411,12 @@ if (isset($_POST['save'])) {
         $change_house_array = base64_encode(implode(",", unserialize($client_arr['change_house_array'])));
 
         $contract_name = $client_arr['contract_name'];
-        $contract_cost = number_format($client_arr['contract_cost'],0,'',',');
-        //$contract_cost = $client_arr['contract_cost'];
-        $contract_key_money = number_format($client_arr['contract_key_money'],0,'',',');
-        //$contract_key_money = $client_arr['contract_key_money'];
         
+        $contract_cost = $client_arr['contract_cost'] != "" ? number_format($client_arr['contract_cost'], 0, '', ',') : $client_arr['contract_cost'];
+        //$contract_cost = $client_arr['contract_cost'];
+        $contract_key_money = $client_arr['contract_key_money'] != "" ? number_format($client_arr['contract_key_money'], 0, '', ',') : $client_arr['contract_key_money'];
+        //$contract_key_money = $client_arr['contract_key_money'];
+
         $contract_condition = $client_arr['contract_condition'];
         $contract_valuation = $client_arr['contract_valuation'];
         $contract_signature_day = $client_arr['contract_signature_day'] != 0 ? date('H:i', $client_arr['contract_signature_day']) : "";
@@ -1464,40 +1465,40 @@ if (isset($_POST['save'])) {
 //        } else {
 //            $contract_period_to = $contract_period_to_date = "";
 //        }
-       // $contract_deposit_1 = number_format($client_arr['contract_deposit_1'],0,'',',');
-       // $contract_deposit_2 = number_format($client_arr['contract_deposit_2'],0,'',',');
-        $contract_deposit_1 =number_format($client_arr['contract_deposit_1'],0,'',',');
-        $contract_deposit_2 = number_format($client_arr['contract_deposit_2'],0,'',',');
-        
+        // $contract_deposit_1 = number_format($client_arr['contract_deposit_1'],0,'',',');
+        // $contract_deposit_2 = number_format($client_arr['contract_deposit_2'],0,'',',');
+        $contract_deposit_1 = $client_arr['contract_deposit_1'] != "" ? number_format($client_arr['contract_deposit_1'], 0, '', ',') : $client_arr['contract_deposit_1'];
+        $contract_deposit_2 = $client_arr['contract_deposit_2'] != "" ? number_format($client_arr['contract_deposit_2'], 0, '', ',') : $client_arr['contract_deposit_2'];
+
         $contract_cancel = $client_arr['contract_cancel'];
-        $contract_total = number_format($client_arr['contract_total'],0,'',',');
-       // $contract_total = $client_arr['contract_total'];
-        
+        $contract_total = $client_arr['contract_total'] != "" ? number_format($client_arr['contract_total'], 0, '', ',') : $client_arr['contract_total'];
+        // $contract_total = $client_arr['contract_total'];
+
         $contract_application = $client_arr['contract_application'];
         $contract_application_date = $client_arr['contract_application_date'] != 0 ? date('Y/m/d', $client_arr['contract_application_date']) : "";
         $contract_payment_date_from = $client_arr['contract_payment_date_from'] != 0 ? date('Y/m/d', $client_arr['contract_payment_date_from']) : "";
         $contract_payment_date_to = $client_arr['contract_payment_date_to'] != 0 ? date('Y/m/d', $client_arr['contract_payment_date_to']) : "";
         $contract_payment_status = $client_arr['contract_payment_status'];
         $contract_payment_report = $client_arr['contract_payment_report'];
-        $contract_broker_fee = number_format($client_arr['contract_broker_fee'],0,'',',');
-        $contract_ads_fee = number_format($client_arr['contract_ads_fee'],0,'',',');
+        $contract_broker_fee = $client_arr['contract_broker_fee'] != "" ? number_format($client_arr['contract_broker_fee'], 0, '', ',') : $client_arr['contract_broker_fee'];
+        $contract_ads_fee = $client_arr['contract_broker_fee'] != "" ? number_format($client_arr['contract_ads_fee'], 0, '', ',') : $client_arr['contract_broker_fee'];
         //$contract_broker_fee = $client_arr['contract_broker_fee'];
         //$contract_ads_fee =$client_arr['contract_ads_fee'];
-        
+
         $contract_transaction_finish = $client_arr['contract_transaction_finish'];
-        $contract_ambition = $client_arr['contract_ambition'];        
-        $money_payment = number_format($client_arr['money_payment'],0,'',',');
+        $contract_ambition = $client_arr['contract_ambition'];
+        $money_payment = $client_arr['money_payment'] != "" ? number_format($client_arr['money_payment'], 0, '', ',') : $client_arr['money_payment'];
         //$money_payment = $client_arr['money_payment'];
-        
+
         $room_rented = $client_arr['room_rented'];
         $room_administrative_expense = $client_arr['room_administrative_expense'];
         //change 万 into 円
-        $room_administrative_expense=  str_replace("円", "", $room_administrative_expense);
-        if(strpos($room_administrative_expense,'万')){
-            $room_exp=  explode("万", $room_administrative_expense);            
-            $room_administrative_expense=((int)$room_exp[0]*10000 + ($room_exp[1]!=""?$room_exp[1]:0));
+        $room_administrative_expense = str_replace("円", "", $room_administrative_expense);
+        if (strpos($room_administrative_expense, '万')) {
+            $room_exp = explode("万", $room_administrative_expense);
+            $room_administrative_expense = ((int) $room_exp[0] * 10000 + ($room_exp[1] != "" ? $room_exp[1] : 0));
         }
-        $room_administrative_expense=  number_format($room_administrative_expense,0,'',',');
+        $room_administrative_expense = $room_administrative_expense != "" ? number_format($room_administrative_expense, 0, '', ',') : $room_administrative_expense;
         //get plus money
         $plus_money = $order->getPlusMoney($client_arr['contract_detail_id']);
         //get partner
