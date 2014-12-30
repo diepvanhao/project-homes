@@ -27,8 +27,8 @@
                     </tr>
                     <tr>
                         <td>
-                            日付～: <input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly>
-                            ～日付: <input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly>
+                            日付 <input type='text' name='fromdate' id='fromdate'  value="{$fromdate}"  style="height:26px; width: 250px;" readonly>
+                            ～ <input type='text' name='date' id='todate'  value="{$date}"  style="height:26px; width: 250px;" readonly>
                         </td>
                     </tr>
                     <tr>
@@ -183,7 +183,9 @@
                     {$month.unsigned = $month.unsigned + $commission.month_unsigned}
                 <td>{$commission.month_already_recorded}</td> <!--Already Recorded-->
                 <td>{$commission.month_unsigned}</td> <!--未契約-->
-                <td></td>
+                <td>{abs($info.cost_next_month)}
+                    {$month.cost_next = $month.cost_next + abs($info.cost_next_month)}
+                </td>
                 <td>
                     {abs($info.cost_previous_month)}
                     {$month.cost_previous = $month.cost_previous + abs($info.cost_previous_month)}
@@ -315,7 +317,7 @@
                 <td>合　計</td>
                 <td>{$month.cost}</td>
                 <td>{$month.unsigned}</td>
-                <td></td>
+                <td>{$month.cost_next}</td>
                 <td>{$month.cost_previous}</td>
                 <td>{(int)($month.signboard)}</td>
                 <td>{(int) $month.introduction}</td>

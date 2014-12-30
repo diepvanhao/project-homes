@@ -87,6 +87,7 @@ $smarty->assign('month', $month = array(
     'cost' => 0,
     'unsigned' => 0,
     'cost_previous' => 0,
+    'cost_next' => 0,
     'signboard' => 0,
     'introduction' => 0,
     'tel_status' => 0,
