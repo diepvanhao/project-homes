@@ -956,37 +956,39 @@ if (isset($_POST['save'])) {
 //                    $error[] = "";
         $client_arr = $result['client_arr'];
 
-        if (!empty($client_arr)) {
-            $client_name = $client_arr['client_name'];
-            $client_read_way = $client_arr['client_read_way'];
-            $client_birthday = $client_arr['client_birthday'];
-            $client_email = $client_arr['client_email'];
-            $client_phone = $client_arr['client_phone'];
-            $client_fax = $client_arr['client_fax'];
-            $gender = $client_arr['client_gender'];
-            if ($house->isSerialized($client_arr['client_address'])) {
-                $house_address_serialize = unserialize($client_arr['client_address']);
-                $city_id = $house_address_serialize['city_id'];
-                $district_id = $house_address_serialize['district_id'];
-                $street_id = $house_address_serialize['street_id'];
-                $ward_id = $house_address_serialize['ward_id'];
-                $client_address = $house_address_serialize['client_address'];
-            } else {
-                $client_address = $client_arr['client_address'];
-            }
-            // $client_address = $client_arr['client_address'];
-            $client_occupation = $client_arr['client_occupation'];
-            $client_company = $client_arr['client_company'];
-            $client_income = number_format($client_arr['client_income'], 0, '', ',');
-            $client_room_type = $client_arr['client_room_type'];
-            $client_room_type_number = $client_arr['client_room_type_number'];
-            $client_rent = number_format($client_arr['client_rent'], 0, '', ',');
-            $client_reason_change = $client_arr['client_reason_change'];
-            $client_time_change = $client_arr['client_time_change'];
-            $client_resident_name = $client_arr['client_resident_name'];
-            $client_resident_phone = $client_arr['client_resident_phone'];
-        }
+        /*  if (!empty($client_arr)) {
+          $client_name = $client_arr['client_name'] != "" ? $client_arr['client_name'] : $client_name;
+          $client_read_way = $client_arr['client_read_way'] != "" ? $client_arr['client_read_way'] : $client_read_way;
+          $client_birthday = $client_arr['client_birthday'] != "" ? $client_arr['client_birthday'] : $client_birthday;
+          $client_email = $client_arr['client_email'] != "" ? $client_arr['client_email'] : $client_email;
+          $client_phone = $client_arr['client_phone'] != "" ? $client_arr['client_phone'] : $client_phone;
+          $client_fax = $client_arr['client_fax'] != "" ? $client_arr['client_fax'] : $client_fax;
+          $gender = $client_arr['client_gender'] != "" ? $client_arr['client_gender'] : $gender;
+          if ($house->isSerialized($client_arr['client_address'])) {
+          $house_address_serialize = unserialize($client_arr['client_address']);
+          $city_id = $house_address_serialize['city_id'];
+          $district_id = $house_address_serialize['district_id'];
+          $street_id = $house_address_serialize['street_id'];
+          $ward_id = $house_address_serialize['ward_id'];
+          $client_address = $house_address_serialize['client_address'];
+          } else {
+          $client_address = $client_arr['client_address'];
+          }
+          // $client_address = $client_arr['client_address'];
+          $client_occupation = $client_arr['client_occupation'] != "" ? $client_arr['client_occupation'] : $client_occupation;
+          $client_company = $client_arr['client_company'] != "" ? $client_arr['client_company'] : $client_company;
+          $client_income = $client_arr['client_income'] != "" ? $client_arr['client_income'] : str_replace(",", "", $client_income);
+          $client_room_type = $client_arr['client_room_type'] != "" ? $client_arr['client_room_type'] : $client_room_type;
+          $client_room_type_number = $client_arr['client_room_type_number'] != "" ? $client_arr['client_room_type_number'] : $client_room_type_number;
+          $client_rent = $client_arr['client_rent'] != "" ? $client_arr['client_rent'] : str_replace(",", "", $client_rent);
+          $client_reason_change = $client_arr['client_reason_change'] != "" ? $client_arr['client_reason_change'] : $client_reason_change;
+          $client_time_change = $client_arr['client_time_change'] != "" ? $client_arr['client_time_change'] : $client_time_change;
+          $client_resident_name = $client_arr['client_resident_name'] != "" ? $client_arr['client_resident_name'] : $client_resident_name;
+          $client_resident_phone = $client_arr['client_resident_phone'] != "" ? $client_arr['client_resident_phone'] : $client_resident_phone;
+          } */
         //update detail           
+        $client_income = str_replace(",", "", $client_income);
+        $client_rent = str_replace(",", "", $client_rent);
 
         $house_address_serialize['city_id'] = $city_id;
         $house_address_serialize['district_id'] = $district_id;
@@ -1077,6 +1079,8 @@ if (isset($_POST['save'])) {
         $money_payment = $money_payment != "" ? number_format($money_payment, 0, '', ',') : $money_payment;
         $contract_total = $contract_total != "" ? number_format($contract_total, 0, '', ',') : $contract_total;
         $room_administrative_expense = $room_administrative_expense != "" ? number_format($room_administrative_expense, 0, '', ',') : $room_administrative_expense;
+        $client_income = $client_income != "" ? number_format($client_income, 0, '', ',') : $client_income;
+        $client_rent = $client_rent != "" ? number_format($client_rent, 0, '', ',') : $client_rent;
         //end parse cost display
         //
         //update plus money
@@ -1411,7 +1415,7 @@ if (isset($_POST['save'])) {
         $change_house_array = base64_encode(implode(",", unserialize($client_arr['change_house_array'])));
 
         $contract_name = $client_arr['contract_name'];
-        
+
         $contract_cost = $client_arr['contract_cost'] != "" ? number_format($client_arr['contract_cost'], 0, '', ',') : $client_arr['contract_cost'];
         //$contract_cost = $client_arr['contract_cost'];
         $contract_key_money = $client_arr['contract_key_money'] != "" ? number_format($client_arr['contract_key_money'], 0, '', ',') : $client_arr['contract_key_money'];

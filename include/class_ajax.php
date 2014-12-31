@@ -237,9 +237,9 @@ class ajax {
     }
 
     function getPartnerByKey($agent_id) {
-        global $database;
+        global $database,$user;
         $query = "select hu.* from home_agent as ha left join home_user as hu on ha.id=hu.agent_id ";
-        $query.="where hu.user_authorities>1 and hu.user_locked=0";
+        $query.="where hu.user_authorities>1 and hu.user_locked=0 and hu.id <>'{$user->user_info['id']}'";
         if (!empty($agent_id))
             $query.=" and ha.id='{$agent_id}' and hu.agent_id='{$agent_id}' ";
 
