@@ -269,7 +269,6 @@ if ($step == 1) {
         //get create day
         $order_day_create = time();
 
-
         $result = $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
         //print_r($result);die();
         if (isset($result['id'])) {
@@ -1117,14 +1116,14 @@ if ($step == 1) {
 //                    $error[] = "";
             $client_arr = $result['client_arr'];
 
-          /*  if (!empty($client_arr)) {
-                $client_name = $client_arr['client_name'] != "" ? $client_arr['client_name'] : $client_name;
-                $client_read_way = $client_arr['client_read_way'] != "" ? $client_arr['client_read_way'] : $client_read_way;
-                $client_birthday = $client_arr['client_birthday'] != "" ? $client_arr['client_birthday'] : $client_birthday;
-                $client_email = $client_arr['client_email'] != "" ? $client_arr['client_email'] : $client_email;
-                $client_phone = $client_arr['client_phone'] != "" ? $client_arr['client_phone'] : $client_phone;
-                $client_fax = $client_arr['client_fax'] != "" ? $client_arr['client_fax'] : $client_fax;
-                $gender = $client_arr['client_gender'] != "" ? $client_arr['client_gender'] : $gender;
+            if (!empty($client_arr)) {
+                $client_name = $client_name != "" ? $client_name : $client_arr['client_name'];
+                $client_read_way = $client_read_way != "" ? $client_read_way : $client_arr['client_read_way'];
+                $client_birthday = $client_birthday != "" ? $client_birthday : $client_arr['client_birthday'];
+                $client_email = $client_email != "" ? $client_email : $client_arr['client_email'];
+                $client_phone = $client_phone != "" ? $client_phone : $client_arr['client_phone'];
+                $client_fax = $client_fax != "" ? $client_fax : $client_arr['client_fax'];
+                $gender = $gender != "" ? $gender : $client_arr['client_gender'];
                 if ($house->isSerialized($client_arr['client_address'])) {
                     $house_address_serialize = unserialize($client_arr['client_address']);
                     $city_id = $house_address_serialize['city_id'];
@@ -1146,7 +1145,7 @@ if ($step == 1) {
                 $client_time_change = $client_arr['client_time_change'] != "" ? $client_arr['client_time_change'] : $client_time_change;
                 $client_resident_name = $client_arr['client_resident_name'] != "" ? $client_arr['client_resident_name'] : $client_resident_name;
                 $client_resident_phone = $client_arr['client_resident_phone'] != "" ? $client_arr['client_resident_phone'] : $client_resident_phone;
-            }*/
+            }
             //update detail           
             $client_income = str_replace(",", "", $client_income);
             $client_rent = str_replace(",", "", $client_rent);
