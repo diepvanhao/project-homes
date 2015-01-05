@@ -1126,30 +1126,30 @@ if ($step == 1) {
                 $gender = $gender != "" ? $gender : $client_arr['client_gender'];
                 if ($house->isSerialized($client_arr['client_address'])) {
                     $house_address_serialize = unserialize($client_arr['client_address']);
-                    $city_id = $house_address_serialize['city_id'];
-                    $district_id = $house_address_serialize['district_id'];
-                    $street_id = $house_address_serialize['street_id'];
-                    $ward_id = $house_address_serialize['ward_id'];
-                    $client_address = $house_address_serialize['client_address'];
+                    $city_id = $city_id != "" ? $city_id : $house_address_serialize['city_id'];
+                    $district_id = $district_id != "" ? $district_id : $house_address_serialize['district_id'];
+                    $street_id = $street_id != "" ? $street_id : $house_address_serialize['street_id'];
+                    $ward_id = $ward_id != "" ? $ward_id : $house_address_serialize['ward_id'];
+                    $client_address = $client_address != "" ? $client_address : $house_address_serialize['client_address'];
                 } else {
-                    $client_address = $client_arr['client_address'];
+                    $client_address = $client_address != "" ? $client_address : $client_arr['client_address'];
                 }
                 // $client_address = $client_arr['client_address'];
-                $client_occupation = $client_arr['client_occupation'] != "" ? $client_arr['client_occupation'] : $client_occupation;
-                $client_company = $client_arr['client_company'] != "" ? $client_arr['client_company'] : $client_company;
-                $client_income = $client_arr['client_income'] != "" ? $client_arr['client_income'] : str_replace(",", "", $client_income);
-                $client_room_type = $client_arr['client_room_type'] != "" ? $client_arr['client_room_type'] : $client_room_type;
-                $client_room_type_number = $client_arr['client_room_type_number'] != "" ? $client_arr['client_room_type_number'] : $client_room_type_number;
-                $client_rent = $client_arr['client_rent'] != "" ? $client_arr['client_rent'] : str_replace(",", "", $client_rent);
-                $client_reason_change = $client_arr['client_reason_change'] != "" ? $client_arr['client_reason_change'] : $client_reason_change;
-                $client_time_change = $client_arr['client_time_change'] != "" ? $client_arr['client_time_change'] : $client_time_change;
-                $client_resident_name = $client_arr['client_resident_name'] != "" ? $client_arr['client_resident_name'] : $client_resident_name;
-                $client_resident_phone = $client_arr['client_resident_phone'] != "" ? $client_arr['client_resident_phone'] : $client_resident_phone;
+                $client_occupation = $client_occupation != "" ? $client_occupation : $client_arr['client_occupation'];
+                $client_company = $client_company != "" ? $client_company : $client_arr['client_company'];
+                $client_income = $client_income != "" ? str_replace(",", "", $client_income) : $client_arr['client_income'];
+                $client_room_type = $client_room_type != "" ? $client_room_type : $client_arr['client_room_type'];
+                $client_room_type_number = $client_room_type_number != "" ? $client_room_type_number : $client_arr['client_room_type_number'];
+                $client_rent = $client_rent != "" ? str_replace(",", "", $client_rent) : $client_arr['client_rent'];
+                $client_reason_change = $client_reason_change != "" ? $client_reason_change : $client_arr['client_reason_change'];
+                $client_time_change = $client_time_change != "" ? $client_time_change : $client_arr['client_time_change'];
+                $client_resident_name = $client_resident_name != "" ? $client_resident_name : $client_arr['client_resident_name'];
+                $client_resident_phone = $client_resident_phone != "" ? $client_resident_phone : $client_arr['client_resident_phone'];
             }
             //update detail           
             $client_income = str_replace(",", "", $client_income);
             $client_rent = str_replace(",", "", $client_rent);
-             
+
             $house_address_serialize['city_id'] = $city_id;
             $house_address_serialize['district_id'] = $district_id;
             $house_address_serialize['street_id'] = $street_id;
