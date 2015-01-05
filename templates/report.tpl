@@ -183,12 +183,15 @@
                     {$month.unsigned = $month.unsigned + $commission.month_unsigned}
                 <td>{$commission.month_already_recorded}</td> <!--Already Recorded-->
                 <td>{$commission.month_unsigned}</td> <!--未契約-->
-                <td>{abs($info.cost_next_month)}
-                    {$month.cost_next = $month.cost_next + abs($info.cost_next_month)}
+                <td>
+                    {$cost_next_month = $report ->otherMonth($user.id,$date,1)}
+                    {$cost_next_month}
+                    {$month.cost_next = $month.cost_next + $cost_next_month}
                 </td>
                 <td>
-                    {abs($info.cost_previous_month)}
-                    {$month.cost_previous = $month.cost_previous + abs($info.cost_previous_month)}
+                    {$cost_previous_month = $report ->otherMonth($user.id,$date,-1)}
+                    {$cost_previous_month}
+                    {$month.cost_previous = $month.cost_previous + $cost_previous_month}
                 </td>
                 <td>
                     {(int)($info.month_shop_sign + $info.month_local_sign)}
