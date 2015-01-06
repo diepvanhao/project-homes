@@ -2740,17 +2740,16 @@ class Report {
             $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
-        if($duration == 1){
-            $month =  strtotime(date('Y-m-1', $time));
-            $where = " d.contract_application_date  >= $month";
-        }else{
-            $month = date("Y-m", strtotime(date('Y-m', $time) . " -1 month"));
-            $where = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '$month'";
-        }
+        
         $month_unsigned = 0.00;
         
-        //Unsigned_broker_fee_month
         if($duration == 1){
+            $month =  strtotime(date('Y-m-1', $time));
+            $next =  strtotime(date('Y-m', $time) . " +1 month");
+            
+            $where = " d.contract_application_date  >= $month";
+            
+            //Unsigned_broker_fee_month
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -2758,21 +2757,25 @@ class Report {
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$where} 
                   AND ( d.contract_signature_day < $month OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) 
             GROUP BY p.contract_detail_id";
-        }else{
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_broker_fee'] * (100- (int)$row['percent']) / 100); 
+            }
+            //Unsigned_broker_fee_month
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
             LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$where} 
-                  AND ( DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '$month' OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) 
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 
+                  AND d.contract_signature_day >= $next  
             GROUP BY p.contract_detail_id";
-        }
-        $result = $database->database_query($select);
-        while ($row = $database->database_fetch_assoc($result)) {
-            $month_unsigned += (float) ($row['contract_broker_fee'] * (100- (int)$row['percent']) / 100); 
-        }
-        //Unsigned_broker_fee_month assign to him
-        if($duration == 1){
+            
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_broker_fee'] * (100- (int)$row['percent']) / 100); 
+            }
+            
+            //Unsigned_broker_fee_month assign to him
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -2781,7 +2784,91 @@ class Report {
                       AND ( d.contract_signature_day  < $month OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) 
                 GROUP BY p.contract_detail_id
                       ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_broker_fee'] * (int)$row['percent'] / 100); 
+            }
+            
+            $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
+                INNER JOIN home_contract c  ON o.id = c.order_id
+                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
+                WHERE o.user_id <> {$user_id} AND p.partner_id = {$user_id} 
+                      AND  d.contract_signature_day  >= $next 
+                GROUP BY p.contract_detail_id
+                      ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_broker_fee'] * (int)$row['percent'] / 100); 
+            }
+
+                //Unsigned_ads_fee_month
+            $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
+                INNER JOIN home_contract c  ON o.id = c.order_id
+                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
+                WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$where} 
+                      AND ( d.contract_payment_date_to < $month OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)
+                GROUP BY p.contract_detail_id          
+                      ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            }
+            $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
+                INNER JOIN home_contract c  ON o.id = c.order_id
+                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
+                WHERE o.user_id = {$user_id} AND o.order_status = 1
+                      AND d.contract_payment_date_to >= $next 
+                GROUP BY p.contract_detail_id          
+                      ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            }
+            //Unsigned_ads_fee_month another assign to him
+            $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
+                INNER JOIN home_contract c  ON o.id = c.order_id
+                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
+                WHERE o.user_id <> {$user_id} AND p.partner_id = {$user_id} AND o.order_status = 1 AND  {$where} 
+                      AND ( d.contract_payment_date_to < $month OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)
+                GROUP BY p.contract_detail_id          
+                      ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            }
+            $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
+                INNER JOIN home_contract c  ON o.id = c.order_id
+                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
+                WHERE o.user_id <> {$user_id} AND p.partner_id = {$user_id} AND o.order_status = 1 
+                      AND d.contract_payment_date_to >= $next 
+                GROUP BY p.contract_detail_id          
+                      ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            }
         }else{
+            $month = date("Y-m", strtotime(date('Y-m', $time) . " -1 month"));
+            $where = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '$month'";
+        
+            $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
+            INNER JOIN home_contract c  ON o.id = c.order_id
+            INNER JOIN home_contract_detail d  ON c.id = d.contract_id
+            LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$where} 
+                  AND ( DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '$month' OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) 
+            GROUP BY p.contract_detail_id";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_broker_fee'] * (100- (int)$row['percent']) / 100); 
+            }
+
+            //Unsigned_broker_fee_month assign to him
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -2790,23 +2877,12 @@ class Report {
                       AND (DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '$month' OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) 
                 GROUP BY p.contract_detail_id
                       ";
-        }
-        $result = $database->database_query($select);
-        while ($row = $database->database_fetch_assoc($result)) {
-            $month_unsigned += (float) ($row['contract_broker_fee'] * (int)$row['percent'] / 100); 
-        }
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_broker_fee'] * (int)$row['percent'] / 100); 
+            }
                 
         //Unsigned_ads_fee_month
-        if($duration == 1){
-            $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
-                INNER JOIN home_contract c  ON o.id = c.order_id
-                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
-                WHERE o.user_id = {$user_id} AND o.order_status = 1 AND  {$where} 
-                      AND ( d.contract_payment_date_to < $month OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)
-                GROUP BY p.contract_detail_id          
-                      ";
-        }else{
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -2815,22 +2891,12 @@ class Report {
                       AND (DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%m') <> '$month' OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)
                 GROUP BY p.contract_detail_id          
                       ";
-        }
-        $result = $database->database_query($select);
-        while ($row = $database->database_fetch_assoc($result)) {
-            $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
-        }
-        //Unsigned_ads_fee_month another assign to him
-        if($duration == 1){
-            $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
-                INNER JOIN home_contract c  ON o.id = c.order_id
-                INNER JOIN home_contract_detail d  ON c.id = d.contract_id
-                LEFT JOIN home_contract_partner AS p ON p.contract_detail_id = d.id
-                WHERE o.user_id <> {$user_id} AND p.partner_id = {$user_id} AND o.order_status = 1 AND  {$where} 
-                      AND ( d.contract_payment_date_to < $month OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)
-                GROUP BY p.contract_detail_id          
-                      ";
-        }else{
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            }
+
+            //Unsigned_ads_fee_month another assign to him
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -2839,12 +2905,13 @@ class Report {
                       AND (DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%m') <> '$month' OR  d.contract_payment_date_to IS NULL OR d.contract_payment_report <> 1)
                 GROUP BY p.contract_detail_id          
                       ";
+            $result = $database->database_query($select);
+            while ($row = $database->database_fetch_assoc($result)) {
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            }
         }
            
-        $result = $database->database_query($select);
-        while ($row = $database->database_fetch_assoc($result)) {
-            $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
-        }
+        
     
         return  round($month_unsigned/1.08);
     }
