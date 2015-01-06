@@ -2741,7 +2741,7 @@ class Report {
             $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
         if($duration == 1){
-            $month =  strtotime(date('Y-m-1', $time) . " +1 month");
+            $month =  strtotime(date('Y-m-1', $time));
             $where = " d.contract_application_date  >= $month";
         }else{
             $month = date("Y-m", strtotime(date('Y-m', $time) . " -1 month"));
