@@ -1419,7 +1419,7 @@ if (isset($_POST['save'])) {
         $house_id = trim($client_arr['house_id']);
         $broker_id = trim($client_arr['broker_id']);
         $room_id = trim($client_arr['room_id']);
-        $change_house_array = base64_encode(implode(",", unserialize($client_arr['change_house_array'])));
+        $change_house_array =$client_arr['change_house_array']!=""? base64_encode(implode(",", unserialize($client_arr['change_house_array']))):"";
 
         $contract_name = $client_arr['contract_name'];
 

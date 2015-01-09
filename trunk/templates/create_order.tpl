@@ -1314,7 +1314,8 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='次' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
+                        <input type='submit' class='btn-signup' value='次' id="submit" name="submit" style="width: 100px;"/>&nbsp;    
+                        <input type='button' class='btn-signup' value='Skip' id="skip" name="skip" style="width: 100px;" onclick="skip_room()"/>&nbsp;  
                         <input type="hidden" id="step" name="step" value="verify"/>     
                         <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
                         <input type="hidden" id="room_bk" name="room_bk" value="{$room_id}"/>
@@ -1325,6 +1326,16 @@
     </form>
     {literal}
         <script type="text/javascript">
+            function skip_room() {
+                showloadgif();
+                var order_name=$('#order_name').val();
+                $.post("include/function_ajax.php", {order_name: order_name, action: 'create_order', task: 'skip_room'},
+                    function(result) {
+                        if(result)
+                            window.location.href=result;
+                    }
+                );
+            }
             function createRoom() {
                 var params = '';
                 if ($('#broker_id').val()) {
@@ -2447,10 +2458,10 @@
                 }
                 //end active field   
                 //$('#contract_period_from').mousemove(function(){
-               //     $('#contract_period_to').val($('#contract_period_from').val());
-               // });
-                
-                
+                //     $('#contract_period_to').val($('#contract_period_from').val());
+                // });
+
+
                 $('#sidebar_container').css('display', 'none');
                 var fieldCount = 1;
                 $('#add').click(function() {
@@ -2666,7 +2677,7 @@
                                                         $('#contact_method').html('通話日時:');
                                                         $('#log_tel').attr('checked', "checked");
                                                         //$('#log_mail').attr('checked', "");
-                                                         $('#log_mail').removeAttr('checked');
+                                                        $('#log_mail').removeAttr('checked');
                                                     });
                                                     $('#log_time_mail_type').click(function() {
                                                         //$('#history table').find('tr:nth-child(4)').css('display', '');
@@ -2684,7 +2695,7 @@
                                                         $('#log_contact_head_office').removeAttr('checked');
                                                         $('#contact_method').html('メール送信時刻:');
                                                         $('#log_mail').attr('checked', "checked");
-                                                       // $('#log_tel').attr('checked', "");
+                                                        // $('#log_tel').attr('checked', "");
                                                         $('#log_tel').removeAttr('checked');
                                                     });
                                                     $('#log_time_arrive_company_type').click(function() {

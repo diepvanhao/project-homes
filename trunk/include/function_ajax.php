@@ -293,6 +293,25 @@ if ($action == "check_email") {
     } else {
         $task = "";
     }
+    if($task=="skip_room"){      
+        if (isset($_POST['order_name'])) {
+            $order_name = $_POST['order_name'];
+        } elseif (isset($_GET['order_name'])) {
+            $order_name = $_GET['order_name'];
+        } else {
+            $order_name = "";
+        }
+         $result=$ajax->create_order_skip($order_name);
+        if($result){
+            $str='edit&'.$result;
+            $link='edit_order.php?url='. base64_encode($str);
+            
+            echo $link;
+        }else{
+            echo FALSE;
+        }
+    }
+    
     if ($task == "getHouseSearch") {
         if (isset($_POST['search'])) {
             $search = $_POST['search'];
