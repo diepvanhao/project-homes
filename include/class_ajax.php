@@ -1503,7 +1503,45 @@ class ajax {
 
         return $filterDate;
     }
-
+    function create_order_skip($order_name){
+        global $database,$user;
+       $order_day_create = time();
+       
+        $query = "insert into home_order(
+                `order_name`,
+                `user_id`,
+                `house_id`,
+                `room_id`,
+                `client_id`,
+                `order_rent_cost`,
+                `order_day_create`,
+                `order_status`,
+                `order_comment`,
+                `order_day_update`,
+               `create_id`,
+                `broker_id`,
+                `change`,
+                `change_house_array`)
+                values(
+                '{$order_name}',
+                0,
+                '',
+                '',    
+                0,
+                '',
+                '{$order_day_create}',
+                1,
+                '',
+                '{$order_day_create}',
+                '{$user->user_info['id']}',
+                '',
+                 0,
+                ''
+                )";
+            $result = $database->database_query($query);
+            $id = $database->database_insert_id();
+            return $id;
+    }
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         $order = new HOMEOrder();
         return $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
@@ -1513,7 +1551,7 @@ class ajax {
         global $database;
 
         $change_house_array_decode = base64_decode($change_house_array);
-        $change_house_array_serialize = $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode;
+        $change_house_array_serialize =$change_house_array_decode!=""? $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode:$room_id . "_" . $house_id . "_" . $broker_id;
         $change_house_array_serialize = explode(",", $change_house_array_serialize);
 
         $change_house_array_edit = serialize($change_house_array_serialize);
