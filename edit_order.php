@@ -1027,8 +1027,8 @@ if (isset($_POST['save'])) {
         if (($introduce_room_id != 0 && $introduce_house_id != 0) || ($introduce_room_id != null && $introduce_house_id != null))
             $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
         //update aspirations                        
-
-        $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
+        if ($aspirations_type_room_number != 0 && $aspirations_type_room_number != null)
+            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
         //update contract
 
         if (isset($_POST['contract_label_money'])) {
@@ -1419,7 +1419,7 @@ if (isset($_POST['save'])) {
         $house_id = trim($client_arr['house_id']);
         $broker_id = trim($client_arr['broker_id']);
         $room_id = trim($client_arr['room_id']);
-        $change_house_array =$client_arr['change_house_array']!=""? base64_encode(implode(",", unserialize($client_arr['change_house_array']))):"";
+        $change_house_array = $client_arr['change_house_array'] != "" ? base64_encode(implode(",", unserialize($client_arr['change_house_array']))) : "";
 
         $contract_name = $client_arr['contract_name'];
 

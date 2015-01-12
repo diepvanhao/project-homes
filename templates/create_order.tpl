@@ -552,6 +552,20 @@
 
                 window.location.href = "create_order.php?step=2&broker_id=" + broker_id + '&house_id=' + house_id + "&room_id=" + room_id + "&staff_id=" + staff_id + "&order_name=" + order_name + "&order_rent_cost=" + order_rent_cost + "&order_comment=" + order_comment;
             });
+            $('#for_client').click(function() {
+                $('#edit_order').css('display', 'none');
+                $('#customer').css('display', 'none');
+                $("#page").css('display', 'none');
+                $('#frm_filter').css('display', 'none');
+                $('#client_info ul li').each(function() {
+                    if ($(this).attr('title') == 'history' || $(this).attr('title') == 'aspirations' || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
+                        $(this).css('display', 'none');
+
+                    }
+                });
+                $('#security_code').val('require');
+                $('#for_client').css('display', 'none');
+            });
             $('#client_info ul li').click(function() {
                 $('#client_info ul li').each(function() {
                     if ($(this).attr('class') == 'select_menu') {
@@ -591,9 +605,22 @@
                     $('#error_validate').html(' 注意：　名称と電話番号をご入力ください。 !!!');
                     $('#client_info ul li').first().click();
                     e.preventDefault();
-
                 } else {
-                    $('#transaction').submit();
+                    if ($('#security_code').val() != "") {
+                        var security_code = prompt('Please input security code', "");
+
+                        if (security_code == "1234") {
+                            $('#transaction').submit();
+                        } else if (security_code == null) {
+                            e.preventDefault();
+                        } else {
+                            alert("Wrong code, try again.");
+                            $('#client_detail').find('#save').click();
+                            e.preventDefault();
+                        }
+                    } else {
+                        $('#transaction').submit();
+                    }
                 }
             });
             $('#client_detail').find('#save1').click(function(e) {
@@ -1328,12 +1355,14 @@
         <script type="text/javascript">
             function skip_room() {
                 showloadgif();
-                var order_name=$('#order_name').val();
+                var order_name = $('#order_name').val();
                 $.post("include/function_ajax.php", {order_name: order_name, action: 'create_order', task: 'skip_room'},
-                    function(result) {
-                        if(result)
-                            window.location.href=result;
-                    }
+                function(result) {
+                    if (result)
+                        window.location.href = result;
+                    else
+                        alert('Create fail');
+                }
                 );
             }
             function createRoom() {
@@ -1625,7 +1654,7 @@
         <div class="error"></div>
 
     {/if}
-    <form action="create_order.php" method="post">
+    <form action="create_order.php" method="post" id="frm_filter">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' >
             <tr>
                 <td>顧客検索</td>
@@ -1639,7 +1668,7 @@
         </table>
     </form>
 
-    <div style="margin-bottom:10px;">
+    <div style="margin-bottom:10px;" id="page">
         <center>
             ページ:
             {for $i=1 to $totalPage }
@@ -2298,8 +2327,10 @@
                 {* </form>*}
             </div>
             <div style="text-align: right;padding-top: 1%;">
+                <input type="button" class="btn-signup" value="For Client" id="for_client" name="for_client" style="width: 110px;margin-right: 1%;background: #617AAC;"/>
                 <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>
                 <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
+                <input type="hidden" value="" id="security_code" />
             </div>
         </form>
         <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
