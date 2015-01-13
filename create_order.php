@@ -1069,28 +1069,28 @@ if ($step == 1) {
             $report = new Report();
             switch ($_POST['export_option']) {
                 case 1:
-                    $report->exportPage1($order_id);
+                    $report->exportPage1($order_id,$_POST['type']);
                     break;
                 case 2:
-                    $report->exportPage2($order_id);
+                    $report->exportPage2($order_id,$_POST['type']);
                     break;
                 case 3:
-                    $report->exportPage3($order_id);
+                    $report->exportPage3($order_id,$_POST['type']);
                     break;
                 case 4:
-                    $report->exportPage4($order_id);
+                    $report->exportPage4($order_id,$_POST['type']);
                     break;
                 case 5:
-                    $report->exportPage5($order_id);
+                    $report->exportPage5($order_id,$_POST['type']);
                     break;
                 case 6:
-                    $report->exportPage6($order_id);
+                    $report->exportPage6($order_id,$_POST['type']);
                     break;
                 case 7:
-                    $report->exportPage7($order_id);
+                    $report->exportPage7($order_id,$_POST['type']);
                     break;
                 case 10:
-                    $report->exportOrder($order_id);
+                    $report->exportOrder($order_id,$_POST['type']);
                     break;
                 default:
                     break;
