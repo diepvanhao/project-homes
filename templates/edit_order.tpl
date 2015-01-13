@@ -1453,6 +1453,7 @@
                                         $('#room_id_bk').val(room_id);
                                         $('#house_id_bk').val(house_id);
                                         $('#broker_id_bk').val(broker_id);
+                                        $('#room_administrative_expense').val(json);
                                     }
                                     else {
                                         $('#error_edit').html('更新に失敗しました。もう一度試してください。 !!!');
