@@ -237,7 +237,7 @@ class ajax {
     }
 
     function getPartnerByKey($agent_id) {
-        global $database,$user;
+        global $database, $user;
         $query = "select hu.* from home_agent as ha left join home_user as hu on ha.id=hu.agent_id ";
         $query.="where hu.user_authorities>1 and hu.user_locked=0 and hu.id <>'{$user->user_info['id']}'";
         if (!empty($agent_id))
@@ -600,17 +600,17 @@ class ajax {
                         $database->database_query($query_history_revisit);
                     }
                 } else {
-                    /*$query_revisit = "select id from home_history_revisit where history_id='{$history_id}' order by id DESC limit 1";
-                    $result = $database->database_query($query_revisit);
-                    $row = $database->database_fetch_assoc($result);
-                    $revisit_id = $row['id'];
-                    if ($revisit_id) {*/
-                        $query_update_revisit = "delete from home_history_revisit
+                    /* $query_revisit = "select id from home_history_revisit where history_id='{$history_id}' order by id DESC limit 1";
+                      $result = $database->database_query($query_revisit);
+                      $row = $database->database_fetch_assoc($result);
+                      $revisit_id = $row['id'];
+                      if ($revisit_id) { */
+                    $query_update_revisit = "delete from home_history_revisit
                                     where history_id='{$history_id}'    
                                      ";
-                                     
-                        $database->database_query($query_update_revisit);
-                  //  }
+
+                    $database->database_query($query_update_revisit);
+                    //  }
                 }
 
 //update history exist
@@ -1503,10 +1503,11 @@ class ajax {
 
         return $filterDate;
     }
-    function create_order_skip($order_name){
-        global $database,$user;
-       $order_day_create = time();
-       
+
+    function create_order_skip($order_name) {
+        global $database, $user;
+        $order_day_create = time();
+
         $query = "insert into home_order(
                 `order_name`,
                 `user_id`,
@@ -1538,10 +1539,11 @@ class ajax {
                  0,
                 ''
                 )";
-            $result = $database->database_query($query);
-            $id = $database->database_insert_id();
-            return $id;
+        $result = $database->database_query($query);
+        $id = $database->database_insert_id();
+        return $id;
     }
+
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         $order = new HOMEOrder();
         return $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
@@ -1551,7 +1553,7 @@ class ajax {
         global $database;
 
         $change_house_array_decode = base64_decode($change_house_array);
-        $change_house_array_serialize =$change_house_array_decode!=""? $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode:$room_id . "_" . $house_id . "_" . $broker_id;
+        $change_house_array_serialize = $change_house_array_decode != "" ? $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode : $room_id . "_" . $house_id . "_" . $broker_id;
         $change_house_array_serialize = explode(",", $change_house_array_serialize);
 
         $change_house_array_edit = serialize($change_house_array_serialize);
@@ -1591,7 +1593,22 @@ class ajax {
 //                $room_detail_id = getRoomDetailIdEdit($room_id_bk, $house_id_bk, $broker_id_bk);
 //                $query = "update home_room_detail set room_status=0 where id='{$room_detail_id}'";
                 // return $database->database_query($query);
-                return $result;
+                include_once "class_detail.php";
+                $detail = @HOMEDetail::getRoom($room_id, $house_id, $broker_id);
+                if (!empty($detail) && is_array($detail)) {
+                    $room_ad_ex = rtrim($detail['room_administrative_expense'], '円');
+                }
+
+                $room_administrative_expense = $room_ad_ex;
+                //change 万 into 円
+                // $room_administrative_expense=  str_replace("円", "", $room_administrative_expense);
+                if (strpos($room_administrative_expense, '万')) {
+                    $room_exp = explode("万", $room_administrative_expense);
+                    $room_administrative_expense = ((int) $room_exp[0] * 10000 + ($room_exp[1] != "" ? $room_exp[1] : 0));
+                }
+                $room_administrative_expense = $room_administrative_expense != "" ? number_format($room_administrative_expense, 0, '', ',') : $room_administrative_expense;
+
+                return $room_administrative_expense;
             } else {
                 return false;
             }
