@@ -592,6 +592,11 @@
                 });
                 $('#security_code').val('require');
                 $('#for_client').css('display', 'none');
+                $('#client_detail #history').css('display','none');
+                $('#client_detail #aspirations').css('display','none');
+                $('#client_detail #introduce').css('display','none');
+                $('#client_detail #contract').css('display','none');
+                $('#client_info ul li:first').click();
             });
             $('#edit_order ul li').click(function() {
                 $('#edit_order ul li').each(function() {
