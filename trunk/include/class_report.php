@@ -2949,7 +2949,7 @@ class Report {
         return (float) $row[0];
     }
 
-    public function exportOrder($order_id = null) {
+    public function exportOrder($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -3626,11 +3626,16 @@ class Report {
         ;
 
         $objPHPExcel->setActiveSheetIndex(0);
-
+        
 
 // Redirect output to a client’s web browser (Excel5)
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -3641,12 +3646,16 @@ class Report {
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
 
+//        $excel_writer = new PHPExcel_Writer_CSV($objPHPExcel);
+//        $excel_writer->setDelimiter(';');
+//        $excel_writer->save($this->_upload_path.$filename);
+        
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         $objWriter->save('php://output');
         exit;
     }
 
-    public function exportPage1($order_id = null) {
+    public function exportPage1($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -3843,8 +3852,13 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -3860,7 +3874,7 @@ class Report {
         exit;
     }
 
-    public function exportPage2($order_id = null) {
+    public function exportPage2($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -4168,8 +4182,13 @@ class Report {
                 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -4185,7 +4204,7 @@ class Report {
         exit;
     }
     
-    public function exportPage3($order_id = null) {
+    public function exportPage3($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -4493,8 +4512,13 @@ class Report {
                 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -4510,7 +4534,7 @@ class Report {
         exit;
     }
     
-    public function exportPage4($order_id = null) {
+    public function exportPage4($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -4696,8 +4720,13 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -4713,7 +4742,7 @@ class Report {
         exit;
     }
 
-    public function exportPage5($order_id = null) {
+    public function exportPage5($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -4905,8 +4934,13 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -4922,7 +4956,7 @@ class Report {
         exit;
     }
 
-    public function exportPage6($order_id = null) {
+    public function exportPage6($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -5067,8 +5101,13 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'");
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -5084,7 +5123,7 @@ class Report {
         exit;
     }
 
-    public function exportPage7($order_id = null) {
+    public function exportPage7($order_id = null, $type = 'xls') {
 
         global $database;
 
@@ -5228,8 +5267,13 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        header('Content-Type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment;filename='{$title}.xls'");
+        if($type == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename='{$title}.xls'"); 
+        }else{
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment;filename='{$title}.csv'");
+        }
         header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

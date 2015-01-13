@@ -2314,6 +2314,10 @@
                                         <option value="6">業務委託料</option>
                                         <option value="7">広告料</option>
                                     </select>
+                                    <select name="type">
+                                        <option value="xls">XLS</option>
+                                        <option value="csv">CSV</option>
+                                    </select> 
                                 </td>
                             </tr>
                             <tr>
