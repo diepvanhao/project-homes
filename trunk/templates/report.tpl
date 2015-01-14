@@ -1,5 +1,7 @@
 <link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/report.css" />
+<link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/style.min.css" />
 {include file="header_global.tpl"}
+<script type="text/javascript" src="{$url->url_base}include/js/jquery.bpopup.min.js"></script>
 <div id="site_content" class="report-content">
     <div class="report-title">
         <h3>日　計　表</h3>
@@ -34,12 +36,28 @@
                     <tr>
                         <td>
                             <input type="submit" class="btn-signup" value="プレビュー" id="submit" name="submit" style="width: 150px;" onclick="showloadgif()">&nbsp;  
-                            <input type="submit" class="btn-signup" value="エクスポート" name="export" style="width: 150px;" onclick="showloadgif()">&nbsp;  
+                            <input id="my-button" type="button" class="btn-signup" value="エクスポート"  style="width: 150px;" onclick="showloadgif()">&nbsp;  
+                            <input type="submit" style="display: none;" id="export" name="export" value='1'>
+                            <input type="hidden" id='type' name="type" value='xls'>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </form>
+        <div id="popup" style="left: 710px; position: absolute; top: 1027px; z-index: 9999; opacity: 1; display: block;">
+                <span class="button b-close"><span>X</span></span>
+                <br><br><br>
+                <center>
+                    <label for="type_confirm">フォーマット</label>
+                    <select id="type_confirm">
+                        <option value="xls">XLS</option>
+                        <option value="csv">CSV</option>
+                    </select> 
+                    <br><br><br>
+                    <button class="btn-signup" id='export_confirm' style="width: 150px;">エクスポート</button>
+                </center>
+                <!--If you can't get it up use<br><span class="logo">bPopup</span>-->
+            </div>
     </div>
     {if isset($params.agent_id) && count($users) && !count($error)}
     <div class="agent-content">
@@ -692,7 +710,30 @@
                 $('#back').click(function() {
                     window.location.href = "manage_account.php";
                 });
+                $('#export_confirm').click(function(){
+                    $("#type").val($("#type_confirm").val());
+                    $('#export').click();
+                });
             });
+             ;(function($) {
+                // DOM Ready
+               $(function() {
+                   // Binding a click event
+                   // From jQuery v.1.7.0 use .on() instead of .bind()
+                   $('#my-button').bind('click', function(e) {
+                       // Prevents the default action to be triggered. 
+                       e.preventDefault();
+                       // Triggering bPopup when click event is fired
+//                       $('#element_to_pop_up').bPopup();
+                        $('#popup').bPopup({
+                            speed: 650,
+                            transition: 'slideIn',
+                            transitionClose: 'slideBack'
+                        });
+
+                   });
+               });
+           })(jQuery);
     </script>
 {/literal}
 
