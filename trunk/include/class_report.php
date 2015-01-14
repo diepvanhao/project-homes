@@ -3906,7 +3906,7 @@ class Report {
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
 
-        $title = "契 約 金 精 算 書";
+        $title = "契約金精算書";
 
         $border = array(
             'borders' => array(
