@@ -990,8 +990,13 @@ if (!empty($post['export']) && empty($error)) {
 
 
 // Redirect output to a client’s web browser (Excel5)
-    header('Content-Type: application/vnd.ms-excel');
-    header("Content-Disposition: attachment;filename='{$title}.xls'");
+    if($_POST['type'] == 'xls'){
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment;filename={$title}.xls");
+    }else{
+        header('Content-Type: text/csv');
+        header("Content-Disposition: attachment;filename={$title}.csv");
+    }
     header('Cache-Control: max-age=0');
 // If you're serving to IE 9, then the following may be needed
     header('Cache-Control: max-age=1');
