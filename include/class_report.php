@@ -2980,7 +2980,7 @@ class Report {
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
 
-        $title = "Order Report";
+        $title = "OrderReport";
 
         $border = array(
             'borders' => array(
