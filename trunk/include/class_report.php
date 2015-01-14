@@ -3633,7 +3633,7 @@ class Report {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
         }else{
-            header('Content-Type: text/csv');
+            header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
         header('Cache-Control: max-age=0');
