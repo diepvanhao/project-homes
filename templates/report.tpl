@@ -44,7 +44,7 @@
                 </tbody>
             </table>
         </form>
-        <div id="popup" style="left: 710px; position: absolute; top: 1027px; z-index: 9999; opacity: 1; display: block;">
+        <div id="popup" style="left: 710px; position: absolute; top: 1027px; z-index: 9999; opacity: 1; display: none;">
                 <span class="button b-close"><span>X</span></span>
                 <br><br><br>
                 <center>
