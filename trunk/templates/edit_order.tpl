@@ -596,7 +596,16 @@
                 $('#client_detail #aspirations').css('display','none');
                 $('#client_detail #introduce').css('display','none');
                 $('#client_detail #contract').css('display','none');
+                $('#menu_container ul').css('display','none');
                 $('#client_info ul li:first').click();
+                //prevent client click back button
+                history.pushState(null, null, 'create_order.php');
+                window.addEventListener('popstate', function(event) {
+                    history.pushState(null, null, 'create_order.php');
+                });
+                $('#logo #logo_text a').click(function(e){
+                    e.preventDefault();
+                });
             });
             $('#edit_order ul li').click(function() {
                 $('#edit_order ul li').each(function() {
