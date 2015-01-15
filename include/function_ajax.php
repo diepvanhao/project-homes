@@ -311,7 +311,30 @@ if ($action == "check_email") {
             echo FALSE;
         }
     }
-    
+    if($task=="AutoAdd2Years"){
+        if (isset($_POST['day'])) {
+            $day = $_POST['day'];
+        } elseif (isset($_GET['day'])) {
+            $day = $_GET['day'];
+        } else {
+            $day = "";
+        }
+        if (isset($_POST['month'])) {
+            $month = $_POST['month'];
+        } elseif (isset($_GET['month'])) {
+            $month = $_GET['month'];
+        } else {
+            $month = "";
+        }
+        if (isset($_POST['yearEnd'])) {
+            $yearEnd = $_POST['yearEnd'];
+        } elseif (isset($_GET['yearEnd'])) {
+            $yearEnd = $_GET['yearEnd'];
+        } else {
+            $yearEnd = "";
+        }
+        echo date("Y/m/d",strtotime($yearEnd.'-'.$month.'-'.$day)-86400);
+    }
     if ($task == "getHouseSearch") {
         if (isset($_POST['search'])) {
             $search = $_POST['search'];

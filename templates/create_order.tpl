@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー登録</div>
+<div id="content_order_title" style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー登録</div>
 {literal}
     <script type="text/javascript">
         var checkPrice = function(el) {
@@ -570,6 +570,7 @@
                 $('#client_detail #introduce').css('display', 'none');
                 $('#client_detail #contract').css('display', 'none');
                 $('#menu_container ul').css('display','none');
+                $('#content_order_title').css('display','none');
                 $('#client_info ul li:first').click();
                 //prevent client click back button
                 history.pushState(null, null, 'create_order.php');
