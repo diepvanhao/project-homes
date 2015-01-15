@@ -2560,7 +2560,7 @@ class Report {
 //        $row = $database->database_fetch_array($result);
 //        $return['today_unsigned'] += (float) $row[0]; 
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_unsigned'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            $return['today_unsigned'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
         }
         //Unsigned_ads_fee_today another assign to him
         $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2573,7 +2573,7 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_unsigned'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            $return['today_unsigned'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
         }
         
         //Unsigned_ads_fee_month
@@ -2589,7 +2589,7 @@ class Report {
 //        $row = $database->database_fetch_array($result);
 //        $return['month_unsigned'] += (float) $row[0];  
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_unsigned'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            $return['month_unsigned'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
         }
         //Unsigned_ads_fee_month another assign to him
         $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2602,7 +2602,7 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_unsigned'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            $return['month_unsigned'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
         }
         
         //***recorded_broker_fee_today
@@ -2677,7 +2677,7 @@ class Report {
 //        $row = $database->database_fetch_array($result);
 //        $return['today_already_recorded'] += (float) $row[0]; 
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_already_recorded'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            $return['today_already_recorded'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
         }
         
         //Already_ads_fee_today another assign to him
@@ -2691,7 +2691,7 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_already_recorded'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            $return['today_already_recorded'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
         }
         //Already_ads_fee_month
         $select = "SELECT d.contract_ads_fee, SUM(p.partner_percent) AS percent FROM home_order o
@@ -2705,7 +2705,7 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_already_recorded'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+            $return['month_already_recorded'] += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
         }
         //Already_ads_fee_month another assign to him
         $select = "SELECT d.contract_ads_fee, SUM(p.partner_percent) AS percent FROM home_order o
@@ -2719,13 +2719,13 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_already_recorded'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+            $return['month_already_recorded'] += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
         }
         return  array(
-            'today_already_recorded' => round($return['today_already_recorded']/1.08),
-            'today_unsigned' => round($return['today_unsigned']/1.08),
-            'month_already_recorded' => round($return['month_already_recorded']/1.08),
-            'month_unsigned' => round($return['month_unsigned']/1.08),
+            'today_already_recorded' => round($return['today_already_recorded']),
+            'today_unsigned' => round($return['today_unsigned']),
+            'month_already_recorded' => round($return['month_already_recorded']),
+            'month_unsigned' => round($return['month_unsigned']),
         );
     }
     
@@ -2813,7 +2813,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
             }
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2825,7 +2825,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
             }
             //Unsigned_ads_fee_month another assign to him
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2838,7 +2838,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
             }
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2850,7 +2850,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
             }
         }else{
             $month = date("Y-m", strtotime(date('Y-m', $time) . " -1 month"));
@@ -2893,7 +2893,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 100); 
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (100 - (int)$row['percent']) / 108); 
             }
 
             //Unsigned_ads_fee_month another assign to him
@@ -2907,13 +2907,13 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 100); 
+                $month_unsigned += (float) ($row['contract_ads_fee'] * (int)$row['percent'] / 108); 
             }
         }
            
         
     
-        return  round($month_unsigned/1.08);
+        return  round($month_unsigned);
     }
 
     public function getChartInfo($agent_id = 0, $date = null, $fromdate = null) {
