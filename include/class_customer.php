@@ -40,13 +40,48 @@ class HOMECustomer {
         return $row;
     }
 
+    function create_customer_fetch_email($client_name, $client_read_way, $client_phone, $client_email, $client_address) {
+        global $database, $user;
+        $client_name = trim($client_name);
+        $client_phone = trim($client_phone);
+        $client_email = trim($client_email);
+        if ($this->checkExistClient($client_name, $client_phone, $client_email)) {
+
+            $query = "select id from home_client where   (client_phone='{$client_phone}' and  client_name='{$client_name}')"
+                    . " or (client_email='{$client_email}' and  client_name='{$client_name}')";
+
+            $result = $database->database_query($query);
+            $row = $database->database_fetch_assoc($result);
+            $id = $row['id'];
+            return $id;
+        } else {
+            $query = "insert into home_client(
+                        user_id,
+                        client_name,
+                        client_read_way,                        
+                        client_email,
+                        client_phone                        
+                     )values(
+            {$user->user_info['id']},
+                     '{$client_name}',
+                     '{$client_read_way}',                     
+                     '{$client_email}',
+                     '{$client_phone}'                        
+                    )";
+
+            $result = $database->database_query($query);
+            $id = $database->database_insert_id($result);
+            return $id;
+        }
+    }
+
     function create_customer($client_name, $client_birthday, $client_email, $client_phone, $client_fax, $order_id, $client_id, $client_read_way = "") {
         global $database, $user;
 
         $exits = FALSE;
         if ($client_id) {
             $exits = true;
-        } elseif ($this->checkExistClient($client_name, $client_phone,$client_email)) {
+        } elseif ($this->checkExistClient($client_name, $client_phone, $client_email)) {
             $exits = true;
         }
         if (!$exits) {
@@ -86,7 +121,7 @@ class HOMECustomer {
                 //update introduce house
                 $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
                 $database->database_query($query);
-            }else{
+            } else {
                 return array('exist' => $exits, 'id' => "", 'client_arr' => "");
             }
             return array('exist' => $exits, 'id' => $id, 'client_arr' => "");
@@ -102,7 +137,7 @@ class HOMECustomer {
             $client_email = trim($client_email);
 
             $query = "select id from home_client where   (client_phone='{$client_phone}' and  client_name='{$client_name}')"
-        . " or (client_email='{$client_email}' and  client_name='{$client_name}')";
+                    . " or (client_email='{$client_email}' and  client_name='{$client_name}')";
 
             $result = $database->database_query($query);
             $row = $database->database_fetch_assoc($result);
@@ -124,7 +159,7 @@ class HOMECustomer {
                 //update introduce house
                 $query = "update home_introduce_house set client_id={$id}, user_id={$user->user_info['id']} where order_id={$order_id}";
                 $database->database_query($query);
-            }else{
+            } else {
                 return array('exist' => $exits, 'id' => "", 'client_arr' => "");
             }
             //get information about client
@@ -418,14 +453,14 @@ class HOMECustomer {
         return $database->database_query($query);
     }
 
-    function checkExistClient($client_name, $client_phone,$client_email) {
+    function checkExistClient($client_name, $client_phone, $client_email) {
         global $database;
         $client_name = trim($client_name);
         $client_phone = trim($client_phone);
-        $client_email=trim($client_email);
+        $client_email = trim($client_email);
         $query = "select * from home_client where (client_phone='{$client_phone}' and  client_name='{$client_name}')"
-        . " or (client_email='{$client_email}' and  client_name='{$client_name}')";
-        
+                . " or (client_email='{$client_email}' and  client_name='{$client_name}')";
+
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         if ($row >= 1)

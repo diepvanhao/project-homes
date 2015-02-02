@@ -396,3 +396,23 @@ CREATE TABLE `home_history_revisit`(
   `revisit_date` INT(11),
   PRIMARY KEY (`id`)
 );
+
+/*27/1/2015 */
+CREATE TABLE `home`.`home_fetch_email`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `house_type` VARCHAR(128),
+  `house_name` VARCHAR(128),
+  `house_address` VARCHAR(128),		/* Length must be specified for varchar data type */
+  `rent_cost` VARCHAR(128),
+  `client_name` VARCHAR(128),
+  `client_read_way` VARCHAR(128),
+  `client_address` VARCHAR(128),
+  `client_email` VARCHAR(128),
+  `client_phone` VARCHAR(128),
+  `source_name` VARCHAR(128),
+  `date_sent`	VARCHAR(128),
+  `status` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+

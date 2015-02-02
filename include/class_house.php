@@ -11,7 +11,7 @@ class HOMEHouse {
     function create($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_search = "", $house_owner_search = "") {
 
         global $user, $database;
-
+        
         $query = "insert into home_house(
             `user_id`,
             `house_name`,
@@ -37,7 +37,7 @@ class HOMEHouse {
                     '',
                 '{$house_search}'
                 )";
-        //echo $query;die();
+        
         $result = $database->database_query($query);
         $house_id = $database->database_insert_id();
         if ($house_id) {
@@ -263,7 +263,17 @@ class HOMEHouse {
             return null;
         }
     }
-
+    function getHouseByName($house_name){
+        global $database;
+        $house_name=trim($house_name);
+        $query="select id from home_house where house_name='{$house_name}'";
+       
+        $result=$database->database_query($query);
+        $row= $database->database_fetch_assoc($result);
+        
+        return $row['id'];
+    }
+    
     function update_house($house_name, $house_address, $house_area, $house_build_time, $house_type, $house_description, $house_structure, $house_owner_name, $house_owner_address, $house_owner_phone, $house_owner_fax, $house_owner_email, $house_id, $owner_id, $house_search = "", $house_owner_search = "") {
 
         global $database;
@@ -571,7 +581,14 @@ class HOMEHouse {
         $row = $database->database_num_rows($result);
         return $row;
     }
-
+    function getSourceByName($source_name){
+        global $database;
+        $query = "select id from home_source where source_name='{$source_name}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
+        $id = $row['id'];        
+        return $id;
+    }
     function getSourceById($source_id) {
         global $database;
         $query = "select * from home_source where id='{$source_id}'";
@@ -621,7 +638,14 @@ class HOMEHouse {
             return array('error' => '', 'flag' => $database->database_query($query));
         }
     }
-
+    function getHouseAddress($house_address){
+        global $database;
+        $house_address=trim($house_address);
+        $query="select house_address from home_house where house_search ='{$house_address}' limit 1";
+        $result=$database->database_query($query);
+        $row=$database->database_fetch_assoc($result);
+        return $row['house_address'];
+    }
     function getHouseType() {
         global $database;
         $query = "select * from house_type order by type_name ASC";
@@ -634,7 +658,14 @@ class HOMEHouse {
         }
         return $houseTypes;
     }
-
+    function getHouseTypeByName($house_type_name){
+        global $database;
+        $house_type_name=trim($house_type_name);
+        $query = "select id from house_type where type_name='{$house_type_name}'";
+        $result = $database->database_query($query);
+        $row = $database->database_fetch_assoc($result);
+        return $row['id'];
+    }
     function getHouseTypeById($house_type_id) {
         global $database;
         $query = "select type_name from house_type where id='{$house_type_id}'";

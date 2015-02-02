@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 include_once('class_client.php');
+@include_once "class_ajax.php";
 
 class HOMEOrder {
 
@@ -62,6 +63,145 @@ class HOMEOrder {
 //            }
             return array('id' => $id);
         }
+    }
+
+    function create_order_fetch_email($message_id) {
+        global $database, $user;
+        if ($message_id) {
+            //get info of message
+            $query = "select * from home_fetch_email where id='{$message_id}'";
+            $result = $database->database_query($query);
+            $row = $database->database_fetch_assoc($result);
+
+            if (!empty($row)) {
+                //prepare data create order
+                //house
+                $house = new HOMEHouse();
+                $house_id = $house->getHouseByName($row['house_name']);
+
+                if (!$house_id) {
+                    //create new house
+                    //get house address exist in system
+                    $house_address = $house->getHouseAddress($row['house_address']);
+                    //get house type exist in system
+                    $house_type = $house->getHouseTypeByName($row['house_type']);
+                    $row['house_name'] = trim($row['house_name']);
+                    $house_id = $house->create($row['house_name'], $house_address, null, null, $house_type, null, null, null, null, null, null, null, $row['house_address'], null);
+                }
+                //client 
+                $customer = new HOMECustomer();
+                $client_id = $customer->create_customer_fetch_email($row['client_name'], $row['client_read_way'], $row['client_phone'], $row['client_email'], $row['client_address']);
+                $order_name = $this->generate_order_name();
+                if ($house_id && $client_id) {
+                    $order_day_create = time();
+                    $query = "insert into home_order(
+                `order_name`,
+                `user_id`,
+                `house_id`,                
+                `client_id`,
+                `order_rent_cost`,
+                `order_day_create`,
+                `order_status`,                
+                `order_day_update`,
+               `create_id`                
+                )
+                values(
+                '{$order_name}',  
+                '{$user->user_info['id']}',
+                '{$house_id}',                    
+                '{$client_id}',
+                '{$row['rent_cost']}',
+                '{$order_day_create}',
+                1,               
+                '{$order_day_create}',
+                '{$user->user_info['id']}'                               
+                )";
+
+                    $result = $database->database_query($query);
+                    $order_id = $database->database_insert_id();
+                    if ($order_id) {
+                        //update history
+                        //get source_id;
+                        $source_id = $house->getSourceByName($row['source_name']);
+                        $ajax = new ajax();
+                        
+                        $ajax->update_history_create(null, null, null, null, null, 1, null, null, null, null, null, null, null, null, null, null, null, $source_id, null, $client_id, $order_id);
+                        //update contract
+                        $contract_cost = str_replace('円', '', $row['rent_cost']);
+                        //change 万 into 円
+                        // $room_administrative_expense=  str_replace("円", "", $room_administrative_expense);
+                        if (strpos($contract_cost, '万')) {
+                            $room_exp = explode("万", $contract_cost);
+                            $contract_cost = $room_exp[0] * 10000 + ($room_exp[1] != "" ? $room_exp[1] : 0);
+                        }
+                        //$contract_cost = $contract_cost != "" ? number_format($contract_cost, 0, '', ',') : $contract_cost;
+
+                        $ajax->update_contract(null, $contract_cost, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, $client_id, $order_id);
+                        //update status message
+                        $query = "update home_fetch_email set status=1 where id='{$message_id}'";
+                        $database->database_query($query);
+                        $str = 'edit&' . $order_id;
+                        $link = 'edit_order.php?url=' . base64_encode($str);
+
+                        header('Location: ' . $link);
+                    }
+                }
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    function create_fetch_email($order) {
+
+        global $database;
+        // $checkExistMessage
+        for ($i = 0; $i < count($order); $i++) {
+            if (!$this->checkExistMessage($order[$i]['house_name'], $order[$i]['client_name'], $order[$i]['client_email'], $order[$i]['date_sent'])) {
+                if (!empty($order[$i]['house_name']) && !empty($order[$i]['client_name'])) {
+                    $query = "insert into home_fetch_email(
+                `house_type`,
+                `house_name`,
+                `house_address`,
+                `rent_cost`,
+                `client_name`,
+                `client_read_way`,
+                `client_address`,
+                `client_email`,
+                `client_phone`,
+                `source_name`,
+               `date_sent`,
+                `status`
+                )
+                values(
+                '{$order[$i]['house_type']}',
+                '{$order[$i]['house_name']}',
+                '{$order[$i]['house_address']}',
+                '{$order[$i]['rent_cost']}',    
+                '{$order[$i]['client_name']}',
+                '{$order[$i]['client_read_way']}',
+                '{$order[$i]['client_address']}',
+                '{$order[$i]['client_email']}',
+                '{$order[$i]['client_phone']}',
+                '{$order[$i]['source']}',
+                '{$order[$i]['date_sent']}',
+                0                
+                )";
+                    $result = $database->database_query($query);
+                }
+            }
+        }
+    }
+
+    function get_message() {
+        global $database;
+        $query = "select * from home_fetch_email";
+        $result = $database->database_query($query);
+        $message = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $message[] = $row;
+        }
+        return $message;
     }
 
     function checkHouseEmpty($house_id, $room_id) {
@@ -800,6 +940,18 @@ class HOMEOrder {
         }
         //var_dump($events);
         return json_encode($events);
+    }
+
+    function checkExistMessage($house_name, $client_name, $client_email, $date_sent) {
+        global $database;
+        $query = "select * from home_fetch_email where house_name='{$house_name}' and client_name='{$client_name}' and client_email='{$client_email}' and date_sent='{$date_sent}'";
+        $result = $database->database_query($query);
+        $row = $database->database_num_rows($result);
+        if ($row > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
