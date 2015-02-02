@@ -12,6 +12,15 @@
             <file>file:/D:/wamp/www/project-1/include/PHPExcel.php</file>
             <file>file:/D:/wamp/www/project-1/templates/report.tpl</file>
         </group>
-        <group/>
+        <group>
+            <file>file:/D:/xamp/htdocs/homes/include/class_mail.php</file>
+            <file>file:/D:/xamp/htdocs/homes/include/class_ajax.php</file>
+            <file>file:/D:/xamp/htdocs/homes/templates/manage_agent.tpl</file>
+            <file>file:/D:/xamp/htdocs/homes/account_detail.php</file>
+            <file>file:/D:/xamp/htdocs/homes/include/class_order.php</file>
+            <file>file:/D:/xamp/htdocs/homes/templates/fetch_email.tpl</file>
+            <file>file:/D:/xamp/htdocs/homes/fetch_email.php</file>
+            <file>file:/D:/xamp/htdocs/homes/create_order.php</file>
+        </group>
     </open-files>
 </project-private>
