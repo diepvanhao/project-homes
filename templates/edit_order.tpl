@@ -1,4 +1,6 @@
+<link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/style.min.css" />
 {include file='header.tpl'}
+<script type="text/javascript" src="{$url->url_base}include/js/jquery.bpopup.min.js"></script> 
 <div id="content_order_title" style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー情報編集</div>
 {literal}
     <script type="text/javascript">
@@ -1280,6 +1282,7 @@
                                     <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
                                 {/foreach}
                             </select>
+                            <a href="javascript:void(0);" id="popup_create_broker" >管理会社</a>
                             <div id="error_broker" class="error"></div>
                         </td>
                     </tr> 
@@ -1287,23 +1290,6 @@
                     {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
                     <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
                     </tr>   *}         
-                    <!-- <tr>
-                         <td class="form1">
-                             担当
-                         </td>
- 
-                         <td class='form2'>
-                             <select id="staff_id" name="staff_id" style="height:26px; width: 215px;">
-                                 <option value=""></option>
-                    {foreach from=$users item=user}
-                        {if $user.id eq $loged_id}
-                            <option value="{$user.id}"{if $user.id eq $staff_id}selected="selected"{/if}>{$user.user_fname} {$user.user_lname}</option>        
-                        {/if}
-                    {/foreach}
-                </select><div id="error_staff" class="error"></div>
-
-            </td>
-        </tr>-->
                     <tr>
                         <td class="form1">物件検索</td>
                         <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
@@ -2700,4 +2686,29 @@
     {/literal}
 {/if}
 <div id="loadgif">Loading...</div>
+<div id="popup" style="left: 710px; position: absolute; top: 127px; z-index: 9999; opacity: 1; display: none;">
+    <span class="button b-close"><span>X</span></span>
+    <center id="popup_content"></center>
+</div>
+{literal}
+    <script type="text/javascript">
+        ;(function($) {
+               $(function() {
+                   $('#popup_create_broker').bind('click', function(e) {
+                       e.preventDefault();
+                        $.get('popup_create_broker.php', function(result){
+                            document.getElementById('popup_content').innerHTML = result;
+                            eval($(result)[1].innerHTML);
+                        }, 'html');
+                        popup = $('#popup').bPopup({
+                            speed: 650,
+                            transition: 'slideIn',
+                            transitionClose: 'slideBack'
+                        });
+
+                   });
+               });
+           })(jQuery);
+    </script>
+{/literal}
 {include file='footer.tpl'}
