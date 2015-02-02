@@ -57,12 +57,12 @@ class HOMEBroker {
     ");
             $broker_id = $database->database_insert_id();
 
-            if ($broker_id)
-                $result = $broker_id;
-            else
-                $result = FALSE;
+//            if ($broker_id)
+//                $result = $broker_id;
+//            else
+//                $result = FALSE;
 
-            return $result;
+            return $broker_id;
         }
     }
 
