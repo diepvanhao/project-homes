@@ -1303,7 +1303,9 @@
                                 {foreach from=$houses item=house}
                                     <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
-                            </select><div id="error_house" class="error"></div>
+                            </select>
+                            <a href="javascript:void(0);" id="popup_create_house" >物件情報</a>
+                            <div id="error_house" class="error"></div>
                         </td>
                     </tr>
                     <tr>            
@@ -1318,8 +1320,9 @@
                         <td class='form1'>部屋選択: </td>
                         <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
-
-                            </select><div id="error_room" class="error"></div>
+                            </select>
+                            <a href="javascript:void(0);" id="popup_create_room" >部屋情報</a>
+                            <div id="error_room" class="error"></div>
                         </td>
                     </tr>
                     {* <tr>            
@@ -2696,6 +2699,7 @@
     <script type="text/javascript">
         ;(function($) {
                $(function() {
+                   //broker
                    $('#popup_create_broker').bind('click', function(e) {
                        e.preventDefault();
                         $.get('popup_create_broker.php', function(result){
@@ -2706,6 +2710,28 @@
                             speed: 650,
                             transition: 'slideIn',
                             transitionClose: 'slideBack'
+                        });
+
+                   });
+                   //house
+                   $('#popup_create_house').bind('click', function(e) {
+                       e.preventDefault();
+//                        $.get('popup_create_house.php', function(result){
+//                            document.getElementById('popup_content').innerHTML = result;
+//                            eval($(result)[1].innerHTML);
+//                        }, 'html');
+                        popup =  $('#popup').bPopup({
+                            contentContainer:'#popup_content',
+                            loadUrl: 'popup_create_house.php' //Uses jQuery.load()
+                        });
+
+                   });
+                   //Room
+                   $('#popup_create_room').bind('click', function(e) {
+                       e.preventDefault();
+                        popup =  $('#popup').bPopup({
+                            contentContainer:'#popup_content',
+                            loadUrl: 'popup_create_room.php' 
                         });
 
                    });
