@@ -192,10 +192,26 @@ class HOMEOrder {
             }
         }
     }
-
-    function get_message() {
+    function get_message_total($search){
         global $database;
         $query = "select * from home_fetch_email";
+        if (!empty($search))
+            $query.=" where house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
+            . " or client_name like '%{$search}%' or client_email like '%{$search}%' or client_phone like '%{$search}%' or source_name like '%{$search}%'";        
+        
+        $result = $database->database_query($query);
+        $row = $database->database_num_rows($result);
+        return $row;
+    }
+    function get_message($search, $offset, $length) {
+        global $database;
+        $query = "select * from home_fetch_email";
+        if (!empty($search))
+            $query.=" where house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
+            . " or client_name like '%{$search}%' or client_email like '%{$search}%' or client_phone like '%{$search}%' or source_name like '%{$search}%'";
+        $query.=" order by status ASC";    
+        $query.=" limit $offset,$length";
+        
         $result = $database->database_query($query);
         $message = array();
         while ($row = $database->database_fetch_assoc($result)) {

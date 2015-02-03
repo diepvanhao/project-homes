@@ -12,7 +12,7 @@
             }
         }
         function formatNumber(num) {
-            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         }
         var sendmail = 0;
         $(document).ready(function() {
@@ -2700,7 +2700,7 @@
                                                     // $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                    $('#log_tel').attr('checked', "checked");
+                                                    
                                                     if ($('#log_time_call_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
                                                     }
@@ -2774,6 +2774,8 @@
                                                         $('#log_time_mail_type').click();
                                                     } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
                                                         $('#log_time_arrive_company_type').click();
+                                                    }else{
+                                                        $('#log_tel').attr('checked', "checked");
                                                     }
                                                 });
                                                 function get_introduce_room(house_id, room_id) {

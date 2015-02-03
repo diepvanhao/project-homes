@@ -205,9 +205,9 @@ if (isset($_POST['get_new'])) {
     imap_close($inbox);
     $result = $orderClass->create_fetch_email($order);
 }
-$create="";
+$create = "";
 if (isset($_POST['create_new'])) {
-    
+
     if (isset($_POST['message_id'])) {
         $message_id = $_POST['message_id'];
     } elseif (isset($_GET['message_id'])) {
@@ -215,14 +215,46 @@ if (isset($_POST['create_new'])) {
     } else {
         $message_id = "";
     }
-    $result=$orderClass->create_order_fetch_email($message_id);
-    $create=$result;
+    $result = $orderClass->create_order_fetch_email($message_id);
+    $create = $result;
 }
+
+if (isset($_POST['page_number'])) {
+    $page_number = $_POST['page_number'];
+} elseif (isset($_GET['page_number'])) {
+    $page_number = $_GET['page_number'];
+} else {
+    $page_number = 1;
+}
+if (isset($_POST['search'])) {
+    $search = trim($_POST['search']);
+} elseif (isset($_GET['search'])) {
+    $search = trim($_GET['search']);
+} else {
+    $search = "";
+}
+$max = 25;
+$totalItem = $orderClass->get_message_total($search);
+
+$totalPage = floor($totalItem / $max);
+
+if ($totalItem % $max > 0)
+    $totalPage = $totalPage + 1;
+if ($page_number > $totalPage)
+    $page_number = 1;
+
+$offset = $page_number * $max - $max;
+$length = $max;
+
+
 // get message
 $messageTotal = array();
-$messageTotal = $orderClass->get_message();
+$messageTotal = $orderClass->get_message($search, $offset, $length);
 
 $smarty->assign('create', $create);
+$smarty->assign('search', $search);
+$smarty->assign('page_number', $page_number);
+$smarty->assign('totalPage', $totalPage);
 $smarty->assign('messages', $messageTotal);
 
 include "footer.php";

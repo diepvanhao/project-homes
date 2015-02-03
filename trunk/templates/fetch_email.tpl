@@ -1,25 +1,37 @@
 {include file="header_global.tpl"}
+{literal}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#new_message').click(function(){
+                showloadgif();
+                $('#get_new_message').submit();
+            });
+        });
+    </script>    
+{/literal}
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Order Messages</div>
 <center>
     <div style="width: 100%;">
-        <div>
-           <!-- <form action="fetch_email.php" method="post">
-                <table style="">
+        <div >
+            <form action="fetch_email.php" method="post">
+                <table >
                     <tr>
                         <td  style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索に店舗名を入力してください。" style="height:26px; width: 190px;"/>
+                        <td class="form2"><input title="You can enter house type, house name, house address, rent cost, client name, client email, client phone and source name for search" type="text" id="search" name="search" value="{$search}" placeholder="type search" style="height:26px; width: 190px;"/>
                             <span>
                                 <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
-                            </span>
+                            </span>                            
+                                <input type='button' class='btn-search' value='Fetch New' id="new_message" name="new_message" title="Get new messages from email"/>&nbsp;                             
                         </td>
                     </tr>
 
                 </table>
-            </form>  --> 
-            <form action="fetch_email.php" method="post" style=''>
-                <input type='submit' class='btn-search' value='Fetch New' id="get_new" name="get_new"/>&nbsp;  
-            </form>                
+            </form>
+            <form action="fetch_email.php" method="post" id="get_new_message">
+                    <input type='hidden' class='btn-search' value='Fetch New' id="get_new" name="get_new" title="Get new messages from email"/>&nbsp;                                         
+            </form>
         </div>
+        
         <div class="error">{if $create eq "0"}Create fail !!! {/if}</div>
         <div>
             <table style="width: 100%;">
@@ -67,30 +79,14 @@
                 </tbody>
             </table>
         </div>
-        <!-- <center>
-             ページ:
-        {for $i=1 to $totalPage }
-            {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_agent.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
-        {/for}
-    </center>-->
+        <center>
+            ページ:
+            {for $i=1 to $totalPage }
+                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_agent.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
+            {/for}
+        </center>
     </div>
 </center>
-{literal}
-    <script type="text/javascript">
-        function deleteItem(id, agent_lock) {
-            if (confirm("確かですか?")) {
-                $.post("include/function_ajax.php", {agent_id: id, agent_lock: agent_lock, action: 'deleteAgent'},
-                function(result) {
-                    if (result)
-                        window.location.reload(true);
-                    else
-                        alert('Delete fail :(');
-                });
-            }
-        }
 
-    </script>
-
-{/literal}
-
+<div id="loadgif">Loading...</div>
 {include file="footer.tpl"}
