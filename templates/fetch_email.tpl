@@ -3,7 +3,7 @@
 <center>
     <div style="width: 100%;">
         <div>
-            <form action="fetch_email.php" method="post">
+           <!-- <form action="fetch_email.php" method="post">
                 <table style="">
                     <tr>
                         <td  style='font-size: 13.33px;'>検索</td>
@@ -15,8 +15,8 @@
                     </tr>
 
                 </table>
-            </form>   
-            <form action="fetch_email.php" method="post" style='float: right;'>
+            </form>  --> 
+            <form action="fetch_email.php" method="post" style=''>
                 <input type='submit' class='btn-search' value='Fetch New' id="get_new" name="get_new"/>&nbsp;  
             </form>                
         </div>
