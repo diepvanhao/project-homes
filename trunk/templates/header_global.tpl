@@ -111,9 +111,11 @@
                             <li><a href="#">スケジュール</a>
                                 <ul>
                                     <li><a href="google_calendar.php">個人</a></li>
-                                    <li><a href="general_calendar.php">一般</a></li>                                                                                                            
+                                    <li><a href="general_calendar.php">一般</a></li>
+                                    <li><a href="fetch_email.php">Fetch Messages</a></li>
                                 </ul>
                             </li>
+                            
                         </ul>
                     </div>
                 </nav>
