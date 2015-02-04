@@ -1,4 +1,4 @@
-<div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">部屋登録</div>
+<div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;margin-bottom: 2%;">部屋登録</div>
 {nocache}
     <div class="error" id="popup_error" style="display: none;">Please complete the required fields</div>
     <form action="popup_create_room.php" method="post" enctype="multipart/form-data">
@@ -34,7 +34,7 @@
                     <select id="popup_room_type" name="room_type" style="height:28px; width: 190px; position: absolute;margin-left: 0.5%;">
                         <option value=""></option>
                         {foreach from=$roomTypes item=roomType}
-                            <option value="{$roomType.id}" {if $roomType.id eq $room_type}selected="selected"{/if}>{$roomType.room_name}</option>        
+                            <option value="{$roomType.id}" >{$roomType.room_name}</option>        
                         {/foreach}
                     </select>
                 </td>
@@ -57,8 +57,8 @@
                 <td class='form2'>
                     <input type='text' class='text' name='room_key_money'  id='popup_room_key_money'  style="height:26px; width: 232px;">
                     <select id="popup_room_key_money_unit" name="room_key_money_unit" style="width: 12.5%;padding: 1% 0px 1% 0%;">
-                        <option value="円"{if $room_key_money_unit eq "円"}selected{/if} >円</option>
-                        <option value="ヵ月"{if $room_key_money_unit eq "ヵ月"}selected{/if} >ヵ月</option>
+                        <option value="円">円</option>
+                        <option value="ヵ月">ヵ月</option>
                     </select>
                 </td>
             </tr>
@@ -66,8 +66,8 @@
                 <td class='form1'>管理費: </td>
                 <td class='form2'><input type='text' class='text' name='room_administrative_expense' id='popup_room_administrative_expense'   style="height:26px; width: 232px;">
                     <select id="popup_room_administrative_expense_unit" name="room_administrative_expense_unit" style="width: 12.5%;padding: 1% 0px 1% 0%;">
-                        <option value="円"{if $room_administrative_expense_unit eq "円"}selected{/if}>円</option>
-                        <option value="ヵ月"{if $room_administrative_expense_unit eq "ヵ月"}selected{/if}>ヵ月</option>
+                        <option value="円">円</option>
+                        <option value="ヵ月">ヵ月</option>
                     </select>
             </tr>
 
@@ -76,8 +76,8 @@
                 <td class='form2'>
                     <input type='text' class='text' name='room_deposit' id='popup_room_deposit'   style="height:26px; width: 232px;">
                     <select id="popup_room_deposit_unit" name="room_deposit_unit" style="width: 12.5%;padding: 1% 0px 1% 0%;">
-                        <option value="円"{if $room_deposit_unit eq "円"}selected{/if}>円</option>
-                        <option value="ヵ月"{if $room_deposit_unit eq "ヵ月"}selected{/if}>ヵ月</option>
+                        <option value="円">円</option>
+                        <option value="ヵ月">ヵ月</option>
                     </select>
                 </td>
             </tr>
@@ -91,9 +91,9 @@
                 <td class='form1'>現況: </td>
                 <td class='form2'>
                     <select id="popup_room_status" name="room_status" style="height:26px; width: 300px;">
-                        <option value="0"{if $room_status eq "0"}selected{/if}>空家</option>
-                        <option value="1" {if $room_status eq "1"}selected{/if}>賃貸中</option>
-                        <option value="2" {if $room_status eq "2"}selected{/if}>未完成</option>
+                        <option value="0">空家</option>
+                        <option value="1" >賃貸中</option>
+                        <option value="2" >未完成</option>
                     </select>
                 </td>
             </tr>
@@ -109,7 +109,6 @@
 {/nocache}
 {literal}
     <script type="text/javascript">
-        $(document).ready(function() {
             /*
             $('#popup_search').keyup(function(e) {
                 var search = $('#popup_search').val();
@@ -139,11 +138,11 @@
             */
            var house = $('#house_id').find(":selected");
            if(house){
-               $("#popup_house_id").append(house);
+               $("#popup_house_id").append(house.clone());
            }
            var broker_company = $('#broker_id').find(":selected");
            if(broker_company){
-               $("#popup_broker_id").append(broker_company);
+               $("#popup_broker_id").append(broker_company.clone());
            }
            
            $('#popup_house_description').html($('#house_description').val());
@@ -168,6 +167,62 @@
             $('#popup_room_deposit').keyup(function(){
                 checkPrice($('#popup_room_deposit'));
             });
-        });
+            
+            $('#popup_submit').click(function() {
+                if (!$('#popup_house_id').val()||
+                        !$('#popup_broker_id').val()||
+                        !$('#popup_room_number').val()||
+                        !$('#popup_room_type_number').val()||
+                        !$('#popup_room_type').val()||
+                        !$('#popup_room_size').val()||
+                        !$('#popup_room_rent').val()
+                ) {
+                    $('#popup_error').html('Please complete the required fields');
+                    $('#popup_error').show();
+                } else {
+                    $('#popup_error').hide();
+                    $.post(
+                            "popup_create_room.php", 
+                            {
+                                house_id: $('#popup_house_id').val(),
+                                broker_id: $('#popup_broker_id').val(), 
+                                room_number: $('#popup_room_number').val(),
+                                room_type_number: $('#popup_room_type_number').val(),
+                                room_type: $('#popup_room_type').val(),
+                                room_size: $('#popup_room_size').val(),
+                                room_rent: $('#popup_room_rent').val(),
+                                room_key_money: $('#popup_room_key_money').val(),
+                                room_key_money_unit: $('#popup_room_key_money_unit').val(),
+                                room_administrative_expense: $('#popup_room_administrative_expense').val(),
+                                room_deposit: $('#popup_room_deposit').val(),
+                                room_deposit_unit: $('#popup_room_deposit_unit').val(),
+                                room_discount: $('#popup_room_discount').val(),
+                                room_status: $('#popup_room_status').val(),
+                                submit: 1
+                            },
+                            function(data) {
+                                var result = JSON.parse(data);
+                                if(result.status == 1){
+                                    $("#room_id").append(new Option(result.data.name, result.data.id,true,true));
+                                    $('#order_rent_cost').val(result.data.room_rent);
+                                    $('#room_id').change();
+                                    popup.close();
+                                    $('#error_room').html("");
+                                }else{
+                                    var tmp = '';
+                                    if(result.data.length){
+                                        for(var i in result.data){
+                                            tmp = "<div class='error'>"+ result.data[i] +"</div>";
+                                        }
+                                        $('#popup_error').html(tmp);
+                                    }else{
+                                        $('#popup_error').html('Something wrong. Please close popup and try again!');
+                                    }
+                                    $('#popup_error').show();
+                                }
+                            }
+                    );
+                }
+            });
     </script>
 {/literal}

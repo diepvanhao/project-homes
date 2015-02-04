@@ -392,7 +392,7 @@ class HOMEHouse {
                     $id = $database->database_insert_id();
                     //update room_detail_id for home_room
                     $query = "update home_room set room_detail_id='{$id}' where id='{$room_number}' and broker_id='{$broker_id}' and house_id='{$house_id}'";
-                    return array('error' => '', 'flag' => $database->database_query($query));
+                    return array('error' => '', 'flag' => $database->database_query($query),'id'=>$id);
                 }
                 //return $database->database_query($query);
             } else {
