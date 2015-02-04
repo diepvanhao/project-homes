@@ -2731,7 +2731,7 @@
                        e.preventDefault();
                         popup =  $('#popup').bPopup({
                             contentContainer:'#popup_content',
-                            loadUrl: 'popup_create_room.php' 
+                            loadUrl: 'popup_create_room.php'
                         });
 
                    });

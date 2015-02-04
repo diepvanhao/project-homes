@@ -173,23 +173,27 @@ $house = new HOMEHouse();
 
 if (isset($_POST['submit'])) {
     $validator = new HOMEValidate();
-    $error = $validator->validate($validate);
-    if (empty($error)) {
+    $message = $validator->validate($validate);
+    if (empty($message)) {
         $result = $house->create_room(
                 $room_number, $room_type, $room_size, $room_status, $room_rent, $room_key_money . $room_key_money_unit, $room_administrative_expense . $room_administrative_expense_unit, $room_deposit . $room_deposit_unit, $room_discount, $room_photo, $house_id, $broker_id, $room_type_number
         );
-        if (!empty($return_url)) {
-            header("Location: $return_url?room_id={$room_number}&broker_id={$broker_id}&staff_id={$staff_id}&house_id={$house_id}&house_description={$house_description}&order_rent_cost={$room_rent}");
-            exit();
-        } 
-        if ($result['flag']) {
-            header("Location: notify.php?content=登録完了致しましたは成功に作成されました。!!!&url_return=create_room.php");
-        } elseif ($result['error']) {
-            $error[] = $result['error'];
-        } else {
-            $error[] = "Create fail. Please try again!!!";
+        if (empty($result['id'])) {
+            $status = 0;
+        }else{
+            $status = 1;
+            $message = array(
+                'id'    => $room_number,
+                'name' => $room_number,
+                'room_rent' => $room_rent,
+            );
         }
     }
+    print_r(json_encode(array(
+        'status' => $status,
+        'data'  => $message,
+    )));
+        exit();
 }
 //get houses
 $houses = $house->getAllHouses();
@@ -199,26 +203,6 @@ $brokers = $brokerClass->getAllBroker();
 //get room type
 $roomTypes = $house->getRoomType();
 
-$smarty->assign('house_description', $house_description);
-$smarty->assign('staff_id', $staff_id);
-$smarty->assign('room_number', $room_number);
-$smarty->assign('room_type', $room_type);
-$smarty->assign('room_type_number', $room_type_number);
-$smarty->assign('room_size', $room_size);
-$smarty->assign('room_discount', $room_discount);
-$smarty->assign('room_status', $room_status);
-$smarty->assign('room_rent', $room_rent);
-$smarty->assign('room_key_money', $room_key_money);
-$smarty->assign('room_key_money_unit', $room_key_money_unit);
-$smarty->assign('room_administrative_expense', $room_administrative_expense);
-$smarty->assign('room_administrative_expense_unit', $room_administrative_expense_unit);
-$smarty->assign('room_deposit', $room_deposit);
-$smarty->assign('room_deposit_unit', $room_deposit_unit);
-$smarty->assign('room_photo', $room_photo);
-$smarty->assign('house_id', $house_id);
-$smarty->assign('broker_id', $broker_id);
-$smarty->assign('houses', $houses);
-$smarty->assign('brokers', $brokers);
 $smarty->assign('roomTypes', $roomTypes);
 
 include 'footer.php';
