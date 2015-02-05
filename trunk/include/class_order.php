@@ -125,7 +125,7 @@ class HOMEOrder {
                         $source_id = $house->getSourceByName($row['source_name']);
                         $ajax = new ajax();
                         
-                        $ajax->update_history_create(null, null, null, null, null, 1, null, null, null, null, null, null, null, null, null, null, null, $source_id, null, $client_id, $order_id);
+                        $ajax->update_history_create($row['date_sent'], null, null, null, null, 1, null, null, null, null, null, null, null, null, null, null, null, $source_id, null, $client_id, $order_id);
                         //update contract
                         $contract_cost = str_replace('円', '', $row['rent_cost']);
                         //change 万 into 円

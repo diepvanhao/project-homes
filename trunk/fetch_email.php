@@ -192,7 +192,11 @@ if (isset($_POST['get_new'])) {
                 }
                 //date sent
                 if ($overview[0]->date) {
-                    $fetch_array['date_sent'] = $overview[0]->date;
+                    $date_sent=explode(',',$overview[0]->date);
+                    $date_sent=  trim($date_sent[1]);
+                    $date_sent=explode('+',$date_sent);
+                    $date_sent=trim($date_sent[0]);
+                    $fetch_array['date_sent'] = strtotime($date_sent);
                 } else {
                     $fetch_array['date_sent'] = "";
                 }
