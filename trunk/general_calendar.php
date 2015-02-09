@@ -8,7 +8,17 @@
 include "header.php";
 
 $page = "general_calendar";
+if (!$user->user_exists) {
 
+    header('Location: ./user_login.php');
+
+    exit();
+}
+
+if ($user->user_info['user_locked']) {
+    header('Location: ./locked.php');
+    exit();
+}
 //schedule data
 if (isset($_POST['signature_day'])) {
     $signature_day = $_POST['signature_day'];

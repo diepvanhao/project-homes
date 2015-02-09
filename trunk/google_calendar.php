@@ -2,6 +2,17 @@
 
 include "header.php";
 $page = "google_calendar";
+if (!$user->user_exists) {
+
+    header('Location: ./user_login.php');
+
+    exit();
+}
+
+if ($user->user_info['user_locked']) {
+    header('Location: ./locked.php');
+    exit();
+}
 echo "<link rel='stylesheet' href='{$url->url_base}include/Calendar/lib/cupertino/jquery-ui.min.css' />";
 echo "<link href='{$url->url_base}include/Calendar/fullcalendar.css' rel='stylesheet' />";
 echo "<link href='{$url->url_base}include/Calendar/fullcalendar.print.css' rel='stylesheet' media='print' />";
