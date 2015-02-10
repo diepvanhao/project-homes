@@ -317,4 +317,139 @@ class Mail {
             
         }
     }
+    /**
+     * 
+     * @global type $database
+     * @param type $email
+     * @return type
+     */
+    public function forgot($email = null){
+        if(empty($email)){
+            return array(
+                'status' => false,
+                'message' => 'Email can not empty!'
+            );
+        }
+        global $database;
+        
+        //get User
+        $result = $database->database_query("SELECT * FROM home_user WHERE user_email = '{$email}' LIMIT 1");
+        $forgot = $database->database_fetch_assoc($result);
+        if(empty($forgot)){
+            return array(
+                'status' => false,
+                'message' => 'A user account with that email was not found.'
+            );
+        }
+        //Delete old item
+        $database->database_query("DELETE FROM home_forgot WHERE user_id = '{$forgot['id']}' ");
+        
+        //Insert new row
+        $key = rand(10000, 99999);
+        $time = date('Y-m-d H:i:s');
+        $database->database_query("INSERT INTO home_forgot VALUES('{$forgot['id']}','{$key}','{$time}')");
+        //send mail
+        $link = "http://{$_SERVER['SERVER_NAME']}/reset.php?id={$forgot['id']}&code={$key}";
+        mb_language("japanese");           
+        mb_internal_encoding("UTF-8");
+        
+        $subject = mb_encode_mimeheader (mb_convert_encoding('Forgot password',"UTF-8","UTF-8"));
+        $body = "<div style='max-width: 1000px; margin: auto;'>
+                    <div style='width:100%; background-color: #000;'>
+                        <img src='http://{$_SERVER['SERVER_NAME']}/include/images/logo.png' title='AMBITION LOGO' alt='AMBITION LOGO' height='150'>
+                    </div>
+                    <div>
+                        Please click <a href='{$link}'>HERE</a>  to reset your password.
+                    </div>
+                </div>";
+        $mail = $this->_config(true);
+        //Set who the message is to be sent from
+        $mail->setFrom($mail->Username);
+        //Set an alternative reply-to address
+//        $mail->addReplyTo($user->info['user_email']);
+        //Set who the message is to be sent to
+        $mail->addAddress($email);
+        //Set the subject line
+        $mail->Subject = $subject;
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        $mail->msgHTML(mb_convert_encoding($body, "UTF-8", "Shift-JIS"), dirname(__FILE__));
+        //Replace the plain text body with one created manually
+        $mail->AltBody = $body;
+        //Attach an image file
+        if (!$mail->send()) {
+            return array(
+                'status' => false,
+                'message' => $mail->ErrorInfo
+            );
+        } else {
+            return array(
+                'status' => true,
+                'message' => 'You have been sent an email with instructions how to reset your password. If the email does not arrive within several minutes, be sure to check your spam or junk mail folders.'
+            );
+        }
+    }
+    /**
+     * 
+     * @global type $database
+     * @param type $id
+     * @param type $code
+     * @return type
+     */
+    public function checkCode($id , $code){
+        if(empty($id) || empty($code)){
+            return array(
+                'status' => false,
+                'message' => 'Empty Code'
+            );
+        }
+        global $database;
+        //check
+        $result = $database->database_query("SELECT * FROM home_forgot WHERE user_id = '{$id}' AND code = '{$code}' LIMIT 1");
+        $code = $database->database_fetch_assoc($result);
+        if(empty($code)){
+            return array(
+                'status' => false,
+                'message' => 'Invalid Code'
+            );
+        }else{
+            return array(
+                'status' => true,
+                'message' => 'OK'
+            );
+        }
+        
+    }
+    public function reset($user_id,$pass = null,$cfpass = null){
+        if(empty($pass) || empty($cfpass)|| empty($user_id)){
+            return array(
+                'status' => false,
+                'message' => 'Password and Confirm Password can not empty!'
+            );
+        }
+        if($pass !== $cfpass){
+            return array(
+                'status' => false,
+                'message' => "Password and Confirm Password don't match"
+            );
+        }
+        global $database;
+        
+        $userClass = new HOMEUser();
+        
+        if($userClass->reset($user_id,$pass)){
+            //Delete old item
+             $database->database_query("DELETE FROM home_forgot WHERE user_id = '{$user_id}' ");
+             return array(
+                 'status' => true,
+                 'message' => "Your password has been reset. Click <a href='user_login.php'>HERE</a> to sign-in."
+             );
+        }else{
+            return array(
+                 'status' => false,
+                 'message' => "Something wrong. Please try again!"
+             );
+        }
+               
+    }
 }

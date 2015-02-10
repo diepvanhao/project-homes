@@ -1012,6 +1012,18 @@ class HOMEUser {
         return $arr;
     }
 
+    /**
+     * 
+     * @global type $database
+     * @param type $password
+     * @return type
+     */
+    public function reset($user_id,$password){
+        global  $database;
+        $pass = $this->user_password_crypt($password);
+         //get User
+        return (bool) $database->database_query("UPDATE home_user SET  `user_password`='{$pass}', `user_code`='{$this->user_salt}' WHERE id = '{$user_id}'");
+    }
 }
 
 function checkTargetExist($create_date, $user_id) {

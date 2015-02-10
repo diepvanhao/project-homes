@@ -16,7 +16,7 @@
                                 </tr>
                                 <tr>
                                     <td class='form1'>パスワード</td>
-                                    <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 172px;"> <div style="margin-top: 10px;"><a href='lostpass.php'>パースワードを忘れました。?</a></div></td>
+                                    <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 172px;"> <div style="margin-top: 10px;"><a href='forgot.php'>パースワードを忘れました。?</a></div></td>
                                 </tr>
 
                                 <tr>

@@ -416,3 +416,11 @@ CREATE TABLE `home`.`home_fetch_email`(
 ) CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+-- 09/02/2015
+CREATE TABLE IF NOT EXISTS `home_forgot` (
+  `user_id` int(11) unsigned NOT NULL,
+  `code` varchar(64) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `creation_date` datetime NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `code` (`code`)
+);
