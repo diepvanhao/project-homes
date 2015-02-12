@@ -914,28 +914,28 @@ if (!empty($_POST['export'])) {
         $report = new Report();
         switch ($_POST['export_option']) {
             case 1:
-                $report->exportPage1($order_id,$_POST['type']);
+                $report->exportPage1($order_id, $_POST['type']);
                 break;
             case 2:
-                $report->exportPage2($order_id,$_POST['type']);
+                $report->exportPage2($order_id, $_POST['type']);
                 break;
             case 3:
-                $report->exportPage3($order_id,$_POST['type']);
+                $report->exportPage3($order_id, $_POST['type']);
                 break;
             case 4:
-                $report->exportPage4($order_id,$_POST['type']);
+                $report->exportPage4($order_id, $_POST['type']);
                 break;
             case 5:
-                $report->exportPage5($order_id,$_POST['type']);
+                $report->exportPage5($order_id, $_POST['type']);
                 break;
             case 6:
-                $report->exportPage6($order_id,$_POST['type']);
+                $report->exportPage6($order_id, $_POST['type']);
                 break;
             case 7:
-                $report->exportPage7($order_id,$_POST['type']);
+                $report->exportPage7($order_id, $_POST['type']);
                 break;
             case 10:
-                $report->exportOrder($order_id,$_POST['type']);
+                $report->exportOrder($order_id, $_POST['type']);
                 break;
             default:
                 break;
@@ -1413,13 +1413,13 @@ if (isset($_POST['save'])) {
         $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
         $aspirations_comment = $client_arr['aspirations_comment'];
 
-        $order_name = $client_arr['order_name'];
-        $order_comment = $client_arr['order_comment'];
-        $order_rent_cost = $client_arr['order_rent_cost'];
-        $house_id = trim($client_arr['house_id']);
-        $broker_id = trim($client_arr['broker_id']);
-        $room_id = trim($client_arr['room_id']);
-        $change_house_array = $client_arr['change_house_array'] != "" ? base64_encode(implode(",", unserialize($client_arr['change_house_array']))) : "";
+//        $order_name = $client_arr['order_name'];
+//        $order_comment = $client_arr['order_comment'];
+//        $order_rent_cost = $client_arr['order_rent_cost'];
+//        $house_id = trim($client_arr['house_id']);
+//        $broker_id = trim($client_arr['broker_id']);
+//        $room_id = trim($client_arr['room_id']);
+//        $change_house_array = $client_arr['change_house_array'] != "" ? base64_encode(implode(",", unserialize($client_arr['change_house_array']))) : "";
 
         $contract_name = $client_arr['contract_name'];
 
@@ -1530,6 +1530,16 @@ if (isset($_POST['save'])) {
     }
 }
 //get source
+//get order information
+$order_infor = $order->getOrderById($order_id);
+$order_name = $order_infor['order_name'];
+$order_comment = $order_infor['order_comment'];
+$order_rent_cost = $order_infor['order_rent_cost'];
+$house_id = trim($order_infor['house_id']);
+$broker_id = trim($order_infor['broker_id']);
+$room_id = trim($order_infor['room_id']);
+$change_house_array = $order_infor['change_house_array'] != "" ? base64_encode(implode(",", unserialize($order_infor['change_house_array']))) : "";
+
 
 $broker = new HOMEBroker();
 $brokers = $broker->getAllBroker();

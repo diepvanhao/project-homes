@@ -398,7 +398,7 @@ CREATE TABLE `home_history_revisit`(
 );
 
 /*27/1/2015 */
-CREATE TABLE `home`.`home_fetch_email`(  
+CREATE TABLE `home_fetch_email`(  
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `house_type` VARCHAR(128),
   `house_name` VARCHAR(128),
