@@ -380,7 +380,12 @@ class HOMEOrder {
         $row = $database->database_num_rows($result);
         return $row;
     }
-
+    function getOrderById($order_id){
+        global $database;
+        $query="select * from home_order where id='{$order_id}'";
+        $result=$database->database_query($query);
+        return $database->database_fetch_assoc($result);
+    }                
     function getOrder($search = "", $offset = 0, $length = 50) {
         global $database;
 
