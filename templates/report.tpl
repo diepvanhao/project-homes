@@ -367,7 +367,7 @@
     </div>
     <div class="agent-content no-wrap">
         <div class="last-year-title">
-            <h3>昨年実績</h3>
+            <h3>媒体</h3>
         </div>
         <table>
             <tr>

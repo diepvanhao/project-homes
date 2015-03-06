@@ -424,3 +424,21 @@ CREATE TABLE IF NOT EXISTS `home_forgot` (
   PRIMARY KEY (`user_id`),
   KEY `code` (`code`)
 );
+
+
+-- 06/03/2015
+CREATE TABLE IF NOT EXISTS `home_career` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+CREATE TABLE IF NOT EXISTS `home_reason` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+ALTER TABLE  `home_history_aspirations` ADD  `aspirations_size2` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_size` ;
+ALTER TABLE  `home_history_aspirations` ADD  `aspirations_rent_cost2` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_rent_cost` ;
+ALTER TABLE  `home_group` ADD  `display` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '0';

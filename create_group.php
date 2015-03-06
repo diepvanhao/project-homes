@@ -32,6 +32,14 @@ if (isset($_POST['group_name'])) {
     $group_name = "";
 }
 
+if (isset($_POST['display'])) {
+    $display = $_POST['display'];
+} elseif (isset($_GET['display'])) {
+    $display = $_GET['display'];
+} else {
+    $display = "0";
+}
+
 $validate = array(
     'group_name'=>$group_name   
 );
@@ -41,7 +49,7 @@ if(isset($_POST['submit'])){
     $error = $validator->validate($validate);
     if(empty($error)){
         $house=new HOMEHouse();
-        $result=$house->create_group($group_name);
+        $result=$house->create_group($group_name,$display);
         if ($result['error']) {
             $error[]=$result['error'];
         }elseif($result['flag']){

@@ -1265,7 +1265,7 @@
     <div id="order_detail">
         <div id="edit_room" class="inactive">
             <div id="error_edit" class="error"></div>
-            <form action="edit_order.php" method="post">
+            <form method="post">
                 <div class="title"><label >登録完了致しました</label></div>
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
                     <tr>
@@ -1506,7 +1506,7 @@
             {if $errorHouseExist ne ""}
                 <div class="error"></div>
             {/if}
-            <form action="edit_order.php" method="post" id="frm_filter">
+            <form  method="post" id="frm_filter">
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="">
                     <tr>
                         <td>顧客検索</td>
@@ -1560,7 +1560,7 @@
                 </ul>
             </div>
             <div id="client_detail">
-                <form action="edit_order.php" method="post" id="transaction">   
+                <form  method="post" id="transaction">   
                     <div id="basic"class="active">
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
@@ -1644,7 +1644,15 @@
 
                             <tr>
                                 <td class='form1'>職業 :</td>
-                                <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form2'>
+                                    <select id="client_occupation" name="client_occupation" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
+                                        <option value=""></option>
+                                        {foreach from=$careers item=career}
+                                            <option value="{$career.id}" {if $career.id eq $client_occupation}selected="selected"{/if}>{$career.name}</option>        
+                                        {/foreach}
+                                    </select>
+                                    <!--<input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/>-->
+                                </td>
                                 <td class='form1' nowrap>会社名:</td>
                                 <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
                             </tr>
@@ -1673,7 +1681,15 @@
                                     <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
                                 </td>
                                 <td class='form1' nowrap>引越理由:</td>
-                                <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form2'> 
+                                    <select id="client_reason_change" name="client_reason_change" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
+                                        <option value=""></option>
+                                        {foreach from=$reasons item=reason}
+                                            <option value="{$reason.id}" {if $reason.id eq $client_reason_change}selected="selected"{/if}>{$reason.name}</option>        
+                                        {/foreach}
+                                    </select>
+                                    <!--<input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/>-->
+                                </td>
                             </tr>
                             <tr>
                                 <td class='form1'>引越予定日:</td>
@@ -1711,7 +1727,7 @@
                         {* <form action="edit_order.php" method="post">  *}      
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
-                                <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
+                                <td colspan="2" style="text-align: right;">反響種別</td>
                                 <td colspan="2">
                                     <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
                                     <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
@@ -1757,8 +1773,8 @@
                                 </td>
                                 <td class='form1' nowrap>ご来店:</td>
                                 <td class='form2'>
-                                    <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">はい。</label> &nbsp; &nbsp; 
-                                    <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">いいえ。</label>
+                                    <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">済</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">未済</label>
                                 </td>
                             </tr>
                             <tr>
@@ -1862,17 +1878,20 @@
                             </tr>
                             <tr>
                                 <td class='form1'>築年月:</td>
-                                <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/></td>
-                                <td class='form1' nowrap>アリアー:</td>
+                                <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>年</td>
+                                <td class='form1' nowrap>エリア・沿線:</td>
                                 <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
                                 <td class='form1'>面積:</td>
-                                <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form2'>
+                                    <input type="text" id="aspirations_size" name="aspirations_size" value="{$aspirations_size}" style="height: 26px; width: 90px;"/> ㎡ 〜 
+                                    <input type="text" id="aspirations_size2" name="aspirations_size2" value="{$aspirations_size2}" style="height: 26px; width: 90px;"/> ㎡
+                                </td>
                                 <td class='form1' nowrap>賃料:</td>
                                 <td class='form2'> 
-                                    <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>
-                                    <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
+                                    <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" value="{$aspirations_rent_cost}" style="height: 26px; width: 90px;"/>円 〜 
+                                    <input type='text' id="aspirations_rent_cost2" name="aspirations_rent_cost2" value="{$aspirations_rent_cost2}" style="height: 26px; width: 90px;"/>円
                                 </td>
                             </tr>
                             <tr>
