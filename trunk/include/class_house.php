@@ -477,13 +477,13 @@ class HOMEHouse {
             return array('error' => "", 'flag' => FALSE);
     }
 
-    function create_group($group_name) {
+    function create_group($group_name,$display) {
         global $database;
         $group_name = trim($group_name);
         if (checkExistGroup($group_name)) {
             return array('error' => "グループ名は存在しています。他の名前を入力してください。 !!!", 'flag' => '');
         }
-        $query = "insert into home_group(`group_name`) values('{$group_name}')";
+        $query = "insert into home_group(`group_name`,`display`) values('{$group_name}','{$display}')";
 
         $result = $database->database_query($query);
         if ($result)

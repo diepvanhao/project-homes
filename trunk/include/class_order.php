@@ -596,10 +596,12 @@ class HOMEOrder {
                                 hha.id AS aspirations_id,
                                 hha.aspirations_type_house AS aspirations_type_house,
                                 hha.aspirations_rent_cost AS aspirations_rent_cost,
+                                hha.aspirations_rent_cost2 AS aspirations_rent_cost2,
                                 hha.aspirations_type_room AS aspirations_type_room,
                                 hha.aspirations_type_room_number AS aspirations_type_room_number,
                                 hha.aspirations_build_time AS aspirations_build_time,
                                 hha.aspirations_area AS aspirations_area,
+                                hha.aspirations_size2 AS aspirations_size2,
                                 hha.aspirations_size AS aspirations_size,
                                 hha.aspirations_comment AS aspirations_comment,
                                 
@@ -672,10 +674,12 @@ class HOMEOrder {
         $client['aspirations_id'] = $row['aspirations_id'];
         $client['aspirations_type_house'] = $row['aspirations_type_house'];
         $client['aspirations_rent_cost'] = $row['aspirations_rent_cost'];
+        $client['aspirations_rent_cost2'] = $row['aspirations_rent_cost2'];
         $client['aspirations_type_room'] = $row['aspirations_type_room'];
         $client['aspirations_type_room_number'] = $row['aspirations_type_room_number'];
         $client['aspirations_build_time'] = $row['aspirations_build_time'];
         $client['aspirations_area'] = $row['aspirations_area'];
+        $client['aspirations_size2'] = $row['aspirations_size2'];
         $client['aspirations_size'] = $row['aspirations_size'];
         $client['aspirations_comment'] = $row['aspirations_comment'];
 
@@ -974,5 +978,34 @@ class HOMEOrder {
             return false;
         }
     }
-
+    /**
+     * 
+     * @global type $database
+     * @return type
+     */
+    public function getCareers(){
+        global $database;
+        $select = "SELECT * FROM home_career ORDER BY id ASC";
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
+    /**
+     * 
+     * @global type $database
+     * @return type
+     */
+    public function getReasons(){
+        global $database;
+        $select = "SELECT * FROM home_reason ORDER BY id ASC";
+        $result = $database->database_query($select);
+        $arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $arr[] = $row;
+        }
+        return $arr;
+    }
 }

@@ -709,7 +709,7 @@ class ajax {
         }
     }
 
-    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id) {
+    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id,$aspirations_size2,$aspirations_rent_cost2) {
         global $database, $user;
         //check order exist
 
@@ -721,8 +721,10 @@ class ajax {
                     aspirations_type_room_number='{$aspirations_type_room_number}',    
                     aspirations_build_time='{$aspirations_build_time}',
                     aspirations_area='{$aspirations_area}',
+                    aspirations_size2='{$aspirations_size2}',
                     aspirations_size='{$aspirations_size}',
                     aspirations_rent_cost='{$aspirations_rent_cost}',
+                    aspirations_rent_cost2='{$aspirations_rent_cost2}',
                     aspirations_comment='{$aspirations_comment}'                                      
                      where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
                     ";
@@ -734,10 +736,12 @@ class ajax {
                     . "order_id,"
                     . "aspirations_type_house,"
                     . "aspirations_rent_cost,"
+                    . "aspirations_rent_cost2,"
                     . "aspirations_type_room,"
                     . "aspirations_type_room_number,"
                     . "aspirations_build_time,"
                     . "aspirations_area,"
+                    . "aspirations_size2,"
                     . "aspirations_size,"
                     . "aspirations_comment"
                     . ") values("
@@ -746,10 +750,12 @@ class ajax {
                     . "'{$order_id}',"
                     . "'{$aspirations_type_house}',"
                     . "'{$aspirations_rent_cost}',"
+                    . "'{$aspirations_rent_cost2}',"
                     . "'{$aspirations_type_room}',"
                     . "'{$aspirations_type_room_number}',"
                     . "'{$aspirations_build_time}',"
                     . "'{$aspirations_area}',"
+                    . "'{$aspirations_size2}',"
                     . "'{$aspirations_size}',"
                     . "'{$aspirations_comment}'"
                     . ")";

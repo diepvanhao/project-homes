@@ -464,6 +464,13 @@ if (isset($_POST['aspirations_area'])) {
 } else {
     $aspirations_area = "";
 }
+if (isset($_POST['aspirations_size2'])) {
+    $aspirations_size2 = $_POST['aspirations_size2'];
+} elseif (isset($_GET['aspirations_size2'])) {
+    $aspirations_size2 = $_GET['aspirations_size2'];
+} else {
+    $aspirations_size2 = "";
+}
 if (isset($_POST['aspirations_size'])) {
     $aspirations_size = $_POST['aspirations_size'];
 } elseif (isset($_GET['aspirations_size'])) {
@@ -478,6 +485,14 @@ if (isset($_POST['aspirations_rent_cost'])) {
 } else {
     $aspirations_rent_cost = "";
 }
+if (isset($_POST['aspirations_rent_cost2'])) {
+    $aspirations_rent_cost2 = $_POST['aspirations_rent_cost2'];
+} elseif (isset($_GET['aspirations_rent_cost2'])) {
+    $aspirations_rent_cost2 = $_GET['aspirations_rent_cost2'];
+} else {
+    $aspirations_rent_cost2 = "";
+}
+
 if (isset($_POST['aspirations_comment'])) {
     $aspirations_comment = $_POST['aspirations_comment'];
 } elseif (isset($_GET['aspirations_comment'])) {
@@ -1028,7 +1043,7 @@ if (isset($_POST['save'])) {
             $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
         //update aspirations                        
         //if ($aspirations_type_room_number != 0 && $aspirations_type_room_number != null)
-            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
+            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id,$aspirations_size2,$aspirations_rent_cost2);
         //update contract
 
         if (isset($_POST['contract_label_money'])) {
@@ -1409,8 +1424,10 @@ if (isset($_POST['save'])) {
         $aspirations_type_room_number = $client_arr['aspirations_type_room_number'];
         $aspirations_build_time = $client_arr['aspirations_build_time'];
         $aspirations_area = $client_arr['aspirations_area'];
+        $aspirations_size2 = $client_arr['aspirations_size2'];
         $aspirations_size = $client_arr['aspirations_size'];
         $aspirations_rent_cost = $client_arr['aspirations_rent_cost'];
+        $aspirations_rent_cost2 = $client_arr['aspirations_rent_cost2'];
         $aspirations_comment = $client_arr['aspirations_comment'];
 
 //        $order_name = $client_arr['order_name'];
@@ -1618,7 +1635,9 @@ $smarty->assign('aspirations_type_room_number', $aspirations_type_room_number);
 $smarty->assign('aspirations_build_time', $aspirations_build_time);
 $smarty->assign('aspirations_area', $aspirations_area);
 $smarty->assign('aspirations_size', $aspirations_size);
+$smarty->assign('aspirations_size2', $aspirations_size2);
 $smarty->assign('aspirations_rent_cost', $aspirations_rent_cost);
+$smarty->assign('aspirations_rent_cost2', $aspirations_rent_cost2);
 $smarty->assign('aspirations_comment', $aspirations_comment);
 $smarty->assign('log_time_call', $log_time_call);
 $smarty->assign('log_time_arrive_company', $log_time_arrive_company);
@@ -1686,4 +1705,6 @@ $smarty->assign('houseTypes', $houseTypes);
 $smarty->assign('errorHouseExist', $errorHouseExist);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
+$smarty->assign('careers' , $order->getCareers());
+$smarty->assign('reasons' , $order->getReasons());
 include "footer.php";
