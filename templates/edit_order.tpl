@@ -27,6 +27,8 @@
             txt.keyup(func).blur(func);
 
             birthday('log_revisit');
+            log_date('.log_revisit');
+//            $( ".log_revisit" ).datepicker();
             birthday('client_birthday');
             birthday('client_time_change');
             timepicker('log_time_call');
@@ -1828,11 +1830,24 @@
                             </tr>
                             <tr>
                                 <td class='form1'>再来店: </td>
-                                <td class='form2'>
-                                    <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
+                                <td class='form2' id="log_revisit_container" style="width: 336px;">
+                                    {if count($arr)}
+                                        {foreach from=$arr key=i item=revisit_item}
+                                            {if $i == 0}
+                                                <input type='text' class="log_revisit" id="log_revisit" name="log_revisit[]" value="{$revisit_item}" style="height: 26px; width: 215px;"/>
+                                                <button type="button" id="add_log">Add</button>
+                                            {else}
+                                                <input type='text' class="log_revisit" name="log_revisit[]" value="{$revisit_item}" style="height: 26px; width: 215px;margin-top: 5px;"/>      
+                                            {/if}
+                                        {/foreach}
+                                    {else}
+                                        <input type='text' class="log_revisit" id="log_revisit" name="log_revisit[]" style="height: 26px; width: 215px;"/>
+                                        <button type="button" id="add_log">Add</button>
+                                    {/if}
+                                    
                                 </td>
                                 <td class='form1' nowrap>備考:</td>
-                                <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}" style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
                                 <td class='form1'>&nbsp;</td>
@@ -2756,6 +2771,16 @@
                    });
                });
            })(jQuery);
+           $('#add_log').click(function(){
+               var logItem = $('<input>').attr({
+                    type: 'text',
+                    class: 'log_revisit',
+                    style:'height: 26px; width: 215px; margin-top: 5px;',
+                    id: Math.random().toString(36),
+                    name: 'log_revisit[]'
+                }).appendTo('#log_revisit_container');
+               log_date('.log_revisit');
+           })
     </script>
 {/literal}
 {include file='footer.tpl'}

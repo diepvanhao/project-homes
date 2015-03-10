@@ -1411,8 +1411,10 @@ if (isset($_POST['save'])) {
         $log_line = $client_arr['log_line'];
         if ($house->isSerialized($client_arr['log_revisit'])) {
             $log_revisit = unserialize($client_arr['log_revisit']);
+            $arr = $log_revisit;
             $log_revisit = count($log_revisit) > 0 ? $log_revisit[0] : "";
             $log_revisit_arr = base64_encode(implode(",", unserialize($client_arr['log_revisit'])));
+            
         } else {
             $log_revisit = $client_arr['log_revisit'];
             $log_revisit_arr = "";
@@ -1546,6 +1548,9 @@ if (isset($_POST['save'])) {
         }
     }
 }
+if(!isset($arr)){
+    $arr = $log_revisit;
+}
 //get source
 //get order information
 $order_infor = $order->getOrderById($order_id);
@@ -1669,6 +1674,7 @@ $smarty->assign('log_flyer', $log_flyer);
 $smarty->assign('log_line', $log_line);
 $smarty->assign('log_revisit', $log_revisit);
 $smarty->assign('log_revisit_arr', $log_revisit_arr);
+$smarty->assign('arr', $arr);
 $smarty->assign('source_id', $source_id);
 $smarty->assign('gender', $gender);
 $smarty->assign('client_address', $client_address);
