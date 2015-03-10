@@ -39,6 +39,15 @@ function birthday(val) {
         }
     });
 }
+function log_date(val) {
+    j(val).datepicker({
+        changeYear: true,
+        showButtonPanel: true,
+        yearRange: '-90:+50',
+        dateFormat: 'yy/mm/dd',
+        constrainInput: false
+    });
+}
 function timepicker(val) {
     j('#' + val).timepicker();
 }

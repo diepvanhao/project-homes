@@ -532,14 +532,15 @@ class ajax {
         //$revisit[]=$log_revisit;
         //$log_revisit=  serialize($revisit);
         if (!empty($log_revisit)) {
-            $log_revisit_array_decode = base64_decode($log_revisit_arr);
+            /*$log_revisit_array_decode = base64_decode($log_revisit_arr);
             if (!empty($log_revisit_array_decode))
                 $log_revisit_array_serialize = $log_revisit . "," . $log_revisit_array_decode;
             else
                 $log_revisit_array_serialize = $log_revisit;
             $log_revisit_array_serialize = explode(",", $log_revisit_array_serialize);
 
-            $log_revisit_array_edit = serialize($log_revisit_array_serialize);
+            $log_revisit_array_edit = serialize($log_revisit_array_serialize);*/ 
+            $log_revisit_array_edit = serialize($log_revisit);
             //check order exist
         }else {
             $log_revisit_array_edit = "";
@@ -547,7 +548,7 @@ class ajax {
         $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);
         if ($history_id) {
             //update history exist
-            if (trim($log_revisit) == trim($log_revisit_bk)) {
+            if (trim($log_revisit_array_edit) == trim($log_revisit_bk)) {
                 $query = "update home_history_log set 
                     source_id='{$source_id}',
                     log_time_call='{$log_time_call}',
@@ -576,28 +577,33 @@ class ajax {
             } else {
                 //update revisit
                 if (!empty($log_revisit)) {
-                    $log_revisit_milisection = strtotime($log_revisit);
-                    $query_revisit = "select id from home_history_revisit where history_id='{$history_id}' and revisit_date='{$log_revisit_milisection}' order by id DESC limit 1";
-                    //echo $query_revisit;die();
-                    $result = $database->database_query($query_revisit);
-                    $row = $database->database_fetch_assoc($result);
-                    $revisit_id = $row['id'];
-                    if ($revisit_id) {
-                        $query_update_revisit = "update home_history_revisit set
-                                     revisit_date='{$log_revisit_milisection}'
-                                     where id='{$revisit_id}'    
-                                     ";
-                        $database->database_query($query_update_revisit);
-                    } else {
-                        $query_history_revisit = "insert into home_history_revisit ("
-                                . "history_id,"
-                                . "revisit_date"
-                                . ")values("
-                                . "'{$history_id}',"
-                                . "'{$log_revisit_milisection}'"
-                                . ")";
+                    foreach($log_revisit as $value){
+                        if(empty($value)){
+                            continue;
+                        }
+                        $log_revisit_milisection = strtotime($value);
+                        $query_revisit = "select id from home_history_revisit where history_id='{$history_id}' and revisit_date='{$log_revisit_milisection}' order by id DESC limit 1";
+                        //echo $query_revisit;die();
+                        $result = $database->database_query($query_revisit);
+                        $row = $database->database_fetch_assoc($result);
+                        $revisit_id = $row['id'];
+                        if ($revisit_id) {
+                            $query_update_revisit = "update home_history_revisit set
+                                         revisit_date='{$log_revisit_milisection}'
+                                         where id='{$revisit_id}'    
+                                         ";
+                            $database->database_query($query_update_revisit);
+                        } else {
+                            $query_history_revisit = "insert into home_history_revisit ("
+                                    . "history_id,"
+                                    . "revisit_date"
+                                    . ")values("
+                                    . "'{$history_id}',"
+                                    . "'{$log_revisit_milisection}'"
+                                    . ")";
 
-                        $database->database_query($query_history_revisit);
+                            $database->database_query($query_history_revisit);
+                        }
                     }
                 } else {
                     /* $query_revisit = "select id from home_history_revisit where history_id='{$history_id}' order by id DESC limit 1";
@@ -693,16 +699,21 @@ class ajax {
             //insert history revisit
             if (!empty($log_revisit)) {
                 if ($history_id) {
-                    $log_revisit_milisection = strtotime($log_revisit);
-                    $query_history_revisit = "insert into home_history_revisit ("
-                            . "history_id,"
-                            . "revisit_date"
-                            . ")values("
-                            . "'{$history_id}',"
-                            . "'{$log_revisit_milisection}'"
-                            . ")";
+                    foreach($log_revisit as $value){
+                        if(empty($value)){
+                            continue;
+                        }
+                        $log_revisit_milisection = strtotime($value);
+                        $query_history_revisit = "insert into home_history_revisit ("
+                                . "history_id,"
+                                . "revisit_date"
+                                . ")values("
+                                . "'{$history_id}',"
+                                . "'{$log_revisit_milisection}'"
+                                . ")";
 
-                    $database->database_query($query_history_revisit);
+                        $database->database_query($query_history_revisit);
+                    }
                 }
             }
             return array('id' => $database->database_insert_id());
