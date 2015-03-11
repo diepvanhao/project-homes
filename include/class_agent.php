@@ -8,7 +8,7 @@
 
 class HOMEAgent {
 
-    function create($agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax,$house_search="") {
+    function create($agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax,$house_search="",$bank_name,$branch_name,$account_number,$payer_name) {
         global $database;
 
         $database->database_query("
@@ -25,8 +25,13 @@ class HOMEAgent {
         
         agent_fax,
         
-        agent_search
-
+        agent_search,
+        
+        bank_name,
+        branch_name,
+        account_number,
+        payer_name
+            
       ) VALUES (
         
         '{$agent_name}',
@@ -39,7 +44,12 @@ class HOMEAgent {
         
         '{$agent_fax}',
             
-        '{$house_search}'
+        '{$house_search}',
+            
+        '{$bank_name}',
+        '{$branch_name}',
+        '{$account_number}',
+        '{$payer_name}'
             
       )
 
@@ -53,12 +63,11 @@ class HOMEAgent {
         return $result;
     }
 
-    function update($agent_id, $agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax,$house_search="") {
+    function update($agent_id, $agent_name, $agent_email, $agent_address, $agent_phone, $agent_fax,$house_search="",$bank_name,$branch_name,$account_number,$payer_name) {
         global $database;
-        $query = "update home_agent set agent_name='{$agent_name}',agent_email='{$agent_email}',agent_address='{$agent_address}',agent_phone='{$agent_phone}',agent_fax='{$agent_fax}',agent_search='{$house_search}'
+        $query = "update home_agent set agent_name='{$agent_name}',agent_email='{$agent_email}',agent_address='{$agent_address}',agent_phone='{$agent_phone}',agent_fax='{$agent_fax}',agent_search='{$house_search}',bank_name='{$bank_name}',branch_name='{$branch_name}',account_number='{$account_number}',payer_name='{$payer_name}'
          where id={$agent_id}
         ";
-
         return $database->database_query($query);
     }
 

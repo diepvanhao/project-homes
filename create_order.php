@@ -677,12 +677,27 @@ if ($step == 1) {
     } else {
         $aspirations_size = "";
     }
+    if (isset($_POST['aspirations_size2'])) {
+        $aspirations_size2 = $_POST['aspirations_size2'];
+    } elseif (isset($_GET['aspirations_size2'])) {
+        $aspirations_size2 = $_GET['aspirations_size2'];
+    } else {
+        $aspirations_size2 = "";
+    }
+    
     if (isset($_POST['aspirations_rent_cost'])) {
         $aspirations_rent_cost = $_POST['aspirations_rent_cost'];
     } elseif (isset($_GET['aspirations_rent_cost'])) {
         $aspirations_rent_cost = $_GET['aspirations_rent_cost'];
     } else {
         $aspirations_rent_cost = "";
+    }
+    if (isset($_POST['aspirations_rent_cost2'])) {
+        $aspirations_rent_cost2 = $_POST['aspirations_rent_cost2'];
+    } elseif (isset($_GET['aspirations_rent_cost2'])) {
+        $aspirations_rent_cost2 = $_GET['aspirations_rent_cost2'];
+    } else {
+        $aspirations_rent_cost2 = "";
     }
     if (isset($_POST['aspirations_comment'])) {
         $aspirations_comment = $_POST['aspirations_comment'];
@@ -1181,7 +1196,7 @@ if ($step == 1) {
                 $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
             //update aspirations                        
             //if ($aspirations_type_room_number != 0 && $aspirations_type_room_number != null)
-                $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id);
+                $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id,$aspirations_size2,$aspirations_rent_cost2);
             //update contract
 
             if (isset($_POST['contract_label_money'])) {
@@ -1505,7 +1520,9 @@ if ($step == 1) {
     $smarty->assign('aspirations_build_time', $aspirations_build_time);
     $smarty->assign('aspirations_area', $aspirations_area);
     $smarty->assign('aspirations_size', $aspirations_size);
+    $smarty->assign('aspirations_size2', $aspirations_size2);
     $smarty->assign('aspirations_rent_cost', $aspirations_rent_cost);
+    $smarty->assign('aspirations_rent_cost2', $aspirations_rent_cost2);
     $smarty->assign('aspirations_comment', $aspirations_comment);
     $smarty->assign('log_time_call', $log_time_call);
     $smarty->assign('log_time_arrive_company', $log_time_arrive_company);
@@ -1536,6 +1553,7 @@ if ($step == 1) {
     $smarty->assign('log_flyer', $log_flyer);
     $smarty->assign('log_line', $log_line);
     $smarty->assign('log_revisit', $log_revisit);
+    $smarty->assign('arr', $log_revisit);
     $smarty->assign('source_id', $source_id);
     $smarty->assign('gender', $gender);
     $smarty->assign('client_address', $client_address);

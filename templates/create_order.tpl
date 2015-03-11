@@ -25,6 +25,8 @@
             txt.keyup(func).blur(func);
 
             birthday('log_revisit');
+            log_date('.log_revisit');
+            
             birthday('client_birthday');
             birthday('client_time_change');
             timepicker('log_time_call');
@@ -1808,7 +1810,16 @@
 
                     <tr>
                         <td class='form1'>職業 :</td>
-                        <td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/></td>
+                        <!--<td class='form2'><input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/></td>-->
+                        <td class='form2'>
+                            <select id="client_occupation" name="client_occupation" style="margin-left: 0.5%;height:28px; width: 115px;">
+                                <option value=""></option>
+                                {foreach from=$careers item=career}
+                                    <option value="{$career.id}" {if $career.id eq $client_occupation}selected="selected"{/if}>{$career.name}</option>        
+                                {/foreach}
+                            </select>
+                            <!--<input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/>-->
+                        </td>
                         <td class='form1' nowrap>会社名:</td>
                         <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
                     </tr>
@@ -1837,7 +1848,15 @@
                             <label style="padding: 1.7% 4.7% 1.7% 4.7%;background-color: white;">円</label>
                         </td>
                         <td class='form1' nowrap>引越理由:</td>
-                        <td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>
+                        <!--<td class='form2'> <input type='text' id="client_reason_change" name="client_reason_change" value="{$client_reason_change}"style="height: 26px; width: 215px;"/></td>-->
+                        <td class='form2'> 
+                            <select id="client_reason_change" name="client_reason_change" style="margin-left: 0.5%;height:28px; width: 115px;">
+                                <option value=""></option>
+                                {foreach from=$reasons item=reason}
+                                    <option value="{$reason.id}" {if $reason.id eq $client_reason_change}selected="selected"{/if}>{$reason.name}</option>        
+                                {/foreach}
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>引越予定日:</td>
@@ -1875,7 +1894,7 @@
                 {* <form action="create_order.php" method="post">  *}      
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
-                        <td colspan="2" style="text-align: right;">連絡タイプを選択する?</td>
+                        <td colspan="2" style="text-align: right;">反響種別</td>
                         <td colspan="2">
                             <input type="radio" checked="checked" id="log_time_call_type" name="choose_contact_type"/><label for="log_time_call_type">ＴＥＬ</label>
                             <input type="radio" id="log_time_mail_type" name="choose_contact_type"/><label for="log_time_mail_type">Eメール</label>
@@ -1921,8 +1940,8 @@
                         </td>
                         <td class='form1' nowrap>ご来店:</td>
                         <td class='form2'>
-                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">いいえ。</label>
+                            <input type='radio' id="log_status_appointment_yes" name="log_status_appointment" value="1" {if $log_status_appointment eq '1'}checked="checked" {/if}/><label for="log_status_appointment_yes">済</label> &nbsp; &nbsp; 
+                            <input type='radio' id="log_status_appointment_no" name="log_status_appointment" value="0" {if $log_status_appointment eq '0'}checked="checked" {/if}/><label for="log_status_appointment_no">未済</label>
                         </td>
                     </tr>
                     <tr>
@@ -1977,8 +1996,21 @@
                     </tr>
                     <tr>
                         <td class='form1'>再来店: </td>
-                        <td class='form2'>
-                            <input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/>
+                        <!--<td class='form2'><input type='text' id="log_revisit" name="log_revisit" value="{$log_revisit}"style="height: 26px; width: 215px;"/></td>-->
+                        <td class='form2' id="log_revisit_container" style="width: 336px;">
+                            {if count($arr)}
+                                {foreach from=$arr key=i item=revisit_item}
+                                    {if $i == 0}
+                                        <input type='text' class="log_revisit" id="log_revisit" name="log_revisit[]" value="{$revisit_item}" style="height: 26px; width: 215px;"/>
+                                        <button type="button" id="add_log">Add</button>
+                                    {else}
+                                        <input type='text' class="log_revisit" name="log_revisit[]" value="{$revisit_item}" style="height: 26px; width: 215px;margin-top: 5px;"/>      
+                                    {/if}
+                                {/foreach}
+                            {else}
+                                <input type='text' class="log_revisit" id="log_revisit" name="log_revisit[]" style="height: 26px; width: 215px;"/>
+                                <button type="button" id="add_log">Add</button>
+                            {/if}
                         </td>
                         <td class='form1' nowrap>備考:</td>
                         <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}"style="height: 26px; width: 215px;"/></td>
@@ -2025,17 +2057,22 @@
                     </tr>
                     <tr>
                         <td class='form1'>築年月:</td>
-                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>アリアー:</td>
+                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>年</td>
+                        <td class='form1' nowrap>エリア・沿線:</td>
                         <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
                     </tr>
                     <tr>
                         <td class='form1'>面積:</td>
-                        <td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>
+                        <!--<td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>-->
+                        <td class='form2'>
+                            <input type="text" id="aspirations_size" name="aspirations_size" value="{$aspirations_size}" style="height: 26px; width: 90px;"/> ㎡ 〜 
+                            <input type="text" id="aspirations_size2" name="aspirations_size2" value="{$aspirations_size2}" style="height: 26px; width: 90px;"/> ㎡
+                        </td>
                         <td class='form1' nowrap>賃料:</td>
                         <td class='form2'> 
-                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>
-                            <label style="padding: 2% 4.5% 1% 4.5%;background-color: white;">円</label>
+                            <!--<input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>-->
+                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" value="{$aspirations_rent_cost}" style="height: 26px; width: 90px;"/>円 〜 
+                            <input type='text' id="aspirations_rent_cost2" name="aspirations_rent_cost2" value="{$aspirations_rent_cost2}" style="height: 26px; width: 90px;"/>円
                         </td>
                     </tr>
                     <tr>
@@ -2186,8 +2223,8 @@
                         <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
                         <td class='form1' nowrap>入金状況:</td>
                         <td class='form2'>
-                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
+                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">済</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">未済</label>
                         </td>
                     </tr>
                     <tr>
@@ -2197,8 +2234,8 @@
                         </td>
                         <td class='form1' nowrap>入金状況:</td>
                         <td class='form2'>
-                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
+                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">済</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">未済</label>
                         </td>
                     </tr>
                     <tr>
@@ -2826,6 +2863,19 @@
     {/if}    
 {/if}
 <div id="loadgif">Loading...</div>
-
+{literal}
+    <script type="text/javascript">
+        $('#add_log').click(function(){
+            var logItem = $('<input>').attr({
+                 type: 'text',
+                 class: 'log_revisit',
+                 style:'height: 26px; width: 215px; margin-top: 5px;',
+                 id: Math.random().toString(36),
+                 name: 'log_revisit[]'
+             }).appendTo('#log_revisit_container');
+            log_date('.log_revisit');
+        })
+    </script>
+{/literal}
 
 {include file='footer.tpl'}

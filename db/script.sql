@@ -442,3 +442,11 @@ CREATE TABLE IF NOT EXISTS `home_reason` (
 ALTER TABLE  `home_history_aspirations` ADD  `aspirations_size2` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_size` ;
 ALTER TABLE  `home_history_aspirations` ADD  `aspirations_rent_cost2` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_rent_cost` ;
 ALTER TABLE  `home_group` ADD  `display` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '0';
+
+
+-- 11/03
+ALTER TABLE  `home_history_log` CHANGE  `log_revisit`  `log_revisit` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ;
+ALTER TABLE  `home_agent` ADD  `bank_name` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
+ADD  `branch_name` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
+ADD  `account_number` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
+ADD  `payer_name` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ;

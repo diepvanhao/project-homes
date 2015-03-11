@@ -30,6 +30,13 @@ if (isset($_POST['group_name'])) {
 } else {
     $group_name = "";
 }
+if (isset($_POST['display'])) {
+    $display = $_POST['display'];
+} elseif (isset($_GET['display'])) {
+    $display = $_GET['display'];
+} else {
+    $display = "0";
+}
 
 
 if (isset($_POST['group_id'])) {
@@ -60,7 +67,7 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $house = new HOMEHouse();
-        $result = $house->update_group($group_id, $group_name);
+        $result = $house->update_group($group_id, $group_name,$display);
         if ($result['flag']) {
             $notify = "アップデート成功 !!!";
         } elseif ($result['error']) {

@@ -530,7 +530,7 @@ class ajax {
         global $database, $user;
         //serialize revisit
         //$revisit[]=$log_revisit;
-        //$log_revisit=  serialize($revisit);
+        $log_revisit= array_filter($log_revisit);
         if (!empty($log_revisit)) {
             /*$log_revisit_array_decode = base64_decode($log_revisit_arr);
             if (!empty($log_revisit_array_decode))
@@ -577,6 +577,7 @@ class ajax {
             } else {
                 //update revisit
                 if (!empty($log_revisit)) {
+                    $database->database_query(" DELETE FROM home_history_revisit WHERE history_id='{$history_id}'");
                     foreach($log_revisit as $value){
                         if(empty($value)){
                             continue;
@@ -699,6 +700,7 @@ class ajax {
             //insert history revisit
             if (!empty($log_revisit)) {
                 if ($history_id) {
+                    $database->database_query(" DELETE FROM home_history_revisit WHERE history_id='{$history_id}' ");
                     foreach($log_revisit as $value){
                         if(empty($value)){
                             continue;

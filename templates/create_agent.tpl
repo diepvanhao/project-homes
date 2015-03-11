@@ -132,6 +132,30 @@
                 <td class='form2'><input type='text' class='text' name='agent_fax' id='agent_fax' value="{$agent_fax}" maxlength='70' style="height:26px; width: 351px;"><div id="agent_fax_error"class="error"></div></td>
             </tr>
             <tr>
+                <td class='form1'>銀行名: </td>
+                <td class='form2'>
+                    <input type='text' class='text' name='bank_name' id='bank_name' value="{$bank_name}" maxlength='70' style="height:26px; width: 351px;">
+                </td>
+            </tr>
+            <tr>
+                <td class='form1'>支店名: </td>
+                <td class='form2'>
+                    <input type='text' class='text' name='branch_name' id='branch_name' value="{$branch_name}" maxlength='70' style="height:26px; width: 351px;">
+                </td>
+            </tr>
+            <tr>
+                <td class='form1'>口座番号: </td>
+                <td class='form2'>
+                    <input type='text' class='text' name='account_number' id='account_number' value="{$account_number}" maxlength='70' style="height:26px; width: 351px;">
+                </td>
+            </tr>
+            <tr>
+                <td class='form1'>振込先名: </td>
+                <td class='form2'>
+                    <input type='text' class='text' name='payer_name' id='payer_name' value="{$payer_name}" maxlength='70' style="height:26px; width: 351px;">
+                </td>
+            </tr>
+            <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
