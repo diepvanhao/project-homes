@@ -624,14 +624,15 @@ class HOMEHouse {
         }
     }
 
-    function update_group($group_id, $group_name) {
+    function update_group($group_id, $group_name,$display) {
         global $database;
         $group_name = trim($group_name);
         if (checkExistGroup($group_name)) {
             return array('error' => 'グループ名は存在しています。他の名前を入力してください。', 'flag' => false);
         } else {
             $query = "update home_group set 
-                group_name='{$group_name}'
+                group_name ='{$group_name}',
+                display ='{$display}'
                
          where id={$group_id}
         ";

@@ -27,11 +27,19 @@
             </li>
             <li>
                 <strong>登録日付 : </strong>
-                <span>{date('Y-m-d',$order.order_day_create)}</span>
+                <span>
+                    {if !empty($history.order_day_create)}
+                            {date('Y-m-d',$history.order_day_create)} 
+                        {/if}
+                </span>
             </li>
             <li>
                 <strong>引越予定日 : </strong>
-                <span>{date('Y-m-d',$order.order_day_create)}</span>
+                <span>
+                    {if !empty($history.order_day_create)}
+                        {date('Y-m-d',$history.order_day_create)} 
+                    {/if}
+                </span>
             </li>
         </ul>
         {if $room}
@@ -226,11 +234,19 @@
             <ul class="house-info">
                 <li>
                     <strong>通話時間 : </strong>
-                    <span>{$history.log_time_call} </span>
+                    <span>
+                        {if !empty($history.log_time_call)}
+                            {date('Y-m-d',$history.log_time_call)} 
+                        {/if}
+                    </span>
                 </li>
                 <li>
                     <strong>来店時間 : </strong>
-                    <span>{$history.log_time_arrive_company} </span>
+                    <span>
+                        {if !empty($history.log_time_arrive_company)}
+                            {date('Y-m-d',$history.log_time_arrive_company)} 
+                        {/if}
+                    </span>
                 </li>
                 <li>
                     <strong>備考 : </strong>
@@ -238,7 +254,11 @@
                 </li>
                 <li>
                     <strong>来店予定日時 : </strong>
-                    <span>{$history.log_date_appointment_from} </span>
+                    <span>
+                        {if !empty($history.log_date_appointment_from)}
+                            {date('Y-m-d',$history.log_date_appointment_from)} 
+                        {/if}
+                    </span>
                 </li>
                 <li>
                     <strong>予約の現況 : </strong>

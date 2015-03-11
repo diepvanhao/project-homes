@@ -16,6 +16,15 @@
                 <td class='form2'><input type='text' class='text' name='group_name' id='source_name' value="{$group_name}"  style="height:26px; width: 351px;"><div id="group_name_error"class="error"></div></td>
             </tr>
             <tr>
+                <td class='form1'>表示: <span class="required">*</span></td>
+                <td class='form2'>
+                    <select id="display" name="display" style="height:28px; width: 115px;">
+                        <option value="0">いいえ</option>
+                        <option value="1">はい</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">

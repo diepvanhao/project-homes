@@ -98,6 +98,37 @@ if (isset($_POST['ward_id'])) {
 } else {
     $ward_id = 0;
 }
+
+if (isset($_POST['bank_name'])) {
+    $bank_name = $_POST['bank_name'];
+} elseif (isset($_GET['bank_name'])) {
+    $bank_name = $_GET['bank_name'];
+} else {
+    $bank_name = "";
+}
+if (isset($_POST['branch_name'])) {
+    $branch_name = $_POST['branch_name'];
+} elseif (isset($_GET['branch_name'])) {
+    $branch_name = $_GET['branch_name'];
+} else {
+    $branch_name = "";
+}
+if (isset($_POST['account_number'])) {
+    $account_number = $_POST['account_number'];
+} elseif (isset($_GET['account_number'])) {
+    $account_number = $_GET['account_number'];
+} else {
+    $account_number = "";
+}
+if (isset($_POST['payer_name'])) {
+    $payer_name = $_POST['payer_name'];
+} elseif (isset($_GET['payer_name'])) {
+    $payer_name = $_GET['payer_name'];
+} else {
+    $payer_name = "";
+}
+
+
 $house_address_serialize['city_id'] = $city_id;
 $house_address_serialize['district_id'] = $district_id;
 $house_address_serialize['street_id'] = $street_id;
@@ -135,7 +166,7 @@ if (isset($_POST['submit'])) {
     $error = $validator->validate($validate);
     if (empty($error)) {
         $agent = new HOMEAgent();
-        $result = $agent->update($agent_id, $agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax,$house_search);        
+        $result = $agent->update($agent_id, $agent_name, $agent_email, $house_address_serialize, $agent_phone, $agent_fax,$house_search,$bank_name,$branch_name,$account_number,$payer_name);        
         if ($result) {
             $notify="アップデート成功 !!!";
         }
@@ -161,6 +192,11 @@ if (isset($_POST['submit'])) {
         $agent_phone = $result['agent_phone'];
         $agent_fax = $result['agent_fax'];
         $agent_id = $result['id'];
+        
+        $bank_name = $result['bank_name'];
+        $branch_name = $result['branch_name'];
+        $account_number = $result['account_number'];
+        $payer_name = $result['payer_name'];
     }
 }
 $house = new HOMEHouse();
@@ -180,5 +216,10 @@ $smarty->assign('agent_fax', $agent_fax);
 $smarty->assign('agent_id', $agent_id);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
+
+$smarty->assign('bank_name', $bank_name);
+$smarty->assign('branch_name', $branch_name);
+$smarty->assign('account_number', $account_number);
+$smarty->assign('payer_name', $payer_name);
 
 include "footer.php";
