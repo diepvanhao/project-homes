@@ -21,7 +21,8 @@
                 <thead>
                     <tr>
                         <th>番号</th>
-                        <th>名称</th>                        
+                        <th>名称</th>  
+                        <th>コメント</th>
                         <th>ログイン</th>
                     </tr>
                 </thead>
@@ -32,7 +33,8 @@
                         {/if}
                         <tr>
                             <td>{$k+1}</td>
-                            <td>{$broker.name}</td>                           
+                            <td>{$broker.name}</td> 
+                            <td>{$broker.comment}</td> 
                             <td>
                                 {if $broker.name ne ""}
                                     <form action="{$broker.action}" method="post" target="blank">
@@ -41,6 +43,7 @@
                                         {if $broker.inputhidden ne ""}
                                             {$broker.inputhidden}
                                         {/if}
+                                        <input type="button" class="btn" value="編集" onclick="return edit({$broker.id})"/>	
                                         <input type="submit" class="btn" value="ログイン" {if $broker.submitname ne ""}name="{$broker.submitname}"{/if}/>	
                                     </form>
 
@@ -60,5 +63,11 @@
     </div>
 </center>
 
-
+{literal}
+    <script type="text/javascript">
+        function edit(id){
+            window.location.href="edit_contact.php?id="+id;
+        }
+    </script>    
+{/literal}
 {include file="footer.tpl"}
