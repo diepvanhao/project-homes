@@ -596,19 +596,19 @@
                 });
                 $('#security_code').val('require');
                 $('#for_client').css('display', 'none');
-                $('#client_detail #history').css('display','none');
-                $('#client_detail #aspirations').css('display','none');
-                $('#client_detail #introduce').css('display','none');
-                $('#client_detail #contract').css('display','none');
-                $('#menu_container ul').css('display','none');
-                $('#content_order_title').css('display','none');
+                $('#client_detail #history').css('display', 'none');
+                $('#client_detail #aspirations').css('display', 'none');
+                $('#client_detail #introduce').css('display', 'none');
+                $('#client_detail #contract').css('display', 'none');
+                $('#menu_container ul').css('display', 'none');
+                $('#content_order_title').css('display', 'none');
                 $('#client_info ul li:first').click();
                 //prevent client click back button
                 history.pushState(null, null, 'create_order.php');
                 window.addEventListener('popstate', function(event) {
                     history.pushState(null, null, 'create_order.php');
                 });
-                $('#logo #logo_text a').click(function(e){
+                $('#logo #logo_text a').click(function(e) {
                     e.preventDefault();
                 });
             });
@@ -1259,110 +1259,10 @@
 
     <div id="edit_order">
         <ul>
-            <li class="select_menu" title="edit_client">顧客情報編集</li>
-
-            <li class="noselect_menu" title="edit_room">部屋情報編集</li>
+            <li class="select_menu" title="edit_client">顧客情報編集</li>          
         </ul>
     </div>
-    <div id="order_detail">
-        <div id="edit_room" class="inactive">
-            <div id="error_edit" class="error"></div>
-            <form method="post">
-                <div class="title"><label >登録完了致しました</label></div>
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
-                    <tr>
-                        <td class="form1">管理会社検索</td>
-                        <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
-                        </td>
-                    </tr>
-                    <tr>       
-                        <td class='form1'>管理会社選択: </td>
-                        <td class='form2'>
-                            <select id="broker_id" name="broker_id" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$brokers item=broker}
-                                    <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
-                                {/foreach}
-                            </select>
-                            <a href="javascript:void(0);" id="popup_create_broker" >管理会社</a>
-                            <div id="error_broker" class="error"></div>
-                        </td>
-                    </tr> 
-                    {*<tr> 
-                    {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
-                    <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
-                    </tr>   *}         
-                    <tr>
-                        <td class="form1">物件検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
-                        </td>
-                    </tr>
-                    <tr>            
-                        <td class='form1'>物件選択: </td>
-                        <td class='form2'>
-                            <select id="house_id" name="house_id" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$houses item=house}
-                                    <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
-                                {/foreach}
-                            </select>
-                            <a href="javascript:void(0);" id="popup_create_house" >物件情報</a>
-                            <div id="error_house" class="error"></div>
-                        </td>
-                    </tr>
-                    <tr>            
-                        <td class='form1'>物件備考: </td>
-                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
-                    </tr>
-                    {* <tr>            
-                    <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
-                    </tr>*}
-
-                    <tr>            
-                        <td class='form1'>部屋選択: </td>
-                        <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
-                                <option value=""></option>
-                            </select>
-                            <a href="javascript:void(0);" id="popup_create_room" >部屋情報</a>
-                            <div id="error_room" class="error"></div>
-                        </td>
-                    </tr>
-                    {* <tr>            
-                    <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
-                    </tr>*}
-                    <!--order part-->
-                    <tr>            
-                        <td class='form1'>オーダーID: </td>
-                        <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 215px;"/><div id="error_order_name" class="error"></div></td>
-                    </tr>
-                    <tr>            
-                        <td class='form1'>賃料: </td>
-                        <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-                    <tr>            
-                        <td class='form1'>備考: </td>
-                        <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-
-                    <!--end order-->
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2'>
-                            <div style="margin-top:10px">
-                                <input type='button' class='btn-signup' value='変更' id="submit" name="submit" style="width: 100px;"/>&nbsp;                          
-                                <input type="hidden" id="step" name="step" value="verify"/>     
-                                <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
-                                <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$room_id}"/>
-                                <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id}"/>
-                                <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id}"/>
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>
-                                <input type="hidden" id="change_house_array" name="change_house_array" value="{$change_house_array}"/>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+    <div id="order_detail">                    
             {literal}
                 <script type="text/javascript">
                     $(document).ready(function() {
@@ -1494,7 +1394,7 @@
                     });
                 </script>
             {/literal}
-        </div>  
+      
         <div id="edit_client" class="active">
             {if $error|@count gt 0}
                 {foreach from=$error item=val}
@@ -1557,7 +1457,7 @@
                     <li class="noselect_menu" title="detail">詳細</li>
                     <li class="noselect_menu" title="history">履歴</li>
                     <li class="noselect_menu" title="aspirations">希望</li>
-                    <li class="noselect_menu" title="introduce">紹介物件</li>
+                    <li class="noselect_menu" title="introduce">部屋情報編集</li>
                     <li class="noselect_menu" title="contract">申込・契約</li>
                 </ul>
             </div>
@@ -1647,7 +1547,7 @@
                             <tr>
                                 <td class='form1'>職業 :</td>
                                 <td class='form2'>
-                                    <select id="client_occupation" name="client_occupation" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
+                                    <select id="client_occupation" name="client_occupation" style="margin-left: 0.5%;height:28px; width: 115px;">
                                         <option value=""></option>
                                         {foreach from=$careers item=career}
                                             <option value="{$career.id}" {if $career.id eq $client_occupation}selected="selected"{/if}>{$career.name}</option>        
@@ -1684,7 +1584,7 @@
                                 </td>
                                 <td class='form1' nowrap>引越理由:</td>
                                 <td class='form2'> 
-                                    <select id="client_reason_change" name="client_reason_change" style="position: absolute;margin-left: 0.5%;height:28px; width: 115px;">
+                                    <select id="client_reason_change" name="client_reason_change" style="margin-left: 0.5%;height:28px; width: 115px;">
                                         <option value=""></option>
                                         {foreach from=$reasons item=reason}
                                             <option value="{$reason.id}" {if $reason.id eq $client_reason_change}selected="selected"{/if}>{$reason.name}</option>        
@@ -1844,7 +1744,7 @@
                                         <input type='text' class="log_revisit" id="log_revisit" name="log_revisit[]" style="height: 26px; width: 215px;"/>
                                         <button type="button" id="add_log">Add</button>
                                     {/if}
-                                    
+
                                 </td>
                                 <td class='form1' nowrap>備考:</td>
                                 <td class='form2'> <input type='text' id="log_comment" name="log_comment" value="{$log_comment}" style="height: 26px; width: 215px;"/></td>
@@ -1932,767 +1832,808 @@
                         {*</form>*}
                     </div>
                     <div id="introduce" class="inactive">
-                        {*<form action="edit_order.php" method="post"> *}           
-                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
+                        
+                    <div class="title"><label >登録完了致しました</label></div>
+                    <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
+                        <tr>
+                            <td class="form1">管理会社検索</td>
+                            <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
+                            </td>
+                        </tr>
+                        <tr>       
+                            <td class='form1'>管理会社選択: </td>
+                            <td class='form2'>
+                                <select id="broker_id" name="broker_id" style="height:26px; width: 215px;">
+                                    <option value=""></option>
+                                    {foreach from=$brokers item=broker}
+                                        <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
+                                    {/foreach}
+                                </select>
+                                <a href="javascript:void(0);" id="popup_create_broker" >管理会社</a>
+                                <div id="error_broker" class="error"></div>
+                            </td>
+                        </tr> 
+                        {*<tr> 
+                        {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                        <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
+                        </tr>   *}         
+                        <tr>
+                            <td class="form1">物件検索</td>
+                            <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
+                            </td>
+                        </tr>
+                        <tr>            
+                            <td class='form1'>物件選択: </td>
+                            <td class='form2'>
+                                <select id="house_id" name="house_id" style="height:26px; width: 215px;">
+                                    <option value=""></option>
+                                    {foreach from=$houses item=house}
+                                        <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
+                                    {/foreach}
+                                </select>
+                                <a href="javascript:void(0);" id="popup_create_house" >物件情報</a>
+                                <div id="error_house" class="error"></div>
+                            </td>
+                        </tr>
+                        <tr>            
+                            <td class='form1'>物件備考: </td>
+                            <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                        </tr>
+                        {* <tr>            
+                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
+                        </tr>*}
 
+                        <tr>            
+                            <td class='form1'>部屋選択: </td>
+                            <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
+                                    <option value=""></option>
+                                </select>
+                                <a href="javascript:void(0);" id="popup_create_room" >部屋情報</a>
+                                <div id="error_room" class="error"></div>
+                            </td>
+                        </tr>
+                        {* <tr>            
+                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
+                        </tr>*}
+                        <!--order part-->
+                        <tr>            
+                            <td class='form1'>オーダーID: </td>
+                            <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 215px;"/><div id="error_order_name" class="error"></div></td>
+                        </tr>
+                        <tr>            
+                            <td class='form1'>賃料: </td>
+                            <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 215px;"/></td>
+                        </tr>
+                        <tr>            
+                            <td class='form1'>備考: </td>
+                            <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 215px;"/></td>
+                        </tr>
+
+                        <!--end order-->
+                        <tr>
+                            <td class='form1'>&nbsp;</td>
+                            <td class='form2'>
+                                <div style="margin-top:10px">                                                                             
+                                    <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
+                                    <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$room_id}"/>
+                                    <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id}"/>
+                                    <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id}"/>                                    
+                                    <input type="hidden" id="change_house_array" name="change_house_array" value="{$change_house_array}"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    {* </form>*}
+            </div>
+            <div id="contract" class="inactive">
+                {*<form action="edit_order.php" method="post">  *}      
+                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="contract_plus">
+                    <tr>
+                        <td class='form1' nowrap>賃料:</td>
+                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
+                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                        </td>
+                        <td class='form1'>礼金:</td>
+                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
+                            <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_key_money_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_key_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1'>仲介手数料:</td>
+                        <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
+                            <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_broker_fee_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月" {if $contract_broker_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                            </select>
+                        </td>
+                        <td class='form1'>広告費:</td>
+                        <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
+                            <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_ads_fee_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_ads_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                            </select>
+                        </td>                                           
+                    </tr>
+                    <tr>                    
+                        <td class='form1'>敷金・保証金（預かり）:</td>
+                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
+                            <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_deposit1_money_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_deposit1_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                            </select></td>
+                        <td class='form1' nowrap>敷金・保証金（償却）:</td>
+                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
+                            <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                <option value="円"{if $contract_deposit2_money_unit eq "円"} selected{/if}>円</option>
+                                <option value="ヵ月"{if $contract_deposit2_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>管理費:</td>
+                        <td class='form2'>
+                            <input type="text"  name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
+                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                        </td>
+                        <td class='form1'>申込金:</td>
+                        <td class='form2'>
+                            <input type="text"  name='money_payment' id='money_payment' value="{$money_payment}" style="height: 26px; width: 215px;">
+                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>合計:</td>
+                        <td class='form2'><input type="text" id="contract_total" name="contract_total"  value="{$contract_total}"style="height: 26px; width: 215px;"/>
+                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                        </td>
+
+                        <td class='form1'>他決:</td>
+                        <td class='form2'><input type="checkbox" value="1" id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
+                    </tr>
+                    <tr>
+                        <td class='form1' nowrap>契約金入金予定日:</td>
+                        <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
+                        <td class='form1' nowrap>入金状況:</td>
+                        <td class='form2'>
+                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>広告費入金予定日: </td>
+                        <td class='form2'>
+                            <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
+                        </td>
+                        <td class='form1' nowrap>入金状況:</td>
+                        <td class='form2'>
+                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>契約日:</td>
+                        <td class='form2'>
+                            <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
+                            <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
+                        </td>
+                        <td class='form1' nowrap>鍵渡日:</td>
+                        <td class='form2'>
+                            <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
+                            <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>契約始期:</td>
+                        <td class='form2'>
+                            {*<input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>*}
+                            <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 215px;"/>
+                        </td>
+                        <td class='form1' nowrap>契約終期:</td>
+                        <td class='form2'>
+                            {*<input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>*}
+                            <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 215px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='form1'>申込金:</td>
+                        <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
+                            <input type='radio' id="contract_application_yes" onClick="javascript:sendMail(this);" name="contract_application" value="1" {if $contract_application eq '1'}checked="checked" {/if}/><label for="contract_application_yes">有</label> &nbsp; &nbsp; 
+                            <input type='radio' id="contract_application_no" name="contract_application" value="0" {if $contract_application eq '0'}checked="checked" {/if}/><label for="contract_application_no">無</label>
+                        </td>
+                        <td class='form1' nowrap>申込日:</td>
+                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
+                    </tr>
+
+                    <tr>                    
+                        <td class='form1'>店舗:</td>
+                        <td class='form2'>
+                            <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
+                                <option value=""></option>
+                                {foreach from=$agents item=agent}
+                                    <option value="{$agent.id}">{$agent.agent_name}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td class='form1' nowrap>按分先:</td>
+                        <td class='form2'>
+                            <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
+                                <option value=""></option>
+                                {foreach from=$partners item=partner}
+                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
+                                {/foreach}
+                            </select>
+                            <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                            <div id="error_partner_id" class="error"></div>
+                        </td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1' nowrap>条件:</td>
+                        <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
+                        <td class='form1' nowrap>評価額:</td>
+                        <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1'>売上計上:</td>
+                        <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1' nowrap>キャンセル:</td>
+                        <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                    </tr>
+                    <tr>                    
+                        <td class='form1'></td>
+                        <td class='form2'>
+                            <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
+                        </td>       
+                        <td class='form1' nowrap>自社物件</td>
+                        <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
+                    </tr>
+                    {foreach from=$plus_money key=k item=money}
+                        <tr>
+                            <td class='form1'>{$k} :</td>
+                            <td class='form2'>
+                                <input type='hidden' name='contract_label_money[]' value="{$k}"/>
+                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
+                                <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
+                                <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
+                            </td> 
+                            <td class='form1'></td>
+                            <td class='form2'></td> 
+                        </tr>
+                    {/foreach}
+                    <tr>
+                        <td class='form1'>&nbsp;</td>
+                        <td class='form2' colspan="3">
+                            <div id="error_validate" class="error"></div>
+                            <div style="margin-top:10px;text-align: center;">
+                                {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                <input type="hidden" id="task" name="task" value="contract"/>
+                                <input type="hidden" id="step" name="step" value="registry"/> 
+                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
+                                <input type="hidden" id="calculator" name="calculator"/>
+                                <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
+                            </div>                        
+                        </td>
+                    </tr>
+                </table>
+                <div id="export_form" style="display:none;">
+                    <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
+                        <tbody>
                             <tr>
-                                <td class="form1">物件検索</td>
+                                <td class="form1">
+                                    選択
+                                </td>
                                 <td class="form2">
-                                    <input type="text" id="search_house" name="search_house" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>                            
-                                </td>
-                            </tr>
-                            <tr>            
-                                <td class='form1'>物件選択: </td>
-                                <td class='form2'>
-                                    <select id="introduce_house_id" name="introduce_house_id" style="height:26px; width: 215px;">
-                                        <option value=""></option>
-                                        {foreach from=$houses item=house}
-                                            <option value="{$house.id}" {if $introduce_house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
-                                        {/foreach}
-                                    </select><div id="error_introduce_house_id" class="error"></div>
-                                </td>
-                            </tr>
-                            <tr>            
-                                <td class='form1'>物件備考: </td>
-                                <td class='form2'><textarea style="width: 215px;height: 129px;" disabled="1" id="introduce_house_content" name="introduce_house_content" >{$introduce_house_content}</textarea></td>
-                            </tr>
-                            <tr>            
-                                <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_house.php">物件登録</a></div></td>
-                            </tr>
-                            <tr>            
-                                <td class='form1'>部屋選択: </td>
-                                <td class='form2'><select id="introduce_room_id" name="introduce_room_id" style="height:26px; width: 215px;">
-                                        <option value=""></option>
-
-                                    </select><div id="error_introduce_room_id" class="error"></div>
+                                    <select name="export_option">
+                                        <option value="10">オーダー</option>
+                                        <option value="1">申込報告書</option>
+                                        <option value="2">精算書家主用</option>
+                                        <option value="3">精算書入居者用</option>
+                                        <option value="4">入居者対応補助</option>
+                                        <option value="5">請求書</option>
+                                        <option value="6">業務委託料</option>
+                                        <option value="7">広告料</option>
+                                    </select>
+                                    <select name="type">
+                                        <option value="xls">XLS</option>
+                                        <option value="csv">CSV</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td class='form1'>&nbsp;</td>
-                                <td class='form2'>
-                                    <div id="error_validate" class="error"></div>
+                                <td class="form1">&nbsp;</td>
+                                <td class="form2">
                                     <div style="margin-top:10px">
-                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
-                                        <input type="hidden" id="task" name="task" value="introduce"/>*}
-                                        <input type="hidden" id="introduce_house" name="introduce_house" />
-                                        {*<input type="hidden" id="step" name="step" value="registry"/>  
-                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
+                                        <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 150px;"/> 
+                                        <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
                                     </div>
                                 </td>
                             </tr>
-                        </table>
-                        {* </form>*}
-                    </div>
-                    <div id="contract" class="inactive">
-                        {*<form action="edit_order.php" method="post">  *}      
-                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="contract_plus">
-                            <tr>
-                                <td class='form1' nowrap>賃料:</td>
-                                <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
-                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                                </td>
-                                <td class='form1'>礼金:</td>
-                                <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
-                                    <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                        <option value="円"{if $contract_key_money_unit eq "円"} selected{/if}>円</option>
-                                        <option value="ヵ月"{if $contract_key_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>                    
-                                <td class='form1'>仲介手数料:</td>
-                                <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
-                                    <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                        <option value="円"{if $contract_broker_fee_unit eq "円"} selected{/if}>円</option>
-                                        <option value="ヵ月" {if $contract_broker_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                                    </select>
-                                </td>
-                                <td class='form1'>広告費:</td>
-                                <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
-                                    <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                        <option value="円"{if $contract_ads_fee_unit eq "円"} selected{/if}>円</option>
-                                        <option value="ヵ月"{if $contract_ads_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                                    </select>
-                                </td>                                           
-                            </tr>
-                            <tr>                    
-                                <td class='form1'>敷金・保証金（預かり）:</td>
-                                <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
-                                    <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                        <option value="円"{if $contract_deposit1_money_unit eq "円"} selected{/if}>円</option>
-                                        <option value="ヵ月"{if $contract_deposit1_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                                    </select></td>
-                                <td class='form1' nowrap>敷金・保証金（償却）:</td>
-                                <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
-                                    <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                        <option value="円"{if $contract_deposit2_money_unit eq "円"} selected{/if}>円</option>
-                                        <option value="ヵ月"{if $contract_deposit2_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>管理費:</td>
-                                <td class='form2'>
-                                    <input type="text"  name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
-                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                                </td>
-                                <td class='form1'>申込金:</td>
-                                <td class='form2'>
-                                    <input type="text"  name='money_payment' id='money_payment' value="{$money_payment}" style="height: 26px; width: 215px;">
-                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>合計:</td>
-                                <td class='form2'><input type="text" id="contract_total" name="contract_total"  value="{$contract_total}"style="height: 26px; width: 215px;"/>
-                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                                </td>
+                        </tbody>
+                    </table>
+                </div>
 
-                                <td class='form1'>他決:</td>
-                                <td class='form2'><input type="checkbox" value="1" id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
-                            </tr>
-                            <tr>
-                                <td class='form1' nowrap>契約金入金予定日:</td>
-                                <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                                <td class='form1' nowrap>入金状況:</td>
-                                <td class='form2'>
-                                    <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
-                                    <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>広告費入金予定日: </td>
-                                <td class='form2'>
-                                    <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
-                                </td>
-                                <td class='form1' nowrap>入金状況:</td>
-                                <td class='form2'>
-                                    <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
-                                    <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>契約日:</td>
-                                <td class='form2'>
-                                    <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
-                                    <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
-                                </td>
-                                <td class='form1' nowrap>鍵渡日:</td>
-                                <td class='form2'>
-                                    <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
-                                    <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>契約始期:</td>
-                                <td class='form2'>
-                                    {*<input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>*}
-                                    <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 215px;"/>
-                                </td>
-                                <td class='form1' nowrap>契約終期:</td>
-                                <td class='form2'>
-                                    {*<input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>*}
-                                    <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 215px;"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class='form1'>申込金:</td>
-                                <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
-                                    <input type='radio' id="contract_application_yes" onClick="javascript:sendMail(this);" name="contract_application" value="1" {if $contract_application eq '1'}checked="checked" {/if}/><label for="contract_application_yes">有</label> &nbsp; &nbsp; 
-                                    <input type='radio' id="contract_application_no" name="contract_application" value="0" {if $contract_application eq '0'}checked="checked" {/if}/><label for="contract_application_no">無</label>
-                                </td>
-                                <td class='form1' nowrap>申込日:</td>
-                                <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
-                            </tr>
-
-                            <tr>                    
-                                <td class='form1'>店舗:</td>
-                                <td class='form2'>
-                                    <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
-                                        <option value=""></option>
-                                        {foreach from=$agents item=agent}
-                                            <option value="{$agent.id}">{$agent.agent_name}</option>
-                                        {/foreach}
-                                    </select>
-                                </td>
-                                <td class='form1' nowrap>按分先:</td>
-                                <td class='form2'>
-                                    <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
-                                        <option value=""></option>
-                                        {foreach from=$partners item=partner}
-                                            <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
-                                        {/foreach}
-                                    </select>
-                                    <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
-                                    <div id="error_partner_id" class="error"></div>
-                                </td>
-                            </tr>
-                            <tr>                    
-                                <td class='form1' nowrap>条件:</td>
-                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                                <td class='form1' nowrap>評価額:</td>
-                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
-                            </tr>
-                            <tr>                    
-                                <td class='form1'>売上計上:</td>
-                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
-                                <td class='form1' nowrap>キャンセル:</td>
-                                <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
-                            </tr>
-                            <tr>                    
-                                <td class='form1'></td>
-                                <td class='form2'>
-                                    <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
-                                </td>       
-                                <td class='form1' nowrap>自社物件</td>
-                                <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
-                            </tr>
-                            {foreach from=$plus_money key=k item=money}
-                                <tr>
-                                    <td class='form1'>{$k} :</td>
-                                    <td class='form2'>
-                                        <input type='hidden' name='contract_label_money[]' value="{$k}"/>
-                                        <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
-                                        <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
-                                        <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
-                                    </td> 
-                                    <td class='form1'></td>
-                                    <td class='form2'></td> 
-                                </tr>
-                            {/foreach}
-                            <tr>
-                                <td class='form1'>&nbsp;</td>
-                                <td class='form2' colspan="3">
-                                    <div id="error_validate" class="error"></div>
-                                    <div style="margin-top:10px;text-align: center;">
-                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                        <input type="hidden" id="task" name="task" value="contract"/>
-                                        <input type="hidden" id="step" name="step" value="registry"/> 
-                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
-                                        <input type="hidden" id="calculator" name="calculator"/>
-                                        <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
-                                    </div>                        
-                                </td>
-                            </tr>
-                        </table>
-                        <div id="export_form" style="display:none;">
-                            <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
-                                <tbody>
-                                    <tr>
-                                        <td class="form1">
-                                            選択
-                                        </td>
-                                        <td class="form2">
-                                            <select name="export_option">
-                                                <option value="10">オーダー</option>
-                                                <option value="1">申込報告書</option>
-                                                <option value="2">精算書家主用</option>
-                                                <option value="3">精算書入居者用</option>
-                                                <option value="4">入居者対応補助</option>
-                                                <option value="5">請求書</option>
-                                                <option value="6">業務委託料</option>
-                                                <option value="7">広告料</option>
-                                            </select>
-                                            <select name="type">
-                                                <option value="xls">XLS</option>
-                                                <option value="csv">CSV</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="form1">&nbsp;</td>
-                                        <td class="form2">
-                                            <div style="margin-top:10px">
-                                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 150px;"/> 
-                                                <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        {* </form>*}
-                    </div>
-                    <div style="text-align: right;padding-top: 1%;">
-                        <input type="button" class="btn-signup" value="For Client" id="for_client" name="for_client" style="width: 110px;margin-right: 1%;background: #617AAC;"/>
-                        <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>                        
-                        <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
-                        <input type="hidden" value="" id="security_code" />
-                    </div>
-                </form>
-                <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
+                {* </form>*}
             </div>
+            <div style="text-align: right;padding-top: 1%;">
+                <input type="button" class="btn-signup" value="For Client" id="for_client" name="for_client" style="width: 110px;margin-right: 1%;background: #617AAC;"/>
+                <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>                        
+                <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
+                <input type="hidden" value="" id="security_code" />
+            </div>
+            </form>
+            <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
         </div>
     </div>
-    {literal}
-        <style type="text/css">
+</div>
+{literal}
+    <style type="text/css">
 
-            .active{
-                float: left;
-                width: 100%;
-                display: block;
-            }
-            .inactive{
-                float: left;
-                width: 100%;
-                display: none;
-            }
-            .content{
-                width:100%;
-                margin: 0;
-                padding: 0;
-            }
+        .active{
+            float: left;
+            width: 100%;
+            display: block;
+        }
+        .inactive{
+            float: left;
+            width: 100%;
+            display: none;
+        }
+        .content{
+            width:100%;
+            margin: 0;
+            padding: 0;
+        }
 
-            #customer ul{
-                width: 100%;
-                border: 1px solid white;
+        #customer ul{
+            width: 100%;
+            border: 1px solid white;
 
-            }
+        }
 
-            #customer ul li:nth-child(1){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 10%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(2){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 20%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(3){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 20%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(4){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 35%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(5){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 15%;
-                cursor: pointer;
-            }
-            #customer ul li.odd{
-                background: silver;
-            }
-            #customer ul li.even{
-                background:#D9D5CF; 
-                border-bottom: 1px solid #617AAC;
-            }
-            #customer ul li:first-child{
-                margin-left: 0;
-            }
-            #customer ul li:last-child{
-                float: right;
-            }
-            #customer{
-                width: 100%;
-            }
-            /////////////////////////client info//////////////////////////
-            #client_info{
-                width: 100%;
-            }
+        #customer ul li:nth-child(1){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 10%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(2){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 20%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(3){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 20%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(4){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 35%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(5){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 15%;
+            cursor: pointer;
+        }
+        #customer ul li.odd{
+            background: silver;
+        }
+        #customer ul li.even{
+            background:#D9D5CF; 
+            border-bottom: 1px solid #617AAC;
+        }
+        #customer ul li:first-child{
+            margin-left: 0;
+        }
+        #customer ul li:last-child{
+            float: right;
+        }
+        #customer{
+            width: 100%;
+        }
+        /////////////////////////client info//////////////////////////
+        #client_info{
+            width: 100%;
+        }
 
-            /*#client_info ul li{
-                float: left;
-                background: beige;
-                padding: 0px;
-                width: 16.65%;
-                cursor: pointer;
-                text-align: center;
-            }*/
-            #client_info ul li.select_menu{
-                background: url(include/images/bg-btn-forget.gif) repeat-x;
-                float: left;
-                //background: beige;
-                padding: 0px;
-                width: 16.65%;
-                cursor: pointer;
-                text-align: center;
-            }
-            #client_info ul li.noselect_menu{
-                float: left;
-                background: beige;
-                padding: 0px;
-                width: 16.65%;
-                cursor: pointer;
-                text-align: center;
-            }
-            #client_info ul li:hover{
+        /*#client_info ul li{
+            float: left;
+            background: beige;
+            padding: 0px;
+            width: 16.65%;
+            cursor: pointer;
+            text-align: center;
+        }*/
+        #client_info ul li.select_menu{
+            background: url(include/images/bg-btn-forget.gif) repeat-x;
+            float: left;
+            //background: beige;
+            padding: 0px;
+            width: 16.65%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #client_info ul li.noselect_menu{
+            float: left;
+            background: beige;
+            padding: 0px;
+            width: 16.65%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #client_info ul li:hover{
 
-                background: url(include/images/bg-btn-forget.gif) repeat-x;
+            background: url(include/images/bg-btn-forget.gif) repeat-x;
 
-            }
-            #edit_order ul li.select_menu{
-                background: url(include/images/bg-btn-forget.gif) repeat-x;
-                float: left;
-                //background: beige;
-                padding: 0px;
-                width: 50%;
-                cursor: pointer;
-                text-align: center;
-            }
-            #edit_order ul li.noselect_menu{
-                float: left;
-                background: beige;
-                padding: 0px;
-                width: 50%;
-                cursor: pointer;
-                text-align: center;
-            }
-            #edit_order ul li:hover{
+        }
+        #edit_order ul li.select_menu{
+            background: url(include/images/bg-btn-forget.gif) repeat-x;
+            float: left;
+            //background: beige;
+            padding: 0px;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #edit_order ul li.noselect_menu{
+            float: left;
+            background: beige;
+            padding: 0px;
+            width: 50%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #edit_order ul li:hover{
 
-                background: url(include/images/bg-btn-forget.gif) repeat-x;
+            background: url(include/images/bg-btn-forget.gif) repeat-x;
 
-            }
-            #edit_order{
-                width: 100%; 
-                padding-bottom: 4%;
-            }
-        </style>
-        <script type="text/javascript">
-            function openImport() {
-                $('#export_form').show();
-                $('#order_table').hide();
-            }
-            function closeImport() {
-                $('#export_form').hide();
-                $('#order_table').show();
-            }
-            function sendMail(el) {
+        }
+        #edit_order{
+            width: 100%; 
+            padding-bottom: 4%;
+        }
+    </style>
+    <script type="text/javascript">
+        function openImport() {
+            $('#export_form').show();
+            $('#order_table').hide();
+        }
+        function closeImport() {
+            $('#export_form').hide();
+            $('#order_table').show();
+        }
+        function sendMail(el) {
 //                if (el.checked && confirm("Do you want to send mail?")) {
 //                    sendmail = 1;
 //                }
-            }
-            $(document).ready(function() {
-                //active for field selected
-                var kept_active = $('#keep_active_tab').val();
-                if (kept_active != "") {
-                    //set li click
-                    $('#client_info ul li').each(function() {
-                        if ($(this).attr('class') == 'select_menu') {
-                            $(this).removeClass('select_menu');
-                            $(this).addClass('noselect_menu');
-                        }
-                    });
-                    $('#client_info ul li').each(function() {
-                        if ($(this).attr('title') == kept_active) {
-                            $(this).removeClass('noselect_menu');
-                            $(this).addClass('select_menu');
-                        }
-                    });
-                    //end li click
-                    $('#basic').removeClass('active');
-                    $('#basic').addClass('inactive');
-
-                    $('#' + kept_active).removeClass('inactive');
-                    $('#' + kept_active).addClass('active');
-                }
-                //end active field        
-                $('#sidebar_container').css('display', 'none');
-                var fieldCount = 1;
-                $('#add').click(function() {
-                    var label = prompt('その他費用を追加する ?', '');
-                    if (label != null && label != "" && label != 0) {
-                        // fieldCount++;
-                        $('#contract #contract_plus tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_label_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
-                        if (fieldCount == 1)
-                            CalculatorPlus();
-                        fieldCount++;
+        }
+        $(document).ready(function() {
+            //active for field selected
+            var kept_active = $('#keep_active_tab').val();
+            if (kept_active != "") {
+                //set li click
+                $('#client_info ul li').each(function() {
+                    if ($(this).attr('class') == 'select_menu') {
+                        $(this).removeClass('select_menu');
+                        $(this).addClass('noselect_menu');
                     }
                 });
-                //Address
-                //city
-                $('#city_id').change(function(e) {
-                    var city_id = $('#city_id').val();
-                    var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+                $('#client_info ul li').each(function() {
+                    if ($(this).attr('title') == kept_active) {
+                        $(this).removeClass('noselect_menu');
+                        $(this).addClass('select_menu');
+                    }
+                });
+                //end li click
+                $('#basic').removeClass('active');
+                $('#basic').addClass('inactive');
 
-                                if (city_id == "") {
-                                    $('#district_id').empty();
-                                    $('#street_id').empty();
-                                    $('#ward_id').empty();
-                                } else {
-                                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                    function(result) {
-                                        if (result) {
-                                            $('#district_id').empty();
-                                            $('#district_id').html(result);
-                                            $('#district_id').change();
-                                        } else {
-                                            $('#district_id').empty();
+                $('#' + kept_active).removeClass('inactive');
+                $('#' + kept_active).addClass('active');
+            }
+            //end active field        
+            $('#sidebar_container').css('display', 'none');
+            var fieldCount = 1;
+            $('#add').click(function() {
+                var label = prompt('その他費用を追加する ?', '');
+                if (label != null && label != "" && label != 0) {
+                    // fieldCount++;
+                    $('#contract #contract_plus tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_label_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                    if (fieldCount == 1)
+                        CalculatorPlus();
+                    fieldCount++;
+                }
+            });
+            //Address
+            //city
+            $('#city_id').change(function(e) {
+                var city_id = $('#city_id').val();
+                var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+
+                            if (city_id == "") {
+                                $('#district_id').empty();
+                                $('#street_id').empty();
+                                $('#ward_id').empty();
+                            } else {
+                                $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                function(result) {
+                                    if (result) {
+                                        $('#district_id').empty();
+                                        $('#district_id').html(result);
+                                        $('#district_id').change();
+                                    } else {
+                                        $('#district_id').empty();
+                                        $('#street_id').empty();
+                                        $('#ward_id').empty();
+                                    }
+                                });
+                            }
+                        });
+                        //district
+                        $('#district_id').change(function(e) {
+                            var district_id = $('#district_id').val();
+                            var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
+
+                                        if (district_id == "") {
                                             $('#street_id').empty();
                                             $('#ward_id').empty();
+                                        } else {
+                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                            function(result) {
+                                                if (result) {
+                                                    $('#street_id').empty();
+                                                    $('#street_id').html(result);
+                                                    $('#street_id').change();
+                                                } else {
+                                                    $('#street_id').empty();
+                                                    $('#ward_id').empty();
+                                                }
+                                            });
                                         }
                                     });
-                                }
-                            });
-                            //district
-                            $('#district_id').change(function(e) {
-                                var district_id = $('#district_id').val();
-                                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
+                                    //street
+                                    $('#street_id').change(function(e) {
+                                        var street_id = $('#street_id').val();
+                                        var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
 
-                                            if (district_id == "") {
-                                                $('#street_id').empty();
-                                                $('#ward_id').empty();
-                                            } else {
-                                                $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                function(result) {
-                                                    if (result) {
-                                                        $('#street_id').empty();
-                                                        $('#street_id').html(result);
-                                                        $('#street_id').change();
+                                                    if (street_id == "") {
+                                                        $('#ward_id').empty();
                                                     } else {
+                                                        $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#ward_id').empty();
+                                                                $('#ward_id').html(result);
+                                                            } else {
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+
+                                                //clone 
+                                                //city
+                                                $('#city_cus').change(function(e) {
+                                                    var city_id = $('#city_cus').val();
+                                                    var district_id = $('#district_cus').val();
+
+                                                    if (city_id == "") {
+                                                        $('#district_id').empty();
                                                         $('#street_id').empty();
                                                         $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#district_id').empty();
+                                                                $('#district_id').html(result);
+                                                                $('#district_cus').change();
+                                                            } else {
+                                                                $('#district_id').empty();
+                                                                $('#street_id').empty();
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                                //district
+                                                $('#district_cus').change(function(e) {
+                                                    var district_id = $('#district_id').val();
+                                                    var street_id = $('#street_cus').val();
+
+                                                    if (district_id == "") {
+                                                        $('#street_id').empty();
+                                                        $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#street_id').empty();
+                                                                $('#street_id').html(result);
+                                                                $('#street_cus').change();
+                                                            } else {
+                                                                $('#street_id').empty();
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                                //street
+                                                $('#street_cus').change(function(e) {
+                                                    var street_id = $('#street_id').val();
+                                                    var ward_id = $('#ward_cus').val();
+
+                                                    if (street_id == "") {
+                                                        $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#ward_id').empty();
+                                                                $('#ward_id').html(result);
+                                                            } else {
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                                $('#search_house').keyup(function(e) {
+                                                    var search = $('#search_house').val();
+                                                    $('#error_introduce_house_id').html("");
+                                                    //    showloadgif();
+                                                    $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
+                                                    function(result) {
+                                                        if (result) {
+                                                            $('#introduce_house_id').empty();
+                                                            $('#introduce_house_id').html(result);
+                                                            $('#introduce_house').click();
+                                                            //   hideloadgif();
+                                                        } else {
+                                                            $('#introduce_house_id').empty();
+                                                            $('#introduce_room_id').empty();
+                                                            $('#introduce_house_content').html("");
+                                                            $('#error_introduce_house_id').html("物件名のキーワードが見つかりませんでした。");
+                                                            //     hideloadgif();
+                                                        }
+                                                    });
+                                                });
+                                                $('#introduce_house').click(function() {
+                                                    var house_id = $('#introduce_house_id').val();
+
+                                                    $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                                                    function(result) {
+                                                        var json = $.parseJSON(result);
+                                                        $('#introduce_house_content').html(json.house_description);
+                                                        get_introduce_room(house_id, 0);
+                                                    });
+                                                });
+                                                $('#introduce_house_id').change(function() {
+                                                    var house_id = $('#introduce_house_id').val();
+                                                    $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                                                    function(result) {
+                                                        var json = $.parseJSON(result);
+                                                        $('#introduce_house_contrent').html(json.house_description);
+                                                        get_introduce_room(house_id, 0);
+                                                    });
+                                                });
+                                                // $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                $('#history table').find('tr:nth-child(4)').css('display', 'none');
+
+                                                if ($('#log_time_call_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                }
+                                                if ($('#log_time_mail_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                }
+                                                if ($('#log_time_arrive_company_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                }
+                                                $('#log_time_call_type').click(function() {
+                                                    $('#history table').find('tr:nth-child(2)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(7)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(5)').css('display', '');
+                                                    $('#log_time_mail').val('');
+                                                    $('#log_time_mail_date').val('');
+                                                    $('#log_time_arrive_company').val('');
+                                                    $('#log_time_arrive_company_date').val('');
+                                                    $('#log_mail').removeAttr('checked');
+                                                    $('#log_mail_status').removeAttr('checked');
+                                                    $('#log_contact_head_office').removeAttr('checked');
+                                                    $('#contact_method').html('通話日時:');
+                                                    $('#log_tel').attr('checked', "checked");
+                                                    //$('#log_mail').attr('checked', "");
+                                                    $('#log_mail').removeAttr('checked');
+                                                });
+                                                $('#log_time_mail_type').click(function() {
+                                                    //$('#history table').find('tr:nth-child(4)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(2)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(5)').css('display', '');
+                                                    //$('#log_time_call').val('');
+                                                    // $('#log_time_call_date').val('');
+                                                    $('#log_time_arrive_company').val('');
+                                                    $('#log_time_arrive_company_date').val('');
+                                                    $('#log_tel').removeAttr('checked');
+                                                    $('#log_tel_status').removeAttr('checked');
+                                                    $('#log_contact_head_office').removeAttr('checked');
+                                                    $('#contact_method').html('メール送信時刻:');
+                                                    $('#log_mail').attr('checked', "checked");
+                                                    // $('#log_tel').attr('checked', "");
+                                                    $('#log_tel').removeAttr('checked');
+                                                });
+                                                $('#log_time_arrive_company_type').click(function() {
+                                                    $('#history table').find('tr:nth-child(3)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(5)').css('display', 'none');
+                                                    $('#log_date_appointment_from_date').val('');
+                                                    $('#log_date_appointment_from').val('');
+                                                    $('#log_time_mail').val('');
+                                                    $('#log_time_mail_date').val('');
+                                                    $('#log_time_call').val('');
+                                                    $('#log_time_call_date').val('');
+                                                    $('#log_mail').removeAttr('checked');
+                                                    $('#log_mail_status').removeAttr('checked');
+                                                    $('#log_tel').removeAttr('checked');
+                                                    $('#log_tel_status').removeAttr('checked');
+                                                });
+                                                if ($('#log_tel').is(':checked')) {
+                                                    $('#log_time_call_type').click();
+                                                }
+                                                else if ($('#log_mail').is(':checked')) {
+                                                    $('#log_time_mail_type').click();
+                                                } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
+                                                    $('#log_time_arrive_company_type').click();
+                                                } else {
+                                                    $('#log_tel').attr('checked', "checked");
+                                                }
+                                            });
+                                            function get_introduce_room(house_id, room_id) {
+                                                $('#error_introduce_room_id').html("");
+                                                $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
+                                                function(result) {
+                                                    if (result) {
+                                                        $('#introduce_room_id').empty();
+                                                        $('#introduce_room_id').html(result);
+                                                    } else {
+                                                        $('#introduce_room_id').empty();
+                                                        $('#introduce_house_content').html("");
+                                                        if (house_id)
+                                                            $('#error_introduce_room_id').html("この物件は部屋番号が存在していません。");
                                                     }
                                                 });
                                             }
-                                        });
-                                        //street
-                                        $('#street_id').change(function(e) {
-                                            var street_id = $('#street_id').val();
-                                            var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
-
-                                                        if (street_id == "") {
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#ward_id').empty();
-                                                                    $('#ward_id').html(result);
-                                                                } else {
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-
-                                                    //clone 
-                                                    //city
-                                                    $('#city_cus').change(function(e) {
-                                                        var city_id = $('#city_cus').val();
-                                                        var district_id = $('#district_cus').val();
-
-                                                        if (city_id == "") {
-                                                            $('#district_id').empty();
-                                                            $('#street_id').empty();
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#district_id').empty();
-                                                                    $('#district_id').html(result);
-                                                                    $('#district_cus').change();
-                                                                } else {
-                                                                    $('#district_id').empty();
-                                                                    $('#street_id').empty();
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    //district
-                                                    $('#district_cus').change(function(e) {
-                                                        var district_id = $('#district_id').val();
-                                                        var street_id = $('#street_cus').val();
-
-                                                        if (district_id == "") {
-                                                            $('#street_id').empty();
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#street_id').empty();
-                                                                    $('#street_id').html(result);
-                                                                    $('#street_cus').change();
-                                                                } else {
-                                                                    $('#street_id').empty();
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    //street
-                                                    $('#street_cus').change(function(e) {
-                                                        var street_id = $('#street_id').val();
-                                                        var ward_id = $('#ward_cus').val();
-
-                                                        if (street_id == "") {
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#ward_id').empty();
-                                                                    $('#ward_id').html(result);
-                                                                } else {
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    $('#search_house').keyup(function(e) {
-                                                        var search = $('#search_house').val();
-                                                        $('#error_introduce_house_id').html("");
-                                                        //    showloadgif();
-                                                        $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
-                                                        function(result) {
-                                                            if (result) {
-                                                                $('#introduce_house_id').empty();
-                                                                $('#introduce_house_id').html(result);
-                                                                $('#introduce_house').click();
-                                                                //   hideloadgif();
-                                                            } else {
-                                                                $('#introduce_house_id').empty();
-                                                                $('#introduce_room_id').empty();
-                                                                $('#introduce_house_content').html("");
-                                                                $('#error_introduce_house_id').html("物件名のキーワードが見つかりませんでした。");
-                                                                //     hideloadgif();
-                                                            }
-                                                        });
-                                                    });
-                                                    $('#introduce_house').click(function() {
-                                                        var house_id = $('#introduce_house_id').val();
-
-                                                        $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
-                                                        function(result) {
-                                                            var json = $.parseJSON(result);
-                                                            $('#introduce_house_content').html(json.house_description);
-                                                            get_introduce_room(house_id, 0);
-                                                        });
-                                                    });
-                                                    $('#introduce_house_id').change(function() {
-                                                        var house_id = $('#introduce_house_id').val();
-                                                        $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
-                                                        function(result) {
-                                                            var json = $.parseJSON(result);
-                                                            $('#introduce_house_contrent').html(json.house_description);
-                                                            get_introduce_room(house_id, 0);
-                                                        });
-                                                    });
-                                                    // $('#history table').find('tr:nth-child(2)').css('display', 'none');
-                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
-                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                    
-                                                    if ($('#log_time_call_type').is(':checked')) {
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                    }
-                                                    if ($('#log_time_mail_type').is(':checked')) {
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                    }
-                                                    if ($('#log_time_arrive_company_type').is(':checked')) {
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                    }
-                                                    $('#log_time_call_type').click(function() {
-                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(7)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(5)').css('display', '');
-                                                        $('#log_time_mail').val('');
-                                                        $('#log_time_mail_date').val('');
-                                                        $('#log_time_arrive_company').val('');
-                                                        $('#log_time_arrive_company_date').val('');
-                                                        $('#log_mail').removeAttr('checked');
-                                                        $('#log_mail_status').removeAttr('checked');
-                                                        $('#log_contact_head_office').removeAttr('checked');
-                                                        $('#contact_method').html('通話日時:');
-                                                        $('#log_tel').attr('checked', "checked");
-                                                        //$('#log_mail').attr('checked', "");
-                                                        $('#log_mail').removeAttr('checked');
-                                                    });
-                                                    $('#log_time_mail_type').click(function() {
-                                                        //$('#history table').find('tr:nth-child(4)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(5)').css('display', '');
-                                                        //$('#log_time_call').val('');
-                                                        // $('#log_time_call_date').val('');
-                                                        $('#log_time_arrive_company').val('');
-                                                        $('#log_time_arrive_company_date').val('');
-                                                        $('#log_tel').removeAttr('checked');
-                                                        $('#log_tel_status').removeAttr('checked');
-                                                        $('#log_contact_head_office').removeAttr('checked');
-                                                        $('#contact_method').html('メール送信時刻:');
-                                                        $('#log_mail').attr('checked', "checked");
-                                                        // $('#log_tel').attr('checked', "");
-                                                        $('#log_tel').removeAttr('checked');
-                                                    });
-                                                    $('#log_time_arrive_company_type').click(function() {
-                                                        $('#history table').find('tr:nth-child(3)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(5)').css('display', 'none');
-                                                        $('#log_date_appointment_from_date').val('');
-                                                        $('#log_date_appointment_from').val('');
-                                                        $('#log_time_mail').val('');
-                                                        $('#log_time_mail_date').val('');
-                                                        $('#log_time_call').val('');
-                                                        $('#log_time_call_date').val('');
-                                                        $('#log_mail').removeAttr('checked');
-                                                        $('#log_mail_status').removeAttr('checked');
-                                                        $('#log_tel').removeAttr('checked');
-                                                        $('#log_tel_status').removeAttr('checked');
-                                                    });
-                                                    if ($('#log_tel').is(':checked')) {
-                                                        $('#log_time_call_type').click();
-                                                    }
-                                                    else if ($('#log_mail').is(':checked')) {
-                                                        $('#log_time_mail_type').click();
-                                                    } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
-                                                        $('#log_time_arrive_company_type').click();
-                                                    }else{
-                                                        $('#log_tel').attr('checked', "checked");
-                                                    }
-                                                });
-                                                function get_introduce_room(house_id, room_id) {
-                                                    $('#error_introduce_room_id').html("");
-                                                    $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
-                                                    function(result) {
-                                                        if (result) {
-                                                            $('#introduce_room_id').empty();
-                                                            $('#introduce_room_id').html(result);
-                                                        } else {
-                                                            $('#introduce_room_id').empty();
-                                                            $('#introduce_house_content').html("");
-                                                            if (house_id)
-                                                                $('#error_introduce_room_id').html("この物件は部屋番号が存在していません。");
-                                                        }
-                                                    });
+                                            function removePlus(childElem) {
+                                                var row = $(childElem).closest("tr"); // find <tr> parent
+                                                if (row) {
+                                                    row.remove();
+                                                    CalculatorPlus();
                                                 }
-                                                function removePlus(childElem) {
-                                                    var row = $(childElem).closest("tr"); // find <tr> parent
-                                                    if (row) {
-                                                        row.remove();
-                                                        CalculatorPlus();
-                                                    }
-                                                }
-        </script>
-    {/literal}
+                                            }
+    </script>
+{/literal}
 {/nocache}
 {literal}
     <script type="text/javascript">
@@ -2731,56 +2672,57 @@
 </div>
 {literal}
     <script type="text/javascript">
-        ;(function($) {
-               $(function() {
-                   //broker
-                   $('#popup_create_broker').bind('click', function(e) {
-                       e.preventDefault();
-                        $.get('popup_create_broker.php', function(result){
-                            document.getElementById('popup_content').innerHTML = result;
-                            eval($(result)[1].innerHTML);
-                        }, 'html');
-                        popup = $('#popup').bPopup({
-                            speed: 650,
-                            transition: 'slideIn',
-                            transitionClose: 'slideBack'
-                        });
+        ;
+        (function($) {
+            $(function() {
+                //broker
+                $('#popup_create_broker').bind('click', function(e) {
+                    e.preventDefault();
+                    $.get('popup_create_broker.php', function(result) {
+                        document.getElementById('popup_content').innerHTML = result;
+                        eval($(result)[1].innerHTML);
+                    }, 'html');
+                    popup = $('#popup').bPopup({
+                        speed: 650,
+                        transition: 'slideIn',
+                        transitionClose: 'slideBack'
+                    });
 
-                   });
-                   //house
-                   $('#popup_create_house').bind('click', function(e) {
-                       e.preventDefault();
+                });
+                //house
+                $('#popup_create_house').bind('click', function(e) {
+                    e.preventDefault();
 //                        $.get('popup_create_house.php', function(result){
 //                            document.getElementById('popup_content').innerHTML = result;
 //                            eval($(result)[1].innerHTML);
 //                        }, 'html');
-                        popup =  $('#popup').bPopup({
-                            contentContainer:'#popup_content',
-                            loadUrl: 'popup_create_house.php' //Uses jQuery.load()
-                        });
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'popup_create_house.php' //Uses jQuery.load()
+                    });
 
-                   });
-                   //Room
-                   $('#popup_create_room').bind('click', function(e) {
-                       e.preventDefault();
-                        popup =  $('#popup').bPopup({
-                            contentContainer:'#popup_content',
-                            loadUrl: 'popup_create_room.php'
-                        });
+                });
+                //Room
+                $('#popup_create_room').bind('click', function(e) {
+                    e.preventDefault();
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'popup_create_room.php'
+                    });
 
-                   });
-               });
-           })(jQuery);
-           $('#add_log').click(function(){
-               var logItem = $('<input>').attr({
-                    type: 'text',
-                    class: 'log_revisit',
-                    style:'height: 26px; width: 215px; margin-top: 5px;',
-                    id: Math.random().toString(36),
-                    name: 'log_revisit[]'
-                }).appendTo('#log_revisit_container');
-               log_date('.log_revisit');
-           })
+                });
+            });
+        })(jQuery);
+        $('#add_log').click(function() {
+            var logItem = $('<input>').attr({
+                type: 'text',
+                class: 'log_revisit',
+                style: 'height: 26px; width: 215px; margin-top: 5px;',
+                id: Math.random().toString(36),
+                name: 'log_revisit[]'
+            }).appendTo('#log_revisit_container');
+            log_date('.log_revisit');
+        })
     </script>
 {/literal}
 {include file='footer.tpl'}
