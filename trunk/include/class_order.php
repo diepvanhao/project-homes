@@ -1008,4 +1008,15 @@ class HOMEOrder {
         }
         return $arr;
     }
+    
+    function getHomeMessages() {
+        global $database;
+        
+        $result = $database->database_query("SELECT * FROM home_fetch_email WHERE status = 0 ORDER BY id DESC LIMIT 20");
+        $messages = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $messages[] = $row;
+        }
+        return $messages;
+    }
 }

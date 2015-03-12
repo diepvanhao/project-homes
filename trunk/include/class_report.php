@@ -5296,6 +5296,7 @@ class Report {
     public function getAllGroups() {
         global $database;
         $select = "SELECT g.* FROM home_group g 
+                  WHERE g.display = '1'
                   ORDER BY g.group_name ASC";
         $result = $database->database_query($select);
         $arr = array();

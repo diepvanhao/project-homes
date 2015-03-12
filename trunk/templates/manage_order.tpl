@@ -15,80 +15,7 @@
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">オーダー管理</div>
 <center>
     <div style="width: 100%;">
-        <div id="filter_order">
-            <form action="manage_order.php" method="post">
-                <div class="filter_order">
-                    <label>名称</label>
-                    <input type="text" name="order_name"id="order_name" value="{$order_name}"/>
-                </div>
-                <div class="filter_order">
-                    <label>物件情報</label>
-                    <input type="text" name="house_name"id="house_name" value="{$house_name}"/>
-                </div>
-                <div class="filter_order">
-                    <label>部屋情報</label>
-                    <input type="text" name="room_id"id="room_id" value="{$room_id}"/>
-                </div>
-                <div class="filter_order">
-                    <label>賃料</label>
-                    <input type="text" name="order_rent_cost"id="order_rent_cost" value="{$order_rent_cost}"/>
-                </div>
-                <div class="filter_order">
-                    <label>現況</label>
-                    <select name="order_status" id="order_status">
-                                    <option value="0" {if $order_status eq '0'}selected {/if}>  </option>                                    
-                                    <option value="1"{if $order_status eq '1'}selected {/if}>他決</option>
-                                    <option value="2"{if $order_status eq '2'}selected {/if}>キャンセル</option>
-                                    <option value="3"{if $order_status eq '3'}selected {/if}>契約済</option>
-                                    <option value="4"{if $order_status eq '4'}selected {/if}>申込中</option>
-                                    <option value="5"{if $order_status eq '5'}selected {/if}>追客中</option>
-                    </select>
-                    {*<input type="text" name="order_status"id="order_status" value="{$order_status}"/>*}
-                </div>
-                <div class="filter_order">
-                    <label>登録日付</label>
-                    <input type="text" name="order_day_create"id="order_day_create" value="{$order_day_create}"/>
-                </div>
-                <div class="filter_order">
-                    <label>お客情報</label>
-                    <input type="text" name="client_name"id="client_name" value="{$client_name}"/>
-                </div>
-                <div class="filter_order">
-                    <label>最終連絡日</label>
-                    <input type="text" name="log_revisit"id="log_revisit" value="{$log_revisit}"/>
-                </div>
-                <div class="filter_order">
-                    <label>申込日</label>
-                    <input type="text" name="contract_application_date"id="contract_application_date" value="{$contract_application_date}"/>
-                </div>
-                <div class="filter_order">
-                    <label>申込金</label>
-                    <input type="text" name="money_payment"id="money_payment" value="{$money_payment}"/>
-                </div>
-                <div class="filter_order">
-                    <label>契約日</label>
-                    <input type="text" name="contract_signature_day"id="contract_signature_day" value="{$contract_signature_day}"/>
-                </div>
-                <div class="filter_order">
-                    <label>契約金</label>
-                    <input type="text" name="contract_payment_date_from"id="contract_payment_date_from" value="{$contract_payment_date_from}"/>
-                </div>
-                <div class="filter_order">
-                    <label>広告費入金日</label>
-                    <input type="text" name="contract_payment_date_to"id="contract_payment_date_to" value="{$contract_payment_date_to}"/>
-                </div>
-                <div class="filter_order">
-                    <label>鍵渡日</label>
-                    <input type="text" name="contract_handover_day"id="contract_handover_day" value="{$contract_handover_day}"/>
-                </div>
-                <div class="filter_order">
-                    <label style="margin:10px 0px 0px 0px;"></label>
-                    <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
-                    <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>                   
-                </div>
-
-            </form>   
-        </div>
+        <form action="manage_order.php" method="post">
         <div>
             <table style="width: 100%;">
                 <thead>
@@ -107,12 +34,41 @@
                         <th><span style="color: #009C58;">契約日</span></th>
                         <th><span style="color: #76009D;">契約金</span></th>
                         <th><span style="color: #628DB6;">広告費入金日</span></th>
-                        <th><span style="color: #9D000A;">鍵渡日</span>
-                        </th>                                                                      
+                        <th><span style="color: #9D000A;">鍵渡日</span></th>                                                                      
                         <th>活動</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr class="order_filter">
+                        <td></td>
+                        <td><input type="text" name="order_name"id="order_name" value="{$order_name}"/></td>
+                        <td><input type="text" name="house_name"id="house_name" value="{$house_name}"/></td>
+                        <td><input type="text" name="room_id"id="room_id" value="{$room_id}"/></td>
+                        <td><input type="text" name="order_rent_cost"id="order_rent_cost" value="{$order_rent_cost}"/></td>
+                        <td>
+                            <select name="order_status" id="order_status">
+                                    <option value="0" {if $order_status eq '0'}selected {/if}>  </option>                                    
+                                    <option value="1"{if $order_status eq '1'}selected {/if}>他決</option>
+                                    <option value="2"{if $order_status eq '2'}selected {/if}>キャンセル</option>
+                                    <option value="3"{if $order_status eq '3'}selected {/if}>契約済</option>
+                                    <option value="4"{if $order_status eq '4'}selected {/if}>申込中</option>
+                                    <option value="5"{if $order_status eq '5'}selected {/if}>追客中</option>
+                            </select>
+                        </td>
+                        <td><input type="text" name="order_day_create"id="order_day_create" value="{$order_day_create}"/></td>
+                        <td><input type="text" name="client_name"id="client_name" value="{$client_name}"/></td>
+                        <td><input type="text" name="log_revisit"id="log_revisit" value="{$log_revisit}"/></td>
+                        <td><input type="text" name="contract_application_date"id="contract_application_date" value="{$contract_application_date}"/></td>
+                        <td><input type="text" name="money_payment"id="money_payment" value="{$money_payment}"/></td>
+                        <td><input type="text" name="contract_signature_day"id="contract_signature_day" value="{$contract_signature_day}"/></td>
+                        <td><input type="text" name="contract_payment_date_from"id="contract_payment_date_from" value="{$contract_payment_date_from}"/></td>
+                        <td><input type="text" name="contract_payment_date_to"id="contract_payment_date_to" value="{$contract_payment_date_to}"/></td>
+                        <td><input type="text" name="contract_handover_day"id="contract_handover_day" value="{$contract_handover_day}"/></td>
+                        <td>
+                            <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                            <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>
+                        </td>
+                    </tr>
                     {foreach from=$orders key=k item=order}
                         {assign var="link" value="edit&{$order.id}"}
                         {assign var="add" value="assign&{$order.id}"}
@@ -176,6 +132,7 @@
                                     </tbody> 
                                 </table>
                             </div>
+            </form>   
                             <center>
                                 ページ:
                                 {for $i=1 to $totalPage }

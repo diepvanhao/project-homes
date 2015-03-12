@@ -66,6 +66,6 @@
         </div>
         <div class="content">  
             {if $url_page eq 'home.php'}
-                <h1>Welcome to the ARP management system</h1>
+                <!--<h1>Welcome to the ARP management system</h1>-->
             {/if}
             <!--your content write here -->   
