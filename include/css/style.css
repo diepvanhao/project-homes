@@ -672,3 +672,7 @@ div.filter_order select{
     width: 700px;
     clear: both;
 }
+.order_filter input{
+    width: 90px;
+     height: 20px;
+}
