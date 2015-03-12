@@ -425,6 +425,24 @@ CREATE TABLE IF NOT EXISTS `home_forgot` (
   KEY `code` (`code`)
 );
 
+-- 10/03/2015
+CREATE TABLE `home_autologin`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128),
+  `action` VARCHAR(256),
+  `username` VARCHAR(128),
+  `password` VARCHAR(128),
+  `idlogname` VARCHAR(128),
+  `passlogname` VARCHAR(128),
+  `submitname` VARCHAR(128),
+  `inputhidden` VARCHAR(128),
+  PRIMARY KEY (`id`)
+) CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `home_autologin`   
+  ADD COLUMN `comment` VARCHAR(128) NULL AFTER `inputhidden`;
+ALTER TABLE `home`.`home_autologin`   
+  CHANGE `inputhidden` `inputhidden` VARCHAR(256) CHARSET utf8 COLLATE utf8_unicode_ci NULL;
 
 -- 06/03/2015
 CREATE TABLE IF NOT EXISTS `home_career` (

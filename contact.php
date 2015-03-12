@@ -44,9 +44,7 @@ if (isset($_POST['search'])) {
 $search = trim($search);
 $autologin = new Autologin();
 
-
 $auto = $autologin->getBrokerLoginContact();
-
 if ($auto){
     $brokers = $auto;
 }

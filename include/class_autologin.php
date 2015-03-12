@@ -5,8 +5,15 @@ class Autologin {
     var $brokers = array();
 
     function Autologin() {
+        global $database;
+        $query="select * from home_autologin";
+        $result=$database->database_query($query);
+        while ($row=$database->database_fetch_assoc($result)){
+            $this->brokers[]=$row;
+        }
         //init array
-        $this->brokers = array(
+        
+    /*    $this->brokers = array(
             array('name' => "CIC", 'action' => "https://cic.bukkaku.jp/agent/login/login", 'username' => "06011x", 'password' => "uiuf", 'idlogname' => "account", 'passlogname' => "password", 'submitname' => ""),
             //array('name' => "ＦＪ", 'action' => "http://www.fjg.jp/", 'username' => "C370HL001", 'password' => "ms320", 'idlogname' => "", 'passlogname' => "", 'submitname' => ""),
             array('name' => "RAアセット", 'action' => "http://www.ra-asset.co.jp/article/member/Login.php", 'username' => "iijima@roompia.jp", 'password' => "T4aGNVZ5", 'idlogname' => "UserId", 'passlogname' => "UserPw", 'submitname' => "LOGIN"),
@@ -64,6 +71,22 @@ class Autologin {
             array('name' => "東急リロケーション", 'action' => "https://www.tokyu-relocation.co.jp/agency/login/create", 'username' => "ueno_info@roompia.jp", 'password' => "ee6bd9b9", 'idlogname' => "user", 'passlogname' => "password"),
             //array('name' => "at bb", 'action' => "https://atbb.athome.jp/index.html", 'username' => "1023260002", 'password' => "ambad8511", 'idlogname' => "", 'passlogname' => "")
         );
+        for($i=0;$i<count($this->brokers);$i++){
+            $this->brokers[$i]['submitname'] = isset($this->brokers[$i]['submitname']) ? $this->brokers[$i]['submitname'] : "";
+            $this->brokers[$i]['inputhidden'] = isset($this->brokers[$i]['inputhidden']) ? $this->brokers[$i]['inputhidden'] : "";
+            $query="insert into home_autologin(name,action,username,password,idlogname,passlogname,submitname,inputhidden,comment) values(
+                    '{$this->brokers[$i]['name']}',
+                    '{$this->brokers[$i]['action']}',
+                    '{$this->brokers[$i]['username']}',
+                    '{$this->brokers[$i]['password']}',
+                    '{$this->brokers[$i]['idlogname']}',
+                    '{$this->brokers[$i]['passlogname']}',
+                    '{$this->brokers[$i]['submitname']}',
+                    '{$this->brokers[$i]['inputhidden']}',
+                        ''
+                    )";                    
+                    $database->database_query($query);
+        }*/
     }
     function getBrokerLogin($broker_name=""){
         for($i=0;$i<count($this->brokers);$i++){
@@ -76,7 +99,17 @@ class Autologin {
     function getBrokerLoginContact(){
         return $this->brokers;
     }
-
+    function getContactById($id){
+        global $database;
+        $query="select * from home_autologin where id='{$id}'";
+        $result=$database->database_query($query);
+        return $database->database_fetch_assoc($result);
+    }
+    function update($name,$username,$password,$comment,$id){
+        global $database;
+        $query="update home_autologin set name='{$name}', username='{$username}',password='{$password}',comment='{$comment}' where id='{$id}'";
+        return $database->database_query($query);
+    }
 }
 
 ?>
