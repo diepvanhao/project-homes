@@ -884,7 +884,27 @@ if (isset($_POST['change_house_array'])) {
 } else {
     $change_house_array = "";
 }
-
+if (isset($_POST['house_id_bk'])) {
+    $house_id_bk = $_POST['house_id_bk'];
+} elseif (isset($_GET['house_id_bk'])) {
+    $house_id_bk = $_GET['house_id_bk'];
+} else {
+    $house_id_bk = "";
+}
+if (isset($_POST['broker_id_bk'])) {
+    $broker_id_bk = $_POST['broker_id_bk'];
+} elseif (isset($_GET['broker_id_bk'])) {
+    $broker_id_bk = $_GET['broker_id_bk'];
+} else {
+    $broker_id_bk = "";
+}
+if (isset($_POST['room_id_bk'])) {
+    $room_id_bk = $_POST['room_id_bk'];
+} elseif (isset($_GET['room_id_bk'])) {
+    $room_id_bk = $_GET['room_id_bk'];
+} else {
+    $room_id_bk = "";
+}
 //end edit room
 $plus_money = array();
 /////////////////////////////////End Contract//////////////////////////////////////
@@ -1039,11 +1059,13 @@ if (isset($_POST['save'])) {
 
         $ajax->update_history($log_time_call_temp, $log_time_arrive_company_temp, $log_time_mail_temp, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from_temp, $log_date_appointment_to_temp, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $log_revisit_arr, $log_revisit_bk, $source_id, $log_status_appointment, $client_id, $order_id);
         //update introduce            
-        if (($introduce_room_id != 0 && $introduce_house_id != 0) || ($introduce_room_id != null && $introduce_house_id != null))
-            $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
+//        if (($introduce_room_id != 0 && $introduce_house_id != 0) || ($introduce_room_id != null && $introduce_house_id != null))
+//            $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
+        $order_day_update = time();
+        $ajax->edit_room($room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id, $change_house_array, $order_day_update, $client_id, $order_id);
         //update aspirations                        
         //if ($aspirations_type_room_number != 0 && $aspirations_type_room_number != null)
-            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id,$aspirations_size2,$aspirations_rent_cost2);
+        $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2);
         //update contract
 
         if (isset($_POST['contract_label_money'])) {
@@ -1414,7 +1436,6 @@ if (isset($_POST['save'])) {
             $arr = $log_revisit;
             $log_revisit = count($log_revisit) > 0 ? $log_revisit[0] : "";
             $log_revisit_arr = base64_encode(implode(",", unserialize($client_arr['log_revisit'])));
-            
         } else {
             $log_revisit = $client_arr['log_revisit'];
             $log_revisit_arr = "";
@@ -1548,7 +1569,7 @@ if (isset($_POST['save'])) {
         }
     }
 }
-if(!isset($arr)){
+if (!isset($arr)) {
     $arr = $log_revisit;
 }
 //get source
@@ -1711,6 +1732,6 @@ $smarty->assign('houseTypes', $houseTypes);
 $smarty->assign('errorHouseExist', $errorHouseExist);
 $smarty->assign('error', $error);
 $smarty->assign('notify', $notify);
-$smarty->assign('careers' , $order->getCareers());
-$smarty->assign('reasons' , $order->getReasons());
+$smarty->assign('careers', $order->getCareers());
+$smarty->assign('reasons', $order->getReasons());
 include "footer.php";
