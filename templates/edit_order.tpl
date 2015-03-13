@@ -2692,6 +2692,7 @@
                 //house
                 $('#popup_create_house').bind('click', function(e) {
                     e.preventDefault();
+                    document.getElementById('popup_content').innerHTML = '';
 //                        $.get('popup_create_house.php', function(result){
 //                            document.getElementById('popup_content').innerHTML = result;
 //                            eval($(result)[1].innerHTML);
