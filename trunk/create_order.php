@@ -212,9 +212,90 @@ if ($step == 1) {
     } else {
         $order_id = "";
     }
+    if (isset($_POST['tab_room_id'])) {
+        $tab_room_id = $_POST['tab_room_id'];
+    } elseif (isset($_GET['tab_room_id'])) {
+        $tab_room_id = $_GET['tab_room_id'];
+    } else {
+        $tab_room_id = "";
+    }
+    if (isset($_POST['tab_broker_id'])) {
+        $tab_broker_id = $_POST['tab_broker_id'];
+    } elseif (isset($_GET['tab_broker_id'])) {
+        $tab_broker_id = $_GET['tab_broker_id'];
+    } else {
+        $tab_broker_id = "";
+    }
+    if (isset($_POST['tab_order_name'])) {
+        $tab_order_name = $_POST['tab_order_name'];
+    } elseif (isset($_GET['tab_order_name'])) {
+        $tab_order_name = $_GET['tab_order_name'];
+    } else {
+        $tab_order_name = "";
+    }
+    if (isset($_POST['tab_order_rent_cost'])) {
+        $tab_order_rent_cost = $_POST['tab_order_rent_cost'];
+    } elseif (isset($_GET['tab_order_rent_cost'])) {
+        $tab_order_rent_cost = $_GET['tab_order_rent_cost'];
+    } else {
+        $tab_order_rent_cost = "";
+    }
+    if (isset($_POST['tab_order_comment'])) {
+        $tab_order_comment = $_POST['tab_order_comment'];
+    } elseif (isset($_GET['tab_order_comment'])) {
+        $tab_order_comment = $_GET['tab_order_comment'];
+    } else {
+        $tab_order_comment = "";
+    }
+
+
+    if (isset($_POST['tab_house_id'])) {
+        $tab_house_id = $_POST['tab_house_id'];
+    } elseif (isset($_GET['tab_house_id'])) {
+        $tab_house_id = $_GET['tab_house_id'];
+    } else {
+        $tab_house_id = "";
+    }
+    if (isset($_POST['tab_house_description'])) {
+        $tab_house_description = $_POST['tab_house_description'];
+    } elseif (isset($_GET['tab_house_description'])) {
+        $tab_house_description = $_GET['tab_house_description'];
+    } else {
+        $tab_house_description = "";
+    }
+    if (isset($_POST['change_house_array'])) {
+        $change_house_array = $_POST['change_house_array'];
+    } elseif (isset($_GET['change_house_array'])) {
+        $change_house_array = $_GET['change_house_array'];
+    } else {
+        $change_house_array = "";
+    }
+    if (isset($_POST['house_id_bk'])) {
+        $house_id_bk = $_POST['house_id_bk'];
+    } elseif (isset($_GET['house_id_bk'])) {
+        $house_id_bk = $_GET['house_id_bk'];
+    } else {
+        $house_id_bk = "";
+    }
+    if (isset($_POST['broker_id_bk'])) {
+        $broker_id_bk = $_POST['broker_id_bk'];
+    } elseif (isset($_GET['broker_id_bk'])) {
+        $broker_id_bk = $_GET['broker_id_bk'];
+    } else {
+        $broker_id_bk = "";
+    }
+    if (isset($_POST['room_id_bk'])) {
+        $room_id_bk = $_POST['room_id_bk'];
+    } elseif (isset($_GET['room_id_bk'])) {
+        $room_id_bk = $_GET['room_id_bk'];
+    } else {
+        $room_id_bk = "";
+    }
     ///create order
     if (isset($_POST['registry'])) {
 
+        //get create day
+        $order_day_create = time();
         if (isset($_POST['room_id'])) {
             $room_id = $_POST['room_id'];
         } elseif (isset($_GET['room_id'])) {
@@ -222,6 +303,7 @@ if ($step == 1) {
         } else {
             $room_id = "";
         }
+        $tab_room_id = $room_id;
         if (isset($_POST['order_name'])) {
             $order_name = $_POST['order_name'];
         } elseif (isset($_GET['order_name'])) {
@@ -229,6 +311,7 @@ if ($step == 1) {
         } else {
             $order_name = "";
         }
+        $tab_order_name = $order_name;
         if (isset($_POST['order_rent_cost'])) {
             $order_rent_cost = $_POST['order_rent_cost'];
         } elseif (isset($_GET['order_rent_cost'])) {
@@ -236,6 +319,7 @@ if ($step == 1) {
         } else {
             $order_rent_cost = "";
         }
+        $tab_order_rent_cost = $order_rent_cost;
         if (isset($_POST['order_comment'])) {
             $order_comment = $_POST['order_comment'];
         } elseif (isset($_GET['order_comment'])) {
@@ -243,7 +327,7 @@ if ($step == 1) {
         } else {
             $order_comment = "";
         }
-
+        $tab_order_comment = $order_comment;
         if (isset($_POST['create_id'])) {
             $create_id = $_POST['create_id'];
         } elseif (isset($_GET['create_id'])) {
@@ -258,17 +342,17 @@ if ($step == 1) {
         } else {
             $house_id = "";
         }
-        if (isset($_POST['broker_id'])) {
-            $broker_id = $_POST['broker_id'];
-        } elseif (isset($_GET['broker_id'])) {
-            $broker_id = $_GET['broker_id'];
+        if (isset($_POST['house_description'])) {
+            $house_description = $_POST['house_description'];
+        } elseif (isset($_GET['house_description'])) {
+            $house_description = $_GET['house_description'];
         } else {
-            $broker_id = "";
+            $house_description = "";
         }
-
-        //get create day
-        $order_day_create = time();
-
+        $tab_house_description = $house_description;
+        
+        $tab_house_id = $house_id;
+        $tab_broker_id = $broker_id;
         $result = $order->create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create);
         //print_r($result);die();
         if (isset($result['id'])) {
@@ -684,7 +768,7 @@ if ($step == 1) {
     } else {
         $aspirations_size2 = "";
     }
-    
+
     if (isset($_POST['aspirations_rent_cost'])) {
         $aspirations_rent_cost = $_POST['aspirations_rent_cost'];
     } elseif (isset($_GET['aspirations_rent_cost'])) {
@@ -1084,28 +1168,28 @@ if ($step == 1) {
             $report = new Report();
             switch ($_POST['export_option']) {
                 case 1:
-                    $report->exportPage1($order_id,$_POST['type']);
+                    $report->exportPage1($order_id, $_POST['type']);
                     break;
                 case 2:
-                    $report->exportPage2($order_id,$_POST['type']);
+                    $report->exportPage2($order_id, $_POST['type']);
                     break;
                 case 3:
-                    $report->exportPage3($order_id,$_POST['type']);
+                    $report->exportPage3($order_id, $_POST['type']);
                     break;
                 case 4:
-                    $report->exportPage4($order_id,$_POST['type']);
+                    $report->exportPage4($order_id, $_POST['type']);
                     break;
                 case 5:
-                    $report->exportPage5($order_id,$_POST['type']);
+                    $report->exportPage5($order_id, $_POST['type']);
                     break;
                 case 6:
-                    $report->exportPage6($order_id,$_POST['type']);
+                    $report->exportPage6($order_id, $_POST['type']);
                     break;
                 case 7:
-                    $report->exportPage7($order_id,$_POST['type']);
+                    $report->exportPage7($order_id, $_POST['type']);
                     break;
                 case 10:
-                    $report->exportOrder($order_id,$_POST['type']);
+                    $report->exportOrder($order_id, $_POST['type']);
                     break;
                 default:
                     break;
@@ -1196,7 +1280,7 @@ if ($step == 1) {
                 $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
             //update aspirations                        
             //if ($aspirations_type_room_number != 0 && $aspirations_type_room_number != null)
-                $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id,$aspirations_size2,$aspirations_rent_cost2);
+            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2);
             //update contract
 
             if (isset($_POST['contract_label_money'])) {
@@ -1455,6 +1539,17 @@ if ($step == 1) {
             //  }
         }
     }
+    $broker = new HOMEBroker();
+    $brokers = $broker->getAllBroker();
+    $smarty->assign('tab_order_name', $tab_order_name);
+    $smarty->assign('tab_order_rent_cost', $tab_order_rent_cost);
+    $smarty->assign('tab_order_comment', $tab_order_comment);
+    $smarty->assign('brokers', $brokers);
+    $smarty->assign('tab_house_id', $tab_house_id);
+    $smarty->assign('tab_house_description', $tab_house_description);
+    $smarty->assign('tab_room_id', $tab_room_id);
+    $smarty->assign('tab_broker_id', $tab_broker_id);
+    $smarty->assign('change_house_array', $change_house_array);
     //get source
     // $house = new HOMEHouse();
     $houseTypes = $house->getHouseType();
