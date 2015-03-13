@@ -1,4 +1,6 @@
+<link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/style.min.css" />
 {include file='header.tpl'}
+<script type="text/javascript" src="{$url->url_base}include/js/jquery.bpopup.min.js"></script> 
 <div id="content_order_title" style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">オーダー登録</div>
 {literal}
     <script type="text/javascript">
@@ -2915,6 +2917,10 @@
     {/if}    
 {/if}
 <div id="loadgif">Loading...</div>
+<div id="popup" style="left: 710px; position: absolute; top: 127px; z-index: 9999; opacity: 1; display: none;">
+    <span class="button b-close"><span>X</span></span>
+    <center id="popup_content"></center>
+</div>
 {literal}
     <script type="text/javascript">
 
@@ -3138,7 +3144,48 @@
             });
         });
 
+;
+        (function($) {
+            $(function() {
+                //broker
+                $('#popup_create_broker').bind('click', function(e) {
+                    e.preventDefault();
+                    $.get('popup_create_broker.php', function(result) {
+                        document.getElementById('popup_content').innerHTML = result;
+                        eval($(result)[1].innerHTML);
+                    }, 'html');
+                    popup = $('#popup').bPopup({
+                        speed: 650,
+                        transition: 'slideIn',
+                        transitionClose: 'slideBack'
+                    });
 
+                });
+                //house
+                $('#popup_create_house').bind('click', function(e) {
+                    e.preventDefault();
+//                        $.get('popup_create_house.php', function(result){
+//                            document.getElementById('popup_content').innerHTML = result;
+//                            eval($(result)[1].innerHTML);
+//                        }, 'html');
+                    document.getElementById('popup_content').innerHTML = '';
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'popup_create_house.php' //Uses jQuery.load()
+                    });
+
+                });
+                //Room
+                $('#popup_create_room').bind('click', function(e) {
+                    e.preventDefault();
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'popup_create_room.php'
+                    });
+
+                });
+            });
+        })(jQuery);
     </script>
 {/literal}
 
