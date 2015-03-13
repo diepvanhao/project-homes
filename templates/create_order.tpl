@@ -1721,7 +1721,7 @@
             <li class="noselect_menu" title="detail">詳細</li>
             <li class="noselect_menu" title="history">履歴</li>
             <li class="noselect_menu" title="aspirations">希望</li>
-            <li class="noselect_menu" title="introduce">紹介物件</li>
+            <li class="noselect_menu" title="introduce">部屋情報編集</li>
             <li class="noselect_menu" title="contract">申込・契約</li>
         </ul>
     </div>
@@ -2944,7 +2944,7 @@
             log_date('.log_revisit');
         })
         $(document).ready(function() {
-            $('#tab_order_name').attr('disabled', 'disabled');
+            $('#tab_order_name').attr('disabled', '');
             $('#tab_filter_broker').keyup(function(e) {
                 var filter = $('#tab_filter_broker').val();
                 $('#error_tab_broker').css("color", '#ddd');
@@ -3052,6 +3052,22 @@
                     $('#tab_house_description').html(json.house_description);
                     get_tab_room(house_id, 0);
                 });
+            });
+            $('#tab_broker_id').change(function() {
+                //active form
+                $('#error_tab_broker').html("");
+                $('#error_tab_house').html("");
+                var broker_id = $('#tab_broker_id').val();
+                if (broker_id) {
+                    // $('table').find('tr').css('display', '');
+                    $('#tab_yoke_muscle').click();
+                } else {
+                    /* $('table').find('tr').css('display', 'none');
+                     $('table').find('tr:first-child').css('display', '');
+                     $('table').find('tr:nth-child(2)').css('display', '');
+                     $('table').find('tr:nth-child(3)').css('display', '');
+                     $('table').find('tr:last-child').css('display', '');*/
+                }
             });
             $('#tab_room_id').change(function() {
                 var room_id = $('#tab_room_id').val();
