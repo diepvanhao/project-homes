@@ -2178,7 +2178,8 @@
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
-                            <div style="margin-top:10px">                                                                             
+                            <div style="margin-top:10px">              
+                                <input type="hidden" id="tab_step" name="tab_step"/>
                                 <input type="hidden" id="tab_yoke_muscle" name="tab_yoke_muscle"/>
                                 <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$tab_room_id}"/>
                                 <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$tab_house_id}"/>
@@ -3068,6 +3069,38 @@
                      $('table').find('tr:nth-child(3)').css('display', '');
                      $('table').find('tr:last-child').css('display', '');*/
                 }
+            });
+             $('#tab_search').keyup(function(e) {
+                var search = $('#tab_search').val();
+                $('#error_tab_house').css("color", '#ddd');
+                //    showloadgif();
+                $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
+                function(result) {
+                    if (result) {
+                        $('#tab_house_id').empty();
+                        $('#tab_house_id').html(result);
+                        $('#tab_step').click();
+                        //   hideloadgif();
+                    } else {
+                        $('#tab_house_id').empty();
+                        $('#tab_room_id').empty();
+                        $('#tab_house_description').html("");
+                        $('#error_tab_house').html("物件名が見つかりませんでした。");
+                        $('#error_tab_house').css("color", '');
+                        //     hideloadgif();
+                    }
+                });
+            });
+            $('#tab_step').click(function() {
+                var house_id = $('#tab_house_id').val();
+                $('#save').attr('disabled', false);
+                $("#save").css('color', '#fff');
+                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    $('#tab_house_description').html(json.house_description);
+                    get_tab_room(house_id, 0);
+                });
             });
             $('#tab_room_id').change(function() {
                 var room_id = $('#tab_room_id').val();
