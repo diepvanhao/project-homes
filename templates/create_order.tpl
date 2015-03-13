@@ -26,7 +26,7 @@
 
             birthday('log_revisit');
             log_date('.log_revisit');
-            
+
             birthday('client_birthday');
             birthday('client_time_change');
             timepicker('log_time_call');
@@ -571,8 +571,8 @@
                 $('#client_detail #aspirations').css('display', 'none');
                 $('#client_detail #introduce').css('display', 'none');
                 $('#client_detail #contract').css('display', 'none');
-                $('#menu_container ul').css('display','none');
-                $('#content_order_title').css('display','none');
+                $('#menu_container ul').css('display', 'none');
+                $('#content_order_title').css('display', 'none');
                 $('#client_info ul li:first').click();
                 //prevent client click back button
                 history.pushState(null, null, 'create_order.php');
@@ -580,7 +580,7 @@
                     history.pushState(null, null, 'create_order.php');
                 });
                 //prevent client click logo will redirect main page
-                $('#logo #logo_text a').click(function(e){
+                $('#logo #logo_text a').click(function(e) {
                     e.preventDefault();
                 });
             });
@@ -2098,57 +2098,96 @@
                 {*</form>*}
             </div>
             <div id="introduce" class="inactive">
-                {*<form action="create_order.php" method="post"> *}           
+                <div class="title"><label >登録完了致しました</label></div>
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
-
+                    <tr>
+                        <td class="form1">管理会社検索</td>
+                        <td class="form2"><input type="text" id="tab_filter_broker" name="tab_filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
+                        </td>
+                    </tr>
+                    <tr>       
+                        <td class='form1'>管理会社選択: </td>
+                        <td class='form2'>
+                            <select id="tab_broker_id" name="tab_broker_id" style="height:26px; width: 215px;">
+                                <option value=""></option>
+                                {foreach from=$brokers item=broker}
+                                    <option value="{$broker.id}" {if $broker.id eq $tab_broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
+                                {/foreach}
+                            </select>
+                            <a href="javascript:void(0);" id="popup_create_broker" >管理会社</a>
+                            <div id="error_tab_broker" class="error"></div>
+                        </td>
+                    </tr> 
+                    {*<tr> 
+                    {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                    <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
+                    </tr>   *}         
                     <tr>
                         <td class="form1">物件検索</td>
-                        <td class="form2">
-                            <input type="text" id="search_house" name="search_house" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>                            
+                        <td class="form2"><input type="text" id="tab_search" name="tab_search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>物件選択: </td>
                         <td class='form2'>
-                            <select id="introduce_house_id" name="introduce_house_id" style="height:26px; width: 215px;">
+                            <select id="tab_house_id" name="tab_house_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
                                 {foreach from=$houses item=house}
-                                    <option value="{$house.id}" {if $introduce_house_id eq $house.id} selected="selected"{/if}>{$house.house_name}</option>        
+                                    <option value="{$house.id}"{if $house.id eq $tab_house_id}selected="selected"{/if}>{$house.house_name}</option>        
                                 {/foreach}
-                            </select><div id="error_introduce_house_id" class="error"></div>
+                            </select>
+                            <a href="javascript:void(0);" id="popup_create_house" >物件情報</a>
+                            <div id="error_tab_house" class="error"></div>
                         </td>
                     </tr>
                     <tr>            
                         <td class='form1'>物件備考: </td>
-                        <td class='form2'><textarea style="width: 215px;height: 129px;" disabled="1" id="introduce_house_content" name="introduce_house_content" >{$introduce_house_content}</textarea></td>
+                        <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="tab_house_description">{$tab_house_description}</textarea></td>
                     </tr>
-                    <tr>            
-                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_house.php">物件登録</a></div></td>
-                    </tr>
+                    {* <tr>            
+                    <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
+                    </tr>*}
+
                     <tr>            
                         <td class='form1'>部屋選択: </td>
-                        <td class='form2'><select id="introduce_room_id" name="introduce_room_id" style="height:26px; width: 215px;">
+                        <td class='form2'><select id="tab_room_id" name="tab_room_id" style="height:26px; width: 215px;">
                                 <option value=""></option>
-
-                            </select><div id="error_introduce_room_id" class="error"></div>
+                            </select>
+                            <a href="javascript:void(0);" id="popup_create_room" >部屋情報</a>
+                            <div id="error_tab_room" class="error"></div>
                         </td>
-                    </tr>      
+                    </tr>
+                    {* <tr>            
+                    <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
+                    </tr>*}
+                    <!--order part-->
+                    <tr>            
+                        <td class='form1'>オーダーID: </td>
+                        <td class='form2'><input type='text' id="tab_order_name" name="tab_order_name" value="{$tab_order_name}"style="height: 26px; width: 215px;"/><div id="error_tab_order_name" class="error"></div></td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>賃料: </td>
+                        <td class='form2'><input type='text' id="tab_order_rent_cost" name="tab_order_rent_cost" value="{$tab_order_rent_cost}"style="height: 26px; width: 215px;"/></td>
+                    </tr>
+                    <tr>            
+                        <td class='form1'>備考: </td>
+                        <td class='form2'><input type='text' id="tab_order_comment" name="tab_order_comment" value="{$tab_order_comment}"style="height: 26px; width: 215px;"/></td>
+                    </tr>
+
+                    <!--end order-->
                     <tr>
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
-                            <div id="error_validate" class="error"></div>
-                            <div style="margin-top:10px">
-                                {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp;  
-                                <input type="hidden" id="task" name="task" value="introduce"/>*}
-                                <input type="hidden" id="introduce_house" name="introduce_house" />
-                                {*<input type="hidden" id="step" name="step" value="registry"/>  
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
+                            <div style="margin-top:10px">                                                                             
+                                <input type="hidden" id="tab_yoke_muscle" name="tab_yoke_muscle"/>
+                                <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$tab_room_id}"/>
+                                <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$tab_house_id}"/>
+                                <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$tab_broker_id}"/>                                    
+                                <input type="hidden" id="change_house_array" name="change_house_array" value="{$change_house_array}"/>
                             </div>
                         </td>
                     </tr>
                 </table>
-                {* </form>*}
             </div>
             <div id="contract" class="inactive">
                 {*<form action="create_order.php" method="post">  *}      
@@ -2737,7 +2776,7 @@
                                                     // $('#history table').find('tr:nth-child(2)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(3)').css('display', 'none');
                                                     $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                    
+
                                                     if ($('#log_time_call_type').is(':checked')) {
                                                         $('#history table').find('tr:nth-child(8)').css('display', 'none');
                                                     }
@@ -2811,7 +2850,7 @@
                                                         $('#log_time_mail_type').click();
                                                     } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
                                                         $('#log_time_arrive_company_type').click();
-                                                    }else{
+                                                    } else {
                                                         $('#log_tel').attr('checked', "checked");
                                                     }
                                                 });
@@ -2852,6 +2891,18 @@
             </script>
         {/literal}
     {/if}
+    {if $tab_house_id ne ""}
+        {literal}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var tab_house_id ={/literal}{$tab_house_id}{literal}
+                    var tab_room_id ={/literal} '{$tab_room_id}'{literal}
+                    get_tab_room(tab_house_id, tab_room_id);
+                });
+
+            </script>
+        {/literal}
+    {/if}
     {if $city_id ne ""}
         {literal}
             <script type="text/javascript">
@@ -2865,16 +2916,180 @@
 <div id="loadgif">Loading...</div>
 {literal}
     <script type="text/javascript">
-        $('#add_log').click(function(){
+
+        function get_tab_room(house_id, room_id) {
+
+            $('#error_tab_room_id').html("");
+            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
+            function(result) {
+                if (result) {
+                    $('#tab_room_id').empty();
+                    $('#tab_room_id').html(result);
+                } else {
+                    $('#tab_room_id').empty();
+                    $('#tab_house_content').html("");
+                    if (house_id)
+                        $('#error_tab_room_id').html("この物件は部屋番号が存在していません。");
+                }
+            });
+        }
+        $('#add_log').click(function() {
             var logItem = $('<input>').attr({
-                 type: 'text',
-                 class: 'log_revisit',
-                 style:'height: 26px; width: 215px; margin-top: 5px;',
-                 id: Math.random().toString(36),
-                 name: 'log_revisit[]'
-             }).appendTo('#log_revisit_container');
+                type: 'text',
+                class: 'log_revisit',
+                style: 'height: 26px; width: 215px; margin-top: 5px;',
+                id: Math.random().toString(36),
+                name: 'log_revisit[]'
+            }).appendTo('#log_revisit_container');
             log_date('.log_revisit');
         })
+        $(document).ready(function() {
+            $('#tab_order_name').attr('disabled', 'disabled');
+            $('#tab_filter_broker').keyup(function(e) {
+                var filter = $('#tab_filter_broker').val();
+                $('#error_tab_broker').css("color", '#ddd');
+                //showloadgif();
+                $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
+                function(result) {
+                    if (result) {
+                        //  hideloadgif();
+                        $('#tab_broker_id').empty();
+                        $('#tab_broker_id').html(result);
+                        $('#tab_yoke_muscle').click();
+                    } else {
+                        // hideloadgif();
+                        $('#tab_broker_id').empty();
+                        // $('#house_id').empty();
+                        //$('#house_description').html("");                                    
+                        $('#error_tab_broker').html("仲介会社が見つかりませんでした。");
+                        $('#error_tab_broker').css("color", '');
+                    }
+                });
+            });
+            $('#tab_yoke_muscle').click(function() {
+                var broker_id = $('#tab_broker_id').val();
+                //$('#submit').attr('disabled', false);
+                // $("#submit").css('color', '#fff');
+                $('#tab_room_id').html('');
+                $('#tab_search').val('');
+                $('error_tab_house').html('');
+                $('error_tab_room').html('');
+                $.post('include/function_ajax.php', {broker_id: broker_id, action: 'create_order', task: 'getHouseList'},
+                function(result) {
+                    if (result) {
+                        $('#tab_house_id').empty();
+                        $('#tab_house_id').html(result);
+                    } else {
+                        $('#tab_house_id').empty();
+                        $('#error_tab_house').html('物件名が見つかりませんでした。');
+                    }
+
+                });
+            });
+
+
+            $('#submit').click(function(e) {
+                $('#error_broker').html("");
+                $('#error_edit').html("");
+                $('#error_house').html("");
+                $('#error_order_name').html("");
+                $('#error_room').html("");
+                var client_id = $('#client_id').val();
+                var order_id = $('#order_id').val();
+                var broker_id = $('#broker_id').val();
+                var house_id = $('#house_id').val();
+                var broker_id_bk = $('#broker_id_bk').val();
+                var house_id_bk = $('#house_id_bk').val();
+                var order_name = $('#order_name').val();
+                var room_id = $('#room_id').val();
+                var room_id_bk = $('#room_id_bk').val();
+                var order_rent_cost = $('#order_rent_cost').val();
+                var order_comment = $('#order_comment').val();
+                var change_house_array = $('#change_house_array').val();
+
+                if (broker_id == "" || broker_id == null) {
+                    $('#error_broker').html('仲介会社を選択ください。');
+                    e.preventDefault();
+                    return false;
+                } else if (house_id == "" || house_id == null) {
+                    $('#error_house').html('物件を選択ください。.');
+                    e.preventDefault();
+                    return false;
+                } else if (room_id == "" || room_id == null) {
+                    $('#error_room').html('お部屋を選択ください。.');
+                    e.preventDefault();
+                    return false;
+                } else if (order_name == "" || order_name == null) {
+                    $('#error_order_name').html('オーダー名は必要です。.');
+                    e.preventDefault();
+                    return false;
+                } else {
+                    //showloadgif();
+                    $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, broker_id: broker_id,
+                        order_rent_cost: order_rent_cost, order_comment: order_comment, change_house_array: change_house_array,
+                        room_id_bk: room_id_bk, house_id_bk: house_id_bk, broker_id_bk: broker_id_bk,
+                        client_id: client_id, order_id: order_id, action: 'create_order', task: 'edit_room'},
+                    function(result) {
+                        var json = $.parseJSON(result);
+                        if (json) {
+                            alert('保存');
+                            $('#room_id_bk').val(room_id);
+                            $('#house_id_bk').val(house_id);
+                            $('#broker_id_bk').val(broker_id);
+                            $('#room_administrative_expense').val(json);
+                        }
+                        else {
+                            $('#error_edit').html('更新に失敗しました。もう一度試してください。 !!!');
+                        }
+                    });
+                }
+            });
+            $('#tab_house_id').change(function() {
+                var house_id = $('#tab_house_id').val();
+                $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    $('#tab_house_description').html(json.house_description);
+                    get_tab_room(house_id, 0);
+                });
+            });
+            $('#tab_room_id').change(function() {
+                var room_id = $('#tab_room_id').val();
+                var broker_id = $('#tab_broker_id').val();
+                var house_id = $('#tab_house_id').val();
+                $('#error_tab_room').css("color", '#ddd');
+                $('#tab_order_rent_cost').val("");
+                $.post('include/function_ajax.php', {house_id: house_id, room_id: room_id, broker_id: broker_id, action: 'create_order', task: 'checkRoom'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    if (json.status == 1) {
+                        /* $('#error_room').html("入居中です。別の部屋を選択してください。");
+                         $('#submit').attr('disabled', true);
+                         $("#submit").css('color', 'grey');*/
+                        $('#tab_order_rent_cost').val(json.room_rent);
+                    } else if (json.status == 2) {
+                        /*$('#error_room').html("未完成です。別の部屋を選択してください。");
+                         $('#submit').attr('disabled', true);
+                         $("#submit").css('color', 'grey');*/
+                        $('#tab_order_rent_cost').val(json.room_rent);
+                    } else {
+                        if (json.flag == 'false') {
+                            $('#error_tab_room').html("この部屋は、選択した管理会社の管理ではありません。");
+                            $('#save').attr('disabled', true);
+                            $("#save").css('color', 'grey');
+                            $('#error_tab_room').css("color", '');
+
+                        } else {
+                            $('#tab_order_rent_cost').val(json.room_rent);
+                            $('#save').attr('disabled', false);
+                            $("#save").css('color', '#fff');
+                        }
+                    }
+                });
+            });
+        });
+
+
     </script>
 {/literal}
 
