@@ -3132,6 +3132,8 @@
                             $('#error_tab_room').html("この部屋は、選択した管理会社の管理ではありません。");
                             $('#save').attr('disabled', true);
                             $("#save").css('color', 'grey');
+                            $('#for_client').attr('disabled', true);
+                            $("#save").css('color', 'grey');
                             $('#error_tab_room').css("color", '');
 
                         } else {
