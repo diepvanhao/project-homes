@@ -589,7 +589,7 @@
                 $("#page").css('display', 'none');
                 $('#frm_filter').css('display', 'none');
                 $('#client_info ul li').each(function() {
-                    if ($(this).attr('title') == 'history' || $(this).attr('title') == 'aspirations' || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
+                    if ($(this).attr('title') == 'history' || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
                         $(this).css('display', 'none');
 
                     }
@@ -597,7 +597,7 @@
                 $('#security_code').val('require');
                 $('#for_client').css('display', 'none');
                 $('#client_detail #history').css('display', 'none');
-                $('#client_detail #aspirations').css('display', 'none');
+                //$('#client_detail #aspirations').css('display', 'none');
                 $('#client_detail #introduce').css('display', 'none');
                 $('#client_detail #contract').css('display', 'none');
                 $('#menu_container ul').css('display', 'none');
@@ -1408,7 +1408,7 @@
             {if $errorHouseExist ne ""}
                 <div class="error"></div>
             {/if}
-            <form  method="post" id="frm_filter">
+            <form  method="post" id="transaction">
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="">
                     <tr>
                         <td>顧客検索</td>
@@ -1420,7 +1420,7 @@
                     <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
                     </tr>
                 </table>
-            </form>
+            
 
             <div style="margin-bottom:10px;" id="page">
                 <center>
@@ -1462,7 +1462,7 @@
                 </ul>
             </div>
             <div id="client_detail">
-                <form  method="post" id="transaction">   
+                   
                     <div id="basic"class="active">
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>

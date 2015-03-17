@@ -560,9 +560,9 @@
                 $('#edit_order').css('display', 'none');
                 $('#customer').css('display', 'none');
                 $("#page").css('display', 'none');
-                $('#frm_filter').css('display', 'none');
+                $('#transaction table:first').css('display', 'none');
                 $('#client_info ul li').each(function() {
-                    if ($(this).attr('title') == 'history' || $(this).attr('title') == 'aspirations' || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
+                    if ($(this).attr('title') == 'history'  || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
                         $(this).css('display', 'none');
 
                     }
@@ -570,7 +570,7 @@
                 $('#security_code').val('require');
                 $('#for_client').css('display', 'none');
                 $('#client_detail #history').css('display', 'none');
-                $('#client_detail #aspirations').css('display', 'none');
+                //$('#client_detail #aspirations').css('display', 'none');
                 $('#client_detail #introduce').css('display', 'none');
                 $('#client_detail #contract').css('display', 'none');
                 $('#menu_container ul').css('display', 'none');
@@ -1674,7 +1674,8 @@
         <div class="error"></div>
 
     {/if}
-    <form action="create_order.php" method="post" id="frm_filter">
+    {*<form action="create_order.php" method="post" id="frm_filter">*}
+    <form action="create_order.php" method="post" id="transaction"> 
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' >
             <tr>
                 <td>顧客検索</td>
@@ -1686,7 +1687,7 @@
             <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
             </tr>
         </table>
-    </form>
+    {*</form>*}
 
     <div style="margin-bottom:10px;" id="page">
         <center>
@@ -1728,7 +1729,7 @@
         </ul>
     </div>
     <div id="client_detail">      
-        <form action="create_order.php" method="post" id="transaction">   
+          
             <div id="basic"class="active">                 
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
@@ -3133,13 +3134,15 @@
                             $('#save').attr('disabled', true);
                             $("#save").css('color', 'grey');
                             $('#for_client').attr('disabled', true);
-                            $("#save").css('color', 'grey');
+                            $("#for_client").css('color', 'grey');
                             $('#error_tab_room').css("color", '');
 
                         } else {
                             $('#tab_order_rent_cost').val(json.room_rent);
                             $('#save').attr('disabled', false);
+                            $('#for_client').attr('disabled', false);
                             $("#save").css('color', '#fff');
+                            $("#for_client").css('color', '#fff');
                         }
                     }
                 });
