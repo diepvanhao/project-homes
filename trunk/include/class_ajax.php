@@ -530,19 +530,19 @@ class ajax {
         global $database, $user;
         //serialize revisit
         //$revisit[]=$log_revisit;
-        $log_revisit= array_filter($log_revisit);
+        $log_revisit = array_filter($log_revisit);
         if (!empty($log_revisit)) {
-            /*$log_revisit_array_decode = base64_decode($log_revisit_arr);
-            if (!empty($log_revisit_array_decode))
-                $log_revisit_array_serialize = $log_revisit . "," . $log_revisit_array_decode;
-            else
-                $log_revisit_array_serialize = $log_revisit;
-            $log_revisit_array_serialize = explode(",", $log_revisit_array_serialize);
+            /* $log_revisit_array_decode = base64_decode($log_revisit_arr);
+              if (!empty($log_revisit_array_decode))
+              $log_revisit_array_serialize = $log_revisit . "," . $log_revisit_array_decode;
+              else
+              $log_revisit_array_serialize = $log_revisit;
+              $log_revisit_array_serialize = explode(",", $log_revisit_array_serialize);
 
-            $log_revisit_array_edit = serialize($log_revisit_array_serialize);*/ 
+              $log_revisit_array_edit = serialize($log_revisit_array_serialize); */
             $log_revisit_array_edit = serialize($log_revisit);
             //check order exist
-        }else {
+        } else {
             $log_revisit_array_edit = "";
         }
         $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);
@@ -578,8 +578,8 @@ class ajax {
                 //update revisit
                 if (!empty($log_revisit)) {
                     $database->database_query(" DELETE FROM home_history_revisit WHERE history_id='{$history_id}'");
-                    foreach($log_revisit as $value){
-                        if(empty($value)){
+                    foreach ($log_revisit as $value) {
+                        if (empty($value)) {
                             continue;
                         }
                         $log_revisit_milisection = strtotime($value);
@@ -701,8 +701,8 @@ class ajax {
             if (!empty($log_revisit)) {
                 if ($history_id) {
                     $database->database_query(" DELETE FROM home_history_revisit WHERE history_id='{$history_id}' ");
-                    foreach($log_revisit as $value){
-                        if(empty($value)){
+                    foreach ($log_revisit as $value) {
+                        if (empty($value)) {
                             continue;
                         }
                         $log_revisit_milisection = strtotime($value);
@@ -722,7 +722,7 @@ class ajax {
         }
     }
 
-    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id,$aspirations_size2,$aspirations_rent_cost2) {
+    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2) {
         global $database, $user;
         //check order exist
 
@@ -1572,9 +1572,12 @@ class ajax {
         global $database;
 
         $change_house_array_decode = base64_decode($change_house_array);
-        $change_house_array_serialize = $change_house_array_decode != "" ? $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode : $room_id . "_" . $house_id . "_" . $broker_id;
-        $change_house_array_serialize = explode(",", $change_house_array_serialize);
 
+        $change_house_array_serialize = $change_house_array_decode != "" ? $room_id . "_" . $house_id . "_" . $broker_id . "," . $change_house_array_decode : $room_id . "_" . $house_id . "_" . $broker_id;
+        if (strpos($change_house_array_serialize, ',') === false)
+            $change_house_array_serialize = $change_house_array_serialize;
+        else
+            $change_house_array_serialize = explode(",", $change_house_array_serialize);
         $change_house_array_edit = serialize($change_house_array_serialize);
         if ($room_id == $room_id_bk && $house_id == $house_id_bk && $broker_id == $broker_id_bk) {
             $query = "update home_order set "
