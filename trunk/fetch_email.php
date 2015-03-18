@@ -2,6 +2,7 @@
 
 include "header.php";
 $page = "fetch_email";
+ini_set('max_execution_time', 3000);
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

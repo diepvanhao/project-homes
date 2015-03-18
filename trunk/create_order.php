@@ -377,7 +377,7 @@ if ($step == 1) {
     } else {
         $page_number = 1;
     }
-
+echo $page_number;
     if (isset($_POST['client_id'])) {
         $client_id = $_POST['client_id'];
     } elseif (isset($_GET['client_id'])) {
