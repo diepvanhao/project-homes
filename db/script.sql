@@ -468,3 +468,33 @@ ALTER TABLE  `home_agent` ADD  `bank_name` VARCHAR( 100 ) CHARACTER SET utf8 COL
 ADD  `branch_name` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
 ADD  `account_number` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ,
 ADD  `payer_name` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ;
+
+-- 19/03
+INSERT INTO `home_career` (`name`) VALUES 
+('会社員'),
+('会社経営・役員'),
+('自営業'),
+('公務員'),
+('その他の業種'),
+('学生'),
+('主婦'),
+('無職');
+
+INSERT INTO `home_reason` (`name`) VALUES 
+('結婚'),
+('就職'),
+('転勤'),
+('進学'),
+('住み替え'),
+('契約更新、退去'),
+('同居'),
+('経済事情の変化'),
+('ペットの購入'),
+('一人暮らしをしたい'),
+('環境に不満がある'),
+('気分転換');
+
+ALTER TABLE  `home_history_aspirations` CHANGE  `aspirations_rent_cost`  `aspirations_rent_cost` VARCHAR( 128 ) NULL DEFAULT NULL ;
+
+ALTER TABLE  `home_history_aspirations` ADD  `aspirations_area2` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_area` ,
+ADD  `aspirations_area3` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_area2` ;

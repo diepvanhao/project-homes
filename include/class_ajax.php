@@ -396,9 +396,11 @@ class ajax {
     function update_history_create($log_time_call, $log_time_arrive_company, $log_time_mail, $log_tel, $log_tel_status, $log_mail, $log_comment, $log_date_appointment_from, $log_date_appointment_to, $log_mail_status, $log_contact_head_office, $log_shop_sign, $log_local_sign, $log_introduction, $log_flyer, $log_line, $log_revisit, $source_id, $log_status_appointment, $client_id, $order_id) {
         global $database, $user;
         //serialize revisit
+        
+        $log_revisit= array_filter($log_revisit);
         if (!empty($log_revisit)) {
-            $revisit[] = $log_revisit;
-            $log_revisit_serialize = serialize($revisit);
+//            $revisit[] = $log_revisit;
+            $log_revisit_serialize = serialize($log_revisit);
         } else {
             $log_revisit_serialize = "";
         }
@@ -406,32 +408,17 @@ class ajax {
         $history_id = checkExistHistory($user->user_info['id'], $client_id, $order_id);
         if ($history_id) {
             //update revisit
+            $database->database_query(" DELETE FROM home_history_revisit WHERE history_id='{$history_id}'");
             if (!empty($log_revisit)) {
-                $log_revisit_milisection = strtotime($log_revisit);
-                $query_revisit = "select id from home_history_revisit where history_id='{$history_id}'";
-                $result = $database->database_query($query_revisit);
-                $row = $database->database_fetch_assoc($result);
-                $revisit_id = $row['id'];
-                if ($revisit_id) {
-                    $query_update_revisit = "update home_history_revisit set
-                                     revisit_date='{$log_revisit_milisection}'
-                                     where id='{$revisit_id}'    
-                                     ";
-                    $database->database_query($query_update_revisit);
-                } else {
-                    $query_history_revisit = "insert into home_history_revisit ("
-                            . "history_id,"
-                            . "revisit_date"
-                            . ")values("
-                            . "'{$history_id}',"
-                            . "'{$log_revisit_milisection}'"
-                            . ")";
+                foreach ($log_revisit as $value) {
+                    if (empty($value)) {
+                        continue;
+                    }
+                    $log_revisit_milisection = strtotime($value);
+                    $query_history_revisit = " INSERT INTO home_history_revisit ( history_id,revisit_date )values('{$history_id}','{$log_revisit_milisection}')";
                     $database->database_query($query_history_revisit);
                 }
-            } else {
-                $query_update_revisit = "delete from home_history_revisit where history_id='{$history_id}'";
-                $database->database_query($query_update_revisit);
-            }
+            } 
             //update history exist
             $query = "update home_history_log set 
                     source_id='{$source_id}',
@@ -453,10 +440,8 @@ class ajax {
                     log_revisit='{$log_revisit_serialize}',
                     log_time_mail='{$log_time_mail}',
                     log_date_appointment_to='{$log_date_appointment_to}'
-                    
                      where user_id='{$user->user_info['id']}' and client_id='{$client_id}' and order_id='{$order_id}'    
                     ";
-
             return array('id' => "", 'update' => $database->database_query($query));
         } else {
             $query = "insert into home_history_log("
@@ -511,15 +496,21 @@ class ajax {
             //insert history revisit
             if (!empty($log_revisit)) {
                 if ($history_id) {
-                    $log_revisit_milisection = strtotime($log_revisit);
-                    $query_history_revisit = "insert into home_history_revisit ("
-                            . "history_id,"
-                            . "revisit_date"
-                            . ")values("
-                            . "'{$history_id}',"
-                            . "'{$log_revisit_milisection}'"
-                            . ")";
-                    $database->database_query($query_history_revisit);
+                    $database->database_query(" DELETE FROM home_history_revisit WHERE history_id='{$history_id}'");
+                    foreach ($log_revisit as $value) {
+                        if (empty($value)) {
+                            continue;
+                        }
+                        $log_revisit_milisection = strtotime($value);
+                        $query_history_revisit = "insert into home_history_revisit ("
+                                . "history_id,"
+                                . "revisit_date"
+                                . ")values("
+                                . "'{$history_id}',"
+                                . "'{$log_revisit_milisection}'"
+                                . ")";
+                        $database->database_query($query_history_revisit);
+                    }
                 }
             }
             return array('id' => $history_id);
@@ -722,7 +713,7 @@ class ajax {
         }
     }
 
-    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2) {
+    function update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2,$aspirations_area2,$aspirations_area3) {
         global $database, $user;
         //check order exist
 
@@ -734,6 +725,8 @@ class ajax {
                     aspirations_type_room_number='{$aspirations_type_room_number}',    
                     aspirations_build_time='{$aspirations_build_time}',
                     aspirations_area='{$aspirations_area}',
+                    aspirations_area2 ='{$aspirations_area2}',
+                    aspirations_area3 ='{$aspirations_area3}',
                     aspirations_size2='{$aspirations_size2}',
                     aspirations_size='{$aspirations_size}',
                     aspirations_rent_cost='{$aspirations_rent_cost}',
@@ -754,6 +747,8 @@ class ajax {
                     . "aspirations_type_room_number,"
                     . "aspirations_build_time,"
                     . "aspirations_area,"
+                    . "aspirations_area2,"
+                    . "aspirations_area3,"
                     . "aspirations_size2,"
                     . "aspirations_size,"
                     . "aspirations_comment"
@@ -768,6 +763,8 @@ class ajax {
                     . "'{$aspirations_type_room_number}',"
                     . "'{$aspirations_build_time}',"
                     . "'{$aspirations_area}',"
+                    . "'{$aspirations_area2}',"
+                    . "'{$aspirations_area3}',"
                     . "'{$aspirations_size2}',"
                     . "'{$aspirations_size}',"
                     . "'{$aspirations_comment}'"

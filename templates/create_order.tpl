@@ -2064,20 +2064,134 @@
                         <td class='form1'>築年月:</td>
                         <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>年</td>
                         <td class='form1' nowrap>エリア・沿線:</td>
-                        <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
+                        <td class='form2'> 
+                            <!--<input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/>-->
+                            <select id="pref" name="aspirations_area" style="height:28px; width: 90px;" onChange="setMenuItem(0,this[this.selectedIndex].value)">
+                                <option value="0" >-----
+                                <option value="1" {if $aspirations_area eq '1'}selected="selected"{/if}>北海道
+                                <option value="2" {if $aspirations_area eq '2'}selected="selected"{/if}>青森県
+                                <option value="3" {if $aspirations_area eq '3'}selected="selected"{/if}>岩手県
+                                <option value="4" {if $aspirations_area eq '4'}selected="selected"{/if}>宮城県
+                                <option value="5" {if $aspirations_area eq '5'}selected="selected"{/if}>秋田県
+                                <option value="6" {if $aspirations_area eq '6'}selected="selected"{/if}>山形県
+                                <option value="7" {if $aspirations_area eq '7'}selected="selected"{/if}>福島県
+                                <option value="8" {if $aspirations_area eq '8'}selected="selected"{/if}>茨城県
+                                <option value="9" {if $aspirations_area eq '9'}selected="selected"{/if}>栃木県
+                                <option value="10" {if $aspirations_area eq '10'}selected="selected"{/if}>群馬県
+                                <option value="11" {if $aspirations_area eq '11'}selected="selected"{/if}>埼玉県
+                                <option value="12" {if $aspirations_area eq '12'}selected="selected"{/if}>千葉県
+                                <option value="13" {if $aspirations_area eq '13'}selected="selected"{/if}>東京都
+                                <option value="14" {if $aspirations_area eq '14'}selected="selected"{/if}>神奈川県
+                                <option value="15" {if $aspirations_area eq '15'}selected="selected"{/if}>新潟県
+                                <option value="16" {if $aspirations_area eq '16'}selected="selected"{/if}>富山県
+                                <option value="17" {if $aspirations_area eq '17'}selected="selected"{/if}>石川県
+                                <option value="18" {if $aspirations_area eq '18'}selected="selected"{/if}>福井県
+                                <option value="19" {if $aspirations_area eq '19'}selected="selected"{/if}>山梨県
+                                <option value="20" {if $aspirations_area eq '20'}selected="selected"{/if}>長野県
+                                <option value="21" {if $aspirations_area eq '21'}selected="selected"{/if}>岐阜県
+                                <option value="22" {if $aspirations_area eq '22'}selected="selected"{/if}>静岡県
+                                <option value="23" {if $aspirations_area eq '23'}selected="selected"{/if}>愛知県
+                                <option value="24" {if $aspirations_area eq '24'}selected="selected"{/if}>三重県
+                                <option value="25" {if $aspirations_area eq '25'}selected="selected"{/if}>滋賀県
+                                <option value="26" {if $aspirations_area eq '26'}selected="selected"{/if}>京都府
+                                <option value="27" {if $aspirations_area eq '27'}selected="selected"{/if}>大阪府
+                                <option value="28" {if $aspirations_area eq '28'}selected="selected"{/if}>兵庫県
+                                <option value="29" {if $aspirations_area eq '29'}selected="selected"{/if}>奈良県
+                                <option value="30" {if $aspirations_area eq '30'}selected="selected"{/if}>和歌山県
+                                <option value="31" {if $aspirations_area eq '31'}selected="selected"{/if}>鳥取県
+                                <option value="32" {if $aspirations_area eq '32'}selected="selected"{/if}>島根県
+                                <option value="33" {if $aspirations_area eq '33'}selected="selected"{/if}>岡山県
+                                <option value="34" {if $aspirations_area eq '34'}selected="selected"{/if}>広島県
+                                <option value="35" {if $aspirations_area eq '35'}selected="selected"{/if}>山口県
+                                <option value="36" {if $aspirations_area eq '36'}selected="selected"{/if}>徳島県
+                                <option value="37" {if $aspirations_area eq '37'}selected="selected"{/if}>香川県
+                                <option value="38" {if $aspirations_area eq '38'}selected="selected"{/if}>愛媛県
+                                <option value="39" {if $aspirations_area eq '39'}selected="selected"{/if}>高知県
+                                <option value="40" {if $aspirations_area eq '40'}selected="selected"{/if}>福岡県
+                                <option value="41" {if $aspirations_area eq '41'}selected="selected"{/if}>佐賀県
+                                <option value="42" {if $aspirations_area eq '42'}selected="selected"{/if}>長崎県
+                                <option value="43" {if $aspirations_area eq '43'}selected="selected"{/if}>熊本県
+                                <option value="44" {if $aspirations_area eq '44'}selected="selected"{/if}>大分県
+                                <option value="45" {if $aspirations_area eq '45'}selected="selected"{/if}>宮崎県
+                                <option value="46" {if $aspirations_area eq '46'}selected="selected"{/if}>鹿児島県
+                                <option value="47" {if $aspirations_area eq '47'}selected="selected"{/if}>沖縄県
+                            </select>
+                            <select id="s0" name="aspirations_area2" style="height:28px; width: 90px;" onChange="setMenuItem(1,this[this.selectedIndex].value)">
+                                <option selected>----
+                            </select> 
+                            <select id="s1" name="aspirations_area3" style="height:28px; width: 90px;">
+                                <option selected>----
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td class='form1'>面積:</td>
                         <!--<td class='form2'><input type="text" id="aspirations_size" name="aspirations_size"value="{$aspirations_size}" style="height: 26px; width: 215px;"/></td>-->
                         <td class='form2'>
-                            <input type="text" id="aspirations_size" name="aspirations_size" value="{$aspirations_size}" style="height: 26px; width: 90px;"/> ㎡ 〜 
-                            <input type="text" id="aspirations_size2" name="aspirations_size2" value="{$aspirations_size2}" style="height: 26px; width: 90px;"/> ㎡
+                            <!--<input type="text" id="aspirations_size" name="aspirations_size" value="{$aspirations_size}" style="height: 26px; width: 90px;"/> ㎡ 〜--> 
+                            <!--<input type="text" id="aspirations_size2" name="aspirations_size2" value="{$aspirations_size2}" style="height: 26px; width: 90px;"/> ㎡-->
+                            <select id="aspirations_size" name="aspirations_size" style="height:28px; width: 90px;">
+                                <option value="">指定なし</option>
+                                <option value="20 m²" {if $aspirations_size eq '20 m²'}selected="selected"{/if}>20 m²</option>
+                                <option value="25 m²" {if $aspirations_size eq '25 m²'}selected="selected"{/if}>25 m²</option>
+                                <option value="30 m²" {if $aspirations_size eq '30 m²'}selected="selected"{/if}>30 m²</option>
+                                <option value="35 m²" {if $aspirations_size eq '35 m²'}selected="selected"{/if}>35 m²</option>
+                                <option value="40 m²" {if $aspirations_size eq '40 m²'}selected="selected"{/if}>40 m²</option>
+                                <option value="50 m²" {if $aspirations_size eq '50 m²'}selected="selected"{/if}>50 m²</option>
+                                <option value="60 m²" {if $aspirations_size eq '60 m²'}selected="selected"{/if}>60 m²</option>
+                                <option value="70 m²" {if $aspirations_size eq '70 m²'}selected="selected"{/if}>70 m²</option>
+                                <option value="80 m²" {if $aspirations_size eq '80 m²'}selected="selected"{/if}>80 m²</option>
+                                <option value="90 m²" {if $aspirations_size eq '90 m²'}selected="selected"{/if}>90 m²</option>
+                            </select>〜
+                            <select id="aspirations_size2" name="aspirations_size2" style="height:28px; width: 90px;">
+                                <option value="">指定なし</option>
+                                <option value="20 m²" {if $aspirations_size2 eq '20 m²'}selected="selected"{/if}>20 m²</option>
+                                <option value="25 m²" {if $aspirations_size2 eq '25 m²'}selected="selected"{/if}>25 m²</option>
+                                <option value="30 m²" {if $aspirations_size2 eq '30 m²'}selected="selected"{/if}>30 m²</option>
+                                <option value="35 m²" {if $aspirations_size2 eq '35 m²'}selected="selected"{/if}>35 m²</option>
+                                <option value="40 m²" {if $aspirations_size2 eq '40 m²'}selected="selected"{/if}>40 m²</option>
+                                <option value="50 m²" {if $aspirations_size2 eq '50 m²'}selected="selected"{/if}>50 m²</option>
+                                <option value="60 m²" {if $aspirations_size2 eq '60 m²'}selected="selected"{/if}>60 m²</option>
+                                <option value="70 m²" {if $aspirations_size2 eq '70 m²'}selected="selected"{/if}>70 m²</option>
+                                <option value="80 m²" {if $aspirations_size2 eq '80 m²'}selected="selected"{/if}>80 m²</option>
+                                <option value="90 m²" {if $aspirations_size2 eq '90 m²'}selected="selected"{/if}>90 m²</option>
+                            </select>
                         </td>
                         <td class='form1' nowrap>賃料:</td>
                         <td class='form2'> 
                             <!--<input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost"value="{$aspirations_rent_cost}" style="height: 26px; width: 215px;"/>-->
-                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" value="{$aspirations_rent_cost}" style="height: 26px; width: 90px;"/>円 〜 
-                            <input type='text' id="aspirations_rent_cost2" name="aspirations_rent_cost2" value="{$aspirations_rent_cost2}" style="height: 26px; width: 90px;"/>円
+<!--                            <input type='text' id="aspirations_rent_cost" name="aspirations_rent_cost" value="{$aspirations_rent_cost}" style="height: 26px; width: 90px;"/>円 〜 
+                            <input type='text' id="aspirations_rent_cost2" name="aspirations_rent_cost2" value="{$aspirations_rent_cost2}" style="height: 26px; width: 90px;"/>円-->
+                            <select id="aspirations_rent_cost" name="aspirations_rent_cost" style="height:28px; width: 90px;">
+                                <option value="">指定なし</option>
+                                <option value="5万円" {if $aspirations_rent_cost eq '5万円'}selected="selected"{/if}>5万円</option>
+                                <option value="6万円" {if $aspirations_rent_cost eq '6万円'}selected="selected"{/if}>6万円</option>
+                                <option value="7万円" {if $aspirations_rent_cost eq '7万円'}selected="selected"{/if}>7万円</option>
+                                <option value="8万円" {if $aspirations_rent_cost eq '8万円'}selected="selected"{/if}>8万円</option>
+                                <option value="9万円" {if $aspirations_rent_cost eq '9万円'}selected="selected"{/if}>9万円</option>
+                                <option value="10万円" {if $aspirations_rent_cost eq '10万円'}selected="selected"{/if}>10万円</option>
+                                <option value="11万円" {if $aspirations_rent_cost eq '11万円'}selected="selected"{/if}>11万円</option>
+                                <option value="12万円" {if $aspirations_rent_cost eq '12万円'}selected="selected"{/if}>12万円</option>
+                                <option value="13万円" {if $aspirations_rent_cost eq '13万円'}selected="selected"{/if}>13万円</option>
+                                <option value="14万円" {if $aspirations_rent_cost eq '14万円'}selected="selected"{/if}>14万円</option>
+                                <option value="15万円" {if $aspirations_rent_cost eq '15万円'}selected="selected"{/if}>15万円</option>
+                                <option value="20万円" {if $aspirations_rent_cost eq '20万円'}selected="selected"{/if}>20万円</option>
+                            </select>〜
+                            <select id="aspirations_rent_cost2" name="aspirations_rent_cost2" style="height:28px; width: 90px;">
+                                <option value="">指定なし</option>
+                                <option value="5万円" {if $aspirations_rent_cost2 eq '5万円'}selected="selected"{/if}>5万円</option>
+                                <option value="6万円" {if $aspirations_rent_cost2 eq '6万円'}selected="selected"{/if}>6万円</option>
+                                <option value="7万円" {if $aspirations_rent_cost2 eq '7万円'}selected="selected"{/if}>7万円</option>
+                                <option value="8万円" {if $aspirations_rent_cost2 eq '8万円'}selected="selected"{/if}>8万円</option>
+                                <option value="9万円" {if $aspirations_rent_cost2 eq '9万円'}selected="selected"{/if}>9万円</option>
+                                <option value="10万円" {if $aspirations_rent_cost2 eq '10万円'}selected="selected"{/if}>10万円</option>
+                                <option value="11万円" {if $aspirations_rent_cost2 eq '11万円'}selected="selected"{/if}>11万円</option>
+                                <option value="12万円" {if $aspirations_rent_cost2 eq '12万円'}selected="selected"{/if}>12万円</option>
+                                <option value="13万円" {if $aspirations_rent_cost2 eq '13万円'}selected="selected"{/if}>13万円</option>
+                                <option value="14万円" {if $aspirations_rent_cost2 eq '14万円'}selected="selected"{/if}>14万円</option>
+                                <option value="15万円" {if $aspirations_rent_cost2 eq '15万円'}selected="selected"{/if}>15万円</option>
+                                <option value="20万円" {if $aspirations_rent_cost2 eq '20万円'}selected="selected"{/if}>20万円</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -3196,6 +3310,69 @@
                 });
             });
         })(jQuery);
+        var xml = {};
+        function setMenuItem(type,code){
+
+            var s = document.getElementsByTagName("head")[0].appendChild(document.createElement("script"));
+            s.type = "text/javascript";
+            s.charset = "utf-8";
+
+            var optionIndex0 = document.getElementById("s0").options.length;	//沿線のOPTION数取得
+            var optionIndex1 = document.getElementById("s1").options.length;	//駅のOPTION数取得
+
+            if (type == 0){
+                for ( i=0 ; i <= optionIndex0 ; i++ ){document.getElementById("s0").options[0]=null}	//沿線削除
+                for ( i=0 ; i <= optionIndex1 ; i++ ){document.getElementById("s1").options[0]=null}	//駅削除
+                document.getElementById("s1").options[0] = new Option("----",0);	//駅OPTIONを空に
+                if (code == 0){
+                    document.getElementById("s0").options[0] = new Option("----",0);	//沿線OPTIONを空に
+                }else{
+                    s.src = "http://www.ekidata.jp/api/p/" + code + ".json";	//沿線JSONデータURL
+                }
+            }else{
+                for ( i=0 ; i <= optionIndex1 ; i++ ){document.getElementById("s1").options[0]=null}	//駅削除
+                if (code == 0){
+                    document.getElementById("s1").options[0] = new Option("----",0);	//駅OPTIONを空に
+                }else{
+                    s.src = "http://www.ekidata.jp/api/l/" + code + ".json";	//駅JSONデータURL
+                }
+            }
+            xml.onload = function(data){
+                var line = data["line"];
+                var station_l = data["station_l"];
+                if(line != null){
+                    document.getElementById("s0").options[0] = new Option("----",0);	//OPTION1番目はNull
+                    for( i=0; i<line.length; i++){
+                        ii = i + 1	//OPTIONは2番目から表示
+                        var op_line_name = line[i].line_name;
+                        var op_line_cd = line[i].line_cd;
+                        document.getElementById("s0").options[ii] = new Option(op_line_name,op_line_cd);
+                    }
+                }
+                if(station_l != null){
+                    document.getElementById("s1").options[0] = new Option("----",0);	//OPTION1番目はNull
+                    for( i=0; i<station_l.length; i++){
+                        ii = i + 1	//OPTIONは2番目から表示
+                        var op_station_name = station_l[i].station_name;
+                        var op_station_cd = station_l[i].station_cd;
+                        document.getElementById("s1").options[ii] = new Option(op_station_name,op_station_cd);
+                    }
+                }
+            }
+        }
+        $(document).ready(function() {
+            if('{/literal}{$aspirations_area}{literal}'){
+                setMenuItem(0,'{/literal}{$aspirations_area}{literal}');
+                if('{/literal}{$aspirations_area2}{literal}'){
+                    setMenuItem(1,'{/literal}{$aspirations_area2}{literal}');
+                    setTimeout(function() {
+                        // Do something after 5 seconds
+                        $('select#s0').val('{/literal}{$aspirations_area2}{literal}');
+                        $('select#s1').val('{/literal}{$aspirations_area3}{literal}');
+                    }, 2000);
+                }
+            }
+        });
     </script>
 {/literal}
 
