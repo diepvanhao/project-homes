@@ -601,6 +601,8 @@ class HOMEOrder {
                                 hha.aspirations_type_room_number AS aspirations_type_room_number,
                                 hha.aspirations_build_time AS aspirations_build_time,
                                 hha.aspirations_area AS aspirations_area,
+                                hha.aspirations_area2 AS aspirations_area2,
+                                hha.aspirations_area3 AS aspirations_area3,
                                 hha.aspirations_size2 AS aspirations_size2,
                                 hha.aspirations_size AS aspirations_size,
                                 hha.aspirations_comment AS aspirations_comment,
@@ -679,6 +681,8 @@ class HOMEOrder {
         $client['aspirations_type_room_number'] = $row['aspirations_type_room_number'];
         $client['aspirations_build_time'] = $row['aspirations_build_time'];
         $client['aspirations_area'] = $row['aspirations_area'];
+        $client['aspirations_area2'] = $row['aspirations_area2'];
+        $client['aspirations_area3'] = $row['aspirations_area3'];
         $client['aspirations_size2'] = $row['aspirations_size2'];
         $client['aspirations_size'] = $row['aspirations_size'];
         $client['aspirations_comment'] = $row['aspirations_comment'];
