@@ -99,28 +99,28 @@ if ($action == "check_email") {
     } else {
         $order_id = "";
     }
-    if (isset($_POST['house_id'])) {
-        $house_id = $_POST['house_id'];
-    } elseif (isset($_GET['house_id'])) {
-        $house_id = $_GET['house_id'];
+    if (isset($_POST['order_status'])) {
+        $order_status = $_POST['order_status'];
+    } elseif (isset($_GET['order_status'])) {
+        $order_status = $_GET['order_status'];
     } else {
-        $house_id = "";
+        $order_status = "";
     }
-    if (isset($_POST['broker_id'])) {
-        $broker_id = $_POST['broker_id'];
-    } elseif (isset($_GET['broker_id'])) {
-        $broker_id = $_GET['broker_id'];
-    } else {
-        $broker_id = "";
-    }
-    if (isset($_POST['room_id'])) {
-        $room_id = $_POST['room_id'];
-    } elseif (isset($_GET['room_id'])) {
-        $room_id = $_GET['room_id'];
-    } else {
-        $room_id = "";
-    }
-    $result = $ajax->deleteOrder($order_id, $house_id, $broker_id, $room_id);
+//    if (isset($_POST['broker_id'])) {
+//        $broker_id = $_POST['broker_id'];
+//    } elseif (isset($_GET['broker_id'])) {
+//        $broker_id = $_GET['broker_id'];
+//    } else {
+//        $broker_id = "";
+//    }
+//    if (isset($_POST['room_id'])) {
+//        $room_id = $_POST['room_id'];
+//    } elseif (isset($_GET['room_id'])) {
+//        $room_id = $_GET['room_id'];
+//    } else {
+//        $room_id = "";
+//    }
+    $result = $ajax->deleteOrder($order_id, $order_status);
     echo $result;
 } elseif ($action == 'deleteHouse') {
 

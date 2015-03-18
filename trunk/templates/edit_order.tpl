@@ -1794,7 +1794,7 @@
                             </tr>
                             <tr>
                                 <td class='form1'>築年月:</td>
-                                <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>年</td>
+                                <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>◯年</td>
                                 <td class='form1' nowrap>エリア・沿線:</td>
                                 <td class='form2'> <input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/></td>
                             </tr>
