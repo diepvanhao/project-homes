@@ -1637,9 +1637,13 @@ class ajax {
         }
     }
 
-    function deleteOrder($order_id, $house_id, $broker_id, $room_id) {
+    function deleteOrder($order_id,$order_status) {
         global $database;
-        $room_detail_id = getRoomDetailIdEdit($room_id, $house_id, $broker_id);
+        $order_status = $order_status == 0 ? 1 : 0;
+        $query = "update home_order set order_status=$order_status WHERE id={$order_id}";
+        
+        return $database->database_query($query);
+        /*$room_detail_id = getRoomDetailIdEdit($room_id, $house_id, $broker_id);
         $contract_id = getContractId($order_id);
         $contract_detail_id = getContractDetailId($contract_id);
         if ($order_id) {
@@ -1673,7 +1677,7 @@ class ajax {
             $database->database_query($query);
             return true;
         }
-        return false;
+        return false;*/
     }
 
 }
