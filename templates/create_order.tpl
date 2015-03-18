@@ -560,6 +560,7 @@
                 $('#edit_order').css('display', 'none');
                 $('#customer').css('display', 'none');
                 $("#page").css('display', 'none');
+                $("#done").css('display', 'none');
                 $('#transaction table:first').css('display', 'none');
                 $('#client_info ul li').each(function() {
                     if ($(this).attr('title') == 'history'  || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
@@ -1685,6 +1686,7 @@
                     </span>
                 </td>
             <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
+            <input type="hidden" id="page_number" name="page_number" value="{$page_number}"/>
             </tr>
         </table>
     {*</form>*}
@@ -1693,7 +1695,7 @@
         <center>
             ページ:
             {for $i=1 to $totalPage }
-                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="create_order.php?step='registry'&filter={$filter}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
+                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<span onclick="selectpage({$i})" style='margin-left: 10px;color: black;cursor: pointer;'>{$i}{/if}</span>
             {/for}
         </center>
     </div>
@@ -2924,7 +2926,10 @@
 </div>
 {literal}
     <script type="text/javascript">
-
+        function selectpage(page){
+            $('#page_number').val(page);
+            $('#search').click();
+        }
         function get_tab_room(house_id, room_id) {
 
             $('#error_tab_room_id').html("");
