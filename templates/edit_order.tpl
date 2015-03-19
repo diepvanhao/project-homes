@@ -1738,7 +1738,10 @@
                                                 <input type='text' class="log_revisit" id="log_revisit" name="log_revisit[]" value="{$revisit_item}" style="height: 26px; width: 215px;"/>
                                                 <button type="button" id="add_log">Add</button>
                                             {else}
-                                                <input type='text' class="log_revisit" name="log_revisit[]" value="{$revisit_item}" style="height: 26px; width: 215px;margin-top: 5px;"/>      
+                                                <div type="text" style="height: 26px; width: 250px; margin-top: 5px;float: left;" id="revisit_item_{$i}">
+                                                    <input type="text" value="{$revisit_item}" class="log_revisit" style="height: 26px; width: 215px;display: block;margin-right: 3px;float: left;" name="log_revisit[]" >
+                                                    <img src="include/images/DeleteRed.png" style="height: 26px; width: 26px;float: left;cursor: pointer;" onclick="removeLogvisit('revisit_item_{$i}');">
+                                                </div>
                                             {/if}
                                         {/foreach}
                                     {else}
@@ -2834,16 +2837,28 @@
             });
         })(jQuery);
         $('#add_log').click(function() {
-            var logItem = $('<input>').attr({
+            var idtmp = Math.random().toString(36);
+            var div = $('<div>').attr({
+                type: 'text',
+                style: 'height: 26px; width: 250px; margin-top: 5px;float: left;',
+                id: idtmp,
+            }).appendTo('#log_revisit_container');
+            $('<input>').attr({
                 type: 'text',
                 class: 'log_revisit',
-                style: 'height: 26px; width: 215px; margin-top: 5px;',
-                id: Math.random().toString(36),
+                style: 'height: 26px; width: 215px;display: block;margin-right: 3px;float: left;',
                 name: 'log_revisit[]'
-            }).appendTo('#log_revisit_container');
+            }).appendTo(div);
+            $('<img>').attr({
+                src: 'include/images/DeleteRed.png',
+                style: 'height: 26px; width: 26px;float: left;cursor: pointer;',
+                Onclick: "removeLogvisit('" + idtmp + "');"
+            }).appendTo(div);
             log_date('.log_revisit');
         });
-        
+        function removeLogvisit(id){
+            document.getElementById(id).remove();
+        }
         var xml = {};
         function setMenuItem(type,code){
 
