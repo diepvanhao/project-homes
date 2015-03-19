@@ -162,4 +162,9 @@ $smarty->assign('ward_id', $ward_id);
 
 $smarty->assign('notify', $notify);
 $smarty->assign('error', $error);
+
+$order = new HOMEOrder();
+$smarty->assign('careers', $order->getCareers());
+$smarty->assign('reasons', $order->getReasons());
+
 include 'footer.php';

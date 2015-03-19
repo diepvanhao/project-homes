@@ -143,7 +143,15 @@
             </tr>
             <tr>
                 <td class='form1'>職業 : </td>
-                <td class='form2'><input type='text' class='text' name='client_occupation' id='client_occupation' value="{$data.client_occupation}"  style="height:26px; width: 351px;"><div id="client_occupation_error"class="error"></div></td>
+                <td class='form2'>
+                    <!--<input type='text' class='text' name='client_occupation' id='client_occupation' value="{$data.client_occupation}"  style="height:26px; width: 351px;">-->
+                    <select id="client_occupation" name="client_occupation" style="margin-left: 0.5%;height:28px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$careers item=career}
+                            <option value="{$career.id}" {if $career.id eq $data.client_occupation}selected="selected"{/if}>{$career.name}</option>        
+                        {/foreach}
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class='form1'>会社名: </td>
@@ -167,7 +175,15 @@
             </tr>
             <tr>
                 <td class='form1'>引越理由: </td>
-                <td class='form2'><input type='text' class='text' name='client_reason_change' id='client_reason_change' value="{$data.client_reason_change}"  style="height:26px; width: 351px;"><div id="client_reason_change_error"class="error"></div></td>
+                <td class='form2'>
+                    <select id="client_reason_change" name="client_reason_change" style="height:28px; width: 351px;">
+                        <option value=""></option>
+                        {foreach from=$reasons item=reason}
+                            <option value="{$reason.id}" {if $reason.id eq $data.client_reason_change}selected="selected"{/if}>{$reason.name}</option>        
+                        {/foreach}
+                    </select>
+                    <!--<input type='text' class='text' name='client_reason_change' id='client_reason_change' value="{$data.client_reason_change}"  style="height:26px; width: 351px;">-->
+                </td>
             </tr>
             <tr>
                 <td class='form1'>引越予定時期: </td>
