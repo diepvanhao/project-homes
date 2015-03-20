@@ -1970,13 +1970,13 @@
 
                     <tr>
                         <td class='form1'>TEL:</td>
-                        <td class='form2'><input type="checkbox" value="1" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" value="1" id="log_tel" name="log_tel" {if $log_tel eq '1'}checked="checked" {/if} /></td>
                         <td class='form1' nowrap>{*現況:*}</td>
                         <td class='form2'> {*<input type='checkbox' value="1" id="log_tel_status" name="log_tel_status" {if $log_tel_status eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/>*}</td>
                     </tr>
                     <tr>
                         <td class='form1'>MAIL:</td>
-                        <td class='form2'><input type="checkbox" value="1" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'><input type="checkbox" value="1" id="log_mail" name="log_mail" {if $log_mail eq '1'}checked="checked" {/if}/></td>
                         <td class='form1' nowrap>{*現況:*}</td>
                         <td class='form2'> {*<input type='checkbox' value="1" id="log_mail_status" name="log_mail_status"{if $log_mail_status eq '1'}checked="checked" {/if} style="height: 26px; width: 15px;"/>*}</td>
                     </tr>
@@ -2465,17 +2465,17 @@
                     </tr>
                     <tr>
                         <td class='form1'>売上計上:</td>
-                        <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}/></td>
+                        <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if} style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>キャンセル:</td>
-                        <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}/></td>
+                        <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>
                         <td class='form2'>
                             <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
                         </td>       
-                        <td class='form1' nowrap>自社物件</td>
-                        <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}/></td>
+                        <td class='form1' nowrap>自社物件: </td>
+                        <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if} style="height: 26px; width: 15px;"/></td>
                     </tr>
                     {foreach from=$plus_money key=k item=money}
                         <tr>
