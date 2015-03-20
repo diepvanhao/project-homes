@@ -520,7 +520,6 @@ class HOMEOrder {
         }
         $query.=" limit $offset,$length";
         $query = str_replace("where and", "where", $query);
-        echo $query;
 
         $result = $database->database_query($query);
         $order_arr = array();
