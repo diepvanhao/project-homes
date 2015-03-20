@@ -387,8 +387,10 @@ class HOMEOrder {
         return $database->database_fetch_assoc($result);
     }                
     function getOrder($search = "", $offset = 0, $length = 50) {
-        global $database;
-
+        global $database,$user;
+        $agent_id = $user->user_info['agent_id'];
+        $level = $user->user_info['user_authorities'];
+        
         $query = "select ho.*,hh.house_name,hc.client_name,
             l.source_id,l.log_time_call,l.log_time_arrive_company,l.log_comment,l.log_date_appointment_from,
             l.log_status_appointment,l.log_shop_sign,l.log_local_sign,l.log_introduction,l.log_tel,l.log_mail,
@@ -404,6 +406,8 @@ class HOMEOrder {
                LEFT JOIN home_history_log AS l ON l.order_id = ho.id
                LEFT JOIN home_contract AS c ON c.order_id = ho.id
                LEFT JOIN home_contract_detail AS d ON d.contract_id = c.id
+               LEFT JOIN home_user AS hu ON ho.create_id = hu.id
+               WHERE ( hu.agent_id = {$agent_id} OR {$level} = 1)
                 ";
         if ($search['order_name'] ||
                 $search['house_name'] ||
@@ -420,9 +424,8 @@ class HOMEOrder {
                 $search['contract_payment_date_to'] ||
                 $search['contract_handover_day']
         ) {
-            $query.=" where";
             if ($search['order_name'])
-                $query.=" ho.order_name like '%{$search['order_name']}%'";
+                $query.=" AND ho.order_name like '%{$search['order_name']}%'";
             if ($search['house_name'])
                 $query.=" and hh.house_name like '%{$search['house_name']}%'";
             if ($search['room_id'])
@@ -517,7 +520,7 @@ class HOMEOrder {
         }
         $query.=" limit $offset,$length";
         $query = str_replace("where and", "where", $query);
-
+        echo $query;
 
         $result = $database->database_query($query);
         $order_arr = array();
