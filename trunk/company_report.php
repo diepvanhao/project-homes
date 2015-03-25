@@ -10,6 +10,10 @@ if (!$user->user_exists) {
     header('Location: ./user_login.php');
     exit();
 }
+if (!@HOMEOrder::checkPermisson('report')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 if($user->user_info['user_locked']){
     header('Location: ./locked.php');
     exit();

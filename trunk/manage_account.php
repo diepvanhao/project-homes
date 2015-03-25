@@ -17,7 +17,7 @@ if (!$user->user_exists) {
     exit();
 }
 
-if ($user->user_info['user_authorities'] > 2) {
+if (!@HOMEOrder::checkPermisson('manage-account')) {
     header('Location: ./restrict.php');
     exit();
 }
@@ -65,5 +65,5 @@ $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('users', $users);
-
+$smarty->assign('canEdit', @HOMEOrder::checkPermisson('create-account'));
 include "footer.php";

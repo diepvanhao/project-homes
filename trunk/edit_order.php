@@ -20,12 +20,10 @@ if (!$user->user_exists) {
 
     exit();
 }
-//var_dump($user);die();
-//if ($user->user_info['user_authorities'] > 2) {
-//    header('Location: ./restrict.php');
-//    exit();
-//}
-
+if (!HOMEOrder::checkPermisson('create-order')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();

@@ -126,7 +126,19 @@
                                     <td><span style="color: #9D000A;">{($order.contract_handover_day)?date('Y/m/d H:i',$order.contract_handover_day):'-'}</span></td>
                                         {*   {/if}*}
 
-                                    <td style="width:15%">{if $order.user_id eq 0}<a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>{/if}{if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>{/if}{if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}<a href="javascript:void" onclick="deleteItem({$order.id},{$order.order_status})" style="margin-right: 10px;">{if $order.order_status eq 1}削除{else}回復{/if}</a>{/if}<a href="order_detail.php?url={$add|base64_encode}">詳細</a></td>
+                                    <td style="width:15%">
+                                        {if $user->user_info['user_authorities'] <= 3 || $order.user_id == $user->user_info['id']}
+                                            <a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>
+                                        {/if}
+                                        {if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))}
+                                            <a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>
+                                            {/if}
+                                        {if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}
+                                            <a href="javascript:void" onclick="deleteItem({$order.id},{$order.order_status})" style="margin-right: 10px;">{if $order.order_status eq 1}削除{else}回復{/if}
+                                            </a>
+                                        {/if}
+                                        <a href="order_detail.php?url={$add|base64_encode}">詳細</a>
+                                    </td>
                                 </tr>
                                 {/foreach}
                                 </tbody> 

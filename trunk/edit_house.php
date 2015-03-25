@@ -19,8 +19,7 @@ if (!$user->user_exists) {
 
     exit();
 }
-//var_dump($user);die();
-if ($user->user_info['user_authorities'] > 2) {
+if (!@HOMEOrder::checkPermisson('create-house')) {
     header('Location: ./restrict.php');
     exit();
 }

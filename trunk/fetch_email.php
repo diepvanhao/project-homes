@@ -13,7 +13,7 @@ if (!$user->user_exists) {
     header('Location: ./user_login.php');
     exit();
 }
-if ($user->user_info['user_authorities'] > 2) {
+if (!@HOMEOrder::checkPermisson('email')) {
     header('Location: ./restrict.php');
     exit();
 }

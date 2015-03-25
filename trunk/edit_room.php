@@ -18,6 +18,10 @@ if (!$user->user_exists) {
 
     exit();
 }
+if (!@HOMEOrder::checkPermisson('create-room')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();
