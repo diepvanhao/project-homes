@@ -53,7 +53,14 @@
                             <td>{$user.user_target}</td>
                             <td>{if $user.user_authorities eq '1'}管理{elseif $user.user_authorities eq '2'}スーパーマネージャー{elseif $user.user_authorities eq '3'}マネージャー{else}スタッフ{/if}</td>
                             <td>{if $user.user_locked ne '1'}有効{else}無効{/if}</td>
-                            <td>{if $user.user_authorities ne '1'}<a href="edit_account.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$user.id})" style="margin: 0% 10% 0% 10%; ">{if $user.user_locked eq 1}アンロック{else}ロック{/if}</a>{/if}<a href="account_detail.php?url={$add|base64_encode}">詳細</a></td>
+                            <td>{if $canEdit}
+                                        <a href="edit_account.php?url={$link|base64_encode}">編集</a>
+                                        <a href="javascript:void" onclick="deleteItem({$user.id})" style="margin: 0% 10% 0% 10%; ">
+                                            {if $user.user_locked eq 1}アンロック{else}ロック{/if}
+                                        </a>
+                                    {/if}
+                                    <a href="account_detail.php?url={$add|base64_encode}">詳細</a>
+                            </td>
                         </tr>
                     {/foreach}
                 </tbody>

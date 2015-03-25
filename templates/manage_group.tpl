@@ -32,7 +32,12 @@
                         <tr>
                             <td style="width: 10%">{$k+1}</td>
                             <td>{$group.group_name}</td>                            
-                            <td style="width: 10%"><a href="edit_group.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$group.id},{$group.group_lock})" style="margin: 0% 10% 0% 10%;">{if $group.group_lock eq 0}削除{else}回復{/if}</a></td>
+                            <td style="width: 10%">
+                                {if $canEdit}
+                                <a href="edit_group.php?url={$link|base64_encode}">編集</a>
+                                <a href="#" onclick="deleteItem({$group.id},{$group.group_lock})" style="margin: 0% 10% 0% 10%;">{if $group.group_lock eq 0}削除{else}回復{/if}</a>
+                                {/if}
+                            </td>
                         </tr>
                     {/foreach}
                 </tbody>

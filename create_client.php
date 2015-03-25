@@ -11,6 +11,10 @@ if (!$user->user_exists) {
 
     exit();
 }
+if (!@HOMEOrder::checkPermisson('create-event')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 if ($user->user_info['user_locked']) {
     header('Location: ./locked.php');
     exit();

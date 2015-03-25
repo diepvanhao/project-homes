@@ -1014,8 +1014,12 @@ class HOMEOrder {
         }
         return $arr;
     }
-    
-    function getHomeMessages() {
+/**
+ * 
+ * @global type $database
+ * @return type
+ */    
+    public function getHomeMessages() {
         global $database;
         
         $result = $database->database_query("SELECT * FROM home_fetch_email WHERE status = 0 ORDER BY id DESC LIMIT 20");
@@ -1024,5 +1028,77 @@ class HOMEOrder {
             $messages[] = $row;
         }
         return $messages;
+    }
+    /**
+     * 
+     * @global type $database
+     * @global type $user
+     * @param type $action
+     * @param type $object
+     * @return type
+     * Description:
+     create account→admin・super・manager 
+create order/edit→admin・super・manager ・staff
+create house/room/broker company→admin・super・manager ・staff
+create agent/edit→admin・super
+create source→admin・super・manager
+create client→admin・super・manager ・staff
+create group→admin・super・manager 
+manage order→admin・super・manager ・staff
+    staff can't add sth to another staff's order 
+manage account→admin・super・manager ・staff
+　staff just can see 
+manage house/room/broker--/edit→admin・super・manager ・staff
+manage group/edit→admin・super・manager ・staff
+　staff just can see 
+manage client/edit→admin・super・manager ・staff
+    staff can't add sth to another staff's order 
+manage agent/edit→admin・super・manager ・staff
+    staff can't add sth to another staff's order 
+manage source/edit→admin・super・manager ・staff
+    staff can't add sth to another staff's order 
+manage broker/edit/add room into broker→admin・super・manager ・staff
+    staff can't add sth to another staff's order 
+Daily report (report every agent)→admin・super・manager ・staff
+Company report→admin・super・manager ・staff
+Group report→admin・super・manager ・staff
+Import CSV file (address,house, room,broker)→admin・super・manager ・staff
+Get message from email to create order (fetch_message)→admin・super・manager ・staff
+    staff can't add sth to another agent  
+     
+     * 
+     * Level: 1 - admin, 2 - super , 3 - manager, 4 - staff
+     */
+    public function checkPermisson($action = 'view'){
+        global $user;
+        $data = array(
+            'create-account' => array(1,2,3),
+            'create-order' => array(1,2,3,4),
+            'create-house' => array(1,2,3,4),
+            'create-room' => array(1,2,3,4),
+            'create-broker' => array(1,2,3,4),
+            'create-agent' => array(1,2),
+            'create-source' => array(1,2,3),
+            'create-client' => array(1,2,3,4),
+            'create-group' => array(1,2,3),
+            
+            'manage-account' => array(1,2,3,4),
+            'manage-order' => array(1,2,3,4),
+            'manage-house' => array(1,2,3,4),
+            'manage-room' => array(1,2,3,4),
+            'manage-broker' => array(1,2,3,4),
+            'manage-agent' => array(1,2,3,4),
+            'manage-source' => array(1,2,3,4),
+            'manage-client' => array(1,2,3,4),
+            'manage-group' => array(1,2,3,4),
+            'manage-order' => array(1,2,3,4),
+            
+            'report' => array(1,2,3,4),
+            'import' => array(1,2,3,4),
+            'email' => array(1,2,3,4),
+        );
+        $level = $user->user_info['user_authorities'];
+        var_dump($data[$action]);
+        return (bool) in_array($level, $data[$action]);
     }
 }

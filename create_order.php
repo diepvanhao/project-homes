@@ -18,6 +18,10 @@ if ($user->user_info['user_locked']) {
     exit();
 }
 
+if (!@HOMEOrder::checkPermisson('create-order')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 if (isset($_POST['step'])) {
     $step = $_POST['step'];
 } elseif (isset($_GET['step'])) {

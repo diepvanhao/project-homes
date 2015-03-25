@@ -66,7 +66,12 @@
                             <td>{$client.client_resident_phone}</td>
                             <td>{$client.client_rent}</td>
                             <td>{$client.client_room_type_number}{$client.client_room_type}</td>
-                            <td style="width:9%"><a href="edit_client.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$client.id},{$client.client_lock})" style="margin: 0% 10% 0% 10%;">{if $client.client_lock eq 0}削除{else}回復{/if}</a><!--a href="house_detail.php?url={$add|base64_encode}">Detail</a--></td>
+                            <td style="width:9%">
+                                {if $canEdit}
+                                <a href="edit_client.php?url={$link|base64_encode}">編集</a>
+                                <a href="javascript:void" onclick="deleteItem({$client.id},{$client.client_lock})" style="margin: 0% 10% 0% 10%;">{if $client.client_lock eq 0}削除{else}回復{/if}</a>
+                                {/if}
+                            </td>
                         </tr>
                     {/foreach}
                 </tbody>

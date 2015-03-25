@@ -16,11 +16,10 @@ if (!$user->user_exists) {
 
     exit();
 }
-//var_dump($user);die();
-//if ($user->user_info['user_authorities'] > 2) {
-//    header('Location: ./restrict.php');
-//    exit();
-//}
+if (!@HOMEOrder::checkPermisson('manage-source')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 
 if($user->user_info['user_locked']){
     header('Location: ./locked.php');
@@ -63,4 +62,6 @@ $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('sources', $sources);
+$smarty->assign('canEdit', @HOMEOrder::checkPermisson('create-source'));
+
 include "footer.php";

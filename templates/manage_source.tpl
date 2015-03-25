@@ -32,7 +32,12 @@
                         <tr>
                             <td style="width: 10%">{$k+1}</td>
                             <td>{$source.source_name}</td>                            
-                            <td style="width: 10%"><a href="edit_source.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$source.id},{$source.source_lock})" style="margin: 0% 10% 0% 10%;">{if $source.source_lock eq 0}削除{else}回復{/if}</a></td>
+                            <td style="width: 10%">
+                                {if $canEdit}
+                                <a href="edit_source.php?url={$link|base64_encode}">編集</a>
+                                <a href="#" onclick="deleteItem({$source.id},{$source.source_lock})" style="margin: 0% 10% 0% 10%;">{if $source.source_lock eq 0}削除{else}回復{/if}</a>
+                                {/if}
+                            </td>
                         </tr>
                     {/foreach}
                 </tbody>

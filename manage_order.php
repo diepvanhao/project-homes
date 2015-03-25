@@ -16,6 +16,10 @@ if (!$user->user_exists) {
 
     exit();
 }
+if (!@HOMEOrder::checkPermisson('manage-order')) {
+    header('Location: ./restrict.php');
+    exit();
+}
 
 if($user->user_info['user_locked']){
     header('Location: ./locked.php');
@@ -205,4 +209,5 @@ $smarty->assign('orders', $orders);
 $smarty->assign('house', new HOMEHouse());
 //$smarty->assign('users',$users);   
 $smarty->assign('user_id',$user_id);
+$smarty->assign('canEdit', @HOMEOrder::checkPermisson('create-order'));
 include "footer.php";
