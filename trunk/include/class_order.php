@@ -1098,7 +1098,6 @@ Get message from email to create order (fetch_message)→admin・super・manager
             'email' => array(1,2,3,4),
         );
         $level = $user->user_info['user_authorities'];
-        var_dump($data[$action]);
         return (bool) in_array($level, $data[$action]);
     }
 }
