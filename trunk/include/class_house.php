@@ -511,11 +511,8 @@ class HOMEHouse {
     }
 
     function getGroup($search = "", $offset = 0, $length = 50) {
-        global $database,$user; 
-        $agent_id = $user->user_info['agent_id'];
-        $level = $user->user_info['user_authorities'];
-        
-        $query = "select * from home_group AS g LEFT JOIN home_user AS u ON g.user_id = u.id WHERE ( u.agent_id = {$agent_id} OR {$level} = 1)";
+        global $database;
+        $query = "select * from home_group";
         if (!empty($search))
             $query.=" where group_name like '%{$search}%'";
         $query.=" ORDER BY group_name ASC ";
