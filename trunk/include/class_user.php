@@ -937,11 +937,14 @@ class HOMEUser {
     }
 
     function getAccount($search = "", $offset = 0, $length = 50) {
-        global $database;
+        global $database,$user; 
+        $agent_id = $user->user_info['agent_id'];
+        $level = $user->user_info['user_authorities'];
+        
         $search=trim($search);
-        $query = "select * from home_user";
+        $query = "select * from home_user WHERE ( agent_id = {$agent_id} OR {$level} <= 2)";
         if (!empty($search))
-            $query.=" where user_fname like '%{$search}%' or user_lname like '%{$search}%' or user_search like '%{$search}%'";
+            $query.=" AND ( user_fname like '%{$search}%' or user_lname like '%{$search}%' or user_search like '%{$search}%' )";
 
         $query.=" limit $offset,$length";
        // echo $query;
@@ -949,6 +952,7 @@ class HOMEUser {
         $user_arr = array();
         $house = new HOMEHouse();
         while ($row = $database->database_fetch_assoc($result)) {
+            $user = array();
             $user['id'] = $row['id'];
             $user['user_username'] = $row['user_username'];
             $user['user_fname'] = $row['user_fname'];
