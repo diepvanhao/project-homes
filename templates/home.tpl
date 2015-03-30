@@ -6,17 +6,17 @@
             <thead>
                 <tr>
                     <th>N0</th>
-                    <th>House Type</th>
-                    <th>House Name</th>
-                    <th>House Address</th>
-                    <th>Rent Cost</th>
+                    <th>物件種別</th>
+                    <th>名称</th>
+                    <th>番地</th>
+                    <th>賃料</th>
                     <th>名称</th>
                     {*<th>フリガナ</th>*}
                     {*<th>Client Address</th>*}
                    {* <th>Client Email</th>*}
-                    <th>Client Phone</th>
-                    <th>Source</th>
-                    <th>Status</th>
+                    <th>クライアントの電話</th>
+                    <th>媒体</th>
+                    <th>ステータス</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@
                     {*<td>{$message.client_email|truncate:15}</td>*}
                     <td>{$message.client_phone}</td>
                     <td>{$message.source_name}</td>
-                    <td>{if $message.status eq '1'}Created{else}New{/if}</td>
+                    <td>{if $message.status eq '1'}作成{else}新しい{/if}</td>
                 </tr>
                 {/foreach}
             </tbody>

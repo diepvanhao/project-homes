@@ -16,7 +16,7 @@
 <center>
     <div style="width: 100%;">
         <form action="manage_order.php" method="post">
-            <div>
+            <div style="overflow-x: scroll;">
                 <table style="width: 100%;">
                     <thead>
                         <tr>
@@ -64,7 +64,7 @@
                             <td><input type="text" name="contract_payment_date_from"id="contract_payment_date_from" value="{$contract_payment_date_from}"/></td>
                             <td><input type="text" name="contract_payment_date_to"id="contract_payment_date_to" value="{$contract_payment_date_to}"/></td>
                             <td><input type="text" name="contract_handover_day"id="contract_handover_day" value="{$contract_handover_day}"/></td>
-                            <td>
+                            <td nowrap>
                                 <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
                                 <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>
                             </td>

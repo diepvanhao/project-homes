@@ -9,7 +9,7 @@
         });
     </script>    
 {/literal}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Order Messages</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">メッセージ</div>
 <center>
     <div style="width: 100%;">
         <div >
@@ -21,7 +21,7 @@
                             <span>
                                 <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
                             </span>                            
-                                <input type='button' class='btn-search' value='Fetch New' id="new_message" name="new_message" title="Get new messages from email"/>&nbsp;                             
+                                <input type='button' class='btn-search' value='Get Messages' id="new_message" name="new_message" title="Get new messages from email"/>&nbsp;                             
                         </td>
                     </tr>
 
@@ -38,18 +38,18 @@
                 <thead>
                     <tr>
                         <th>N0</th>
-                        <th>House Type</th>
-                        <th>House Name</th>
-                        <th>House Address</th>
-                        <th>Rent Cost</th>
+                        <th>物件種別</th>
+                        <th>名称</th>
+                        <th>番地</th>
+                        <th>賃料</th>
                         <th>名称</th>
                         <th>フリガナ</th>
-                        <th>Client Address</th>
-                        <th>Client Email</th>
-                        <th>Client Phone</th>
-                        <th>Source</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>クライアントアドレス</th>
+                        <th>クライアントのメール</th>
+                        <th>クライアントの電話</th>
+                        <th>媒体</th>
+                        <th>ステータス</th>
+                        <th>活動</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,10 +67,10 @@
                             <td>{$message.client_email}</td>
                             <td>{$message.client_phone}</td>
                             <td>{$message.source_name}</td>
-                            <td>{if $message.status eq '1'}Created{else}New{/if}</td>
+                            <td>{if $message.status eq '1'}作成{else}新しい{/if}</td>
                             <td>{if $message.status eq '0'}
                                 <form action='fetch_email.php' method="post">
-                                    <input type='submit' class='btn-search' value='Create Order' id="create_new" name="create_new"/>
+                                    <input type='submit' class='btn-search' value='注文を作成' id="create_new" name="create_new"/>
                                     <input type='hidden' class='btn-search' value='{$message.id}' id="message_id" name="message_id"/>
                                 </form>{/if}
                             </td>
