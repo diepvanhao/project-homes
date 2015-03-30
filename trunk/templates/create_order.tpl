@@ -1363,7 +1363,7 @@
                 <td class='form2'>
                     <div style="margin-top:10px">
                         <input type='submit' class='btn-signup' value='次' id="submit" name="submit" style="width: 100px;"/>&nbsp;    
-                        <input type='button' class='btn-signup' value='Skip' id="skip" name="skip" style="width: 100px;" onclick="skip_room()"/>&nbsp;  
+                        <input type='button' class='btn-signup' value='スキップ' id="skip" name="skip" style="width: 100px;" onclick="skip_room()"/>&nbsp;  
                         <input type="hidden" id="step" name="step" value="verify"/>     
                         <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
                         <input type="hidden" id="room_bk" name="room_bk" value="{$room_id}"/>

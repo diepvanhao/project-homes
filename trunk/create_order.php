@@ -1296,11 +1296,13 @@ if ($step == 1) {
             //update introduce            
             //if (($introduce_room_id != 0 && $introduce_house_id != 0) || ($introduce_room_id != null && $introduce_house_id != null))
             //    $ajax->update_introduce($introduce_house_id, $introduce_room_id, $introduce_house_content, $client_id, $order_id);
-            $order_day_update = time();
-            $ajax->edit_room($tab_room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $tab_order_rent_cost, $tab_order_comment, $tab_house_id, $tab_broker_id, $change_house_array, $order_day_update, $client_id, $order_id);
+            if ($tab_broker_id && $tab_room_id && $tab_house_id) {
+                $order_day_update = time();
+                $ajax->edit_room($tab_room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $tab_order_rent_cost, $tab_order_comment, $tab_house_id, $tab_broker_id, $change_house_array, $order_day_update, $client_id, $order_id);
+            }
             //update aspirations                        
             //if ($aspirations_type_room_number != 0 && $aspirations_type_room_number != null)
-            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2,$aspirations_area2,$aspirations_area3);
+            $ajax->update_aspirations($aspirations_type_house, $aspirations_type_room, $aspirations_type_room_number, $aspirations_build_time, $aspirations_area, $aspirations_size, $aspirations_rent_cost, $aspirations_comment, $client_id, $order_id, $aspirations_size2, $aspirations_rent_cost2, $aspirations_area2, $aspirations_area3);
             //update contract
 
             if (isset($_POST['contract_label_money'])) {

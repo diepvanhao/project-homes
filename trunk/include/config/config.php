@@ -7,7 +7,7 @@
  */
 define('SMARTY_DIR', str_replace("\\", "/", getcwd()) . '/include/smarty/libs/');
 define('CURRENT_DIR', str_replace("\\", "/", getcwd()) . '/');
-//echo CURRENT_DIR;die();
+echo CURRENT_DIR;die();
 require (SMARTY_DIR.'Smarty.class.php');
 
 class smarty_class extends Smarty {

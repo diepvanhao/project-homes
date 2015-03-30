@@ -2,7 +2,7 @@
 
 include 'header.php';
 $page = 'import_address';
-
+ini_set('max_execution_time', 3000);
 include 'include/class_import.php';
 if (!$user->user_exists) {
     header('Location: ./user_login.php');
