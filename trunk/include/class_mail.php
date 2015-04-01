@@ -23,19 +23,19 @@ class Mail {
         // 0 = off (for production use)
         // 1 = client messages
         // 2 = client and server messages
-        $mail->SMTPDebug = 0;
+        $mail->SMTPDebug = 2;
         //Ask for HTML-friendly debug output
         $mail->Debugoutput = 'html';
         //Set the hostname of the mail server
-        $mail->Host = "mail.evolableasia.vn";
+        $mail->Host = "gs824.ggsv.jp";
         //Set the SMTP port number - likely to be 25, 465 or 587
         $mail->Port = 25;
         //Whether to use SMTP authentication
         $mail->SMTPAuth = $smtp;
         //Username to use for SMTP authentication
-        $mail->Username = "mainv@evolableasia.vn";
+        $mail->Username = "bm-info@am-bition.jp";
         //Password to use for SMTP authentication
-        $mail->Password = "Aa123456@";
+        $mail->Password = "ambad001";
         
 //        @$mail->CharSet = "iso-2022-jp";    //文字コード設定
         $mail->Encoding = "7bit";
