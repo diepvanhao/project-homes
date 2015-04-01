@@ -11,7 +11,7 @@ if (!$user->user_exists) {
 
     exit();
 }
-if (!@HOMEOrder::checkPermisson('create-event')) {
+if (!@HOMEOrder::checkPermisson('create-client')) {
     header('Location: ./restrict.php');
     exit();
 }
