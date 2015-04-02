@@ -672,9 +672,10 @@ div.filter_order select{
     width: 700px;
     clear: both;
 }
-tr.order_filter td input,
+tr.order_filter td input ,
 tr.order_filter td select{
     height: 20px; 
+	font-size: 1em;
 }
 tr.order_filter td input[type='text']{
     width: 98%;
