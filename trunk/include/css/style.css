@@ -672,7 +672,18 @@ div.filter_order select{
     width: 700px;
     clear: both;
 }
-.order_filter input{
-    width: 90px;
-     height: 27px;
+tr.order_filter td input,
+tr.order_filter td select{
+    height: 20px; 
+}
+tr.order_filter td input[type='text']{
+    width: 98%;
+}
+tr.order_filter td input[type='submit'],
+tr.order_filter td input[type='button']
+{
+    width: 45%;
+}
+tr.order_filter > td{
+    padding: 2px;
 }
