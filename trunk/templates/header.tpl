@@ -48,7 +48,7 @@
                                 Welcome, <a target="_top" href="./user_profile.php">{$user->user_info.user_lname} {$user->user_info.user_fname} </a>
                                 &nbsp;&nbsp;<br><br>
 
-                                <a target="_top" href="help.php">ご質問・ご要望</a>&nbsp;&nbsp;
+                                <!--<a target="_top" href="help.php">ご質問・ご要望</a>&nbsp;&nbsp;-->
                                 <form target="_top" style="display:inline;margin:0;" action="user_logout.php" id="user_logout" method="POST"><a onclick="$('#user_logout').submit();
                                         return false;" class="" href="user_logout.php">ログアウト</a>
                                 </form>

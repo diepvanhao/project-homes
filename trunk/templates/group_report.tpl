@@ -44,7 +44,7 @@
     <div class="agent-content">
         <div class="report-lable">
             <div class="agent-name">
-                <span>秋葉原店</span>
+                <span>店舗名</span>
                 <span>{$agent_name}</span>
             </div>
             <br>
