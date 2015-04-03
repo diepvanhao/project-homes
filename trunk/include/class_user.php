@@ -952,11 +952,11 @@ class HOMEUser {
         $user_arr = array();
         $house = new HOMEHouse();
         while ($row = $database->database_fetch_assoc($result)) {
-            $user = array();
-            $user['id'] = $row['id'];
-            $user['user_username'] = $row['user_username'];
-            $user['user_fname'] = $row['user_fname'];
-            $user['user_lname'] = $row['user_lname'];
+            $usertmp = array();
+            $usertmp['id'] = $row['id'];
+            $usertmp['user_username'] = $row['user_username'];
+            $usertmp['user_fname'] = $row['user_fname'];
+            $usertmp['user_lname'] = $row['user_lname'];
             // $user['user_address'] = $row['user_address'];
             if ($house->isSerialized($row['user_address'])) {
                 $house_address_serialize = unserialize($row['user_address']);
@@ -965,24 +965,24 @@ class HOMEUser {
                 $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
                 $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
                 $address = $house_address_serialize['address'];
-                $user['user_address'] = $city_id_filter  . $district_id_filter  . $street_id_filter  . $ward_id_filter  . $address;
+                $usertmp['user_address'] = $city_id_filter  . $district_id_filter  . $street_id_filter  . $ward_id_filter  . $address;
             } else {
-                $user['user_address'] = $row['user_address'];
+                $usertmp['user_address'] = $row['user_address'];
             }
-            $user['user_email'] = $row['user_email'];
-            $user['user_phone'] = $row['user_phone'];
-            $user['user_gender'] = $row['user_gender'];
-            $user['user_birthday'] = $row['user_birthday'];
-            $user['user_authorities'] = $row['user_authorities'];
-            $user['user_position'] = $row['user_position'];
-            $user['user_target'] = getTarget($row['id']);
-            $user['user_path_photo'] = $row['user_path_photo'];
-            $user['user_path_thumb'] = $row['user_path_thumb'];
-            $user['user_locked'] = $row['user_locked'];
-            $user['user_photo'] = $row['user_photo'];
+            $usertmp['user_email'] = $row['user_email'];
+            $usertmp['user_phone'] = $row['user_phone'];
+            $usertmp['user_gender'] = $row['user_gender'];
+            $usertmp['user_birthday'] = $row['user_birthday'];
+            $usertmp['user_authorities'] = $row['user_authorities'];
+            $usertmp['user_position'] = $row['user_position'];
+            $usertmp['user_target'] = getTarget($row['id']);
+            $usertmp['user_path_photo'] = $row['user_path_photo'];
+            $usertmp['user_path_thumb'] = $row['user_path_thumb'];
+            $usertmp['user_locked'] = $row['user_locked'];
+            $usertmp['user_photo'] = $row['user_photo'];
             //fetch target
 
-            $user_arr[] = $user;
+            $user_arr[] = $usertmp;
         }
         return $user_arr;
     }

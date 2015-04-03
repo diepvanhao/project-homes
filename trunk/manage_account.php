@@ -65,5 +65,6 @@ $smarty->assign('search', $search);
 $smarty->assign('page_number', $page_number);
 $smarty->assign('totalPage', $totalPage);
 $smarty->assign('users', $users);
-$smarty->assign('canEdit', @HOMEOrder::checkPermisson('create-account'));
+$smarty->assign('canEdit', $user->user_info['user_authorities'] == 1);//@HOMEOrder::checkPermisson('create-account'));
+
 include "footer.php";
