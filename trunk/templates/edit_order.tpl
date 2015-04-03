@@ -1517,8 +1517,9 @@
                                         <option value="other" {if $gender eq "other"}selected{/if}>その他</option>
                                     </select>
                                 </td>
-                                <td class='form1' nowrap>番地:</td>
-                                <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>会社名:</td>
+                                <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
+                                
                             </tr>
                             <tr>
                                 <td class='form1'>都道府県:  <span class="required">*</span></td>
@@ -1560,8 +1561,8 @@
                                     </select>
                                     <!--<input type="text" id="client_occupation" name="client_occupation" value="{$client_occupation}" style="height: 26px; width: 215px;"/>-->
                                 </td>
-                                <td class='form1' nowrap>会社名:</td>
-                                <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>番地:</td>
+                                <td class='form2'> <input type='text' id="client_address" name="client_address" value="{$client_address}" style="height: 26px; width: 215px;"/></td>
                             </tr>
                             <tr>
                                 <td class='form1'>年収:</td>
