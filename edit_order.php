@@ -20,8 +20,8 @@ if (!$user->user_exists) {
 
     exit();
 }
-if (!HOMEOrder::checkPermisson('create-order')) {
-    header('Location: ./restrict.php');
+if (!@HOMEOrder::checkPermisson('create-order')) {
+    header('Location: ./restrict.php'); 
     exit();
 }
 if ($user->user_info['user_locked']) {
