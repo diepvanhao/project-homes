@@ -86,7 +86,7 @@
                             <li><a href="#">スケジュール</a>
                                 <ul>
                                     <li><a href="google_calendar.php">個人</a></li>
-                                    <li><a href="general_calendar.php">一般</a></li>
+                                    <li><a href="general_calendar.php">全体</a></li>
                                     <li><a href="fetch_email.php">Get Messages</a></li>
                                 </ul>
                             </li>
