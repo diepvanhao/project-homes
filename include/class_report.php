@@ -81,9 +81,13 @@ class Report {
      */
     public function getAllAgents() {
         global $database;
-        $select = "SELECT a.* FROM home_agent a 
+        /*backup
+         * SELECT a.* FROM home_agent a 
                   LEFT JOIN home_user u ON u.agent_id = a.id  
                   GROUP BY u.agent_id
+                  ORDER BY a.agent_name ASC
+         */
+        $select = "SELECT a.* FROM home_agent a                   
                   ORDER BY a.agent_name ASC";
         $result = $database->database_query($select);
         $arr = array();

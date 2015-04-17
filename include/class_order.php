@@ -710,6 +710,7 @@ class HOMEOrder {
                                 hcd.contract_date_create,
                                 hcd.contract_date_update,
                                 hcd.contract_cancel,
+                                hcd.contract_cancel_date,
                                 hcd.contract_period_from,
                                 hcd.contract_period_to,
                                 hcd.contract_deposit_1,
@@ -756,6 +757,7 @@ class HOMEOrder {
         $client['contract_date_create'] = $row['contract_date_create'];
         $client['contract_date_update'] = $row['contract_date_update'];
         $client['contract_cancel'] = $row['contract_cancel'];
+        $client['contract_cancel_date'] = $row['contract_cancel_date'];
         $client['contract_period_from'] = $row['contract_period_from'];
         $client['contract_period_to'] = $row['contract_period_to'];
         $client['contract_deposit_1'] = $row['contract_deposit_1'];

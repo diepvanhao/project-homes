@@ -498,3 +498,7 @@ ALTER TABLE  `home_history_aspirations` CHANGE  `aspirations_rent_cost`  `aspira
 
 ALTER TABLE  `home_history_aspirations` ADD  `aspirations_area2` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_area` ,
 ADD  `aspirations_area3` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL AFTER  `aspirations_area2` ;
+
+/* 17/4 */
+ALTER TABLE `home_contract_detail`   
+  ADD COLUMN `contract_cancel_date` INT(11) NULL AFTER `room_administrative_expense`;
