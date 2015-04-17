@@ -127,11 +127,11 @@
                                         {*   {/if}*}
 
                                     <td style="width:15%">
-                                        {if $order.user_id == $user->user_info['id']}
-                                            <a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">編集</a>
+                                        {if $order.user_id eq 0}
+                                            <a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">登録</a>
                                         
-                                        {* {else if (($order.user_id eq $user_id) or (($user->user_info.user_authorities lte 2)and ($order.user_id ne 0)))} *}
-                                            <!--<a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>-->
+                                         {else if (($order.user_id eq $user_id) and ($order.user_id ne 0))} 
+                                            <a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>
                                         {/if}
                                         {if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}
                                             <a href="javascript:void" onclick="deleteItem({$order.id},{$order.order_status})" style="margin-right: 10px;">{if $order.order_status eq 1}削除{else}回復{/if}

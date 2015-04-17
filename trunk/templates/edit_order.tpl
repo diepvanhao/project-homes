@@ -52,6 +52,7 @@
             birthday('contract_handover_day_date');
             birthday('contract_period_from_date');
             birthday('contract_application_date');
+            birthday('contract_cancel_date');
             //birthday('contract_period_to_date');
             //birthday('contract_application_date');
             $('#search').keyup(function(e) {
@@ -1268,138 +1269,138 @@
         </ul>
     </div>
     <div id="order_detail">                    
-            {literal}
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('#order_name').attr('disabled', 'disabled');
-                        $('#filter_broker').keyup(function(e) {
-                            var filter = $('#filter_broker').val();
-                            $('#error_broker').css("color", '#ddd');
-                            //showloadgif();
-                            $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
-                            function(result) {
-                                if (result) {
-                                    //  hideloadgif();
-                                    $('#broker_id').empty();
-                                    $('#broker_id').html(result);
-                                    $('#yoke_muscle').click();
-                                } else {
-                                    // hideloadgif();
-                                    $('#broker_id').empty();
-                                    // $('#house_id').empty();
-                                    //$('#house_description').html("");                                    
-                                    $('#error_broker').html("仲介会社が見つかりませんでした。");
-                                    $('#error_broker').css("color", '');
-                                }
-                            });
-                        });
-                        $('#yoke_muscle').click(function() {
-                            var broker_id = $('#broker_id').val();
-                            //$('#submit').attr('disabled', false);
-                            // $("#submit").css('color', '#fff');
-                            $('#room_id').html('');
-                            $('#search').val('');
-                            $('error_house').html('');
-                            $('error_room').html('');
-                            $.post('include/function_ajax.php', {broker_id: broker_id, action: 'create_order', task: 'getHouseList'},
-                            function(result) {
-                                if (result) {
-                                    $('#house_id').empty();
-                                    $('#house_id').html(result);
-                                } else {
-                                    $('#house_id').empty();
-                                    $('#error_house').html('物件名が見つかりませんでした。');
-                                }
-
-                            });
-                        });
-
-
-                        $('#submit').click(function(e) {
-                            $('#error_broker').html("");
-                            $('#error_edit').html("");
-                            $('#error_house').html("");
-                            $('#error_order_name').html("");
-                            $('#error_room').html("");
-                            var client_id = $('#client_id').val();
-                            var order_id = $('#order_id').val();
-                            var broker_id = $('#broker_id').val();
-                            var house_id = $('#house_id').val();
-                            var broker_id_bk = $('#broker_id_bk').val();
-                            var house_id_bk = $('#house_id_bk').val();
-                            var order_name = $('#order_name').val();
-                            var room_id = $('#room_id').val();
-                            var room_id_bk = $('#room_id_bk').val();
-                            var order_rent_cost = $('#order_rent_cost').val();
-                            var order_comment = $('#order_comment').val();
-                            var change_house_array = $('#change_house_array').val();
-
-                            if (broker_id == "" || broker_id == null) {
-                                $('#error_broker').html('仲介会社を選択ください。');
-                                e.preventDefault();
-                                return false;
-                            } else if (house_id == "" || house_id == null) {
-                                $('#error_house').html('物件を選択ください。.');
-                                e.preventDefault();
-                                return false;
-                            } else if (room_id == "" || room_id == null) {
-                                $('#error_room').html('お部屋を選択ください。.');
-                                e.preventDefault();
-                                return false;
-                            } else if (order_name == "" || order_name == null) {
-                                $('#error_order_name').html('オーダー名は必要です。.');
-                                e.preventDefault();
-                                return false;
-                            } else {
-                                //showloadgif();
-
-                                $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, broker_id: broker_id,
-                                    order_rent_cost: order_rent_cost, order_comment: order_comment, change_house_array: change_house_array,
-                                    room_id_bk: room_id_bk, house_id_bk: house_id_bk, broker_id_bk: broker_id_bk,
-                                    client_id: client_id, order_id: order_id, action: 'create_order', task: 'edit_room'},
-                                function(result) {
-                                    var json = $.parseJSON(result);
-                                    if (json) {
-                                        alert('保存');
-                                        $('#room_id_bk').val(room_id);
-                                        $('#house_id_bk').val(house_id);
-                                        $('#broker_id_bk').val(broker_id);
-                                        $('#room_administrative_expense').val(json);
-                                    }
-                                    else {
-                                        $('#error_edit').html('更新に失敗しました。もう一度試してください。 !!!');
-                                    }
-                                });
-                            }
-
-                        });
-                        $('#broker_id').change(function() {
-                            //active form
-                            $('#error_broker').html("");
-                            $('#error_house').html("");
-                            var broker_id = $('#broker_id').val();
-                            if (broker_id) {
+        {literal}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#order_name').attr('disabled', 'disabled');
+                    $('#filter_broker').keyup(function(e) {
+                        var filter = $('#filter_broker').val();
+                        $('#error_broker').css("color", '#ddd');
+                        //showloadgif();
+                        $.post("include/function_ajax.php", {filter: filter, action: 'create_order', task: 'getBrokerFilter'},
+                        function(result) {
+                            if (result) {
+                                //  hideloadgif();
+                                $('#broker_id').empty();
+                                $('#broker_id').html(result);
                                 $('#yoke_muscle').click();
                             } else {
+                                // hideloadgif();
+                                $('#broker_id').empty();
+                                // $('#house_id').empty();
+                                //$('#house_description').html("");                                    
+                                $('#error_broker').html("仲介会社が見つかりませんでした。");
+                                $('#error_broker').css("color", '');
                             }
                         });
+                    });
+                    $('#yoke_muscle').click(function() {
                         var broker_id = $('#broker_id').val();
-
-                        var house_id = $('#house_id').val();
-
-                        // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
-                        var room_id = $('#room_id_bk').val();
-
-                        $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                        //$('#submit').attr('disabled', false);
+                        // $("#submit").css('color', '#fff');
+                        $('#room_id').html('');
+                        $('#search').val('');
+                        $('error_house').html('');
+                        $('error_room').html('');
+                        $.post('include/function_ajax.php', {broker_id: broker_id, action: 'create_order', task: 'getHouseList'},
                         function(result) {
-                            var json = $.parseJSON(result);
-                            $('#house_description').html(json.house_description);
-                            get_room(house_id, room_id);
+                            if (result) {
+                                $('#house_id').empty();
+                                $('#house_id').html(result);
+                            } else {
+                                $('#house_id').empty();
+                                $('#error_house').html('物件名が見つかりませんでした。');
+                            }
+
                         });
                     });
-                </script>
-            {/literal}
-      
+
+
+                    $('#submit').click(function(e) {
+                        $('#error_broker').html("");
+                        $('#error_edit').html("");
+                        $('#error_house').html("");
+                        $('#error_order_name').html("");
+                        $('#error_room').html("");
+                        var client_id = $('#client_id').val();
+                        var order_id = $('#order_id').val();
+                        var broker_id = $('#broker_id').val();
+                        var house_id = $('#house_id').val();
+                        var broker_id_bk = $('#broker_id_bk').val();
+                        var house_id_bk = $('#house_id_bk').val();
+                        var order_name = $('#order_name').val();
+                        var room_id = $('#room_id').val();
+                        var room_id_bk = $('#room_id_bk').val();
+                        var order_rent_cost = $('#order_rent_cost').val();
+                        var order_comment = $('#order_comment').val();
+                        var change_house_array = $('#change_house_array').val();
+
+                        if (broker_id == "" || broker_id == null) {
+                            $('#error_broker').html('仲介会社を選択ください。');
+                            e.preventDefault();
+                            return false;
+                        } else if (house_id == "" || house_id == null) {
+                            $('#error_house').html('物件を選択ください。.');
+                            e.preventDefault();
+                            return false;
+                        } else if (room_id == "" || room_id == null) {
+                            $('#error_room').html('お部屋を選択ください。.');
+                            e.preventDefault();
+                            return false;
+                        } else if (order_name == "" || order_name == null) {
+                            $('#error_order_name').html('オーダー名は必要です。.');
+                            e.preventDefault();
+                            return false;
+                        } else {
+                            //showloadgif();
+
+                            $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, broker_id: broker_id,
+                                order_rent_cost: order_rent_cost, order_comment: order_comment, change_house_array: change_house_array,
+                                room_id_bk: room_id_bk, house_id_bk: house_id_bk, broker_id_bk: broker_id_bk,
+                                client_id: client_id, order_id: order_id, action: 'create_order', task: 'edit_room'},
+                            function(result) {
+                                var json = $.parseJSON(result);
+                                if (json) {
+                                    alert('保存');
+                                    $('#room_id_bk').val(room_id);
+                                    $('#house_id_bk').val(house_id);
+                                    $('#broker_id_bk').val(broker_id);
+                                    $('#room_administrative_expense').val(json);
+                                }
+                                else {
+                                    $('#error_edit').html('更新に失敗しました。もう一度試してください。 !!!');
+                                }
+                            });
+                        }
+
+                    });
+                    $('#broker_id').change(function() {
+                        //active form
+                        $('#error_broker').html("");
+                        $('#error_house').html("");
+                        var broker_id = $('#broker_id').val();
+                        if (broker_id) {
+                            $('#yoke_muscle').click();
+                        } else {
+                        }
+                    });
+                    var broker_id = $('#broker_id').val();
+
+                    var house_id = $('#house_id').val();
+
+                    // var room_id ={/literal}{if $room_id ne ""}{$room_id}{else}0{/if}{';'}{literal}
+                    var room_id = $('#room_id_bk').val();
+
+                    $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                    function(result) {
+                        var json = $.parseJSON(result);
+                        $('#house_description').html(json.house_description);
+                        get_room(house_id, room_id);
+                    });
+                });
+            </script>
+        {/literal}
+
         <div id="edit_client" class="active">
             {if $error|@count gt 0}
                 {foreach from=$error item=val}
@@ -1426,48 +1427,48 @@
                     <input type="hidden" id="page_number" name="page_number" value="{$page_number}"/>
                     </tr>
                 </table>
-            
-            <div style="margin-bottom:10px;" id="page">
-                <center>
-                    ページ:
-                    {for $i=1 to $totalPage }
-                        {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<span onclick="selectpage({$i})" style='margin-left: 10px;color: black;cursor: pointer;'>{$i}{/if}</span>
-                    {/for}
-                </center>
-            </div>
-            <div id="customer">
-                <ul>
-                    <li class="even">番号</li>
-                    <li class="even">名称</li>
-                    <li class="even">生年月日</li>
-                    <li class="even">住所</li>
-                    <li class="even">電話番号</li>
-                </ul>
 
-                {foreach from=$customers key=k item=item}
+                <div style="margin-bottom:10px;" id="page">
+                    <center>
+                        ページ:
+                        {for $i=1 to $totalPage }
+                            {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<span onclick="selectpage({$i})" style='margin-left: 10px;color: black;cursor: pointer;'>{$i}{/if}</span>
+                        {/for}
+                    </center>
+                </div>
+                <div id="customer">
                     <ul>
-                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
-                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
-                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
-                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
-                        <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
+                        <li class="even">番号</li>
+                        <li class="even">名称</li>
+                        <li class="even">生年月日</li>
+                        <li class="even">住所</li>
+                        <li class="even">電話番号</li>
                     </ul>
-                {/foreach}
 
-            </div>
-            <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">お客様情報</div>
-            <div id="client_info">
-                <ul>
-                    <li class="select_menu" title="basic">基本情報</li>
-                    <li class="noselect_menu" title="detail">詳細</li>
-                    <li class="noselect_menu" title="history">履歴</li>
-                    <li class="noselect_menu" title="aspirations">希望</li>
-                    <li class="noselect_menu" title="introduce">部屋情報編集</li>
-                    <li class="noselect_menu" title="contract">申込・契約</li>
-                </ul>
-            </div>
-            <div id="client_detail">
-                   
+                    {foreach from=$customers key=k item=item}
+                        <ul>
+                            <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
+                            <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
+                            <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
+                            <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
+                            <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
+                        </ul>
+                    {/foreach}
+
+                </div>
+                <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">お客様情報</div>
+                <div id="client_info">
+                    <ul>
+                        <li class="select_menu" title="basic">基本情報</li>
+                        <li class="noselect_menu" title="detail">詳細</li>
+                        <li class="noselect_menu" title="history">履歴</li>
+                        <li class="noselect_menu" title="aspirations">希望</li>
+                        <li class="noselect_menu" title="introduce">部屋情報編集</li>
+                        <li class="noselect_menu" title="contract">申込・契約</li>
+                    </ul>
+                </div>
+                <div id="client_detail">
+
                     <div id="basic"class="active">
                         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                             <tr>
@@ -1519,7 +1520,7 @@
                                 </td>
                                 <td class='form1' nowrap>会社名:</td>
                                 <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
-                                
+
                             </tr>
                             <tr>
                                 <td class='form1'>都道府県:  <span class="required">*</span></td>
@@ -1802,11 +1803,21 @@
                             </tr>
                             <tr>
                                 <td class='form1'>築年月:</td>
-                                <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>◯年</td>
+                                <td class='form2'>
+                                    <select id="aspirations_build_time" name="aspirations_build_time" style="height:26px; width: 215px;">
+                                        <option value="">指定なし</option>
+                                        <option value="0"{if $aspirations_build_time eq "0"} selected{/if}>新築</option>
+                                        <option value="3"{if $aspirations_build_time eq "3"} selected{/if}>3年以内</option>
+                                        <option value="5"{if $aspirations_build_time eq "5"} selected{/if}>5年以内</option>
+                                        <option value="10"{if $aspirations_build_time eq "10"} selected{/if}>10年以内</option>
+                                        <option value="15"{if $aspirations_build_time eq "15"} selected{/if}>15年以内</option>
+                                        <option value="20"{if $aspirations_build_time eq "20"} selected{/if}>20年以内</option>
+                                    </select> 
+                                </td>
                                 <td class='form1' nowrap>エリア・沿線:</td>
                                 <td class='form2'> 
                                     <!--<input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/>-->
-                                    <select id="pref" name="aspirations_area" style="height:28px; width: 90px;" onChange="setMenuItem(0,this[this.selectedIndex].value)">
+                                    <select id="pref" name="aspirations_area" style="height:28px; width: 90px;" onChange="setMenuItem(0, this[this.selectedIndex].value)">
                                         <option value="0" >-----
                                         <option value="1" {if $aspirations_area eq '1'}selected="selected"{/if}>北海道
                                         <option value="2" {if $aspirations_area eq '2'}selected="selected"{/if}>青森県
@@ -1856,7 +1867,7 @@
                                         <option value="46" {if $aspirations_area eq '46'}selected="selected"{/if}>鹿児島県
                                         <option value="47" {if $aspirations_area eq '47'}selected="selected"{/if}>沖縄県
                                     </select>
-                                    <select id="s0" name="aspirations_area2" style="height:28px; width: 90px;" onChange="setMenuItem(1,this[this.selectedIndex].value)">
+                                    <select id="s0" name="aspirations_area2" style="height:28px; width: 90px;" onChange="setMenuItem(1, this[this.selectedIndex].value)">
                                         <option selected>----
                                     </select> 
                                     <select id="s1" name="aspirations_area3" style="height:28px; width: 90px;">
@@ -1955,337 +1966,340 @@
                         {*</form>*}
                     </div>
                     <div id="introduce" class="inactive">
-                        
-                    <div class="title"><label >登録完了致しました</label></div>
-                    <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
-                        <tr>
-                            <td class="form1">管理会社検索</td>
-                            <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
-                            </td>
-                        </tr>
-                        <tr>       
-                            <td class='form1'>管理会社選択: </td>
-                            <td class='form2'>
-                                <select id="broker_id" name="broker_id" style="height:26px; width: 215px;">
-                                    <option value=""></option>
-                                    {foreach from=$brokers item=broker}
-                                        <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
-                                    {/foreach}
-                                </select>
-                                <a href="javascript:void(0);" id="popup_create_broker" >管理会社</a>
-                                <div id="error_broker" class="error"></div>
-                            </td>
-                        </tr> 
-                        {*<tr> 
-                        {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
-                        <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
-                        </tr>   *}         
-                        <tr>
-                            <td class="form1">物件検索</td>
-                            <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
-                            </td>
-                        </tr>
-                        <tr>            
-                            <td class='form1'>物件選択: </td>
-                            <td class='form2'>
-                                <select id="house_id" name="house_id" style="height:26px; width: 215px;">
-                                    <option value=""></option>
-                                    {foreach from=$houses item=house}
-                                        <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
-                                    {/foreach}
-                                </select>
-                                <a href="javascript:void(0);" id="popup_create_house" >物件情報</a>
-                                <div id="error_house" class="error"></div>
-                            </td>
-                        </tr>
-                        <tr>            
-                            <td class='form1'>物件備考: </td>
-                            <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
-                        </tr>
-                        {* <tr>            
-                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
-                        </tr>*}
 
-                        <tr>            
-                            <td class='form1'>部屋選択: </td>
-                            <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
-                                    <option value=""></option>
-                                </select>
-                                <a href="javascript:void(0);" id="popup_create_room" >部屋情報</a>
-                                <div id="error_room" class="error"></div>
-                            </td>
-                        </tr>
-                        {* <tr>            
-                        <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
-                        </tr>*}
-                        <!--order part-->
-                        <tr>            
-                            <td class='form1'>オーダーID: </td>
-                            <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 215px;"/><div id="error_order_name" class="error"></div></td>
-                        </tr>
-                        <tr>            
-                            <td class='form1'>賃料: </td>
-                            <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 215px;"/></td>
-                        </tr>
-                        <tr>            
-                            <td class='form1'>備考: </td>
-                            <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 215px;"/></td>
-                        </tr>
-
-                        <!--end order-->
-                        <tr>
-                            <td class='form1'>&nbsp;</td>
-                            <td class='form2'>
-                                <div style="margin-top:10px">                                                                             
-                                    <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
-                                    <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$room_id}"/>
-                                    <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id}"/>
-                                    <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id}"/>                                    
-                                    <input type="hidden" id="change_house_array" name="change_house_array" value="{$change_house_array}"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    {* </form>*}
-            </div>
-            <div id="contract" class="inactive">
-                {*<form action="edit_order.php" method="post">  *}      
-                <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="contract_plus">
-                    <tr>
-                        <td class='form1' nowrap>賃料:</td>
-                        <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
-                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                        </td>
-                        <td class='form1'>礼金:</td>
-                        <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                <option value="円"{if $contract_key_money_unit eq "円"} selected{/if}>円</option>
-                                <option value="ヵ月"{if $contract_key_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'>仲介手数料:</td>
-                        <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                <option value="円"{if $contract_broker_fee_unit eq "円"} selected{/if}>円</option>
-                                <option value="ヵ月" {if $contract_broker_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                            </select>
-                        </td>
-                        <td class='form1'>広告費:</td>
-                        <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                <option value="円"{if $contract_ads_fee_unit eq "円"} selected{/if}>円</option>
-                                <option value="ヵ月"{if $contract_ads_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                            </select>
-                        </td>                                           
-                    </tr>
-                    <tr>                    
-                        <td class='form1'>敷金・保証金（預かり）:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                <option value="円"{if $contract_deposit1_money_unit eq "円"} selected{/if}>円</option>
-                                <option value="ヵ月"{if $contract_deposit1_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                            </select></td>
-                        <td class='form1' nowrap>敷金・保証金（償却）:</td>
-                        <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
-                            <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
-                                <option value="円"{if $contract_deposit2_money_unit eq "円"} selected{/if}>円</option>
-                                <option value="ヵ月"{if $contract_deposit2_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>管理費:</td>
-                        <td class='form2'>
-                            <input type="text"  name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
-                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                        </td>
-                        <td class='form1'>申込金:</td>
-                        <td class='form2'>
-                            <input type="text"  name='money_payment' id='money_payment' value="{$money_payment}" style="height: 26px; width: 215px;">
-                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>合計:</td>
-                        <td class='form2'><input type="text" id="contract_total" name="contract_total"  value="{$contract_total}"style="height: 26px; width: 215px;"/>
-                            <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
-                        </td>
-
-                        <td class='form1'>他決:</td>
-                        <td class='form2'><input type="checkbox" value="1" id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
-                    </tr>
-                    <tr>
-                        <td class='form1' nowrap>契約金入金予定日:</td>
-                        <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
-                        <td class='form1' nowrap>入金状況:</td>
-                        <td class='form2'>
-                            <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>広告費入金予定日: </td>
-                        <td class='form2'>
-                            <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
-                        </td>
-                        <td class='form1' nowrap>入金状況:</td>
-                        <td class='form2'>
-                            <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>契約日:</td>
-                        <td class='form2'>
-                            <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
-                            <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
-                        </td>
-                        <td class='form1' nowrap>鍵渡日:</td>
-                        <td class='form2'>
-                            <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
-                            <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>契約始期:</td>
-                        <td class='form2'>
-                            {*<input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>*}
-                            <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 215px;"/>
-                        </td>
-                        <td class='form1' nowrap>契約終期:</td>
-                        <td class='form2'>
-                            {*<input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>*}
-                            <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 215px;"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='form1'>申込金:</td>
-                        <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
-                            <input type='radio' id="contract_application_yes" onClick="javascript:sendMail(this);" name="contract_application" value="1" {if $contract_application eq '1'}checked="checked" {/if}/><label for="contract_application_yes">有</label> &nbsp; &nbsp; 
-                            <input type='radio' id="contract_application_no" name="contract_application" value="0" {if $contract_application eq '0'}checked="checked" {/if}/><label for="contract_application_no">無</label>
-                        </td>
-                        <td class='form1' nowrap>申込日:</td>
-                        <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
-                    </tr>
-
-                    <tr>                    
-                        <td class='form1'>店舗:</td>
-                        <td class='form2'>
-                            <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
-                                <option value=""></option>
-                                {foreach from=$agents item=agent}
-                                    <option value="{$agent.id}">{$agent.agent_name}</option>
-                                {/foreach}
-                            </select>
-                        </td>
-                        <td class='form1' nowrap>按分先:</td>
-                        <td class='form2'>
-                            <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
-                                <option value=""></option>
-                                {foreach from=$partners item=partner}
-                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
-                                {/foreach}
-                            </select>
-                            <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
-                            <div id="error_partner_id" class="error"></div>
-                        </td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1' nowrap>条件:</td>
-                        <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
-                        <td class='form1' nowrap>評価額:</td>
-                        <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'>売上計上:</td>
-                        <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}style="height: 26px; width: 15px;"/></td>
-                        <td class='form1' nowrap>キャンセル:</td>
-                        <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    <tr>                    
-                        <td class='form1'></td>
-                        <td class='form2'>
-                            <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
-                        </td>       
-                        <td class='form1' nowrap>自社物件: </td>
-                        <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}style="height: 26px; width: 15px;"/></td>
-                    </tr>
-                    {foreach from=$plus_money key=k item=money}
-                        <tr>
-                            <td class='form1'>{$k} :</td>
-                            <td class='form2'>
-                                <input type='hidden' name='contract_label_money[]' value="{$k}"/>
-                                <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
-                                <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
-                                <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
-                            </td> 
-                            <td class='form1'></td>
-                            <td class='form2'></td> 
-                        </tr>
-                    {/foreach}
-                    <tr>
-                        <td class='form1'>&nbsp;</td>
-                        <td class='form2' colspan="3">
-                            <div id="error_validate" class="error"></div>
-                            <div style="margin-top:10px;text-align: center;">
-                                {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
-                                <input type="hidden" id="task" name="task" value="contract"/>
-                                <input type="hidden" id="step" name="step" value="registry"/> 
-                                <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
-                                <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
-                                <input type="hidden" id="calculator" name="calculator"/>
-                                <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
-                            </div>                        
-                        </td>
-                    </tr>
-                </table>
-                <div id="export_form" style="display:none;">
-                    <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
-                        <tbody>
+                        <div class="title"><label >登録完了致しました</label></div>
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">      
                             <tr>
-                                <td class="form1">
-                                    選択
-                                </td>
-                                <td class="form2">
-                                    <select name="export_option">
-                                        <option value="10">オーダー</option>
-                                        <option value="1">申込報告書</option>
-                                        <option value="2">精算書家主用</option>
-                                        <option value="3">精算書入居者用</option>
-                                        <option value="4">入居者対応補助</option>
-                                        <option value="5">請求書</option>
-                                        <option value="6">業務委託料</option>
-                                        <option value="7">広告料</option>
-                                    </select>
-                                    <select name="type">
-                                        <option value="xls">XLS</option>
-                                        <option value="csv">CSV</option>
-                                    </select>
+                                <td class="form1">管理会社検索</td>
+                                <td class="form2"><input type="text" id="filter_broker" name="filter_broker" value="" placeholder="管理会社名を入力する。" style="height:26px; width: 215px;"/>
                                 </td>
                             </tr>
+                            <tr>       
+                                <td class='form1'>管理会社選択: </td>
+                                <td class='form2'>
+                                    <select id="broker_id" name="broker_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$brokers item=broker}
+                                            <option value="{$broker.id}" {if $broker.id eq $broker_id}selected="selected"{/if}>{$broker.broker_company_name}</option>        
+                                        {/foreach}
+                                    </select>
+                                    <a href="javascript:void(0);" id="popup_create_broker" >管理会社</a>
+                                    <div id="error_broker" class="error"></div>
+                                </td>
+                            </tr> 
+                            {*<tr> 
+                            {assign var=broker_link value='次のリンクで、新しい管理会社の情報を追加することができます。 <a href="./create_broker_company.php">管理会社登録</a>'}
+                            <td colspan="2" nowrap><div>次のリンクで、新しい管理会社の情報を追加することができます。<a href="./create_broker_company.php">管理会社登録</a></div></td>
+                            </tr>   *}         
                             <tr>
-                                <td class="form1">&nbsp;</td>
-                                <td class="form2">
-                                    <div style="margin-top:10px">
-                                        <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 150px;"/> 
-                                        <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
+                                <td class="form1">物件検索</td>
+                                <td class="form2"><input type="text" id="search" name="search" value="" placeholder="物件名を入力する。" style="height:26px; width: 215px;"/>
+                                </td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>物件選択: </td>
+                                <td class='form2'>
+                                    <select id="house_id" name="house_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$houses item=house}
+                                            <option value="{$house.id}"{if $house.id eq $house_id}selected="selected"{/if}>{$house.house_name}</option>        
+                                        {/foreach}
+                                    </select>
+                                    <a href="javascript:void(0);" id="popup_create_house" >物件情報</a>
+                                    <div id="error_house" class="error"></div>
+                                </td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>物件備考: </td>
+                                <td class='form2'><textarea style="width: 340px;height: 129px;" disabled="1" id="house_description"></textarea></td>
+                            </tr>
+                            {* <tr>            
+                            <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。<a href="./create_house.php">物件登録</a></div></td>
+                            </tr>*}
+
+                            <tr>            
+                                <td class='form1'>部屋選択: </td>
+                                <td class='form2'><select id="room_id" name="room_id" style="height:26px; width: 215px;">
+                                        <option value=""></option>
+                                    </select>
+                                    <a href="javascript:void(0);" id="popup_create_room" >部屋情報</a>
+                                    <div id="error_room" class="error"></div>
+                                </td>
+                            </tr>
+                            {* <tr>            
+                            <td colspan="2"><div>次のリンクで、新しい物件情報を追加することができます。 <a href="./create_room.php">部屋情報</a></div></td>
+                            </tr>*}
+                            <!--order part-->
+                            <tr>            
+                                <td class='form1'>オーダーID: </td>
+                                <td class='form2'><input type='text' id="order_name" name="order_name" value="{$order_name}"style="height: 26px; width: 215px;"/><div id="error_order_name" class="error"></div></td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>賃料: </td>
+                                <td class='form2'><input type='text' id="order_rent_cost" name="order_rent_cost" value="{$order_rent_cost}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+                            <tr>            
+                                <td class='form1'>備考: </td>
+                                <td class='form2'><input type='text' id="order_comment" name="order_comment" value="{$order_comment}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+
+                            <!--end order-->
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2'>
+                                    <div style="margin-top:10px">                                                                             
+                                        <input type="hidden" id="yoke_muscle" name="yoke_muscle"/>
+                                        <input type="hidden" id="room_id_bk" name="room_id_bk" value="{$room_id}"/>
+                                        <input type="hidden" id="house_id_bk" name="house_id_bk" value="{$house_id}"/>
+                                        <input type="hidden" id="broker_id_bk" name="broker_id_bk" value="{$broker_id}"/>                                    
+                                        <input type="hidden" id="change_house_array" name="change_house_array" value="{$change_house_array}"/>
                                     </div>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        </table>
+                        {* </form>*}
+                    </div>
+                    <div id="contract" class="inactive">
+                        {*<form action="edit_order.php" method="post">  *}      
+                        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="contract_plus">
+                            <tr>
+                                <td class='form1' nowrap>賃料:</td>
+                                <td class='form2'> <input type='text' id="contract_cost" name="contract_cost" value="{$contract_cost}"style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                                <td class='form1'>礼金:</td>
+                                <td class='form2'><input type="text" id="contract_key_money" name="contract_key_money" value="{$contract_key_money}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_key_money_unit" name="contract_key_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                        <option value="円"{if $contract_key_money_unit eq "円"} selected{/if}>円</option>
+                                        <option value="ヵ月"{if $contract_key_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>仲介手数料:</td>
+                                <td class='form2'><input type="text" id="contract_broker_fee" name="contract_broker_fee" value="{$contract_broker_fee}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_broker_fee_unit" name="contract_broker_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                        <option value="円"{if $contract_broker_fee_unit eq "円"} selected{/if}>円</option>
+                                        <option value="ヵ月" {if $contract_broker_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                                    </select>
+                                </td>
+                                <td class='form1'>広告費:</td>
+                                <td class='form2'><input type="text" id="contract_ads_fee" name="contract_ads_fee" value="{$contract_ads_fee}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_ads_fee_unit" name="contract_ads_fee_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                        <option value="円"{if $contract_ads_fee_unit eq "円"} selected{/if}>円</option>
+                                        <option value="ヵ月"{if $contract_ads_fee_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                                    </select>
+                                </td>                                           
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>敷金・保証金（預かり）:</td>
+                                <td class='form2'><input type="text" id="contract_deposit_1" name="contract_deposit_1" value="{$contract_deposit_1}"style="height: 26px; width: 215px;"/>
+                                    <select id="contract_deposit1_money_unit" name="contract_deposit1_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                        <option value="円"{if $contract_deposit1_money_unit eq "円"} selected{/if}>円</option>
+                                        <option value="ヵ月"{if $contract_deposit1_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                                    </select></td>
+                                <td class='form1' nowrap>敷金・保証金（償却）:</td>
+                                <td class='form2'><input type="text" id="contract_deposit_2" name="contract_deposit_2"value="{$contract_deposit_2}" style="height: 26px; width: 215px;"/>
+                                    <select id="contract_deposit2_money_unit" name="contract_deposit2_money_unit" style="width: 16%;padding: 1% 0px 1% 0%;">
+                                        <option value="円"{if $contract_deposit2_money_unit eq "円"} selected{/if}>円</option>
+                                        <option value="ヵ月"{if $contract_deposit2_money_unit eq "ヵ月"} selected{/if}>ヵ月</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>管理費:</td>
+                                <td class='form2'>
+                                    <input type="text"  name='room_administrative_expense' id='room_administrative_expense' value="{$room_administrative_expense}" style="height: 26px; width: 215px;">
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                                <td class='form1'>申込金:</td>
+                                <td class='form2'>
+                                    <input type="text"  name='money_payment' id='money_payment' value="{$money_payment}" style="height: 26px; width: 215px;">
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>合計:</td>
+                                <td class='form2'><input type="text" id="contract_total" name="contract_total"  value="{$contract_total}"style="height: 26px; width: 215px;"/>
+                                    <label style="padding: 2% 5.5% 1% 5.5%;background-color: white;">円</label>
+                                </td>
 
-                {* </form>*}
-            </div>
-            <div style="text-align: right;padding-top: 1%;">
-                <input type="button" class="btn-signup" value="For Client" id="for_client" name="for_client" style="width: 110px;margin-right: 1%;background: #617AAC;"/>
-                <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>                        
-                <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
-                <input type="hidden" value="" id="security_code" />
-            </div>
+                                <td class='form1'>他決:</td>
+                                <td class='form2'><input type="checkbox" value="1" id="room_rented" name="room_rented" {if $room_rented eq '1'}checked="checked"{/if}/></td>
+                            </tr>
+                            <tr>
+                                <td class='form1' nowrap>契約金入金予定日:</td>
+                                <td class='form2'> <input type='text' id="contract_payment_date_from" name="contract_payment_date_from" value="{$contract_payment_date_from}"style="height: 26px; width: 215px;"/></td>
+                                <td class='form1' nowrap>入金状況:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="contract_payment_status_yes" name="contract_payment_status" value="1" {if $contract_payment_status eq '1'}checked="checked" {/if}/><label for="contract_payment_status_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_payment_status_no" name="contract_payment_status" value="0" {if $contract_payment_status eq '0'}checked="checked" {/if}/><label for="contract_payment_status_no">いいえ。</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>広告費入金予定日: </td>
+                                <td class='form2'>
+                                    <input type='text' id="contract_payment_date_to" name="contract_payment_date_to" value="{$contract_payment_date_to}"style="height: 26px; width: 215px;"/>
+                                </td>
+                                <td class='form1' nowrap>入金状況:</td>
+                                <td class='form2'>
+                                    <input type='radio' id="contract_payment_report_yes" name="contract_payment_report" value="1" {if $contract_payment_report eq '1'}checked="checked" {/if}/><label for="contract_payment_report_yes">はい。</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_payment_report_no" name="contract_payment_report" value="0" {if $contract_payment_report eq '0'}checked="checked" {/if}/><label for="contract_payment_report_no">いいえ。</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>契約日:</td>
+                                <td class='form2'>
+                                    <input type="text" id="contract_signature_day_date" name="contract_signature_day_date" value="{$contract_signature_day_date}"style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="contract_signature_day" name="contract_signature_day" value="{$contract_signature_day}"style="height: 26px; width: 95px;"/>
+                                </td>
+                                <td class='form1' nowrap>鍵渡日:</td>
+                                <td class='form2'>
+                                    <input type="text" id="contract_handover_day_date" name="contract_handover_day_date"value="{$contract_handover_day_date}" style="height: 26px; width: 115px;"/>
+                                    <input type="text" id="contract_handover_day" name="contract_handover_day"value="{$contract_handover_day}" style="height: 26px; width: 95px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>契約始期:</td>
+                                <td class='form2'>
+                                    {*<input type="text" id="contract_period_from_date" name="contract_period_from_date"value="{$contract_period_from_date}" style="height: 26px; width: 115px;"/>*}
+                                    <input type="text" id="contract_period_from" name="contract_period_from"value="{$contract_period_from}" style="height: 26px; width: 215px;"/>
+                                </td>
+                                <td class='form1' nowrap>契約終期:</td>
+                                <td class='form2'>
+                                    {*<input type="text" id="contract_period_to_date" name="contract_period_to_date" value="{$contract_period_to_date}"style="height: 26px; width: 115px;"/>*}
+                                    <input type="text" id="contract_period_to" name="contract_period_to" value="{$contract_period_to}"style="height: 26px; width: 215px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class='form1'>申込金:</td>
+                                <td class='form2'>{*<input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_application" name="contract_application" {if $contract_application eq '1'}checked="checked"{/if}/>*}
+                                    <input type='radio' id="contract_application_yes" onClick="javascript:sendMail(this);" name="contract_application" value="1" {if $contract_application eq '1'}checked="checked" {/if}/><label for="contract_application_yes">有</label> &nbsp; &nbsp; 
+                                    <input type='radio' id="contract_application_no" name="contract_application" value="0" {if $contract_application eq '0'}checked="checked" {/if}/><label for="contract_application_no">無</label>
+                                </td>
+                                <td class='form1' nowrap>申込日:</td>
+                                <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
+                            </tr>
+
+                            <tr>                    
+                                <td class='form1'>店舗:</td>
+                                <td class='form2'>
+                                    <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
+                                        <option value=""></option>
+                                        {foreach from=$agents item=agent}
+                                            <option value="{$agent.id}">{$agent.agent_name}</option>
+                                        {/foreach}
+                                    </select>
+                                </td>
+                                <td class='form1' nowrap>按分先:</td>
+                                <td class='form2'>
+                                    <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
+                                        <option value=""></option>
+                                        {foreach from=$partners item=partner}
+                                            <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname} </option>
+                                        {/foreach}
+                                    </select>
+                                    <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                                    <div id="error_partner_id" class="error"></div>
+                                </td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1' nowrap>条件:</td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_condition"name="contract_condition">{$contract_condition}</textarea></td>
+                                <td class='form1' nowrap>評価額:</td>
+                                <td class='form2'><textarea style="width: 215px;height: 129px;"  id="contract_valuation"name="contract_valuation">{$contract_valuation}</textarea></td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'>売上計上:</td>
+                                <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if}style="height: 26px; width: 15px;"/></td>
+                                <td class='form1' nowrap>キャンセル:</td>
+                                <td class='form2'>
+                                    <input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if}style="height: 26px; width: 15px;"/>
+                                    <input type="text" id="contract_cancel_date"name="contract_cancel_date" value="{$contract_cancel_date}"placeholder="キャンセル日" style="height: 26px; width: 215px;position: absolute;margin-left: 1%;"/>
+                                </td>
+                            </tr>
+                            <tr>                    
+                                <td class='form1'></td>
+                                <td class='form2'>
+                                    <input type="button" id="add" class='btn-signup' name="add" value="その他、付帯" style="width: 140px;"/> 
+                                </td>       
+                                <td class='form1' nowrap>自社物件: </td>
+                                <td class='form2'><input type="checkbox" value="1" id="contract_ambition" name="contract_ambition" {if $contract_ambition eq '1'}checked="checked"{/if}style="height: 26px; width: 15px;"/></td>
+                            </tr>
+                            {foreach from=$plus_money key=k item=money}
+                                <tr>
+                                    <td class='form1'>{$k} :</td>
+                                    <td class='form2'>
+                                        <input type='hidden' name='contract_label_money[]' value="{$k}"/>
+                                        <input type='text' id='contract_plus_money' name='contract_plus_money[]' value="{$money}" style='height: 26px; width: 210px;'/>
+                                        <select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select>
+                                        <input type='button' id='remove' name='remove' class='btn-remove' value='remove' onClick='removePlus(this)' />
+                                    </td> 
+                                    <td class='form1'></td>
+                                    <td class='form2'></td> 
+                                </tr>
+                            {/foreach}
+                            <tr>
+                                <td class='form1'>&nbsp;</td>
+                                <td class='form2' colspan="3">
+                                    <div id="error_validate" class="error"></div>
+                                    <div style="margin-top:10px;text-align: center;">
+                                        {*<input type="button" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;"/>&nbsp; 
+                                        <input type="hidden" id="task" name="task" value="contract"/>
+                                        <input type="hidden" id="step" name="step" value="registry"/> 
+                                        <input type="hidden" id="client_id" name="client_id" value="{$client_id}"/>
+                                        <input type="hidden" id="order_id" name="order_id" value="{$order_id}"/>*}
+                                        <input type="hidden" id="calculator" name="calculator"/>
+                                        <input type="button" class='btn-signup' value="エクスポート" onclick="javascript:openImport();" style="width: 150px;"/> 
+                                    </div>                        
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="export_form" style="display:none;">
+                            <table cellpadding="0" cellspacing="0" style="margin-left: 0px;" width="100%">      
+                                <tbody>
+                                    <tr>
+                                        <td class="form1">
+                                            選択
+                                        </td>
+                                        <td class="form2">
+                                            <select name="export_option">
+                                                <option value="10">オーダー</option>
+                                                <option value="1">申込報告書</option>
+                                                <option value="2">精算書家主用</option>
+                                                <option value="3">精算書入居者用</option>
+                                                <option value="4">入居者対応補助</option>
+                                                <option value="5">請求書</option>
+                                                <option value="6">業務委託料</option>
+                                                <option value="7">広告料</option>
+                                            </select>
+                                            <select name="type">
+                                                <option value="xls">XLS</option>
+                                                <option value="csv">CSV</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="form1">&nbsp;</td>
+                                        <td class="form2">
+                                            <div style="margin-top:10px">
+                                                <input type="submit" class='btn-signup' value="エクスポート" id="export" name="export" style="width: 150px;"/> 
+                                                <input type="button" class='btn-signup' value="戻る" onclick="javascript:closeImport();" style="width: 100px;"/> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {* </form>*}
+                    </div>
+                    <div style="text-align: right;padding-top: 1%;">
+                        <input type="button" class="btn-signup" value="For Client" id="for_client" name="for_client" style="width: 110px;margin-right: 1%;background: #617AAC;"/>
+                        <input type="submit" class='btn-signup' value="保存" id="save" name="save" style="width: 100px;background: #617AAC;"/>                        
+                        <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
+                        <input type="hidden" value="" id="security_code" />
+                    </div>
             </form>
             <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
         </div>
@@ -2795,7 +2809,7 @@
 </div>
 {literal}
     <script type="text/javascript">
-        function selectpage(page){
+        function selectpage(page) {
             $('#page_number').val(page);
             $('#search').click();
         }
@@ -2861,11 +2875,11 @@
             }).appendTo(div);
             log_date('.log_revisit');
         });
-        function removeLogvisit(id){
+        function removeLogvisit(id) {
             document.getElementById(id).remove();
         }
         var xml = {};
-        function setMenuItem(type,code){
+        function setMenuItem(type, code) {
 
             var s = document.getElementsByTagName("head")[0].appendChild(document.createElement("script"));
             s.type = "text/javascript";
@@ -2874,51 +2888,57 @@
             var optionIndex0 = document.getElementById("s0").options.length;	//沿線のOPTION数取得
             var optionIndex1 = document.getElementById("s1").options.length;	//駅のOPTION数取得
 
-            if (type == 0){
-                for ( i=0 ; i <= optionIndex0 ; i++ ){document.getElementById("s0").options[0]=null}	//沿線削除
-                for ( i=0 ; i <= optionIndex1 ; i++ ){document.getElementById("s1").options[0]=null}	//駅削除
-                document.getElementById("s1").options[0] = new Option("----",0);	//駅OPTIONを空に
-                if (code == 0){
-                    document.getElementById("s0").options[0] = new Option("----",0);	//沿線OPTIONを空に
-                }else{
+            if (type == 0) {
+                for (i = 0; i <= optionIndex0; i++) {
+                    document.getElementById("s0").options[0] = null
+                }	//沿線削除
+                for (i = 0; i <= optionIndex1; i++) {
+                    document.getElementById("s1").options[0] = null
+                }	//駅削除
+                document.getElementById("s1").options[0] = new Option("----", 0);	//駅OPTIONを空に
+                if (code == 0) {
+                    document.getElementById("s0").options[0] = new Option("----", 0);	//沿線OPTIONを空に
+                } else {
                     s.src = "http://www.ekidata.jp/api/p/" + code + ".json";	//沿線JSONデータURL
                 }
-            }else{
-                for ( i=0 ; i <= optionIndex1 ; i++ ){document.getElementById("s1").options[0]=null}	//駅削除
-                if (code == 0){
-                    document.getElementById("s1").options[0] = new Option("----",0);	//駅OPTIONを空に
-                }else{
+            } else {
+                for (i = 0; i <= optionIndex1; i++) {
+                    document.getElementById("s1").options[0] = null
+                }	//駅削除
+                if (code == 0) {
+                    document.getElementById("s1").options[0] = new Option("----", 0);	//駅OPTIONを空に
+                } else {
                     s.src = "http://www.ekidata.jp/api/l/" + code + ".json";	//駅JSONデータURL
                 }
             }
-            xml.onload = function(data){
+            xml.onload = function(data) {
                 var line = data["line"];
                 var station_l = data["station_l"];
-                if(line != null){
-                    document.getElementById("s0").options[0] = new Option("----",0);	//OPTION1番目はNull
-                    for( i=0; i<line.length; i++){
+                if (line != null) {
+                    document.getElementById("s0").options[0] = new Option("----", 0);	//OPTION1番目はNull
+                    for (i = 0; i < line.length; i++) {
                         ii = i + 1	//OPTIONは2番目から表示
                         var op_line_name = line[i].line_name;
                         var op_line_cd = line[i].line_cd;
-                        document.getElementById("s0").options[ii] = new Option(op_line_name,op_line_cd);
+                        document.getElementById("s0").options[ii] = new Option(op_line_name, op_line_cd);
                     }
                 }
-                if(station_l != null){
-                    document.getElementById("s1").options[0] = new Option("----",0);	//OPTION1番目はNull
-                    for( i=0; i<station_l.length; i++){
+                if (station_l != null) {
+                    document.getElementById("s1").options[0] = new Option("----", 0);	//OPTION1番目はNull
+                    for (i = 0; i < station_l.length; i++) {
                         ii = i + 1	//OPTIONは2番目から表示
                         var op_station_name = station_l[i].station_name;
                         var op_station_cd = station_l[i].station_cd;
-                        document.getElementById("s1").options[ii] = new Option(op_station_name,op_station_cd);
+                        document.getElementById("s1").options[ii] = new Option(op_station_name, op_station_cd);
                     }
                 }
             }
         }
         $(document).ready(function() {
-            if('{/literal}{$aspirations_area}{literal}'){
-                setMenuItem(0,'{/literal}{$aspirations_area}{literal}');
-                if('{/literal}{$aspirations_area2}{literal}'){
-                    setMenuItem(1,'{/literal}{$aspirations_area2}{literal}');
+            if ('{/literal}{$aspirations_area}{literal}') {
+                setMenuItem(0, '{/literal}{$aspirations_area}{literal}');
+                if ('{/literal}{$aspirations_area2}{literal}') {
+                    setMenuItem(1, '{/literal}{$aspirations_area2}{literal}');
                     setTimeout(function() {
                         // Do something after 5 seconds
                         $('select#s0').val('{/literal}{$aspirations_area2}{literal}');

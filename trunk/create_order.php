@@ -982,6 +982,13 @@ if ($step == 1) {
     } else {
         $contract_cancel = "";
     }
+    if (isset($_POST['contract_cancel_date'])) {
+        $contract_cancel_date = $_POST['contract_cancel_date'];
+    } elseif (isset($_GET['contract_cancel_date'])) {
+        $contract_cancel_date = $_GET['contract_cancel_date'];
+    } else {
+        $contract_cancel_date = "";
+    }
     if (isset($_POST['contract_total'])) {
         $contract_total = $_POST['contract_total'];
     } elseif (isset($_GET['contract_total'])) {
@@ -1337,7 +1344,7 @@ if ($step == 1) {
             $contract_application_date_temp = trim($contract_application_date) != "" ? strtotime($contract_application_date) : null;
             $contract_payment_date_from_temp = trim($contract_payment_date_from) != "" ? strtotime($contract_payment_date_from) : null;
             $contract_payment_date_to_temp = trim($contract_payment_date_to) != "" ? strtotime($contract_payment_date_to) : null;
-
+            $contract_cancel_date_temp = trim($contract_cancel_date) != "" ? strtotime($contract_cancel_date) : null;
             //parse cost valid
             $contract_cost = str_replace(",", "", $contract_cost);
             $contract_key_money = str_replace(",", "", $contract_key_money);
@@ -1349,7 +1356,7 @@ if ($step == 1) {
             $contract_total = str_replace(",", "", $contract_total);
             $room_administrative_expense = str_replace(",", "", $room_administrative_expense);
             //end parse cost valid
-            $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
+            $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel,$contract_cancel_date_temp, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
 
             //parse cost display
             $contract_cost = $contract_cost != "" ? number_format($contract_cost, 0, '', ',') : $contract_cost;
@@ -1421,6 +1428,7 @@ if ($step == 1) {
     $smarty->assign('contract_deposit_1', $contract_deposit_1);
     $smarty->assign('contract_deposit_2', $contract_deposit_2);
     $smarty->assign('contract_cancel', $contract_cancel);
+    $smarty->assign('contract_cancel_date', $contract_cancel_date);
     $smarty->assign('contract_total', $contract_total);
     $smarty->assign('contract_application', $contract_application);
     $smarty->assign('contract_application_date', $contract_application_date);

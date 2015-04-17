@@ -695,6 +695,8 @@
         {/literal}
         <div id="chart_div" style="width: 900px; height: 500px;"></div>
     </div>
+        {else}
+            <div class="error">No any staff belong to agent choosed.</div>
     {/if}
     {else}
 

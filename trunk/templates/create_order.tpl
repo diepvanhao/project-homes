@@ -52,6 +52,7 @@
             birthday('contract_handover_day_date');
             birthday('contract_period_from_date');
             birthday('contract_application_date');
+            birthday('contract_cancel_date');
             //birthday('contract_period_to_date');
             //birthday('contract_application_date');
             $('#search').keyup(function(e) {
@@ -563,7 +564,7 @@
                 $("#done").css('display', 'none');
                 $('#transaction table:first').css('display', 'none');
                 $('#client_info ul li').each(function() {
-                    if ($(this).attr('title') == 'history'  || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
+                    if ($(this).attr('title') == 'history' || $(this).attr('title') == 'introduce' || $(this).attr('title') == 'contract') {
                         $(this).css('display', 'none');
 
                     }
@@ -1689,49 +1690,49 @@
             <input type="hidden" id="page_number" name="page_number" value="{$page_number}"/>
             </tr>
         </table>
-    {*</form>*}
+        {*</form>*}
 
-    <div style="margin-bottom:10px;" id="page">
-        <center>
-            ページ:
-            {for $i=1 to $totalPage }
-                {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<span onclick="selectpage({$i})" style='margin-left: 10px;color: black;cursor: pointer;'>{$i}{/if}</span>
-            {/for}
-        </center>
-    </div>
-    <div id="customer">
-        <ul>
-            <li class="even">番号</li>
-            <li class="even">名称</li>
-            <li class="even">生年月日</li>
-            <li class="even">住所</li>
-            <li class="even">電話番号</li>
-        </ul>
-
-        {foreach from=$customers key=k item=item}
+        <div style="margin-bottom:10px;" id="page">
+            <center>
+                ページ:
+                {for $i=1 to $totalPage }
+                    {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<span onclick="selectpage({$i})" style='margin-left: 10px;color: black;cursor: pointer;'>{$i}{/if}</span>
+                {/for}
+            </center>
+        </div>
+        <div id="customer">
             <ul>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
-                <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
+                <li class="even">番号</li>
+                <li class="even">名称</li>
+                <li class="even">生年月日</li>
+                <li class="even">住所</li>
+                <li class="even">電話番号</li>
             </ul>
-        {/foreach}
 
-    </div>
-    <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">お客様情報</div>
-    <div id="client_info">
-        <ul>
-            <li class="select_menu" title="basic">基本情報</li>
-            <li class="noselect_menu" title="detail">詳細</li>
-            <li class="noselect_menu" title="history">履歴</li>
-            <li class="noselect_menu" title="aspirations">希望</li>
-            <li class="noselect_menu" title="introduce">部屋情報編集</li>
-            <li class="noselect_menu" title="contract">申込・契約</li>
-        </ul>
-    </div>
-    <div id="client_detail">      
-          
+            {foreach from=$customers key=k item=item}
+                <ul>
+                    <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$k+1}</li>
+                    <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_name}</li>
+                    <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_birthday}</li>
+                    <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_address|truncate:30}</li>
+                    <li {if $item@iteration is div by 2}class="odd"{/if} onclick="selectCustomer({$item.id})">{$item.client_phone}</li>
+                </ul>
+            {/foreach}
+
+        </div>
+        <div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 25px; margin-top: 50px; ">お客様情報</div>
+        <div id="client_info">
+            <ul>
+                <li class="select_menu" title="basic">基本情報</li>
+                <li class="noselect_menu" title="detail">詳細</li>
+                <li class="noselect_menu" title="history">履歴</li>
+                <li class="noselect_menu" title="aspirations">希望</li>
+                <li class="noselect_menu" title="introduce">部屋情報編集</li>
+                <li class="noselect_menu" title="contract">申込・契約</li>
+            </ul>
+        </div>
+        <div id="client_detail">      
+
             <div id="basic"class="active">                 
                 <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
                     <tr>
@@ -1783,7 +1784,7 @@
                         </td>
                         <td class='form1' nowrap>会社名:</td>
                         <td class='form2'> <input type='text' id="client_company" name="client_company"  value="{$client_company}" style="height: 26px; width: 215px;"/></td>
-                        
+
                     </tr>
                     <tr>
                         <td class='form1'>都道府県:  <span class="required">*</span></td>
@@ -2066,11 +2067,21 @@
                     </tr>
                     <tr>
                         <td class='form1'>築年月:</td>
-                        <td class='form2'><input type="text" id="aspirations_build_time" name="aspirations_build_time" value="{$aspirations_build_time}"style="height: 26px; width: 215px;"/>年</td>
+                        <td class='form2'>
+                            <select id="aspirations_build_time" name="aspirations_build_time" style="height:26px; width: 215px;">
+                                <option value="">指定なし</option>
+                                <option value="0"{if $aspirations_build_time eq "0"} selected{/if}>新築</option>
+                                <option value="3"{if $aspirations_build_time eq "3"} selected{/if}>3年以内</option>
+                                <option value="5"{if $aspirations_build_time eq "5"} selected{/if}>5年以内</option>
+                                <option value="10"{if $aspirations_build_time eq "10"} selected{/if}>10年以内</option>
+                                <option value="15"{if $aspirations_build_time eq "15"} selected{/if}>15年以内</option>
+                                <option value="20"{if $aspirations_build_time eq "20"} selected{/if}>20年以内</option>
+                            </select>                            
+                        </td>
                         <td class='form1' nowrap>エリア・沿線:</td>
                         <td class='form2'> 
                             <!--<input type='text' id="aspirations_area" name="aspirations_area" value="{$aspirations_area}"style="height: 26px; width: 215px;"/>-->
-                            <select id="pref" name="aspirations_area" style="height:28px; width: 90px;" onChange="setMenuItem(0,this[this.selectedIndex].value)">
+                            <select id="pref" name="aspirations_area" style="height:28px; width: 90px;" onChange="setMenuItem(0, this[this.selectedIndex].value)">
                                 <option value="0" >-----
                                 <option value="1" {if $aspirations_area eq '1'}selected="selected"{/if}>北海道
                                 <option value="2" {if $aspirations_area eq '2'}selected="selected"{/if}>青森県
@@ -2120,7 +2131,7 @@
                                 <option value="46" {if $aspirations_area eq '46'}selected="selected"{/if}>鹿児島県
                                 <option value="47" {if $aspirations_area eq '47'}selected="selected"{/if}>沖縄県
                             </select>
-                            <select id="s0" name="aspirations_area2" style="height:28px; width: 90px;" onChange="setMenuItem(1,this[this.selectedIndex].value)">
+                            <select id="s0" name="aspirations_area2" style="height:28px; width: 90px;" onChange="setMenuItem(1, this[this.selectedIndex].value)">
                                 <option selected>----
                             </select> 
                             <select id="s1" name="aspirations_area3" style="height:28px; width: 90px;">
@@ -2451,7 +2462,7 @@
                             <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
                                 <option value=""></option>
                                 {foreach from=$partners item=partner}
-                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
+                                    <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname} </option>
                                 {/foreach}
                             </select>
                             <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
@@ -2468,7 +2479,10 @@
                         <td class='form1'>売上計上:</td>
                         <td class='form2'><input type="checkbox" value="1" onClick="javascript:sendMail(this);" id="contract_transaction_finish" name="contract_transaction_finish" {if $contract_transaction_finish eq '1'}checked="checked"{/if} style="height: 26px; width: 15px;"/></td>
                         <td class='form1' nowrap>キャンセル:</td>
-                        <td class='form2'><input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if} style="height: 26px; width: 15px;"/></td>
+                        <td class='form2'>
+                            <input type="checkbox" value="1" id="contract_cancel" name="contract_cancel" {if $contract_cancel eq '1'}checked="checked"{/if} style="height: 26px; width: 15px;"/>
+                            <input type="text" id="contract_cancel_date"name="contract_cancel_date" value="{$contract_cancel_date}"placeholder="キャンセル日" style="height: 26px; width: 215px;position: absolute;margin-left: 1%;"/>
+                        </td>
                     </tr>
                     <tr>                    
                         <td class='form1'></td>
@@ -2552,490 +2566,490 @@
                 <input type="hidden" value="{$keep_active_tab}" id="keep_active_tab" name="keep_active_tab"/>
                 <input type="hidden" value="" id="security_code" />
             </div>
-        </form>
-        <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
-    </div>
+    </form>
+    <input type="hidden" id="cus_id" name="cus_id" value="{$client_id}"/>
+</div>
 
-    {literal}
-        <style type="text/css">
+{literal}
+    <style type="text/css">
 
-            .active{
-                float: left;
-                width: 100%;
-                display: block;
-            }
-            .inactive{
-                float: left;
-                width: 100%;
-                display: none;
-            }
-            .content{
-                width:100%;
-                margin: 0;
-                padding: 0;
-            }
+        .active{
+            float: left;
+            width: 100%;
+            display: block;
+        }
+        .inactive{
+            float: left;
+            width: 100%;
+            display: none;
+        }
+        .content{
+            width:100%;
+            margin: 0;
+            padding: 0;
+        }
 
-            #customer ul{
-                width: 100%;
-                border: 1px solid white;
+        #customer ul{
+            width: 100%;
+            border: 1px solid white;
 
-            }
+        }
 
-            #customer ul li:nth-child(1){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 10%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(2){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 20%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(3){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 20%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(4){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 35%;
-                cursor: pointer;
-            }
-            #customer ul li:nth-child(5){
-                float: left;
-                background: transparent;
-                padding: 0px;
-                width: 15%;
-                cursor: pointer;
-            }
-            #customer ul li.odd{
-                background: silver;
-            }
-            #customer ul li.even{
-                background:#D9D5CF; 
-                border-bottom: 1px solid #617AAC;
-            }
-            #customer ul li:first-child{
-                margin-left: 0;
-            }
-            #customer ul li:last-child{
-                float: right;
-            }
-            #customer{
-                width: 100%;
-            }
-            /////////////////////////client info//////////////////////////
-            #client_info{
-                width: 100%;
-            }
+        #customer ul li:nth-child(1){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 10%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(2){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 20%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(3){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 20%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(4){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 35%;
+            cursor: pointer;
+        }
+        #customer ul li:nth-child(5){
+            float: left;
+            background: transparent;
+            padding: 0px;
+            width: 15%;
+            cursor: pointer;
+        }
+        #customer ul li.odd{
+            background: silver;
+        }
+        #customer ul li.even{
+            background:#D9D5CF; 
+            border-bottom: 1px solid #617AAC;
+        }
+        #customer ul li:first-child{
+            margin-left: 0;
+        }
+        #customer ul li:last-child{
+            float: right;
+        }
+        #customer{
+            width: 100%;
+        }
+        /////////////////////////client info//////////////////////////
+        #client_info{
+            width: 100%;
+        }
 
-            /*#client_info ul li{
-                float: left;
-                background: beige;
-                padding: 0px;
-                width: 16.65%;
-                cursor: pointer;
-                text-align: center;
-            }*/
-            #client_info ul li.select_menu{
-                background: url(include/images/bg-btn-forget.gif) repeat-x;
-                float: left;
-                //background: beige;
-                padding: 0px;
-                width: 16.65%;
-                cursor: pointer;
-                text-align: center;
-            }
-            #client_info ul li.noselect_menu{
-                float: left;
-                background: beige;
-                padding: 0px;
-                width: 16.65%;
-                cursor: pointer;
-                text-align: center;
-            }
-            #client_info ul li:hover{
+        /*#client_info ul li{
+            float: left;
+            background: beige;
+            padding: 0px;
+            width: 16.65%;
+            cursor: pointer;
+            text-align: center;
+        }*/
+        #client_info ul li.select_menu{
+            background: url(include/images/bg-btn-forget.gif) repeat-x;
+            float: left;
+            //background: beige;
+            padding: 0px;
+            width: 16.65%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #client_info ul li.noselect_menu{
+            float: left;
+            background: beige;
+            padding: 0px;
+            width: 16.65%;
+            cursor: pointer;
+            text-align: center;
+        }
+        #client_info ul li:hover{
 
-                background: url(include/images/bg-btn-forget.gif) repeat-x;
+            background: url(include/images/bg-btn-forget.gif) repeat-x;
 
-            }
+        }
 
-        </style>
-        <script type="text/javascript">
-            function openImport() {
-                $('#export_form').show();
-                // $('#contract_plus').hide();
-            }
-            function closeImport() {
-                $('#export_form').hide();
-                // $('#contract_plus').show();
-            }
-            function sendMail(el) {
+    </style>
+    <script type="text/javascript">
+        function openImport() {
+            $('#export_form').show();
+            // $('#contract_plus').hide();
+        }
+        function closeImport() {
+            $('#export_form').hide();
+            // $('#contract_plus').show();
+        }
+        function sendMail(el) {
 //                if (el.checked && confirm("Do you want to send mail?")) {
 //                    sendmail = 1;
 //                }
-            }
-            $(document).ready(function() {
-                //active for field selected
-                var kept_active = $('#keep_active_tab').val();
-                if (kept_active != "") {
-                    //set li click
-                    $('#client_info ul li').each(function() {
-                        if ($(this).attr('class') == 'select_menu') {
-                            $(this).removeClass('select_menu');
-                            $(this).addClass('noselect_menu');
-                        }
-                    });
-                    $('#client_info ul li').each(function() {
-                        if ($(this).attr('title') == kept_active) {
-                            $(this).removeClass('noselect_menu');
-                            $(this).addClass('select_menu');
-                        }
-                    });
-                    //end li click
-                    $('#basic').removeClass('active');
-                    $('#basic').addClass('inactive');
-
-                    $('#' + kept_active).removeClass('inactive');
-                    $('#' + kept_active).addClass('active');
-                }
-                //end active field   
-                //$('#contract_period_from').mousemove(function(){
-                //     $('#contract_period_to').val($('#contract_period_from').val());
-                // });
-
-
-                $('#sidebar_container').css('display', 'none');
-                var fieldCount = 1;
-                $('#add').click(function() {
-                    var label = prompt('その他費用を追加する ?', '');
-                    if (label != null && label != "" && label != 0) {
-                        // fieldCount++;
-                        $('#contract #contract_plus tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_label_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
-                        if (fieldCount == 1)
-                            CalculatorPlus();
-                        fieldCount++;
+        }
+        $(document).ready(function() {
+            //active for field selected
+            var kept_active = $('#keep_active_tab').val();
+            if (kept_active != "") {
+                //set li click
+                $('#client_info ul li').each(function() {
+                    if ($(this).attr('class') == 'select_menu') {
+                        $(this).removeClass('select_menu');
+                        $(this).addClass('noselect_menu');
                     }
                 });
-                //Address
-                //city
-                $('#city_id').change(function(e) {
-                    var city_id = $('#city_id').val();
-                    var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+                $('#client_info ul li').each(function() {
+                    if ($(this).attr('title') == kept_active) {
+                        $(this).removeClass('noselect_menu');
+                        $(this).addClass('select_menu');
+                    }
+                });
+                //end li click
+                $('#basic').removeClass('active');
+                $('#basic').addClass('inactive');
 
-                                if (city_id == "") {
-                                    $('#district_id').empty();
-                                    $('#street_id').empty();
-                                    $('#ward_id').empty();
-                                } else {
-                                    $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                    function(result) {
-                                        if (result) {
-                                            $('#district_id').empty();
-                                            $('#district_id').html(result);
-                                            $('#district_id').change();
-                                        } else {
-                                            $('#district_id').empty();
+                $('#' + kept_active).removeClass('inactive');
+                $('#' + kept_active).addClass('active');
+            }
+            //end active field   
+            //$('#contract_period_from').mousemove(function(){
+            //     $('#contract_period_to').val($('#contract_period_from').val());
+            // });
+
+
+            $('#sidebar_container').css('display', 'none');
+            var fieldCount = 1;
+            $('#add').click(function() {
+                var label = prompt('その他費用を追加する ?', '');
+                if (label != null && label != "" && label != 0) {
+                    // fieldCount++;
+                    $('#contract #contract_plus tr:nth-last-child(2)').after("<tr><td class='form1'>" + label + " :</td><td class='form2'><input type='hidden' name='contract_label_money[]' value='" + label + "'/><input type='text' id='contract_plus_money' name='contract_plus_money[]' value=''style='height: 26px; width: 210px;'onkeyup='CalculatorPlus();'/><select id='contract_plus_money_unit'name='contract_plus_money_unit[]' style='width: 14%;padding: 1% 0px 1% 0%; margin-left: 1%;'onchange='CalculatorPlus();'><option value='円'>円</option><option value='ヵ月'>ヵ月</option></select><input type='button' id='remove' name='remove' class='btn-remove' value='削除' onClick='removePlus(this)' /></td> <td class='form1'></td><td class='form2'></td> </tr>");
+                    if (fieldCount == 1)
+                        CalculatorPlus();
+                    fieldCount++;
+                }
+            });
+            //Address
+            //city
+            $('#city_id').change(function(e) {
+                var city_id = $('#city_id').val();
+                var district_id ={/literal}{if $district_id ne ""}{$district_id}{else}0{/if}{';'}{literal}
+
+                            if (city_id == "") {
+                                $('#district_id').empty();
+                                $('#street_id').empty();
+                                $('#ward_id').empty();
+                            } else {
+                                $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                function(result) {
+                                    if (result) {
+                                        $('#district_id').empty();
+                                        $('#district_id').html(result);
+                                        $('#district_id').change();
+                                    } else {
+                                        $('#district_id').empty();
+                                        $('#street_id').empty();
+                                        $('#ward_id').empty();
+                                    }
+                                });
+                            }
+                        });
+                        //district
+                        $('#district_id').change(function(e) {
+                            var district_id = $('#district_id').val();
+                            var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
+
+                                        if (district_id == "") {
                                             $('#street_id').empty();
                                             $('#ward_id').empty();
+                                        } else {
+                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                            function(result) {
+                                                if (result) {
+                                                    $('#street_id').empty();
+                                                    $('#street_id').html(result);
+                                                    $('#street_id').change();
+                                                } else {
+                                                    $('#street_id').empty();
+                                                    $('#ward_id').empty();
+                                                }
+                                            });
                                         }
                                     });
-                                }
-                            });
-                            //district
-                            $('#district_id').change(function(e) {
-                                var district_id = $('#district_id').val();
-                                var street_id ={/literal}{if $street_id ne ""}{$street_id}{else}0{/if}{';'}{literal}
+                                    //street
+                                    $('#street_id').change(function(e) {
+                                        var street_id = $('#street_id').val();
+                                        var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
 
-                                            if (district_id == "") {
-                                                $('#street_id').empty();
-                                                $('#ward_id').empty();
-                                            } else {
-                                                $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                function(result) {
-                                                    if (result) {
-                                                        $('#street_id').empty();
-                                                        $('#street_id').html(result);
-                                                        $('#street_id').change();
+                                                    if (street_id == "") {
+                                                        $('#ward_id').empty();
                                                     } else {
+                                                        $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#ward_id').empty();
+                                                                $('#ward_id').html(result);
+                                                            } else {
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+
+                                                //clone 
+                                                //city
+                                                $('#city_cus').change(function(e) {
+                                                    var city_id = $('#city_cus').val();
+                                                    var district_id = $('#district_cus').val();
+
+                                                    if (city_id == "") {
+                                                        $('#district_id').empty();
                                                         $('#street_id').empty();
                                                         $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#district_id').empty();
+                                                                $('#district_id').html(result);
+                                                                $('#district_cus').change();
+                                                            } else {
+                                                                $('#district_id').empty();
+                                                                $('#street_id').empty();
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                                //district
+                                                $('#district_cus').change(function(e) {
+                                                    var district_id = $('#district_id').val();
+                                                    var street_id = $('#street_cus').val();
+
+                                                    if (district_id == "") {
+                                                        $('#street_id').empty();
+                                                        $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#street_id').empty();
+                                                                $('#street_id').html(result);
+                                                                $('#street_cus').change();
+                                                            } else {
+                                                                $('#street_id').empty();
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                                //street
+                                                $('#street_cus').change(function(e) {
+                                                    var street_id = $('#street_id').val();
+                                                    var ward_id = $('#ward_cus').val();
+
+                                                    if (street_id == "") {
+                                                        $('#ward_id').empty();
+                                                    } else {
+                                                        $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
+                                                        function(result) {
+                                                            if (result) {
+                                                                $('#ward_id').empty();
+                                                                $('#ward_id').html(result);
+                                                            } else {
+                                                                $('#ward_id').empty();
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                                $('#search_house').keyup(function(e) {
+                                                    var search = $('#search_house').val();
+                                                    $('#error_introduce_house_id').html("");
+                                                    //    showloadgif();
+                                                    $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
+                                                    function(result) {
+                                                        if (result) {
+                                                            $('#introduce_house_id').empty();
+                                                            $('#introduce_house_id').html(result);
+                                                            $('#introduce_house').click();
+                                                            //   hideloadgif();
+                                                        } else {
+                                                            $('#introduce_house_id').empty();
+                                                            $('#introduce_room_id').empty();
+                                                            $('#introduce_house_content').html("");
+                                                            $('#error_introduce_house_id').html("物件名が見つかりませんでした。");
+                                                            //     hideloadgif();
+                                                        }
+                                                    });
+                                                });
+                                                $('#introduce_house').click(function() {
+                                                    var house_id = $('#introduce_house_id').val();
+
+                                                    $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                                                    function(result) {
+                                                        var json = $.parseJSON(result);
+                                                        $('#introduce_house_content').html(json.house_description);
+                                                        get_introduce_room(house_id, 0);
+                                                    });
+                                                });
+                                                $('#introduce_house_id').change(function() {
+                                                    var house_id = $('#introduce_house_id').val();
+                                                    $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
+                                                    function(result) {
+                                                        var json = $.parseJSON(result);
+                                                        $('#introduce_house_contrent').html(json.house_description);
+                                                        get_introduce_room(house_id, 0);
+                                                    });
+                                                });
+                                                // $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                $('#history table').find('tr:nth-child(4)').css('display', 'none');
+
+                                                if ($('#log_time_call_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                }
+                                                if ($('#log_time_mail_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                }
+                                                if ($('#log_time_arrive_company_type').is(':checked')) {
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                }
+                                                $('#log_time_call_type').click(function() {
+                                                    $('#history table').find('tr:nth-child(2)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(7)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(5)').css('display', '');
+                                                    $('#log_time_mail').val('');
+                                                    $('#log_time_mail_date').val('');
+                                                    $('#log_time_arrive_company').val('');
+                                                    $('#log_time_arrive_company_date').val('');
+                                                    $('#log_mail').removeAttr('checked');
+                                                    $('#log_mail_status').removeAttr('checked');
+                                                    $('#log_contact_head_office').removeAttr('checked');
+                                                    $('#contact_method').html('通話日時:');
+                                                    $('#log_tel').attr('checked', "checked");
+                                                    //$('#log_mail').attr('checked', "");
+                                                    $('#log_mail').removeAttr('checked');
+                                                });
+                                                $('#log_time_mail_type').click(function() {
+                                                    //$('#history table').find('tr:nth-child(4)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(2)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(5)').css('display', '');
+                                                    //$('#log_time_call').val('');
+                                                    // $('#log_time_call_date').val('');
+                                                    $('#log_time_arrive_company').val('');
+                                                    $('#log_time_arrive_company_date').val('');
+                                                    $('#log_tel').removeAttr('checked');
+                                                    $('#log_tel_status').removeAttr('checked');
+                                                    $('#log_contact_head_office').removeAttr('checked');
+                                                    $('#contact_method').html('メール送信時刻:');
+                                                    $('#log_mail').attr('checked', "checked");
+                                                    // $('#log_tel').attr('checked', "");
+                                                    $('#log_tel').removeAttr('checked');
+                                                });
+                                                $('#log_time_arrive_company_type').click(function() {
+                                                    $('#history table').find('tr:nth-child(3)').css('display', '');
+                                                    $('#history table').find('tr:nth-child(2)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(7)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(8)').css('display', 'none');
+                                                    $('#history table').find('tr:nth-child(5)').css('display', 'none');
+                                                    $('#log_date_appointment_from_date').val('');
+                                                    $('#log_date_appointment_from').val('');
+                                                    $('#log_time_mail').val('');
+                                                    $('#log_time_mail_date').val('');
+                                                    $('#log_time_call').val('');
+                                                    $('#log_time_call_date').val('');
+                                                    $('#log_mail').removeAttr('checked');
+                                                    $('#log_mail_status').removeAttr('checked');
+                                                    $('#log_tel').removeAttr('checked');
+                                                    $('#log_tel_status').removeAttr('checked');
+                                                });
+                                                if ($('#log_tel').is(':checked')) {
+                                                    $('#log_time_call_type').click();
+                                                }
+                                                else if ($('#log_mail').is(':checked')) {
+                                                    $('#log_time_mail_type').click();
+                                                } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
+                                                    $('#log_time_arrive_company_type').click();
+                                                } else {
+                                                    $('#log_tel').attr('checked', "checked");
+                                                }
+                                            });
+                                            function get_introduce_room(house_id, room_id) {
+                                                $('#error_introduce_room_id').html("");
+                                                $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
+                                                function(result) {
+                                                    if (result) {
+                                                        $('#introduce_room_id').empty();
+                                                        $('#introduce_room_id').html(result);
+                                                    } else {
+                                                        $('#introduce_room_id').empty();
+                                                        $('#introduce_house_content').html("");
+                                                        if (house_id)
+                                                            $('#error_introduce_room_id').html("この物件は部屋番号が存在していません。");
                                                     }
                                                 });
                                             }
-                                        });
-                                        //street
-                                        $('#street_id').change(function(e) {
-                                            var street_id = $('#street_id').val();
-                                            var ward_id ={/literal}{if $ward_id ne ""}{$ward_id}{else}0{/if}{';'}{literal}
-
-                                                        if (street_id == "") {
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#ward_id').empty();
-                                                                    $('#ward_id').html(result);
-                                                                } else {
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-
-                                                    //clone 
-                                                    //city
-                                                    $('#city_cus').change(function(e) {
-                                                        var city_id = $('#city_cus').val();
-                                                        var district_id = $('#district_cus').val();
-
-                                                        if (city_id == "") {
-                                                            $('#district_id').empty();
-                                                            $('#street_id').empty();
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {city_id: city_id, district_id: district_id, action: 'create_house', task: 'getDistrictList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#district_id').empty();
-                                                                    $('#district_id').html(result);
-                                                                    $('#district_cus').change();
-                                                                } else {
-                                                                    $('#district_id').empty();
-                                                                    $('#street_id').empty();
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    //district
-                                                    $('#district_cus').change(function(e) {
-                                                        var district_id = $('#district_id').val();
-                                                        var street_id = $('#street_cus').val();
-
-                                                        if (district_id == "") {
-                                                            $('#street_id').empty();
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {district_id: district_id, street_id: street_id, action: 'create_house', task: 'getStreetList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#street_id').empty();
-                                                                    $('#street_id').html(result);
-                                                                    $('#street_cus').change();
-                                                                } else {
-                                                                    $('#street_id').empty();
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    //street
-                                                    $('#street_cus').change(function(e) {
-                                                        var street_id = $('#street_id').val();
-                                                        var ward_id = $('#ward_cus').val();
-
-                                                        if (street_id == "") {
-                                                            $('#ward_id').empty();
-                                                        } else {
-                                                            $.post("include/function_ajax.php", {street_id: street_id, ward_id: ward_id, action: 'create_house', task: 'getWardList'},
-                                                            function(result) {
-                                                                if (result) {
-                                                                    $('#ward_id').empty();
-                                                                    $('#ward_id').html(result);
-                                                                } else {
-                                                                    $('#ward_id').empty();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    $('#search_house').keyup(function(e) {
-                                                        var search = $('#search_house').val();
-                                                        $('#error_introduce_house_id').html("");
-                                                        //    showloadgif();
-                                                        $.post("include/function_ajax.php", {search: search, action: 'create_order', task: 'getHouseSearch'},
-                                                        function(result) {
-                                                            if (result) {
-                                                                $('#introduce_house_id').empty();
-                                                                $('#introduce_house_id').html(result);
-                                                                $('#introduce_house').click();
-                                                                //   hideloadgif();
-                                                            } else {
-                                                                $('#introduce_house_id').empty();
-                                                                $('#introduce_room_id').empty();
-                                                                $('#introduce_house_content').html("");
-                                                                $('#error_introduce_house_id').html("物件名が見つかりませんでした。");
-                                                                //     hideloadgif();
-                                                            }
-                                                        });
-                                                    });
-                                                    $('#introduce_house').click(function() {
-                                                        var house_id = $('#introduce_house_id').val();
-
-                                                        $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
-                                                        function(result) {
-                                                            var json = $.parseJSON(result);
-                                                            $('#introduce_house_content').html(json.house_description);
-                                                            get_introduce_room(house_id, 0);
-                                                        });
-                                                    });
-                                                    $('#introduce_house_id').change(function() {
-                                                        var house_id = $('#introduce_house_id').val();
-                                                        $.post('include/function_ajax.php', {house_id: house_id, action: 'create_order', task: 'getContentHouse'},
-                                                        function(result) {
-                                                            var json = $.parseJSON(result);
-                                                            $('#introduce_house_contrent').html(json.house_description);
-                                                            get_introduce_room(house_id, 0);
-                                                        });
-                                                    });
-                                                    // $('#history table').find('tr:nth-child(2)').css('display', 'none');
-                                                    $('#history table').find('tr:nth-child(3)').css('display', 'none');
-                                                    $('#history table').find('tr:nth-child(4)').css('display', 'none');
-
-                                                    if ($('#log_time_call_type').is(':checked')) {
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                    }
-                                                    if ($('#log_time_mail_type').is(':checked')) {
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                    }
-                                                    if ($('#log_time_arrive_company_type').is(':checked')) {
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                    }
-                                                    $('#log_time_call_type').click(function() {
-                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(7)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(5)').css('display', '');
-                                                        $('#log_time_mail').val('');
-                                                        $('#log_time_mail_date').val('');
-                                                        $('#log_time_arrive_company').val('');
-                                                        $('#log_time_arrive_company_date').val('');
-                                                        $('#log_mail').removeAttr('checked');
-                                                        $('#log_mail_status').removeAttr('checked');
-                                                        $('#log_contact_head_office').removeAttr('checked');
-                                                        $('#contact_method').html('通話日時:');
-                                                        $('#log_tel').attr('checked', "checked");
-                                                        //$('#log_mail').attr('checked', "");
-                                                        $('#log_mail').removeAttr('checked');
-                                                    });
-                                                    $('#log_time_mail_type').click(function() {
-                                                        //$('#history table').find('tr:nth-child(4)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(3)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(5)').css('display', '');
-                                                        //$('#log_time_call').val('');
-                                                        // $('#log_time_call_date').val('');
-                                                        $('#log_time_arrive_company').val('');
-                                                        $('#log_time_arrive_company_date').val('');
-                                                        $('#log_tel').removeAttr('checked');
-                                                        $('#log_tel_status').removeAttr('checked');
-                                                        $('#log_contact_head_office').removeAttr('checked');
-                                                        $('#contact_method').html('メール送信時刻:');
-                                                        $('#log_mail').attr('checked', "checked");
-                                                        // $('#log_tel').attr('checked', "");
-                                                        $('#log_tel').removeAttr('checked');
-                                                    });
-                                                    $('#log_time_arrive_company_type').click(function() {
-                                                        $('#history table').find('tr:nth-child(3)').css('display', '');
-                                                        $('#history table').find('tr:nth-child(2)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(4)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(7)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(8)').css('display', 'none');
-                                                        $('#history table').find('tr:nth-child(5)').css('display', 'none');
-                                                        $('#log_date_appointment_from_date').val('');
-                                                        $('#log_date_appointment_from').val('');
-                                                        $('#log_time_mail').val('');
-                                                        $('#log_time_mail_date').val('');
-                                                        $('#log_time_call').val('');
-                                                        $('#log_time_call_date').val('');
-                                                        $('#log_mail').removeAttr('checked');
-                                                        $('#log_mail_status').removeAttr('checked');
-                                                        $('#log_tel').removeAttr('checked');
-                                                        $('#log_tel_status').removeAttr('checked');
-                                                    });
-                                                    if ($('#log_tel').is(':checked')) {
-                                                        $('#log_time_call_type').click();
-                                                    }
-                                                    else if ($('#log_mail').is(':checked')) {
-                                                        $('#log_time_mail_type').click();
-                                                    } else if ($('#log_time_arrive_company').val() != "" || $('#log_time_arrive_company_date').val() != "") {
-                                                        $('#log_time_arrive_company_type').click();
-                                                    } else {
-                                                        $('#log_tel').attr('checked', "checked");
-                                                    }
-                                                });
-                                                function get_introduce_room(house_id, room_id) {
-                                                    $('#error_introduce_room_id').html("");
-                                                    $.post("include/function_ajax.php", {house_id: house_id, room_id: room_id, action: 'create_order', task: 'getRoomContent'},
-                                                    function(result) {
-                                                        if (result) {
-                                                            $('#introduce_room_id').empty();
-                                                            $('#introduce_room_id').html(result);
-                                                        } else {
-                                                            $('#introduce_room_id').empty();
-                                                            $('#introduce_house_content').html("");
-                                                            if (house_id)
-                                                                $('#error_introduce_room_id').html("この物件は部屋番号が存在していません。");
-                                                        }
-                                                    });
+                                            function removePlus(childElem) {
+                                                var row = $(childElem).closest("tr"); // find <tr> parent
+                                                if (row) {
+                                                    row.remove();
+                                                    CalculatorPlus();
                                                 }
-                                                function removePlus(childElem) {
-                                                    var row = $(childElem).closest("tr"); // find <tr> parent
-                                                    if (row) {
-                                                        row.remove();
-                                                        CalculatorPlus();
-                                                    }
-                                                }
+                                            }
+
+    </script>
+{/literal}
+{if $introduce_house_id ne ""}
+    {literal}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var introduce_house_id ={/literal}{$introduce_house_id}{literal}
+                var introduce_room_id ={/literal} '{$introduce_room_id}'{literal}
+                get_introduce_room(introduce_house_id, introduce_room_id);
+            });
 
         </script>
     {/literal}
-    {if $introduce_house_id ne ""}
-        {literal}
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    var introduce_house_id ={/literal}{$introduce_house_id}{literal}
-                    var introduce_room_id ={/literal} '{$introduce_room_id}'{literal}
-                    get_introduce_room(introduce_house_id, introduce_room_id);
-                });
+{/if}
+{if $tab_house_id ne ""}
+    {literal}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var tab_house_id ={/literal}{$tab_house_id}{literal}
+                var tab_room_id ={/literal} '{$tab_room_id}'{literal}
+                get_tab_room(tab_house_id, tab_room_id);
+            });
 
-            </script>
-        {/literal}
-    {/if}
-    {if $tab_house_id ne ""}
-        {literal}
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    var tab_house_id ={/literal}{$tab_house_id}{literal}
-                    var tab_room_id ={/literal} '{$tab_room_id}'{literal}
-                    get_tab_room(tab_house_id, tab_room_id);
-                });
-
-            </script>
-        {/literal}
-    {/if}
-    {if $city_id ne ""}
-        {literal}
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $('#city_id').change();
-                });
-            </script>
-        {/literal}
-    {/if}    
+        </script>
+    {/literal}
+{/if}
+{if $city_id ne ""}
+    {literal}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#city_id').change();
+            });
+        </script>
+    {/literal}
+{/if}    
 {/if}
 <div id="loadgif">Loading...</div>
 <div id="popup" style="left: 710px; position: absolute; top: 127px; z-index: 9999; opacity: 1; display: none;">
@@ -3044,7 +3058,7 @@
 </div>
 {literal}
     <script type="text/javascript">
-        function selectpage(page){
+        function selectpage(page) {
             $('#page_number').val(page);
             $('#search').click();
         }
@@ -3084,7 +3098,7 @@
             }).appendTo(div);
             log_date('.log_revisit');
         });
-        function removeLogvisit(id){
+        function removeLogvisit(id) {
             document.getElementById(id).remove();
         }
         $(document).ready(function() {
@@ -3213,7 +3227,7 @@
                      $('table').find('tr:last-child').css('display', '');*/
                 }
             });
-             $('#tab_search').keyup(function(e) {
+            $('#tab_search').keyup(function(e) {
                 var search = $('#tab_search').val();
                 $('#error_tab_house').css("color", '#ddd');
                 //    showloadgif();
@@ -3285,7 +3299,7 @@
             });
         });
 
-;
+        ;
         (function($) {
             $(function() {
                 //broker
@@ -3328,7 +3342,7 @@
             });
         })(jQuery);
         var xml = {};
-        function setMenuItem(type,code){
+        function setMenuItem(type, code) {
 
             var s = document.getElementsByTagName("head")[0].appendChild(document.createElement("script"));
             s.type = "text/javascript";
@@ -3337,51 +3351,57 @@
             var optionIndex0 = document.getElementById("s0").options.length;	//沿線のOPTION数取得
             var optionIndex1 = document.getElementById("s1").options.length;	//駅のOPTION数取得
 
-            if (type == 0){
-                for ( i=0 ; i <= optionIndex0 ; i++ ){document.getElementById("s0").options[0]=null}	//沿線削除
-                for ( i=0 ; i <= optionIndex1 ; i++ ){document.getElementById("s1").options[0]=null}	//駅削除
-                document.getElementById("s1").options[0] = new Option("----",0);	//駅OPTIONを空に
-                if (code == 0){
-                    document.getElementById("s0").options[0] = new Option("----",0);	//沿線OPTIONを空に
-                }else{
+            if (type == 0) {
+                for (i = 0; i <= optionIndex0; i++) {
+                    document.getElementById("s0").options[0] = null
+                }	//沿線削除
+                for (i = 0; i <= optionIndex1; i++) {
+                    document.getElementById("s1").options[0] = null
+                }	//駅削除
+                document.getElementById("s1").options[0] = new Option("----", 0);	//駅OPTIONを空に
+                if (code == 0) {
+                    document.getElementById("s0").options[0] = new Option("----", 0);	//沿線OPTIONを空に
+                } else {
                     s.src = "http://www.ekidata.jp/api/p/" + code + ".json";	//沿線JSONデータURL
                 }
-            }else{
-                for ( i=0 ; i <= optionIndex1 ; i++ ){document.getElementById("s1").options[0]=null}	//駅削除
-                if (code == 0){
-                    document.getElementById("s1").options[0] = new Option("----",0);	//駅OPTIONを空に
-                }else{
+            } else {
+                for (i = 0; i <= optionIndex1; i++) {
+                    document.getElementById("s1").options[0] = null
+                }	//駅削除
+                if (code == 0) {
+                    document.getElementById("s1").options[0] = new Option("----", 0);	//駅OPTIONを空に
+                } else {
                     s.src = "http://www.ekidata.jp/api/l/" + code + ".json";	//駅JSONデータURL
                 }
             }
-            xml.onload = function(data){
+            xml.onload = function(data) {
                 var line = data["line"];
                 var station_l = data["station_l"];
-                if(line != null){
-                    document.getElementById("s0").options[0] = new Option("----",0);	//OPTION1番目はNull
-                    for( i=0; i<line.length; i++){
+                if (line != null) {
+                    document.getElementById("s0").options[0] = new Option("----", 0);	//OPTION1番目はNull
+                    for (i = 0; i < line.length; i++) {
                         ii = i + 1	//OPTIONは2番目から表示
                         var op_line_name = line[i].line_name;
                         var op_line_cd = line[i].line_cd;
-                        document.getElementById("s0").options[ii] = new Option(op_line_name,op_line_cd);
+                        document.getElementById("s0").options[ii] = new Option(op_line_name, op_line_cd);
                     }
                 }
-                if(station_l != null){
-                    document.getElementById("s1").options[0] = new Option("----",0);	//OPTION1番目はNull
-                    for( i=0; i<station_l.length; i++){
+                if (station_l != null) {
+                    document.getElementById("s1").options[0] = new Option("----", 0);	//OPTION1番目はNull
+                    for (i = 0; i < station_l.length; i++) {
                         ii = i + 1	//OPTIONは2番目から表示
                         var op_station_name = station_l[i].station_name;
                         var op_station_cd = station_l[i].station_cd;
-                        document.getElementById("s1").options[ii] = new Option(op_station_name,op_station_cd);
+                        document.getElementById("s1").options[ii] = new Option(op_station_name, op_station_cd);
                     }
                 }
             }
         }
         $(document).ready(function() {
-            if('{/literal}{$aspirations_area}{literal}'){
-                setMenuItem(0,'{/literal}{$aspirations_area}{literal}');
-                if('{/literal}{$aspirations_area2}{literal}'){
-                    setMenuItem(1,'{/literal}{$aspirations_area2}{literal}');
+            if ('{/literal}{$aspirations_area}{literal}') {
+                setMenuItem(0, '{/literal}{$aspirations_area}{literal}');
+                if ('{/literal}{$aspirations_area2}{literal}') {
+                    setMenuItem(1, '{/literal}{$aspirations_area2}{literal}');
                     setTimeout(function() {
                         // Do something after 5 seconds
                         $('select#s0').val('{/literal}{$aspirations_area2}{literal}');
