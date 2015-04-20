@@ -304,7 +304,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
 
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -313,7 +314,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$month} ";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_cancel = 1  
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_cancel'] = (int) $row[0];
@@ -521,7 +523,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_cancel'] = (int) $row[0];
@@ -531,7 +534,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_mail = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_cancel'] = (int) $row[0];
@@ -717,7 +721,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayphone_cancel'] = (int) $row[0];
@@ -727,7 +732,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_tel = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_cancel'] = (int) $row[0];
@@ -937,7 +943,8 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
-            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaydiscount_cancel'] = (int) $row[0];
@@ -949,7 +956,8 @@ class Report {
             INNER JOIN home_history_log h  ON o.id = h.order_id
             INNER JOIN home_room r  ON r.id = o.room_id AND r.house_id = o.house_id
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
-            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE d.room_discount > 0 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yeardiscount_cancel'] = (int) $row[0];
@@ -1145,7 +1153,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaylocalsign_cancel'] = (int) $row[0];
@@ -1155,7 +1164,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_local_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime  ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearlocalsign_cancel'] = (int) $row[0];
@@ -1340,7 +1350,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayintroduction_cancel'] = (int) $row[0];
@@ -1350,7 +1361,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_introduction = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime  ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_cancel'] = (int) $row[0];
@@ -1537,7 +1549,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayshopsign_cancel'] = (int) $row[0];
@@ -1547,7 +1560,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_shop_sign = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearshopsign_cancel'] = (int) $row[0];
@@ -1734,7 +1748,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayflyer_cancel'] = (int) $row[0];
@@ -1744,7 +1759,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_flyer = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_cancel'] = (int) $row[0];
@@ -1932,7 +1948,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$today} ";
+            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todayline_cancel'] = (int) $row[0];
@@ -1942,7 +1959,8 @@ class Report {
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_user u  ON o.user_id = u.id
             INNER JOIN home_history_log h  ON o.id = h.order_id
-            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 AND {$year} ";
+            WHERE h.log_line = 1 AND u.agent_id = {$agent_id} AND o.order_status = 1 AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_cancel'] = (int) $row[0];
@@ -2193,7 +2211,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_broker_company c  ON o.broker_id = c.id
-            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 AND {$today} ";
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
 
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -2203,7 +2222,8 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             INNER JOIN home_broker_company c  ON o.broker_id = c.id
-            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 AND {$month} ";
+            WHERE o.order_status = 1 AND c.id = {$company_id} AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_cancel'] = (int) $row[0];
@@ -2394,7 +2414,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 1 AND {$today} ";
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 1 
+                AND DATE_FORMAT( FROM_UNIXTIME( d.contract_cancel_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ";
 
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -2403,7 +2424,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 1 AND {$month} ";
+            WHERE o.order_status = 1 AND h.source_id = {$source_id} AND d.contract_cancel = 1 
+                AND d.contract_cancel_date  <= $time AND d.contract_cancel_date >= $fromtime ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_cancel'] = (int) $row[0];
