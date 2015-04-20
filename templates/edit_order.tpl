@@ -1420,7 +1420,7 @@
                         <td>顧客検索</td>
                         <td><input type="text" id="filter" name="filter"value="{$filter}" style="height: 26px; width: 300px;" placeholder="顧客名を入力"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="search" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='送信'  name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     <input type="hidden" id="step" name="step" value="registry"/><div style="float: right;"><input type="button" value="完了" id="done" name="done"class='btn-search'/></div>
