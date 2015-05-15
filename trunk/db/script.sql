@@ -502,3 +502,7 @@ ADD  `aspirations_area3` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_
 /* 17/4 */
 ALTER TABLE `home_contract_detail`   
   ADD COLUMN `contract_cancel_date` INT(11) NULL AFTER `room_administrative_expense`;
+
+/*14/5 */
+ALTER TABLE `home_fetch_email`   
+  ADD COLUMN `agent_id` INT(11) NULL AFTER `status`;

@@ -15,6 +15,6 @@ if ($user->user_info['user_locked']) {
 }
 $orderClass = new HOMEOrder();
 
-$smarty->assign('messages', $orderClass->getHomeMessages());
+$smarty->assign('messages', $orderClass->getHomeMessages($user->user_info['agent_id']));
 
 include "footer.php";

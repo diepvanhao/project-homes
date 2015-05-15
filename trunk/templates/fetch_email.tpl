@@ -32,7 +32,10 @@
             </form>
         </div>
         
-        <div class="error">{if $create eq "0"}Create fail !!! {/if}</div>
+        <div class="error">
+            {if $create eq "0"}Create fail !!! {/if}
+            {if $error ne ""}{$error}{/if}
+        </div>
         <div>
             <table style="width: 100%;">
                 <thead>

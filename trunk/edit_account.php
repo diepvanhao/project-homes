@@ -318,8 +318,8 @@ $validate = array(
     'password' => array('pass' => $password, 'confirm_pass' => $confirm_password),
     'username' => array('username' => $username, 'user_id' => $user_id),
     'firstname' => $firstname,
-    'lastname' => $lastname,
-    'address' => $address
+    'lastname' => $lastname
+    
 );
 
 if (isset($_POST['submit'])) {
