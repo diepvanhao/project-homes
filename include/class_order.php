@@ -9,7 +9,7 @@ include_once('class_client.php');
 @include_once "class_ajax.php";
 
 class HOMEOrder {
-
+    
     function create_order($room_id, $order_name, $order_rent_cost, $order_comment, $create_id, $house_id, $broker_id, $order_day_create) {
         global $database;
         $room_arr = Array();
@@ -152,7 +152,7 @@ class HOMEOrder {
         }
     }
 
-    function create_fetch_email($order) {
+    function create_fetch_email($order,$agent_id) {
 
         global $database;
         // $checkExistMessage
@@ -171,7 +171,8 @@ class HOMEOrder {
                 `client_phone`,
                 `source_name`,
                `date_sent`,
-                `status`
+                `status`,
+                `agent_id`
                 )
                 values(
                 '{$order[$i]['house_type']}',
@@ -185,29 +186,30 @@ class HOMEOrder {
                 '{$order[$i]['client_phone']}',
                 '{$order[$i]['source']}',
                 '{$order[$i]['date_sent']}',
-                0                
+                0 ,
+                '{$agent_id}'
                 )";
                     $result = $database->database_query($query);
                 }
             }
         }
     }
-    function get_message_total($search){
+    function get_message_total($search,$agent_id){
         global $database;
-        $query = "select * from home_fetch_email";
+        $query = "select * from home_fetch_email where agent_id='{$agent_id}'";
         if (!empty($search))
-            $query.=" where house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
+            $query.=" house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
             . " or client_name like '%{$search}%' or client_email like '%{$search}%' or client_phone like '%{$search}%' or source_name like '%{$search}%'";        
         
         $result = $database->database_query($query);
         $row = $database->database_num_rows($result);
         return $row;
     }
-    function get_message($search, $offset, $length) {
+    function get_message($search, $offset, $length,$agent_id) {
         global $database;
-        $query = "select * from home_fetch_email";
+        $query = "select * from home_fetch_email where agent_id='{$agent_id}'";
         if (!empty($search))
-            $query.=" where house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
+            $query.=" house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
             . " or client_name like '%{$search}%' or client_email like '%{$search}%' or client_phone like '%{$search}%' or source_name like '%{$search}%'";
         $query.=" order by status ASC";    
         $query.=" limit $offset,$length";
@@ -1021,10 +1023,10 @@ class HOMEOrder {
  * @global type $database
  * @return type
  */    
-    public function getHomeMessages() {
+    public function getHomeMessages($agent_id) {
         global $database;
         
-        $result = $database->database_query("SELECT * FROM home_fetch_email WHERE status = 0 ORDER BY id DESC LIMIT 20");
+        $result = $database->database_query("SELECT * FROM home_fetch_email WHERE status = 0 and agent_id='{$agent_id}' ORDER BY id DESC LIMIT 20");
         $messages = array();
         while ($row = $database->database_fetch_assoc($result)) {
             $messages[] = $row;
