@@ -211,7 +211,7 @@ class HOMEOrder {
         if (!empty($search))
             $query.=" house_type like '%{$search}%' or house_name like '%{$search}%' or house_address like '%{$search}%' or rent_cost like '%{$search}%'"
             . " or client_name like '%{$search}%' or client_email like '%{$search}%' or client_phone like '%{$search}%' or source_name like '%{$search}%'";
-        $query.=" order by status ASC";    
+        $query.=" order by date_sent DESC";    
         $query.=" limit $offset,$length";
         
         $result = $database->database_query($query);
@@ -1026,7 +1026,7 @@ class HOMEOrder {
     public function getHomeMessages($agent_id) {
         global $database;
         
-        $result = $database->database_query("SELECT * FROM home_fetch_email WHERE status = 0 and agent_id='{$agent_id}' ORDER BY id DESC LIMIT 20");
+        $result = $database->database_query("SELECT * FROM home_fetch_email WHERE status = 0 and agent_id='{$agent_id}' ORDER BY date_sent DESC LIMIT 20");
         $messages = array();
         while ($row = $database->database_fetch_assoc($result)) {
             $messages[] = $row;
