@@ -207,7 +207,7 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>字・丁目:  <span class="required">*</span></td>
+                <td class='form1'>字・丁目: </td>
                 <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_ward_id" class="error"></div>

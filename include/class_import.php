@@ -125,7 +125,7 @@ class HOMEImport {
             return;
         }
         foreach ($arr as $key => $value) {
-            try {
+           /* try {
                 $street_name = '';
                 $ward_name = '';
                 if(count($value) == 4){
@@ -157,7 +157,15 @@ class HOMEImport {
             } catch (Exception $e) {
                 echo $key . implode('===', $value);
                 continue;
+            }*/
+            //hao customize
+            if(!empty($value['city'])&& !empty($value['district'])&& !empty($value['street'])){
+                $city = $this->_create_city($value['city']);
+                $district = $this->_create_district($city, $value['district']);
+                $street = $this->_create_street($district, $value['street']);
+                $this->_create_ward($street, $value['ward']);
             }
+            //end customize
         }
     }
 

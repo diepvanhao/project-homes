@@ -142,7 +142,7 @@ $validate = array(
     'city_id' => $city_id,
     'district_id' => $district_id,
     'street_id' => $street_id,
-    'ward_name' => $ward_id,
+    //'ward_name' => $ward_id,
     'broker_company_phone' => $broker_company_phone,
 //    'broker_company_email' => array('broker_company_email' => $broker_company_email)
 );

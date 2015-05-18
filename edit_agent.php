@@ -160,7 +160,7 @@ $content = explode('&', $content);
 
 $validate = array(
     'agent_name' => $agent_name,
-    'agent_address' => $agent_address,
+    //'agent_address' => $agent_address,
     'agent_phone' => $agent_phone,
     'agent_email' => array('agent_email'=>$agent_email,'agent_id'=>$agent_id)
 );
