@@ -92,9 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($street_id)) {
         $error[] = 'Street is required';
     }
-    if (empty($ward_id)) {
-        $error[] = 'Ward is required';
-    }
+//    if (empty($ward_id)) {
+//        $error[] = 'Ward is required';
+//    }
 
     //end customize
     if (empty($client_phone)) {

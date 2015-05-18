@@ -72,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($street_id)) {
         $error[] = '大字・通称は必須です。';
     }
-    if (empty($ward_id)) {
-        $error[] = '字・丁目は必須です。';
-    }
+//    if (empty($ward_id)) {
+//        $error[] = '字・丁目は必須です。';
+//    }
 
     //end customize
     if (empty($client_phone)) {

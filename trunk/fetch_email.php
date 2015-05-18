@@ -309,7 +309,7 @@ if (isset($_POST['search'])) {
 } else {
     $search = "";
 }
-$max = 25;
+$max = 50;
 $totalItem = $orderClass->get_message_total($search, $agent_account['id']);
 
 $totalPage = floor($totalItem / $max);
