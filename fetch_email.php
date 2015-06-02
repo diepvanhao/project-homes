@@ -23,7 +23,6 @@ if ($user->user_info['user_locked']) {
     exit();
 }
 
-
 //get content email homes, sumo and athome
 $hostname = '{mail.roompia.jp}';
 $username = "";
@@ -124,26 +123,49 @@ if (isset($_POST['get_new'])) {
     //for ($i = 0; $i < count($account); $i++) {
     if ($username && $password) {
         $inbox = imap_open($hostname, $username, $password) or die('Cannot connect : ' . imap_last_error());
-        $emails[] = imap_search($inbox, 'FROM support@homes.co.jp');
-        $emails[] = imap_search($inbox, 'FROM jds_system@jds.jutakujoho.jp');
-        $emails[] = imap_search($inbox, 'FROM mailtofax@athome.jp');
-
+        //get message 5 days nearest
+        $five_days=strtotime('-5 day',time());
+        $five_days= date('d M Y',$five_days);
+        $emails = imap_search($inbox, 'SINCE'." ".'"'.$five_days.'"');
+        //$emails[] = imap_search($inbox, 'FROM jds_system@jds.jutakujoho.jp');
+        //$emails[] = imap_search($inbox, 'FROM mailtofax@athome.jp');
 
         /* if emails are returned, cycle through each... */
         if ($emails) {
-
+           
             /* put the newest emails on top */
             //rsort($emails);
             /* for every email... */
             foreach ($emails as $email_number) {
                 if ($email_number) {
-                    foreach ($email_number as $email) {
+                    
+                   // foreach ($email_number as $email) {
                         /* get information specific to this email */
-
-                        $overview = imap_fetch_overview($inbox, $email, 0);
-                        $message = mb_convert_encoding(imap_fetchbody($inbox, $email, 1), "UTF-8", "iso-2022-jp");
+                    
+                        $overview = imap_fetch_overview($inbox,$email_number , 0);
+                        //var_dump($overview);echo "</p>";
+                        //echo $overview[0]->from."</p>";
+                        if($overview[0]->from !="support@homes.co.jp" && $overview[0]->from !="mailcenter@athome.co.jp" && $overview[0]->from !="jds_support@r.recruit.co.jp")
+                            continue;
+                        $message = mb_convert_encoding(imap_fetchbody($inbox, $email_number, 1), "UTF-8", "iso-2022-jp");
 
                         // $message = imap_fetchbody($inbox, $email, 1);var_dump($message);die();
+                        //date sent
+                        if ($overview[0]->date) {
+                            $date_sent = explode(',', $overview[0]->date);
+                            $date_sent = trim($date_sent[1]);
+                            $date_sent = explode('+', $date_sent);
+                            $date_sent = trim($date_sent[0]);
+
+                            $fetch_array['date_sent'] = strtotime($date_sent);
+                        } else {
+                            $fetch_array['date_sent'] = "";
+                        }
+//                        //only get 5 days nearest
+//                        if(strtotime($date_sent)<strtotime('-5 day',time())){
+//                            continue;
+//                        }
+                        
                         //house type
 
                         if (preg_match('%物件種.*%', $message, $house_type)) {
@@ -257,23 +279,16 @@ if (isset($_POST['get_new'])) {
                             $fetch_array['source'] = "Athome";
                         } elseif (preg_match('%jds_support@r.recruit.co.jp%', $message, $source)) {
                             $fetch_array['source'] = "SUMO";
-                        }
-                        //date sent
-                        if ($overview[0]->date) {
-                            $date_sent = explode(',', $overview[0]->date);
-                            $date_sent = trim($date_sent[1]);
-                            $date_sent = explode('+', $date_sent);
-                            $date_sent = trim($date_sent[0]);
-                            $fetch_array['date_sent'] = strtotime($date_sent);
-                        } else {
-                            $fetch_array['date_sent'] = "";
+                        }else{
+                            $fetch_array['source']="SUMO";
                         }
 
                         $order[] = $fetch_array;
                     }
-                }
+               // }
             }
         }
+        
         /* close the connection */
         imap_close($inbox);
         $result = $orderClass->create_fetch_email($order, $agent_account['id']);
