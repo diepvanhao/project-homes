@@ -324,6 +324,7 @@ if (isset($_POST['search'])) {
 } else {
     $search = "";
 }
+
 $max = 50;
 $totalItem = $orderClass->get_message_total($search, $agent_account['id']);
 
