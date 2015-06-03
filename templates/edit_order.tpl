@@ -2193,13 +2193,13 @@
                                 </td>
                                 <td class='form1' nowrap>按分先:</td>
                                 <td class='form2'>
-                                    <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
+                                    <select id="partner_id"name="partner_id" style="height:26px; width: 150px;">
                                         <option value=""></option>
                                         {foreach from=$partners item=partner}
-                                            <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_fname} {$partner.user_lname} </option>
+                                            <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
                                         {/foreach}
                                     </select>
-                                    <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 2% 9% 0 0;">%</label>
+                                    <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 80px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 0% 9% 0 0;">円</label>
                                     <div id="error_partner_id" class="error"></div>
                                 </td>
                             </tr>
