@@ -806,7 +806,7 @@ class ajax {
         }
     }
 
-    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel,$contract_cancel_date, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id) {
+    function update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day, $contract_handover_day, $contract_period_from, $contract_period_to, $contract_deposit_1, $contract_deposit_2, $contract_cancel,$contract_cancel_date, $contract_total, $contract_application, $contract_application_date, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from, $contract_payment_date_to, $contract_payment_status, $contract_payment_report, $label, $plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent,$partner_ads, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id) {
         global $database, $user;
         //calculator fee
         $total = 0;
@@ -907,7 +907,8 @@ class ajax {
                 $check_partner_exist = checkPartnerExist($contract_detail_id, $partner_id);
                 if ($check_partner_exist) {
                     $query = "update home_contract_partner set
-                     partner_percent='{$partner_percent}'
+                     partner_percent='{$partner_percent}',
+                     partner_ads='{$partner_ads}'
                          where id='{$check_partner_exist}'
                     ";
                     $database->database_query($query);
@@ -915,11 +916,13 @@ class ajax {
                     $query = "insert into home_contract_partner("
                             . "contract_detail_id,"
                             . "partner_id,"
-                            . "partner_percent"
+                            . "partner_percent,"
+                            ."partner_ads"
                             . ")values("
                             . "'{$contract_detail_id}',"
                             . "'{$partner_id}',"
-                            . "'{$partner_percent}'"
+                            . "'{$partner_percent}',"
+                           . "'{$partner_ads}'"
                             . ")";
                     $database->database_query($query);
                 }
@@ -1030,7 +1033,8 @@ class ajax {
                     $check_partner_exist = checkPartnerExist($contract_detail_id, $partner_id);
                     if ($check_partner_exist) {
                         $query = "update home_contract_partner set
-                     partner_percent='{$partner_percent}'
+                     partner_percent='{$partner_percent}',
+                     partner_ads='{$partner_ads}'
                          where id='{$check_partner_exist}'
                     ";
                         $database->database_query($query);
@@ -1038,11 +1042,13 @@ class ajax {
                         $query = "insert into home_contract_partner("
                                 . "contract_detail_id,"
                                 . "partner_id,"
-                                . "partner_percent"
+                                . "partner_percent,"
+                                . "partner_ads"
                                 . ")values("
                                 . "'{$contract_detail_id}',"
                                 . "'{$partner_id}',"
-                                . "'{$partner_percent}'"
+                                . "'{$partner_percent}',"
+                                . "'{$partner_ads}'"
                                 . ")";
                         $database->database_query($query);
                     }

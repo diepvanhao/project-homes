@@ -506,3 +506,7 @@ ALTER TABLE `home_contract_detail`
 /*14/5 */
 ALTER TABLE `home_fetch_email`   
   ADD COLUMN `agent_id` INT(11) NULL AFTER `status`;
+
+/*4/6*/
+ALTER TABLE `home_contract_partner`   
+  ADD COLUMN `partner_ads` VARCHAR(128) NULL AFTER `partner_percent`;
