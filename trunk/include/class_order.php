@@ -815,6 +815,7 @@ class HOMEOrder {
             $partner['id'] = $row['id'];
             $partner['partner_id'] = $row['partner_id'];
             $partner['partner_percent'] = $row['partner_percent'];
+            $partner['partner_ads']=$row['partner_ads'];
             $partner_arr[] = $partner;
         }
         return $partner_arr;

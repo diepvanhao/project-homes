@@ -799,6 +799,13 @@ if (isset($_POST['partner_percent'])) {
 } else {
     $partner_percent = "";
 }
+if (isset($_POST['partner_ads'])) {
+    $partner_ads = $_POST['partner_ads'];
+} elseif (isset($_GET['partner_ads'])) {
+    $partner_ads = $_GET['partner_ads'];
+} else {
+    $partner_ads = "";
+}
 if (isset($_POST['money_payment'])) {
     $money_payment = $_POST['money_payment'];
 } elseif (isset($_GET['money_payment'])) {
@@ -1132,7 +1139,7 @@ if (isset($_POST['save'])) {
         $contract_total = str_replace(",", "", $contract_total);
         $room_administrative_expense = str_replace(",", "", $room_administrative_expense);
         //end parse cost valid
-        $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel,$contract_cancel_date_temp, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
+        $result_contract = $ajax->update_contract($contract_name, $contract_cost, $contract_key_money, $contract_condition, $contract_valuation, $contract_signature_day_temp, $contract_handover_day_temp, $contract_period_from_temp, $contract_period_to_temp, $contract_deposit_1, $contract_deposit_2, $contract_cancel,$contract_cancel_date_temp, $contract_total, $contract_application, $contract_application_date_temp, $contract_broker_fee, $contract_broker_fee_unit, $contract_ads_fee, $contract_ads_fee_unit, $contract_transaction_finish, $contract_payment_date_from_temp, $contract_payment_date_to_temp, $contract_payment_status, $contract_payment_report, $label, $contract_plus_money, $plus_money_unit, $contract_key_money_unit, $contract_deposit1_money_unit, $contract_deposit2_money_unit, $partner_id, $partner_percent,$partner_ads, $contract_ambition, $money_payment, $room_rented, $room_administrative_expense, $client_id, $order_id);
 
         //parse cost display
         $contract_cost = $contract_cost != "" ? number_format($contract_cost, 0, '', ',') : $contract_cost;
@@ -1400,6 +1407,7 @@ if (isset($_POST['save'])) {
         if (!empty($partner)) {
             $partner_id = $partner[0]['partner_id'];
             $partner_percent = $partner[0]['partner_percent'];
+            $partner_ads = $partner[0]['partner_ads'];
         }
         //fetch introduce
         $result = $customer->getCustomerIntroduce($order_id, $client_id);
@@ -1449,6 +1457,7 @@ $smarty->assign('agents', $agents);
 $smarty->assign('partners', $partners);
 $smarty->assign('partner_id', $partner_id);
 $smarty->assign('partner_percent', $partner_percent);
+$smarty->assign('partner_ads', $partner_ads);
 $cities = $house->getAllCity();
 
 $smarty->assign('cities', $cities);

@@ -2447,25 +2447,31 @@
                         <td class='form2'><input type="text" id="contract_application_date" name="contract_application_date" value="{$contract_application_date}"style="height: 26px; width: 215px;"/></td>
                     </tr>
 
-                    <tr>
-                        <td class='form1'>店舗:</td>
+                    <tr>                    
+                        <td class='form1'>店舗:
+
+                        </td>
                         <td class='form2'>
-                            <select id="agent_id"name="agent_id"style="height: 26px; width: 215px;">
+                            <select id="agent_id"name="agent_id"style="height: 26px; width: 95px;">
                                 <option value=""></option>
                                 {foreach from=$agents item=agent}
                                     <option value="{$agent.id}">{$agent.agent_name}</option>
                                 {/foreach}
                             </select>
-                        </td>
-                        <td class='form1' nowrap>按分先:</td>
-                        <td class='form2'>
-                            <select id="partner_id"name="partner_id" style="height:26px; width: 180px;">
+                            按分先:
+                            <select id="partner_id"name="partner_id" style="height:26px; width: 95px;">
                                 <option value=""></option>
                                 {foreach from=$partners item=partner}
                                     <option value="{$partner.id}"{if $partner.id eq $partner_id}selected{/if}>{$partner.user_lname} {$partner.user_fname} </option>
                                 {/foreach}
                             </select>
-                            <input type="number" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 50px;position: absolute;margin-left: 0.5%"/><label style="float: right;margin: 0% 9% 0 0;">円</label>
+                        </td>
+                        <td class='form1' nowrap>仲介手数料:</td>
+                        <td class='form2'>
+                            <input type="text" id="partner_percent"name="partner_percent" value="{$partner_percent}" style="height: 23px; width: 100px;margin-left: 0.5%"/>                                    
+                            広告料:
+                            <input type="text" id="partner_ads"name="partner_ads" value="{$partner_ads}" style="height: 23px; width: 100px;margin-left: 0.5%"/>
+                            <label style="float: right;margin: 0% 6% 0 0;">円</label>
                             <div id="error_partner_id" class="error"></div>
                         </td>
                     </tr>
