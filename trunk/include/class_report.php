@@ -202,7 +202,7 @@ class Report {
         $today_log_time_arrive_company = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_arrive_company ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_arrive_company = "h.log_time_arrive_company  <=  $time AND  h.log_time_arrive_company >=  $fromtime ";
         //more info on today
-        $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_introduction) AS today_introduction, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line
+        $select = "SELECT  SUM(log_introduction) AS today_introduction, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today_appointment}
@@ -220,7 +220,7 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
-        $select = "SELECT SUM(log_contact_head_office) AS today_contact_head_office
+        $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_contact_head_office) AS today_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today_log_time_arrive_company}
@@ -242,7 +242,7 @@ class Report {
         $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'");
         
         //more info on this month 
-        $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line
+        $select = "SELECT  SUM(log_introduction) AS month_introduction, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_appointment}
@@ -260,7 +260,7 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
         
-        $select = "SELECT SUM(log_contact_head_office) AS month_contact_head_office
+        $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_contact_head_office) AS month_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_log_time_arrive_company}
