@@ -202,7 +202,7 @@ class Report {
         $today_log_time_arrive_company = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_arrive_company ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_arrive_company = "h.log_time_arrive_company  <=  $time AND  h.log_time_arrive_company >=  $fromtime ";
         //more info on today
-        $select = "SELECT  SUM(log_introduction) AS today_introduction, SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line
+        $select = "SELECT SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today_appointment}
@@ -220,7 +220,7 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
 
-        $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_contact_head_office) AS today_contact_head_office
+        $select = "SELECT SUM(log_introduction) AS today_introduction, SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign, SUM(log_contact_head_office) AS today_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$today_log_time_arrive_company}
@@ -242,7 +242,7 @@ class Report {
         $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'");
         
         //more info on this month 
-        $select = "SELECT  SUM(log_introduction) AS month_introduction, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line
+        $select = "SELECT  SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_appointment}
@@ -260,7 +260,7 @@ class Report {
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
         
-        $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_contact_head_office) AS month_contact_head_office
+        $select = "SELECT  SUM(log_introduction) AS month_introduction, SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_contact_head_office) AS month_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_log_time_arrive_company}
@@ -353,10 +353,12 @@ class Report {
         $return['month_agreement'] = (int) $row[0];
 
         //company registeration
+        $today_signature = "DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
+        $month_signature = "d.contract_signature_day  <= $time AND  d.contract_signature_day  >= $fromtime";
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$today} ";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND {$today_signature} ";
 
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
@@ -365,7 +367,8 @@ class Report {
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
-            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND  d.contract_signature_day IS NOT NULL AND  d.contract_signature_day <> '' AND {$month} ";
+            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND {$month_signature} ";
+        
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_ambition'] = (int) $row[0];

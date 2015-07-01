@@ -174,8 +174,8 @@
                     {$today.application = $today.application + (int) $info.today_application}
                 </td>
                 <td>
-                    {$tmp = (int) ($info.today_shop_sign + $info.today_local_sign) + (int) $info.today_introduction + (int) $info.today_tel_status + (int) $info.today_mail_status}
-                    {round(($tmp > 0) ? (100*($info.today_application)/$tmp):0,2)}%
+                    {$tmp = (int) ($info.today_shop_sign + $info.today_local_sign)  + (int) $info.today_tel_status + (int) $info.today_mail_status}
+                    {round(($info.today_application > 0) ? (100*($tmp/$info.today_application)):0,2)}%
                 </td>
                 <td>
                     {$info.today_cancel}
@@ -189,7 +189,7 @@
                     {$info.today_agreement}
                     {$today.agreement = $today.agreement + $info.today_agreement}
                 </td>
-                <td>{round(($tmp > 0) ? (100*($info.today_agreement)/$tmp):0,2)}%</td>
+                <td>{round(($info.today_agreement > 0) ? (100*($tmp/$info.today_agreement)):0,2)}%</td>
                 <td>
                     {(int)$info.today_ambition}
                     {$today.done = $today.done + $info.today_ambition}
@@ -252,8 +252,8 @@
                     {$month.application = $month.application + (int)$info.month_application}
                 </td>
                 <td>
-                    {$tmp = (int) ($info.month_shop_sign + $info.month_local_sign) + (int) $info.month_introduction + (int) $info.month_tel_status + (int) $info.month_mail_status}
-                    {round(($tmp > 0) ? (100*($info.month_application)/$tmp):0,2)}%
+                    {$tmp = (int) ($info.month_shop_sign + $info.month_local_sign) + (int) $info.month_tel_status + (int) $info.month_mail_status}
+                    {round(($info.month_application > 0) ? (100*($tmp/$info.month_application)):0,2)}%
                 </td>
                 <td>
                     {(int)$info.month_cancel}
@@ -267,7 +267,7 @@
                     {(int)$info.month_agreement}
                     {$month.agreement = $month.agreement + (int)$info.month_agreement}
                 </td>
-                <td>{round(($tmp > 0) ? (100*($info.month_agreement)/$tmp):0,2)}%</td>
+                <td>{round(($info.month_agreement > 0) ? (100*($tmp/$info.month_agreement)):0,2)}%</td>
                 <td>
                     {(int)$info.month_ambition}
                     {$month.done = $month.done + (int)$info.month_ambition}
@@ -317,8 +317,8 @@
                     {(int) $today.application}
                 </td>
                 <td>
-                    {$tmp = (int) ($today.signboard) + (int) $today.introduction + (int) $today.tel_status + (int) $today.mail_status}
-                    {round(($tmp > 0) ? (100*($today.application)/$tmp):0,2)}%
+                    {$tmp = (int) ($today.signboard) + (int) $today.tel_status + (int) $today.mail_status}
+                    {round(($today.application > 0) ? (100*($tmp/$today.application)):0,2)}%
                 </td>
                 <td>
                     {$today.cancel}
@@ -329,7 +329,7 @@
                 <td>
                     {$today.agreement}
                 </td>
-                <td>{round(($tmp > 0) ? (100*($today.agreement)/$tmp):0,2)}%</td>
+                <td>{round(($today.agreement > 0) ? (100*($tmp/$today.agreement)):0,2)}%</td>
                 <td>
                     {$today.done}
                 </td>
@@ -354,13 +354,13 @@
                 <td>{(int)$month.revisit}</td>
                 <td>{(int)$month.application}</td>
                 <td>
-                    {$tmp = (int) ($month.signboard) + (int) $month.introduction + (int) $month.tel_status + (int) $month.mail_status}
-                    {round(($tmp > 0) ? (100*($month.application)/$tmp):0,2)}%
+                    {$tmp = (int) ($month.signboard)  + (int) $month.tel_status + (int) $month.mail_status}
+                    {round(($month.application > 0) ? (100*($tmp/$month.application)):0,2)}%
                 </td>
                 <td>{$month.cancel}</td>
                 <td>{$month.change}</td>
                 <td>{$month.agreement}</td>
-                <td>{round(($tmp > 0) ? (100*($month.agreement)/$tmp):0,2)}%</td>
+                <td>{round(($month.agreement > 0) ? (100*($tmp/$month.agreement)):0,2)}%</td>
                 <td>{$month.done}</td>
             </tr>
         </table>
