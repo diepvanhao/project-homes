@@ -954,6 +954,8 @@ class HOMEOrder {
             $birthday = array_unique($birthday);
 
             for ($i = 0; $i < count($birthday); $i++) {
+                if(!isset($birthday[$i]))
+                                        continue;
                 $clients = $client->getClientId($birthday[$i]);
                 $event['id'] = $clients['id'];
                 $event['title'] = "Birthday's" . " " . $clients['client_name'];

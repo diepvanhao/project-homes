@@ -32,8 +32,8 @@
                         <td class='form1'>&nbsp;</td>
                         <td class='form2'>
                             <div style="margin-top:10px">
-                                <input type='submit' class='smt_btn' id="submit" name="submit" value='サインイン'  style="border: none; height: 22px"/>&nbsp; 
-                                <input type='reset' class='smt_btn' value='リセット'  style="border: none; height: 22px;"/>&nbsp; 
+                                <input type='submit' class='smt_btn' id="submit" name="submit" value='Submit'  style="border: none; height: 22px"/>&nbsp; 
+                                <input type='reset' class='smt_btn' value='Reset'  style="border: none; height: 22px;"/>&nbsp; 
 
                             </div>
                         </td>

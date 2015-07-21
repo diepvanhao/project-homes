@@ -1,4 +1,4 @@
-<div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">物件登録</div>
+<div style="background-color: #F1F5FE; width: 100%;height:25px; text-align: center;font-size: 1.8em;line-height: 55px; margin-bottom: 2%;">Apartment Registry</div>
 {literal}
     <script type="text/javascript">
         birthday('popup_house_build_time');
@@ -199,12 +199,12 @@
     <form action="popup_create_house.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>名称: <span class="required">*</span></td>
+                <td class='form1'>Name: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='house_name' id='popup_house_name'  style="height:26px; width: 351px;"></td>
             </tr>
 
             <tr>
-                <td class='form1'>都道府県:  <span class="required">*</span></td>
+                <td class='form1'>City:  <span class="required">*</span></td>
                 <td class='form2'>
                     <select id="popup_city_id" name="city_id" style="height:26px; width: 351px;">
                         <option value=""></option>
@@ -215,45 +215,45 @@
                 </td>
             </tr>      
             <tr>
-                <td class='form1'>市区町村:  <span class="required">*</span></td>
+                <td class='form1'>District:  <span class="required">*</span></td>
                 <td class='form2'>
                     <select id="popup_district_id" name="popup_district_id" style="height:26px; width: 351px;"></select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>大字・通称:  <span class="required">*</span></td>
+                <td class='form1'>Street:  <span class="required">*</span></td>
                 <td class='form2'>
                     <select id="popup_street_id" name="street_id" style="height:26px; width: 351px;"></select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>字・丁目:  <span class="required">*</span></td>
+                <td class='form1'>Ward:  <span class="required">*</span></td>
                 <td class='form2'>
                     <select id="popup_ward_id" name="ward_id" style="height:26px; width: 351px;"></select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>番地: </td>
+                <td class='form1'>Address number: </td>
                 <td class='form2'>
                     <input type='text' class='text' name='house_address' id='popup_house_address' style="height:26px; width: 351px;">
                 </td>
             </tr>  
             <tr>
-                <td class='form1'>エリア: </td>
+                <td class='form1'>Area: </td>
                 <td class='form2'>
                     <input type='text' class='text' name='house_area' id='popup_house_area' style="height:26px; width: 351px;">
                 </td>
             </tr>
 
             <tr>
-                <td class='form1'>築年月: </td>
+                <td class='form1'>Build time: </td>
                 <td class='form2'>
                     <input type='text' class='text' name='house_build_time' id='popup_house_build_time' style="height:26px; width: 351px;">
                 </td>
             </tr>
 
             <tr>
-                <td class='form1'>物件種別: </td>
+                <td class='form1'>Type: </td>
                 <td class='form2'>
                     <select id="popup_house_type" name="house_type" style="height:26px; width: 351px;">
                         <option value=""></option>
@@ -265,7 +265,7 @@
             </tr>
 
             <tr>
-                <td class='form1'>建物構造: </td>
+                <td class='form1'>Structure: </td>
                 <td class='form2'>
                     <select id="popup_house_structure" name="house_structure" style="height:26px; width: 351px;">
                         <option value=""></option>
@@ -276,7 +276,7 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>備考: </td>
+                <td class='form1'>Description: </td>
                 <td class='form2'>
                     <textarea name='house_description' id='popup_house_description'   style="height:70px; width: 351px;"></textarea>
                 </td>
@@ -350,7 +350,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
             <center style="margin-right: 8%;">
-                <input type='button' class='btn-signup' value='作成' id="popup_submit" name="submit"/>&nbsp;    
+                <input type='button' class='btn-signup' value='Submit' id="popup_submit" name="submit"/>&nbsp;    
             </center>
             </td>
             </tr>

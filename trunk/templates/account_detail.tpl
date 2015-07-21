@@ -2,7 +2,7 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>アカウントの詳細</h3>
+        <h3>Account detail</h3>
     </div>
     {if $account}
         <div class="house-title">
@@ -10,35 +10,35 @@
         </div>
         <ul class="house-info">
             <li>
-                <strong>ユーザー名 : </strong>
+                <strong>Username : </strong>
                 <span>{$account.user_username}</span>
             </li>
             <li>
-                <strong>名字 : </strong>
+                <strong>Last name : </strong>
                 <span>{$account.user_lname}</span>
             </li>
             <li>
-                <strong>名前 : </strong>
+                <strong>First name : </strong>
                 <span>{$account.user_fname}</span>
             </li>
             <li>
-                <strong>Ｅメール : </strong>
+                <strong>Email : </strong>
                 <span>{$account.user_email}</span>
             </li>
             <li>
-                <strong>電話番号 : </strong>
+                <strong>Phone : </strong>
                 <span>{$account.user_phone}</span>
             </li>
             <li>
-                <strong>性別 : </strong>
+                <strong>Gender : </strong>
                 <span>{$account.user_gender}</span>
             </li>
             <li>
-                <strong>生年月日 : </strong>
+                <strong>Birthday : </strong>
                 <span>{$account.user_birthday}</span>
             </li>
             <li>
-                <strong>役職 : </strong>
+                <strong>Position : </strong>
                 <span>{$account.user_position}</span>
             </li>
         </ul>
@@ -57,27 +57,24 @@
         {/if}*}
         {if $agent}
             <div class="house-title">
-                <span>店舗</span>
+                <span>Agent</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name : </strong>
                     <span>{$agent.agent_name}</span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address : </strong>
                     <span>{$agent.agent_address}</span>
                 </li>
                 <li>
-                    <strong>電話番号 : </strong>
+                    <strong>Phone : </strong>
                     <span>{$agent.agent_phone}</span>
                 </li>
+                
                 <li>
-                    <strong>ファックス : </strong>
-                    <span>{$agent.agent_email}</span>
-                </li>
-                <li>
-                    <strong>Ｅメール : </strong>
+                    <strong>Email : </strong>
                     <span>{$agent.agent_email}</span>
                 </li>
             </ul>

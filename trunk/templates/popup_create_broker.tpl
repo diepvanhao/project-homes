@@ -1,5 +1,5 @@
 <div id="content">
-    <h1>管理会社登録</h1>
+    <h1>Broker Company Registry</h1>
     {literal}
     <script type="text/javascript">
              //city
@@ -129,12 +129,12 @@
     <form action="popup_create_broker_company.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>名称: <span class="required">*</span></td>
+                <td class='form1'>Name: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='broker_company_name' id='popup_broker_company_name' style="height:26px; width: 351px;"></td>
             </tr>
 
             <tr>
-                <td class='form1'>都道府県:  <span class="required">*</span></td>
+                <td class='form1'>City:  <span class="required">*</span></td>
                 <td class='form2'><select id="popup_city_id" name="city_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$cities item=city}
@@ -144,51 +144,51 @@
                 </td>
             </tr>      
             <tr>
-                <td class='form1'>市区町村:  <span class="required">*</span></td>
+                <td class='form1'>District:  <span class="required">*</span></td>
                 <td class='form2'><select id="popup_district_id" name="district_id" style="height:26px; width: 351px;">                       
 
                     </select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>大字・通称:  <span class="required">*</span></td>
+                <td class='form1'>Street:  <span class="required">*</span></td>
                 <td class='form2'><select id="popup_street_id" name="street_id" style="height:26px; width: 351px;">
 
                     </select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>字・丁目:  <span class="required">*</span></td>
+                <td class='form1'>Ward:  <span class="required">*</span></td>
                 <td class='form2'><select id="popup_ward_id" name="ward_id" style="height:26px; width: 351px;">
 
                     </select>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>番地: </td>
+                <td class='form1'>Address number: </td>
                 <td class='form2'><input type='text' class='text' name='broker_company_address' id='popup_broker_company_address' style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
-                <td class='form1'>電話番号: <span class="required">*</span></td>
+                <td class='form1'>Phone number: <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='broker_company_phone' id='popup_broker_company_phone' style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
-                <td class='form1'>Ｅメール: <span class="required"></span></td>
+                <td class='form1'>Email: <span class="required"></span></td>
                 <td class='form2'><input type='email' class='text' name='broker_company_email' id='popup_broker_company_email'  style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
-                <td class='form1'>ファックス: </td>
+                <td class='form1'>Fax: </td>
                 <td class='form2'><input type='text' class='text' name='broker_company_fax' id='popup_broker_company_fax' style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
-                <td class='form1'>担当者: </td>
+                <td class='form1'>Responsible: </td>
                 <td class='form2'><input type='text' class='text' name='broker_company_undertake' id='popup_broker_company_undertake' style="height:26px; width: 351px;"></td>
             </tr>
             <tr>
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='button' class='btn-signup' value='登録' id="popup_submit" name="submit"/>&nbsp;  
+                        <input type='button' class='btn-signup' value='Submit' id="popup_submit" name="submit"/>&nbsp;  
                     </div>
                 </td>
             </tr>

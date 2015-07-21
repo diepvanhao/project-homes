@@ -2,182 +2,182 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>オーダーの詳細</h3>
+        <h3>Order detail</h3>
     </div>
     {if $order}
         <div class="house-title">
-            <span>オーダー</span>
+            <span>Order</span>
         </div>
         <ul class="house-info">
             <li>
-                <strong>オーダーＩＤ : </strong>
+                <strong>Order name: </strong>
                 <span>{$order.order_name}</span>
             </li>
             <li>
-                <strong>賃料 : </strong>
+                <strong>Rent : </strong>
                 <span>{$order.order_rent_cost}</span>
             </li>
             <li>
-                <strong>連絡の現況 : </strong>
+                <strong>Status : </strong>
                 <span>{$status}</span>
             </li>
             <li>
-                <strong>備考 : </strong>
+                <strong>Comment : </strong>
                 <span>{$order.order_comment}</span>
             </li>
             <li>
-                <strong>登録日付 : </strong>
+                <strong>Registry date : </strong>
                 <span>
                     {if !empty($history.order_day_create)}
                             {date('Y-m-d',$history.order_day_create)} 
                         {/if}
                 </span>
             </li>
-            <li>
+            {*<li>
                 <strong>引越予定日 : </strong>
                 <span>
                     {if !empty($history.order_day_create)}
                         {date('Y-m-d',$history.order_day_create)} 
                     {/if}
                 </span>
-            </li>
+            </li>*}
         </ul>
         {if $room}
             <div class="house-title">
-                <span>部屋情報</span>
+                <span>Room information</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>号室 : </strong>
+                    <strong>Room number : </strong>
                     <span>{$room.room_number}</span>
                 </li>
                 <li>
-                    <strong>間取り : </strong>
+                    <strong>Name : </strong>
                     <span>{$room.room_name}</span>
                 </li>
                 <li>
-                    <strong>面積 : </strong>
+                    <strong>Size : </strong>
                     <span>{$room.room_size}</span>
                 </li>
                 <li>
-                    <strong>賃料 : </strong>
+                    <strong>Rent : </strong>
                     <span>{$room.room_rent}</span>
                 </li>
                 <li>
-                    <strong>礼金 : </strong>
+                    <strong>Key fee : </strong>
                     <span>{$room.room_key_money}</span>
                 </li>
                 <li>
-                    <strong>管理費 : </strong>
+                    <strong>Administrative expense : </strong>
                     <span>{$room.room_administrative_expense}</span>
                 </li>
                 <li>
-                    <strong>敷金・保証金 : </strong>
+                    <strong>Deposit : </strong>
                     <span>{$room.room_deposit}</span>
                 </li>
                 <li>
-                    <strong>割引 : </strong>
+                    <strong>discount : </strong>
                     <span>{$room.room_discount}</span>
                 </li>
             </ul>
         {/if}
         {if $house}
             <div class="house-title">
-                <span>物件情報</span>
+                <span>Apartment information</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name : </strong>
                     <span>{$house.house_name}</span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address : </strong>
                     <span>{$house.house_address}</span>
                 </li>
                 <li>
-                    <strong>エリア : </strong>
+                    <strong>Area : </strong>
                     <span>{$house.house_area}</span>
                 </li>
                 <li>
-                    <strong>間取り : </strong>
+                    <strong>Type : </strong>
                     <span>{$house_type}</span>
                 </li>
                 <li>
-                    <strong>備考 : </strong>
+                    <strong>Description : </strong>
                     <span>{$house.house_description}</span>
                 </li>
                 <li>
-                    <strong>建物構造 : </strong>
+                    <strong>Structure : </strong>
                     <span>{$house.house_structure}</span>
                 </li>
                 <li>
-                    <strong>築年月 : </strong>
+                    <strong>Build time : </strong>
                     <span>{$house.house_build_time}</span>
                 </li>
             </ul>
         {/if}
         {if $house.house_owner_id}
             <div class="house-title">
-                <span>オーナー名</span>
+                <span>Owner</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name : </strong>
                     <span>{$house.house_owner_name}</span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address : </strong>
                     <span>{$house.house_owner_address}</span>
                 </li>
                 <li>
-                    <strong>電話番号 : </strong>
+                    <strong>Phone : </strong>
                     <span>{$house.house_owner_phone}</span>
                 </li>
                 <li>
-                    <strong>ファックス : </strong>
+                    <strong>Fax : </strong>
                     <span>{$house.house_owner_fax}</span>
                 </li>
                 <li>
-                    <strong>Ｅメール : </strong>
+                    <strong>Email : </strong>
                     <span>{$house.house_owner_email}</span>
                 </li>
             </ul>
         {/if}
         {if $client}
             <div class="house-title">
-                <span>クライアント情報</span>
+                <span>Client information</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name : </strong>
                     <span>{$client.client_name}</span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address : </strong>
                     <span>{$client.client_address}</span>
                 </li>
                 <li>
-                    <strong>電話番号 : </strong>
+                    <strong>Phone : </strong>
                     <span>{$client.client_phone}</span>
                 </li>
                 <li>
-                    <strong>ファックス : </strong>
+                    <strong>Fax : </strong>
                     <span>{$client.client_fax}</span>
                 </li>
                 <li>
-                    <strong>Ｅメール : </strong>
+                    <strong>Email : </strong>
                     <span>{$client.client_email}</span>
                 </li>
                 <li>
-                    <strong>生年月日 : </strong>
+                    <strong>Birthday : </strong>
                     <span>{$client.client_birthday}</span>
                 </li>
                 <li>
-                    <strong>性別 : </strong>
+                    <strong>Gender : </strong>
                     <span>{$client.client_gender}</span>
                 </li>
                 <li>
-                    <strong>年収 : </strong>
+                    <strong>Income : </strong>
                     <span>
                         {if $client.client_income > 10000}
                             {round($client.client_income/10000)}万{($client.client_income%10000)?($client.client_income%10000):''}円
@@ -187,53 +187,53 @@
                     </span>
                 </li>
                 <li>
-                    <strong>職業  : </strong>
+                    <strong>Occupation  : </strong>
                     <span>{$client.client_occupation}</span>
                 </li>
                 <li>
-                    <strong>会社名 : </strong>
+                    <strong>Company : </strong>
                     <span>{$client.client_company}</span>
                 </li>
             </ul>
         {/if}
         {if $broker}
             <div class="house-title">
-                <span>管理会社</span>
+                <span>Management company</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name : </strong>
                     <span>{$broker.broker_company_name} </span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address : </strong>
                     <span>{$broker.broker_company_address} </span>
                 </li>
                 <li>
-                    <strong>電話番号 : </strong>
+                    <strong>Phone : </strong>
                     <span>{$broker.broker_company_phone} </span>
                 </li>
                 <li>
-                    <strong>Ｅメール : </strong>
+                    <strong>Email : </strong>
                     <span>{$broker.broker_company_email} </span>
                 </li>
                 <li>
-                    <strong>ファックス : </strong>
+                    <strong>Fax : </strong>
                     <span>{$broker.broker_company_fax} </span>
                 </li>
                 <li>
-                    <strong>担当者 : </strong>
+                    <strong>Person in charge : </strong>
                     <span>{$broker.broker_company_undertake} </span>
                 </li>
             </ul>
         {/if}
         {if $history}
             <div class="house-title">
-                <span>履歴</span>
+                <span>History</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>通話時間 : </strong>
+                    <strong>Time call : </strong>
                     <span>
                         {if !empty($history.log_time_call)}
                             {date('Y-m-d',$history.log_time_call)} 
@@ -241,7 +241,7 @@
                     </span>
                 </li>
                 <li>
-                    <strong>来店時間 : </strong>
+                    <strong>Arrive office : </strong>
                     <span>
                         {if !empty($history.log_time_arrive_company)}
                             {date('Y-m-d',$history.log_time_arrive_company)} 
@@ -249,11 +249,11 @@
                     </span>
                 </li>
                 <li>
-                    <strong>備考 : </strong>
+                    <strong>Comment : </strong>
                     <span>{$history.log_comment} </span>
                 </li>
                 <li>
-                    <strong>来店予定日時 : </strong>
+                    <strong>Date book room : </strong>
                     <span>
                         {if !empty($history.log_date_appointment_from)}
                             {date('Y-m-d',$history.log_date_appointment_from)} 
@@ -261,72 +261,72 @@
                     </span>
                 </li>
                 <li>
-                    <strong>予約の現況 : </strong>
+                    <strong>View in report : </strong>
                     <span>
                         {if !empty($history.log_status_appointment)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>店看板 : </strong>
+                    <strong>Shop sign : </strong>
                     <span>
                         {if !empty($history.log_shop_sign)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>現地看板 : </strong>
+                    <strong>Local sign : </strong>
                     <span>
                         {if !empty($history.log_local_sign)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>紹介 : </strong>
+                    <strong>Introduce : </strong>
                     <span>
                         {if !empty($history.log_introduction)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>電話で連絡 : </strong>
+                    <strong>Contact by tel : </strong>
                     <span>
                         {if !empty($history.log_tel)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>メールで連絡 : </strong>
+                    <strong>Contact by email : </strong>
                     <span>
                         {if !empty($history.log_mail)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>チラシ : </strong>
+                    <strong>Leaflets: </strong>
                     <span>
                         {if !empty($history.log_flyer)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
@@ -334,49 +334,49 @@
                     <strong>ＬＩＮＥ: </strong>
                     <span>
                         {if !empty($history.log_line)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>本社反響 : </strong>
+                    <strong>Contact by arrive office : </strong>
                     <span>
                         {if !empty($history.log_contact_head_office)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>電話の現況 : </strong>
+                    <strong>Status of tel : </strong>
                     <span>
                         {if !empty($history.log_tel_status)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>メールの現況 : </strong>
+                    <strong>Status of email : </strong>
                     <span>
                         {if !empty($history.log_mail_status)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         NO
                         {/if}
                     </span>
                 </li>
                 <li>
-                    <strong>再来店 : </strong>
+                    <strong>Revisit : </strong>
                     <span>
                         {if !empty($history.log_revisit)}
-                        はい。
+                        Yes
                         {else}
-                         いいえ。
+                         No
                         {/if}
                     </span>
                 </li>
@@ -389,28 +389,28 @@
             {$old_house = $house_class->getHouseById($arr[1])}
             {$old_broker = $detail_class->getBroker($arr[2])}
                 <div class="house-title">
-                    <span>前の号室</span>
+                    <span>Older room</span>
                 </div>
                 <ul class="house-info detail-list-items">
                      <li>
                         <ul>
                             <li>
-                                <strong>部屋情報 : </strong>
+                                <strong>Room number : </strong>
                                 <span>{$old_room.room_number}</span>
                             </li>
                             <li>
-                                <strong>間取り : </strong>
+                                <strong>Room name : </strong>
                                 <span>{$old_room.room_name}</span>
                             </li>
                             {if $old_house}
                                 <li>
-                                    <strong>物件名 : </strong>
+                                    <strong>House name : </strong>
                                     <span>{$old_house.house_name}</span>
                                 </li>
                             {/if}
                             {if $old_broker}
                                 <li>
-                                    <strong>管理会社 : </strong>
+                                    <strong>Broker name : </strong>
                                     <span>{$old_broker.broker_company_name} </span>
                                 </li>
                             {/if}

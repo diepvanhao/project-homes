@@ -1,15 +1,15 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">管理会社</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Broker Company</div>
 <center>
     <div style="width: 100%;">
         <div>
             <form action="manage_broker.php" method="post">
                 <table style="">
                     <tr>
-                        <td  style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には名前または電話番号を入力します。" title="Enter broker company name or phone to search"style="height:26px; width: 248px;"/>
+                        {*<td  style='font-size: 13.33px;'>Search</td>*}
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Enter broker company name or phone to search" title="Enter broker company name or phone to search"style="height:26px; width: 248px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -21,15 +21,15 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>番号</th>
-                        <th>名称</th>
-                        <th>住所</th>
-                        <th>電話番号</th>
-                        <th>Eメール</th>
-                        <th>ファックス</th>
-                        <th>担当者</th>
-                        <th>活動</th>
-                        <th>ログイン</th>
+                        <th>N0</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Fax</th>
+                        <th>Person in charge</th>
+                        <th>Action</th>
+                        <th>Login</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,7 @@
                             <td><a href="mail_broker.php?id={$broker.id}">{$broker.broker_company_email}</a></td> 
                             <td>{$broker.broker_company_fax}</td>
                             <td>{$broker.broker_company_undertake}</td>
-                            <td><a href="edit_broker.php?url={$link|base64_encode}">編集</a><a href="#" onclick="deleteItem({$broker.id},{$broker.broker_company_lock})" style="margin: 0% 10% 0% 10%;">{if $broker.broker_company_lock eq 0}削除{else}回復{/if}</a><a href="add_house_broker.php?url={$add|base64_encode}">お部屋を追加します</a>
+                            <td><a href="edit_broker.php?url={$link|base64_encode}">Edit</a><a href="#" onclick="deleteItem({$broker.id},{$broker.broker_company_lock})" style="margin: 0% 10% 0% 10%;">{if $broker.broker_company_lock eq 0}Lock{else}Unlock{/if}</a><a href="add_house_broker.php?url={$add|base64_encode}">Add room</a>
                                 {*<a href="mail_broker.php?id={$broker.id}">MAIL</a>*}
                             </td>
                             <td>
@@ -55,7 +55,7 @@
                                         {if $broker.inputhidden ne ""}
                                             {$broker.inputhidden}
                                         {/if}
-                                        <input type="submit" class="btn" value="ログイン" {if $broker.submitname ne ""}name="{$broker.submitname}"{/if}/>	
+                                        <input type="submit" class="btn" value="Login" {if $broker.submitname ne ""}name="{$broker.submitname}"{/if}/>	
                                     </form>
                                 
                                 {/if}

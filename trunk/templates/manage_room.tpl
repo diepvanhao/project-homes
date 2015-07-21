@@ -1,15 +1,15 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">部屋管理</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Room</div>
 <center>
     <div style="width: 100%;">
         <div>
             <form action="manage_room.php" method="post">
                 <table style="">
                     <tr>
-                        <td  style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には号室、物件名、管理会社を入力します。" style="height:26px; width: 270px;"/>
+                        {*<td  style='font-size: 13.33px;'>検索</td>*}
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="" style="height:26px; width: 270px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -20,16 +20,16 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>番号</th>
-                        <th>号室</th>
-                        <th>物件名</th> 
-                        <th>管理会社</th>   
-                        <th>間取り</th>
-                        <th>現況</th>
-                        <th>賃料</th>
-                        <th>面積</th>                        
-                        <th>敷金・保証金</th>                                                                                                                                                         
-                        <th>活動</th>
+                        <th>N0</th>
+                        <th>Room number</th>
+                        <th>Apartment name</th> 
+                        <th>Broker company name</th>   
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Rent</th>
+                        <th>Size</th>                        
+                        <th>Deposite</th>                                                                                                                                                         
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,18 +42,18 @@
                             <td>{$room.house_name}</td>
                             <td>{$room.broker_company_name}</td>
                             <td>{$room.room_type_number}{$room.room_type}</td>
-                            <td>{if $room.room_status eq 1}賃貸中 {elseif $room.room_status eq 2}未完成{else} 空家 {/if}</td>                           
+                            <td>{if $room.room_status eq 1}Rent {elseif $room.room_status eq 2}Incomplete{else} Empty {/if}</td>                           
                             <td>{$room.room_rent}</td>                           
                             <td>{$room.room_size}</td>
                             <td>{$room.room_deposit}</td>                           
-                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">編集</a><a href="javascript:void" onclick="deleteItem({$room.room_id},{$room.broker_id},{$room.house_id},{$room.room_lock})" style="margin: 0% 10% 0% 10%;">{if $room.room_lock eq 0}削除{else}回復{/if}</a><a href="room_detail.php?url={$add|base64_encode}">詳細</a></td>
+                            <td style="width:9%"><a href="edit_room.php?url={$link|base64_encode}">Edit</a><a href="javascript:void" onclick="deleteItem({$room.room_id},{$room.broker_id},{$room.house_id},{$room.room_lock})" style="margin: 0% 10% 0% 10%;">{if $room.room_lock eq 0}Lock{else}Unlock{/if}</a><a href="room_detail.php?url={$add|base64_encode}">Detail</a></td>
                         </tr>
                     {/foreach}
                 </tbody>
             </table>
         </div>
         <center>
-            ページ:
+            Page:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_room.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}
@@ -63,7 +63,7 @@
 {literal}
     <script type="text/javascript">
         function deleteItem(id, broker_id, house_id,room_lock) {
-            if (confirm("確かですか?")) {
+            if (confirm("Are you sure?")) {
                 $.post("include/function_ajax.php", {id: id, broker_id: broker_id, house_id: house_id, room_lock: room_lock, action: 'deleteRoom'},
                 function(result) {
                     if (result)

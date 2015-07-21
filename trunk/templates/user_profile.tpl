@@ -313,39 +313,39 @@
 {/literal}
 {nocache}
     <div id="profile">
-        <div id='general'><h2>アカウント設定</h2></div>
+        <div id='general'><h2>Account settings</h2></div>
         <div id='edit_profile'>
             <ul>
                 <li>
                     <a href="javascript:void" >
-                        <h3>名称</h3>
-                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/>編集</span>
+                        <h3>Name</h3>
+                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/>Edit</span>
                         <span class="content_profile"><strong>{$user->user_info.user_lname} {$user->user_info.user_fname} </strong></span>
                     </a>
                     <div id="edit_content" style="display:none;">
-                        <div id="name_panel"><strong>名称</strong></div>
+                        <div id="name_panel"><strong>Name</strong></div>
                         <center>
                             <div>
                                 <table>                                   
                                     <tr>
-                                        <td>名字</td>
+                                        <td>Last name</td>
                                         <td><input type="text" id="lastname" name="lastname" value="{$user->user_info.user_lname}"onkeyup="removeDisabledName();"style="height:26px; width: 151px;"/></td>
                                     </tr>
                                     <tr>
-                                        <td>名前</td>
+                                        <td>First name</td>
                                         <td><input type="text" id="firstname" name="firstname" value="{$user->user_info.user_fname}" onkeyup="removeDisabledName();"style="height:26px; width: 151px;"/></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><div>設定を保存するには、パスワードを入力してください。</div></td>
+                                        <td colspan="2"><div>To save the settings, please enter the password.</div></td>
                                     </tr>
                                     <tr>
-                                        <td>パスワード</td>
+                                        <td>Password</td>
                                         <td><input type="password" id="password" name="password" value=""style="height:26px; width: 151px;"/><span id="error_password" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                 </table>
                                 <div>
-                                    <input type="button" value="変更" id="edit_name_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
-                                    <input type="button" value="キャンセル" id="cancel_name">
+                                    <input type="button" value="Change" id="edit_name_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
+                                    <input type="button" value="Cancel" id="cancel_name">
                                     <input type="hidden" id="firstVal" value="{$user->user_info.user_fname}">
                                     <input type="hidden" id="lastVal" value="{$user->user_info.user_lname}">
                                 </div>
@@ -355,31 +355,31 @@
                 </li>   
                 <li>
                     <a href="javascript:void" >
-                        <h3>ユーザー</h3>
-                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> 編集</span>
+                        <h3>Username</h3>
+                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> Edit</span>
                         <span class="content_profile"><strong>{$user->user_info.user_username}</strong></span>
                     </a>
                     <div id="edit_content" style="display:none;">
-                        <div id="name_panel"><strong>ユーザー</strong></div>
+                        <div id="name_panel"><strong>Username</strong></div>
                         <center>
                             <div>
                                 <table>
                                     <tr>
-                                        <td>ユーザー</td>
+                                        <td>username</td>
                                         <td><input type="text" id="username" name="username" value="{$user->user_info.user_username}" onkeyup="removeDisabledUsername();"style="height:26px; width: 151px;"/><span id="error_username" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2"><div>設定を保存するには、パスワードを入力してください。</div></td>
+                                        <td colspan="2"><div>To save the settings, please enter the password.</div></td>
                                     </tr>
                                     <tr>
-                                        <td>パスワード</td>
+                                        <td>Password</td>
                                         <td><input type="password" id="password" name="password" value=""style="height:26px; width: 151px;"/><span id="error_password_username" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                 </table>
                                 <div>
-                                    <input type="button" value="変更" id="edit_username_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
-                                    <input type="button" value="キャンセル" id="cancel_username">
+                                    <input type="button" value="Change" id="edit_username_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
+                                    <input type="button" value="Cancel" id="cancel_username">
                                     <input type="hidden" id="oldusername" value="{$user->user_info.user_username}">
 
                                 </div>
@@ -389,35 +389,35 @@
                 </li>   
                 <li>
                     <a href="javascript:void" >
-                        <h3>Eメール</h3>
-                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> 編集</span>
+                        <h3>Email</h3>
+                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> Edit</span>
                         <span class="content_profile"><strong>{$user->user_info.user_email}</strong></span>
                     </a>
                     <div id="edit_content" style="display:none;">
-                        <div id="name_panel"><strong>Eメール</strong></div>
+                        <div id="name_panel"><strong>Email</strong></div>
                         {if $user->user_info.user_authorities  lte 2}
                             <center>
                                 <div>
                                     <table>
                                         <tr>
-                                            <td>Eメール</td>
+                                            <td>Email</td>
                                             <td><input type="text" id="email" name="email" value="{$user->user_info.user_email}" onkeyup="removeDisabledEmail();"style="height:26px; width: 151px;"/><span id="error_email" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                         </tr>
 
                                         <tr>
-                                            <td colspan="2"><div>設定を保存するには、パスワードを入力してください。</div></td>
+                                            <td colspan="2"><div>To save the settings, please enter the password.</div></td>
                                         </tr>
                                         <tr>
-                                            <td>パスワード</td>
+                                            <td>Password</td>
                                             <td><input type="password" id="password" name="password" value=""style="height:26px; width: 151px;"/><span id="error_password_email" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><div><strong><i>注意：編集した後、システムは自動的にアカウントをログアウトします。</i></strong></div></td>
+                                            <td colspan="2"><div><strong><i>Note: After editing, the system will log out automatically account.</i></strong></div></td>
                                         </tr>
                                     </table>
                                     <div>
-                                        <input type="button" value="変更" id="edit_email_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
-                                        <input type="button" value="キャンセル" id="cancel_email">
+                                        <input type="button" value="Change" id="edit_email_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
+                                        <input type="button" value="Cancel" id="cancel_email">
                                         <input type="hidden" id="oldemail" value="{$user->user_info.user_email}">                                    
                                     </div>
                                 </div>
@@ -425,10 +425,10 @@
                         {else}
                             <center>
                                 <div>
-                                    <h3>あなたのアカウントは、電子メールを変更することはできません。詳細については、管理者にお問い合わせください。!!!</h3>
+                                    <h3>Your account does not allow you to change the e-mail. For more information, please contact your administrator. !!!</h3>
                                 </div>
                                 <div>
-                                    <input type="button" id="cancel_email" value="閉じる"/>
+                                    <input type="button" id="cancel_email" value="Close"/>
                                 </div>
                             </center>
                         {/if}
@@ -436,34 +436,34 @@
                 </li>   
                 <li>
                     <a href="javascript:void" >
-                        <h3>パスワード</h3>
-                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> 編集</span>
+                        <h3>Password</h3>
+                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> Edit</span>
                         <span class="content_profile"><strong>パスワードのセキュリティを守ってください。</strong></span>
                     </a>
                     <div id="edit_content" style="display:none;">
-                        <div id="name_panel"><strong>パスワード</strong></div>
+                        <div id="name_panel"><strong>Password</strong></div>
                         <center>
                             <div>
                                 <table>
                                     <tr>
-                                        <td>現在</td>
+                                        <td>Current password</td>
                                         <td><input type="password" id="current_password" name="current_password" value="" style="height:26px; width: 151px;"/><span id="error_current" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>新しいパスワード</td>
+                                        <td>New password</td>
                                         <td><input type="password" id="new_password" name="new_password" value="" onkeyup="removeDisabledPassword();"style="height:26px; width: 151px;"/><span id="error_new_password" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>新しい再入力</td>
+                                        <td>New password again</td>
                                         <td><input type="password" id="re_new_password" name="re_new_password" value="" onkeyup="removeDisabledPassword();"style="height:26px; width: 151px;"/><span id="error_re_password" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><div><strong><i>注意：編集した後、システムは自動的にアカウントをログアウトします。</i></strong></div></td>
+                                        <td colspan="2"><div><strong><i>Note: After editing, the system will log out automatically account.</i></strong></div></td>
                                     </tr>
                                 </table>
                                 <div>
-                                    <input type="button" value="変更" id="edit_pass_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
-                                    <input type="button" value="キャンセル" id="cancel_password">                                                                        
+                                    <input type="button" value="Change" id="edit_pass_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
+                                    <input type="button" value="Cancel" id="cancel_password">                                                                        
                                 </div>
                             </div>
                         </center>
@@ -471,35 +471,35 @@
                 </li>
                 <li>
                     <a href="javascript:void" >
-                        <h3>写真</h3>
-                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> 編集</span>
+                        <h3>Photo</h3>
+                        <span class="edit_profile"><img id="img_edit" style="display: none;" src="include/images/edit.jpg"/> Edit</span>
                         <span class="content_profile"><strong><img src="{$user->user_info.user_path_photo}{$user->user_info.user_photo}"/></strong></span>
                     </a>
                     <div id="edit_content" style="display:none;">
-                        <div id="name_panel"><strong>写真</strong></div>
+                        <div id="name_panel"><strong>Photo</strong></div>
                         <center>
                             <div>
 
                                 <table>
                                     <tr>
-                                        <td>写真アップロード</td>
+                                        <td>Upload</td>
                                         <td><input type='button' name='upload' id='upload' value="Choose File"   style="height:26px; width: 151px;" onclick="selectfile();"><span style="margin-left:5px;"id="display_name_photo"></span><span id="error_photo" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>現在イメージ</td>
+                                        <td>Current image</td>
                                         <td><span class="content_profile"><strong><img src="{$user_path_photo}{$user_photo}"/></strong></span></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><div>設定を保存するには、パスワードを入力してください。</div></td>
+                                        <td colspan="2"><div>To save the settings, please enter the password.</div></td>
                                     </tr>
                                     <tr>
-                                        <td>新しい再入力</td>
+                                        <td>Password</td>
                                         <td><input type="password" id="password" name="password" value=""style="height:26px; width: 151px;"/><span id="error_password_photo" style="padding-left: 16px;left: 0;vertical-align: middle;color: red;"></span></td>
                                     </tr>
                                 </table>
                                 <div>
-                                    <input type="button" value="変更" id="edit_photo_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
-                                    <input type="button" value="キャンセル" id="cancel_photo">                                       
+                                    <input type="button" value="Change" id="edit_photo_sub"  disabled="1" style="background-color: #617AAC; color: #ADBAD4;">
+                                    <input type="button" value="Cancel" id="cancel_photo">                                       
                                 </div>
 
                             </div>
@@ -507,7 +507,7 @@
                     </div>            
                 </li>
                 <form action="user_profile.php" method="post" enctype="multipart/form-data" id="change_image" name="change_image">
-                    <input type='submit' class='btn-search' value='変更' id="submit" name="submit" style="display: none;"/>
+                    <input type='submit' class='btn-search' value='Change' id="submit" name="submit" style="display: none;"/>
                     <input type="file" id="photo"name="photo" style="display: none;"/>
                 </form>
                 <input type="button" id="cancel" onclick="close();"style="display: none;"/>

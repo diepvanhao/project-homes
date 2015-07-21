@@ -27,7 +27,7 @@
             var m = date.getMonth();
             var y = date.getFullYear();
 
-            var currentLangCode = 'ja';
+            var currentLangCode = 'en';
 
             // build the language selector's options
             $.each($.fullCalendar.langs, function(langCode) {
@@ -326,28 +326,28 @@
 <div id="wrapper">
     <div style="width: 100%;font-size: 1.8em;background-color: #F1F5FE; height: 83px;line-height: 80px;">
         <!--<a href="{$url->url_base}"><span class="logo_colour"><img src="{$url->url_base}include/images/logo.png" alt="AMBITION" width=""height="82px;"/></span></a>-->
-        <center><label>カレンダー</label></center>
+        <center><label>Private Schedule</label></center>
 
     </div>
     <div id="sidebar">
-        <div id="schedule_title">個人スケジュール</div>
+        <div id="schedule_title">Personal schedule</div>
         <ul>
-            <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">契約日</label></li>
-            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">鍵渡日</label></li>
-            <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">入金日</label></li>
-            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">来店日</label></li>
-            <li><input type="checkbox" id="other" name="other"/><label for="other">その他</label></li>
-            <li><input type="checkbox" id="period" name="period"/><label for="period">契約期間</label></li>
-            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">誕生日</label></li>
-            <li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">新規登録</label></li>   
+            <li><input type="checkbox" id="signature_day" name="signature_day"/><label for="signature_day">Contract date</label></li>
+            <li><input type="checkbox" id="handover_day" name="handover_day"/><label for="handover_day">Key transition date</label></li>
+            <li><input type="checkbox" id="payment_day" name="payment_day"/><label for="payment_day">Deposit date</label></li>
+            <li><input type="checkbox" id="appointment_day" name="appointment_day"/><label for="appointment_day">Appointment date</label></li>
+            <li><input type="checkbox" id="other" name="other"/><label for="other">Other</label></li>
+            <li><input type="checkbox" id="period" name="period"/><label for="period">Contract period</label></li>
+            <li><input type="checkbox" id="birthday" name="birthday"/><label for="birthday">Birthday</label></li>
+            <li><input type="checkbox" id="create_new" name="create_new"/><label for="create_new">Add new event</label></li>   
         </ul>
-        <div id="schedule_title">ユーザー情報</div>
+        <div id="schedule_title">User information</div>
         <ul>
-            <li>名称:  {$user->user_info.user_lname} {$user->user_info.user_fname}</li>
-            <li>Ｅメール: {$user->user_info.user_email}</li>
-            <li>目標: {$user_target}</li>
-            <li>役職: {$user->user_info.user_position}</li>
-            <li>生年月日: {$user->user_info.user_birthday}</li>
+            <li>Name:  {$user->user_info.user_lname} {$user->user_info.user_fname}</li>
+            <li>Email: {$user->user_info.user_email}</li>
+            <li>Target: {$user_target}</li>
+            <li>Position: {$user->user_info.user_position}</li>
+            <li>Birthday: {$user->user_info.user_birthday}</li>
         </ul>
     </div>
     <div id='calendar'>
