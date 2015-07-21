@@ -1,15 +1,15 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">店舗管理</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Agent</div>
 <center>
     <div style="width: 100%;">
         <div>
             <form action="manage_agent.php" method="post">
                 <table style="">
                     <tr>
-                        <td  style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索に店舗名を入力してください。" style="height:26px; width: 190px;"/>
+                        {*<td  style='font-size: 13.33px;'>Search</td>*}
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Type name to search" style="height:26px; width: 190px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -21,13 +21,13 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>番号</th>
-                        <th>名称</th>
-                        <th>住所</th>
-                        <th>電話番号</th>
-                        <th>Eメール</th>
-                        <th>ファックス</th>
-                        <th>活動</th>
+                        <th>N0</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Fax</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,9 +43,9 @@
                             <td>{$agent.agent_fax}</td>
                             <td>
                                 {if $canEdit}
-                                    <a href="edit_agent.php?url={$link|base64_encode}">編集</a>
-                                    <a href="#" onclick="deleteItem({$agent.id},{$agent.agent_lock})" style="margin: 0% 10% 0% 10%;">{if $agent.agent_lock eq 0}削除{else}回復{/if}</a>
-                                    <a href="add_staff_agent.php?url={$add|base64_encode}">担当</a>
+                                    <a href="edit_agent.php?url={$link|base64_encode}">Edit</a>
+                                    <a href="#" onclick="deleteItem({$agent.id},{$agent.agent_lock})" style="margin: 0% 10% 0% 10%;">{if $agent.agent_lock eq 0}Lock{else}Unlock{/if}</a>
+                                    <a href="add_staff_agent.php?url={$add|base64_encode}">Asign staff to agent</a>
                                 {/if}
                             </td>
                         </tr>
@@ -54,7 +54,7 @@
             </table>
         </div>
         <center>
-            ページ:
+            Page:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_agent.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}

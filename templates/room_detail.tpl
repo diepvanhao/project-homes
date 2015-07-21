@@ -2,138 +2,138 @@
 {include file="header_global.tpl"}
 <div id="site_content" class="report-content">
     <div class="report-title">
-        <h3>部屋の詳細</h3>
+        <h3>Room detail</h3>
     </div>
     {if $room}
         <div class="house-title">
-            <span>部屋情報</span>
+            <span>Room info</span>
         </div>
         <ul class="house-info">
             <li>
-                <strong>号室 : </strong>
+                <strong>Room number </strong>
                 <span>{$room.room_number}</span>
             </li>
             <li>
-                <strong>間取り : </strong>
+                <strong>Type </strong>
                 <span>{$room.room_type}</span>
             </li>
             <li>
-                <strong>面積 : </strong>
+                <strong>Size </strong>
                 <span>{$room.room_size}</span>
             </li>
             <li>
-                <strong>賃料 : </strong>
+                <strong>Rent </strong>
                 <span>{$room.room_rent}</span>
             </li>
             <li>
-                <strong>礼金 : </strong>
+                <strong>Key fee </strong>
                 <span>{$room.room_key_money}</span>
             </li>
             <li>
-                <strong>管理費 : </strong>
+                <strong>Administrative Expense </strong>
                 <span>{$room.room_administrative_expense}</span>
             </li>
             <li>
-                <strong>敷金・保証金 : </strong>
+                <strong>Deposit </strong>
                 <span>{$room.room_deposit}</span>
             </li>
             <li>
-                <strong>割引 : </strong>
+                <strong>Discount </strong>
                 <span>{$room.room_discount}</span>
             </li>
         </ul>
         {if $house}
             <div class="house-title">
-                <span>物件情報</span>
+                <span>Apartment info</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name </strong>
                     <span>{$house.house_name}</span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address </strong>
                     <span>{$address}</span>
                 </li>
                 <li>
-                    <strong>エリア: </strong>
+                    <strong>Area </strong>
                     <span>{$house.house_area}</span>
                 </li>
                 <li>
-                    <strong>間取り : </strong>
+                    <strong>Type </strong>
                     <span>{$house.house_type}</span>
                 </li>
                 <li>
-                    <strong>備考 : </strong>
+                    <strong>Description </strong>
                     <span>{$house.house_description}</span>
                 </li>
                 <li>
-                    <strong>建物構造 : </strong>
+                    <strong>Structure </strong>
                     <span>{$house.house_structure}</span>
                 </li>
                 <li>
-                    <strong>築年月 : </strong>
+                    <strong>Build time </strong>
                     <span>{$house.house_build_time}</span>
                 </li>
             </ul>
         {/if}
         {if $house.house_owner_id}
             <div class="house-title">
-                <span>オーナー名</span>
+                <span>Owner</span>
             </div>
             <ul class="house-info">
                 <li>
-                    <strong>名称 : </strong>
+                    <strong>Name </strong>
                     <span>{$house.house_owner_name}</span>
                 </li>
                 <li>
-                    <strong>住所 : </strong>
+                    <strong>Address </strong>
                     <span>{$house.house_owner_address}</span>
                 </li>
                 <li>
-                    <strong>電話番号 : </strong>
+                    <strong>Phone </strong>
                     <span>{$house.house_owner_phone}</span>
                 </li>
                 <li>
-                    <strong>ファックス : </strong>
+                    <strong>Fax </strong>
                     <span>{$house.house_owner_fax}</span>
                 </li>
                 <li>
-                    <strong>Ｅメール : </strong>
+                    <strong>Email </strong>
                     <span>{$house.house_owner_email}</span>
                 </li>
             </ul>
         {/if}
         {if count($brokers)}
             <div class="house-title">
-                <span>管理会社</span>
+                <span>Broker company</span>
             </div>
             <ul class="house-info detail-list-items">
                 {foreach from=$brokers key=k item=broker}
                 <li>
                     <ul>
                         <li>
-                            <span>名称 : </span>
+                            <span>Name </span>
                             <span>{$broker.broker_company_name} </span>
                         </li>
                         <li>
-                            <span>住所 : </span>
+                            <span>Address </span>
                             <span>{$broker.broker_company_address} </span>
                         </li>
                         <li>
-                            <span>電話番号 : </span>
+                            <span>Phone </span>
                             <span>{$broker.broker_company_phone} </span>
                         </li>
                         <li>
-                            <span>Ｅメール : </span>
+                            <span>Email </span>
                             <span>{$broker.broker_company_email} </span>
                         </li>
                         <li>
-                            <span>ファックス : </span>
+                            <span>Fax </span>
                             <span>{$broker.broker_company_fax} </span>
                         </li>
                         <li>
-                            <span>担当者 : </span>
+                            <span>Person in charge </span>
                             <span>{$broker.broker_company_undertake} </span>
                         </li>
                     </ul>

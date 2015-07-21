@@ -23,12 +23,12 @@
         <form action='user_login.php' method='POST' name='login'>
             <table cellpadding='0' cellspacing='0' width="40%" >
                 <tr>
-                    <td class='form1'>Ｅメール</td>
+                    <td class='form1'>Email</td>
                     <td class='form2'><input type='text' class='text' name='email' id='email' value='' maxlength='70' style="height:26px; width: 220px;"></td>
                 </tr>
                 <tr>
-                    <td class='form1'>パスワード</td>
-                    <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 220px;"> <div style="margin-top: 10px;"><a href='lostpass.php'>パースワードを忘れました?</a></div></td>
+                    <td class='form1'>Password</td>
+                    <td class='form2'><input type='password' class='text' name='password' id='password' size='25' maxlength='50' style="height:26px; width: 220px;"> <div style="margin-top: 10px;"><a href='lostpass.php'>Forgot password</a></div></td>
                 </tr>
 
                 <tr>
@@ -36,8 +36,8 @@
                     <td class='form2'>
 
                         <div style="margin-top:10px">
-                            <input type='submit' class='smt_btn' id="submit" name="submit" value='サインイン'  style="border: none; height: 22px"/>&nbsp; 
-                            <input type='reset' class='smt_btn' value='リセット'  style="border: none; height: 22px;"/>&nbsp; 
+                            <input type='submit' class='smt_btn' id="submit" name="submit" value='Login'  style="border: none; height: 22px"/>&nbsp; 
+                            <input type='reset' class='smt_btn' value='Reset'  style="border: none; height: 22px;"/>&nbsp; 
 
                         </div>
                     </td>

@@ -1,15 +1,15 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">管理会社</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Contact</div>
 <center>
     <div style="width: 100%;">
          <div>
             <form action="contact.php" method="post">
                 <table style="">
                     <tr>
-                        <td  style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には号室、物件名、管理会社を入力します。" style="height:26px; width: 270px;"/>
+                        {*<td  style='font-size: 13.33px;'>検索</td>*}
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="Type any to search" style="height:26px; width: 270px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -20,10 +20,10 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>番号</th>
-                        <th>名称</th>  
-                        <th>コメント</th>
-                        <th>ログイン</th>
+                        <th>N0</th>
+                        <th>Name</th>  
+                        <th>Comment</th>
+                        <th>Login</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +43,8 @@
                                         {if $broker.inputhidden ne ""}
                                             {$broker.inputhidden}
                                         {/if}
-                                        <input type="button" class="btn" value="編集" onclick="return edit({$broker.id})"/>	
-                                        <input type="submit" class="btn" value="ログイン" {if $broker.submitname ne ""}name="{$broker.submitname}"{/if}/>	
+                                        <input type="button" class="btn" value="Edit" onclick="return edit({$broker.id})"/>	
+                                        <input type="submit" class="btn" value="Login" {if $broker.submitname ne ""}name="{$broker.submitname}"{/if}/>	
                                     </form>
 
                                 {/if}
@@ -55,7 +55,7 @@
             </table>
         </div>
         <center>
-            ページ:
+            Page:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="contact.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}

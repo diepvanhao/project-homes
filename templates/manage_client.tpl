@@ -6,14 +6,14 @@
             <form action="manage_client.php" method="post">
                 <table>
                     <tr>
-                        <td  style='font-size: 13.33px;'>検索</td>
+                        {*<td  style='font-size: 13.33px;'>Search</td>*}
                         <td class="form2">
-                            <input type="text" id="search" name="search" value="{$search}" placeholder="検索には名前を入力します。" style="height:26px; width: 190px;"/>
+                            <input type="text" id="search" name="search" value="{$search}" placeholder="Type name to search" style="height:26px; width: 190px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
                             <span>
-                                <a href="create_client.php" style="text-decoration: none;margin-left: 100px;"><input type='button' class='btn-search' value='クライアント登録' id="create_client" name="create_client"/></a>&nbsp;                     
+                                <a href="create_client.php" style="text-decoration: none;margin-left: 100px;"><input type='button' class='btn-search' value='Client Registry' id="create_client" name="create_client"/></a>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -24,24 +24,24 @@
             <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>番号</th>
-                        <th>名称</th>
-                        <th>生年月日</th>
-                        <th>住所</th>
-                        <th>電話番号</th>
-                        <th>収入</th>
-                        <th>職業</th>
-                        <th>会社名</th>
-                        <th>ファックス</th>
-                        <th>性別</th>
-                        <th>Eメール</th>
-                        <th>引越の理由</th>
-                        <th>引越予定時期</th>
-                        <th>入居者の名前</th>
-                        <th>入居者の電話番号</th>
-                        <th>賃料</th>
-                        <th>間取り</th>
-                        <th>オプション</th>
+                        <th>N0</th>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Income</th>
+                        <th>Occupation</th>
+                        <th>Company</th>
+                        <th>Fax</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Reason change</th>
+                        <th>Time change</th>
+                        <th>Resident name</th>
+                        <th>Resident phone</th>
+                        <th>Rent</th>
+                        <th>Type</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,8 +68,8 @@
                             <td>{$client.client_room_type_number}{$client.client_room_type}</td>
                             <td style="width:9%">
                                 {if $canEdit}
-                                <a href="edit_client.php?url={$link|base64_encode}">編集</a>
-                                <a href="javascript:void" onclick="deleteItem({$client.id},{$client.client_lock})" style="margin: 0% 10% 0% 10%;">{if $client.client_lock eq 0}削除{else}回復{/if}</a>
+                                <a href="edit_client.php?url={$link|base64_encode}">Edit</a>
+                                <a href="javascript:void" onclick="deleteItem({$client.id},{$client.client_lock})" style="margin: 0% 10% 0% 10%;">{if $client.client_lock eq 0}Lock{else}Unlock{/if}</a>
                                 {/if}
                             </td>
                         </tr>
@@ -78,7 +78,7 @@
             </table>
         </div>
         <center>
-            ページ:
+            Page:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_house.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}
@@ -88,7 +88,7 @@
 {literal}
     <script type="text/javascript">
         function deleteItem(id,client_lock) {
-            if (confirm("確かですか?")) {
+            if (confirm("Are you sure?")) {
                  $.post("include/function_ajax.php", {id:id,client_lock: client_lock, action: 'deleteClient'},
                     function(result) {
                         if(result)

@@ -1,15 +1,15 @@
 {include file="header_global.tpl"}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">媒体管理</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Source</div>
 <center>
     <div style="width: 100%;">
         <div>
             <form action="manage_source.php" method="post">
                 <table style="">
                     <tr>
-                        <td style='font-size: 13.33px;'>検索</td>
-                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="検索には媒体を入力します。" style="height:26px; width: 190px;"/>
+                        {*<td style='font-size: 13.33px;'>検索</td>*}
+                        <td class="form2"><input type="text" id="search" name="search" value="{$search}" placeholder="" style="height:26px; width: 190px;"/>
                             <span>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
                         </td>
                     </tr>
@@ -21,9 +21,9 @@
             <table style="width: 50%;">
                 <thead>
                     <tr>
-                        <th>番号</th>
-                        <th>名称</th>                        
-                        <th>活動</th>
+                        <th>N0</th>
+                        <th>Source</th>                        
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,8 +34,8 @@
                             <td>{$source.source_name}</td>                            
                             <td style="width: 10%">
                                 {if $canEdit}
-                                <a href="edit_source.php?url={$link|base64_encode}">編集</a>
-                                <a href="#" onclick="deleteItem({$source.id},{$source.source_lock})" style="margin: 0% 10% 0% 10%;">{if $source.source_lock eq 0}削除{else}回復{/if}</a>
+                                <a href="edit_source.php?url={$link|base64_encode}">Edit</a>
+                                <a href="#" onclick="deleteItem({$source.id},{$source.source_lock})" style="margin: 0% 10% 0% 10%;">{if $source.source_lock eq 0}Lock{else}Unlock{/if}</a>
                                 {/if}
                             </td>
                         </tr>
@@ -44,7 +44,7 @@
             </table>
         </div>
         <center>
-            ページ:
+            Page:
             {for $i=1 to $totalPage }
                 {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_source.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
             {/for}
@@ -54,7 +54,7 @@
 {literal}
     <script type="text/javascript">
         function deleteItem(id,source_lock) {
-            if (confirm("確かですか?")) {
+            if (confirm("Are you sure?")) {
                  $.post("include/function_ajax.php", {source_id: id,source_lock: source_lock, action: 'deleteSource'},
                     function(result) {
                         if(result)

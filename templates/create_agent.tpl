@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">店舗登録</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">Agent Registration</div>
 {literal}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -80,16 +80,16 @@
     <form action="create_agent.php" method="post">
         <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
             <tr>
-                <td class='form1'>店舗名: <span class="required">*</span></td>
+                <td class='form1'>Name <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='agent_name' id='agent_name' value="{$agent_name}"  style="height:26px; width: 351px;"><div id="agent_name_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>Ｅメール: <span class="required">*</span></td>
+                <td class='form1'>Email <span class="required">*</span></td>
                 <td class='form2'><input type='email' class='text' name='agent_email' id='agent_email' value="{$agent_email}"  style="height:26px; width: 351px;"><div id="agent_email_error"class="error"></div></td>
             </tr>
 
             <tr>
-                <td class='form1'>都道府県:  <span class="required">*</span></td>
+                <td class='form1'>City <span class="required">*</span></td>
                 <td class='form2'><select id="city_id" name="city_id" style="height:26px; width: 351px;">
                         <option value=""></option>
                         {foreach from=$cities item=city}
@@ -99,58 +99,58 @@
                 </td>
             </tr>      
             <tr>
-                <td class='form1'>市区町村:  <span class="required">*</span></td>
+                <td class='form1'>District  <span class="required">*</span></td>
                 <td class='form2'><select id="district_id" name="district_id" style="height:26px; width: 351px;">                       
 
                     </select><div id="error_district_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>大字・通称:  <span class="required">*</span></td>
+                <td class='form1'>Street <span class="required">*</span></td>
                 <td class='form2'><select id="street_id" name="street_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_street_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>字・丁目:</td>
+                <td class='form1'>Ward</td>
                 <td class='form2'><select id="ward_id" name="ward_id" style="height:26px; width: 351px;">
 
                     </select><div id="error_ward_id" class="error"></div>
                 </td>
             </tr>
             <tr>
-                <td class='form1'>番地: </td>
+                <td class='form1'>Address Number </td>
                 <td class='form2'><input type='text' class='text' name='agent_address' id='agent_address' value="{$agent_address}" style="height:26px; width: 351px;"><div id="agent_address_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>電話番号: <span class="required">*</span></td>
+                <td class='form1'>Phone Number <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='agent_phone' id='agent_phone' value="{$agent_phone}" maxlength='70' style="height:26px; width: 351px;"><div id="agent_phone_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>ファックス: </td>
+                <td class='form1'>Fax </td>
                 <td class='form2'><input type='text' class='text' name='agent_fax' id='agent_fax' value="{$agent_fax}" maxlength='70' style="height:26px; width: 351px;"><div id="agent_fax_error"class="error"></div></td>
             </tr>
             <tr>
-                <td class='form1'>銀行名: </td>
+                <td class='form1'>Bank Name </td>
                 <td class='form2'>
                     <input type='text' class='text' name='bank_name' id='bank_name' value="{$bank_name}" maxlength='70' style="height:26px; width: 351px;">
                 </td>
             </tr>
             <tr>
-                <td class='form1'>支店名: </td>
+                <td class='form1'>Branch Name </td>
                 <td class='form2'>
                     <input type='text' class='text' name='branch_name' id='branch_name' value="{$branch_name}" maxlength='70' style="height:26px; width: 351px;">
                 </td>
             </tr>
             <tr>
-                <td class='form1'>口座番号: </td>
+                <td class='form1'>Account Number </td>
                 <td class='form2'>
                     <input type='text' class='text' name='account_number' id='account_number' value="{$account_number}" maxlength='70' style="height:26px; width: 351px;">
                 </td>
             </tr>
             <tr>
-                <td class='form1'>振込先名: </td>
+                <td class='form1'>Payer Name </td>
                 <td class='form2'>
                     <input type='text' class='text' name='payer_name' id='payer_name' value="{$payer_name}" maxlength='70' style="height:26px; width: 351px;">
                 </td>
@@ -159,7 +159,7 @@
                 <td class='form1'>&nbsp;</td>
                 <td class='form2'>
                     <div style="margin-top:10px">
-                        <input type='submit' class='btn-signup' value='作成' id="submit" name="submit"/>&nbsp;                     
+                        <input type='submit' class='btn-signup' value='Submit' id="submit" name="submit"/>&nbsp;                     
                     </div>
                 </td>
             </tr>

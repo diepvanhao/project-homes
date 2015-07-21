@@ -12,7 +12,7 @@
         });
     </script>
 {/literal}
-<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">オーダー管理</div>
+<div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Manage Order</div>
 <center>
     <div style="width: 100%;">
         <form action="manage_order.php" method="post">
@@ -20,22 +20,22 @@
                 <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>番号</th>
-                            <th>名称</th>
-                            <th>物件情報</th>
-                            <th>部屋情報</th>
-                            <th>賃料</th>                                                
-                            <th>現況</th>                       
-                            <th>登録日付</th>
-                            <th>お客情報</th>
-                            <th><span style="color: #1166E7;">最終連絡日</span></th>
-                            <th><span style="color: #D33F2A;">申込日</span></th>
-                            <th><span style="color: #FFB301;">申込金</span></th>
-                            <th><span style="color: #009C58;">契約日</span></th>
-                            <th><span style="color: #76009D;">契約金</span></th>
-                            <th><span style="color: #628DB6;">広告費入金日</span></th>
-                            <th><span style="color: #9D000A;">鍵渡日</span></th>                                                                      
-                            <th>活動</th>
+                            <th>N0</th>
+                            <th>Order name</th>
+                            <th>Apartment name</th>
+                            <th>Room number</th>
+                            <th>Rent</th>                                                
+                            <th>Status</th>                       
+                            <th>Registry date</th>
+                            <th>Client name</th>
+                            <th><span style="color: #1166E7;">Revisit</span></th>
+                            <th><span style="color: #D33F2A;">Application date</span></th>
+                            <th><span style="color: #FFB301;">Registry fee</span></th>
+                            <th><span style="color: #009C58;">Signature date</span></th>
+                            <th><span style="color: #76009D;">Contract payment date</span></th>
+                            <th><span style="color: #628DB6;">Ads payment date</span></th>
+                            <th><span style="color: #9D000A;">Handover date</span></th>                                                                      
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,8 +65,8 @@
                             <td><input type="text" name="contract_payment_date_to"id="contract_payment_date_to" value="{$contract_payment_date_to}"/></td>
                             <td><input type="text" name="contract_handover_day"id="contract_handover_day" value="{$contract_handover_day}"/></td>
                             <td nowrap>
-                                <input type='submit' class='btn-search' value='送信' id="submit" name="submit"/>&nbsp;                     
-                                <a href="create_order.php"><input type='button' class='btn-search' value='登録' id="submit" /></a>
+                                <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
+                                <a href="create_order.php"><input type='button' class='btn-search' value='Create Order' id="submit" /></a>
                             </td>
                         </tr>
                         {foreach from=$orders key=k item=order}
@@ -128,16 +128,16 @@
 
                                     <td style="width:15%">
                                         {if $order.user_id eq 0}
-                                            <a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">登録</a>
+                                            <a href="edit_order.php?url={$link|base64_encode}" id="registry" style="margin-right: 10px;">Registry</a>
                                         
                                          {else if (($order.user_id eq $user_id) and ($order.user_id ne 0))} 
-                                            <a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">編集</a>
+                                            <a href="edit_order.php?url={$link|base64_encode}" style="margin-right: 10px;">Edit</a>
                                         {/if}
                                         {if ($order.user_id eq $user_id) or ($user->user_info.user_authorities lte 2)}
-                                            <a href="javascript:void" onclick="deleteItem({$order.id},{$order.order_status})" style="margin-right: 10px;">{if $order.order_status eq 1}削除{else}回復{/if}
+                                            <a href="javascript:void" onclick="deleteItem({$order.id},{$order.order_status})" style="margin-right: 10px;">{if $order.order_status eq 1}Lock{else}Unlock{/if}
                                             </a>
                                         {/if}
-                                        <a href="order_detail.php?url={$add|base64_encode}">詳細</a>
+                                        <a href="order_detail.php?url={$add|base64_encode}">Detail</a>
                                     </td>
                                 </tr>
                                 {/foreach}
@@ -146,7 +146,7 @@
                         </div>
                     </form>   
                     <center>
-                        ページ:
+                        Page:
                         {for $i=1 to $totalPage }
                             {if $i eq $page_number}<span style="margin-left: 10px; color: red;">[{$i}]</span>{else}<a href="manage_order.php?search={$search}&page_number={$i}" style='margin-left: 10px;color: black;'>{$i}{/if}</a>
                         {/for}
@@ -156,7 +156,7 @@
             {literal}
                 <script type="text/javascript">
                     function deleteItem(id, order_status) {
-                        if (confirm("確かですか?")) {
+                        if (confirm("Are you sure?")) {
                             $.post("include/function_ajax.php", {order_id: id, order_status: order_status, action: 'deleteOrder'},
                             function(result) {
                                 if (result)
@@ -167,7 +167,7 @@
                         }
                     }
                     $('#registry').click(function() {
-                        if (confirm("このオーダーを登録しますか。 ?")) {
+                        if (confirm("Are you sure?")) {
                             return true;
                         } else {
                             return false;
