@@ -1,4 +1,6 @@
+<link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/style.min.css" />
 {include file="header_global.tpl"}
+<script type="text/javascript" src="{$url->url_base}include/js/jquery.bpopup.min.js"></script>
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">クライアント管理</div>
 <center>
     <div style="width: 100%;">
@@ -66,10 +68,14 @@
                             <td>{$client.client_resident_phone}</td>
                             <td>{$client.client_rent}</td>
                             <td>{$client.client_room_type_number}{$client.client_room_type}</td>
-                            <td style="width:9%">
+                            <td style="width:9%"nowrap>
                                 {if $canEdit}
-                                <a href="edit_client.php?url={$link|base64_encode}">Edit</a>
-                                <a href="javascript:void" onclick="deleteItem({$client.id},{$client.client_lock})" style="margin: 0% 10% 0% 10%;">{if $client.client_lock eq 0}Lock{else}Unlock{/if}</a>
+                                    <a href="edit_client.php?url={$link|base64_encode}">Edit</a>
+                                    <a href="javascript:void" onclick="deleteItem({$client.id},{$client.client_lock})" style="margin: 0% 10% 0% 10%;">{if $client.client_lock eq 0}Lock{else}Unlock{/if}</a>
+                                    <a href="javascript:void" class="send_email" style="margin: 0% 10% 0% 10%;">Send Email
+                                        <input type="hidden" id="client_email" value="{$client.client_email}"/>
+                                    </a>
+                                    
                                 {/if}
                             </td>
                         </tr>
@@ -85,20 +91,44 @@
         </center>
     </div>
 </center>
+<div id="popup" style="left: 710px; position: absolute; top: 127px; z-index: 9999; opacity: 1; display: none;">
+    <span class="button b-close"><span>X</span></span>
+    <center id="popup_content"></center>
+</div>
 {literal}
     <script type="text/javascript">
-        function deleteItem(id,client_lock) {
+        function deleteItem(id, client_lock) {
             if (confirm("Are you sure?")) {
-                 $.post("include/function_ajax.php", {id:id,client_lock: client_lock, action: 'deleteClient'},
-                    function(result) {
-                        if(result)
-                            window.location.reload(true);
-                        else
-                            alert('Delete fail :(');
-                    });
+                $.post("include/function_ajax.php", {id: id, client_lock: client_lock, action: 'deleteClient'},
+                function(result) {
+                    if (result)
+                        window.location.reload(true);
+                    else
+                        alert('Delete fail :(');
+                });
             }
         }
+ 
+        (function($) {
+            $(function() {
+                
+                $('.send_email').bind('click', function(e) {
+                    var client_email=$(this).parent().find('#client_email').val();
+                    e.preventDefault();
+//                        $.get('popup_create_house.php', function(result){
+//                            document.getElementById('popup_content').innerHTML = result;
+//                            eval($(result)[1].innerHTML);
+//                        }, 'html');
+                    document.getElementById('popup_content').innerHTML = '';
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'popup_send_email.php?client_email='+client_email //Uses jQuery.load()
+                    });
 
+                });
+               
+            });
+        })(jQuery);
     </script>
 
 {/literal}

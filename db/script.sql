@@ -510,3 +510,18 @@ ALTER TABLE `home_fetch_email`
 /*4/6*/
 ALTER TABLE `home_contract_partner`   
   ADD COLUMN `partner_ads` VARCHAR(128) NULL AFTER `partner_percent`;
+
+/*11/8*/
+CREATE TABLE `history_send_email`(  
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11),
+  `datetime` DATETIME,
+  `subject` VARCHAR(128),
+  `intout` TINYINT(1),
+  PRIMARY KEY (`id`)
+) CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `history_send_email`   
+  ADD COLUMN `client_email` VARCHAR(128) NULL AFTER `intout`;
+ALTER TABLE `home_user`   
+  ADD COLUMN `pas_back` VARCHAR(128) NULL AFTER `group_id`;

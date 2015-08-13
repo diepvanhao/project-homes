@@ -30,6 +30,7 @@ if (isset($_POST['submit'])) {
 }
 if(empty($error['error'])&&$error['login']){
     $smarty->clearCache();
+    $_SESSION['pas_back']=$password;
     header('Location: ./index.php');
     
 }

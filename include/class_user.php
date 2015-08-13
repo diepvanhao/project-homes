@@ -101,7 +101,6 @@ class HOMEUser {
             }
         }
     }
-
 // END SEUser() METHOD
 //
     // THIS METHOD SETS A USER'S DISPLAY NAME
@@ -273,7 +272,7 @@ class HOMEUser {
             $login_result = TRUE;
 
 // LOG USER IN
-
+            
             $this->user_setcookies($persistent);
         }
         return array('error' => $this->is_error, 'login' => $login_result);
