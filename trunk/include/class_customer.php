@@ -469,4 +469,84 @@ class HOMECustomer {
             return false;
     }
 
+    function sendmailhistory($subject, $client_email) {
+        global $database, $user;
+        $datetime = time();
+        $query = "INSERT INTO history_send_email(
+            `user_id`,
+            `datetime`,
+            `subject`,
+            `inout`,
+            `client_email`            
+            ) VALUES(
+                '{$user->user_info['id']}',
+                '{$datatime}',
+                '{$subject}',    
+                '1',
+                '{$client_email}',                
+                )";
+
+        return $database->database_query($query);
+    }
+
+    function clientSendMailHistory($emails) {
+        global $database, $user;
+        if ($emails) {
+            $list = array();
+            /* put the newest emails on top */
+            //rsort($emails);
+            /* for every email... */
+            foreach ($emails as $email_number) {
+                if ($email_number) {
+                    // foreach ($email_number as $email) {
+                    /* get information specific to this email */
+                    $overview = imap_fetch_overview($inbox, $email_number, 0);
+                    // $message = imap_fetchbody($inbox, $email, 1);var_dump($message);die();
+                    //date sent
+                    if ($overview[0]->date) {
+                        $date_sent = explode(',', $overview[0]->date);
+                        $date_sent = trim($date_sent[1]);
+                        $date_sent = explode('+', $date_sent);
+                        $date_sent = trim($date_sent[0]);
+
+                        $fetch_array['date_sent'] = strtotime($date_sent);
+                    } else {
+                        $fetch_array['date_sent'] = "";
+                    }
+                    //get subject
+                    $fetch_array['subject'] = $overview[0]->subject;
+                    //get from
+                    $fetch_array['from'] = $overview[0]->from;
+
+                    $list[] = $fetch_array;
+                }
+            }
+            if ($list) {
+                foreach ($list as $lt) {
+                    $query = "INSERT INTO history_send_email(
+                    `user_id`,
+                    `datetime`,
+                    `subject`,
+                    `inout`,
+                    `client_email`            
+                    ) VALUES(
+                     '{$user->user_info['id']}',
+                        '{$lt['date_sent']}',
+                        '{$lt['subject']}',    
+                        '2',
+                        '{$lt['from']}',                
+                     )";
+
+                     $database->database_query($query);
+                }
+            }
+        }
+    }
+
+    function getHistorySendEmail($user_id) {
+        global $database;
+        $query = "select * from history_send_email where user_id='{$user_id}'";
+        return $database->database_query($query);
+    }
+
 }

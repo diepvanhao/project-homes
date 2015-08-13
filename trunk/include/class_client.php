@@ -108,7 +108,7 @@ class Client {
             return null;
         }
     }
-
+    
     function update($id,$params) {
 
         global $user, $database;
@@ -144,5 +144,5 @@ class Client {
         $client_lock = $client_lock == 0 ? 1 : 0;
         $query = "update home_client set client_lock=$client_lock WHERE id={$id}";
         return $database->database_query($query);
-    }
+    }    
 }

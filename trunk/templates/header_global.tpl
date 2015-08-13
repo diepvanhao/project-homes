@@ -26,7 +26,7 @@
         <!-- modernizr enables HTML5 elements and feature detects -->          
         <script type="text/javascript" src="{$url->url_base}include/js/modernizr-1.5.min.js"></script>
         <!--calendar-->
-
+        
     </head>
 
     <body>
