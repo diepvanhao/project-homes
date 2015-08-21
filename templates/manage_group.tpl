@@ -11,6 +11,9 @@
                             <span>
                                 <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
+                            <span>
+                                <a href="create_group.php" style="text-decoration: none;margin-left: 100px;"><input type='button' class='btn-search' value='Registry' id="registry" name="registry"/></a>&nbsp;                     
+                            </span>
                         </td>
                     </tr>
 
@@ -21,7 +24,7 @@
             <table style="width: 50%;">
                 <thead>
                     <tr>
-                        <th>n0</th>
+                        <th>N0</th>
                         <th>Name</th>                        
                         <th>Action</th>
                     </tr>

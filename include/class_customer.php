@@ -480,12 +480,12 @@ class HOMECustomer {
             `client_email`            
             ) VALUES(
                 '{$user->user_info['id']}',
-                '{$datatime}',
+                '{$datetime}',
                 '{$subject}',    
                 '1',
-                '{$client_email}',                
+                '{$client_email}'              
                 )";
-
+        //echo $query;die();
         return $database->database_query($query);
     }
 
@@ -534,10 +534,10 @@ class HOMECustomer {
                         '{$lt['date_sent']}',
                         '{$lt['subject']}',    
                         '2',
-                        '{$lt['from']}',                
+                        '{$lt['from']}'               
                      )";
 
-                     $database->database_query($query);
+                    $database->database_query($query);
                 }
             }
         }
@@ -545,8 +545,16 @@ class HOMECustomer {
 
     function getHistorySendEmail($user_id) {
         global $database;
+        $list = array();
         $query = "select * from history_send_email where user_id='{$user_id}'";
-        return $database->database_query($query);
+        $result = $database->database_query($query);
+        while ($row = $database->database_fetch_assoc($result)) {
+            $list1['datetime'] = date('Y-m-d H:i', $row['datetime']);
+            $list1['subject'] = $row['subject'];
+            $list1['inout'] = $row['inout'];
+            $list[] = $list1;
+        }
+        return $list;
     }
 
 }

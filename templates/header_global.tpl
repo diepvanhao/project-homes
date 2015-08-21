@@ -44,7 +44,7 @@
                         <ul class="sf-menu" id="nav">
                             <li><a href="index.php">Home</a></li>
                                 <li><a href="user_account.php">Registry</a></li>
-                            <li><a href="#">Create</a>
+                            {*<li><a href="#">Create</a>
                                 <ul>
                                     <li><a href="create_order.php">Order</a></li>
                                         <li><a href="create_agent.php">Agent</a></li>
@@ -55,7 +55,7 @@
                                     <li><a href="create_room.php">Room</a></li>  
                                         <li><a href="create_group.php">Group</a></li>
                                 </ul>
-                            </li>
+                            </li>*}
                             <li><a href="#">Manage</a>
                                 <ul> 
                                     <li><a href="manage_order.php">Order</a> </li>
