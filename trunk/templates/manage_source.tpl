@@ -11,6 +11,9 @@
                             <span>
                                 <input type='submit' class='btn-search' value='Search' id="submit" name="submit"/>&nbsp;                     
                             </span>
+                            <span>
+                                <a href="create_source.php" style="text-decoration: none;margin-left: 100px;"><input type='button' class='btn-search' value='Registry' id="registry" name="registry"/></a>&nbsp;                     
+                            </span>
                         </td>
                     </tr>
 
