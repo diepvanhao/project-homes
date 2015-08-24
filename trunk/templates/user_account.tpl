@@ -1,53 +1,53 @@
 {include file="header.tpl"}
 {literal}
     <script type="text/javascript">
-        var checkPrice = function(el){
-            if(isNaN(el.val())){
-                if(isNaN(parseFloat(el.val()))){
+        var checkPrice = function(el) {
+            if (isNaN(el.val())) {
+                if (isNaN(parseFloat(el.val()))) {
                     el.val('');
-                }else{
+                } else {
                     el.val(parseFloat(el.val()));
                 }
-           }
+            }
         }
-        $('#target_1').keyup(function(){
+        $('#target_1').keyup(function() {
             checkPrice($('#target_1'));
         });
-         $('#target_2').keyup(function(){
+        $('#target_2').keyup(function() {
             checkPrice($('#target_2'));
         });
-        $('#target_3').keyup(function(){
+        $('#target_3').keyup(function() {
             checkPrice($('#target_3'));
         });
-        $('#target_4').keyup(function(){
+        $('#target_4').keyup(function() {
             checkPrice($('#target_4'));
         });
-        $('#target_5').keyup(function(){
+        $('#target_5').keyup(function() {
             checkPrice($('#target_5'));
         });
-        $('#target_6').keyup(function(){
+        $('#target_6').keyup(function() {
             checkPrice($('#target_6'));
         });
-        $('#target_7').keyup(function(){
+        $('#target_7').keyup(function() {
             checkPrice($('#target_7'));
         });
-        $('#target_8').keyup(function(){
+        $('#target_8').keyup(function() {
             checkPrice($('#target_8'));
         });
-        $('#target_9').keyup(function(){
+        $('#target_9').keyup(function() {
             checkPrice($('#target_9'));
         });
-        $('#target_10').keyup(function(){
+        $('#target_10').keyup(function() {
             checkPrice($('#target_10'));
         });
-        $('#target_11').keyup(function(){
+        $('#target_11').keyup(function() {
             checkPrice($('#target_11'));
         });
-        $('#target_12').keyup(function(){
+        $('#target_12').keyup(function() {
             checkPrice($('#target_12'));
         });
         $(document).ready(function() {
-           
+
             birthday('birthday');
             $('#email').blur(function() {
                 if ($('#email').val() != "") {
@@ -142,10 +142,8 @@
                                                         });
                                                     }
                                                 });
-                                            });
-
-    </script>
-{/literal}
+                                            });</script>
+    {/literal}
 <!--<div style="text-align: center;font-size: 1.4em;padding-bottom: 10px; ">
     <label >サインアップ</label>
 </div>-->
@@ -157,7 +155,7 @@
         {/foreach}
     {/if}
     <form action='user_account.php' method='POST' name='create' id="create" enctype="multipart/form-data">
-        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%">
+        <table cellpadding='0' cellspacing='0' style='margin-left: 0px;' width="100%" id="account">
             <tr>
                 <td class='form1'>Email <span class="required">*</span></td>
                 <td class='form2'><input type='text' class='text' name='email' id='email' value="{$email}" maxlength='70' style="height:26px; width: 351px;"><div id="email_error"class="error"></div></td>
@@ -240,11 +238,38 @@
                 <td class='form1'>Position </td>
                 <td class='form2'><input type='text' name='position' id='position' value="{$position}"   style="height:26px; width: 351px;"></td>
             </tr>
-            <tr>
-                <td class='form1'>Target </td>
-                <td class='form2'><input type='text' name='target[]' id='target_1' value="{$target_1}" placeholder="今月目標 1"  style="height:26px; width: 252px; margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-01</lable></td>
-            </tr>
-            
+            {if count($target)}
+                {foreach from=$target key=key item=item name=target}
+                    {if $smarty.foreach.target.first}
+                        <tr>
+                            <td class='form1'>Target </td>
+                            <td class='form2'>
+                                <input type='text' name='target[]' id='target' value="{$item}" placeholder="今月目標"  style="height:26px; width: 120px; margin-right: 1%;">
+                                <input type='text' name='target_create_date[]'class="target_create_date"  value="{$key}" placeholder="date time"  style="margin-left: 2%;height:26px; width: 120px;">
+                                <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>
+                            </td>
+                        </tr>
+                    {else}
+                        <tr>
+                            <td class = 'form1' ></td>
+                            <td class = 'form2' >
+                                <input type = 'text' name = 'target[]' id = 'target' value = '{$item}' placeholder = '今月目標'  style = 'height:26px; width: 120px; margin-right: 1%;'/>
+                                <input type = 'text' name = 'target_create_date[]' class='target_create_date' value = '{$key}' placeholder = 'date time'  style = 'margin-left: 2.9%;height:26px; width: 120px;' />
+                                <img src='include/images/DeleteRed.png' style='height: 26px; width: 26px;position:absolute;cursor: pointer;' onClick='remove_target(this)'>
+                            </td>
+                        </tr>
+                    {/if}
+                {/foreach}
+            {else}
+                <tr>
+                    <td class='form1'>Target </td>
+                    <td class='form2'>
+                        <input type='text' name='target[]' id='target' value="" placeholder="今月目標"  style="height:26px; width: 120px; margin-right: 1%;">
+                        <input type='text' name='target_create_date[]'class="target_create_date"  value="" placeholder="date time"  style="margin-left: 2%;height:26px; width: 120px;">
+                        <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>
+                    </td>
+                </tr>
+            {/if}
             <tr>
                 <td class='form1'>Level </td>
                 <td class='form2'>
@@ -293,4 +318,21 @@
         </table>
     </form>
 {/nocache}
+{literal}
+    <script type="text/javascript">
+        log_date('.target_create_date');
+        $(document).ready(function() {
+            $('#add_target').click(function() {
+                $('#account tr:nth-last-child(6)').after("<tr><td class = 'form1' ></td><td class = 'form2' ><input type = 'text' name = 'target[]' id = 'target' value = '' placeholder = '今月目標'  style = 'height:26px; width: 120px; margin-right: 1%;'/><input type = 'text' name = 'target_create_date[]' class='target_create_date' value = '' placeholder = 'date time'  style = 'margin-left: 2.9%;height:26px; width: 120px;' /><img src='include/images/DeleteRed.png' style='height: 26px; width: 26px;position:absolute;cursor: pointer;' onClick='remove_target(this)'></td></tr>");
+                log_date('.target_create_date');
+            });
+        });
+        function remove_target(id) {
+            var row = $(id).closest("tr"); // find <tr> parent
+            if (row) {
+                row.remove();
+            }
+        }
+    </script>
+{/literal}
 {include file ="footer.tpl"}
