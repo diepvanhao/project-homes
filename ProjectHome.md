@@ -1,0 +1,1 @@
+Local managerment system about rent/buy department
