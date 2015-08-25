@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<div>
+<!--div>
     <h1>Messages</h1>
     {if count($messages)}
         <table style="width: 100%;">
@@ -41,5 +41,28 @@
     {else}
     <span>No message</span>
     {/if}
+</div-->
+<div class="home_revenue">
+    <h1>Revenue of this month</h1>
+    <div class="revenue_border revenue_item">
+        <h3>Your revenue: {$user_revenue}</h3>
+    </div>
+    <div class="revenue_border revenue_item">
+        <h3>Agent revenue</h3>
+        {$all = 0.00}
+        <ul>
+            {if count($agents)}
+                {foreach from=$agents key=k item=agent}
+                    {$agent_revenue = $report->getRevenueofAgent($agent.id)}
+                    {$all = $all + $agent_revenue}
+                    <li>
+                        <span>{$agent.agent_name} : </span>
+                        <span>{number_format($agent_revenue,2)}円</span>
+                    </li>
+                {/foreach}
+            {/if}
+        </ul>
+        <h5>Total : {number_format($all,2)}円</h5>
+    </div>
 </div>
 {include file='footer.tpl'}

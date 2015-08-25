@@ -24,10 +24,11 @@
                 <thead>
                     <tr>
                         <th>N0</th>
+                        <th>Apartment name</th>
                         <th>Room number</th>
-                        <th>Apartment name</th> 
+                        
                         <th>Broker company name</th>   
-                        <th>Type</th>
+                       {* <th>Type</th>*}
                         <th>Status</th>
                         <th>Rent</th>
                         <th>Size</th>                        
@@ -40,11 +41,12 @@
                         {assign var="link" value="edit&{$room.id}&{$room.broker_id}&{$room.house_id}"}
                         {assign var="add" value="assign&{$room.room_detail_id}"}
                         <tr>
-                            <td>{$k+1}</td>                                
-                            <td>{$room.room_number}</td>
+                            <td>{$k+1}</td>   
                             <td>{$room.house_name}</td>
+                            <td>{$room.room_number}</td>
+                            
                             <td>{$room.broker_company_name}</td>
-                            <td>{$room.room_type_number}{$room.room_type}</td>
+                            {*<td>{$room.room_type_number}{$room.room_type}</td>*}
                             <td>{if $room.room_status eq 1}Rent {elseif $room.room_status eq 2}Incomplete{else} Empty {/if}</td>                           
                             <td>{$room.room_rent}</td>                           
                             <td>{$room.room_size}</td>

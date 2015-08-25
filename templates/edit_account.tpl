@@ -1,4 +1,6 @@
+<link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/style.min.css" />
 {include file='header.tpl'}
+<script type="text/javascript" src="{$url->url_base}include/js/jquery.bpopup.min.js"></script>
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; ">Edit Account</div>
 {nocache}
     {if $error|@count gt 0}
@@ -68,7 +70,7 @@
                 </td>
             </tr>
             <tr>
-                <td class='form1'>Address Number </td>
+                <td class='form1'>Number </td>
                 <td class='form2'><input type='text' class='text' name='address' id='address' value="{$address}" style="height:26px; width: 351px;"><div id="address_error"class="error"></div></td>
             </tr>
             <tr>
@@ -93,54 +95,40 @@
                 <td class='form1'>Position </td>
                 <td class='form2'><input type='text' name='position' id='position' value="{$position}"   style="height:26px; width: 351px;"></td>
             </tr>
-            <tr>
-                <td class='form1'>Target </td>
-                <td class='form2'><input type='text' name='target_1' id='target_1' value="{$target_1}" placeholder="今月目標 1"  style="height:26px; width: 252px; margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-01</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_2' id='target_2' value="{$target_2}" placeholder="今月目標 2"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-02</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_3' id='target_3' value="{$target_3}"  placeholder="今月目標 3" style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-03</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_4' id='target_4' value="{$target_4}"  placeholder="今月目標 4" style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-04</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_5' id='target_5' value="{$target_5}" placeholder="今月目標 5"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-05</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_6' id='target_6' value="{$target_6}" placeholder="今月目標 6"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-06</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_7' id='target_7' value="{$target_7}" placeholder="今月目標 7"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-07</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_8' id='target_8' value="{$target_8}" placeholder="今月目標 8"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-08</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_9' id='target_9' value="{$target_9}" placeholder="今月目標 9"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-09</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_10' id='target_10' value="{$target_10}" placeholder="今月目標 10"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-10</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_11' id='target_11' value="{$target_11}" placeholder="今月目標 11"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-11</lable></td>
-            </tr>
-            <tr>
-                <td class='form1'></td>
-                <td class='form2'><input type='text' name='target_12' id='target_12' value="{$target_12}" placeholder="今月目標 12"  style="height:26px; width: 252px;margin-right: 1%;">円<lable style="margin-left:2%;">{$year}-12</lable></td>
-            </tr>
+            {if count($target)}
+                {foreach from=$target key=key item=item name=target}
+                    {if $smarty.foreach.target.first}
+                        <tr>
+                            <td class='form1'>Target </td>
+                            <td class='form2'>
+                                <input type='text' name='target[]' id='target' value="{$item}" placeholder="今月目標"  style="height:26px; width: 120px; margin-right: 1%;">
+                                <input type='text' name='target_create_date[]'class="target_create_date"  value="{$key}" placeholder="date time"  style="margin-left: 2%;height:26px; width: 120px;">
+                                <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>
+                                <input type="button" id="target_history" value="History" name="target_history"style="margin-left: 1%;"/>
+                            </td>
+                        </tr>
+                    {else}
+                        <tr>
+                            <td class = 'form1' ></td>
+                            <td class = 'form2' >
+                                <input type = 'text' name = 'target[]' id = 'target' value = '{$item}' placeholder = '今月目標'  style = 'height:26px; width: 120px; margin-right: 1%;'/>
+                                <input type = 'text' name = 'target_create_date[]' class='target_create_date' value = '{$key}' placeholder = 'date time'  style = 'margin-left: 2.9%;height:26px; width: 120px;' />
+                                <img src='include/images/DeleteRed.png' style='height: 26px; width: 26px;position:absolute;cursor: pointer;' onClick='remove_target(this)'>
+                            </td>
+                        </tr>
+                    {/if}
+                {/foreach}
+            {else}
+                <tr>
+                    <td class='form1'>Target </td>
+                    <td class='form2'>
+                        <input type='text' name='target[]' id='target' value="" placeholder="今月目標"  style="height:26px; width: 120px; margin-right: 1%;">
+                        <input type='text' name='target_create_date[]'class="target_create_date"  value="" placeholder="date time"  style="margin-left: 2%;height:26px; width: 120px;">
+                        <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>
+                        <input type="button" id="target_history" value="History" name="target_history" style="margin-left: 1%;"/>
+                    </td>
+                </tr>
+            {/if}
             <tr>
                 <td class='form1'>Level </td>
                 <td class='form2'>
@@ -193,8 +181,42 @@
         </table>
     </form>
 {/nocache}
+<div id="popup" style="left: 710px; position: absolute; top: 127px; z-index: 9999; opacity: 1; display: none;">
+    <span class="button b-close"><span>X</span></span>
+    <center id="popup_content"></center>
+</div>
 {literal}
     <script type="text/javascript">
+         log_date('.target_create_date');
+        $(document).ready(function() {
+            $('#add_target').click(function() {
+                $('#account tr:nth-last-child(6)').after("<tr><td class = 'form1' ></td><td class = 'form2' ><input type = 'text' name = 'target[]' id = 'target' value = '' placeholder = '今月目標'  style = 'height:26px; width: 120px; margin-right: 1%;'/><input type = 'text' name = 'target_create_date[]' class='target_create_date' value = '' placeholder = 'date time'  style = 'margin-left: 2.9%;height:26px; width: 120px;' /><img src='include/images/DeleteRed.png' style='height: 26px; width: 26px;position:absolute;cursor: pointer;' onClick='remove_target(this)'></td></tr>");
+                log_date('.target_create_date');
+            });
+        });
+        function remove_target(id) {
+            var row = $(id).closest("tr"); // find <tr> parent
+            if (row) {
+                row.remove();
+            }
+        }
+        (function($) {
+            $(function() {
+
+                $('#target_history').bind('click', function(e) {
+                   
+                    e.preventDefault();
+
+                    document.getElementById('popup_content').innerHTML = '';
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'history_target.php' //Uses jQuery.load()
+                    });
+
+                });
+
+            });
+        })(jQuery);
         var checkPrice = function(el) {
             if (isNaN(el.val())) {
                 if (isNaN(parseFloat(el.val()))) {

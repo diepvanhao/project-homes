@@ -520,6 +520,7 @@ class HOMEOrder {
                 }
             }
         }
+        $query.=" order by id DESC";
         $query.=" limit $offset,$length";
         $query = str_replace("where and", "where", $query);
 

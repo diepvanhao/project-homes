@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="{$url->url_base}include/css/style.min.css" />
 {include file="header.tpl"}
 {literal}
     <script type="text/javascript">
@@ -246,7 +247,7 @@
                             <td class='form2'>
                                 <input type='text' name='target[]' id='target' value="{$item}" placeholder="今月目標"  style="height:26px; width: 120px; margin-right: 1%;">
                                 <input type='text' name='target_create_date[]'class="target_create_date"  value="{$key}" placeholder="date time"  style="margin-left: 2%;height:26px; width: 120px;">
-                                <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>
+                                <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>                                
                             </td>
                         </tr>
                     {else}
@@ -266,7 +267,7 @@
                     <td class='form2'>
                         <input type='text' name='target[]' id='target' value="" placeholder="今月目標"  style="height:26px; width: 120px; margin-right: 1%;">
                         <input type='text' name='target_create_date[]'class="target_create_date"  value="" placeholder="date time"  style="margin-left: 2%;height:26px; width: 120px;">
-                        <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>
+                        <input type="button" id="add_target"  value="Add" style="text-align: center; margin-left: 2%;height:26px; width: 75px;"/>                        
                     </td>
                 </tr>
             {/if}
@@ -318,6 +319,7 @@
         </table>
     </form>
 {/nocache}
+
 {literal}
     <script type="text/javascript">
         log_date('.target_create_date');
@@ -333,6 +335,7 @@
                 row.remove();
             }
         }
+        
     </script>
 {/literal}
 {include file ="footer.tpl"}

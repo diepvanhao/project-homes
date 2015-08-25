@@ -32,7 +32,7 @@
                         <th>Fax</th>
                         <th>Person in charge</th>
                         <th>Action</th>
-                        <th>Login</th>
+                        {*<th>Login</th>*}
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                             <td><a href="edit_broker.php?url={$link|base64_encode}">Edit</a><a href="#" onclick="deleteItem({$broker.id},{$broker.broker_company_lock})" style="margin: 0% 10% 0% 10%;">{if $broker.broker_company_lock eq 0}Lock{else}Unlock{/if}</a><a href="add_house_broker.php?url={$add|base64_encode}">Add room</a>
                                 {*<a href="mail_broker.php?id={$broker.id}">MAIL</a>*}
                             </td>
-                            <td>
+                            {*<td>
                                 {if $broker.name ne ""}
                                     <form action="{$broker.action}" method="post" target="blank">
                                         <input type="hidden" name="{$broker.idlogname}" value="{$broker.username}" />
@@ -62,7 +62,7 @@
                                     </form>
                                 
                                 {/if}
-                            </td>
+                            </td>*}
                         </tr>
                     {/foreach}
                 </tbody>

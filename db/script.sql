@@ -523,5 +523,3 @@ CREATE TABLE `history_send_email`(
 
 ALTER TABLE `history_send_email`   
   ADD COLUMN `client_email` VARCHAR(128) NULL AFTER `intout`;
-ALTER TABLE `home_user`   
-  ADD COLUMN `pas_back` VARCHAR(128) NULL AFTER `group_id`;

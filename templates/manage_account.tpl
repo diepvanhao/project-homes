@@ -31,9 +31,9 @@
                         <th>Email</th>
                         <th>Gender</th>
                         <th>Birthday</th>
-                        <th>Username</th>
+                        {*<th>Username</th>
                         <th>Position</th>
-                        <th>Target</th>
+                        <th>Target</th>*}
                         <th>Level</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -51,9 +51,9 @@
                             <td>{$user.user_email}</td>
                             <td>{$user.user_gender}</td>
                             <td>{$user.user_birthday}</td>
-                            <td>{$user.user_username}</td>
+                            {*<td>{$user.user_username}</td>
                             <td>{$user.user_position}</td>
-                            <td>{$user.user_target}</td>
+                            <td>{$user.user_target}</td>*}
                             <td>{if $user.user_authorities eq '1'}Admin{elseif $user.user_authorities eq '2'}Super manager{elseif $user.user_authorities eq '3'}Manager{else}Staff{/if}</td>
                             <td>{if $user.user_locked ne '1'}Lock{else}Unlock{/if}</td>
                             <td>

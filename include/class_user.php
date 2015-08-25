@@ -11,6 +11,7 @@ class HOMEUser {
     var $user_info;   // CONTAINS USER'S INFORMATION FROM HOME_USERS TABLE
     var $user_salt;   // CONTAINS THE SALT USED TO ENCRYPT USER'S PASSWORD
     var $session_info; // CONTAINS THE PRIVACY LEVEL THAT IS ALLOWED TO MODERATE FOR THIS USER
+
 //
     // THIS METHOD SETS INITIAL VARS SUCH AS USER INFO AND LEVEL INFO
 //
@@ -101,6 +102,7 @@ class HOMEUser {
             }
         }
     }
+
 // END SEUser() METHOD
 //
     // THIS METHOD SETS A USER'S DISPLAY NAME
@@ -272,7 +274,7 @@ class HOMEUser {
             $login_result = TRUE;
 
 // LOG USER IN
-            
+
             $this->user_setcookies($persistent);
         }
         return array('error' => $this->is_error, 'login' => $login_result);
@@ -657,7 +659,7 @@ class HOMEUser {
 // OUTPUT: AN INTEGER REPRESENTING THE NUMBER OF FRIENDS
 
 
-    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $year,$house_search="",$group="", $user_locked = 0) {
+    function user_create($agent, $user_username, $user_password, $user_confirm_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $year, $house_search = "", $group = "", $user_locked = 0) {
 
         global $database, $url;
 
@@ -842,7 +844,7 @@ class HOMEUser {
 // OUTPUT:
 //end add code
 
-    function update($user_username, $user_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $agent_id, $user_id,$house_search="",$group_id="") {
+    function update($user_username, $user_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $agent_id, $user_id, $house_search = "", $group_id = "") {
         global $database, $url;
         $crypt_password = $this->user_password_crypt($user_password);
 
@@ -925,7 +927,7 @@ class HOMEUser {
 
     function getTotalItem($search) {
         global $database;
-        $search=trim($search);
+        $search = trim($search);
         $query = "select * from home_user";
 
         if (!empty($search))
@@ -936,17 +938,17 @@ class HOMEUser {
     }
 
     function getAccount($search = "", $offset = 0, $length = 50) {
-        global $database,$user; 
+        global $database, $user;
         $agent_id = $user->user_info['agent_id'];
         $level = $user->user_info['user_authorities'];
-        
-        $search=trim($search);
+
+        $search = trim($search);
         $query = "select * from home_user WHERE ( agent_id = {$agent_id} OR {$level} <= 2)";
         if (!empty($search))
             $query.=" AND ( user_fname like '%{$search}%' or user_lname like '%{$search}%' or user_search like '%{$search}%' )";
 
         $query.=" limit $offset,$length";
-       // echo $query;
+        // echo $query;
         $result = $database->database_query($query);
         $user_arr = array();
         $house = new HOMEHouse();
@@ -964,7 +966,7 @@ class HOMEUser {
                 $street_id_filter = $house->getNameStreet($house_address_serialize['street_id']);
                 $ward_id_filter = $house->getNameWard($house_address_serialize['ward_id']);
                 $address = $house_address_serialize['address'];
-                $usertmp['user_address'] = $city_id_filter  . $district_id_filter  . $street_id_filter  . $ward_id_filter  . $address;
+                $usertmp['user_address'] = $city_id_filter . $district_id_filter . $street_id_filter . $ward_id_filter . $address;
             } else {
                 $usertmp['user_address'] = $row['user_address'];
             }
@@ -998,9 +1000,9 @@ class HOMEUser {
             return null;
         }
     }
-    
-    public function getUserTarget($user_id = 0){
-        if(empty($user_id)){
+
+    public function getUserTarget($user_id = 0) {
+        if (empty($user_id)) {
             return null;
         }
         global $database;
@@ -1021,12 +1023,26 @@ class HOMEUser {
      * @param type $password
      * @return type
      */
-    public function reset($user_id,$password){
-        global  $database;
+    public function reset($user_id, $password) {
+        global $database;
         $pass = $this->user_password_crypt($password);
-         //get User
+        //get User
         return (bool) $database->database_query("UPDATE home_user SET  `user_password`='{$pass}', `user_code`='{$this->user_salt}' WHERE id = '{$user_id}'");
     }
+
+    function getHistoryTarget() {
+        global $database,$user;
+        $query = "select * from home_user_target where user_id='{$user->user_info['id']}' order by id DESC ";
+        $result = $database->database_query($query);
+        $target_arr = array();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $target['target'] = $row['target'];
+            $target['create_date'] = $row['create_date'];
+            $target_arr[] = $target;
+        }
+        return $target_arr;
+    }
+
 }
 
 function checkTargetExist($create_date, $user_id) {
@@ -1050,7 +1066,7 @@ function getTarget($user_id) {
 
 function getTargetAccount($user_id) {
     global $database;
-    $query = "select * from home_user_target where user_id='{$user_id}' order by create_date";
+    $query = "select * from home_user_target where user_id='{$user_id}' order by id DESC limit 12";
     $result = $database->database_query($query);
     $target_arr = array();
     while ($row = $database->database_fetch_assoc($result)) {

@@ -688,3 +688,17 @@ tr.order_filter td input[type='button']
 tr.order_filter > td{
     padding: 2px;
 }
+.revenue_border{
+    border-top: 1px dashed #cccccc;
+}
+.revenue_item ul{
+    margin: 2px 0 2px 10px; 
+}
+.revenue_item ul li{
+    padding-bottom: 5px;
+}
+.revenue_item ul li span:first-child{
+    width: 120px;
+    display: block;
+    float: left;
+}

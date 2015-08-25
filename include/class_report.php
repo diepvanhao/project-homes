@@ -67,11 +67,11 @@ class Report {
             $arr = explode('/', $fromdate);
             $fromtime = mktime(0, 0, 0, $arr[1], $arr[2], $arr[0]);
         }
-        $select = "SELECT SUM(t.target) as sum FROM home_user_target AS t 
-                 WHERE t.user_id = {$user_id} AND DATE_FORMAT(  t.create_date ,'%Y-%m') <= '" . date('Y-m', $time) . "' AND DATE_FORMAT( t.create_date ,'%Y-%m') >= '" . date('Y-m', $fromtime) . "'";
+        $select = "SELECT t.target as sum FROM home_user_target AS t 
+                 WHERE t.user_id = {$user_id} AND DATE_FORMAT(  t.create_date ,'%Y-%m') <= '" . date('Y-m', $time) . "' AND DATE_FORMAT( t.create_date ,'%Y-%m') >= '" . date('Y-m', $fromtime) . "' ORDER BY id DESC LIMIT 1";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        return $row[0];
+        return isset($row[0]) ? $row[0] : 0;
     }
 
     /**
@@ -81,11 +81,11 @@ class Report {
      */
     public function getAllAgents() {
         global $database;
-        /*backup
+        /* backup
          * SELECT a.* FROM home_agent a 
-                  LEFT JOIN home_user u ON u.agent_id = a.id  
-                  GROUP BY u.agent_id
-                  ORDER BY a.agent_name ASC
+          LEFT JOIN home_user u ON u.agent_id = a.id
+          GROUP BY u.agent_id
+          ORDER BY a.agent_name ASC
          */
         $select = "SELECT a.* FROM home_agent a                   
                   ORDER BY a.agent_name ASC";
@@ -153,8 +153,8 @@ class Report {
 //            WHERE o.user_id = {$user_id} AND o.order_status = 1 AND DATE_FORMAT( FROM_UNIXTIME( o.order_day_update ) ,'%Y-%m')= '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
 //        $result = $database->database_query($select);
 //        $row = $database->database_fetch_array($result);
-        $return['cost_previous_month'] = 0.00; 
-       //Unsigned_broker_fee_today
+        $return['cost_previous_month'] = 0.00;
+        //Unsigned_broker_fee_today
         $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -162,7 +162,7 @@ class Report {
                   AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        $return['cost_previous_month'] += (float) $row[0];      
+        $return['cost_previous_month'] += (float) $row[0];
         //Unsigned_ads_fee_today
         $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -171,10 +171,10 @@ class Report {
                   AND  (d.contract_payment_report <> 1 OR DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " -1 months")) . "')";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        $return['cost_previous_month'] += (float) $row[0]; 
-        
-        $return['cost_next_month'] = 0.00; 
-       //Unsigned_broker_fee_today
+        $return['cost_previous_month'] += (float) $row[0];
+
+        $return['cost_next_month'] = 0.00;
+        //Unsigned_broker_fee_today
         $select = "SELECT SUM(d.contract_broker_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -182,7 +182,7 @@ class Report {
                   AND DATE_FORMAT( FROM_UNIXTIME( d.contract_signature_day ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " +1 months")) . "'";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        $return['cost_next_month'] += (float) $row[0];      
+        $return['cost_next_month'] += (float) $row[0];
         //Unsigned_ads_fee_today
         $select = "SELECT SUM(d.contract_ads_fee) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -191,14 +191,14 @@ class Report {
                   AND  (d.contract_payment_report <> 1 OR DATE_FORMAT( FROM_UNIXTIME( d.contract_payment_date_to ) ,'%Y-%m') <> '" . date("Y-m", strtotime(date('Y-m', $time) . " +1 months")) . "')";
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
-        $return['cost_next_month'] += (float) $row[0]; 
-        
+        $return['cost_next_month'] += (float) $row[0];
+
         $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_appointment = "h.log_date_appointment_from  <= $time AND  h.log_date_appointment_from  >= $fromtime";
-        
+
         $today_log_time_call = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_call ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_call = "h.log_time_call  <=  $time AND  h.log_time_call >=  $fromtime ";
-        
+
         $today_log_time_arrive_company = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_arrive_company ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_arrive_company = "h.log_time_arrive_company  <=  $time AND  h.log_time_arrive_company >=  $fromtime ";
         //more info on today
@@ -210,7 +210,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT  SUM(log_tel) AS today_tel, SUM(log_mail) AS today_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -228,7 +228,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS today_introduction
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -237,8 +237,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-        
+
+
         $select = "SELECT SUM(log_tel) AS today_tel_status,SUM(log_mail) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -247,10 +247,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['today_revisit'] = $this->getRevisit("o.order_status = 1 AND o.user_id = {$user_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'");
-        
+
         //more info on this month 
         $select = "SELECT  SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line
             FROM home_history_log h
@@ -260,8 +260,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         $select = "SELECT SUM(log_tel) AS month_tel, SUM(log_mail) AS month_mail
+
+        $select = "SELECT SUM(log_tel) AS month_tel, SUM(log_mail) AS month_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             WHERE o.order_status = 1 AND o.user_id = {$user_id} AND  {$month_log_time_call}
@@ -269,7 +269,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_contact_head_office) AS month_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -278,7 +278,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT  SUM(log_introduction) AS month_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -287,7 +287,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS month_tel_status,SUM(log_mail) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -296,10 +296,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND o.user_id = {$user_id} AND  rv.revisit_date  <= $time AND rv.revisit_date  >= $fromtime  ");
-        
+
         //Application      
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -309,7 +309,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['today_application'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d ON c.id = d.contract_id
@@ -387,7 +387,7 @@ class Report {
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
             WHERE o.user_id = {$user_id} AND o.order_status = 1 AND d.contract_ambition = 1 AND {$month_signature} ";
-        
+
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['month_ambition'] = (int) $row[0];
@@ -420,7 +420,7 @@ class Report {
 
         $today_log_time_call = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_call ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $year_log_time_call = " h.log_time_call <=  $time AND h.log_time_call >= $fromtime ";
-        
+
         $today_log_time_arrive_company = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_arrive_company ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $year_log_time_arrive_company = "h.log_time_arrive_company  <=  $time AND  h.log_time_arrive_company >=  $fromtime ";
 
@@ -439,7 +439,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todaymail_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -449,7 +449,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT  SUM(log_tel) AS todaymail_tel, SUM(log_mail) AS todaymail_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -459,7 +459,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todaymail_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -469,7 +469,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todaymail_tel_status,SUM(log_mail) AS todaymail_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -479,10 +479,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todaymail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearmail_shop_sign, SUM(log_local_sign) AS yearmail_local_sign, SUM(log_flyer) AS yearmail_flyer, SUM(log_line) AS yearmail_line
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -492,7 +492,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS yearmail_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -502,7 +502,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yearmail_tel, SUM(log_mail) AS yearmail_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -512,7 +512,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearmail_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -532,10 +532,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearmail_revisit'] = $this->getRevisit(" h.log_mail = 1 AND o.order_status = 1  AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -570,7 +570,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_cancel'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON d.contract_id = c.id
@@ -610,7 +610,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['todaymail_ambition'] = (int) $row[0];
-        
+
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -621,7 +621,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearmail_ambition'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -657,7 +657,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todayphone_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -667,7 +667,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayphone_tel, SUM(log_mail) AS todayphone_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -677,7 +677,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todayphone_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -687,7 +687,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayphone_tel_status,SUM(log_mail) AS todayphone_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -697,10 +697,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todayphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearphone_shop_sign, SUM(log_local_sign) AS yearphone_local_sign, SUM(log_flyer) AS yearphone_flyer, SUM(log_line) AS yearphone_line
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -710,7 +710,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS yearphone_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -720,8 +720,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         $select = "SELECT SUM(log_tel) AS yearphone_tel, SUM(log_mail) AS yearphone_mail
+
+        $select = "SELECT SUM(log_tel) AS yearphone_tel, SUM(log_mail) AS yearphone_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -730,7 +730,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearphone_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -750,10 +750,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearphone_revisit'] = $this->getRevisit(" h.log_tel = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id}  AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -816,7 +816,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearphone_change'] = (int) $row[0];
-        
+
         //Ambition
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -877,7 +877,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todaydiscount_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -889,7 +889,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todaydiscount_tel, SUM(log_mail) AS todaydiscount_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -901,7 +901,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todaydiscount_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -925,10 +925,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todaydiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yeardiscount_shop_sign, SUM(log_local_sign) AS yeardiscount_local_sign, 
                SUM(log_flyer) AS yeardiscount_flyer, SUM(log_line) AS yeardiscount_line
             FROM home_history_log h
@@ -941,7 +941,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS yeardiscount_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -965,7 +965,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yeardiscount_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -977,7 +977,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yeardiscount_tel_status ,SUM(log_mail) AS yeardiscount_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -986,14 +986,14 @@ class Report {
             INNER JOIN home_room_detail d  ON d.id = r.room_detail_id
             WHERE d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND h.log_status_appointment = 1 AND {$year_log_time_call}
             ";
-            
+
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yeardiscount_revisit'] = $this->getRevisit(" d.room_discount > 0 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1132,7 +1132,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todaylocalsign_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1142,7 +1142,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT  SUM(log_tel) AS todaylocalsign_tel, SUM(log_mail) AS todaylocalsign_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1152,7 +1152,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todaylocalsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1162,7 +1162,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todaylocalsign_tel_status ,SUM(log_mail) AS todaylocalsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1172,10 +1172,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todaylocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearlocalsign_shop_sign, SUM(log_local_sign) AS yearlocalsign_local_sign, 
                 SUM(log_flyer) AS yearlocalsign_flyer, SUM(log_line) AS yearlocalsign_line
             FROM home_history_log h
@@ -1196,7 +1196,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yearlocalsign_tel, SUM(log_mail) AS yearlocalsign_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1206,7 +1206,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearlocalsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1226,10 +1226,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearlocalsign_revisit'] = $this->getRevisit(" h.log_local_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1350,7 +1350,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todayintroduction_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1360,7 +1360,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayintroduction_tel, SUM(log_mail) AS todayintroduction_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1370,7 +1370,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todayintroduction_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1380,7 +1380,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayintroduction_tel_status ,SUM(log_mail) AS todayintroduction_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1390,7 +1390,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todayintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
 
@@ -1403,7 +1403,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS yearintroduction_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1413,7 +1413,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yearintroduction_tel, SUM(log_mail) AS yearintroduction_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1423,7 +1423,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearintroduction_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1443,10 +1443,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearintroduction_revisit'] = $this->getRevisit(" h.log_introduction = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1532,7 +1532,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearintroduction_ambition'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1578,7 +1578,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayshopsign_tel, SUM(log_mail) AS todayshopsign_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1588,7 +1588,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todayshopsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1598,7 +1598,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayshopsign_tel_status ,SUM(log_mail) AS todayshopsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1608,10 +1608,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todayshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearshopsign_shop_sign, SUM(log_local_sign) AS yearshopsign_local_sign ,
                SUM(log_flyer) AS yearshopsign_flyer, SUM(log_line) AS yearshopsign_line
             FROM home_history_log h
@@ -1632,7 +1632,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yearshopsign_tel, SUM(log_mail) AS yearshopsign_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1642,7 +1642,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearshopsign_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1652,8 +1652,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         $select = "SELECT SUM(log_tel) AS yearshopsign_tel_status ,SUM(log_mail) AS yearshopsign_mail_status
+
+        $select = "SELECT SUM(log_tel) AS yearshopsign_tel_status ,SUM(log_mail) AS yearshopsign_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1662,10 +1662,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearshopsign_revisit'] = $this->getRevisit(" h.log_shop_sign = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1787,7 +1787,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todayflyer_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1797,7 +1797,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayflyer_tel, SUM(log_mail) AS todayflyer_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1807,7 +1807,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todayflyer_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1817,7 +1817,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayflyer_tel_status ,SUM(log_mail) AS todayflyer_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1827,10 +1827,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todayflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearflyer_shop_sign, SUM(log_local_sign) AS yearflyer_local_sign,
               SUM(log_flyer) AS yearflyer_flyer, SUM(log_line) AS yearflyer_line
             FROM home_history_log h
@@ -1841,7 +1841,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT  SUM(log_introduction) AS yearflyer_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1851,8 +1851,8 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
-         $select = "SELECT SUM(log_tel) AS yearflyer_tel, SUM(log_mail) AS yearflyer_mail
+
+        $select = "SELECT SUM(log_tel) AS yearflyer_tel, SUM(log_mail) AS yearflyer_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
             INNER JOIN home_user u  ON o.user_id = u.id
@@ -1861,7 +1861,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearflyer_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -1881,10 +1881,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearflyer_revisit'] = $this->getRevisit(" h.log_flyer = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -1970,7 +1970,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearflyer_ambition'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2007,7 +2007,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS todayline_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2017,7 +2017,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS todayline_tel, SUM(log_mail) AS todayline_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2027,7 +2027,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS todayline_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2047,10 +2047,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['todayline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         $select = "SELECT SUM(log_shop_sign) AS yearline_shop_sign, SUM(log_local_sign) AS yearline_local_sign, 
               SUM(log_flyer) AS yearline_flyer, SUM(log_line) AS yearline_line
             FROM home_history_log h
@@ -2061,7 +2061,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS yearline_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2071,7 +2071,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yearline_tel, SUM(log_mail) AS yearline_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2081,7 +2081,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS yearline_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2091,7 +2091,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS yearline_tel_status ,SUM(log_mail) AS yearline_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2101,10 +2101,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['yearline_revisit'] = $this->getRevisit(" h.log_line = 1 AND o.order_status = 1 AND u.agent_id = {$agent_id} AND rv.revisit_date <=  $time AND rv.revisit_date >= $fromtime  ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2190,7 +2190,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         $return['yearline_ambition'] = (int) $row[0];
-        
+
         //agreement
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2214,7 +2214,7 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['yearline_agreement'] = (int) $row[0];
 
-        
+
         return $return;
     }
 
@@ -2357,7 +2357,7 @@ class Report {
 
         //log revisit
         $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
-        
+
         //more info on this month 
         $select = "SELECT SUM(log_shop_sign) AS month_shop_sign, SUM(log_local_sign) AS month_local_sign, SUM(log_introduction) AS month_introduction, SUM(log_tel) AS month_tel, 
             SUM(log_mail) AS month_mail, SUM(log_flyer) AS month_flyer, SUM(log_line) AS month_line, SUM(log_contact_head_office) AS month_contact_head_office,
@@ -2373,7 +2373,7 @@ class Report {
 
         //log revisit
         $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND c.id = {$company_id} AND  rv.revisit_date  <= $time AND rv.revisit_date  >= $fromtime ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2486,13 +2486,13 @@ class Report {
 
         $today_appointment = "DATE_FORMAT( FROM_UNIXTIME( h.log_date_appointment_from ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_appointment = " h.log_date_appointment_from <= $time AND h.log_date_appointment_from >= $fromtime ";
-        
+
         $today_log_time_call = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_call ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_call = "h.log_time_call  <=  $time AND  h.log_time_call >=  $fromtime ";
-        
+
         $today_log_time_arrive_company = "DATE_FORMAT( FROM_UNIXTIME( h.log_time_arrive_company ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "'";
         $month_log_time_arrive_company = "h.log_time_arrive_company  <=  $time AND  h.log_time_arrive_company >=  $fromtime ";
- 
+
         //more info on today
         $select = "SELECT SUM(log_shop_sign) AS today_shop_sign, SUM(log_local_sign) AS today_local_sign,
             SUM(log_flyer) AS today_flyer, SUM(log_line) AS today_line
@@ -2503,7 +2503,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_introduction) AS today_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2512,7 +2512,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS today_tel, SUM(log_mail) AS today_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2521,7 +2521,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS today_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2530,7 +2530,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS today_tel_status,SUM(log_mail) AS today_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2539,7 +2539,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['today_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  DATE_FORMAT( FROM_UNIXTIME( rv.revisit_date ) ,'%Y-%d-%m')= '" . date('Y-d-m', $time) . "' ");
 
@@ -2557,12 +2557,12 @@ class Report {
         $select = "SELECT SUM(log_introduction) AS month_introduction 
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
-            WHERE AND h.source_id = {$source_id} AND  {$month_appointment}
+            WHERE h.source_id = {$source_id} AND  {$month_appointment}
             ";
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS month_tel, SUM(log_mail) AS month_mail
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2571,7 +2571,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_contact_head_office) AS month_contact_head_office
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2580,7 +2580,7 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         $select = "SELECT SUM(log_tel) AS month_tel_status,SUM(log_mail) AS month_mail_status
             FROM home_history_log h
             INNER JOIN home_order o  ON o.id = h.order_id
@@ -2589,10 +2589,10 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_assoc($result);
         $return = array_merge($return, $row);
-        
+
         //log revisit
         $return['month_revisit'] = $this->getRevisit(" o.order_status = 1 AND h.source_id = {$source_id} AND  rv.revisit_date  <= $time AND rv.revisit_date  >= $fromtime ");
-        
+
         //Application
         $select = "SELECT COUNT(*) FROM home_order o 
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2646,7 +2646,7 @@ class Report {
         $row = $database->database_fetch_array($result);
         $return['month_change'] = (int) $row[0];
 
-         //Ambition
+        //Ambition
         $select = "SELECT COUNT(*) FROM home_order o 
             INNER JOIN home_contract c  ON o.id = c.order_id 
             INNER JOIN home_history_log h  ON o.id = h.order_id 
@@ -2690,7 +2690,7 @@ class Report {
         return $return;
     }
 
-    public function userCommission($user_id = null, $date = null, $fromdate = null , $duration = 0) {//Duration: -1 , 0 , 1 month
+    public function userCommission($user_id = null, $date = null, $fromdate = null, $duration = 0) {//Duration: -1 , 0 , 1 month
         global $database;
         if (empty($user_id)) {
             return array();
@@ -2728,7 +2728,7 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_unsigned'] += (float) ($row['fee'] - (float)$row['percent']); 
+            $return['today_unsigned'] += (float) ($row['fee'] - (float) $row['percent']);
         }
         //Unsigned_broker_fee_today another assign to him
         $select = "SELECT SUM(d.contract_broker_fee) AS fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2741,7 +2741,7 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_unsigned'] += (float) $row['percent'] ; 
+            $return['today_unsigned'] += (float) $row['percent'];
         }
         //Unsigned_broker_fee_month
         $select = "SELECT SUM(d.contract_broker_fee) AS fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2752,10 +2752,10 @@ class Report {
                   AND (d.contract_signature_day > {$time} OR d.contract_signature_day < {$fromtime} OR  d.contract_signature_day IS NULL OR  d.contract_signature_day = '' ) 
             GROUP BY p.contract_detail_id
                   ";
-        
+
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_unsigned'] += (float) ($row['fee'] - (float)$row['percent']); 
+            $return['month_unsigned'] += (float) ($row['fee'] - (float) $row['percent']);
         }
         //Unsigned_broker_fee_month assign to him
         $select = "SELECT SUM(d.contract_broker_fee) AS fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2768,7 +2768,7 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_unsigned'] += (float) $row['percent'] ; 
+            $return['month_unsigned'] += (float) $row['percent'];
         }
         //Unsigned_ads_fee_today
         $select = "SELECT SUM(d.contract_ads_fee) AS fee,SUM(p.partner_ads) AS percent FROM home_order o
@@ -2782,7 +2782,7 @@ class Report {
         $result = $database->database_query($select);
 
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_unsigned'] += ( (float) $row['fee'] - (float)$row['percent']) / 1.08; 
+            $return['today_unsigned'] += ( (float) $row['fee'] - (float) $row['percent']) / 1.08;
         }
         //Unsigned_ads_fee_today another assign to him
         $select = "SELECT SUM(d.contract_ads_fee) AS fee,SUM(p.partner_ads) AS percent FROM home_order o
@@ -2795,9 +2795,9 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_unsigned'] += (float) $row['percent'] / 1.08; 
+            $return['today_unsigned'] += (float) $row['percent'] / 1.08;
         }
-        
+
         //Unsigned_ads_fee_month
         $select = "SELECT SUM(d.contract_ads_fee) AS fee,SUM(p.partner_ads) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2809,7 +2809,7 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_unsigned'] += (float) (($row['fee'] - (float)$row['percent']) / 1.08); 
+            $return['month_unsigned'] += (float) (($row['fee'] - (float) $row['percent']) / 1.08);
         }
         //Unsigned_ads_fee_month another assign to him
         $select = "SELECT SUM(d.contract_ads_fee) AS fee,SUM(p.partner_ads) AS percent FROM home_order o
@@ -2822,9 +2822,9 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_unsigned'] += (float) ($row['percent'] / 1.08); 
+            $return['month_unsigned'] += (float) ($row['percent'] / 1.08);
         }
-        
+
         //***recorded_broker_fee_today
         $select = "SELECT SUM(d.contract_broker_fee) AS fee,SUM(p.partner_percent) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2837,7 +2837,7 @@ class Report {
         $result = $database->database_query($select);
 
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_already_recorded'] += (float) ($row['fee'] - $row['percent']); 
+            $return['today_already_recorded'] += (float) ($row['fee'] - $row['percent']);
         }
         //***recorded_broker_fee_today another assign to him
         $select = "SELECT SUM(d.contract_broker_fee) AS fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2850,7 +2850,7 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_already_recorded'] += (float) $row['percent'] ; 
+            $return['today_already_recorded'] += (float) $row['percent'];
         }
 
         //***recorded_broker_fee_month
@@ -2864,9 +2864,9 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_already_recorded'] += (float) ($row['fee'] - $row['percent']); 
+            $return['month_already_recorded'] += (float) ($row['fee'] - $row['percent']);
         }
-        
+
         //***recorded_broker_fee_month another assign to him
         $select = "SELECT SUM(d.contract_broker_fee) AS fee,SUM(p.partner_percent) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2878,9 +2878,9 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_already_recorded'] += (float) $row['percent'] ; 
+            $return['month_already_recorded'] += (float) $row['percent'];
         }
-        
+
         //Already_ads_fee_today
         $select = "SELECT SUM(d.contract_ads_fee) AS fee,SUM(p.partner_ads) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2892,9 +2892,9 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_already_recorded'] += (float) ($row['fee']  - $row['percent']) / 1.08; 
+            $return['today_already_recorded'] += (float) ($row['fee'] - $row['percent']) / 1.08;
         }
-        
+
         //Already_ads_fee_today another assign to him
         $select = "SELECT SUM(d.contract_ads_fee) AS fee,SUM(p.partner_ads) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2906,7 +2906,7 @@ class Report {
                       ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['today_already_recorded'] +=  (float) $row['percent'] / 1.08; 
+            $return['today_already_recorded'] += (float) $row['percent'] / 1.08;
         }
         //Already_ads_fee_month
         $select = "SELECT SUM(d.contract_ads_fee) AS fee, SUM(p.partner_ads) AS percent FROM home_order o
@@ -2920,7 +2920,7 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_already_recorded'] += (float) ($row['fee']  - $row['percent']) / 1.08; 
+            $return['month_already_recorded'] += (float) ($row['fee'] - $row['percent']) / 1.08;
         }
         //Already_ads_fee_month another assign to him
         $select = "SELECT SUM(d.contract_ads_fee) AS fee, SUM(p.partner_ads) AS percent FROM home_order o
@@ -2934,19 +2934,19 @@ class Report {
                   ";
         $result = $database->database_query($select);
         while ($row = $database->database_fetch_assoc($result)) {
-            $return['month_already_recorded'] += (float) $row['percent'] / 1.08; 
+            $return['month_already_recorded'] += (float) $row['percent'] / 1.08;
         }
-        return  array(
+        return array(
             'today_already_recorded' => round($return['today_already_recorded']),
             'today_unsigned' => round($return['today_unsigned']),
             'month_already_recorded' => round($return['month_already_recorded']),
             'month_unsigned' => round($return['month_unsigned']),
         );
     }
-    
+
     public function otherMonth($user_id = null, $date = null, $duration = 0) {//Duration: -1 , 1 month
         global $database;
-        if($duration === 1){
+        if ($duration === 1) {
             return 0;
         }
         if (empty($user_id) || empty($duration)) {
@@ -2958,15 +2958,15 @@ class Report {
             $arr = explode('/', $date);
             $time = mktime(23, 59, 59, $arr[1], $arr[2], $arr[0]);
         }
-        
+
         $month_unsigned = 0.00;
-        
-        if($duration == 1){
-            $month =  strtotime(date('Y-m-1', $time));
-            $next =  strtotime(date('Y-m', $time) . " +1 month");
-            
+
+        if ($duration == 1) {
+            $month = strtotime(date('Y-m-1', $time));
+            $next = strtotime(date('Y-m', $time) . " +1 month");
+
             $where = " d.contract_application_date  >= $month";
-            
+
             //Unsigned_broker_fee_month
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
@@ -2977,7 +2977,7 @@ class Report {
             GROUP BY p.contract_detail_id";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_broker_fee'] - $row['percent']); 
+                $month_unsigned += (float) ($row['contract_broker_fee'] - $row['percent']);
             }
             //Unsigned_broker_fee_month
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
@@ -2987,12 +2987,12 @@ class Report {
             WHERE o.user_id = {$user_id} AND o.order_status = 1 
                   AND d.contract_signature_day >= $next  
             GROUP BY p.contract_detail_id";
-            
+
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_broker_fee'] - $row['percent']) ; 
+                $month_unsigned += (float) ($row['contract_broker_fee'] - $row['percent']);
             }
-            
+
             //Unsigned_broker_fee_month assign to him
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
@@ -3004,9 +3004,9 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) $row['percent'] ; 
+                $month_unsigned += (float) $row['percent'];
             }
-            
+
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -3017,10 +3017,10 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) $row['percent'] ; 
+                $month_unsigned += (float) $row['percent'];
             }
 
-                //Unsigned_ads_fee_month
+            //Unsigned_ads_fee_month
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_ads) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -3031,7 +3031,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee'] - $row['percent']) / 1.08; 
+                $month_unsigned += (float) ($row['contract_ads_fee'] - $row['percent']) / 1.08;
             }
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_ads) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
@@ -3043,7 +3043,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee']  - $row['percent']) / 1.08; 
+                $month_unsigned += (float) ($row['contract_ads_fee'] - $row['percent']) / 1.08;
             }
             //Unsigned_ads_fee_month another assign to him
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_ads) AS percent FROM home_order o
@@ -3056,7 +3056,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) $row['percent'] / 1.08; 
+                $month_unsigned += (float) $row['percent'] / 1.08;
             }
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_ads) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
@@ -3068,12 +3068,12 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) $row['percent'] / 1.08; 
+                $month_unsigned += (float) $row['percent'] / 1.08;
             }
-        }else{
+        } else {
             $month = date("Y-m", strtotime(date('Y-m', $time) . " -1 month"));
             $where = "DATE_FORMAT( FROM_UNIXTIME( d.contract_application_date ) ,'%Y-%m')= '$month'";
-        
+
             $select = "SELECT d.contract_broker_fee,SUM(p.partner_percent) AS percent FROM home_order o
             INNER JOIN home_contract c  ON o.id = c.order_id
             INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -3083,7 +3083,7 @@ class Report {
             GROUP BY p.contract_detail_id";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_broker_fee']- $row['percent']); 
+                $month_unsigned += (float) ($row['contract_broker_fee'] - $row['percent']);
             }
 
             //Unsigned_broker_fee_month assign to him
@@ -3097,10 +3097,10 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) $row['percent'] ; 
+                $month_unsigned += (float) $row['percent'];
             }
-                
-        //Unsigned_ads_fee_month
+
+            //Unsigned_ads_fee_month
             $select = "SELECT d.contract_ads_fee,SUM(p.partner_ads) AS percent FROM home_order o
                 INNER JOIN home_contract c  ON o.id = c.order_id
                 INNER JOIN home_contract_detail d  ON c.id = d.contract_id
@@ -3111,7 +3111,7 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) ($row['contract_ads_fee']  - (int)$row['percent']) / 1.08; 
+                $month_unsigned += (float) ($row['contract_ads_fee'] - (int) $row['percent']) / 1.08;
             }
 
             //Unsigned_ads_fee_month another assign to him
@@ -3125,13 +3125,13 @@ class Report {
                       ";
             $result = $database->database_query($select);
             while ($row = $database->database_fetch_assoc($result)) {
-                $month_unsigned += (float) $row['percent'] / 1.08; 
+                $month_unsigned += (float) $row['percent'] / 1.08;
             }
         }
-           
-        
-    
-        return  round($month_unsigned);
+
+
+
+        return round($month_unsigned);
     }
 
     public function getChartInfo($agent_id = 0, $date = null, $fromdate = null) {
@@ -3192,7 +3192,7 @@ class Report {
         //date_default_timezone_set("Asia/Bangkok");
 
         $date = @date('d/m/Y');
-        $order_date = empty($row['order_day_create'])?'':@date('d/m/Y',$row['order_day_create']);
+        $order_date = empty($row['order_day_create']) ? '' : @date('d/m/Y', $row['order_day_create']);
 
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
@@ -3299,7 +3299,7 @@ class Report {
                 ->setCellValue("L{$plus}", "成立年月日")
         ;
 
-        $signdate = empty($row['contract_signature_day'])?'':@date('d/m/Y',$row['contract_signature_day']);
+        $signdate = empty($row['contract_signature_day']) ? '' : @date('d/m/Y', $row['contract_signature_day']);
         $index = $plus + 1;
         $plus = $index + 1;
 
@@ -3647,7 +3647,7 @@ class Report {
                 ->setCellValue("K{$index}", "$k")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", empty($row['contract_period_from'])?'':@date('d/m/Y',$row['contract_period_from']))
+                ->setCellValue("P{$index}", empty($row['contract_period_from']) ? '' : @date('d/m/Y', $row['contract_period_from']))
                 ->setCellValue("T{$index}", "～")
         ;
 
@@ -3680,7 +3680,7 @@ class Report {
                 ->setCellValue("K{$index}", "")
                 ->setCellValue("N{$index}", "円")
                 ->setCellValue("O{$index}", "自")
-                ->setCellValue("P{$index}", empty($row['contract_period_to'])?'':@date('d/m/Y',$row['contract_period_to']))
+                ->setCellValue("P{$index}", empty($row['contract_period_to']) ? '' : @date('d/m/Y', $row['contract_period_to']))
                 ->setCellValue("T{$index}", "迄")
         ;
 
@@ -3844,13 +3844,13 @@ class Report {
         ;
 
         $objPHPExcel->setActiveSheetIndex(0);
-        
+
 
 // Redirect output to a client’s web browser (Excel5)
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -3863,11 +3863,10 @@ class Report {
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
-
 //        $excel_writer = new PHPExcel_Writer_CSV($objPHPExcel);
 //        $excel_writer->setDelimiter(';');
 //        $excel_writer->save($this->_upload_path.$filename);
-        
+
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         $objWriter->save('php://output');
         exit;
@@ -3899,7 +3898,7 @@ class Report {
         //date_default_timezone_set("Asia/Bangkok");
 
         $date = @date('d/m/Y');
-        $order_date = empty($row['order_day_create'])?'':@date('d/m/Y',$row['order_day_create']);
+        $order_date = empty($row['order_day_create']) ? '' : @date('d/m/Y', $row['order_day_create']);
 
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
@@ -3914,7 +3913,7 @@ class Report {
                 )
             )
         );
-        
+
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Brad")
                 ->setLastModifiedBy("Brad")
@@ -3931,7 +3930,7 @@ class Report {
         );
 
         $objPHPExcel->getDefaultStyle()->applyFromArray($style);
-        
+
         //Top
         $objPHPExcel->getActiveSheet()->getStyle("A2:I35")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("A37:D42")->applyFromArray($border);
@@ -3940,16 +3939,12 @@ class Report {
                 ->mergeCells("A1:C1")
                 ->mergeCells("G1:H1")
                 ->mergeCells("A2:A7")
-                
                 ->mergeCells("B2:B3")
                 ->mergeCells("C2:I3")
-                
                 ->mergeCells("B4:B5")
                 ->mergeCells("C4:I5")
-                
                 ->mergeCells("B6:B7")
                 ->mergeCells("C6:I7")
-                
                 ->mergeCells("A8:B9")
                 ->mergeCells("C8:I9")
                 ->mergeCells("A10:B11")
@@ -3958,10 +3953,8 @@ class Report {
                 ->mergeCells("C12:F13")
                 ->mergeCells("G12:G13")
                 ->mergeCells("H12:I13")
-                
                 ->mergeCells("A14:B15")
                 ->mergeCells("C14:I15")
-                
                 ->mergeCells("A16:B17")
                 ->mergeCells("C16:I17")
                 ->mergeCells("A18:B19")
@@ -4016,7 +4009,7 @@ class Report {
                 ->setCellValue("A1", $row['agent_name'])
                 ->setCellValue("D1", "店")
                 ->setCellValue("F1", "担当者")
-                ->setCellValue("G1", $row['user_lname'].' '.$row['user_fname'])//
+                ->setCellValue("G1", $row['user_lname'] . ' ' . $row['user_fname'])//
                 //**************
                 ->setCellValue("A2", "借主")
                 ->setCellValue("B2", "契約者")
@@ -4027,9 +4020,9 @@ class Report {
                 ->setCellValue("C6", $row['client_phone']) //
                 //**************
                 ->setCellValue("A8", "申込年月日")
-                ->setCellValue("C8", empty($row['contract_application_date'])?'':@date('d/m/Y',$row['contract_application_date'])) //
+                ->setCellValue("C8", empty($row['contract_application_date']) ? '' : @date('d/m/Y', $row['contract_application_date'])) //
                 ->setCellValue("A10", "契約予定日")
-                ->setCellValue("C10", empty($row['contract_signature_day'])?'':@date('d/m/Y',$row['contract_signature_day'])) //
+                ->setCellValue("C10", empty($row['contract_signature_day']) ? '' : @date('d/m/Y', $row['contract_signature_day'])) //
                 ->setCellValue("A12", "元付業者")
                 ->setCellValue("C12", $row['broker_company_name']) //
                 ->setCellValue("G12", "担当者")
@@ -4045,17 +4038,17 @@ class Report {
                 //************
                 ->setCellValue("A20", "賃貸条件")
                 ->setCellValue("B20", "賃料")
-                ->setCellValue("D20", $row['contract_cost'].' 円') //
+                ->setCellValue("D20", $row['contract_cost'] . ' 円') //
                 ->setCellValue("B22", "管理費")
-                ->setCellValue("D22", rtrim($row['r_a_e'],'円').' 円') //
+                ->setCellValue("D22", rtrim($row['r_a_e'], '円') . ' 円') //
                 ->setCellValue("B24", "保証金")
-                ->setCellValue("D24", $row['contract_deposit_1'].' 円') //
+                ->setCellValue("D24", $row['contract_deposit_1'] . ' 円') //
                 ->setCellValue("B26", "償却")
-                ->setCellValue("D26", $row['contract_deposit_2'].' 円') //
+                ->setCellValue("D26", $row['contract_deposit_2'] . ' 円') //
                 //**************
                 ->setCellValue("A28", "取引報酬")
                 ->setCellValue("B28", "仲介手数料")
-                ->setCellValue("D28", $row['contract_broker_fee'].' 円') //
+                ->setCellValue("D28", $row['contract_broker_fee'] . ' 円') //
                 ->setCellValue("B30", "業務委託料")
                 ->setCellValue("D30", "") //
                 //**************
@@ -4070,10 +4063,10 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -4165,8 +4158,8 @@ class Report {
                 'type' => PHPExcel_Style_Fill::FILL_SOLID,
                 'color' => array('rgb' => '969696')
             ),
-            'font'  => array(
-                'color'  => array('rgb' => 'FFFFFF')
+            'font' => array(
+                'color' => array('rgb' => 'FFFFFF')
             )
         );
         $style = array(
@@ -4175,11 +4168,11 @@ class Report {
             )
         );
         $bigfont = array(
-            'font'  => array(
-                'bold'  => true,
-                'size'  => 18,
+            'font' => array(
+                'bold' => true,
+                'size' => 18,
                 'underline' => true
-            ));
+        ));
         $objPHPExcel->getDefaultStyle()->applyFromArray($style);
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Brad")
@@ -4197,16 +4190,16 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("B8:D9")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("F8:F9")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("H8:I9")->applyFromArray($border_double);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A11:I11")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("C11")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("F11")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("H11:I11")->applyFromArray($border_double);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("F13:I13")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("G13")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("I13")->applyFromArray($border_double);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("I1")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A2")->getFont()->setBold(true);
@@ -4217,35 +4210,35 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("I11")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("G13")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("I13")->getFont()->setBold(true);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A15:A18")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A26:D28")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A30")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A43")->getFont()->setBold(true);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->applyFromArray($bigfont);
         $objPHPExcel->getActiveSheet()->getStyle("B5")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("F5")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("B8")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("B15:B18")->getFont()->setSize(8);
-        
+
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
         $objPHPExcel->getActiveSheet()->getDefaultColumnDimension()->setWidth(8.25);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A13:D28")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("F17:I28")->applyFromArray($border);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("C26")->applyFromArray($yellowColor);
         $objPHPExcel->getActiveSheet()->getStyle("C27")->applyFromArray($greenColor);
         $objPHPExcel->getActiveSheet()->getStyle("C28")->applyFromArray($yellowColor);
         $objPHPExcel->getActiveSheet()->getStyle("A30")->applyFromArray($redColor);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("G38:I41")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("A30:D34")->applyFromArray($border);
-        
+
         //mergeCells
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A1:G1")
@@ -4274,26 +4267,26 @@ class Report {
                 ->mergeCells("F16:I16")
 
         ;
-        for ($i = 13;$i <= 28 ; $i ++) {
+        for ($i = 13; $i <= 28; $i ++) {
             $objPHPExcel->getActiveSheet()->mergeCells("C{$i}:D{$i}");
-            if($i < 15 || $i > 18){
+            if ($i < 15 || $i > 18) {
                 $objPHPExcel->getActiveSheet()->mergeCells("A{$i}:B{$i}");
             }
-            if($i >= 17){
+            if ($i >= 17) {
                 $objPHPExcel->getActiveSheet()->mergeCells("G{$i}:I{$i}");
             }
         }
         //Values
         //date time
-        $date2 = strtotime('+1 month', $row['contract_period_from']) ;
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_period_from']), date('Y',$row['contract_period_from'])) -  date('d',$row['contract_period_from']) + 1;
-        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
+        $date2 = strtotime('+1 month', $row['contract_period_from']);
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m', $row['contract_period_from']), date('Y', $row['contract_period_from'])) - date('d', $row['contract_period_from']) + 1;
+        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m', $date2), date('Y', $date2));
 
-        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date('m',$row['contract_period_from']), date('Y',$row['contract_period_from'])));
-        $fee1 = 0;//round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
+        $cost1 = round($row['contract_cost'] * $daysleft1 / cal_days_in_month(CAL_GREGORIAN, date('m', $row['contract_period_from']), date('Y', $row['contract_period_from'])));
+        $fee1 = 0; //round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
         $cost2 = $row['contract_cost'];
         $fee2 = 0;
-                
+
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "契 約 金 精 算 書")
                 ->setCellValue("I1", "貸主様用")
@@ -4301,59 +4294,59 @@ class Report {
                 //**************
                 ->setCellValue("A2", $row['broker_company_name'])
                 ->setCellValue("D3", "様")
-                ->setCellValue("F3", empty($row['contract_signature_day'])?'':@date('d/m/Y',$row['contract_signature_day']))//
+                ->setCellValue("F3", empty($row['contract_signature_day']) ? '' : @date('d/m/Y', $row['contract_signature_day']))//
                 //**************
                 ->setCellValue("A5", "物件名")
                 ->setCellValue("B5", $row['house_name']) //
                 ->setCellValue("F5", $row['room_number']) //
                 ->setCellValue("G5", "号　室")
                 ->setCellValue("A8", "月額賃料")
-                ->setCellValue("B8", '¥'.number_format($row['contract_cost'])) //
+                ->setCellValue("B8", '¥' . number_format($row['contract_cost'])) //
                 ->setCellValue("E8", "共益（管理）費")
-                ->setCellValue("F8", '¥'.number_format((float)$row['room_administrative_expense'])) //
+                ->setCellValue("F8", '¥' . number_format((float) $row['room_administrative_expense'])) //
                 ->setCellValue("G8", "駐車場")
                 ->setCellValue("H8", '無') //select box
                 ->setCellValue("A11", "敷金（ヶ月）")
-                ->setCellValue("C11", (float)($row['contract_deposit_1']/$row['contract_cost'])) //
+                ->setCellValue("C11", (float) ($row['contract_deposit_1'] / $row['contract_cost'])) //
                 ->setCellValue("D11", "礼金（ヶ月）")
-                ->setCellValue("F11", '¥'.number_format((float)$row['contract_key_money'])) //
+                ->setCellValue("F11", '¥' . number_format((float) $row['contract_key_money'])) //
                 ->setCellValue("G11", "保証金")
-                ->setCellValue("I11", (float)($row['contract_deposit_2']/$row['contract_cost'])) //
+                ->setCellValue("I11", (float) ($row['contract_deposit_2'] / $row['contract_cost'])) //
                 ->setCellValue("A13", "敷 金")
-                ->setCellValue("C13", '¥'.number_format($row['contract_deposit_1'])) //
+                ->setCellValue("C13", '¥' . number_format($row['contract_deposit_1'])) //
                 ->setCellValue("F13", "月日数")
                 ->setCellValue("G13", $daysleft2) //
                 ->setCellValue("H13", "日割日数")
                 ->setCellValue("I13", $daysleft1) //
                 ->setCellValue("A14", "保　証　金")
-                ->setCellValue("C14", '¥'.number_format($row['contract_deposit_2'])) //
-                ->setCellValue("F14", '※'.(date('Y',$row['contract_period_from'])).'年'.date('m',$row['contract_period_from']).'月'.date('d',$row['contract_period_from']).'日より、契約開始') //
-                ->setCellValue("A15", date('m',$row['contract_period_from']))
+                ->setCellValue("C14", '¥' . number_format($row['contract_deposit_2'])) //
+                ->setCellValue("F14", '※' . (date('Y', $row['contract_period_from'])) . '年' . date('m', $row['contract_period_from']) . '月' . date('d', $row['contract_period_from']) . '日より、契約開始') //
+                ->setCellValue("A15", date('m', $row['contract_period_from']))
                 ->setCellValue("B15", "月分 日割家賃")
-                ->setCellValue("C15", '¥'.number_format($cost1))
-                ->setCellValue("A16", date('m',$row['contract_period_from']))
+                ->setCellValue("C15", '¥' . number_format($cost1))
+                ->setCellValue("A16", date('m', $row['contract_period_from']))
                 ->setCellValue("B16", "月分 日割共益費")
-                ->setCellValue("C16", '¥'.number_format($fee1))
-                ->setCellValue("A17", date('m',$date2))
+                ->setCellValue("C16", '¥' . number_format($fee1))
+                ->setCellValue("A17", date('m', $date2))
                 ->setCellValue("B17", "月分 日割家賃")
-                ->setCellValue("C17", '¥'.number_format($row['contract_cost']))
-                ->setCellValue("A18", date('m',$date2))
+                ->setCellValue("C17", '¥' . number_format($row['contract_cost']))
+                ->setCellValue("A18", date('m', $date2))
                 ->setCellValue("B18", "月分 日割共益費")
-                ->setCellValue("C18", '¥'.number_format(0))
+                ->setCellValue("C18", '¥' . number_format(0))
                 ->setCellValue("F16", "【貸主様への提出書類】")
         ;
 
 
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A26", "合 計")
-                ->setCellValue("C26", '¥'.number_format($total = $row['contract_deposit_1'] + $row['contract_deposit_2'] + $cost1 + $cost2 + $fee1 + $fee2))//
+                ->setCellValue("C26", '¥' . number_format($total = $row['contract_deposit_1'] + $row['contract_deposit_2'] + $cost1 + $cost2 + $fee1 + $fee2))//
                 ->setCellValue("A27", "広告料+仲介手数料")
-                ->setCellValue("C27", '¥'.number_format($fee = (float)($row['contract_ads_fee'] + $row['contract_broker_fee'])))//
+                ->setCellValue("C27", '¥' . number_format($fee = (float) ($row['contract_ads_fee'] + $row['contract_broker_fee'])))//
                 ->setCellValue("A28", "業務委託料、差引合計")
-                ->setCellValue("C28", '¥'.number_format($total - $fee))//
+                ->setCellValue("C28", '¥' . number_format($total - $fee))//
         ;
-        
-        
+
+
 
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A30:D30")
@@ -4375,7 +4368,7 @@ class Report {
                 ->setCellValue("A33", "")
                 ->setCellValue("F33", "株式会社　アンビション・ルームピア")
         ;
-                //Bottom Right
+        //Bottom Right
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("F36:I36")
                 ->mergeCells("G37:I37")
@@ -4397,13 +4390,13 @@ class Report {
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A43", "※弊社は事故防止のため、現金でのお届けは行っておりません。すべてお振込みとなります。")//
         ;
-                
+
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -4421,7 +4414,7 @@ class Report {
         $objWriter->save('php://output');
         exit;
     }
-    
+
     public function exportPage3($order_id = null, $type = 'xls') {
 
         global $database;
@@ -4495,8 +4488,8 @@ class Report {
                 'type' => PHPExcel_Style_Fill::FILL_SOLID,
                 'color' => array('rgb' => '969696')
             ),
-            'font'  => array(
-                'color'  => array('rgb' => 'FFFFFF')
+            'font' => array(
+                'color' => array('rgb' => 'FFFFFF')
             )
         );
         $style = array(
@@ -4505,11 +4498,11 @@ class Report {
             )
         );
         $bigfont = array(
-            'font'  => array(
-                'bold'  => true,
-                'size'  => 18,
+            'font' => array(
+                'bold' => true,
+                'size' => 18,
                 'underline' => true
-            ));
+        ));
         $objPHPExcel->getDefaultStyle()->applyFromArray($style);
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Brad")
@@ -4527,16 +4520,16 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("B8:D9")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("F8:F9")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("H8:I9")->applyFromArray($border_double);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A11:I11")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("C11")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("F11")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("H11:I11")->applyFromArray($border_double);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("F13:I13")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("G13")->applyFromArray($border_double);
         $objPHPExcel->getActiveSheet()->getStyle("I13")->applyFromArray($border_double);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("I1")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A2")->getFont()->setBold(true);
@@ -4547,38 +4540,38 @@ class Report {
         $objPHPExcel->getActiveSheet()->getStyle("I11")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("G13")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("I13")->getFont()->setBold(true);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A15:A18")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A25:D28")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("F30:I34")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A30")->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle("A43")->getFont()->setBold(true);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->applyFromArray($bigfont);
         $objPHPExcel->getActiveSheet()->getStyle("B5")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("F5")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("B8")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("B15:B18")->getFont()->setSize(8);
-        
+
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
         $objPHPExcel->getActiveSheet()->getDefaultColumnDimension()->setWidth(8.20);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(12);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A13:D28")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("F17:I28")->applyFromArray($border);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("C25")->applyFromArray($yellowColor);
         $objPHPExcel->getActiveSheet()->getStyle("C27")->applyFromArray($greenColor);
         $objPHPExcel->getActiveSheet()->getStyle("C28")->applyFromArray($yellowColor);
         $objPHPExcel->getActiveSheet()->getStyle("A30")->applyFromArray($redColor);
         $objPHPExcel->getActiveSheet()->getStyle("F30")->applyFromArray($redColor);
         $objPHPExcel->getActiveSheet()->getStyle("F31")->applyFromArray($redColor);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("G38:I43")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("A30:D34")->applyFromArray($border);
-        
+
         //mergeCells
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A1:G1")
@@ -4607,28 +4600,28 @@ class Report {
                 ->mergeCells("F16:I16")
 
         ;
-        for ($i = 13;$i <= 28 ; $i ++) {
+        for ($i = 13; $i <= 28; $i ++) {
             $objPHPExcel->getActiveSheet()->mergeCells("C{$i}:D{$i}");
-            if($i < 15 || $i > 18){
+            if ($i < 15 || $i > 18) {
                 $objPHPExcel->getActiveSheet()->mergeCells("A{$i}:B{$i}");
             }
-            if($i >= 17){
+            if ($i >= 17) {
                 $objPHPExcel->getActiveSheet()->mergeCells("G{$i}:I{$i}");
             }
         }
         //Values
         //date time
         $date = $row['contract_period_from'];
-        $date2 = strtotime('+1 month', $date) ;
-        
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
-        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
+        $date2 = strtotime('+1 month', $date);
 
-        $cost1 = round($row['contract_cost'] * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)));
-        $fee1 = 0;//round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m', $date), date('Y', $date)) - date('d', $date) + 1;
+        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m', $date2), date('Y', $date2));
+
+        $cost1 = round($row['contract_cost'] * $daysleft1 / cal_days_in_month(CAL_GREGORIAN, date('m', $date), date('Y', $date)));
+        $fee1 = 0; //round(0 * $daysleft1/cal_days_in_month(CAL_GREGORIAN, date_format($date,'m'), date_format($date,'Y')));
         $cost2 = $row['contract_cost'];
         $fee2 = 0;
-                
+
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "契 約 金 明 細 書 (□参考■確定)")
                 ->setCellValue("I1", "契約者様用")
@@ -4636,61 +4629,61 @@ class Report {
                 //**************
                 ->setCellValue("A2", $row['client_name'])
                 ->setCellValue("D3", "様")
-                ->setCellValue("F3", date('d/m/Y',$row['contract_signature_day']))//
+                ->setCellValue("F3", date('d/m/Y', $row['contract_signature_day']))//
                 //**************
                 ->setCellValue("A5", "物件名")
                 ->setCellValue("B5", $row['house_name']) //
                 ->setCellValue("F5", $row['room_number']) //
                 ->setCellValue("G5", "号 室")
                 ->setCellValue("A8", "月額賃料")
-                ->setCellValue("B8", '¥'.number_format($row['contract_cost'])) //
+                ->setCellValue("B8", '¥' . number_format($row['contract_cost'])) //
                 ->setCellValue("E8", "共益（管理）費")
-                ->setCellValue("F8", '¥'.number_format((float)$row['room_administrative_expense'])) //
+                ->setCellValue("F8", '¥' . number_format((float) $row['room_administrative_expense'])) //
                 ->setCellValue("G8", " ")
-                ->setCellValue("H8", ' ') 
+                ->setCellValue("H8", ' ')
                 ->setCellValue("A11", "敷金(ヶ月)")
-                ->setCellValue("C11", (float)($row['contract_deposit_1']/$row['contract_cost'])) //
+                ->setCellValue("C11", (float) ($row['contract_deposit_1'] / $row['contract_cost'])) //
                 ->setCellValue("D11", "礼金(ヶ月)")
-                ->setCellValue("F11", '¥'.number_format((float)$row['contract_key_money'])) //
+                ->setCellValue("F11", '¥' . number_format((float) $row['contract_key_money'])) //
                 ->setCellValue("G11", "保証金(ヶ月)")
-                ->setCellValue("I11", (float)($row['contract_deposit_2']/$row['contract_cost'])) //
+                ->setCellValue("I11", (float) ($row['contract_deposit_2'] / $row['contract_cost'])) //
                 ->setCellValue("A13", "敷 金")
-                ->setCellValue("C13", '¥'.number_format($row['contract_deposit_1'])) //
+                ->setCellValue("C13", '¥' . number_format($row['contract_deposit_1'])) //
                 ->setCellValue("F13", "月日数")
                 ->setCellValue("G13", $daysleft2) //
                 ->setCellValue("H13", "日割日数")
                 ->setCellValue("I13", $daysleft1) //
                 ->setCellValue("A14", "礼 金")
-                ->setCellValue("C14", '¥'.number_format($row['contract_deposit_2'])) //
-                ->setCellValue("F14", '※'.(date('Y',$date)).'年'.date('m',$date).'月'.date('d',$date).'日より、契約開始') //
-                ->setCellValue("A15", date('m',$date))
+                ->setCellValue("C14", '¥' . number_format($row['contract_deposit_2'])) //
+                ->setCellValue("F14", '※' . (date('Y', $date)) . '年' . date('m', $date) . '月' . date('d', $date) . '日より、契約開始') //
+                ->setCellValue("A15", date('m', $date))
                 ->setCellValue("B15", "月分 日割家賃")
-                ->setCellValue("C15", '¥'.number_format($cost1))
-                ->setCellValue("A16", date('m',$date))
+                ->setCellValue("C15", '¥' . number_format($cost1))
+                ->setCellValue("A16", date('m', $date))
                 ->setCellValue("B16", "月分 日割共益費")
-                ->setCellValue("C16", '¥'.number_format($fee1))
-                ->setCellValue("A17", date('m',$date2))
+                ->setCellValue("C16", '¥' . number_format($fee1))
+                ->setCellValue("A17", date('m', $date2))
                 ->setCellValue("B17", "月分 日割家賃")
-                ->setCellValue("C17", '¥'.number_format($row['contract_cost']))
-                ->setCellValue("A18", date('m',$date2))
+                ->setCellValue("C17", '¥' . number_format($row['contract_cost']))
+                ->setCellValue("A18", date('m', $date2))
                 ->setCellValue("B18", "月分 日割共益費")
-                ->setCellValue("C18", '¥'.number_format(0))
+                ->setCellValue("C18", '¥' . number_format(0))
                 ->setCellValue("F16", "【契約時必要書類（追加の場合あり）】")
         ;
 
 
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A25", "仲介手数料（税込）")
-                ->setCellValue("C25", '¥'.number_format($row['contract_broker_fee']))//
+                ->setCellValue("C25", '¥' . number_format($row['contract_broker_fee']))//
                 ->setCellValue("A26", "契約金合計")
-                ->setCellValue("C26", '¥'.number_format($total = $row['contract_deposit_1'] + $row['contract_deposit_2'] + $cost1 + $cost2 + $fee1 + $fee2))//
+                ->setCellValue("C26", '¥' . number_format($total = $row['contract_deposit_1'] + $row['contract_deposit_2'] + $cost1 + $cost2 + $fee1 + $fee2))//
                 ->setCellValue("A27", "申込時、お預かり金")
                 ->setCellValue("C27", '¥0')//
                 ->setCellValue("A28", "お申込金を差し引いた契約残金")
-                ->setCellValue("C28", '¥'.number_format($total))//
+                ->setCellValue("C28", '¥' . number_format($total))//
         ;
-        
-        
+
+
 
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A30:D30")
@@ -4713,7 +4706,7 @@ class Report {
                 ->setCellValue("A30", "申込金、契約金のお振込先")//
                 ->setCellValue("F30", "※お振込期限をご確認ください。")
                 ->setCellValue("A31", "")
-                ->setCellValue("F31", date('Y\年m\月d\日\ま\で',$date))
+                ->setCellValue("F31", date('Y\年m\月d\日\ま\で', $date))
                 ->setCellValue("A32", "")
                 ->setCellValue("F32", "※弊社は事故防止のため、現金でのお預かりは固くお断り申し上げます。")
                 ->setCellValue("A33", "")
@@ -4727,13 +4720,13 @@ class Report {
                 ->setCellValue("H40", "経理")
                 ->setCellValue("I40", "担当")
         ;
-                
+
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -4751,7 +4744,7 @@ class Report {
         $objWriter->save('php://output');
         exit;
     }
-    
+
     public function exportPage4($order_id = null, $type = 'xls') {
 
         global $database;
@@ -4792,7 +4785,7 @@ class Report {
                 )
             )
         );
-        
+
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Brad")
                 ->setLastModifiedBy("Brad")
@@ -4810,9 +4803,9 @@ class Report {
 
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setSize(16);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1:I15")->applyFromArray($style);
-        
+
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(11);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(11);
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(11);
@@ -4822,8 +4815,8 @@ class Report {
         $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(11);
         $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(11);
         $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(11);
-        
-        
+
+
         //Top
         $objPHPExcel->getActiveSheet()->getStyle("A5:C5")->applyFromArray($border);
         $objPHPExcel->getActiveSheet()->getStyle("A11:I15")->applyFromArray($border);
@@ -4833,7 +4826,6 @@ class Report {
                 ->mergeCells("A5:C5")
                 ->mergeCells("A7:I7")
                 ->mergeCells("A8:I8")
-                
                 ->mergeCells("A11:B11")
                 ->mergeCells("A12:B12")
                 ->mergeCells("C11:C12")
@@ -4847,7 +4839,6 @@ class Report {
                 ->mergeCells("F14:I14")
                 ->mergeCells("C15:E15")
                 ->mergeCells("F15:I15")
-                
                 ->mergeCells("A21:I21")
                 ->mergeCells("A22:I22")
                 ->mergeCells("A23:I24")
@@ -4872,17 +4863,17 @@ class Report {
         ;
         //Value
         $date = $row['contract_period_from'];
-        $date2 = strtotime('+1 month', $date) ;
-        
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
-        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
-        
+        $date2 = strtotime('+1 month', $date);
+
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m', $date), date('Y', $date)) - date('d', $date) + 1;
+        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m', $date2), date('Y', $date2));
+
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "入居者対応補助業務発注申込書")
                 ->setCellValue("F3", "申込日")
-                ->setCellValue("G3",date('Y').'年')//
-                ->setCellValue("H3",date('m\月'))//
-                ->setCellValue("I3",date('d\日'))//
+                ->setCellValue("G3", date('Y') . '年')//
+                ->setCellValue("H3", date('m\月'))//
+                ->setCellValue("I3", date('d\日'))//
                 ->setCellValue("A5", "株式会社アンビション・ルームピア 御中")
                 ->setCellValue("A7", "弊社はこの申込書により、以下に記載する対象建物（１）物件について、本書に定める")
                 ->setCellValue("A8", '入居対応補助業務（以下「本業務」という）の実施を貴社に発注申し込みます。')
@@ -4894,12 +4885,12 @@ class Report {
                 ->setCellValue("G11", '住居番号')
                 ->setCellValue("H11", $row['room_number'])//
                 ->setCellValue("A13", '本業務実施機関（２）')
-                ->setCellValue("C13", date('Y',$date).date('\年 m\月 d\日\(\対\象\物\件\の\契\約\開\始\日\）',$date))//
+                ->setCellValue("C13", date('Y', $date) . date('\年 m\月 d\日\(\対\象\物\件\の\契\約\開\始\日\）', $date))//
                 ->setCellValue("A14", '本業務手数料（３）')
                 ->setCellValue("C14", '報酬額')
                 ->setCellValue("F14", '支払予定日')
-                ->setCellValue("C15", '¥'.number_format($row['contract_ads_fee']))
-                ->setCellValue("F15", empty($row['contract_payment_date_to'])?'':@date('d/m/Y',$row['contract_payment_date_to']))//
+                ->setCellValue("C15", '¥' . number_format($row['contract_ads_fee']))
+                ->setCellValue("F15", empty($row['contract_payment_date_to']) ? '' : @date('d/m/Y', $row['contract_payment_date_to']))//
                 //**************
                 ->setCellValue("A20", "発注内容")
                 ->setCellValue("A21", '１．本業務実施期間について')
@@ -4908,11 +4899,11 @@ class Report {
                 ->setCellValue("A24", "　　　本業務も同時に終了します。")
                 ->setCellValue("A25", '　　③本業務期間中であっても、本貸室が火災・地震その他不可抗力によって甚大なる損害を被り賃貸借契約の')
                 ->setCellValue("A26", "　　　続行・住居・使用が不可能となった場合は、本委託業務は終了します。")
-                ->setCellValue("A27", "２．依頼する本業務の範囲について") 
+                ->setCellValue("A27", "２．依頼する本業務の範囲について")
                 ->setCellValue("A28", "　　①入居時説明：")
                 ->setCellValue("A29", '　　　　電気・ガス・水道等の入居時開栓について、借主に連絡先を通知し説明を行う')
                 ->setCellValue("A30", "　　②建物設備の苦情の一次対応：")
-                ->setCellValue("A31", '　　　　借主から建物・設備等に不具合についての苦情があった場合には、これを聴取し貸主に連絡する') 
+                ->setCellValue("A31", '　　　　借主から建物・設備等に不具合についての苦情があった場合には、これを聴取し貸主に連絡する')
                 ->setCellValue("A32", "　　③借主からの苦情等の一次対応：")
                 ->setCellValue("A33", '　　　　借主又は近隣在住者からの苦情等の申し出があった場合には、これを聴取し貸主に連絡する')
                 ->setCellValue("A34", "　　④賃貸借契約に基づく弊社と借主との間の連絡調整：")
@@ -4933,15 +4924,15 @@ class Report {
                 ->setCellValue("I52", "ご署名")
                 ->setCellValue("I53", 'ご捺印の上')
                 ->setCellValue("I54", "ＦＡＸ")
-                ->setCellValue("I55",'お願いします')
+                ->setCellValue("I55", 'お願いします')
         ;
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -4998,7 +4989,7 @@ class Report {
             $house_address = @$house_address_serialize['agent_address'];
             $row['agent_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
         }
-        
+
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
@@ -5019,7 +5010,7 @@ class Report {
                 )
             )
         );
-        
+
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("Brad")
                 ->setLastModifiedBy("Brad")
@@ -5037,10 +5028,10 @@ class Report {
 
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->getDefaultStyle()->applyFromArray($style);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setSize(16);
         $objPHPExcel->getActiveSheet()->getStyle("A4")->getFont()->setSize(16);
-        
+
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
@@ -5052,7 +5043,7 @@ class Report {
         $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
         $objPHPExcel->getActiveSheet()->getRowDimension('23')->setRowHeight(20);
-        
+
         //Top
         $objPHPExcel->getActiveSheet()->getStyle("A4:F5")->applyFromArray($border_bold);
         $objPHPExcel->getActiveSheet()->getStyle("A15:G19")->applyFromArray($border);
@@ -5067,7 +5058,6 @@ class Report {
                 ->mergeCells("A8:C8")
                 ->mergeCells("D10:F10")
                 ->mergeCells("D12:F12")
-                
                 ->mergeCells("A15:C15")
                 ->mergeCells("D15:E15")
                 ->mergeCells("F15:G15")
@@ -5089,9 +5079,7 @@ class Report {
                 ->mergeCells("A21:C22")
                 ->mergeCells("E23:H23")
                 ->mergeCells("C23:D23")
-                
                 ->mergeCells("C31:D31")
-                
                 ->mergeCells("F44:I44")
                 ->mergeCells("F46:I46")
                 ->mergeCells("F48:I48")
@@ -5103,47 +5091,44 @@ class Report {
         ;
         //Value
         $date = $row['contract_signature_day'];
-        $date2 = strtotime('+1 month', $date) ;
-        
-        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m',$date), date('Y',$date)) -  date('d',$date) + 1;
-        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m',$date2), date('Y',$date2));
-        
+        $date2 = strtotime('+1 month', $date);
+
+        $daysleft1 = cal_days_in_month(CAL_GREGORIAN, date('m', $date), date('Y', $date)) - date('d', $date) + 1;
+        $daysleft2 = cal_days_in_month(CAL_GREGORIAN, date('m', $date2), date('Y', $date2));
+
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "請求書")
                 ->setCellValue("E3", "発行日")
-                ->setCellValue("F3",(date('Y')).'年')//
-                ->setCellValue("G3",date('m\月'))//
-                ->setCellValue("H3",date('d\日'))//
+                ->setCellValue("F3", (date('Y')) . '年')//
+                ->setCellValue("G3", date('m\月'))//
+                ->setCellValue("H3", date('d\日'))//
                 ->setCellValue("A4", $row['broker_company_name'])
                 ->setCellValue("A8", '下記の通りご請求申し上げます。')
                 ->setCellValue("B10", "物件名・号室")
-                ->setCellValue("D10", $row['house_name'].' '.$row['room_number'])
+                ->setCellValue("D10", $row['house_name'] . ' ' . $row['room_number'])
                 ->setCellValue("B12", "賃借人")
                 ->setCellValue("D12", $row['client_name'])//
-                
                 ->setCellValue("A15", '請求内容')
                 ->setCellValue("D15", '金額')
                 ->setCellValue("F15", '備考')
                 ->setCellValue("A16", '広告料として')//
-                ->setCellValue("D16", '¥'.number_format($row['contract_ads_fee']))
+                ->setCellValue("D16", '¥' . number_format($row['contract_ads_fee']))
                 ->setCellValue("A20", '合計')
-                ->setCellValue("D20", '¥'.number_format($row['contract_ads_fee']))
+                ->setCellValue("D20", '¥' . number_format($row['contract_ads_fee']))
                 //**************
                 ->setCellValue("C23", "ご請求金額")
-                ->setCellValue("E23", '¥'.number_format($row['contract_ads_fee']))
+                ->setCellValue("E23", '¥' . number_format($row['contract_ads_fee']))
                 ->setCellValue("B28", "振込先")
                 ->setCellValue("C30", '普通口座')
                 ->setCellValue("C31", '')
-                
                 ->setCellValue("E44", '住所')
                 ->setCellValue("F44", $row['agent_address'])
                 ->setCellValue("E46", '社名')
                 ->setCellValue("F46", $row['agent_name'])
                 ->setCellValue("E48", '電話番号')
                 ->setCellValue("F48", $row['agent_phone'])
-                ->setCellValue("E50",'担当者')
-                ->setCellValue("F50",$row['user_lname'].' '.$row['user_fname'])//
-                
+                ->setCellValue("E50", '担当者')
+                ->setCellValue("F50", $row['user_lname'] . ' ' . $row['user_fname'])//
                 ->setCellValue("F52", '*検印なきものは無効。')
                 ->setCellValue("F53", '店長')
                 ->setCellValue("G53", '店長')
@@ -5152,10 +5137,10 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -5221,7 +5206,7 @@ class Report {
             $house_address = @$house_address_serialize['broker_company_address'];
             $row['broker_company_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
         }
-        
+
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
@@ -5245,9 +5230,9 @@ class Report {
 
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->getDefaultStyle()->applyFromArray($style);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setSize(16);
-        
+
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
@@ -5258,39 +5243,36 @@ class Report {
         $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
-        
+
 
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A1:I1")
                 ->mergeCells("A5:C5")
                 ->mergeCells("A7:G7")
                 ->mergeCells("A8:G8")
-                
                 ->mergeCells("C11:G11")
                 ->mergeCells("C14:G14")
                 ->mergeCells("C17:G17")
                 ->mergeCells("C20:G20")
                 ->mergeCells("C23:G23")
-                
                 ->mergeCells("C32:G32")
                 ->mergeCells("C35:G35")
                 ->mergeCells("C38:G38")
-                
-                
+
+
         ;
         //Value
         $date = $row['contract_signature_day'];
-        
+
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "広告宣伝費支払承諾書")
                 ->setCellValue("E3", "申込日")
-                ->setCellValue("F3",date('Y').'年')//
-                ->setCellValue("G3",date('m\月'))//
-                ->setCellValue("H3",date('d\日'))//
+                ->setCellValue("F3", date('Y') . '年')//
+                ->setCellValue("G3", date('m\月'))//
+                ->setCellValue("H3", date('d\日'))//
                 ->setCellValue("A5", '株式会社アンビション・ルームピア 御中')
                 ->setCellValue("A7", '弊社はこの申込書により、以下に記載する対象建物物件について、本書に定める')
                 ->setCellValue("A8", "広告宣伝費を支払う事を承諾致します。")
-                
                 ->setCellValue("B11", '物件住所')
                 ->setCellValue("C11", $row['house_address'])
                 ->setCellValue("B14", '物件名')
@@ -5300,7 +5282,7 @@ class Report {
                 ->setCellValue("B20", '広告宣伝費')
                 ->setCellValue("C20", $row['contract_ads_fee'])
                 ->setCellValue("B23", '支払予定日')
-                ->setCellValue("C23", date('m\月   d\日',$date))//
+                ->setCellValue("C23", date('m\月   d\日', $date))//
                 ->setCellValue("B32", '社名')
                 ->setCellValue("C32", $row['broker_company_name'])//
                 ->setCellValue("B35", '住所')
@@ -5308,7 +5290,6 @@ class Report {
                 ->setCellValue("B38", '担当者名')
                 ->setCellValue("C38", $row['broker_company_undertake'])//
 //                ->setCellValue("C38", $row['user_lname'].' '.$row['user_fname'])//
-
                 //**************
                 ->setCellValue("H34", "ご署名")
                 ->setCellValue("H35", "ご捺印の上")
@@ -5319,10 +5300,10 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
             header("Content-Disposition: attachment;filename={$title}.xls");
-        }else{
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -5388,7 +5369,7 @@ class Report {
             $house_address = @$house_address_serialize['broker_company_address'];
             $row['broker_company_address'] = $city_id_filter . " " . $district_id_filter . " " . $street_id_filter . " " . $ward_id_filter . " " . $house_address;
         }
-        
+
         require_once 'include/PHPExcel.php';
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
@@ -5412,9 +5393,9 @@ class Report {
 
         $objPHPExcel->getDefaultStyle()->getFont()->setSize(9);
         $objPHPExcel->getDefaultStyle()->applyFromArray($style);
-        
+
         $objPHPExcel->getActiveSheet()->getStyle("A1")->getFont()->setSize(16);
-        
+
         $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
@@ -5425,39 +5406,36 @@ class Report {
         $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
-        
+
 
         $objPHPExcel->getActiveSheet()
                 ->mergeCells("A1:I1")
                 ->mergeCells("A5:C5")
                 ->mergeCells("A7:G7")
                 ->mergeCells("A8:G8")
-                
                 ->mergeCells("C11:G11")
                 ->mergeCells("C14:G14")
                 ->mergeCells("C17:G17")
                 ->mergeCells("C20:G20")
                 ->mergeCells("C23:G23")
-                
                 ->mergeCells("C32:G32")
                 ->mergeCells("C35:G35")
                 ->mergeCells("C38:G38")
-                
-                
+
+
         ;
         //Value
         $date = $row['contract_signature_day'];
-        
+
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue("A1", "広告料支払承諾書")
                 ->setCellValue("E3", "申込日")
-                ->setCellValue("F3",date('Y').'年')//
-                ->setCellValue("G3",date('m\月'))//
-                ->setCellValue("H3",date('d\日'))//
+                ->setCellValue("F3", date('Y') . '年')//
+                ->setCellValue("G3", date('m\月'))//
+                ->setCellValue("H3", date('d\日'))//
                 ->setCellValue("A5", '株式会社アンビション・ルームピア御中')
                 ->setCellValue("A7", '弊社はこの申込書により、以下に記載する対象建物物件について、本書に定める')
                 ->setCellValue("A8", "広告料を支払う事を承諾致します。")
-                
                 ->setCellValue("B11", '物件住所')
                 ->setCellValue("C11", $row['house_address'])
                 ->setCellValue("B14", '物件名')
@@ -5467,14 +5445,13 @@ class Report {
                 ->setCellValue("B20", '広告料')
                 ->setCellValue("C20", $row['contract_ads_fee'])
                 ->setCellValue("B23", '支払予定日')
-                ->setCellValue("C23", date('m\月   d\日',$date))//
+                ->setCellValue("C23", date('m\月   d\日', $date))//
                 ->setCellValue("B32", '社名')
                 ->setCellValue("C32", $row['broker_company_name'])//
                 ->setCellValue("B35", '住所')
                 ->setCellValue("C35", $row['broker_company_address'])//
                 ->setCellValue("B38", '担当者名')
-                ->setCellValue("C38", $row['user_lname'].' '.$row['user_fname'])//
-
+                ->setCellValue("C38", $row['user_lname'] . ' ' . $row['user_fname'])//
                 //**************
                 ->setCellValue("H34", "ご署名")
                 ->setCellValue("H35", "ご捺印の上")
@@ -5485,10 +5462,10 @@ class Report {
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        if($type == 'xls'){
+        if ($type == 'xls') {
             header('Content-Type: application/vnd.ms-excel');
-            header("Content-Disposition: attachment;filename={$title}.xls"); 
-        }else{
+            header("Content-Disposition: attachment;filename={$title}.xls");
+        } else {
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename={$title}.csv");
         }
@@ -5506,6 +5483,7 @@ class Report {
         $objWriter->save('php://output');
         exit;
     }
+
     /**
      * 
      * @global type $database
@@ -5523,12 +5501,13 @@ class Report {
         }
         return $arr;
     }
-/**
- * 
- * @global type $database
- * @param type $id
- * @return null
- */
+
+    /**
+     * 
+     * @global type $database
+     * @param type $id
+     * @return null
+     */
     public function getUsersByGroup($id = null) {
         if (empty($id)) {
             return null;
@@ -5554,6 +5533,7 @@ class Report {
         }
         return $arr;
     }
+
     public function getGroupInfo($id = null) {
         if (empty($id)) {
             return null;
@@ -5563,8 +5543,9 @@ class Report {
         $result = $database->database_query($select);
         return $database->database_fetch_assoc($result);
     }
-     private function getRevisit($where = ''){
-         global $database;
+
+    private function getRevisit($where = '') {
+        global $database;
         //more info on today
         $select = "SELECT count(*) AS revisit
             FROM home_history_log h
@@ -5579,6 +5560,29 @@ class Report {
         $result = $database->database_query($select);
         $row = $database->database_fetch_array($result);
         return $row[0];
+    }
+
+    /**
+     * 
+     * @param type $agent_id
+     * @return real
+     */
+    public function getRevenueofAgent($agent_id) {
+        $users = $this->getUsersByAgent($agent_id);
         
-     }
+        $d = new DateTime('first day of this month');
+        $first = $d->format('Y/m/d');
+        $d = new DateTime('last day of this month');
+        $last = $d->format('Y/m/d');
+
+        $return = 0.00;
+        if (count($users)) {
+            foreach ($users as $value) {
+                $revenue = $this->userCommission($value['id'], $last, $first);
+                $return += (float)$revenue['month_already_recorded'];
+            }
+        }
+        return $return;
+    }
+
 }

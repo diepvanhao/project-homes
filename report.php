@@ -114,7 +114,7 @@ if (!empty($post['export']) && empty($error)) {
     if (empty($date)) {
         $date = date("m/d/Y");
     }
-    $title = "Report-{$date}";
+    $title = "Report-".date("mdY");
 
     $styleArray = array(
         'borders' => array(
