@@ -30,7 +30,7 @@ $user_target=  getTarget($user->user_info['id']);
 //fetch events
 $order=new HOMEOrder();
 
-$events=$order->fetchEvents($user->user_info['id']);//var_dump($events);
+$events=$order->fetchEvents($user->user_info['id']);//var_dump($events);die();
 $smarty->assign('events',$events);
 $smarty->assign('user_target',$user_target);
 include "footer.php";

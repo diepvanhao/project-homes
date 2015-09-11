@@ -28,7 +28,7 @@ if (empty($date)) {
     $date = null;
 }
 if (empty($fromdate)) {
-    $fromdate = null;
+    $fromdate = date('Y/m/d',time());
 }
 $error = array();
 $is_post = false;

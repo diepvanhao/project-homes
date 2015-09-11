@@ -81,7 +81,7 @@ if (isset($_POST['agent_id'])) {
 } elseif (isset($_GET['agent_id'])) {
     $agent_id = $_GET['agent_id'];
 } else {
-    $agent_id = "";
+    $agent_id = $user->user_info['agent_id'];
 }
 if (isset($_POST['position'])) {
     $position = $_POST['position'];
@@ -102,7 +102,7 @@ if (isset($_POST['date_from'])) {
 } elseif (isset($_GET['date_from'])) {
     $date_from = $_GET['date_from'];
 } else {
-    $date_from = "";
+    $date_from = date('Y/m/d',time());
 }
 if (isset($_POST['date_to'])) {
     $date_to = $_POST['date_to'];
@@ -126,4 +126,6 @@ $staffs=$staff->getAllUsers(true);
 $smarty->assign('agents', $agents);
 $smarty->assign('staffs',$staffs);
 $smarty->assign('events',$events);
+$smarty->assign('date_from',$date_from);
+$smarty->assign('agent_id',$agent_id);
 include "footer.php";

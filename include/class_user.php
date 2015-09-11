@@ -845,7 +845,7 @@ class HOMEUser {
 //end add code
 
     function update($user_username, $user_password, $user_fname, $user_lname, $user_address, $user_email, $user_phone, $user_gender, $user_birthday, $user_photo, $user_position, $user_authorities, $user_target, $agent_id, $user_id, $house_search = "", $group_id = "") {
-        global $database, $url;
+        global $database, $url, $user;
         $crypt_password = $this->user_password_crypt($user_password);
 
         $signup_code = $user_salt = $this->user_salt;
@@ -889,6 +889,13 @@ class HOMEUser {
                 $query = "insert into home_user_target(user_id,target,create_date) values('{$user_id}','{$val}','{$key}')";
                 $database->database_query($query);
             }
+        }
+        //save agent
+        if ($user->user_info['agent_id'] != $agent_id) {
+            $date_change = time();
+            $query = "insert into home_user_agent (user_id,agent_id,date_change) values('{$user->user_info['id']}','{$agent_id}','{$date_change}')";
+            //echo $query;
+            $database->database_query($query);
         }
 
         return $result;
@@ -1031,7 +1038,7 @@ class HOMEUser {
     }
 
     function getHistoryTarget() {
-        global $database,$user;
+        global $database, $user;
         $query = "select * from home_user_target where user_id='{$user->user_info['id']}' order by id DESC ";
         $result = $database->database_query($query);
         $target_arr = array();
@@ -1041,6 +1048,20 @@ class HOMEUser {
             $target_arr[] = $target;
         }
         return $target_arr;
+    }
+
+    function getHistoryAgent() {
+        global $database, $user;
+        $query = "select * from home_user_agent where user_id='{$user->user_info['id']}' order by id DESC ";
+        $result = $database->database_query($query);
+        $agent_arr = array();
+        $agentObj=new HOMEAgent();
+        while ($row = $database->database_fetch_assoc($result)) {
+            $agent['agent_id'] =  $agentObj->getAgentNameById($row['agent_id']);
+            $agent['date_change'] = date('Y/m/d',$row['date_change']);
+            $agent_arr[] = $agent;
+        }
+        return $agent_arr;
     }
 
 }

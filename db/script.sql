@@ -522,4 +522,12 @@ CREATE TABLE `history_send_email`(
 ) CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 ALTER TABLE `history_send_email`   
-  ADD COLUMN `client_email` VARCHAR(128) NULL AFTER `intout`;
+  ADD COLUMN `client_email` VARCHAR(128) NULL AFTER `inout`;
+/*31/8*/
+CREATE TABLE `home_user_agent`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11),
+  `agent_id` INT(11),
+  `date_change` VARCHAR(128),
+  PRIMARY KEY (`id`)
+);

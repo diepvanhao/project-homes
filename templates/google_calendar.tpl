@@ -177,14 +177,15 @@
                 color.push('Brown');
             }
             if ($('#period').is(":checked")) {
-                event.push('Period time');
+                //event.push('Period time');
+                event.push('Other');
                 color.push('#19FA6C')
             }
             if ($('#birthday').is(":checked")) {
                 event.push('Birthday');
                 color.push('Red');
             }
-
+//alert(event);
             if (event.length > 0) {
                 //reset
                 $('.fc-event').each(function() {

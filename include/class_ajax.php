@@ -1208,9 +1208,9 @@ class ajax {
 //            $date_to = strtotime($date_to);
 //            $query.=" and ho.order_day_update <='{$date_to}'";
 //        }
-        $query.=" order by ho.order_day_update ASC";
-        //echo $query;
-        //  die();
+        $query.=" order by ho.order_day_update DESC";
+       // echo $query;
+         // die();
         $result_order = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result_order)) {
             //get transaction info
@@ -1524,7 +1524,7 @@ class ajax {
 // Sort the data with volume descending, edition ascending
 // Add $data as the last parameter, to sort by the common key
         if ($filterDate)
-            array_multisort($volume, SORT_ASC, $edition, SORT_ASC, $filterDate);
+            array_multisort($volume, SORT_DESC, $edition, SORT_DESC, $filterDate);
 
         return $filterDate;
     }
@@ -1685,7 +1685,22 @@ class ajax {
         }
         return false;*/
     }
-
+    function checkInform($email){
+        global $database;
+        //get id
+        $email=trim($email);
+        $query="select id from home_client where client_email='{$email}'";
+        
+        $result=$database->database_query($query);
+        $id=$database->database_fetch_assoc($result);
+        $id=$id['id'];
+        //check exist in order
+        $query="select * from home_order where client_id='{$id}'";
+        $result=$database->database_query($query);
+        if($database->database_num_rows($result)>0)
+            return true;
+        return false;
+    }
 }
 
 function getContractDetailId($contract_id = 0) {

@@ -604,6 +604,18 @@ if ($action == "check_email") {
         $result = $ajax->edit_room($room_id, $room_id_bk, $house_id_bk, $broker_id_bk, $order_rent_cost, $order_comment, $house_id, $broker_id, $change_house_array, $order_day_update, $client_id, $order_id);
         echo json_encode($result);
     }
+    if($task=='checkInform'){
+        if (isset($_POST['email'])) {
+            $email = $_POST['email'];
+        } elseif (isset($_GET['email'])) {
+            $email = $_GET['email'];
+        } else {
+            $email = "";
+        }
+        $result = $ajax->checkInform($email);
+        
+        echo json_encode($result);
+    }
 } elseif ($action == 'deleteClient') {
 
     if (isset($_POST['id'])) {
@@ -2003,8 +2015,8 @@ if ($action == "check_email") {
                 echo "<tr>";
                 echo "<td>{$i}</td>";
                 echo "<td>{$result[$i - 1]['agent']}</td>";
-                echo"<td>{$result[$i - 1]['position']}</td>";
-                echo "<td>{$result[$i - 1]['assigned']}</td>";
+//                echo"<td>{$result[$i - 1]['position']}</td>";
+//                echo "<td>{$result[$i - 1]['assigned']}</td>";
                 echo "<td>{$result[$i - 1]['start']}</td>";
                 echo "<td>{$result[$i - 1]['end']}</td>";
                 echo "<td>{$result[$i - 1]['time']}</td>";

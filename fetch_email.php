@@ -297,7 +297,7 @@ if (isset($_POST['get_new'])) {
     }
 }
 $create = "";
-if (isset($_POST['create_new'])) {
+if (isset($_POST['create_new'])|| isset($_GET['create_new'])) {
 
     if (isset($_POST['message_id'])) {
         $message_id = $_POST['message_id'];

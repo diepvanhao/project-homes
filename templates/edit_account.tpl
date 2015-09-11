@@ -148,6 +148,7 @@
                             <option value="{$val.id}" {if $agent eq $val.id}selected{/if}>{$val.agent_name}</option>                  
                         {/foreach}
                     </select>
+                    <input type="button" id="agent_history" value="History" name="agent_history"style="margin-left: 1%;"/>
                 </td>
             </tr>
             <tr>
@@ -211,6 +212,17 @@
                     popup = $('#popup').bPopup({
                         contentContainer: '#popup_content',
                         loadUrl: 'history_target.php' //Uses jQuery.load()
+                    });
+
+                });
+                 $('#agent_history').bind('click', function(e) {
+                   
+                    e.preventDefault();
+
+                    document.getElementById('popup_content').innerHTML = '';
+                    popup = $('#popup').bPopup({
+                        contentContainer: '#popup_content',
+                        loadUrl: 'history_agent.php' //Uses jQuery.load()
                     });
 
                 });

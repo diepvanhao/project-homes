@@ -900,8 +900,7 @@ class HOMEOrder {
                     $events[] = $event;
                 }
                 if ($schedule['contract_period_from']) {
-                    $event['id'] = $schedule['id'];
-                    $event['title'] = "Period time";
+                    $event['id'] = $schedule['id'];                    
                     //$temp = explode(" ", $schedule['contract_period_from']);
                     //if (isset($temp[1])) {
                     //   $start = date('Y-m-d', strtotime($schedule['contract_period_from']));
@@ -917,7 +916,8 @@ class HOMEOrder {
                     //} else {
                     $end = date('Y-m-d', $schedule['contract_period_to']);
                     //  }
-                    $event['end'] = $end;
+                    $event['end'] = $start;
+                    $event['title'] = "Period time from ".$start." to ".$end;
                     $events[] = $event;
                 }
             }

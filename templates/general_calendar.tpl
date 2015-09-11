@@ -237,11 +237,11 @@
                 <select id="agent_id"name="agent_id" style="width:98%;height: 25px;">
                     <option value=""></option>
                     {foreach from=$agents item=agent}
-                        <option value="{$agent.id}">{$agent.agent_name}</option>
+                        <option value="{$agent.id}" {if $agent.id eq $agent_id}selected{/if}>{$agent.agent_name}</option>
                     {/foreach}
                 </select></lable>
             </li>
-            <li>
+            {*<li>
                 <label>Position:
                     <select id="position" name="position" style="width:98%;height: 25px; ">
                         <option value=""></option>
@@ -260,9 +260,9 @@
                     </select>
 
                 </label>
-            </li>
+            </li>*}
             <li>
-                <label>Date from:<input type="text" id="date_from" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
+                <label>Date from:<input type="text" id="date_from" value="{$date_from}" name="date_from" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
                 <label>Date to:<input type="text" id="date_to" name="date_to" style="width:98%;height: 25px;" onchange="selectDate();"/></label>
             </li>
             <li>
@@ -277,8 +277,8 @@
                 <tr>
                     <th>N0</th>
                     <th>Agent</th>
-                    <th>Position</th>
-                    <th>Responsible</th>
+                    {*<th>Position</th>
+                    <th>Responsible</th>*}
                     <th>Start</th>
                     <th>End</th>
                     <th>Time</th>
@@ -294,8 +294,8 @@
                     <tr>
                         <td>{$k+1}</td>
                         <td>{$event.agent}</td>
-                        <td>{$event.position}</td>
-                        <td>{$event.assigned}</td>
+                        {*<td>{$event.position}</td>
+                        <td>{$event.assigned}</td>*}
                         <td>{$event.start}</td>                            
                         <td>{$event.end}</td>
                         <td>{$event.time}</td>                           

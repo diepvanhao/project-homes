@@ -6,7 +6,46 @@
                 showloadgif();
                 $('#get_new_message').submit();
             });
+            $('.create_new').click(function(e){
+                e.preventDefault();                
+                var email=$(this).parent().find('#email').val();
+                var message_id=$(this).parent().find('#message_id').val();
+                //alert(email);
+                $.post("include/function_ajax.php", {email: email, action: 'create_order', task: 'checkInform'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    if(json){
+                        if(confirm("This client exist in system. Do you want to do it?")){                   ;
+                           window.location.href="./fetch_email.php?create_new=true&message_id="+message_id;
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        window.location.href="./fetch_email.php?create_new=true&message_id="+message_id;
+                    }
+                }                
+            );
+            });
         });
+        function checkInform(email){
+           $.post("include/function_ajax.php", {email: email, action: 'create_order', task: 'checkInform'},
+                function(result) {
+                    var json = $.parseJSON(result);
+                    if(json){
+                        if(confirm("This client exist in system. Do you want to do it?")){                   ;
+                           
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        return false;
+                    }
+                }
+                
+            );
+           
+          //  return false;
+        }
     </script>    
 {/literal}
 <div style="background-color: #F1F5FE; width: 100%;height:55px; text-align: center;font-size: 1.8em;line-height: 55px; margin: 2% 0% 2% 0%;">Get Request From Email</div>
@@ -71,11 +110,12 @@
                             <td>{$message.client_phone}</td>
                             <td>{$message.source_name}</td>
                             <td>{if $message.status eq '1'}Created{else}New{/if}</td>
-                            <td>{if $message.status eq '0'}
-                                <form action='fetch_email.php' method="post">
-                                    <input type='submit' class='btn-search' value='Registry' id="create_new" name="create_new"/>
-                                    <input type='hidden' class='btn-search' value='{$message.id}' id="message_id" name="message_id"/>
-                                </form>{/if}
+                            <td>
+                                <form action='fetch_email.php' method="post" >
+                                    <input type='submit' class='btn-search create_new' value='Registry' name="create_new" />
+                                    <input type='hidden' class='btn-search' value='{$message.id}' id="message_id" name="message_id"/>                                    
+                                    <input type="hidden" value="{trim($message.client_email)}" id="email"/>
+                                </form>
                             </td>
                         </tr>
                     {/foreach}

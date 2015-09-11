@@ -133,6 +133,18 @@ class HOMEAgent {
             return null;
         }
     }
+    function getAgentNameById($id=null){
+           if ($id) {
+            global $database;
+            $query = "select agent_name from home_agent where id={$id}";
+            $result = $database->database_query($query);
+            $row= $database->database_fetch_assoc($result);
+            
+            return $row['agent_name'];
+        } else {
+            return null;
+        }
+    }
 
     function getAgentByUserId($user_id,$agent_id=null) {
         global $database;

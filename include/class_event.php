@@ -38,7 +38,7 @@ class HOMEEvent {
             $date_to=strtotime($date_to. ' ' . 'Europe/Berlin');
             $query.=" and ho.order_day_update <='{$date_to}'";
         }
-        $query.=" order by ho.order_day_update ASC";
+        $query.=" order by ho.order_day_update DESC";
 
         $result_order = $database->database_query($query);
         while ($row = $database->database_fetch_assoc($result_order)) {
